@@ -14,11 +14,19 @@
         <h1>Quêtes sportives</h1>
         <p class="subtitle">XP, musique, coach et héros qui progresse avec toi.</p>
       </div>
-      <button id="resetProfileBtn" class="ghost-btn" type="button">Réinitialiser</button>
+      <div class="header-actions">
+        <button id="homeBtn" class="ghost-btn hidden" type="button">Accueil</button>
+        <button id="resetProfileBtn" class="ghost-btn" type="button">Réinitialiser</button>
+      </div>
     </header>
 
-    <section id="setupPanel" class="card setup-card">
-      <h2>Créer ton héros</h2>
+   <section id="setupPanel" class="card setup-card">
+      <h2 id="setupTitle">Créer ton héros</h2>
+      <p id="setupHelp" class="muted">Choisis ton avatar et ton coach pour commencer.</p>
+    
+      <button id="continueProfileBtn" class="secondary-btn hidden" type="button">
+        Continuer l’aventure
+      </button>
       <div class="form-grid">
         <label>
           Nom du héros
