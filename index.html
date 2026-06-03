@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fitness RPG - V1.7</title>
+  <title>Fitness RPG - V2.0</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="app-shell">
     <header class="hero-header">
       <div>
-        <p class="eyebrow">Fitness RPG · V1.7</p>
+        <p class="eyebrow">Fitness RPG · V2.0</p>
         <h1>Quêtes sportives</h1>
         <p class="subtitle">XP, musique, coach et héros qui progresse avec toi.</p>
       </div>
@@ -24,7 +24,7 @@
       <div id="homePanel" class="home-panel hidden">
         <p class="eyebrow">Fitness RPG</p>
         <h2>Accueil</h2>
-        <p class="version-label">Version <span id="appVersionLabel">0.1.7</span></p>
+        <p class="version-label">Version <span id="appVersionLabel">0.2.0</span></p>
         <div class="home-summary">
           <p id="homeHeroSummary">Aucun héros créé.</p>
           <p id="homeCoachSummary">Aucun coach choisi.</p>
@@ -39,7 +39,7 @@
       <div id="editorPanel" class="editor-panel">
         <h2 id="setupTitle">Créer ton héros</h2>
         <p id="setupHelp" class="muted">Choisis ton profil et ton coach pour commencer.</p>
-        <p class="version-label">Version <span id="appVersionLabelEditor">0.1.7</span></p>
+        <p class="version-label">Version <span id="appVersionLabelEditor">0.2.0</span></p>
 
         <div id="heroCreationFields" class="form-grid">
           <label>
@@ -81,7 +81,7 @@
 
             <label class="coach-choice-card" data-coach-card="xara">
               <input type="radio" name="coach" value="xara" />
-              <img src="assets/coach/xara/image.jpg" alt="Coach Xara" />
+              <img src="assets/coach/xara/xara_idle.jpg" alt="Coach Xara" />
               <div class="coach-choice-text"><strong>Xara</strong><span>Guerrière disciplinée et déterminée</span></div>
             </label>
 
@@ -119,7 +119,7 @@
           <div class="stats-grid">
             <div><strong id="totalXpLabel">0</strong><span>XP total</span></div>
             <div><strong id="streakLabel">0</strong><span>série</span></div>
-            <div><strong id="doneTodayLabel">0</strong><span>quêtes du jour</span></div>
+            <div><strong id="doneTodayLabel">0</strong><span>entrées du jour</span></div>
           </div>
         </div>
       </section>
@@ -133,11 +133,11 @@
         <div><p class="eyebrow">Tableau de bord</p><h2>Quêtes sportives</h2><p class="muted">Résumé rapide de ta séance.</p></div>
         <div class="quick-summary-grid">
           <article class="quick-summary-item"><span class="quick-icon">🎵</span><div><strong>Musique</strong><p id="currentMusicSummary">Aucune musique choisie.</p></div></article>
-          <article class="quick-summary-item"><span class="quick-icon">⚔️</span><div><strong>Quête</strong><p id="currentQuestSummary">Aucune quête en cours.</p></div></article>
+          <article class="quick-summary-item"><span class="quick-icon">⚔️</span><div><strong>Dernière entrée</strong><p id="currentQuestSummary">Aucune entrée en cours.</p></div></article>
         </div>
         <div class="hub-nav-grid">
           <button id="openMusicBtn" class="hub-nav-btn" type="button"><span>🎵</span><strong>Musique</strong><small>Choix des morceaux</small></button>
-          <button id="openQuestsBtn" class="hub-nav-btn" type="button"><span>⚔️</span><strong>Quêtes</strong><small>Choisir et valider</small></button>
+          <button id="openQuestsBtn" class="hub-nav-btn" type="button"><span>⚔️</span><strong>Exercices</strong><small>Entrer durée ou quantité</small></button>
           <button id="openBadgesBtn" class="hub-nav-btn" type="button"><span>🏅</span><strong>Badges</strong><small>Récompenses</small></button>
           <button id="openWeekBtn" class="hub-nav-btn" type="button"><span>📅</span><strong>Semaine</strong><small>Régularité</small></button>
         </div>
@@ -149,8 +149,8 @@
       </section>
 
       <section id="questsPage" class="card quests-card hidden">
-        <div class="subpage-header"><div><p class="eyebrow">Quêtes</p><h2>Choix de la quête</h2><p class="muted">Clique sur un sport, puis choisis une durée.</p></div><button class="ghost-btn back-dashboard-btn" type="button">Retour</button></div>
-        <div class="section-title-row"><p class="muted">Chaque durée ne donne de l’XP qu’une fois par jour.</p><button id="resetDailyBtn" class="ghost-btn" type="button">Réouvrir le jour</button></div>
+        <div class="subpage-header"><div><p class="eyebrow">Exercices</p><h2>Catégories sportives</h2><p class="muted">Clique sur une catégorie, choisis un exercice, puis entre la durée ou la quantité.</p></div><button class="ghost-btn back-dashboard-btn" type="button">Retour</button></div>
+        <div class="section-title-row"><p class="muted">Tu peux valider plusieurs entrées dans la même journée.</p><button id="resetDailyBtn" class="ghost-btn" type="button">Effacer les entrées du jour</button></div>
         <div id="questsList" class="quests-list sport-list"></div>
       </section>
 
