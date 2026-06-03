@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fitness RPG - V2.0</title>
+  <title>Fitness RPG - V2.1</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="app-shell">
     <header class="hero-header">
       <div>
-        <p class="eyebrow">Fitness RPG · V2.0</p>
+        <p class="eyebrow">Fitness RPG · V2.1</p>
         <h1>Quêtes sportives</h1>
         <p class="subtitle">XP, musique, coach et héros qui progresse avec toi.</p>
       </div>
@@ -24,7 +24,7 @@
       <div id="homePanel" class="home-panel hidden">
         <p class="eyebrow">Fitness RPG</p>
         <h2>Accueil</h2>
-        <p class="version-label">Version <span id="appVersionLabel">0.2.0</span></p>
+        <p class="version-label">Version <span id="appVersionLabel">0.2.1</span></p>
         <div class="home-summary">
           <p id="homeHeroSummary">Aucun héros créé.</p>
           <p id="homeCoachSummary">Aucun coach choisi.</p>
@@ -39,7 +39,7 @@
       <div id="editorPanel" class="editor-panel">
         <h2 id="setupTitle">Créer ton héros</h2>
         <p id="setupHelp" class="muted">Choisis ton profil et ton coach pour commencer.</p>
-        <p class="version-label">Version <span id="appVersionLabelEditor">0.2.0</span></p>
+        <p class="version-label">Version <span id="appVersionLabelEditor">0.2.1</span></p>
 
         <div id="heroCreationFields" class="form-grid">
           <label>
@@ -95,6 +95,18 @@
               <input type="radio" name="coach" value="elmin" />
               <img src="assets/coach/elmin/image.jpg" alt="Coach Elmin" />
               <div class="coach-choice-text"><strong>Elmin</strong><span>Mage calme, posé et stratégique</span></div>
+            </label>
+
+            <label class="coach-choice-card" data-coach-card="bazul">
+              <input type="radio" name="coach" value="bazul" />
+              <img src="assets/coach/bazul/image.jpg" alt="Coach Bazul" />
+              <div class="coach-choice-text"><strong>Bazul</strong><span>Nain robuste, franc et tenace</span></div>
+            </label>
+
+            <label class="coach-choice-card" data-coach-card="satyne">
+              <input type="radio" name="coach" value="satyne" />
+              <img src="assets/coach/satyne/image.jpg" alt="Coach Satyne" />
+              <div class="coach-choice-text"><strong>Satyne</strong><span>Sorcière malicieuse, mystique et motivante</span></div>
             </label>
           </div>
         </div>
