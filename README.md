@@ -1,38 +1,40 @@
-# Sport RPG - V1
+# Fitness RPG - V0.1.4
 
-Web app locale de motivation sportive : quêtes quotidiennes, XP, niveaux, héros évolutif, musique d’exercice et coach textuel.
+Web app locale de motivation sportive : quêtes quotidiennes, XP, niveaux, héros évolutif, musique d’exercice et coachs.
 
-## Fonctions V1
+## Fonctions
 
-- Création d’un héros : homme/femme, 20 ans ou 50 ans
-- Choix du coach : Conan le Barbare ou Xena la Guerrière
-- Quêtes sportives quotidiennes
-- XP, niveaux et barre de progression
-- Portrait SVG du héros qui évolue par paliers
-- Journal des dernières actions
-- Sauvegarde locale via `localStorage`
-- Lecture d’un fichier audio local
-- Pulsation audio générée sans fichier externe
+- Accueil avec résumé du héros et du coach.
+- Choix de 4 coachs : Korvan, Xara, Violette, Elmin.
+- Korvan utilise 12 poses différentes selon la page ou la quête.
+- Dashboard court avec résumé musique / quête.
+- Sous-pages avec bouton Retour : Musique, Quêtes, Badges, Semaine.
+- Phrases de motivation liées au coach et au type de quête.
+- XP, niveaux, streak, badges et historique semaine.
+- Sauvegarde locale via `localStorage`.
 
-## Fichiers
+## Chemins des images
+
+Les images des coachs doivent être placées ici :
 
 ```text
-index.html
-style.css
-app.js
-README.md
+assets/coach/korvan/idle.png
+assets/coach/korvan/welcome.png
+assets/coach/korvan/explain.png
+assets/coach/korvan/motivate.png
+assets/coach/korvan/warmup.png
+assets/coach/korvan/walk.png
+assets/coach/korvan/bike.png
+assets/coach/korvan/squats.png
+assets/coach/korvan/core.png
+assets/coach/korvan/stretch.png
+assets/coach/korvan/victory.png
+assets/coach/korvan/levelup.png
+assets/coach/xara/image.jpg
+assets/coach/violette/image.jpg
+assets/coach/elmin/image.jpg
 ```
 
-## Lancer en local
+## GitHub Pages
 
-Ouvrir simplement `index.html` dans un navigateur moderne.
-
-## Publier avec GitHub Pages
-
-1. Créer un dépôt GitHub vide.
-2. Ajouter `index.html`, `style.css`, `app.js` et `README.md` à la racine.
-3. Activer GitHub Pages depuis les paramètres du dépôt, en utilisant la branche principale et le dossier racine.
-
-## Note droits d’auteur
-
-Pour un usage personnel, les noms Conan et Xena peuvent rester dans le prototype local. Pour une publication publique, mieux vaut remplacer ces coachs par des noms originaux, par exemple `Korvan le Barbare` et `Xara la Guerrière`.
+Dans GitHub : `Settings > Pages > Deploy from a branch > main > /root`.
