@@ -1,4 +1,4 @@
-const APP_VERSION = "0.2.0";
+const APP_VERSION = "0.2.1";
 const STORAGE_KEY = "sportRpgV1Profile";
 const LOG_LIMIT = 12;
 
@@ -90,6 +90,30 @@ const coaches = {
     start: ["Concentre-toi. Chaque répétition est un sort bien exécuté.", "La régularité est une magie discrète, mais puissante."], complete: ["Excellent. L’effort a été canalisé avec précision.", "Très bien. Tu gagnes en maîtrise autant qu’en force."], levelUp: ["Niveau supérieur. Les résultats suivent la discipline."],
     byQuest: { warmup: ["Le rituel commence par la préparation."], walk: ["La marche est une magie ancienne : simple, lente, efficace."], bike: ["Pédale avec méthode. Le souffle est ton métronome."], pilates: ["Le centre s’éveille."], stretch: ["La souplesse est une magie lente. Ne la brusque pas."] },
   },
+  bazul: {
+    name: "Bazul",
+    fullName: "Coach Bazul le Nain",
+    image: "assets/coach/bazul/image.jpg",
+    start: ["Allez, on s’y met. Une montagne ne se taille pas en la regardant.", "Pieds au sol, souffle stable. On construit solide.", "Pas besoin d’élégance. Besoin de régularité et de pierre dure."],
+    complete: ["Bon travail. C’est propre, dense, compact. Du vrai ouvrage nain.", "Une entrée de plus dans la pierre. Ça compte.", "Tu as fait le boulot. Maintenant on recommencera, et mieux encore."],
+    levelUp: ["Niveau supérieur ! Voilà une progression qu’on pourrait graver sur une enclume.", "Tu montes d’un rang. La forge intérieure chauffe bien."],
+    byQuest: {
+      warmup: ["On chauffe les articulations. Même le granit fissure si on le brusque."], walk: ["Marche ferme. Talon solide, regard devant."], bike: ["Pédale rond. Une roue bien menée vaut un marteau bien tenu."], pilates: ["Le centre d’abord. Une bonne voûte tient par sa clef."],
+      pushups: ["Pompes validées. Bras solides, poitrine haute."], mountain: ["Mountain climbing. Grimpe dans l’axe, pas comme un gobelin ivre."], squats: ["Squats. Les jambes sont les piliers de la forteresse."], muscu: ["Musculation faite. La forge a gagné du minerai."], core: ["Gainage. Tronc verrouillé comme une porte de mine."], stretch: ["Étirements. On entretient l’outil après le travail."],
+    },
+  },
+  satyne: {
+    name: "Satyne",
+    fullName: "Coach Satyne la Sorcière",
+    image: "assets/coach/satyne/image.jpg",
+    start: ["Viens, mon petit sort d’endurance. On va réveiller les muscles endormis.", "Un souffle, un geste, une goutte d’effort. La potion commence.", "Aujourd’hui, on transforme la fatigue en poussière d’étoile."],
+    complete: ["Rituel accompli. Ton corps vient de gagner un ingrédient rare.", "Très bien. Je sens l’énergie circuler, et elle a de jolies dents.", "Une belle entrée dans le grimoire. Continue, l’alchimie prend."],
+    levelUp: ["Niveau supérieur ! La métamorphose est en marche.", "Le cercle s’illumine. Tu viens de franchir un seuil."],
+    byQuest: {
+      warmup: ["Échauffement lancé. On délie les charnières du pantin héroïque."], walk: ["Marche active. Chaque pas trace un glyphe sous tes pieds."], bike: ["Vélo. Fais tourner la roue, fais monter l’incantation."], pilates: ["Pilates. Le centre du corps devient un petit chaudron stable."],
+      pushups: ["Pompes. La terre reçoit ton pacte, puis te repousse."], mountain: ["Mountain climbing. Grimpe, grimpe, le démon du cardio te suit."], squats: ["Squats. Plie, remonte, cueille la force dans les genoux."], muscu: ["Musculation. Une pincée de fer, deux gouttes de volonté."], core: ["Gainage. Ne bouge plus. Même les ombres prennent exemple."], stretch: ["Étirements. On rallonge les fils de la marionnette sans les casser."],
+    },
+  },
 };
 
 let profile = null, currentView = "setup", pose = "idle", audioCtx = null, pulseTimer = null, pulseOn = false, openedSportId = null;
@@ -121,7 +145,6 @@ function entriesToday(){const list=profile.completedByDate[today()]||[];return A
 function setEntries(list){profile.completedByDate[today()]=list}
 function entryId(entry){return typeof entry==="string"?entry:entry.id}
 function normalizedEntryId(entry){return oldToNewExerciseIds[entryId(entry)]||entryId(entry)}
-function entryXp(entry){return typeof entry==="object"&&entry.xp?entry.xp:0}
 function updateStreak(){const t=today();if(profile.lastActiveDate===t)return;const y=new Date();y.setDate(y.getDate()-1);const ky=`${y.getFullYear()}-${String(y.getMonth()+1).padStart(2,"0")}-${String(y.getDate()).padStart(2,"0")}`;profile.streak=profile.lastActiveDate===ky?profile.streak+1:1;profile.lastActiveDate=t}
 function calcXp(exercise,amount){return Math.max(1,Math.round((exercise.xpBase||0)+amount*exercise.xpPerUnit))}
 function completeExercise(id,amount){const exercise=exerciseById[id];if(!exercise)return;const value=Number(amount);if(!Number.isFinite(value)||value<exercise.min){alert(`Entre une valeur d’au moins ${exercise.min} ${exercise.unit}.`);return}const oldLevel=levelInfo(profile.totalXp).level,xp=calcXp(exercise,value),list=entriesToday();list.push({id:exercise.id,sportId:exercise.sportId,sportTitle:exercise.sportTitle,title:exercise.title,amount:value,unit:exercise.unit,xp,at:new Date().toISOString()});setEntries(list);updateStreak();profile.totalXp+=xp;profile.xp+=xp;pose=exercise.pose||"victory";log(`+${xp} XP · ${exercise.sportTitle} · ${exercise.title} (${value} ${exercise.unit})`);const newLevel=levelInfo(profile.totalXp).level;if(newLevel>oldLevel){pose="levelup";log(`Niveau ${newLevel} atteint !`);el.coachMsg.textContent=msg("levelUp")}else el.coachMsg.textContent=exerciseMessage(id);save();render()}
