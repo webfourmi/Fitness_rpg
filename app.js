@@ -1,5 +1,5 @@
 
-const APP_VERSION = "0.1.0";
+const APP_VERSION = "0.1.1";
 const STORAGE_KEY = "sportRpgV1Profile";
 const LOG_LIMIT = 12;
 
@@ -39,6 +39,32 @@ const coaches = {
       "Les muscles dorment. Réveille-les.",
       "Une quête t’attend. Elle ne va pas transpirer à ta place.",
     ],
+    byQuest: {
+      warmup: [
+        "Échauffe-toi. Même une hache doit être levée avant la bataille.",
+        "Prépare les muscles. Le combat commence avant le premier coup."
+      ],
+      walk: [
+        "Marche. Chaque pas écrase un peu plus l’ancien toi.",
+        "La route ne récompense pas ceux qui restent assis."
+      ],
+      bike: [
+        "Pédale. Que tes jambes deviennent des roues de guerre.",
+        "Encore un tour. Le souffle forge l’endurance."
+      ],
+      squats: [
+        "Plie les jambes. Le sol doit comprendre qui commande.",
+        "Descends, remonte. Voilà comment on négocie avec la gravité."
+      ],
+      core: [
+        "Tiens. Un tronc solide porte mieux la légende.",
+        "Ne tremble pas. Ou tremble, mais reste en place."
+      ],
+      stretch: [
+        "Étire-toi. Même les guerriers doivent entretenir leurs chaînes.",
+        "La récupération n’est pas une faiblesse. C’est l’affûtage de la lame."
+      ],
+    },
     complete: [
       "Quête accomplie. Tu n’es pas venu pour rien.",
       "La faiblesse recule d’un pas. Continue.",
@@ -62,6 +88,32 @@ const coaches = {
       "Aujourd’hui, on travaille la force et la volonté.",
       "Garde le rythme. La victoire adore les gens réguliers.",
     ],
+    byQuest: {
+      warmup: [
+        "On prépare le terrain. Une bonne guerrière ne charge pas à froid.",
+        "Mobilité d’abord. La précision commence ici."
+      ],
+      walk: [
+        "Garde l’allure. La régularité gagne plus de combats que l’orgueil.",
+        "Chaque pas compte. Même les grandes victoires avancent à pied."
+      ],
+      bike: [
+        "Trouve ton rythme. Respiration stable, jambes efficaces.",
+        "Pédale proprement. La vitesse vient après le contrôle."
+      ],
+      squats: [
+        "Dos solide, jambes actives. C’est une fondation, pas une punition.",
+        "Encore une répétition. C’est là que tu construis ton appui."
+      ],
+      core: [
+        "Tiens la position. Le combat se gagne aussi dans l’immobilité.",
+        "Respire. Reste stable. Tu es plus solide que tu ne le crois."
+      ],
+      stretch: [
+        "Récupère avec sérieux. La souplesse protège le guerrier.",
+        "On relâche les tensions. Demain dépend aussi de cette minute."
+      ],
+    },
     complete: [
       "Bien joué. Ton futur toi vient d’applaudir.",
       "Tu as tenu. C’est comme ça qu’on construit une légende.",
@@ -85,6 +137,32 @@ const coaches = {
       "Même une courte séance peut être une belle victoire.",
       "Prêt ? On transforme l’effort en aventure.",
     ],
+    byQuest: {
+      warmup: [
+        "On réveille doucement la machine. Pas besoin de bousculer le dragon.",
+        "Petit échauffement, grande différence. C’est parti."
+      ],
+      walk: [
+        "Une bonne marche, c’est une aventure qui a mis de bonnes chaussures.",
+        "Pas après pas. Tu avances, et c’est déjà énorme."
+      ],
+      bike: [
+        "Pédale tranquille, héros. Le vent fait le reste.",
+        "Tes jambes tournent, ton XP monte. Belle affaire !"
+      ],
+      squats: [
+        "Hop, on descend, on remonte. Comme chercher une pièce sous la table.",
+        "Tes jambes travaillent dur. Elles mériteront une ovation miniature."
+      ],
+      core: [
+        "Tiens bon ! Même les halfelins savent devenir des statues.",
+        "Ça tremble ? Parfait, ça veut dire que ça travaille."
+      ],
+      stretch: [
+        "On s’étire, on respire, on remet le corps en mode velours.",
+        "La récupération, c’est le petit coussin secret des héros réguliers."
+      ],
+    },
     complete: [
       "Bravo ! Une quête de plus dans la besace.",
       "Tu avances mieux que tu ne le crois, continue !",
@@ -108,6 +186,32 @@ const coaches = {
       "Aujourd’hui, nous renforçons le corps avec méthode.",
       "Le progrès n’est pas bruyant. Il est constant.",
     ],
+    byQuest: {
+      warmup: [
+        "Échauffement lancé. Le rituel commence par la préparation.",
+        "Chaque articulation réveillée réduit le chaos de l’effort."
+      ],
+      walk: [
+        "La marche est une magie ancienne : simple, lente, efficace.",
+        "Continue. Les grands trajets sont faits de petites décisions répétées."
+      ],
+      bike: [
+        "Cadence stable. L’endurance répond bien aux cycles réguliers.",
+        "Pédale avec méthode. Le souffle est ton métronome."
+      ],
+      squats: [
+        "Contrôle la descente, maîtrise la remontée. Très bon exercice de pouvoir.",
+        "Les jambes sont les piliers du temple. Renforçons-les."
+      ],
+      core: [
+        "Reste immobile. La stabilité est une forme de puissance silencieuse.",
+        "Respiration calme, centre solide. Le sort tient."
+      ],
+      stretch: [
+        "La souplesse est une magie lente. Ne la brusque pas.",
+        "Étire sans forcer. Le corps apprend mieux quand on ne le menace pas."
+      ],
+    },
     complete: [
       "Excellent. L’effort a été canalisé avec précision.",
       "Très bien. Tu gagnes en maîtrise autant qu’en force.",
@@ -123,7 +227,7 @@ const coaches = {
 };
 
 let profile = null;
-let currentView = "setup";
+let currentView = "setup"; // setup | home | dashboard | coach
 let audioContext = null;
 let pulseTimer = null;
 let pulseOscillator = null;
@@ -161,6 +265,20 @@ const el = {
   pulseMusicBtn: document.querySelector("#pulseMusicBtn"),
   stopPulseBtn: document.querySelector("#stopPulseBtn"),
   coachChoiceGrid: document.querySelector("#coachChoiceGrid"),
+  homePanel: document.querySelector("#homePanel"),
+  editorPanel: document.querySelector("#editorPanel"),
+  heroCreationFields: document.querySelector("#heroCreationFields"),
+  homeHeroSummary: document.querySelector("#homeHeroSummary"),
+  homeCoachSummary: document.querySelector("#homeCoachSummary"),
+  setupTitle: document.querySelector("#setupTitle"),
+  setupHelp: document.querySelector("#setupHelp"),
+  appVersionLabel: document.querySelector("#appVersionLabel"),
+  appVersionLabelEditor: document.querySelector("#appVersionLabelEditor"),
+  continueProfileBtn: document.querySelector("#continueProfileBtn"),
+  changeCoachBtn: document.querySelector("#changeCoachBtn"),
+  startCreateHeroBtn: document.querySelector("#startCreateHeroBtn"),
+  saveCoachBtn: document.querySelector("#saveCoachBtn"),
+  cancelSetupBtn: document.querySelector("#cancelSetupBtn"),
   
 };
 
@@ -223,13 +341,29 @@ function getSelectedCoachId() {
   const checked = document.querySelector('input[name="coach"]:checked');
   return checked?.value ?? "korvan";
 }
+function selectCoach(coachId) {
+  const input = document.querySelector(`input[name="coach"][value="${coachId}"]`);
+  if (input) {
+    input.checked = true;
+  }
+  syncCoachChoiceCards();
+}
 
 function randomCoachMessage(moment) {
   const coach = coaches[profile.coach];
   const list = coach[moment] ?? coach.start;
   return list[Math.floor(Math.random() * list.length)];
 }
+function randomQuestMessage(questId) {
+  const coach = coaches[profile.coach];
+  const questMessages = coach.byQuest?.[questId];
 
+  if (questMessages && questMessages.length > 0) {
+    return questMessages[Math.floor(Math.random() * questMessages.length)];
+  }
+
+  return randomCoachMessage("complete");
+}
 function addLog(text) {
   const time = new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
   profile.log.unshift(`${time} · ${text}`);
@@ -282,7 +416,7 @@ function completeQuest(questId) {
     void el.heroPortrait.offsetWidth;
     el.heroPortrait.classList.add("level-up-flash");
   } else {
-    el.coachMessage.textContent = randomCoachMessage("complete");
+    el.coachMessage.textContent = randomQuestMessage(quest.id);
   }
 
   saveProfile();
@@ -290,22 +424,48 @@ function completeQuest(questId) {
 }
 
 function render() {
-  el.appVersionLabel.textContent = APP_VERSION;
-  
   const hasProfile = Boolean(profile);
   const isDashboard = hasProfile && currentView === "dashboard";
-  
-  el.homeBtn.classList.toggle("hidden", !isDashboard);
-  el.continueProfileBtn.classList.toggle("hidden", !hasProfile || isDashboard);
 
-  if (!hasProfile || !isDashboard) {
+  if (el.appVersionLabel) el.appVersionLabel.textContent = APP_VERSION;
+  if (el.appVersionLabelEditor) el.appVersionLabelEditor.textContent = APP_VERSION;
+
+  el.homeBtn.classList.toggle("hidden", !isDashboard);
+
+  if (!isDashboard) {
     el.setupPanel.classList.remove("hidden");
     el.dashboard.classList.add("hidden");
 
-    if (hasProfile) {
-      el.setupTitle.textContent = "Accueil";
-      el.setupHelp.textContent = `Profil actuel : ${profile.name}. Tu peux continuer l’aventure ou recréer un héros.`;
-    } else {
+    const isHome = hasProfile && currentView === "home";
+    const isCoachChange = hasProfile && currentView === "coach";
+    const isSetup = !hasProfile || currentView === "setup";
+
+    el.homePanel.classList.toggle("hidden", !isHome);
+    el.editorPanel.classList.toggle("hidden", isHome);
+
+    if (isHome) {
+      const levelInfo = getLevelInfo(profile.totalXp);
+      const coach = coaches[profile.coach];
+
+      el.homeHeroSummary.textContent =
+        `${profile.name} · ${avatarLabels[profile.avatar]} · Niveau ${levelInfo.level} · ${profile.totalXp} XP`;
+
+      el.homeCoachSummary.textContent =
+        `Coach actuel : ${coach.fullName}`;
+
+      return;
+    }
+
+    el.heroCreationFields.classList.toggle("hidden", isCoachChange);
+    el.createProfileBtn.classList.toggle("hidden", isCoachChange);
+    el.saveCoachBtn.classList.toggle("hidden", !isCoachChange);
+    el.cancelSetupBtn.classList.toggle("hidden", !hasProfile);
+
+    if (isCoachChange) {
+      el.setupTitle.textContent = "Changer de coach";
+      el.setupHelp.textContent = "Choisis un nouveau coach. Ton XP et ton niveau seront conservés.";
+      selectCoach(profile.coach);
+    } else if (isSetup) {
       el.setupTitle.textContent = "Créer ton héros";
       el.setupHelp.textContent = "Choisis ton avatar et ton coach pour commencer.";
     }
@@ -543,6 +703,38 @@ el.homeBtn.addEventListener("click", () => {
 
 el.continueProfileBtn.addEventListener("click", () => {
   currentView = "dashboard";
+  render();
+});
+el.continueProfileBtn.addEventListener("click", () => {
+  currentView = "dashboard";
+  render();
+});
+
+el.startCreateHeroBtn.addEventListener("click", () => {
+  currentView = "setup";
+  render();
+});
+
+el.changeCoachBtn.addEventListener("click", () => {
+  currentView = "coach";
+  selectCoach(profile.coach);
+  render();
+});
+
+el.saveCoachBtn.addEventListener("click", () => {
+  if (!profile) return;
+
+  const coachId = getSelectedCoachId();
+  profile.coach = coachId;
+  addLog(`Nouveau coach choisi : ${coaches[coachId].name}.`);
+  saveProfile();
+
+  currentView = "home";
+  render();
+});
+
+el.cancelSetupBtn.addEventListener("click", () => {
+  currentView = profile ? "home" : "setup";
   render();
 });
 
