@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fitness RPG - V1.5</title>
+  <title>Fitness RPG - V1.7</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="app-shell">
     <header class="hero-header">
       <div>
-        <p class="eyebrow">Fitness RPG · V1.5</p>
+        <p class="eyebrow">Fitness RPG · V1.7</p>
         <h1>Quêtes sportives</h1>
         <p class="subtitle">XP, musique, coach et héros qui progresse avec toi.</p>
       </div>
@@ -24,14 +24,11 @@
       <div id="homePanel" class="home-panel hidden">
         <p class="eyebrow">Fitness RPG</p>
         <h2>Accueil</h2>
-
-        <p class="version-label">Version <span id="appVersionLabel">0.1.5</span></p>
-
+        <p class="version-label">Version <span id="appVersionLabel">0.1.7</span></p>
         <div class="home-summary">
           <p id="homeHeroSummary">Aucun héros créé.</p>
           <p id="homeCoachSummary">Aucun coach choisi.</p>
         </div>
-
         <div class="home-actions">
           <button id="continueProfileBtn" class="primary-btn" type="button">Continuer l’aventure</button>
           <button id="changeCoachBtn" class="secondary-btn" type="button">Changer de coach</button>
@@ -41,9 +38,8 @@
 
       <div id="editorPanel" class="editor-panel">
         <h2 id="setupTitle">Créer ton héros</h2>
-        <p id="setupHelp" class="muted">Choisis ton avatar et ton coach pour commencer.</p>
-
-        <p class="version-label">Version <span id="appVersionLabelEditor">0.1.5</span></p>
+        <p id="setupHelp" class="muted">Choisis ton profil et ton coach pour commencer.</p>
+        <p class="version-label">Version <span id="appVersionLabelEditor">0.1.7</span></p>
 
         <div id="heroCreationFields" class="form-grid">
           <label>
@@ -52,54 +48,53 @@
           </label>
 
           <label>
-            Avatar de départ
-            <select id="avatarSelect">
-              <option value="homme20">Homme · 20 ans</option>
-              <option value="femme20">Femme · 20 ans</option>
-              <option value="homme50">Homme · 50 ans</option>
-              <option value="femme50">Femme · 50 ans</option>
-            </select>
+            Âge
+            <input id="playerAgeInput" type="number" min="10" max="99" placeholder="Ex : 50" />
           </label>
+
+          <div class="field-block">
+            <p class="field-label">Genre</p>
+            <div class="gender-choice-grid" id="genderChoiceGrid">
+              <label class="gender-choice-card active" data-gender-card="homme">
+                <input type="radio" name="gender" value="homme" checked />
+                <span class="gender-icon">♂️</span>
+                <strong>Homme</strong>
+              </label>
+
+              <label class="gender-choice-card" data-gender-card="femme">
+                <input type="radio" name="gender" value="femme" />
+                <span class="gender-icon">♀️</span>
+                <strong>Femme</strong>
+              </label>
+            </div>
+          </div>
         </div>
 
         <div>
           <p class="setup-subtitle">Choisis ton coach</p>
-
           <div class="coach-choice-grid" id="coachChoiceGrid">
             <label class="coach-choice-card active" data-coach-card="korvan">
               <input type="radio" name="coach" value="korvan" checked />
               <img src="assets/coach/korvan/idle.jpg" alt="Coach Korvan" />
-              <div class="coach-choice-text">
-                <strong>Korvan</strong>
-                <span>Barbare motivant, direct et énergique</span>
-              </div>
+              <div class="coach-choice-text"><strong>Korvan</strong><span>Barbare motivant, direct et énergique</span></div>
             </label>
 
             <label class="coach-choice-card" data-coach-card="xara">
               <input type="radio" name="coach" value="xara" />
               <img src="assets/coach/xara/image.jpg" alt="Coach Xara" />
-              <div class="coach-choice-text">
-                <strong>Xara</strong>
-                <span>Guerrière disciplinée et déterminée</span>
-              </div>
+              <div class="coach-choice-text"><strong>Xara</strong><span>Guerrière disciplinée et déterminée</span></div>
             </label>
 
             <label class="coach-choice-card" data-coach-card="violette">
               <input type="radio" name="coach" value="violette" />
               <img src="assets/coach/violette/image.jpg" alt="Coach Violette" />
-              <div class="coach-choice-text">
-                <strong>Violette</strong>
-                <span>Halfeline positive, légère et encourageante</span>
-              </div>
+              <div class="coach-choice-text"><strong>Violette</strong><span>Halfeline positive, légère et encourageante</span></div>
             </label>
 
             <label class="coach-choice-card" data-coach-card="elmin">
               <input type="radio" name="coach" value="elmin" />
               <img src="assets/coach/elmin/image.jpg" alt="Coach Elmin" />
-              <div class="coach-choice-text">
-                <strong>Elmin</strong>
-                <span>Mage calme, posé et stratégique</span>
-              </div>
+              <div class="coach-choice-text"><strong>Elmin</strong><span>Mage calme, posé et stratégique</span></div>
             </label>
           </div>
         </div>
@@ -118,14 +113,9 @@
         <div class="hero-info">
           <p class="eyebrow" id="rankLabel">Débutant</p>
           <h2 id="heroName">Héros</h2>
-          <p id="avatarLabel">Avatar</p>
-
-          <div class="level-row">
-            <span id="levelLabel">Niveau 1</span>
-            <span id="xpLabel">0 / 100 XP</span>
-          </div>
+          <p id="avatarLabel">Profil</p>
+          <div class="level-row"><span id="levelLabel">Niveau 1</span><span id="xpLabel">0 / 100 XP</span></div>
           <div class="progress-bar" aria-label="Progression d’XP"><div id="xpBar"></div></div>
-
           <div class="stats-grid">
             <div><strong id="totalXpLabel">0</strong><span>XP total</span></div>
             <div><strong id="streakLabel">0</strong><span>série</span></div>
@@ -135,37 +125,16 @@
       </section>
 
       <section class="card coach-card coach-panel-card">
-        <div class="coach-panel-media">
-          <img id="coachPortrait" src="assets/coach/korvan/idle.jpg" alt="Coach sélectionné" />
-        </div>
-        <div class="coach-panel-content">
-          <div>
-            <p class="eyebrow" id="coachName">Coach</p>
-            <p id="coachMessage" class="coach-message">Prêt pour la première quête.</p>
-          </div>
-          <button id="newCoachMessageBtn" class="ghost-btn" type="button">Nouvelle phrase</button>
-        </div>
+        <div class="coach-panel-media"><img id="coachPortrait" src="assets/coach/korvan/idle.jpg" alt="Coach sélectionné" /></div>
+        <div class="coach-panel-content"><div><p class="eyebrow" id="coachName">Coach</p><p id="coachMessage" class="coach-message">Prêt pour la première quête.</p></div><button id="newCoachMessageBtn" class="ghost-btn" type="button">Nouvelle phrase</button></div>
       </section>
 
       <section id="sportHub" class="card sport-hub-card">
-        <div>
-          <p class="eyebrow">Tableau de bord</p>
-          <h2>Quêtes sportives</h2>
-          <p class="muted">Résumé rapide de ta séance.</p>
-        </div>
-
+        <div><p class="eyebrow">Tableau de bord</p><h2>Quêtes sportives</h2><p class="muted">Résumé rapide de ta séance.</p></div>
         <div class="quick-summary-grid">
-          <article class="quick-summary-item">
-            <span class="quick-icon">🎵</span>
-            <div><strong>Musique</strong><p id="currentMusicSummary">Aucune musique choisie.</p></div>
-          </article>
-
-          <article class="quick-summary-item">
-            <span class="quick-icon">⚔️</span>
-            <div><strong>Quête</strong><p id="currentQuestSummary">Aucune quête en cours.</p></div>
-          </article>
+          <article class="quick-summary-item"><span class="quick-icon">🎵</span><div><strong>Musique</strong><p id="currentMusicSummary">Aucune musique choisie.</p></div></article>
+          <article class="quick-summary-item"><span class="quick-icon">⚔️</span><div><strong>Quête</strong><p id="currentQuestSummary">Aucune quête en cours.</p></div></article>
         </div>
-
         <div class="hub-nav-grid">
           <button id="openMusicBtn" class="hub-nav-btn" type="button"><span>🎵</span><strong>Musique</strong><small>Choix des morceaux</small></button>
           <button id="openQuestsBtn" class="hub-nav-btn" type="button"><span>⚔️</span><strong>Quêtes</strong><small>Choisir et valider</small></button>
@@ -175,56 +144,32 @@
       </section>
 
       <section id="musicPage" class="card music-card hidden">
-        <div class="subpage-header">
-          <div><p class="eyebrow">Musique</p><h2>Choix des morceaux</h2><p class="muted">Choisis un fichier audio local, ou lance une pulsation simple.</p></div>
-          <button class="ghost-btn back-dashboard-btn" type="button">Retour</button>
-        </div>
-        <div class="music-controls">
-          <input id="audioFileInput" type="file" accept="audio/*" />
-          <audio id="audioPlayer" controls></audio>
-          <button id="pulseMusicBtn" class="secondary-btn" type="button">Pulse épique</button>
-          <button id="stopPulseBtn" class="ghost-btn" type="button">Stop</button>
-        </div>
+        <div class="subpage-header"><div><p class="eyebrow">Musique</p><h2>Choix des morceaux</h2><p class="muted">Choisis un fichier audio local, ou lance une pulsation simple.</p></div><button class="ghost-btn back-dashboard-btn" type="button">Retour</button></div>
+        <div class="music-controls"><input id="audioFileInput" type="file" accept="audio/*" /><audio id="audioPlayer" controls></audio><button id="pulseMusicBtn" class="secondary-btn" type="button">Pulse épique</button><button id="stopPulseBtn" class="ghost-btn" type="button">Stop</button></div>
       </section>
 
       <section id="questsPage" class="card quests-card hidden">
-        <div class="subpage-header">
-          <div><p class="eyebrow">Quêtes</p><h2>Choix de la quête</h2><p class="muted">Chaque quête ne donne de l’XP qu’une fois par jour.</p></div>
-          <button class="ghost-btn back-dashboard-btn" type="button">Retour</button>
-        </div>
-        <div class="section-title-row">
-          <p class="muted">Choisis l’exercice accompli.</p>
-          <button id="resetDailyBtn" class="ghost-btn" type="button">Réouvrir le jour</button>
-        </div>
-        <div id="questsList" class="quests-list"></div>
+        <div class="subpage-header"><div><p class="eyebrow">Quêtes</p><h2>Choix de la quête</h2><p class="muted">Clique sur un sport, puis choisis une durée.</p></div><button class="ghost-btn back-dashboard-btn" type="button">Retour</button></div>
+        <div class="section-title-row"><p class="muted">Chaque durée ne donne de l’XP qu’une fois par jour.</p><button id="resetDailyBtn" class="ghost-btn" type="button">Réouvrir le jour</button></div>
+        <div id="questsList" class="quests-list sport-list"></div>
       </section>
 
       <section id="badgesPage" class="card badges-card hidden">
-        <div class="subpage-header">
-          <div><p class="eyebrow">Badges</p><h2>Récompenses</h2><p class="muted">Des petites récompenses pour les grandes habitudes.</p></div>
-          <button class="ghost-btn back-dashboard-btn" type="button">Retour</button>
-        </div>
+        <div class="subpage-header"><div><p class="eyebrow">Badges</p><h2>Récompenses</h2><p class="muted">Des petites récompenses pour les grandes habitudes.</p></div><button class="ghost-btn back-dashboard-btn" type="button">Retour</button></div>
         <div id="badgesList" class="badges-list"></div>
       </section>
 
       <section id="weekPage" class="card week-card hidden">
-        <div class="subpage-header">
-          <div><p class="eyebrow">Cette semaine</p><h2>Régularité</h2><p class="muted">Un regard rapide sur tes jours actifs.</p></div>
-          <button class="ghost-btn back-dashboard-btn" type="button">Retour</button>
-        </div>
+        <div class="subpage-header"><div><p class="eyebrow">Cette semaine</p><h2>Régularité</h2><p class="muted">Un regard rapide sur tes jours actifs.</p></div><button class="ghost-btn back-dashboard-btn" type="button">Retour</button></div>
         <div id="weekList" class="week-list"></div>
       </section>
 
       <section id="logCard" class="card log-card">
-        <div class="section-title-row">
-          <div><h2>Journal</h2><p class="muted">Les derniers exploits du héros.</p></div>
-          <button id="clearLogBtn" class="ghost-btn" type="button">Vider</button>
-        </div>
+        <div class="section-title-row"><div><h2>Journal</h2><p class="muted">Les derniers exploits du héros.</p></div><button id="clearLogBtn" class="ghost-btn" type="button">Vider</button></div>
         <ul id="logList" class="log-list"></ul>
       </section>
     </section>
   </main>
-
   <script src="app.js"></script>
 </body>
 </html>
