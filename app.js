@@ -1,3 +1,5 @@
+
+const APP_VERSION = "0.1.0";
 const STORAGE_KEY = "sportRpgV1Profile";
 const LOG_LIMIT = 12;
 
