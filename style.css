@@ -726,3 +726,16 @@ audio {
     min-height: 300px;
   }
 }
+.version-label {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin: 10px 0 16px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(240,184,79,0.1);
+  border: 1px solid rgba(240,184,79,0.25);
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
