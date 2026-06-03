@@ -168,12 +168,69 @@
           <button id="newCoachMessageBtn" class="ghost-btn" type="button">Nouvelle phrase</button>
         </div>
       </section>
-
-      <section class="card music-card">
+      <section id="sportHub" class="card sport-hub-card">
         <div>
-          <h2>Musique d’exercice</h2>
-          <p class="muted">Choisis un fichier audio local, ou lance une pulsation simple générée par la page.</p>
+          <p class="eyebrow">Tableau de bord</p>
+          <h2>Quêtes sportives</h2>
+          <p class="muted">Résumé rapide de ta séance.</p>
         </div>
+      
+        <div class="quick-summary-grid">
+          <article class="quick-summary-item">
+            <span class="quick-icon">🎵</span>
+            <div>
+              <strong>Musique</strong>
+              <p id="currentMusicSummary">Aucune musique choisie.</p>
+            </div>
+          </article>
+      
+          <article class="quick-summary-item">
+            <span class="quick-icon">⚔️</span>
+            <div>
+              <strong>Quête</strong>
+              <p id="currentQuestSummary">Aucune quête en cours.</p>
+            </div>
+          </article>
+        </div>
+      
+        <div class="hub-nav-grid">
+          <button id="openMusicBtn" class="hub-nav-btn" type="button">
+            <span>🎵</span>
+            <strong>Musique</strong>
+            <small>Choix des morceaux</small>
+          </button>
+      
+          <button id="openQuestsBtn" class="hub-nav-btn" type="button">
+            <span>⚔️</span>
+            <strong>Quêtes</strong>
+            <small>Choisir et valider</small>
+          </button>
+      
+          <button id="openBadgesBtn" class="hub-nav-btn" type="button">
+            <span>🏅</span>
+            <strong>Badges</strong>
+            <small>Récompenses</small>
+          </button>
+      
+          <button id="openWeekBtn" class="hub-nav-btn" type="button">
+            <span>📅</span>
+            <strong>Semaine</strong>
+            <small>Régularité</small>
+          </button>
+        </div>
+      </section>
+
+      <section id="musicPage" class="card music-card hidden">
+        <div class="subpage-header">
+          <div>
+            <p class="eyebrow">Musique</p>
+            <h2>Choix des morceaux</h2>
+            <p class="muted">Choisis un fichier audio local, ou lance une pulsation simple.</p>
+          </div>
+      
+          <button class="ghost-btn back-dashboard-btn" type="button">Retour</button>
+        </div>
+      
         <div class="music-controls">
           <input id="audioFileInput" type="file" accept="audio/*" />
           <audio id="audioPlayer" controls></audio>
@@ -181,38 +238,54 @@
           <button id="stopPulseBtn" class="ghost-btn" type="button">Stop</button>
         </div>
       </section>
-
-      <section class="card quests-card">
-        <div class="section-title-row">
+      
+      <section id="questsPage" class="card quests-card hidden">
+        <div class="subpage-header">
           <div>
-            <h2>Quêtes du jour</h2>
+            <p class="eyebrow">Quêtes</p>
+            <h2>Choix de la quête</h2>
             <p class="muted">Chaque quête ne donne de l’XP qu’une fois par jour.</p>
           </div>
+      
+          <button class="ghost-btn back-dashboard-btn" type="button">Retour</button>
+        </div>
+      
+        <div class="section-title-row">
+          <p class="muted">Choisis l’exercice accompli.</p>
           <button id="resetDailyBtn" class="ghost-btn" type="button">Réouvrir le jour</button>
         </div>
+      
         <div id="questsList" class="quests-list"></div>
       </section>
-
-      <section class="card week-card">
-        <div class="section-title-row">
+      
+      <section id="badgesPage" class="card badges-card hidden">
+        <div class="subpage-header">
           <div>
-            <h2>Cette semaine</h2>
-            <p class="muted">Un regard rapide sur ta régularité.</p>
+            <p class="eyebrow">Badges</p>
+            <h2>Récompenses</h2>
+            <p class="muted">Des petites récompenses pour les grandes habitudes.</p>
           </div>
+      
+          <button class="ghost-btn back-dashboard-btn" type="button">Retour</button>
         </div>
+      
+        <div id="badgesList" class="badges-list"></div>
+      </section>
+      
+      <section id="weekPage" class="card week-card hidden">
+        <div class="subpage-header">
+          <div>
+            <p class="eyebrow">Cette semaine</p>
+            <h2>Régularité</h2>
+            <p class="muted">Un regard rapide sur tes jours actifs.</p>
+          </div>
+      
+          <button class="ghost-btn back-dashboard-btn" type="button">Retour</button>
+        </div>
+      
         <div id="weekList" class="week-list"></div>
       </section>
       
-      <section class="card badges-card">
-        <div class="section-title-row">
-          <div>
-            <h2>Badges</h2>
-            <p class="muted">Des petites récompenses pour les grandes habitudes.</p>
-          </div>
-        </div>
-        <div id="badgesList" class="badges-list"></div>
-      </section>
-
       <section class="card log-card">
         <div class="section-title-row">
           <div>
