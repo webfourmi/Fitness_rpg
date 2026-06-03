@@ -1,5 +1,5 @@
 
-const APP_VERSION = "0.1.1";
+const APP_VERSION = " 0.1.2";
 const STORAGE_KEY = "sportRpgV1Profile";
 const LOG_LIMIT = 12;
 
@@ -279,11 +279,20 @@ const el = {
   startCreateHeroBtn: document.querySelector("#startCreateHeroBtn"),
   saveCoachBtn: document.querySelector("#saveCoachBtn"),
   cancelSetupBtn: document.querySelector("#cancelSetupBtn"),
+  weekList: document.querySelector("#weekList"),
+  badgesList: document.querySelector("#badgesList"),
   
 };
 
+function dateKey(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 function todayKey() {
-  return new Date().toISOString().slice(0, 10);
+  return dateKey();
 }
 
 function createDefaultProfile(name, avatar, coach) {
@@ -377,7 +386,136 @@ function getCompletedToday() {
 function setCompletedToday(list) {
   profile.completedByDate[todayKey()] = list;
 }
+function getStartOfWeek(date = new Date()) {
+  const result = new Date(date);
+  const day = (result.getDay() + 6) % 7;
+  result.setDate(result.getDate() - day);
+  result.setHours(0, 0, 0, 0);
+  return result;
+}
 
+function getWeekDays() {
+  const start = getStartOfWeek();
+  return Array.from({ length: 7 }, (_, index) => {
+    const day = new Date(start);
+    day.setDate(start.getDate() + index);
+    return day;
+  });
+}
+
+function getAllCompletedQuestIds() {
+  return Object.values(profile?.completedByDate ?? {}).flat();
+}
+
+function countAllCompletedQuests() {
+  return getAllCompletedQuestIds().length;
+}
+
+function countQuestCompletions(questId) {
+  return getAllCompletedQuestIds().filter((id) => id === questId).length;
+}
+
+function hasCompletedFullDay() {
+  return Object.values(profile?.completedByDate ?? {}).some((completedQuests) =>
+    quests.every((quest) => completedQuests.includes(quest.id))
+  );
+}
+
+function getBadges() {
+  const totalQuests = countAllCompletedQuests();
+
+  return [
+    {
+      id: "firstQuest",
+      icon: "👣",
+      title: "Premier pas",
+      description: "Valider une première quête.",
+      unlocked: totalQuests >= 1,
+    },
+    {
+      id: "threeQuests",
+      icon: "🔥",
+      title: "Élan du héros",
+      description: "Valider 3 quêtes au total.",
+      unlocked: totalQuests >= 3,
+    },
+    {
+      id: "fullDay",
+      icon: "🏆",
+      title: "Journée complète",
+      description: "Valider toutes les quêtes d’une journée.",
+      unlocked: hasCompletedFullDay(),
+    },
+    {
+      id: "streak3",
+      icon: "📅",
+      title: "Régulier",
+      description: "Atteindre 3 jours de série.",
+      unlocked: profile.streak >= 3,
+    },
+    {
+      id: "bike5",
+      icon: "🚴",
+      title: "Cycliste novice",
+      description: "Valider 5 séances de vélo.",
+      unlocked: countQuestCompletions("bike") >= 5,
+    },
+    {
+      id: "strength10",
+      icon: "💪",
+      title: "Force tranquille",
+      description: "Valider 10 quêtes de force ou gainage.",
+      unlocked:
+        countQuestCompletions("squats") + countQuestCompletions("core") >= 10,
+    },
+  ];
+}
+
+function renderWeek() {
+  if (!el.weekList || !profile) return;
+
+  const dayNames = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
+  const today = todayKey();
+
+  el.weekList.innerHTML = "";
+
+  getWeekDays().forEach((day, index) => {
+    const key = dateKey(day);
+    const count = (profile.completedByDate[key] ?? []).length;
+
+    const item = document.createElement("div");
+    item.className = `week-day${key === today ? " today" : ""}${count > 0 ? " active" : ""}`;
+
+    item.innerHTML = `
+      <strong>${dayNames[index]}</strong>
+      <span>${count} quête${count > 1 ? "s" : ""}</span>
+    `;
+
+    el.weekList.appendChild(item);
+  });
+}
+
+function renderBadges() {
+  if (!el.badgesList || !profile) return;
+
+  el.badgesList.innerHTML = "";
+
+  getBadges().forEach((badge) => {
+    const item = document.createElement("article");
+    item.className = `badge-item${badge.unlocked ? " unlocked" : ""}`;
+
+    item.innerHTML = `
+      <div class="badge-icon">${badge.icon}</div>
+      <div>
+        <strong>${badge.title}</strong>
+        <p>${badge.description}</p>
+        <span>${badge.unlocked ? "Débloqué" : "Verrouillé"}</span>
+      </div>
+    `;
+
+    el.badgesList.appendChild(item);
+  });
+}
 function updateStreak() {
   const today = todayKey();
   if (profile.lastActiveDate === today) return;
@@ -498,6 +636,8 @@ function render() {
   el.heroPortrait.innerHTML = getHeroSvg(profile.avatar, stage.stage);
 
   renderQuests(completed);
+  renderWeek();
+  renderBadges();
   renderLog();
 }
 
