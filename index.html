@@ -34,15 +34,49 @@
             <option value="femme50">Femme · 50 ans</option>
           </select>
         </label>
-
-        <label>
-          Coach
-          <select id="coachSelect">
-            <option value="conan">Conan le Barbare</option>
-            <option value="xena">Xena la Guerrière</option>
-          </select>
-        </label>
       </div>
+
+      <div>
+        <p class="setup-subtitle">Choisis ton coach</p>
+        <div class="coach-choice-grid" id="coachChoiceGrid">
+          <label class="coach-choice-card active" data-coach-card="korvan">
+            <input type="radio" name="coach" value="korvan" checked />
+            <img src="assets/coaches/korvan-sheet.png" alt="Planche du coach Korvan" />
+            <div class="coach-choice-text">
+              <strong>Korvan</strong>
+              <span>Barbare motivant, direct et énergique</span>
+            </div>
+          </label>
+
+          <label class="coach-choice-card" data-coach-card="xara">
+            <input type="radio" name="coach" value="xara" />
+            <img src="assets/coaches/xara-sheet.png" alt="Planche du coach Xara" />
+            <div class="coach-choice-text">
+              <strong>Xara</strong>
+              <span>Guerrière disciplinée et déterminée</span>
+            </div>
+          </label>
+
+          <label class="coach-choice-card" data-coach-card="violette">
+            <input type="radio" name="coach" value="violette" />
+            <img src="assets/coaches/violette-sheet.png" alt="Planche du coach Violette" />
+            <div class="coach-choice-text">
+              <strong>Violette</strong>
+              <span>Halfeline positive, légère et encourageante</span>
+            </div>
+          </label>
+
+          <label class="coach-choice-card" data-coach-card="elmin">
+            <input type="radio" name="coach" value="elmin" />
+            <img src="assets/coaches/elmin-sheet.png" alt="Planche du coach Elmin" />
+            <div class="coach-choice-text">
+              <strong>Elmin</strong>
+              <span>Mage calme, posé et stratégique</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
       <button id="createProfileBtn" class="primary-btn" type="button">Commencer l’aventure</button>
     </section>
 
@@ -70,12 +104,17 @@
         </div>
       </section>
 
-      <section class="card coach-card">
-        <div>
-          <p class="eyebrow" id="coachName">Coach</p>
-          <p id="coachMessage" class="coach-message">Prêt pour la première quête.</p>
+      <section class="card coach-card coach-panel-card">
+        <div class="coach-panel-media">
+          <img id="coachPortrait" src="assets/coaches/korvan-sheet.png" alt="Coach sélectionné" />
         </div>
-        <button id="newCoachMessageBtn" class="ghost-btn" type="button">Nouvelle phrase</button>
+        <div class="coach-panel-content">
+          <div>
+            <p class="eyebrow" id="coachName">Coach</p>
+            <p id="coachMessage" class="coach-message">Prêt pour la première quête.</p>
+          </div>
+          <button id="newCoachMessageBtn" class="ghost-btn" type="button">Nouvelle phrase</button>
+        </div>
       </section>
 
       <section class="card music-card">
