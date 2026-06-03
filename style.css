@@ -376,6 +376,13 @@ select {
 .header-actions button {
   width: 100%;
 }
+  .home-actions {
+  flex-direction: column;
+}
+
+.home-actions button {
+  width: 100%;
+}
 }
 :root {
   --bg: #12131a;
@@ -731,6 +738,44 @@ audio {
   align-items: center;
   width: fit-content;
   margin: 10px 0 16px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(240,184,79,0.1);
+  border: 1px solid rgba(240,184,79,0.25);
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.home-panel,
+.editor-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.home-summary {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid var(--line);
+}
+
+.home-summary p {
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.home-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.version-label {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
   padding: 6px 10px;
   border-radius: 999px;
   background: rgba(240,184,79,0.1);
