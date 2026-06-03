@@ -67,8 +67,91 @@ function initCoachCarousel() {
   setTimeout(() => centerCard(), 80);
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initCoachCarousel);
-} else {
+function initQuestCarousel() {
+  const list = document.querySelector("#questsList");
+  if (!list || list.dataset.questCarouselReady === "true") return;
+
+  list.dataset.questCarouselReady = "true";
+
+  const shell = document.createElement("div");
+  shell.className = "quest-carousel-shell";
+
+  const leftButton = document.createElement("button");
+  leftButton.className = "quest-arrow quest-arrow-left";
+  leftButton.type = "button";
+  leftButton.setAttribute("aria-label", "Catégorie précédente");
+  leftButton.textContent = "‹";
+
+  const viewport = document.createElement("div");
+  viewport.className = "quest-carousel-viewport";
+
+  const rightButton = document.createElement("button");
+  rightButton.className = "quest-arrow quest-arrow-right";
+  rightButton.type = "button";
+  rightButton.setAttribute("aria-label", "Catégorie suivante");
+  rightButton.textContent = "›";
+
+  list.parentNode.insertBefore(shell, list);
+  viewport.appendChild(list);
+  shell.appendChild(leftButton);
+  shell.appendChild(viewport);
+  shell.appendChild(rightButton);
+
+  function getCards() {
+    return Array.from(list.querySelectorAll(".sport-item"));
+  }
+
+  function getActiveIndex() {
+    const cards = getCards();
+    const openIndex = cards.findIndex((card) => card.classList.contains("open"));
+    return openIndex >= 0 ? openIndex : 0;
+  }
+
+  function centerCard(index = getActiveIndex()) {
+    const cards = getCards();
+    const card = cards[index];
+    if (!card) return;
+    const viewportRect = viewport.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    const offset = cardRect.left - viewportRect.left - viewportRect.width / 2 + cardRect.width / 2;
+    viewport.scrollBy({ left: offset, behavior: "smooth" });
+  }
+
+  function move(delta) {
+    const cards = getCards();
+    if (!cards.length) return;
+    const index = getActiveIndex();
+    const next = (index + delta + cards.length) % cards.length;
+    const toggle = cards[next].querySelector(".sport-toggle");
+    if (toggle) toggle.click();
+    setTimeout(() => centerCard(next), 40);
+  }
+
+  leftButton.addEventListener("click", () => move(-1));
+  rightButton.addEventListener("click", () => move(1));
+
+  list.addEventListener("click", (event) => {
+    const item = event.target.closest(".sport-item");
+    if (!item) return;
+    setTimeout(() => {
+      const cards = getCards();
+      centerCard(cards.indexOf(item));
+    }, 40);
+  });
+
+  const observer = new MutationObserver(() => setTimeout(() => centerCard(), 40));
+  observer.observe(list, { childList: true });
+
+  setTimeout(() => centerCard(), 120);
+}
+
+function initCarousels() {
   initCoachCarousel();
+  initQuestCarousel();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initCarousels);
+} else {
+  initCarousels();
 }
