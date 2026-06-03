@@ -1,5 +1,5 @@
 
-const APP_VERSION = " 0.1.2";
+const APP_VERSION = " 0.1.3";
 const STORAGE_KEY = "sportRpgV1Profile";
 const LOG_LIMIT = 12;
 
@@ -281,6 +281,20 @@ const el = {
   cancelSetupBtn: document.querySelector("#cancelSetupBtn"),
   weekList: document.querySelector("#weekList"),
   badgesList: document.querySelector("#badgesList"),
+  sportHub: document.querySelector("#sportHub"),
+  musicPage: document.querySelector("#musicPage"),
+  questsPage: document.querySelector("#questsPage"),
+  weekPage: document.querySelector("#weekPage"),
+  badgesPage: document.querySelector("#badgesPage"),
+  
+  currentMusicSummary: document.querySelector("#currentMusicSummary"),
+  currentQuestSummary: document.querySelector("#currentQuestSummary"),
+  
+  openMusicBtn: document.querySelector("#openMusicBtn"),
+  openQuestsBtn: document.querySelector("#openQuestsBtn"),
+  openWeekBtn: document.querySelector("#openWeekBtn"),
+  openBadgesBtn: document.querySelector("#openBadgesBtn"),
+  backToDashboardBtns: document.querySelectorAll(".back-dashboard-btn"),
   
 };
 
@@ -420,7 +434,39 @@ function hasCompletedFullDay() {
     quests.every((quest) => completedQuests.includes(quest.id))
   );
 }
+function showDashboardPage(pageName) {
+  currentView = pageName;
+  render();
+}
 
+function getDashboardSubtitle() {
+  const completed = getCompletedToday();
+  const total = quests.length;
+
+  if (completed.length === 0) {
+    return "Aucune quête validée aujourd’hui.";
+  }
+
+  return `${completed.length} / ${total} quête${completed.length > 1 ? "s" : ""} validée${completed.length > 1 ? "s" : ""} aujourd’hui.`;
+}
+
+function updateDashboardSummaries() {
+  if (!profile) return;
+
+  const completed = getCompletedToday();
+  const lastQuestId = completed.at(-1);
+  const lastQuest = quests.find((quest) => quest.id === lastQuestId);
+
+  el.currentQuestSummary.textContent = lastQuest
+    ? `Dernière quête : ${lastQuest.title}`
+    : "Aucune quête en cours.";
+
+  const audioName = el.audioPlayer?.src
+    ? "Musique locale chargée"
+    : "Aucune musique choisie.";
+
+  el.currentMusicSummary.textContent = audioName;
+}
 function getBadges() {
   const totalQuests = countAllCompletedQuests();
 
@@ -573,6 +619,21 @@ function render() {
   if (!isDashboard) {
     el.setupPanel.classList.remove("hidden");
     el.dashboard.classList.add("hidden");
+
+    const dashboardPages = {
+      dashboard: el.sportHub,
+      music: el.musicPage,
+      quests: el.questsPage,
+      week: el.weekPage,
+      badges: el.badgesPage,
+    };
+    
+    Object.entries(dashboardPages).forEach(([name, panel]) => {
+      if (!panel) return;
+      panel.classList.toggle("hidden", currentView !== name);
+    });
+    
+    updateDashboardSummaries();
 
     const isHome = hasProfile && currentView === "home";
     const isCoachChange = hasProfile && currentView === "coach";
@@ -876,6 +937,27 @@ el.saveCoachBtn.addEventListener("click", () => {
 el.cancelSetupBtn.addEventListener("click", () => {
   currentView = profile ? "home" : "setup";
   render();
+});
+el.openMusicBtn.addEventListener("click", () => {
+  showDashboardPage("music");
+});
+
+el.openQuestsBtn.addEventListener("click", () => {
+  showDashboardPage("quests");
+});
+
+el.openWeekBtn.addEventListener("click", () => {
+  showDashboardPage("week");
+});
+
+el.openBadgesBtn.addEventListener("click", () => {
+  showDashboardPage("badges");
+});
+
+el.backToDashboardBtns.forEach((button) => {
+  button.addEventListener("click", () => {
+    showDashboardPage("dashboard");
+  });
 });
 
 document.querySelectorAll('.coach-choice-card').forEach((card) => {
