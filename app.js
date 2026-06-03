@@ -131,6 +131,7 @@ let pulseOscillator = null;
 const el = {
   setupPanel: document.querySelector("#setupPanel"),
   dashboard: document.querySelector("#dashboard"),
+  appVersionLabel: document.querySelector("#appVersionLabel"),
   playerNameInput: document.querySelector("#playerNameInput"),
   avatarSelect: document.querySelector("#avatarSelect"),
   createProfileBtn: document.querySelector("#createProfileBtn"),
@@ -289,9 +290,11 @@ function completeQuest(questId) {
 }
 
 function render() {
+  el.appVersionLabel.textContent = APP_VERSION;
+  
   const hasProfile = Boolean(profile);
   const isDashboard = hasProfile && currentView === "dashboard";
-
+  
   el.homeBtn.classList.toggle("hidden", !isDashboard);
   el.continueProfileBtn.classList.toggle("hidden", !hasProfile || isDashboard);
 
