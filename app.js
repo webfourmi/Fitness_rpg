@@ -121,6 +121,7 @@ const coaches = {
 };
 
 let profile = null;
+let currentView = "setup";
 let audioContext = null;
 let pulseTimer = null;
 let pulseOscillator = null;
@@ -132,6 +133,8 @@ const el = {
   avatarSelect: document.querySelector("#avatarSelect"),
   createProfileBtn: document.querySelector("#createProfileBtn"),
   resetProfileBtn: document.querySelector("#resetProfileBtn"),
+  homeBtn: document.querySelector("#homeBtn"),
+  continueProfileBtn: document.querySelector("#continueProfileBtn"),
   heroPortrait: document.querySelector("#heroPortrait"),
   heroName: document.querySelector("#heroName"),
   avatarLabel: document.querySelector("#avatarLabel"),
@@ -155,6 +158,7 @@ const el = {
   pulseMusicBtn: document.querySelector("#pulseMusicBtn"),
   stopPulseBtn: document.querySelector("#stopPulseBtn"),
   coachChoiceGrid: document.querySelector("#coachChoiceGrid"),
+  
 };
 
 function todayKey() {
@@ -179,8 +183,10 @@ function loadProfile() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     profile = saved ? JSON.parse(saved) : null;
+    currentView = profile ? "home" : "setup";
   } catch {
     profile = null;
+    currentView = "setup";
   }
 }
 
@@ -281,9 +287,24 @@ function completeQuest(questId) {
 }
 
 function render() {
-  if (!profile) {
+  const hasProfile = Boolean(profile);
+  const isDashboard = hasProfile && currentView === "dashboard";
+
+  el.homeBtn.classList.toggle("hidden", !isDashboard);
+  el.continueProfileBtn.classList.toggle("hidden", !hasProfile || isDashboard);
+
+  if (!hasProfile || !isDashboard) {
     el.setupPanel.classList.remove("hidden");
     el.dashboard.classList.add("hidden");
+
+    if (hasProfile) {
+      el.setupTitle.textContent = "Accueil";
+      el.setupHelp.textContent = `Profil actuel : ${profile.name}. Tu peux continuer l’aventure ou recréer un héros.`;
+    } else {
+      el.setupTitle.textContent = "Créer ton héros";
+      el.setupHelp.textContent = "Choisis ton avatar et ton coach pour commencer.";
+    }
+
     syncCoachChoiceCards();
     return;
   }
@@ -457,6 +478,7 @@ el.createProfileBtn.addEventListener("click", () => {
   const name = el.playerNameInput.value.trim() || "Héros";
   const coachId = getSelectedCoachId();
   profile = createDefaultProfile(name, el.avatarSelect.value, coachId);
+  currentView = "dashboard";
   profile.log.push(`${new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} · Aventure commencée avec ${coaches[coachId].name}.`);
   saveProfile();
   render();
@@ -508,6 +530,15 @@ el.coachChoiceGrid?.addEventListener("change", (event) => {
   if (event.target.matches('input[name="coach"]')) {
     syncCoachChoiceCards();
   }
+});
+el.homeBtn.addEventListener("click", () => {
+  currentView = "home";
+  render();
+});
+
+el.continueProfileBtn.addEventListener("click", () => {
+  currentView = "dashboard";
+  render();
 });
 
 document.querySelectorAll('.coach-choice-card').forEach((card) => {
