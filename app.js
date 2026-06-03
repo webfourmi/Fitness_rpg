@@ -26,8 +26,11 @@ const quests = [
 ];
 
 const coaches = {
-  conan: {
-    name: "Conan le Barbare",
+  korvan: {
+    name: "Korvan",
+    fullName: "Coach Korvan le Barbare",
+    image: "assets/coaches/korvan-sheet.png",
+    intro: "Barbare motivant, direct et énergique.",
     start: [
       "Debout. Le corps ne devient pas fort en négociant avec le canapé.",
       "Aujourd’hui, tu gagnes ta ration de gloire.",
@@ -46,8 +49,11 @@ const coaches = {
       "Voilà. Le héros avance, et le canapé tremble.",
     ],
   },
-  xena: {
-    name: "Xena la Guerrière",
+  xara: {
+    name: "Xara",
+    fullName: "Coach Xara la Guerrière",
+    image: "assets/coaches/xara-sheet.png",
+    intro: "Guerrière disciplinée et déterminée.",
     start: [
       "Allez, guerrier. On commence proprement, on finit fièrement.",
       "Pas besoin d’être parfait. Besoin d’être présent.",
@@ -66,6 +72,52 @@ const coaches = {
       "Tu progresses. Et cette fois, tout le monde l’a remarqué.",
     ],
   },
+  violette: {
+    name: "Violette",
+    fullName: "Coach Violette la Halfeline",
+    image: "assets/coaches/violette-sheet.png",
+    intro: "Halfeline positive, légère et encourageante.",
+    start: [
+      "On y va doucement, mais on y va vraiment !",
+      "Petit pas, grand progrès. Aujourd’hui, on avance.",
+      "Même une courte séance peut être une belle victoire.",
+      "Prêt ? On transforme l’effort en aventure.",
+    ],
+    complete: [
+      "Bravo ! Une quête de plus dans la besace.",
+      "Tu avances mieux que tu ne le crois, continue !",
+      "C’était propre, régulier et très bien joué.",
+      "Une petite victoire aujourd’hui, une grande forme demain.",
+    ],
+    levelUp: [
+      "Niveau supérieur ! Ça mérite presque un second petit déjeuner.",
+      "Tu montes en puissance, et ça se voit déjà !",
+      "Quel progrès ! Tu deviens vraiment impressionnant.",
+    ],
+  },
+  elmin: {
+    name: "Elmin",
+    fullName: "Coach Elmin le Mage",
+    image: "assets/coaches/elmin-sheet.png",
+    intro: "Mage calme, posé et stratégique.",
+    start: [
+      "Concentre-toi. Chaque répétition est un sort bien exécuté.",
+      "La régularité est une magie discrète, mais puissante.",
+      "Aujourd’hui, nous renforçons le corps avec méthode.",
+      "Le progrès n’est pas bruyant. Il est constant.",
+    ],
+    complete: [
+      "Excellent. L’effort a été canalisé avec précision.",
+      "Très bien. Tu gagnes en maîtrise autant qu’en force.",
+      "Quête validée. L’énergie a été investie judicieusement.",
+      "Le corps apprend vite quand l’esprit reste stable.",
+    ],
+    levelUp: [
+      "Niveau supérieur. Les résultats suivent la discipline.",
+      "Ta progression devient visible. Continue sur cette voie.",
+      "Une étape de plus. Le rituel du progrès fonctionne.",
+    ],
+  },
 };
 
 let profile = null;
@@ -78,7 +130,6 @@ const el = {
   dashboard: document.querySelector("#dashboard"),
   playerNameInput: document.querySelector("#playerNameInput"),
   avatarSelect: document.querySelector("#avatarSelect"),
-  coachSelect: document.querySelector("#coachSelect"),
   createProfileBtn: document.querySelector("#createProfileBtn"),
   resetProfileBtn: document.querySelector("#resetProfileBtn"),
   heroPortrait: document.querySelector("#heroPortrait"),
@@ -92,6 +143,7 @@ const el = {
   streakLabel: document.querySelector("#streakLabel"),
   doneTodayLabel: document.querySelector("#doneTodayLabel"),
   coachName: document.querySelector("#coachName"),
+  coachPortrait: document.querySelector("#coachPortrait"),
   coachMessage: document.querySelector("#coachMessage"),
   newCoachMessageBtn: document.querySelector("#newCoachMessageBtn"),
   questsList: document.querySelector("#questsList"),
@@ -102,6 +154,7 @@ const el = {
   audioPlayer: document.querySelector("#audioPlayer"),
   pulseMusicBtn: document.querySelector("#pulseMusicBtn"),
   stopPulseBtn: document.querySelector("#stopPulseBtn"),
+  coachChoiceGrid: document.querySelector("#coachChoiceGrid"),
 };
 
 function todayKey() {
@@ -155,6 +208,11 @@ function getLevelInfo(totalXp) {
 
 function getStage(level) {
   return stageLabels.find((stage) => level >= stage.min) ?? stageLabels.at(-1);
+}
+
+function getSelectedCoachId() {
+  const checked = document.querySelector('input[name="coach"]:checked');
+  return checked?.value ?? "korvan";
 }
 
 function randomCoachMessage(moment) {
@@ -226,6 +284,7 @@ function render() {
   if (!profile) {
     el.setupPanel.classList.remove("hidden");
     el.dashboard.classList.add("hidden");
+    syncCoachChoiceCards();
     return;
   }
 
@@ -236,6 +295,7 @@ function render() {
   const stage = getStage(levelInfo.level);
   const completed = getCompletedToday();
   const percent = Math.min(100, Math.round((levelInfo.currentXp / levelInfo.nextXp) * 100));
+  const coach = coaches[profile.coach];
 
   el.heroName.textContent = profile.name;
   el.avatarLabel.textContent = avatarLabels[profile.avatar];
@@ -246,7 +306,9 @@ function render() {
   el.totalXpLabel.textContent = profile.totalXp;
   el.streakLabel.textContent = profile.streak;
   el.doneTodayLabel.textContent = completed.length;
-  el.coachName.textContent = coaches[profile.coach].name;
+  el.coachName.textContent = coach.fullName;
+  el.coachPortrait.src = coach.image;
+  el.coachPortrait.alt = coach.fullName;
   el.heroPortrait.innerHTML = getHeroSvg(profile.avatar, stage.stage);
 
   renderQuests(completed);
@@ -283,6 +345,19 @@ function renderLog() {
     const li = document.createElement("li");
     li.textContent = entry;
     el.logList.appendChild(li);
+  });
+}
+
+function syncCoachChoiceCards() {
+  document.querySelectorAll(".coach-choice-card").forEach((card) => {
+    const coachId = card.dataset.coachCard;
+    const input = card.querySelector('input[name="coach"]');
+    card.classList.toggle("active", input.checked);
+    if (coaches[coachId]) {
+      const img = card.querySelector("img");
+      img.src = coaches[coachId].image;
+      img.alt = `Planche du coach ${coaches[coachId].name}`;
+    }
   });
 }
 
@@ -380,8 +455,9 @@ function stopGeneratedPulse() {
 
 el.createProfileBtn.addEventListener("click", () => {
   const name = el.playerNameInput.value.trim() || "Héros";
-  profile = createDefaultProfile(name, el.avatarSelect.value, el.coachSelect.value);
-  profile.log.push(`${new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} · Aventure commencée.`);
+  const coachId = getSelectedCoachId();
+  profile = createDefaultProfile(name, el.avatarSelect.value, coachId);
+  profile.log.push(`${new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} · Aventure commencée avec ${coaches[coachId].name}.`);
   saveProfile();
   render();
   el.coachMessage.textContent = randomCoachMessage("start");
@@ -397,6 +473,7 @@ el.resetProfileBtn.addEventListener("click", () => {
 });
 
 el.newCoachMessageBtn.addEventListener("click", () => {
+  if (!profile) return;
   el.coachMessage.textContent = randomCoachMessage("start");
 });
 
@@ -427,5 +504,20 @@ el.audioFileInput.addEventListener("change", (event) => {
 el.pulseMusicBtn.addEventListener("click", startGeneratedPulse);
 el.stopPulseBtn.addEventListener("click", stopGeneratedPulse);
 
+el.coachChoiceGrid?.addEventListener("change", (event) => {
+  if (event.target.matches('input[name="coach"]')) {
+    syncCoachChoiceCards();
+  }
+});
+
+document.querySelectorAll('.coach-choice-card').forEach((card) => {
+  card.addEventListener('click', () => {
+    const input = card.querySelector('input[name="coach"]');
+    input.checked = true;
+    syncCoachChoiceCards();
+  });
+});
+
 loadProfile();
+syncCoachChoiceCards();
 render();
