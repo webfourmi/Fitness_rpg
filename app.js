@@ -1,4 +1,4 @@
-const APP_VERSION = "0.1.7";
+const APP_VERSION = "0.1.8";
 const STORAGE_KEY = "sportRpgV1Profile";
 const LOG_LIMIT = 12;
 
@@ -51,10 +51,31 @@ const sports = [
     id: "strength",
     icon: "💪",
     title: "Renforcement",
-    description: "Force et tronc solide.",
+    description: "Pompes, mountain climbing, squats et gainage.",
     options: [
-      { id: "squats", label: "Squats", description: "3 séries de 10 répétitions", xp: 25, stat: "Force", pose: "squats" },
+      { id: "pushups10", label: "Pompes · série 10", description: "Pompes : série de 10", xp: 15, stat: "Force", pose: "core" },
+      { id: "pushups15", label: "Pompes · série 15", description: "Pompes : série de 15", xp: 20, stat: "Force", pose: "core" },
+      { id: "pushups20", label: "Pompes · série 20", description: "Pompes : série de 20", xp: 25, stat: "Force", pose: "core" },
+      { id: "pushups25", label: "Pompes · série 25", description: "Pompes : série de 25", xp: 30, stat: "Force", pose: "core" },
+      { id: "pushups30", label: "Pompes · série 30", description: "Pompes : série de 30", xp: 35, stat: "Force", pose: "core" },
+      { id: "mountain60", label: "Mountain climbing · 60", description: "Mountain climbing : série de 60", xp: 20, stat: "Cardio-force", pose: "core" },
+      { id: "mountain80", label: "Mountain climbing · 80", description: "Mountain climbing : série de 80", xp: 25, stat: "Cardio-force", pose: "core" },
+      { id: "mountain100", label: "Mountain climbing · 100", description: "Mountain climbing : série de 100", xp: 30, stat: "Cardio-force", pose: "core" },
+      { id: "squats10", label: "Squats · série 10", description: "Squats : série de 10", xp: 15, stat: "Force", pose: "squats" },
+      { id: "squats20", label: "Squats · série 20", description: "Squats : série de 20", xp: 25, stat: "Force", pose: "squats" },
+      { id: "squats30", label: "Squats · série 30", description: "Squats : série de 30", xp: 35, stat: "Force", pose: "squats" },
+      { id: "squats40", label: "Squats · série 40", description: "Squats : série de 40", xp: 45, stat: "Force", pose: "squats" },
       { id: "core", label: "Gainage", description: "3 x 30 secondes", xp: 25, stat: "Stabilité", pose: "core" },
+    ],
+  },
+  {
+    id: "musculation",
+    icon: "🏋️",
+    title: "Musculation",
+    description: "Séance complète de musculation.",
+    options: [
+      { id: "muscu30", label: "30 min", description: "30 min de musculation", xp: 45, stat: "Force", pose: "core" },
+      { id: "muscu45", label: "45 min", description: "45 min de musculation", xp: 65, stat: "Force", pose: "core" },
     ],
   },
   {
@@ -70,6 +91,13 @@ const sports = [
 
 const quests = sports.flatMap((sport) => sport.options.map((option) => ({ ...option, sportId: sport.id, sportTitle: sport.title })));
 const questPoseMap = Object.fromEntries(quests.map((quest) => [quest.id, quest.pose]));
+
+const strengthQuestIds = [
+  "pushups10", "pushups15", "pushups20", "pushups25", "pushups30",
+  "mountain60", "mountain80", "mountain100",
+  "squats10", "squats20", "squats30", "squats40",
+  "core", "muscu30", "muscu45",
+];
 
 const coaches = {
   korvan: {
@@ -102,7 +130,20 @@ const coaches = {
       pilates10: ["Dix minutes de contrôle. Même un barbare doit tenir son centre."],
       pilates30: ["Trente minutes de discipline lente. Voilà une force qui ne crie pas."],
       pilates45: ["Quarante-cinq minutes. Ton tronc devient une forteresse."],
-      squats: ["Plie les jambes. Le sol doit comprendre qui commande."],
+      pushups10: ["Dix pompes. Le sol a pris le premier avertissement."],
+      pushups15: ["Quinze pompes. Les bras commencent à parler fort."],
+      pushups20: ["Vingt pompes. Voilà une offrande correcte à la forge."],
+      pushups25: ["Vingt-cinq pompes. La faiblesse change de trottoir."],
+      pushups30: ["Trente pompes. Les épaules entrent dans la saga."],
+      mountain60: ["Soixante mountain climbers. La montagne n’a qu’à bien se tenir."],
+      mountain80: ["Quatre-vingts. Le souffle grogne, mais il suit."],
+      mountain100: ["Cent mountain climbers. Voilà une avalanche disciplinée."],
+      squats10: ["Dix squats. Le sol doit comprendre qui commande."],
+      squats20: ["Vingt squats. Les jambes forgent leur réputation."],
+      squats30: ["Trente squats. La gravité commence à perdre patience."],
+      squats40: ["Quarante squats. Les jambes entrent dans la légende."],
+      muscu30: ["Trente minutes de musculation. La forge a bien chauffé."],
+      muscu45: ["Quarante-cinq minutes de musculation. Voilà du métal solide."],
       core: ["Tiens. Un tronc solide porte mieux la légende."],
       stretch: ["La récupération n’est pas une faiblesse. C’est l’affûtage de la lame."],
     },
@@ -122,8 +163,6 @@ const coaches = {
       pilates10: ["Contrôle court, utile et précis. Très bon choix."],
       pilates30: ["Trente minutes de maîtrise. Le corps devient plus fiable."],
       pilates45: ["Longue séance, belle discipline. Tu as tenu la ligne."],
-      squats: ["Dos solide, jambes actives. C’est une fondation."],
-      core: ["Tiens la position. Le combat se gagne aussi dans l’immobilité."],
       stretch: ["Récupère avec sérieux. La souplesse protège le guerrier."],
     },
   },
@@ -142,8 +181,6 @@ const coaches = {
       pilates10: ["Dix minutes bien placées. Petit effort, vrai progrès."],
       pilates30: ["Trente minutes de Pilates, ça mérite une médaille moelleuse."],
       pilates45: ["Quarante-cinq minutes ! Là, le coussin applaudit."],
-      squats: ["Hop, on descend, on remonte."],
-      core: ["Ça tremble ? Parfait, ça veut dire que ça travaille."],
       stretch: ["On s’étire, on respire, on remet le corps en mode velours."],
     },
   },
@@ -162,8 +199,6 @@ const coaches = {
       pilates10: ["Dix minutes de précision. Le centre s’éveille."],
       pilates30: ["Trente minutes de contrôle. La posture gagne en pouvoir."],
       pilates45: ["Quarante-cinq minutes de concentration. Le sort tient."],
-      squats: ["Les jambes sont les piliers du temple. Renforçons-les."],
-      core: ["La stabilité est une forme de puissance silencieuse."],
       stretch: ["La souplesse est une magie lente. Ne la brusque pas."],
     },
   },
@@ -280,7 +315,8 @@ function renderQuests(completed) {
 function renderWeek() { if (!el.weekList || !profile) return; const start = new Date(), day = (start.getDay() + 6) % 7; start.setDate(start.getDate() - day); const names = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]; el.weekList.innerHTML = ""; for (let i = 0; i < 7; i += 1) { const d = new Date(start); d.setDate(start.getDate() + i); const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`, count = (profile.completedByDate[key] || []).length, item = document.createElement("div"); item.className = `week-day${key === today() ? " today" : ""}${count ? " active" : ""}`; item.innerHTML = `<strong>${names[i]}</strong><span>${count} quête${count > 1 ? "s" : ""}</span>`; el.weekList.appendChild(item); } }
 function allDone() { return Object.values(profile?.completedByDate || {}).flat(); }
 function count(id) { return allDone().filter((questId) => questId === id).length; }
-function renderBadges() { if (!el.badgesList || !profile) return; const total = allDone().length, full = Object.values(profile.completedByDate || {}).some((completed) => quests.every((quest) => completed.includes(quest.id))); const badges = [["👣", "Premier pas", "Valider une première quête.", total >= 1], ["🔥", "Élan du héros", "Valider 3 quêtes au total.", total >= 3], ["🏆", "Journée complète", "Valider toutes les durées disponibles d’une journée.", full], ["📅", "Régulier", "Atteindre 3 jours de série.", profile.streak >= 3], ["🚴", "Cycliste novice", "Valider 5 séances de vélo.", count("bike") + count("bike15") >= 5], ["🧘", "Pilates novice", "Valider 3 séances de Pilates.", count("pilates10") + count("pilates30") + count("pilates45") >= 3], ["💪", "Force tranquille", "Valider 10 séances de force, gainage ou Pilates.", count("squats") + count("core") + count("pilates10") + count("pilates30") + count("pilates45") >= 10]]; el.badgesList.innerHTML = ""; badges.forEach((badge) => { const item = document.createElement("article"); item.className = `badge-item${badge[3] ? " unlocked" : ""}`; item.innerHTML = `<div class="badge-icon">${badge[0]}</div><div><strong>${badge[1]}</strong><p>${badge[2]}</p><span>${badge[3] ? "Débloqué" : "Verrouillé"}</span></div>`; el.badgesList.appendChild(item); }); }
+function countMany(ids) { return ids.reduce((total, id) => total + count(id), 0); }
+function renderBadges() { if (!el.badgesList || !profile) return; const total = allDone().length, full = Object.values(profile.completedByDate || {}).some((completed) => quests.every((quest) => completed.includes(quest.id))); const badges = [["👣", "Premier pas", "Valider une première quête.", total >= 1], ["🔥", "Élan du héros", "Valider 3 quêtes au total.", total >= 3], ["🏆", "Journée complète", "Valider toutes les durées disponibles d’une journée.", full], ["📅", "Régulier", "Atteindre 3 jours de série.", profile.streak >= 3], ["🚴", "Cycliste novice", "Valider 5 séances de vélo.", count("bike") + count("bike15") >= 5], ["🧘", "Pilates novice", "Valider 3 séances de Pilates.", count("pilates10") + count("pilates30") + count("pilates45") >= 3], ["💪", "Force tranquille", "Valider 10 séances de renforcement ou musculation.", countMany(strengthQuestIds) >= 10], ["🏋️", "Fonte héroïque", "Valider 3 séances de musculation.", count("muscu30") + count("muscu45") >= 3]]; el.badgesList.innerHTML = ""; badges.forEach((badge) => { const item = document.createElement("article"); item.className = `badge-item${badge[3] ? " unlocked" : ""}`; item.innerHTML = `<div class="badge-icon">${badge[0]}</div><div><strong>${badge[1]}</strong><p>${badge[2]}</p><span>${badge[3] ? "Débloqué" : "Verrouillé"}</span></div>`; el.badgesList.appendChild(item); }); }
 function renderLog() { el.logList.innerHTML = ""; const entries = profile.log.length ? profile.log : ["Aucune quête accomplie pour l’instant."]; entries.forEach((entry) => { const li = document.createElement("li"); li.textContent = entry; el.logList.appendChild(li); }); }
 function summaries() { const completed = doneToday(), lastQuest = quests.find((quest) => quest.id === completed.at(-1)); el.questSummary.textContent = lastQuest ? `Dernière quête : ${lastQuest.sportTitle} · ${lastQuest.label}` : "Aucune quête validée aujourd’hui."; el.musicSummary.textContent = pulseOn ? "Pulse épique en cours" : el.audio?.src ? "Musique locale chargée" : "Aucune musique choisie."; }
 function syncCards() { $$(".coach-choice-card").forEach((card) => { const id = card.dataset.coachCard, input = card.querySelector('input[name="coach"]'); card.classList.toggle("active", input.checked); const img = card.querySelector("img"); if (img && coaches[id]) { safeCoachImage(img, id, "idle"); img.alt = coaches[id].fullName; } }); }
