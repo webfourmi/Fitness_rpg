@@ -28,10 +28,25 @@ const quests = [
 ];
 
 const coaches = {
-  korvan: {
-    name: "Korvan",
-    fullName: "Coach Korvan le Barbare",
-    image: "assets/coaches/korvan-sheet.png",
+  
+   korvan: {
+  name: "Korvan",
+  fullName: "Coach Korvan le Barbare",
+  image: "assets/coaches/korvan/idle.png",
+  poses: {
+    idle: "assets/coaches/korvan/idle.png",
+    welcome: "assets/coaches/korvan/welcome.png",
+    explain: "assets/coaches/korvan/explain.png",
+    motivate: "assets/coaches/korvan/motivate.png",
+    warmup: "assets/coaches/korvan/warmup.png",
+    walk: "assets/coaches/korvan/walk.png",
+    bike: "assets/coaches/korvan/bike.png",
+    squats: "assets/coaches/korvan/squats.png",
+    core: "assets/coaches/korvan/core.png",
+    stretch: "assets/coaches/korvan/stretch.png",
+    victory: "assets/coaches/korvan/victory.png",
+    levelup: "assets/coaches/korvan/levelup.png",
+  },
     intro: "Barbare motivant, direct et énergique.",
     start: [
       "Debout. Le corps ne devient pas fort en négociant avec le canapé.",
@@ -231,6 +246,7 @@ let currentView = "setup"; // setup | home | dashboard | coach
 let audioContext = null;
 let pulseTimer = null;
 let pulseOscillator = null;
+let currentCoachPose = "idle";
 
 const el = {
   setupPanel: document.querySelector("#setupPanel"),
@@ -370,6 +386,16 @@ function selectCoach(coachId) {
     input.checked = true;
   }
   syncCoachChoiceCards();
+}
+function getCoachImage(coachId, pose = "idle") {
+  const coach = coaches[coachId];
+  if (!coach) return "";
+
+  if (coach.poses && coach.poses[pose]) {
+    return coach.poses[pose];
+  }
+
+  return coach.image;
 }
 
 function randomCoachMessage(moment) {
@@ -591,8 +617,22 @@ function completeQuest(questId) {
 
   const newLevel = getLevelInfo(profile.totalXp).level;
   addLog(`+${quest.xp} XP · ${quest.title}`);
-
+   if (profile.coach === "korvan") {
+    const poseByQuest = {
+      warmup: "warmup",
+      walk: "walk",
+      bike: "bike",
+      squats: "squats",
+      core: "core",
+      stretch: "stretch",
+    };
+  
+    currentCoachPose = poseByQuest[quest.id] || "victory";
+  }
   if (newLevel > oldLevel) {
+      if (profile.coach === "korvan") {
+    currentCoachPose = "levelup";
+  }
     const message = randomCoachMessage("levelUp");
     addLog(`Niveau ${newLevel} atteint !`);
     el.coachMessage.textContent = message;
@@ -600,9 +640,13 @@ function completeQuest(questId) {
     void el.heroPortrait.offsetWidth;
     el.heroPortrait.classList.add("level-up-flash");
   } else {
+      if (profile.coach === "korvan") {
+    currentCoachPose = currentCoachPose || "victory";
+  }
     el.coachMessage.textContent = randomQuestMessage(quest.id);
   }
 
+  
   saveProfile();
   render();
 }
@@ -692,8 +736,15 @@ function render() {
   el.streakLabel.textContent = profile.streak;
   el.doneTodayLabel.textContent = completed.length;
   el.coachName.textContent = coach.fullName;
-  el.coachPortrait.src = coach.image;
-  el.coachPortrait.alt = coach.fullName;
+  if (profile.coach === "korvan") {
+      if (currentView === "dashboard") currentCoachPose = "idle";
+      if (currentView === "music") currentCoachPose = "motivate";
+      if (currentView === "quests") currentCoachPose = "explain";
+      if (currentView === "week") currentCoachPose = "welcome";
+      if (currentView === "badges") currentCoachPose = "victory";
+    }
+  el.coachPortrait.src = getCoachImage(profile.coach, currentCoachPose);
+  el.coachPortrait.alt = `${coach.fullName} - pose ${currentCoachPose}`;
   el.heroPortrait.innerHTML = getHeroSvg(profile.avatar, stage.stage);
 
   renderQuests(completed);
@@ -845,6 +896,7 @@ el.createProfileBtn.addEventListener("click", () => {
   const coachId = getSelectedCoachId();
   profile = createDefaultProfile(name, el.avatarSelect.value, coachId);
   currentView = "dashboard";
+  currentCoachPose = "welcome";
   profile.log.push(`${new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })} · Aventure commencée avec ${coaches[coachId].name}.`);
   saveProfile();
   render();
@@ -863,6 +915,9 @@ el.resetProfileBtn.addEventListener("click", () => {
 el.newCoachMessageBtn.addEventListener("click", () => {
   if (!profile) return;
   el.coachMessage.textContent = randomCoachMessage("start");
+  if (profile?.coach === "korvan") {
+  currentCoachPose = "motivate";
+}
 });
 
 el.resetDailyBtn.addEventListener("click", () => {
@@ -899,6 +954,7 @@ el.coachChoiceGrid?.addEventListener("change", (event) => {
 });
 el.homeBtn.addEventListener("click", () => {
   currentView = "home";
+  if (profile?.coach === "korvan") currentCoachPose = "welcome";
   render();
 });
 
