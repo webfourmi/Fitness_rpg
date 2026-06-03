@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sport RPG - V1</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero-header">
+      <div>
+        <p class="eyebrow">Sport RPG · V1</p>
+        <h1>Quêtes sportives</h1>
+        <p class="subtitle">XP, musique, coach et héros qui progresse avec toi.</p>
+      </div>
+      <button id="resetProfileBtn" class="ghost-btn" type="button">Réinitialiser</button>
+    </header>
+
+    <section id="setupPanel" class="card setup-card">
+      <h2>Créer ton héros</h2>
+      <div class="form-grid">
+        <label>
+          Nom du héros
+          <input id="playerNameInput" type="text" maxlength="30" placeholder="Ex : Webfourmi" />
+        </label>
+
+        <label>
+          Avatar de départ
+          <select id="avatarSelect">
+            <option value="homme20">Homme · 20 ans</option>
+            <option value="femme20">Femme · 20 ans</option>
+            <option value="homme50">Homme · 50 ans</option>
+            <option value="femme50">Femme · 50 ans</option>
+          </select>
+        </label>
+
+        <label>
+          Coach
+          <select id="coachSelect">
+            <option value="conan">Conan le Barbare</option>
+            <option value="xena">Xena la Guerrière</option>
+          </select>
+        </label>
+      </div>
+      <button id="createProfileBtn" class="primary-btn" type="button">Commencer l’aventure</button>
+    </section>
+
+    <section id="dashboard" class="dashboard hidden">
+      <section class="card hero-card">
+        <div class="hero-portrait" id="heroPortrait" aria-label="Portrait du héros"></div>
+        <div class="hero-info">
+          <p class="eyebrow" id="rankLabel">Débutant</p>
+          <h2 id="heroName">Héros</h2>
+          <p id="avatarLabel">Avatar</p>
+
+          <div class="level-row">
+            <span id="levelLabel">Niveau 1</span>
+            <span id="xpLabel">0 / 100 XP</span>
+          </div>
+          <div class="progress-bar" aria-label="Progression d’XP">
+            <div id="xpBar"></div>
+          </div>
+
+          <div class="stats-grid">
+            <div><strong id="totalXpLabel">0</strong><span>XP total</span></div>
+            <div><strong id="streakLabel">0</strong><span>série</span></div>
+            <div><strong id="doneTodayLabel">0</strong><span>quêtes du jour</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card coach-card">
+        <div>
+          <p class="eyebrow" id="coachName">Coach</p>
+          <p id="coachMessage" class="coach-message">Prêt pour la première quête.</p>
+        </div>
+        <button id="newCoachMessageBtn" class="ghost-btn" type="button">Nouvelle phrase</button>
+      </section>
+
+      <section class="card music-card">
+        <div>
+          <h2>Musique d’exercice</h2>
+          <p class="muted">Choisis un fichier audio local, ou lance une pulsation simple générée par la page.</p>
+        </div>
+        <div class="music-controls">
+          <input id="audioFileInput" type="file" accept="audio/*" />
+          <audio id="audioPlayer" controls></audio>
+          <button id="pulseMusicBtn" class="secondary-btn" type="button">Pulse épique</button>
+          <button id="stopPulseBtn" class="ghost-btn" type="button">Stop</button>
+        </div>
+      </section>
+
+      <section class="card quests-card">
+        <div class="section-title-row">
+          <div>
+            <h2>Quêtes du jour</h2>
+            <p class="muted">Chaque quête ne donne de l’XP qu’une fois par jour.</p>
+          </div>
+          <button id="resetDailyBtn" class="ghost-btn" type="button">Réouvrir le jour</button>
+        </div>
+        <div id="questsList" class="quests-list"></div>
+      </section>
+
+      <section class="card log-card">
+        <div class="section-title-row">
+          <div>
+            <h2>Journal</h2>
+            <p class="muted">Les derniers exploits du héros.</p>
+          </div>
+          <button id="clearLogBtn" class="ghost-btn" type="button">Vider</button>
+        </div>
+        <ul id="logList" class="log-list"></ul>
+      </section>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
