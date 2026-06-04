@@ -4,6 +4,7 @@
   align-items: center;
   min-height: 0;
   padding: 0;
+  background: transparent;
 }
 
 .hero-level-frame {
