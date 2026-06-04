@@ -8,6 +8,68 @@
   min-height: 180px;
 }
 
+.quest-session-summary {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(240,184,79,.24);
+  background:
+    radial-gradient(circle at 12% 12%, rgba(240,184,79,.16), transparent 32%),
+    linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+}
+
+.quest-session-main {
+  display: grid;
+  grid-template-columns: 100px 100px 1fr;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.quest-session-stat,
+.quest-session-last {
+  display: grid;
+  gap: 4px;
+  align-content: center;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.035);
+}
+
+.quest-session-stat {
+  text-align: center;
+}
+
+.quest-session-stat strong {
+  color: var(--accent);
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.quest-session-stat span,
+.quest-session-last span {
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+.quest-session-last strong {
+  font-size: .98rem;
+  line-height: 1.25;
+}
+
+.quest-session-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.quest-session-actions button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
 .quest-detail-page {
   margin-top: 18px;
   padding: 16px;
@@ -56,6 +118,25 @@
   line-height: 1.35;
 }
 
+.quest-category-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(240,184,79,.2);
+  background: rgba(240,184,79,.075);
+}
+
+.quest-category-summary span {
+  color: var(--muted);
+}
+
+.quest-category-summary strong {
+  color: var(--accent);
+}
+
 .exercise-detail-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -71,6 +152,11 @@
   border-radius: 16px;
   border: 1px solid var(--line);
   background: rgba(255,255,255,.035);
+}
+
+.exercise-card-head {
+  display: grid;
+  gap: 4px;
 }
 
 .exercise-detail-card strong {
@@ -96,6 +182,19 @@
   text-align: center;
 }
 
+.exercise-step-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: min(100%, 150px);
+}
+
+.exercise-step-row .ghost-btn {
+  min-height: 38px;
+  padding: 6px;
+  font-size: 1.1rem;
+}
+
 .exercise-detail-card .xp-preview {
   color: var(--accent);
   font-weight: 800;
@@ -111,6 +210,18 @@
 }
 
 @media(max-width:780px) {
+  .quest-session-main {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .quest-session-last {
+    grid-column: 1 / -1;
+  }
+
+  .quest-session-actions {
+    grid-template-columns: 1fr;
+  }
+
   .quest-detail-header {
     flex-direction: column;
   }
