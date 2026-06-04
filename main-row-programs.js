@@ -23,7 +23,7 @@ function initMainRowPrograms() {
     }
 
     document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((el) => {
-      el.textContent = "0.3.5.3";
+      el.textContent = "0.3.6";
     });
   }
 
