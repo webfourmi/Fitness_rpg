@@ -18,7 +18,7 @@ function initMainRowPrograms() {
     if (programsButton.parentElement !== row) exerciseButton.insertAdjacentElement("afterend", programsButton);
 
     document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((el) => {
-      el.textContent = "0.3.7";
+      el.textContent = "0.3.8";
     });
   }
 
@@ -37,6 +37,7 @@ function initMainRowPrograms() {
       oldRender();
       moveProgramsButton();
       if (typeof window.refreshPersonalGoals === "function") window.refreshPersonalGoals();
+      if (typeof window.refreshWeeklyPlanning === "function") window.refreshWeeklyPlanning();
     };
     render();
   }
@@ -103,7 +104,7 @@ function initPersonalGoalsInline() {
   function openGoalPage() {
     const page = ensurePage();
     if (!page) return;
-    ["#musicPage","#questsPage","#weekPage","#badgesPage","#programsToolPage","#journalToolPage","#weightToolPage"].forEach((selector) => document.querySelector(selector)?.classList.add("hidden"));
+    ["#musicPage","#questsPage","#weekPage","#badgesPage","#programsToolPage","#journalToolPage","#weightToolPage","#planningToolPage"].forEach((selector) => document.querySelector(selector)?.classList.add("hidden"));
     document.querySelector(".hero-card")?.classList.add("hidden");
     document.querySelector("#sportHub")?.classList.add("hidden");
     page.classList.remove("hidden");
@@ -173,7 +174,7 @@ function initPersonalGoalsInline() {
     addButton();
     renderRecommendation();
     highlightPrograms();
-    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((el) => { el.textContent = "0.3.7"; });
+    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((el) => { el.textContent = "0.3.8"; });
   }
 
   window.openGoalPage = openGoalPage;
@@ -183,10 +184,208 @@ function initPersonalGoalsInline() {
   refresh();
 }
 
+function initWeeklyPlanningInline() {
+  if (window.__weeklyPlanningReady) return;
+  window.__weeklyPlanningReady = true;
+
+  const PLAN_KEY = "sportRpgV1WeeklyPlanningDone";
+  const PROGRAM_XP = {
+    "Éveil du héros": 20,
+    "Cœur de dragon": 40,
+    "Forge du guerrier": 40,
+    "Tour de mage": 20,
+    "Marche de l’aventurier": 10,
+    "Défi boss hebdo": 50,
+    "Repos actif": 5
+  };
+
+  const templates = {
+    "Perte de poids": ["Marche de l’aventurier", "Éveil du héros", "Repos actif", "Marche de l’aventurier", "Cœur de dragon", "Marche de l’aventurier", "Repos actif"],
+    "Reprise douce": ["Éveil du héros", "Repos actif", "Tour de mage", "Repos actif", "Éveil du héros", "Marche de l’aventurier", "Repos actif"],
+    "Cardio": ["Cœur de dragon", "Repos actif", "Marche de l’aventurier", "Cœur de dragon", "Repos actif", "Défi boss hebdo", "Tour de mage"],
+    "Renforcement": ["Forge du guerrier", "Tour de mage", "Repos actif", "Forge du guerrier", "Marche de l’aventurier", "Défi boss hebdo", "Repos actif"],
+    "Régularité": ["Marche de l’aventurier", "Éveil du héros", "Tour de mage", "Marche de l’aventurier", "Éveil du héros", "Repos actif", "Défi boss hebdo"],
+    "Mobilité / récupération": ["Tour de mage", "Marche de l’aventurier", "Tour de mage", "Repos actif", "Éveil du héros", "Tour de mage", "Repos actif"]
+  };
+
+  const labels = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+  const subtitles = {
+    "Éveil du héros": "Reprise douce · 10-15 min",
+    "Cœur de dragon": "Cardio léger · 15-25 min",
+    "Forge du guerrier": "Renforcement · 20-30 min",
+    "Tour de mage": "Mobilité + gainage · 10-20 min",
+    "Marche de l’aventurier": "Endurance douce · 20-45 min",
+    "Défi boss hebdo": "Boss hebdo · 25-40 min",
+    "Repos actif": "Respiration, marche très douce ou étirements · 5-10 min"
+  };
+  const icons = { "Éveil du héros": "🌅", "Cœur de dragon": "❤️‍🔥", "Forge du guerrier": "⚒️", "Tour de mage": "🧙", "Marche de l’aventurier": "🥾", "Défi boss hebdo": "👹", "Repos actif": "🌙" };
+
+  function injectStyle() {
+    if (document.querySelector("#weeklyPlanningStyle")) return;
+    const style = document.createElement("style");
+    style.id = "weeklyPlanningStyle";
+    style.textContent = `
+      .planning-page{display:grid;gap:14px}.planning-summary{display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:center;padding:12px;border-radius:18px;border:1px solid rgba(240,184,79,.28);background:rgba(240,184,79,.08)}.planning-summary-icon{width:56px;height:56px;display:grid;place-items:center;border-radius:18px;background:rgba(240,184,79,.14);font-size:2rem}.planning-week-grid{display:grid;gap:9px}.planning-day-card{display:grid;grid-template-columns:50px 1fr auto;gap:10px;align-items:center;padding:11px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.035)}.planning-day-card.today{border-color:rgba(240,184,79,.55);background:rgba(240,184,79,.10)}.planning-day-card.done{border-color:rgba(74,222,128,.35);background:rgba(74,222,128,.08)}.planning-day-icon{width:50px;height:50px;display:grid;place-items:center;border-radius:15px;background:rgba(255,255,255,.05);font-size:1.55rem}.planning-day-card h3,.planning-summary h3{margin:0}.planning-day-card p,.planning-summary p{margin:0;color:var(--muted);line-height:1.25}.planning-actions{display:grid;grid-template-columns:auto auto;gap:7px}.planning-actions button{min-height:38px;padding:8px 10px;border-radius:12px}.planning-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.planning-stats article{padding:10px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03);text-align:center}.planning-stats strong{display:block;color:var(--accent);font-size:1.1rem}.planning-stats span{color:var(--muted);font-size:.74rem}
+      @media(max-width:780px){.planning-page{gap:10px}.planning-summary{grid-template-columns:42px 1fr;padding:10px;border-radius:15px}.planning-summary-icon{width:42px;height:42px;font-size:1.45rem}.planning-summary h3{font-size:1rem}.planning-summary p{font-size:.76rem}.planning-day-card{grid-template-columns:40px 1fr;padding:9px;gap:8px;border-radius:14px}.planning-day-icon{width:40px;height:40px;font-size:1.3rem;border-radius:12px}.planning-day-card h3{font-size:.96rem}.planning-day-card p{font-size:.73rem}.planning-actions{grid-column:1/-1;grid-template-columns:1fr 1fr}.planning-actions button{min-height:36px;padding:7px}.planning-stats{gap:6px}.planning-stats article{padding:8px 5px}.planning-stats strong{font-size:.95rem}.planning-stats span{font-size:.65rem}}
+    `;
+    document.head.appendChild(style);
+  }
+
+  function mondayIndex() {
+    const jsDay = new Date().getDay();
+    return jsDay === 0 ? 6 : jsDay - 1;
+  }
+
+  function todayString() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  }
+
+  function weekKey() {
+    const d = new Date();
+    const day = d.getDay() === 0 ? 6 : d.getDay() - 1;
+    d.setDate(d.getDate() - day);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  }
+
+  function loadDone() {
+    try { return JSON.parse(localStorage.getItem(PLAN_KEY) || "{}"); }
+    catch { return {}; }
+  }
+
+  function saveDone(done) {
+    localStorage.setItem(PLAN_KEY, JSON.stringify(done));
+  }
+
+  function currentGoal() {
+    return typeof window.getPersonalGoal === "function" ? window.getPersonalGoal() : { title: "Reprise douce", icon: "🌅" };
+  }
+
+  function currentPlan() {
+    const goal = currentGoal();
+    return templates[goal.title] || templates["Reprise douce"];
+  }
+
+  function ensurePage() {
+    const dashboard = document.querySelector("#dashboard");
+    if (!dashboard) return null;
+    let page = document.querySelector("#planningToolPage");
+    if (page) return page;
+    page = document.createElement("section");
+    page.id = "planningToolPage";
+    page.className = "card custom-tool-page planning-page hidden";
+    page.innerHTML = `<div class="tool-page-header"><div><p class="eyebrow">Planning</p><h2>Planning hebdomadaire</h2><p class="muted">Une proposition simple selon ton objectif personnel. Pas de punition, juste une carte de route.</p></div><button id="planningBackBtn" class="ghost-btn" type="button">Retour</button></div><div id="planningContent"></div>`;
+    dashboard.insertBefore(page, document.querySelector("#logCard") || null);
+    page.querySelector("#planningBackBtn").addEventListener("click", closePage);
+    return page;
+  }
+
+  function closePage() {
+    document.querySelector("#planningToolPage")?.classList.add("hidden");
+    document.querySelector(".hero-card")?.classList.remove("hidden");
+    document.querySelector("#sportHub")?.classList.remove("hidden");
+  }
+
+  function openPage() {
+    const page = ensurePage();
+    if (!page) return;
+    ["#musicPage","#questsPage","#weekPage","#badgesPage","#programsToolPage","#journalToolPage","#weightToolPage","#goalToolPage"].forEach((selector) => document.querySelector(selector)?.classList.add("hidden"));
+    document.querySelector(".hero-card")?.classList.add("hidden");
+    document.querySelector("#sportHub")?.classList.add("hidden");
+    page.classList.remove("hidden");
+    renderPage();
+    page.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function validateDay(index, programName) {
+    const done = loadDone();
+    const key = `${weekKey()}:${index}`;
+    if (done[key]) return;
+    done[key] = { at: new Date().toISOString(), program: programName };
+    saveDone(done);
+
+    const xp = PROGRAM_XP[programName] || 10;
+    try {
+      if (typeof profile !== "undefined" && profile) {
+        profile.totalXp = Number(profile.totalXp || 0) + xp;
+        profile.xp = Number(profile.xp || 0) + xp;
+        if (!profile.completedByDate) profile.completedByDate = {};
+        const date = todayString();
+        const entries = Array.isArray(profile.completedByDate[date]) ? profile.completedByDate[date] : [];
+        entries.push({ id: `planning-${index}`, sportId: "planning", sportTitle: "Planning", title: `${labels[index]} · ${programName}`, amount: 1, unit: "séance", xp, at: new Date().toISOString() });
+        profile.completedByDate[date] = entries;
+        if (typeof updateStreak === "function") updateStreak();
+        if (typeof log === "function") log(`+${xp} XP · Planning · ${labels[index]} · ${programName}`);
+        if (typeof save === "function") save();
+        if (typeof render === "function") render();
+      }
+    } catch (error) { console.warn("Validation planning impossible", error); }
+
+    const coachMsg = document.querySelector("#coachMessage");
+    if (coachMsg) coachMsg.textContent = `Planning validé : ${programName}. +${xp} XP.`;
+    openPage();
+  }
+
+  function renderPage() {
+    const page = ensurePage();
+    const content = page?.querySelector("#planningContent");
+    if (!content) return;
+    const goal = currentGoal();
+    const plan = currentPlan();
+    const done = loadDone();
+    const prefix = weekKey();
+    const todayIdx = mondayIndex();
+    const doneCount = plan.filter((_, index) => done[`${prefix}:${index}`]).length;
+    const totalXp = plan.reduce((sum, program) => sum + (done[`${prefix}:${plan.indexOf(program)}`] ? (PROGRAM_XP[program] || 10) : 0), 0);
+
+    content.innerHTML = `<article class="planning-summary"><span class="planning-summary-icon">${goal.icon || "🗓️"}</span><div><p class="eyebrow">Objectif : ${goal.title}</p><h3>Semaine guidée</h3><p>${goal.rhythm || "Un rythme souple"}. La carte s’adapte à ton objectif actuel.</p></div></article><div class="planning-stats"><article><strong>${doneCount}/7</strong><span>jours validés</span></article><article><strong>${totalXp}</strong><span>XP planning</span></article><article><strong>${labels[todayIdx]}</strong><span>aujourd’hui</span></article></div><div class="planning-week-grid"></div>`;
+    const grid = content.querySelector(".planning-week-grid");
+
+    plan.forEach((programName, index) => {
+      const key = `${prefix}:${index}`;
+      const isDone = Boolean(done[key]);
+      const card = document.createElement("article");
+      card.className = `planning-day-card${index === todayIdx ? " today" : ""}${isDone ? " done" : ""}`;
+      card.innerHTML = `<span class="planning-day-icon">${isDone ? "✅" : icons[programName] || "🗓️"}</span><div><p class="eyebrow">${labels[index]}${index === todayIdx ? " · Aujourd’hui" : ""}</p><h3>${programName}</h3><p>${subtitles[programName] || "Séance conseillée"}</p></div><div class="planning-actions"><button class="ghost-btn planning-open-programs" type="button">Programme</button><button class="primary-btn planning-validate" type="button" ${isDone ? "disabled" : ""}>${isDone ? "Validé" : "Valider"}</button></div>`;
+      card.querySelector(".planning-open-programs").addEventListener("click", () => { document.querySelector("#openProgramsBtn")?.click(); });
+      card.querySelector(".planning-validate").addEventListener("click", () => validateDay(index, programName));
+      grid.appendChild(card);
+    });
+  }
+
+  function addButton() {
+    const toolbar = document.querySelector("#toolIconBar");
+    if (!toolbar) return;
+    let button = document.querySelector("#openPlanningBtn");
+    if (!button) {
+      button = document.createElement("button");
+      button.id = "openPlanningBtn";
+      button.className = "tool-icon-btn";
+      button.type = "button";
+      button.innerHTML = `<span>🗓️</span><strong>Planning</strong><small>Semaine</small>`;
+      toolbar.insertBefore(button, toolbar.children[1] || null);
+    }
+    button.onclick = openPage;
+  }
+
+  function refresh() {
+    injectStyle();
+    ensurePage();
+    addButton();
+    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((el) => { el.textContent = "0.3.8"; });
+  }
+
+  window.openWeeklyPlanning = openPage;
+  window.refreshWeeklyPlanning = refresh;
+  refresh();
+}
+
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initMainRowPrograms);
   document.addEventListener("DOMContentLoaded", initPersonalGoalsInline);
+  document.addEventListener("DOMContentLoaded", initWeeklyPlanningInline);
 } else {
   initMainRowPrograms();
   initPersonalGoalsInline();
+  initWeeklyPlanningInline();
 }
