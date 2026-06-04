@@ -1,0 +1,259 @@
+.programs-tool .programs-grid,
+.programs-sessions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.program-card,
+.program-session-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.035);
+  text-align: left;
+  cursor: pointer;
+  color: var(--text);
+  transition: transform .12s ease, background .12s ease, border-color .12s ease;
+}
+
+.program-card:hover,
+.program-session-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(240,184,79,.42);
+  background: rgba(240,184,79,.08);
+}
+
+.program-card-head,
+.program-session-head {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.program-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: rgba(240,184,79,.12);
+  font-size: 1.6rem;
+}
+
+.program-card h3,
+.program-session-card h3 {
+  margin: 0;
+  font-size: 1.08rem;
+}
+
+.program-card p,
+.program-session-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.program-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.program-tags span,
+.program-xp-pill {
+  padding: 5px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(240,184,79,.25);
+  background: rgba(240,184,79,.08);
+  color: var(--accent);
+  font-size: .76rem;
+  font-weight: 800;
+}
+
+.program-detail-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.program-detail-hero {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(240,184,79,.24);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(240,184,79,.16), transparent 34%),
+    rgba(255,255,255,.03);
+}
+
+.program-detail-hero .program-icon {
+  width: 64px;
+  height: 64px;
+  font-size: 2rem;
+}
+
+.program-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.program-meta-grid article {
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+  text-align: center;
+}
+
+.program-meta-grid strong {
+  display: block;
+  color: var(--accent);
+  font-size: .95rem;
+}
+
+.program-meta-grid span {
+  color: var(--muted);
+  font-size: .76rem;
+}
+
+.session-runner {
+  display: grid;
+  gap: 14px;
+}
+
+.session-progress-box {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(240,184,79,.24);
+  background: rgba(240,184,79,.07);
+}
+
+.session-progress-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  overflow: hidden;
+}
+
+.session-progress-fill {
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width .18s ease;
+}
+
+.session-current-exercise {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.04);
+  text-align: center;
+}
+
+.session-current-exercise .phase {
+  color: var(--accent);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-size: .78rem;
+}
+
+.session-current-exercise .exercise-name {
+  font-size: clamp(1.35rem, 5vw, 2.2rem);
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.session-current-exercise .exercise-amount {
+  color: var(--muted);
+  font-size: 1.15rem;
+}
+
+.session-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.session-step-list {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.session-step-list li {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.028);
+}
+
+.session-step-list li.done {
+  border-color: rgba(240,184,79,.35);
+  background: rgba(240,184,79,.08);
+}
+
+.session-step-list small {
+  color: var(--muted);
+}
+
+.program-complete-banner {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(240,184,79,.35);
+  background: rgba(240,184,79,.12);
+  text-align: center;
+}
+
+.program-complete-banner strong {
+  color: var(--accent);
+  font-size: 1.25rem;
+}
+
+@media(max-width:780px) {
+  .dashboard-redesign .tool-icon-bar {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .program-detail-hero {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .program-meta-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .session-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .session-step-list li {
+    grid-template-columns: 28px 1fr;
+  }
+
+  .session-step-list small {
+    grid-column: 2;
+  }
+}
