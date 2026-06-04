@@ -26,17 +26,41 @@ function initHeroProgressionImages() {
     return "homme";
   }
 
+  function heroAssetInfo(gender, levelText, level) {
+    if (gender === "femme") {
+      return {
+        folder: "joueuse",
+        prefix: "joueuse",
+        expectedPath: `assets/joueuse/joueuse_niveau_${levelText}.png`,
+      };
+    }
+
+    return {
+      folder: "joueur",
+      prefix: "joueur",
+      expectedPath: `assets/joueur/joueur_niveau_${levelText}.png`,
+    };
+  }
+
   function candidateSources(gender, levelText, level) {
+    const info = heroAssetInfo(gender, levelText, level);
+
     return [
+      `assets/${info.folder}/${info.prefix}_niveau_${levelText}.png`,
+      `assets/${info.folder}/${info.prefix}_niveau_${levelText}.jpg`,
+      `assets/${info.folder}/${info.prefix}_niveau_${levelText}.webp`,
+      `assets/${info.folder}/${info.prefix}_niveau_${level}.png`,
+      `assets/${info.folder}/${info.prefix}_niveau_${level}.jpg`,
+      `assets/${info.folder}/level_${levelText}.png`,
+      `assets/${info.folder}/level_${levelText}.jpg`,
+      `assets/${info.folder}/${levelText}.png`,
+      `assets/${info.folder}/${levelText}.jpg`,
+
+      // Anciens chemins conservés en secours.
       `assets/heroes/${gender}/level_${levelText}.jpg`,
       `assets/heroes/${gender}/level_${levelText}.png`,
-      `assets/heroes/${gender}/level_${levelText}.webp`,
       `assets/heroes/${gender}/level_${level}.jpg`,
       `assets/heroes/${gender}/level_${level}.png`,
-      `assets/heroes/${gender}/${levelText}.jpg`,
-      `assets/heroes/${gender}/${levelText}.png`,
-      `assets/heroes/${gender}/${level}.jpg`,
-      `assets/heroes/${gender}/${level}.png`,
     ];
   }
 
@@ -62,9 +86,9 @@ function initHeroProgressionImages() {
     const gender = getHeroGender();
     const levelText = paddedLevel(level);
     const sources = candidateSources(gender, levelText, level);
+    const info = heroAssetInfo(gender, levelText, level);
     const alt = `${gender === "femme" ? "Héroïne" : "Héros"} niveau ${level}`;
     const fallback = fallbackHeroSvg ? fallbackHeroSvg(currentStage) : "";
-    const expectedPath = `assets/heroes/${gender}/level_${levelText}.jpg`;
 
     return `
       <div class="hero-level-frame">
@@ -79,7 +103,7 @@ function initHeroProgressionImages() {
         />
         <div class="hero-fallback-svg" style="display:none">${fallback}</div>
         <div class="hero-missing-warning" style="display:none">
-          Image manquante :<br><code>${expectedPath}</code>
+          Image manquante :<br><code>${info.expectedPath}</code>
         </div>
         <div class="hero-level-badge">Niv. ${level}</div>
       </div>
