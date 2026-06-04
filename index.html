@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fitness RPG - V2.4</title>
+  <title>Fitness RPG - V2.5</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="coach-carousel.css" />
   <link rel="stylesheet" href="hero-progression.css" />
   <link rel="stylesheet" href="home-screen.css" />
+  <link rel="stylesheet" href="quest-drilldown.css" />
 </head>
 <body>
   <main class="app-shell">
     <header class="hero-header">
       <div>
-        <p class="eyebrow">Fitness RPG · V2.4</p>
+        <p class="eyebrow">Fitness RPG · V2.5</p>
         <h1>Quêtes sportives</h1>
         <p class="subtitle">XP, musique, coach et héros qui progresse avec toi.</p>
       </div>
@@ -31,7 +32,7 @@
             <h2>Accueil</h2>
             <p class="home-landing-title">Ton entraînement devient une aventure</p>
             <p class="home-landing-text">Choisis ton coach, gagne de l’XP, débloque des niveaux et regarde ton héros évoluer séance après séance.</p>
-            <p class="version-label">Version <span id="appVersionLabel">0.2.4</span></p>
+            <p class="version-label">Version <span id="appVersionLabel">0.2.5</span></p>
           </div>
           <div class="home-hero-visual">
             <img src="assets/ecran/ecran_accueil.png" alt="Illustration d’accueil Fitness RPG" />
@@ -52,7 +53,7 @@
       <div id="editorPanel" class="editor-panel">
         <h2 id="setupTitle">Créer ton héros</h2>
         <p id="setupHelp" class="muted">Choisis ton profil et ton coach pour commencer.</p>
-        <p class="version-label">Version <span id="appVersionLabelEditor">0.2.4</span></p>
+        <p class="version-label">Version <span id="appVersionLabelEditor">0.2.5</span></p>
 
         <div id="heroCreationFields" class="form-grid">
           <label>
@@ -162,7 +163,7 @@
         </div>
         <div class="hub-nav-grid">
           <button id="openMusicBtn" class="hub-nav-btn" type="button"><span>🎵</span><strong>Musique</strong><small>Choix des morceaux</small></button>
-          <button id="openQuestsBtn" class="hub-nav-btn" type="button"><span>⚔️</span><strong>Exercices</strong><small>Entrer durée ou quantité</small></button>
+          <button id="openQuestsBtn" class="hub-nav-btn" type="button"><span>⚔️</span><strong>Exercices</strong><small>Choisir une catégorie</small></button>
           <button id="openBadgesBtn" class="hub-nav-btn" type="button"><span>🏅</span><strong>Badges</strong><small>Récompenses</small></button>
           <button id="openWeekBtn" class="hub-nav-btn" type="button"><span>📅</span><strong>Semaine</strong><small>Régularité</small></button>
         </div>
@@ -174,7 +175,7 @@
       </section>
 
       <section id="questsPage" class="card quests-card hidden">
-        <div class="subpage-header"><div><p class="eyebrow">Exercices</p><h2>Catégories sportives</h2><p class="muted">Clique sur une catégorie, choisis un exercice, puis entre la durée ou la quantité.</p></div><button class="ghost-btn back-dashboard-btn" type="button">Retour</button></div>
+        <div class="subpage-header"><div><p class="eyebrow">Exercices</p><h2>Catégories sportives</h2><p class="muted">Choisis une catégorie, puis une page dédiée affichera les exercices.</p></div><button class="ghost-btn back-dashboard-btn" type="button">Retour</button></div>
         <div class="section-title-row"><p class="muted">Tu peux valider plusieurs entrées dans la même journée.</p><button id="resetDailyBtn" class="ghost-btn" type="button">Effacer les entrées du jour</button></div>
         <div id="questsList" class="quests-list sport-list"></div>
       </section>
@@ -199,5 +200,6 @@
   <script src="coach-carousel.js"></script>
   <script src="hero-progression.js"></script>
   <script src="home-screen.js"></script>
+  <script src="quest-drilldown.js"></script>
 </body>
 </html>
