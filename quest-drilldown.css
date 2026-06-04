@@ -1,0 +1,132 @@
+.quest-carousel-viewport .sport-item.open {
+  min-width: 0;
+  border-color: rgba(240,184,79,.45);
+  background: rgba(240,184,79,.1);
+}
+
+.quest-carousel-viewport .sport-toggle {
+  min-height: 180px;
+}
+
+.quest-detail-page {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(240,184,79,.22);
+  background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+}
+
+.quest-detail-page.hidden {
+  display: none;
+}
+
+.quest-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.quest-detail-title {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.quest-detail-icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: rgba(240,184,79,.12);
+  font-size: 1.8rem;
+}
+
+.quest-detail-title h3 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.quest-detail-title p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.exercise-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+.exercise-detail-card {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  text-align: center;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.035);
+}
+
+.exercise-detail-card strong {
+  font-size: 1.05rem;
+}
+
+.exercise-detail-card .amount-label {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  width: 100%;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.exercise-detail-card .exercise-amount {
+  width: min(100%, 150px);
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--text);
+  text-align: center;
+}
+
+.exercise-detail-card .xp-preview {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.exercise-detail-card .done-note {
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.exercise-detail-card .validate-exercise-btn {
+  width: min(100%, 220px);
+}
+
+@media(max-width:780px) {
+  .quest-detail-header {
+    flex-direction: column;
+  }
+
+  .quest-detail-header .ghost-btn {
+    width: 100%;
+  }
+
+  .quest-detail-title {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .exercise-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
