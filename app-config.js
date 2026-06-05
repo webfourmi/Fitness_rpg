@@ -1,8 +1,8 @@
 // V4 - Configuration centrale de Fitness RPG.
 // Ce fichier sert de source commune pour les prochaines évolutions.
 window.FitnessRpgConfig = {
-  version: "0.4.0",
-  displayVersion: "V4.0",
+  version: "0.4.1",
+  displayVersion: "V4.1",
 
   storageKeys: {
     profile: "sportRpgV1Profile",
@@ -10,7 +10,8 @@ window.FitnessRpgConfig = {
     today: "sportRpgV1TodayDone",
     badges: "sportRpgV1RpgBadges",
     lastLevel: "sportRpgV1LastSeenLevel",
-    personalGoal: "sportRpgV1PersonalGoal"
+    personalGoal: "sportRpgV1PersonalGoal",
+    centralRewards: "sportRpgV41Rewards"
   },
 
   ranks: [
@@ -20,6 +21,16 @@ window.FitnessRpgConfig = {
     { min: 15, max: 19, title: "Légende" },
     { min: 20, max: 999, title: "Héros mythique" }
   ],
+
+  xpRules: {
+    shortSession: 20,
+    normalSession: 40,
+    hardSession: 60,
+    walk: 10,
+    weeklyBoss: 50,
+    threeDayStreakBonus: 30,
+    completeWeekBonus: 100
+  },
 
   programXp: {
     "Éveil du héros": 20,
