@@ -1,0 +1,74 @@
+/* V4.1 - Récompenses et XP centralisées */
+.v41-reward-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  z-index: 9998;
+  width: min(92vw, 420px);
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(240,184,79,.42);
+  background: rgba(18,20,30,.96);
+  box-shadow: 0 16px 42px rgba(0,0,0,.42);
+  animation: v41RewardIn .22s ease both;
+}
+
+.v41-reward-toast.hidden {
+  display: none;
+}
+
+.v41-reward-toast .reward-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: rgba(240,184,79,.14);
+  font-size: 1.65rem;
+}
+
+.v41-reward-toast strong {
+  display: block;
+  color: var(--accent);
+  font-size: 1.05rem;
+}
+
+.v41-reward-toast span {
+  display: block;
+  color: var(--muted);
+  margin-top: 2px;
+  line-height: 1.25;
+}
+
+@keyframes v41RewardIn {
+  from { opacity: 0; transform: translate(-50%, 10px) scale(.96); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+@media(max-width:780px) {
+  .v41-reward-toast {
+    bottom: 10px;
+    grid-template-columns: 40px 1fr;
+    padding: 10px;
+    border-radius: 16px;
+  }
+
+  .v41-reward-toast .reward-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.35rem;
+  }
+
+  .v41-reward-toast strong {
+    font-size: .94rem;
+  }
+
+  .v41-reward-toast span {
+    font-size: .82rem;
+  }
+}
