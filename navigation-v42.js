@@ -3,8 +3,8 @@ function initNavigationV42() {
   window.__navigationV42Ready = true;
 
   const config = window.FitnessRpgConfig || {};
-  const VERSION = "0.4.4.1";
-  const DISPLAY_VERSION = "V4.4.1";
+  const VERSION = "0.4.4.2";
+  const DISPLAY_VERSION = "V4.4.2";
   const NAV_KEY = config.storageKeys?.navigationState || "sportRpgV42NavigationState";
 
   const pageMap = {
@@ -26,7 +26,6 @@ function initNavigationV42() {
     openMusicBtn: "music",
     openQuestsBtn: "quests",
     openBadgesBtn: "badges",
-    openWeekBtn: "planning",
     openProgramsBtn: "programs",
     openJournalBtn: "journal",
     openWeightBtn: "weight",
@@ -75,10 +74,14 @@ function initNavigationV42() {
     ensureStylesheet("title-cleanup-v431.css");
     ensureStylesheet("exercise-timer.css");
     ensureStylesheet("planning-fusion-v441.css");
+    ensureStylesheet("mobile-music-fix.css");
+    ensureStylesheet("exercise-explainer.css");
     ensureScript("profile-v43.js");
     ensureScript("today-program-direct.js");
     ensureScript("exercise-timer.js");
     ensureScript("planning-fusion-v441.js");
+    ensureScript("mobile-music-fix.js");
+    ensureScript("exercise-explainer.js");
   }
 
   function setVersion() {
@@ -136,6 +139,12 @@ function initNavigationV42() {
     });
   }
 
+  function removeWeekShortcut() {
+    const weekButton = document.querySelector("#openWeekBtn");
+    if (weekButton) weekButton.remove();
+    document.querySelector("#weekPage")?.classList.add("hidden");
+  }
+
   function closeToDashboard() {
     pageElements().forEach((page) => {
       page.classList.add("hidden");
@@ -147,6 +156,7 @@ function initNavigationV42() {
     setMainHeader("dashboard");
     saveNav("dashboard");
     cleanupDuplicatedTitles();
+    removeWeekShortcut();
     return true;
   }
 
@@ -175,6 +185,7 @@ function initNavigationV42() {
     setMainHeader(normalized);
     saveNav(normalized);
     cleanupDuplicatedTitles();
+    removeWeekShortcut();
     if (normalized === "planning") window.setTimeout(() => window.renderPlanningWeekSummary?.(), 80);
     if (!options.noScroll) target.scrollIntoView({ behavior: "smooth", block: "start" });
     return true;
@@ -204,7 +215,7 @@ function initNavigationV42() {
       note.className = "v42-nav-note";
       hub.appendChild(note);
     }
-    setText(note, "🧭 Navigation V4.4.1 · planning fusionné");
+    setText(note, "🧭 Navigation V4.4.2 · musique mobile + explications");
   }
 
   function patchCore() {
@@ -228,6 +239,7 @@ function initNavigationV42() {
     setVersion();
     addNavNote();
     cleanupDuplicatedTitles();
+    removeWeekShortcut();
     patchCore();
     const currentState = window.FitnessRpgNavigation?.current?.() || {};
     setMainHeader(currentState.page || "dashboard");
