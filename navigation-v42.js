@@ -3,8 +3,8 @@ function initNavigationV42() {
   window.__navigationV42Ready = true;
 
   const config = window.FitnessRpgConfig || {};
-  const VERSION = "0.4.3.2";
-  const DISPLAY_VERSION = "V4.3.2";
+  const VERSION = "0.4.4";
+  const DISPLAY_VERSION = "V4.4";
   const NAV_KEY = config.storageKeys?.navigationState || "sportRpgV42NavigationState";
 
   const pageMap = {
@@ -73,14 +73,16 @@ function initNavigationV42() {
   function ensureExtraAssets() {
     ensureStylesheet("profile-v43.css");
     ensureStylesheet("title-cleanup-v431.css");
+    ensureStylesheet("exercise-timer.css");
     ensureScript("profile-v43.js");
     ensureScript("today-program-direct.js");
+    ensureScript("exercise-timer.js");
   }
 
   function setVersion() {
     if (config) {
-      config.version = VERSION;
-      config.displayVersion = DISPLAY_VERSION;
+      config.version = "0.4.4";
+      config.displayVersion = "V4.4";
     }
     document.title = `Fitness RPG - ${DISPLAY_VERSION}`;
     document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => setText(node, VERSION));
@@ -194,7 +196,7 @@ function initNavigationV42() {
       note.className = "v42-nav-note";
       hub.appendChild(note);
     }
-    setText(note, "🧭 Navigation V4.3.2 · quête vers programme");
+    setText(note, "🧭 Navigation V4.4 · timer exercice");
   }
 
   function patchCore() {
