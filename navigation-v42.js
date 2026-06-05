@@ -37,55 +37,23 @@ function initNavigationV42() {
   };
 
   const headerMap = {
-    dashboard: {
-      title: "Quêtes sportives",
-      subtitle: "XP, musique, coach et héros qui progresse avec toi."
-    },
-    today: {
-      title: "Quête du jour",
-      subtitle: "Une proposition claire pour lancer ta séance du jour."
-    },
-    music: {
-      title: "Musique",
-      subtitle: "Choisis ton ambiance avant de partir à l’aventure."
-    },
-    quests: {
-      title: "Exercices",
-      subtitle: "Choisis une catégorie puis l’exercice qui convient à ta séance."
-    },
-    badges: {
-      title: "Badges",
-      subtitle: "Tes récompenses et trophées d’aventure sportive."
-    },
-    week: {
-      title: "Cette semaine",
-      subtitle: "Un regard rapide sur ta régularité et tes jours actifs."
-    },
-    programs: {
-      title: "Programmes",
-      subtitle: "Choisis un parcours complet pour guider tes séances."
-    },
-    journal: {
-      title: "Journal",
-      subtitle: "Retrouve les exploits récents de ton héros."
-    },
-    weight: {
-      title: "Balance",
-      subtitle: "Suis ton poids et ta progression dans le temps."
-    },
-    profile: {
-      title: "Profil",
-      subtitle: "La fiche complète de ton héros et de tes objectifs."
-    },
-    goal: {
-      title: "Objectif personnel",
-      subtitle: "Choisis la direction générale de ton aventure sportive."
-    },
-    planning: {
-      title: "Planning hebdomadaire",
-      subtitle: "Une carte de route simple selon ton objectif du moment."
-    }
+    dashboard: ["Quêtes sportives", "XP, musique, coach et héros qui progresse avec toi."],
+    today: ["Quête du jour", "Une proposition claire pour lancer ta séance du jour."],
+    music: ["Musique", "Choisis ton ambiance avant de partir à l’aventure."],
+    quests: ["Exercices", "Choisis une catégorie puis l’exercice qui convient à ta séance."],
+    badges: ["Badges", "Tes récompenses et trophées d’aventure sportive."],
+    week: ["Cette semaine", "Un regard rapide sur ta régularité et tes jours actifs."],
+    programs: ["Programmes", "Choisis un parcours complet pour guider tes séances."],
+    journal: ["Journal", "Retrouve les exploits récents de ton héros."],
+    weight: ["Balance", "Suis ton poids et ta progression dans le temps."],
+    profile: ["Profil", "La fiche complète de ton héros et de tes objectifs."],
+    goal: ["Objectif personnel", "Choisis la direction générale de ton aventure sportive."],
+    planning: ["Planning hebdomadaire", "Une carte de route simple selon ton objectif du moment."]
   };
+
+  function setText(node, value) {
+    if (node && node.textContent !== value) node.textContent = value;
+  }
 
   function ensureStylesheet(href) {
     if (document.querySelector(`link[href="${href}"]`)) return;
@@ -95,30 +63,18 @@ function initNavigationV42() {
     document.head.appendChild(link);
   }
 
-  function ensureProfileV43Assets() {
+  function ensureScript(src) {
+    if (document.querySelector(`script[src="${src}"]`)) return;
+    const script = document.createElement("script");
+    script.src = src;
+    document.body.appendChild(script);
+  }
+
+  function ensureExtraAssets() {
     ensureStylesheet("profile-v43.css");
     ensureStylesheet("title-cleanup-v431.css");
-
-    if (!document.querySelector('script[src="profile-v43.js"]')) {
-      const script = document.createElement("script");
-      script.src = "profile-v43.js";
-      document.body.appendChild(script);
-    }
-  }
-
-  function setTextIfDifferent(node, value) {
-    if (node && node.textContent !== value) node.textContent = value;
-  }
-
-  function setMainHeader(pageName = "dashboard") {
-    const state = headerMap[pageName] || headerMap.dashboard;
-    const titleNode = document.querySelector(".hero-header h1");
-    const subtitleNode = document.querySelector(".hero-header .subtitle");
-    const eyebrowNode = document.querySelector(".hero-header .eyebrow");
-
-    setTextIfDifferent(titleNode, state.title);
-    setTextIfDifferent(subtitleNode, state.subtitle);
-    setTextIfDifferent(eyebrowNode, `Fitness RPG · ${DISPLAY_VERSION}`);
+    ensureScript("profile-v43.js");
+    ensureScript("today-program-direct.js");
   }
 
   function setVersion() {
@@ -126,22 +82,15 @@ function initNavigationV42() {
       config.version = VERSION;
       config.displayVersion = DISPLAY_VERSION;
     }
-
-    if (typeof window.FitnessRpgConfig?.setVersionLabels === "function") {
-      window.FitnessRpgConfig.setVersionLabels();
-    } else {
-      document.title = `Fitness RPG - ${DISPLAY_VERSION}`;
-      document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => {
-        setTextIfDifferent(node, VERSION);
-      });
-      setTextIfDifferent(document.querySelector(".hero-header .eyebrow"), `Fitness RPG · ${DISPLAY_VERSION}`);
-    }
+    document.title = `Fitness RPG - ${DISPLAY_VERSION}`;
+    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => setText(node, VERSION));
   }
 
-  function saveNav(pageName) {
-    try {
-      localStorage.setItem(NAV_KEY, JSON.stringify({ page: pageName, at: new Date().toISOString() }));
-    } catch {}
+  function setMainHeader(pageName = "dashboard") {
+    const [title, subtitle] = headerMap[pageName] || headerMap.dashboard;
+    setText(document.querySelector(".hero-header .eyebrow"), `Fitness RPG · ${DISPLAY_VERSION}`);
+    setText(document.querySelector(".hero-header h1"), title);
+    setText(document.querySelector(".hero-header .subtitle"), subtitle);
   }
 
   function pageElements() {
@@ -149,6 +98,12 @@ function initNavigationV42() {
       .filter(Boolean)
       .map((id) => document.querySelector(`#${id}`))
       .filter(Boolean);
+  }
+
+  function saveNav(pageName) {
+    try {
+      localStorage.setItem(NAV_KEY, JSON.stringify({ page: pageName, at: new Date().toISOString() }));
+    } catch {}
   }
 
   function setCoreVisible(visible) {
@@ -169,9 +124,7 @@ function initNavigationV42() {
       hubIntro.querySelector("h2")?.classList.add("hidden-dashboard-title-v431");
       hubIntro.querySelector(".muted")?.classList.add("hidden-dashboard-title-v431");
     }
-
     document.querySelectorAll(".custom-tool-page .hero-header, .tool-page-screen .hero-header").forEach((node) => node.remove());
-
     document.querySelectorAll(".custom-tool-page h1, .tool-page-screen h1").forEach((title) => {
       if (title.textContent.trim().toLowerCase() === "quêtes sportives") title.remove();
     });
@@ -193,15 +146,12 @@ function initNavigationV42() {
   function openPage(pageName, options = {}) {
     if (pageName === "dashboard") return closeToDashboard();
 
-    if (pageName === "profile" && typeof window.renderProfileV43 === "function") {
-      window.renderProfileV43();
-    }
+    if (pageName === "profile" && typeof window.renderProfileV43 === "function") window.renderProfileV43();
 
     const targetId = pageMap[pageName];
     const target = targetId ? document.querySelector(`#${targetId}`) : null;
-
     if (!target) {
-      if (!options.silent) console.warn(`Page introuvable pour la navigation V4.3.2 : ${pageName}`);
+      if (!options.silent) console.warn(`Page introuvable pour la navigation ${DISPLAY_VERSION} : ${pageName}`);
       return false;
     }
 
@@ -209,7 +159,6 @@ function initNavigationV42() {
       page.classList.toggle("hidden", page.id !== targetId);
       page.classList.remove("v42-page-active");
     });
-
     setCoreVisible(false);
     target.classList.remove("hidden");
     target.classList.add("v42-page-active");
@@ -217,7 +166,6 @@ function initNavigationV42() {
     setMainHeader(pageName);
     saveNav(pageName);
     cleanupDuplicatedTitles();
-
     if (!options.noScroll) target.scrollIntoView({ behavior: "smooth", block: "start" });
     return true;
   }
@@ -233,14 +181,12 @@ function initNavigationV42() {
 
     const pageName = buttonMap[button.id];
     if (!pageName) return;
-
     window.setTimeout(() => openPage(pageName, { noScroll: true, silent: true }), 0);
   }
 
   function addNavNote() {
     const hub = document.querySelector("#sportHub > div:first-child");
     if (!hub) return;
-
     let note = document.querySelector("#v42NavNote");
     if (!note) {
       note = document.createElement("span");
@@ -248,8 +194,7 @@ function initNavigationV42() {
       note.className = "v42-nav-note";
       hub.appendChild(note);
     }
-
-    setTextIfDifferent(note, "🧭 Navigation V4.3.2 · titre principal dynamique");
+    setText(note, "🧭 Navigation V4.3.2 · quête vers programme");
   }
 
   function patchCore() {
@@ -262,7 +207,6 @@ function initNavigationV42() {
         catch { return {}; }
       }
     };
-
     if (window.FitnessRpgCore) {
       window.FitnessRpgCore.openPage = openPage;
       window.FitnessRpgCore.closeToolsToDashboard = closeToDashboard;
@@ -270,7 +214,7 @@ function initNavigationV42() {
   }
 
   function patch() {
-    ensureProfileV43Assets();
+    ensureExtraAssets();
     setVersion();
     addNavNote();
     cleanupDuplicatedTitles();
