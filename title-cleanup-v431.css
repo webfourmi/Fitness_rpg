@@ -1,4 +1,4 @@
-/* V4.3.1 - Nettoyage visuel : un seul grand titre global */
+/* V4.3.2 - Nettoyage visuel : un seul grand titre visible */
 #sportHub > div:first-child h2,
 #sportHub > div:first-child .muted {
   display: none !important;
@@ -17,8 +17,18 @@
   display: none !important;
 }
 
-/* Les pages internes gardent seulement leur titre local */
-.custom-tool-page .tool-page-header,
+/* Page Aujourd’hui : le titre principal est déjà en haut, on garde seulement le bouton Retour. */
+#todayToolPage .tool-page-header > div {
+  display: none !important;
+}
+
+#todayToolPage .tool-page-header {
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+
+/* Les autres pages internes gardent seulement leur titre local */
+.custom-tool-page:not(#todayToolPage) .tool-page-header,
 #musicPage .subpage-header,
 #questsPage .subpage-header,
 #badgesPage .subpage-header,
@@ -33,5 +43,9 @@
 
   #sportHub > div:first-child {
     display: none;
+  }
+
+  #todayToolPage .tool-page-header {
+    margin-bottom: 10px;
   }
 }
