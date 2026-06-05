@@ -3,8 +3,8 @@ function initNavigationV42() {
   window.__navigationV42Ready = true;
 
   const config = window.FitnessRpgConfig || {};
-  const VERSION = "0.4.4";
-  const DISPLAY_VERSION = "V4.4";
+  const VERSION = "0.4.4.1";
+  const DISPLAY_VERSION = "V4.4.1";
   const NAV_KEY = config.storageKeys?.navigationState || "sportRpgV42NavigationState";
 
   const pageMap = {
@@ -12,7 +12,7 @@ function initNavigationV42() {
     music: "musicPage",
     quests: "questsPage",
     badges: "badgesPage",
-    week: "weekPage",
+    week: "planningToolPage",
     programs: "programsToolPage",
     journal: "journalToolPage",
     weight: "weightToolPage",
@@ -26,7 +26,7 @@ function initNavigationV42() {
     openMusicBtn: "music",
     openQuestsBtn: "quests",
     openBadgesBtn: "badges",
-    openWeekBtn: "week",
+    openWeekBtn: "planning",
     openProgramsBtn: "programs",
     openJournalBtn: "journal",
     openWeightBtn: "weight",
@@ -42,7 +42,7 @@ function initNavigationV42() {
     music: ["Musique", "Choisis ton ambiance avant de partir à l’aventure."],
     quests: ["Exercices", "Choisis une catégorie puis l’exercice qui convient à ta séance."],
     badges: ["Badges", "Tes récompenses et trophées d’aventure sportive."],
-    week: ["Cette semaine", "Un regard rapide sur ta régularité et tes jours actifs."],
+    week: ["Planning hebdomadaire", "Une carte de route simple selon ton objectif du moment."],
     programs: ["Programmes", "Choisis un parcours complet pour guider tes séances."],
     journal: ["Journal", "Retrouve les exploits récents de ton héros."],
     weight: ["Balance", "Suis ton poids et ta progression dans le temps."],
@@ -74,15 +74,17 @@ function initNavigationV42() {
     ensureStylesheet("profile-v43.css");
     ensureStylesheet("title-cleanup-v431.css");
     ensureStylesheet("exercise-timer.css");
+    ensureStylesheet("planning-fusion-v441.css");
     ensureScript("profile-v43.js");
     ensureScript("today-program-direct.js");
     ensureScript("exercise-timer.js");
+    ensureScript("planning-fusion-v441.js");
   }
 
   function setVersion() {
     if (config) {
-      config.version = "0.4.4";
-      config.displayVersion = "V4.4";
+      config.version = VERSION;
+      config.displayVersion = DISPLAY_VERSION;
     }
     document.title = `Fitness RPG - ${DISPLAY_VERSION}`;
     document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => setText(node, VERSION));
@@ -103,8 +105,9 @@ function initNavigationV42() {
   }
 
   function saveNav(pageName) {
+    const storedPage = pageName === "week" ? "planning" : pageName;
     try {
-      localStorage.setItem(NAV_KEY, JSON.stringify({ page: pageName, at: new Date().toISOString() }));
+      localStorage.setItem(NAV_KEY, JSON.stringify({ page: storedPage, at: new Date().toISOString() }));
     } catch {}
   }
 
@@ -115,8 +118,9 @@ function initNavigationV42() {
   }
 
   function markActive(pageName) {
+    const normalized = pageName === "week" ? "planning" : pageName;
     document.querySelectorAll(".v42-active-tool").forEach((button) => button.classList.remove("v42-active-tool"));
-    const entry = Object.entries(buttonMap).find(([, page]) => page === pageName);
+    const entry = Object.entries(buttonMap).find(([, page]) => page === normalized);
     if (entry) document.querySelector(`#${entry[0]}`)?.classList.add("v42-active-tool");
   }
 
@@ -137,6 +141,7 @@ function initNavigationV42() {
       page.classList.add("hidden");
       page.classList.remove("v42-page-active");
     });
+    document.querySelector("#weekPage")?.classList.add("hidden");
     setCoreVisible(true);
     markActive("dashboard");
     setMainHeader("dashboard");
@@ -146,14 +151,15 @@ function initNavigationV42() {
   }
 
   function openPage(pageName, options = {}) {
-    if (pageName === "dashboard") return closeToDashboard();
+    const normalized = pageName === "week" ? "planning" : pageName;
+    if (normalized === "dashboard") return closeToDashboard();
 
-    if (pageName === "profile" && typeof window.renderProfileV43 === "function") window.renderProfileV43();
+    if (normalized === "profile" && typeof window.renderProfileV43 === "function") window.renderProfileV43();
 
-    const targetId = pageMap[pageName];
+    const targetId = pageMap[normalized];
     const target = targetId ? document.querySelector(`#${targetId}`) : null;
     if (!target) {
-      if (!options.silent) console.warn(`Page introuvable pour la navigation ${DISPLAY_VERSION} : ${pageName}`);
+      if (!options.silent) console.warn(`Page introuvable pour la navigation ${DISPLAY_VERSION} : ${normalized}`);
       return false;
     }
 
@@ -161,13 +167,15 @@ function initNavigationV42() {
       page.classList.toggle("hidden", page.id !== targetId);
       page.classList.remove("v42-page-active");
     });
+    document.querySelector("#weekPage")?.classList.add("hidden");
     setCoreVisible(false);
     target.classList.remove("hidden");
     target.classList.add("v42-page-active");
-    markActive(pageName);
-    setMainHeader(pageName);
-    saveNav(pageName);
+    markActive(normalized);
+    setMainHeader(normalized);
+    saveNav(normalized);
     cleanupDuplicatedTitles();
+    if (normalized === "planning") window.setTimeout(() => window.renderPlanningWeekSummary?.(), 80);
     if (!options.noScroll) target.scrollIntoView({ behavior: "smooth", block: "start" });
     return true;
   }
@@ -196,7 +204,7 @@ function initNavigationV42() {
       note.className = "v42-nav-note";
       hub.appendChild(note);
     }
-    setText(note, "🧭 Navigation V4.4 · timer exercice");
+    setText(note, "🧭 Navigation V4.4.1 · planning fusionné");
   }
 
   function patchCore() {
