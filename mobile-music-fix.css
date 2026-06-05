@@ -1,0 +1,46 @@
+/* V4.4.2 - Sélection musicale mobile */
+.mobile-music-picker {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(240,184,79,.28);
+  background: rgba(255,255,255,.035);
+}
+
+.mobile-music-picker .music-file-name {
+  color: var(--muted);
+  font-size: .88rem;
+  line-height: 1.35;
+}
+
+.mobile-music-picker .music-help {
+  color: var(--muted);
+  font-size: .82rem;
+  line-height: 1.35;
+}
+
+#audioFileInput.music-input-hidden-mobile {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+@media(max-width:780px) {
+  .music-controls {
+    display: grid;
+    gap: 10px;
+  }
+
+  .mobile-music-picker .primary-btn,
+  .mobile-music-picker .secondary-btn,
+  .mobile-music-picker .ghost-btn {
+    width: 100%;
+  }
+
+  #audioPlayer {
+    width: 100%;
+  }
+}
