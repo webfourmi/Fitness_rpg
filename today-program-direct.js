@@ -23,12 +23,22 @@ function initTodayProgramDirect() {
     document.querySelector("#openQuestsBtn")?.click();
   }
 
-  function openProgramsPage() {
-    if (window.FitnessRpgNavigation?.openPage) {
-      const opened = window.FitnessRpgNavigation.openPage("programs", { noScroll: true, silent: true });
-      if (opened) return;
+  function openProgramsPageAndRenderList() {
+    const button = document.querySelector("#openProgramsBtn");
+
+    // Très important : on déclenche le vrai bouton Programmes.
+    // Son onclick appelle openProgramPage() dans programs.js, ce qui crée #programsContent et renderProgramsList().
+    // La navigation seule ne suffit pas, car elle ne reconstruit pas la liste.
+    if (button) {
+      button.click();
+      return true;
     }
-    document.querySelector("#openProgramsBtn")?.click();
+
+    if (window.FitnessRpgNavigation?.openPage) {
+      return window.FitnessRpgNavigation.openPage("programs", { noScroll: true, silent: true });
+    }
+
+    return false;
   }
 
   function findProgramCard(title) {
@@ -48,7 +58,7 @@ function initTodayProgramDirect() {
       return;
     }
 
-    openProgramsPage();
+    openProgramsPageAndRenderList();
 
     window.setTimeout(() => {
       const card = findProgramCard(programTitle);
@@ -59,10 +69,15 @@ function initTodayProgramDirect() {
         return;
       }
 
-      if (attempt < 20) {
+      // Si la page Programmes a été ouverte mais que la liste n’est toujours pas là,
+      // on retente quelques fois. GitHub Pages + mobile peuvent être un peu lents.
+      if (attempt < 25) {
         openProgramDetailByTitle(programTitle, attempt + 1);
+        return;
       }
-    }, attempt === 0 ? 180 : 120);
+
+      console.warn(`Programme introuvable pour la quête du jour : ${programTitle}`);
+    }, attempt === 0 ? 220 : 140);
   }
 
   function openTodaySelectedProgram() {
