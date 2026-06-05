@@ -3,8 +3,8 @@ function initNavigationV42() {
   window.__navigationV42Ready = true;
 
   const config = window.FitnessRpgConfig || {};
-  const VERSION = "0.4.2";
-  const DISPLAY_VERSION = "V4.2";
+  const VERSION = "0.4.3";
+  const DISPLAY_VERSION = "V4.3";
   const NAV_KEY = config.storageKeys?.navigationState || "sportRpgV42NavigationState";
 
   const pageMap = {
@@ -35,6 +35,22 @@ function initNavigationV42() {
     goal: "openGoalBtn",
     planning: "openPlanningBtn"
   };
+
+  function loadProfileV43Assets() {
+    if (!document.querySelector('link[href="profile-v43.css"]')) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "profile-v43.css";
+      document.head.appendChild(link);
+    }
+
+    if (!document.querySelector('script[src="profile-v43.js"]')) {
+      const script = document.createElement("script");
+      script.src = "profile-v43.js";
+      script.defer = true;
+      document.body.appendChild(script);
+    }
+  }
 
   function saveNav(pageName) {
     try { localStorage.setItem(NAV_KEY, JSON.stringify({ page: pageName, at: new Date().toISOString() })); }
@@ -85,7 +101,7 @@ function initNavigationV42() {
 
     const target = targetId ? document.querySelector(`#${targetId}`) : null;
     if (!target) {
-      if (!options.silent) console.warn(`Page introuvable pour la navigation V4.2 : ${pageName}`);
+      if (!options.silent) console.warn(`Page introuvable pour la navigation V4.3 : ${pageName}`);
       return false;
     }
 
@@ -108,10 +124,6 @@ function initNavigationV42() {
     openPage("dashboard");
   }
 
-  function pageFromButton(buttonId) {
-    return Object.entries(buttonMap).find(([, id]) => id === buttonId)?.[0] || null;
-  }
-
   function wireToolbar() {
     Object.entries(buttonMap).forEach(([pageName, buttonId]) => {
       const button = document.querySelector(`#${buttonId}`);
@@ -131,12 +143,15 @@ function initNavigationV42() {
 
   function addNavNote() {
     const hub = document.querySelector("#sportHub > div:first-child");
-    if (!hub || document.querySelector("#v42NavNote")) return;
-    const note = document.createElement("span");
-    note.id = "v42NavNote";
-    note.className = "v42-nav-note";
-    note.textContent = "🧭 Navigation V4.2 active";
-    hub.appendChild(note);
+    if (!hub) return;
+    let note = document.querySelector("#v42NavNote");
+    if (!note) {
+      note = document.createElement("span");
+      note.id = "v42NavNote";
+      note.className = "v42-nav-note";
+      hub.appendChild(note);
+    }
+    note.textContent = "🧭 Navigation V4.3 active";
   }
 
   function patchCore() {
@@ -148,6 +163,7 @@ function initNavigationV42() {
   }
 
   function patch() {
+    loadProfileV43Assets();
     setVersion();
     wireToolbar();
     addNavNote();
