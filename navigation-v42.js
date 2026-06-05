@@ -3,8 +3,8 @@ function initNavigationV42() {
   window.__navigationV42Ready = true;
 
   const config = window.FitnessRpgConfig || {};
-  const VERSION = "0.4.3";
-  const DISPLAY_VERSION = "V4.3";
+  const VERSION = "0.4.3.1";
+  const DISPLAY_VERSION = "V4.3.1";
   const NAV_KEY = config.storageKeys?.navigationState || "sportRpgV42NavigationState";
 
   const pageMap = {
@@ -36,13 +36,17 @@ function initNavigationV42() {
     openPlanningBtn: "planning"
   };
 
+  function ensureStylesheet(href) {
+    if (document.querySelector(`link[href="${href}"]`)) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    document.head.appendChild(link);
+  }
+
   function ensureProfileV43Assets() {
-    if (!document.querySelector('link[href="profile-v43.css"]')) {
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href = "profile-v43.css";
-      document.head.appendChild(link);
-    }
+    ensureStylesheet("profile-v43.css");
+    ensureStylesheet("title-cleanup-v431.css");
 
     if (!document.querySelector('script[src="profile-v43.js"]')) {
       const script = document.createElement("script");
@@ -70,6 +74,21 @@ function initNavigationV42() {
     });
 
     setTextIfDifferent(document.querySelector(".hero-header .eyebrow"), `Fitness RPG · ${DISPLAY_VERSION}`);
+  }
+
+  function cleanupDuplicatedTitles() {
+    // Le grand titre global existe déjà dans .hero-header. On supprime/masque les répétitions internes.
+    const hubIntro = document.querySelector("#sportHub > div:first-child");
+    if (hubIntro) {
+      hubIntro.querySelector("h2")?.classList.add("hidden-dashboard-title-v431");
+      hubIntro.querySelector(".muted")?.classList.add("hidden-dashboard-title-v431");
+    }
+
+    document.querySelectorAll(".custom-tool-page .hero-header, .tool-page-screen .hero-header").forEach((node) => node.remove());
+
+    document.querySelectorAll(".custom-tool-page h1, .tool-page-screen h1").forEach((title) => {
+      if (title.textContent.trim().toLowerCase() === "quêtes sportives") title.remove();
+    });
   }
 
   function saveNav(pageName) {
@@ -105,6 +124,7 @@ function initNavigationV42() {
     setCoreVisible(true);
     markActive("dashboard");
     saveNav("dashboard");
+    cleanupDuplicatedTitles();
     return true;
   }
 
@@ -119,7 +139,7 @@ function initNavigationV42() {
     const target = targetId ? document.querySelector(`#${targetId}`) : null;
 
     if (!target) {
-      if (!options.silent) console.warn(`Page introuvable pour la navigation V4.3 : ${pageName}`);
+      if (!options.silent) console.warn(`Page introuvable pour la navigation V4.3.1 : ${pageName}`);
       return false;
     }
 
@@ -133,6 +153,7 @@ function initNavigationV42() {
     target.classList.add("v42-page-active");
     markActive(pageName);
     saveNav(pageName);
+    cleanupDuplicatedTitles();
 
     if (!options.noScroll) target.scrollIntoView({ behavior: "smooth", block: "start" });
     return true;
@@ -165,7 +186,7 @@ function initNavigationV42() {
       hub.appendChild(note);
     }
 
-    setTextIfDifferent(note, "🧭 Navigation V4.3 corrigée");
+    setTextIfDifferent(note, "🧭 Navigation V4.3.1 · titres nettoyés");
   }
 
   function patchCore() {
@@ -188,6 +209,7 @@ function initNavigationV42() {
     ensureProfileV43Assets();
     setVersion();
     addNavNote();
+    cleanupDuplicatedTitles();
     patchCore();
   }
 
