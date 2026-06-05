@@ -107,6 +107,18 @@ function initTodayScreen() {
     });
   }
 
+  function syncHeaderToToday() {
+    if (window.FitnessRpgNavigation?.setMainHeader) {
+      window.FitnessRpgNavigation.setMainHeader("today");
+    }
+  }
+
+  function syncHeaderToDashboard() {
+    if (window.FitnessRpgNavigation?.setMainHeader) {
+      window.FitnessRpgNavigation.setMainHeader("dashboard");
+    }
+  }
+
   function openTodayPage() {
     const page = ensurePage();
     if (!page) return;
@@ -115,6 +127,7 @@ function initTodayScreen() {
     document.querySelector("#sportHub")?.classList.add("hidden");
     page.classList.remove("hidden");
     renderTodayPage();
+    syncHeaderToToday();
     page.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -122,6 +135,7 @@ function initTodayScreen() {
     document.querySelector("#todayToolPage")?.classList.add("hidden");
     document.querySelector(".hero-card")?.classList.remove("hidden");
     document.querySelector("#sportHub")?.classList.remove("hidden");
+    syncHeaderToDashboard();
   }
 
   function validateToday() {
@@ -269,8 +283,9 @@ function initTodayScreen() {
     ensurePage();
     addToolbarButton();
     renderTodayCard();
-    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((el) => { el.textContent = "0.3.9"; });
-    document.querySelector(".hero-header .eyebrow") && (document.querySelector(".hero-header .eyebrow").textContent = "Fitness RPG · V3.9");
+    if (typeof window.FitnessRpgConfig?.setVersionLabels === "function") {
+      window.FitnessRpgConfig.setVersionLabels();
+    }
   }
 
   window.openTodayPage = openTodayPage;
