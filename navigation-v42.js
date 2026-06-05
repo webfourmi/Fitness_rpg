@@ -150,7 +150,6 @@ function initNavigationV42() {
     const pageName = buttonMap[button.id];
     if (!pageName) return;
 
-    // On laisse d’abord les anciens modules créer leur page, puis la navigation stabilise l’affichage.
     window.setTimeout(() => openPage(pageName, { noScroll: true, silent: true }), 0);
   }
 
