@@ -82,12 +82,6 @@ function initGoalSelectionPolish() {
         card.insertAdjacentHTML("beforeend", `<p class="goal-current-note">Objectif actuel</p>`);
       }
     });
-
-    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((el) => {
-      el.textContent = "0.3.9.1";
-    });
-    const headerVersion = document.querySelector(".hero-header .eyebrow");
-    if (headerVersion) headerVersion.textContent = "Fitness RPG · V3.9.1";
   }
 
   injectGoalSelectionStyle();
