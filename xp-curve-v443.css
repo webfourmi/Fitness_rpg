@@ -1,0 +1,53 @@
+/* V4.4.3 - Courbe XP progressive */
+.xp-curve-panel {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(240,184,79,.28);
+  background: rgba(255,255,255,.035);
+}
+
+.xp-curve-panel h3 {
+  margin: 0;
+  color: var(--text);
+}
+
+.xp-curve-panel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.xp-curve-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+}
+
+.xp-curve-cell {
+  padding: 9px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.035);
+  text-align: center;
+}
+
+.xp-curve-cell.current {
+  border-color: rgba(240,184,79,.65);
+  background: rgba(240,184,79,.1);
+  box-shadow: 0 0 0 1px rgba(240,184,79,.12);
+}
+
+.xp-curve-cell strong {
+  display: block;
+  color: var(--accent);
+}
+
+.xp-curve-cell span {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: .78rem;
+}
