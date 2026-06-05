@@ -1,8 +1,8 @@
 // V4 - Configuration centrale de Fitness RPG.
 // Ce fichier sert de source commune pour les prochaines évolutions.
 window.FitnessRpgConfig = {
-  version: "0.4.1",
-  displayVersion: "V4.1",
+  version: "0.4.2",
+  displayVersion: "V4.2",
 
   storageKeys: {
     profile: "sportRpgV1Profile",
@@ -11,7 +11,8 @@ window.FitnessRpgConfig = {
     badges: "sportRpgV1RpgBadges",
     lastLevel: "sportRpgV1LastSeenLevel",
     personalGoal: "sportRpgV1PersonalGoal",
-    centralRewards: "sportRpgV41Rewards"
+    centralRewards: "sportRpgV41Rewards",
+    navigationState: "sportRpgV42NavigationState"
   },
 
   ranks: [
