@@ -1,0 +1,37 @@
+/* V4.3.1 - Nettoyage visuel : un seul grand titre global */
+#sportHub > div:first-child h2,
+#sportHub > div:first-child .muted {
+  display: none !important;
+}
+
+#sportHub > div:first-child {
+  margin-bottom: 0;
+}
+
+.custom-tool-page .hero-header,
+.tool-page-screen .hero-header,
+.goal-tool-page .hero-header,
+.planning-tool-page .hero-header,
+.today-page .hero-header,
+.week-page .hero-header {
+  display: none !important;
+}
+
+/* Les pages internes gardent seulement leur titre local */
+.custom-tool-page .tool-page-header,
+#musicPage .subpage-header,
+#questsPage .subpage-header,
+#badgesPage .subpage-header,
+#weekPage .subpage-header {
+  margin-top: 0;
+}
+
+@media(max-width:780px) {
+  .hero-header h1 {
+    font-size: clamp(2rem, 10vw, 3.2rem);
+  }
+
+  #sportHub > div:first-child {
+    display: none;
+  }
+}
