@@ -23,20 +23,20 @@ function initNavigationV42() {
   };
 
   const buttonMap = {
-    music: "openMusicBtn",
-    quests: "openQuestsBtn",
-    badges: "openBadgesBtn",
-    week: "openWeekBtn",
-    programs: "openProgramsBtn",
-    journal: "openJournalBtn",
-    weight: "openWeightBtn",
-    today: "openTodayBtn",
-    profile: "openProfileBtn",
-    goal: "openGoalBtn",
-    planning: "openPlanningBtn"
+    openMusicBtn: "music",
+    openQuestsBtn: "quests",
+    openBadgesBtn: "badges",
+    openWeekBtn: "week",
+    openProgramsBtn: "programs",
+    openJournalBtn: "journal",
+    openWeightBtn: "weight",
+    openTodayBtn: "today",
+    openProfileBtn: "profile",
+    openGoalBtn: "goal",
+    openPlanningBtn: "planning"
   };
 
-  function loadProfileV43Assets() {
+  function ensureProfileV43Assets() {
     if (!document.querySelector('link[href="profile-v43.css"]')) {
       const link = document.createElement("link");
       link.rel = "stylesheet";
@@ -47,25 +47,38 @@ function initNavigationV42() {
     if (!document.querySelector('script[src="profile-v43.js"]')) {
       const script = document.createElement("script");
       script.src = "profile-v43.js";
-      script.defer = true;
       document.body.appendChild(script);
     }
   }
 
-  function saveNav(pageName) {
-    try { localStorage.setItem(NAV_KEY, JSON.stringify({ page: pageName, at: new Date().toISOString() })); }
-    catch {}
+  function setTextIfDifferent(node, value) {
+    if (node && node.textContent !== value) node.textContent = value;
   }
 
   function setVersion() {
     if (config) {
       config.version = VERSION;
       config.displayVersion = DISPLAY_VERSION;
-      config.setVersionLabels?.();
     }
+
+    if (document.title !== `Fitness RPG - ${DISPLAY_VERSION}`) {
+      document.title = `Fitness RPG - ${DISPLAY_VERSION}`;
+    }
+
+    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => {
+      setTextIfDifferent(node, VERSION);
+    });
+
+    setTextIfDifferent(document.querySelector(".hero-header .eyebrow"), `Fitness RPG · ${DISPLAY_VERSION}`);
   }
 
-  function allPageElements() {
+  function saveNav(pageName) {
+    try {
+      localStorage.setItem(NAV_KEY, JSON.stringify({ page: pageName, at: new Date().toISOString() }));
+    } catch {}
+  }
+
+  function pageElements() {
     return Object.values(pageMap)
       .filter(Boolean)
       .map((id) => document.querySelector(`#${id}`))
@@ -78,34 +91,39 @@ function initNavigationV42() {
     document.querySelector("#logCard")?.classList.add("hidden");
   }
 
-  function clearActiveTools() {
-    Object.values(buttonMap).forEach((id) => document.querySelector(`#${id}`)?.classList.remove("v42-active-tool"));
+  function markActive(pageName) {
+    document.querySelectorAll(".v42-active-tool").forEach((button) => button.classList.remove("v42-active-tool"));
+    const entry = Object.entries(buttonMap).find(([, page]) => page === pageName);
+    if (entry) document.querySelector(`#${entry[0]}`)?.classList.add("v42-active-tool");
   }
 
-  function markActive(pageName) {
-    clearActiveTools();
-    const buttonId = buttonMap[pageName];
-    if (buttonId) document.querySelector(`#${buttonId}`)?.classList.add("v42-active-tool");
+  function closeToDashboard() {
+    pageElements().forEach((page) => {
+      page.classList.add("hidden");
+      page.classList.remove("v42-page-active");
+    });
+    setCoreVisible(true);
+    markActive("dashboard");
+    saveNav("dashboard");
+    return true;
   }
 
   function openPage(pageName, options = {}) {
-    const targetId = pageMap[pageName];
+    if (pageName === "dashboard") return closeToDashboard();
 
-    if (pageName === "dashboard") {
-      allPageElements().forEach((page) => page.classList.add("hidden"));
-      setCoreVisible(true);
-      markActive("dashboard");
-      saveNav("dashboard");
-      return true;
+    if (pageName === "profile" && typeof window.renderProfileV43 === "function") {
+      window.renderProfileV43();
     }
 
+    const targetId = pageMap[pageName];
     const target = targetId ? document.querySelector(`#${targetId}`) : null;
+
     if (!target) {
       if (!options.silent) console.warn(`Page introuvable pour la navigation V4.3 : ${pageName}`);
       return false;
     }
 
-    allPageElements().forEach((page) => {
+    pageElements().forEach((page) => {
       page.classList.toggle("hidden", page.id !== targetId);
       page.classList.remove("v42-page-active");
     });
@@ -120,30 +138,26 @@ function initNavigationV42() {
     return true;
   }
 
-  function closeToDashboard() {
-    openPage("dashboard");
-  }
+  function handleNavigationClick(event) {
+    const button = event.target.closest("button");
+    if (!button) return;
 
-  function wireToolbar() {
-    Object.entries(buttonMap).forEach(([pageName, buttonId]) => {
-      const button = document.querySelector(`#${buttonId}`);
-      if (!button || button.dataset.v42Nav === "true") return;
-      button.dataset.v42Nav = "true";
-      button.addEventListener("click", () => {
-        window.setTimeout(() => openPage(pageName, { noScroll: true, silent: true }), 0);
-      });
-    });
+    if (button.matches(".back-dashboard-btn, .tool-back-btn, #programsBackBtn, #todayBackBtn, #profileBackBtn")) {
+      window.setTimeout(closeToDashboard, 0);
+      return;
+    }
 
-    document.querySelectorAll(".back-dashboard-btn, .tool-back-btn, #programsBackBtn, #todayBackBtn, #profileBackBtn").forEach((button) => {
-      if (button.dataset.v42Back === "true") return;
-      button.dataset.v42Back = "true";
-      button.addEventListener("click", () => window.setTimeout(closeToDashboard, 0));
-    });
+    const pageName = buttonMap[button.id];
+    if (!pageName) return;
+
+    // On laisse d’abord les anciens modules créer leur page, puis la navigation stabilise l’affichage.
+    window.setTimeout(() => openPage(pageName, { noScroll: true, silent: true }), 0);
   }
 
   function addNavNote() {
     const hub = document.querySelector("#sportHub > div:first-child");
     if (!hub) return;
+
     let note = document.querySelector("#v42NavNote");
     if (!note) {
       note = document.createElement("span");
@@ -151,11 +165,20 @@ function initNavigationV42() {
       note.className = "v42-nav-note";
       hub.appendChild(note);
     }
-    note.textContent = "🧭 Navigation V4.3 active";
+
+    setTextIfDifferent(note, "🧭 Navigation V4.3 corrigée");
   }
 
   function patchCore() {
-    window.FitnessRpgNavigation = { openPage, closeToDashboard, current: () => JSON.parse(localStorage.getItem(NAV_KEY) || "{}") };
+    window.FitnessRpgNavigation = {
+      openPage,
+      closeToDashboard,
+      current: () => {
+        try { return JSON.parse(localStorage.getItem(NAV_KEY) || "{}"); }
+        catch { return {}; }
+      }
+    };
+
     if (window.FitnessRpgCore) {
       window.FitnessRpgCore.openPage = openPage;
       window.FitnessRpgCore.closeToolsToDashboard = closeToDashboard;
@@ -163,17 +186,14 @@ function initNavigationV42() {
   }
 
   function patch() {
-    loadProfileV43Assets();
+    ensureProfileV43Assets();
     setVersion();
-    wireToolbar();
     addNavNote();
     patchCore();
   }
 
+  document.addEventListener("click", handleNavigationClick);
   patch();
-
-  const observer = new MutationObserver(() => patch());
-  observer.observe(document.body, { childList: true, subtree: true });
 
   const oldRender = typeof render === "function" ? render : null;
   if (oldRender && !window.__navigationV42RenderPatched) {
