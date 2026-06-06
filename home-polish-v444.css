@@ -1,4 +1,4 @@
-/* V4.4.5 - Accueil et entraînement façon écran de jeu */
+/* V4.4.6 - Accueil stable : anti zoom/dézoom */
 body.home-polished .hero-header {
   display: none !important;
 }
@@ -27,6 +27,8 @@ body.home-polished .home-landing-card {
   min-height: auto;
   padding: 16px;
   text-align: center;
+  transition: none !important;
+  animation: none !important;
 }
 
 body.home-polished .home-landing-card::before {
@@ -58,21 +60,29 @@ body.home-polished .home-landing-copy {
   letter-spacing: .1em;
   text-transform: uppercase;
   white-space: nowrap;
+  transition: none !important;
+  animation: none !important;
 }
 
 body.home-polished .home-hero-visual {
-  width: min(100%, 360px);
+  width: 360px;
+  max-width: 100%;
   justify-self: center;
   display: grid;
   justify-items: center;
   gap: 10px;
   order: 0;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
 }
 
 body.home-polished .home-hero-visual img {
   display: block;
-  width: min(100%, 260px);
-  max-height: 360px;
+  width: 260px !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 360px !important;
   object-fit: contain;
   object-position: center;
   padding: 10px;
@@ -82,7 +92,10 @@ body.home-polished .home-hero-visual img {
     radial-gradient(circle at 50% 18%, rgba(240,184,79,.15), transparent 42%),
     rgba(255,255,255,.045);
   box-shadow: 0 18px 38px rgba(0,0,0,.38);
-  filter: none;
+  filter: none !important;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
 }
 
 body.home-polished .home-summary-highlight {
@@ -93,6 +106,8 @@ body.home-polished .home-summary-highlight {
   border-color: rgba(240,184,79,.32);
   background: rgba(255,255,255,.035);
   text-align: center;
+  transition: none !important;
+  animation: none !important;
 }
 
 body.home-polished #homeHeroSummary,
@@ -113,6 +128,8 @@ body.home-polished .home-main-actions {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
   justify-content: center;
+  transition: none !important;
+  animation: none !important;
 }
 
 body.home-polished .home-main-actions button {
@@ -202,9 +219,13 @@ body.training-polished .hero-info {
     padding: 12px;
   }
 
+  body.home-polished .home-hero-visual {
+    width: 300px;
+  }
+
   body.home-polished .home-hero-visual img {
-    width: min(100%, 220px);
-    max-height: 320px;
+    width: 220px !important;
+    max-height: 320px !important;
   }
 
   body.home-polished .home-main-actions {
