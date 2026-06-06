@@ -1,0 +1,206 @@
+/* V4.4.8 - Mise en page Entraînement forcée, avec nouveaux noms pour casser le cache */
+:root {
+  --v448-hero-max: 420px;
+}
+
+body.training-v448 .hero-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  margin: 0 0 10px !important;
+  padding: 0 4px !important;
+}
+
+body.training-v448 .hero-header h1,
+body.training-v448 .hero-header .subtitle,
+body.training-v448 #resetProfileBtn {
+  display: none !important;
+}
+
+body.training-v448 .hero-header .eyebrow {
+  display: inline-flex !important;
+  margin: 0 !important;
+  padding: 6px 10px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(240,184,79,.32) !important;
+  background: rgba(240,184,79,.07) !important;
+  color: var(--accent) !important;
+  font-size: .78rem !important;
+  font-weight: 950 !important;
+  letter-spacing: .1em !important;
+}
+
+body.training-v448 #homeBtn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 34px !important;
+  padding: 7px 12px !important;
+  font-size: .88rem !important;
+}
+
+body.training-v448 .hero-card {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  gap: 10px !important;
+  padding: 16px !important;
+  max-width: 900px !important;
+  margin-inline: auto !important;
+}
+
+body.training-v448 #heroPortrait {
+  order: 1 !important;
+  width: min(100%, var(--v448-hero-max)) !important;
+  max-width: var(--v448-hero-max) !important;
+  margin: 0 auto !important;
+  padding: 12px !important;
+  border-radius: 24px !important;
+  border: 1px solid rgba(240,184,79,.34) !important;
+  background: radial-gradient(circle at 50% 18%, rgba(240,184,79,.16), transparent 44%), rgba(255,255,255,.035) !important;
+  box-shadow: 0 18px 40px rgba(0,0,0,.28) !important;
+}
+
+body.training-v448 #heroPortrait .hero-level-frame,
+body.training-v448 .hero-level-frame {
+  width: 100% !important;
+  max-width: 360px !important;
+  margin: 0 auto !important;
+}
+
+body.training-v448 #heroPortrait .hero-level-image,
+body.training-v448 .hero-level-image {
+  width: 100% !important;
+  max-height: 500px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border-radius: 18px !important;
+}
+
+body.training-v448 .hero-level-badge {
+  top: 9px !important;
+  right: 9px !important;
+  font-size: .9rem !important;
+}
+
+body.training-v448 #trainingHeroNameV448 {
+  order: 2 !important;
+  display: inline-flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(240,184,79,.34) !important;
+  background: rgba(240,184,79,.08) !important;
+  color: var(--accent) !important;
+  font-weight: 950 !important;
+  letter-spacing: .04em !important;
+}
+
+body.training-v448 .hero-info {
+  order: 3 !important;
+  display: grid !important;
+  justify-items: center !important;
+  width: min(100%, 520px) !important;
+  gap: 8px !important;
+  text-align: center !important;
+}
+
+body.training-v448 #rankLabel,
+body.training-v448 #heroName,
+body.training-v448 #avatarLabel,
+body.training-v448 #levelLabel,
+body.training-v448 .training-hero-label,
+body.training-v448 #trainingHeroLabel {
+  display: none !important;
+}
+
+body.training-v448 #trainingProgressTitleV448 {
+  display: block !important;
+  color: var(--text) !important;
+  font-weight: 950 !important;
+  font-size: 1rem !important;
+  margin-top: 2px !important;
+}
+
+body.training-v448 .level-row {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  gap: 4px !important;
+  width: 100% !important;
+}
+
+body.training-v448 #xpLabel {
+  display: block !important;
+  color: var(--accent) !important;
+  font-weight: 900 !important;
+}
+
+body.training-v448 .progress-bar {
+  width: min(100%, 430px) !important;
+  height: 12px !important;
+}
+
+body.training-v448 .stats-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(110px, 1fr)) !important;
+  gap: 8px !important;
+  width: min(100%, 300px) !important;
+}
+
+body.training-v448 .stats-grid > div:first-child,
+body.training-v448 #totalXpLabel,
+body.training-v448 #totalXpLabel + span,
+body.training-v448 .training-hide-xp-total {
+  display: none !important;
+}
+
+body.training-v448 #xpCurvePanel {
+  display: grid !important;
+  width: min(100%, 440px) !important;
+  text-align: left !important;
+}
+
+body.training-v448 #sportHub > div:first-child {
+  display: none !important;
+}
+
+body.training-v448 #todayDashboardCard {
+  margin-top: 0 !important;
+}
+
+body.training-v448 #sportHub {
+  max-width: 900px !important;
+  margin-inline: auto !important;
+}
+
+@media(max-width:780px) {
+  :root { --v448-hero-max: 360px; }
+
+  body.training-v448 .app-shell {
+    padding: 8px !important;
+  }
+
+  body.training-v448 .hero-header .eyebrow {
+    font-size: .7rem !important;
+    letter-spacing: .08em !important;
+  }
+
+  body.training-v448 #heroPortrait {
+    padding: 10px !important;
+  }
+
+  body.training-v448 #heroPortrait .hero-level-frame,
+  body.training-v448 .hero-level-frame {
+    max-width: 320px !important;
+  }
+
+  body.training-v448 .stats-grid {
+    width: min(100%, 260px) !important;
+  }
+}
