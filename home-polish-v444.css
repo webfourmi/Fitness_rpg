@@ -1,0 +1,127 @@
+/* V4.4.4 - Accueil façon écran de jeu */
+body.home-polished .hero-header {
+  display: none !important;
+}
+
+body.home-polished .app-shell {
+  padding-top: 18px;
+}
+
+body.home-polished #setupPanel {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+body.home-polished .home-landing-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 14px;
+  min-height: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+body.home-polished .home-landing-card::before {
+  background:
+    radial-gradient(circle at 50% 20%, rgba(240,184,79,.12), transparent 38%),
+    linear-gradient(180deg, rgba(15,18,26,.72), rgba(15,18,26,.28));
+}
+
+body.home-polished .home-landing-copy {
+  display: none !important;
+}
+
+.home-game-version {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(240,184,79,.35);
+  background: rgba(240,184,79,.08);
+  color: var(--accent);
+  font-size: .82rem;
+  font-weight: 950;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+body.home-polished .home-hero-visual {
+  width: min(100%, 520px);
+  justify-self: center;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  order: 0;
+}
+
+body.home-polished .home-hero-visual img {
+  width: min(100%, 360px);
+  max-height: 440px;
+  object-fit: contain;
+  object-position: center;
+  padding: 12px;
+  border-radius: 22px;
+  border: 1px solid rgba(240,184,79,.36);
+  background:
+    radial-gradient(circle at 50% 18%, rgba(240,184,79,.15), transparent 42%),
+    rgba(255,255,255,.045);
+  box-shadow: 0 18px 38px rgba(0,0,0,.38);
+  filter: none;
+}
+
+body.home-polished .home-summary-highlight {
+  display: grid;
+  gap: 8px;
+  padding: 14px 16px;
+  border-color: rgba(240,184,79,.32);
+  background: rgba(255,255,255,.035);
+}
+
+body.home-polished #homeHeroSummary,
+body.home-polished #homeCoachSummary {
+  margin: 0;
+  color: var(--text);
+  font-weight: 800;
+}
+
+body.home-polished #homeCoachSummary {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+body.home-polished .home-main-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+body.home-polished .home-main-actions button {
+  min-height: 50px;
+}
+
+@media(max-width:780px) {
+  body.home-polished .app-shell {
+    padding: 10px;
+  }
+
+  body.home-polished #setupPanel {
+    border-radius: 18px;
+  }
+
+  body.home-polished .home-landing-card {
+    padding: 14px;
+  }
+
+  body.home-polished .home-hero-visual img {
+    width: min(100%, 280px);
+    max-height: 360px;
+  }
+
+  body.home-polished .home-main-actions {
+    grid-template-columns: 1fr;
+  }
+}
