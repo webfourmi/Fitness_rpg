@@ -3,8 +3,8 @@ function initNavigationV42() {
   window.__navigationV42Ready = true;
 
   const config = window.FitnessRpgConfig || {};
-  const VERSION = "0.4.4.5";
-  const DISPLAY_VERSION = "V4.4.5";
+  const VERSION = "0.4.4.7";
+  const DISPLAY_VERSION = "V4.4.7";
   const NAV_KEY = config.storageKeys?.navigationState || "sportRpgV42NavigationState";
 
   const pageMap = {
@@ -219,7 +219,7 @@ function initNavigationV42() {
       note.className = "v42-nav-note";
       hub.appendChild(note);
     }
-    setText(note, "🧭 Navigation V4.4.5 · accueil corrigé");
+    setText(note, "🧭 Navigation V4.4.7 · entraînement propre");
   }
 
   function patchCore() {
