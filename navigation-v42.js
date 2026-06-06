@@ -3,8 +3,9 @@ function initNavigationV42() {
   window.__navigationV42Ready = true;
 
   const config = window.FitnessRpgConfig || {};
-  const VERSION = "0.4.4.7";
-  const DISPLAY_VERSION = "V4.4.7";
+  const VERSION = "0.4.4.9";
+  const DISPLAY_VERSION = "V4.4.9";
+  const ASSET_VERSION = "4.4.9";
   const NAV_KEY = config.storageKeys?.navigationState || "sportRpgV42NavigationState";
 
   const pageMap = {
@@ -54,18 +55,31 @@ function initNavigationV42() {
     if (node && node.textContent !== value) node.textContent = value;
   }
 
+  function versionedAsset(path) {
+    if (path.includes("?")) return path;
+    return `${path}?v=${ASSET_VERSION}`;
+  }
+
+  function assetAlreadyLoaded(selector, path) {
+    const cleanPath = path.split("?")[0];
+    return Array.from(document.querySelectorAll(selector)).some((node) => {
+      const value = node.getAttribute("href") || node.getAttribute("src") || "";
+      return value === path || value === versionedAsset(path) || value.split("?")[0] === cleanPath;
+    });
+  }
+
   function ensureStylesheet(href) {
-    if (document.querySelector(`link[href="${href}"]`)) return;
+    if (assetAlreadyLoaded("link[rel='stylesheet']", href)) return;
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = href;
+    link.href = versionedAsset(href);
     document.head.appendChild(link);
   }
 
   function ensureScript(src) {
-    if (document.querySelector(`script[src="${src}"]`)) return;
+    if (assetAlreadyLoaded("script", src)) return;
     const script = document.createElement("script");
-    script.src = src;
+    script.src = versionedAsset(src);
     document.body.appendChild(script);
   }
 
@@ -78,6 +92,7 @@ function initNavigationV42() {
     ensureStylesheet("exercise-explainer.css");
     ensureStylesheet("xp-curve-v443.css");
     ensureStylesheet("home-polish-v444.css");
+    ensureStylesheet("training-polish-v448.css");
     ensureScript("profile-v43.js");
     ensureScript("today-program-direct.js");
     ensureScript("exercise-timer.js");
@@ -86,6 +101,7 @@ function initNavigationV42() {
     ensureScript("exercise-explainer.js");
     ensureScript("xp-curve-v443.js");
     ensureScript("home-polish-v444.js");
+    ensureScript("training-polish-v448.js");
   }
 
   function setVersion() {
@@ -95,6 +111,7 @@ function initNavigationV42() {
     }
     document.title = `Fitness RPG - ${DISPLAY_VERSION}`;
     document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => setText(node, VERSION));
+    setText(document.querySelector(".hero-header .eyebrow"), `Fitness RPG · ${DISPLAY_VERSION}`);
   }
 
   function setMainHeader(pageName = "dashboard") {
@@ -105,10 +122,7 @@ function initNavigationV42() {
   }
 
   function pageElements() {
-    return Object.values(pageMap)
-      .filter(Boolean)
-      .map((id) => document.querySelector(`#${id}`))
-      .filter(Boolean);
+    return Object.values(pageMap).filter(Boolean).map((id) => document.querySelector(`#${id}`)).filter(Boolean);
   }
 
   function saveNav(pageName) {
@@ -219,7 +233,7 @@ function initNavigationV42() {
       note.className = "v42-nav-note";
       hub.appendChild(note);
     }
-    setText(note, "🧭 Navigation V4.4.7 · entraînement propre");
+    setText(note, "🧭 Navigation V4.4.9 · cache corrigé");
   }
 
   function patchCore() {
