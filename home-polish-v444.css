@@ -1,4 +1,4 @@
-/* V4.4.6 - Accueil stable : anti zoom/dézoom */
+/* V4.4.7 - Accueil stable + page entraînement propre */
 body.home-polished .hero-header {
   display: none !important;
 }
@@ -153,32 +153,86 @@ body.home-polished #startCreateHeroBtn.ghost-btn {
   color: var(--text) !important;
 }
 
+/* Entraînement */
 body.training-polished .hero-header {
-  margin-bottom: 10px;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 0 10px;
+  padding: 0 2px;
 }
 
 body.training-polished .hero-header h1,
-body.training-polished .hero-header .subtitle {
+body.training-polished .hero-header .subtitle,
+body.training-polished #resetProfileBtn {
   display: none !important;
 }
 
 body.training-polished .hero-header .eyebrow {
-  margin-bottom: 0;
+  display: inline-flex;
+  margin: 0;
+  padding: 5px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(240,184,79,.28);
+  background: rgba(240,184,79,.06);
+  color: var(--accent);
+  font-size: .78rem;
+  font-weight: 950;
+  letter-spacing: .1em;
+}
+
+body.training-polished #homeBtn {
+  display: inline-flex !important;
+  min-height: 34px;
+  padding: 7px 12px;
+  font-size: .88rem;
 }
 
 body.training-polished .hero-card {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
   justify-items: center;
+  align-items: center;
   text-align: center;
-  gap: 12px;
+  gap: 10px;
+  padding: 16px;
+}
+
+body.training-polished .hero-portrait {
+  width: min(100%, 380px) !important;
+  margin: 0 auto;
+  border-radius: 24px;
+  padding: 12px;
+  border: 1px solid rgba(240,184,79,.32);
+  background:
+    radial-gradient(circle at 50% 18%, rgba(240,184,79,.14), transparent 44%),
+    rgba(255,255,255,.035);
+  box-shadow: 0 18px 40px rgba(0,0,0,.28);
+}
+
+body.training-polished .hero-level-frame {
+  max-width: 340px !important;
+  margin: 0 auto;
+}
+
+body.training-polished .hero-level-image {
+  border-radius: 18px;
+}
+
+body.training-polished .hero-level-badge {
+  top: 9px;
+  right: 9px;
+  font-size: .9rem;
 }
 
 body.training-polished .training-hero-label {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 6px 12px;
+  order: 2;
+  margin-top: 0;
+  padding: 6px 14px;
   border-radius: 999px;
   border: 1px solid rgba(240,184,79,.35);
   background: rgba(240,184,79,.08);
@@ -187,22 +241,76 @@ body.training-polished .training-hero-label {
   letter-spacing: .04em;
 }
 
-body.training-polished .hero-portrait {
-  width: min(100%, 300px);
-  border-radius: 22px;
-  padding: 10px;
-  border: 1px solid rgba(240,184,79,.32);
-  background:
-    radial-gradient(circle at 50% 18%, rgba(240,184,79,.14), transparent 44%),
-    rgba(255,255,255,.035);
-}
-
-body.training-polished .hero-level-frame {
-  max-width: 250px;
-}
-
 body.training-polished .hero-info {
+  display: grid !important;
+  justify-items: center;
+  width: min(100%, 520px);
+  gap: 8px;
+  order: 3;
+}
+
+body.training-polished #rankLabel,
+body.training-polished #heroName,
+body.training-polished #avatarLabel {
   display: none !important;
+}
+
+body.training-polished .training-progress-title {
+  display: block;
+  color: var(--text);
+  font-weight: 950;
+  margin-top: 2px;
+}
+
+body.training-polished .level-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+body.training-polished #levelLabel {
+  display: none !important;
+}
+
+body.training-polished #xpLabel {
+  font-weight: 900;
+  color: var(--accent);
+}
+
+body.training-polished .progress-bar {
+  width: min(100%, 420px);
+  height: 12px;
+}
+
+body.training-polished .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(110px, 1fr));
+  gap: 8px;
+  width: min(100%, 300px);
+}
+
+body.training-polished #totalXpLabel,
+body.training-polished #totalXpLabel + span,
+body.training-polished .training-hide-xp-total {
+  display: none !important;
+}
+
+body.training-polished .stats-grid > div:first-child {
+  display: none !important;
+}
+
+body.training-polished #xpCurvePanel {
+  width: min(100%, 440px);
+}
+
+body.training-polished #sportHub > div:first-child {
+  display: none !important;
+}
+
+body.training-polished #todayDashboardCard {
+  margin-top: 0;
 }
 
 @media(max-width:780px) {
@@ -239,11 +347,21 @@ body.training-polished .hero-info {
     font-size: .82rem;
   }
 
+  body.training-polished .hero-header .eyebrow {
+    font-size: .7rem;
+    letter-spacing: .08em;
+  }
+
   body.training-polished .hero-portrait {
-    width: min(100%, 260px);
+    width: min(100%, 330px) !important;
+    padding: 10px;
   }
 
   body.training-polished .hero-level-frame {
-    max-width: 220px;
+    max-width: 300px !important;
+  }
+
+  body.training-polished .stats-grid {
+    width: min(100%, 260px);
   }
 }
