@@ -1,8 +1,8 @@
 // V4 - Configuration centrale de Fitness RPG.
 // Ce fichier sert de source commune pour les prochaines évolutions.
 window.FitnessRpgConfig = {
-  version: "0.4.4.6",
-  displayVersion: "V4.4.6",
+  version: "0.4.4.7",
+  displayVersion: "V4.4.7",
 
   storageKeys: {
     profile: "sportRpgV1Profile",
