@@ -1,6 +1,10 @@
-/* V4.4.8 - Mise en page Entraînement forcée, avec nouveaux noms pour casser le cache */
+/* V4.4.9 - Page Entraînement propre et centrée */
 :root {
-  --v448-hero-max: 420px;
+  --v448-hero-max: 430px;
+}
+
+body.training-v448 .app-shell {
+  padding-top: 10px !important;
 }
 
 body.training-v448 .hero-header {
@@ -8,8 +12,9 @@ body.training-v448 .hero-header {
   align-items: center !important;
   justify-content: space-between !important;
   gap: 10px !important;
-  margin: 0 0 10px !important;
+  margin: 0 auto 10px !important;
   padding: 0 4px !important;
+  max-width: 900px !important;
 }
 
 body.training-v448 .hero-header h1,
@@ -115,7 +120,9 @@ body.training-v448 #heroName,
 body.training-v448 #avatarLabel,
 body.training-v448 #levelLabel,
 body.training-v448 .training-hero-label,
-body.training-v448 #trainingHeroLabel {
+body.training-v448 #trainingHeroLabel,
+body.training-v448 #trainingProgressTitle,
+body.training-v448 .training-progress-title {
   display: none !important;
 }
 
@@ -161,9 +168,7 @@ body.training-v448 .training-hide-xp-total {
 }
 
 body.training-v448 #xpCurvePanel {
-  display: grid !important;
-  width: min(100%, 440px) !important;
-  text-align: left !important;
+  display: none !important;
 }
 
 body.training-v448 #sportHub > div:first-child {
