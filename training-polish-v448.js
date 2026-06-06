@@ -2,8 +2,8 @@ function initTrainingPolishV448() {
   if (window.__trainingPolishV448Ready) return;
   window.__trainingPolishV448Ready = true;
 
-  const VERSION = "0.4.4.8";
-  const DISPLAY_VERSION = "V4.4.8";
+  const VERSION = "0.4.4.9";
+  const DISPLAY_VERSION = "V4.4.9";
 
   function setText(node, value) {
     if (node && node.textContent !== value) node.textContent = value;
@@ -56,7 +56,8 @@ function initTrainingPolishV448() {
       label.id = "trainingHeroNameV448";
       portrait.insertAdjacentElement("afterend", label);
     }
-    setText(label, profile.name || "Héros");
+    const info = levelData();
+    setText(label, `${profile.name || "Héros"} · Niv. ${info.level} · ${rankWord()}`);
   }
 
   function ensureProgressTitle() {
@@ -84,6 +85,10 @@ function initTrainingPolishV448() {
     if (intro) intro.style.display = "none";
   }
 
+  function removeXpCurve() {
+    document.querySelector("#xpCurvePanel")?.remove();
+  }
+
   function toggleClass() {
     const active = isDashboardVisible();
     document.body.classList.toggle("training-v448", active);
@@ -102,6 +107,7 @@ function initTrainingPolishV448() {
     ensureProgressTitle();
     cleanStats();
     cleanSportHubHeader();
+    removeXpCurve();
   }
 
   window.TrainingPolishV448 = { patch };
