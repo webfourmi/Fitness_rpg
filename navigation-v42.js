@@ -3,8 +3,8 @@ function initNavigationV42() {
   window.__navigationV42Ready = true;
 
   const config = window.FitnessRpgConfig || {};
-  const VERSION = "0.4.4.3";
-  const DISPLAY_VERSION = "V4.4.3";
+  const VERSION = "0.4.4.4";
+  const DISPLAY_VERSION = "V4.4.4";
   const NAV_KEY = config.storageKeys?.navigationState || "sportRpgV42NavigationState";
 
   const pageMap = {
@@ -77,6 +77,7 @@ function initNavigationV42() {
     ensureStylesheet("mobile-music-fix.css");
     ensureStylesheet("exercise-explainer.css");
     ensureStylesheet("xp-curve-v443.css");
+    ensureStylesheet("home-polish-v444.css");
     ensureScript("profile-v43.js");
     ensureScript("today-program-direct.js");
     ensureScript("exercise-timer.js");
@@ -84,6 +85,7 @@ function initNavigationV42() {
     ensureScript("mobile-music-fix.js");
     ensureScript("exercise-explainer.js");
     ensureScript("xp-curve-v443.js");
+    ensureScript("home-polish-v444.js");
   }
 
   function setVersion() {
@@ -217,7 +219,7 @@ function initNavigationV42() {
       note.className = "v42-nav-note";
       hub.appendChild(note);
     }
-    setText(note, "🧭 Navigation V4.4.3 · courbe XP progressive");
+    setText(note, "🧭 Navigation V4.4.4 · accueil jeu");
   }
 
   function patchCore() {
