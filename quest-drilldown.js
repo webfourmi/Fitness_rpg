@@ -281,8 +281,7 @@ function initQuestDrilldown() {
     console.warn("Impossible d’appliquer la page d’exercices V3.2", error);
   }
 
-  document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((el) => {
-    el.textContent = "0.3.2";
+   window.FitnessRpgConfig?.setVersionLabels?.();
   });
 }
 
