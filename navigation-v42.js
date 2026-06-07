@@ -3,9 +3,9 @@ function initNavigationV42() {
   window.__navigationV42Ready = true;
 
   const config = window.FitnessRpgConfig || {};
-  const VERSION = "0.4.4.9";
-  const DISPLAY_VERSION = "V4.4.9";
-  const ASSET_VERSION = "4.4.9";
+  const VERSION = "0.4.5.2";
+  const DISPLAY_VERSION = "V4.5.2";
+  const ASSET_VERSION = "4.5.2";
   const NAV_KEY = config.storageKeys?.navigationState || "sportRpgV42NavigationState";
 
   const pageMap = {
@@ -93,6 +93,8 @@ function initNavigationV42() {
     ensureStylesheet("xp-curve-v443.css");
     ensureStylesheet("home-polish-v444.css");
     ensureStylesheet("training-polish-v448.css");
+    ensureStylesheet("training-final-v449.css");
+    ensureStylesheet("v45-ui.css");
     ensureScript("profile-v43.js");
     ensureScript("today-program-direct.js");
     ensureScript("exercise-timer.js");
@@ -102,6 +104,9 @@ function initNavigationV42() {
     ensureScript("xp-curve-v443.js");
     ensureScript("home-polish-v444.js");
     ensureScript("training-polish-v448.js");
+    ensureScript("training-final-v449.js");
+    ensureScript("sport-distance-v45.js");
+    ensureScript("today-direct-program-v45.js");
   }
 
   function setVersion() {
@@ -233,7 +238,7 @@ function initNavigationV42() {
       note.className = "v42-nav-note";
       hub.appendChild(note);
     }
-    setText(note, "🧭 Navigation V4.4.9 · cache corrigé");
+    setText(note, "🧭 Navigation V4.5.2 · proposition directe");
   }
 
   function patchCore() {
