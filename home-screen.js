@@ -1,11 +1,8 @@
 function initHomeScreenPatch() {
-  const version = "0.2.4";
-  document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((el) => {
-    el.textContent = version;
-  });
+  window.FitnessRpgConfig?.setVersionLabels?.();
 
   const continueButton = document.querySelector("#continueProfileBtn");
-  if (continueButton) continueButton.textContent = "Commencez l’entraînement";
+  if (continueButton) continueButton.textContent = "Entraînement";
 }
 
 if (document.readyState === "loading") {
