@@ -2,7 +2,7 @@ function initAppCoreV4() {
   if (window.__appCoreV4Ready) return;
   window.__appCoreV4Ready = true;
 
-  const config = window.FitnessRpgConfig || { version: "0.4.0", displayVersion: "V4.0" };
+  const config = window.FitnessRpgConfig || { version: "0.4.5.3", displayVersion: "V4.5.3" };
 
   function currentProfile() {
     return typeof profile !== "undefined" ? profile : null;
