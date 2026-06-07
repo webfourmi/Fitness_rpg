@@ -2,9 +2,7 @@ function initXpCurveV443() {
   if (window.__xpCurveV443Ready) return;
   window.__xpCurveV443Ready = true;
 
-  const VERSION = "0.4.4.9";
-  const DISPLAY_VERSION = "V4.4.9";
-
+  
   function xpNeededForLevel(level) {
     return Math.max(1, Number(level) || 1) * 100;
   }
@@ -42,10 +40,8 @@ function initXpCurveV443() {
       levelFromTotalXp
     };
 
-    if (window.FitnessRpgConfig) {
-      window.FitnessRpgConfig.version = VERSION;
-      window.FitnessRpgConfig.displayVersion = DISPLAY_VERSION;
-      window.FitnessRpgConfig.xpCurve = {
+   if (window.FitnessRpgConfig) {
+  window.FitnessRpgConfig.xpCurve = {
         type: "progressive-triangular",
         formula: "niveau courant × 100 XP",
         examples: [
@@ -60,13 +56,8 @@ function initXpCurveV443() {
   }
 
   function setVersionLabels() {
-    document.title = `Fitness RPG - ${DISPLAY_VERSION}`;
-    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => {
-      node.textContent = VERSION;
-    });
-    const eyebrow = document.querySelector(".hero-header .eyebrow");
-    if (eyebrow) eyebrow.textContent = `Fitness RPG · ${DISPLAY_VERSION}`;
-  }
+  window.FitnessRpgConfig?.setVersionLabels?.();
+}
 
   function removeXpCurvePanel() {
     document.querySelector("#xpCurvePanel")?.remove();
