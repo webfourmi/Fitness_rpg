@@ -61,12 +61,28 @@ function initTrainingFinalV449() {
     header.style.zIndex = "50";
     header.style.justifyContent = "space-between";
     header.style.alignItems = "center";
+    header.style.flexWrap = "nowrap";
+    header.style.gap = "8px";
 
     if (homeBtn) {
       homeBtn.classList.remove("hidden");
+      homeBtn.innerHTML = "🏠";
+      homeBtn.setAttribute("aria-label", "Accueil");
+      homeBtn.setAttribute("title", "Accueil");
       homeBtn.style.display = "inline-flex";
       homeBtn.style.visibility = "visible";
       homeBtn.style.opacity = "1";
+      homeBtn.style.alignItems = "center";
+      homeBtn.style.justifyContent = "center";
+      homeBtn.style.width = "38px";
+      homeBtn.style.minWidth = "38px";
+      homeBtn.style.height = "38px";
+      homeBtn.style.minHeight = "38px";
+      homeBtn.style.padding = "0";
+      homeBtn.style.borderRadius = "999px";
+      homeBtn.style.fontSize = "1.05rem";
+      homeBtn.style.lineHeight = "1";
+      homeBtn.style.flexShrink = "0";
     }
     if (resetBtn) resetBtn.classList.add("hidden");
   }
