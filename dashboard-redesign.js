@@ -584,10 +584,7 @@ function initDashboardRedesign() {
     render();
   }
 
-  document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((el) => {
-    el.textContent = "0.3.1";
-  });
-}
+ window.FitnessRpgConfig?.setVersionLabels?.();
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initDashboardRedesign);
