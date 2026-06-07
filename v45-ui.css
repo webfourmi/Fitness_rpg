@@ -1,0 +1,126 @@
+/* V4.5 - Header compact, distance fields, image fullscreen */
+body.training-final-v449 .hero-header,
+body.training-v448 .hero-header {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  width: min(100%, 900px) !important;
+  margin: 0 auto 10px !important;
+  padding: 0 6px !important;
+}
+
+body.training-final-v449 .hero-header > div:first-child,
+body.training-v448 .hero-header > div:first-child {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+body.training-final-v449 .hero-header .header-actions,
+body.training-v448 .hero-header .header-actions {
+  display: flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 6px !important;
+  white-space: nowrap !important;
+}
+
+body.training-final-v449 .hero-header .eyebrow,
+body.training-v448 .hero-header .eyebrow {
+  display: inline-flex !important;
+  max-width: 100% !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+body.training-final-v449 #homeBtn,
+body.training-v448 #homeBtn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+  width: 38px !important;
+  min-width: 38px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  font-size: 1.05rem !important;
+  line-height: 1 !important;
+}
+
+.distance-label input {
+  border-color: rgba(74, 222, 128, .35) !important;
+}
+
+#heroPortrait,
+#coachPortrait {
+  cursor: zoom-in;
+}
+
+.image-fullscreen-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  justify-items: center;
+  padding: 14px;
+  background: rgba(5, 8, 14, .94);
+  backdrop-filter: blur(8px);
+}
+
+.image-fullscreen-overlay.hidden {
+  display: none !important;
+}
+
+#imageFullscreenBack {
+  justify-self: start;
+  min-height: 42px;
+}
+
+#imageFullscreenImg {
+  max-width: min(96vw, 900px);
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: 20px;
+  border: 1px solid rgba(240,184,79,.38);
+  background: rgba(255,255,255,.04);
+  box-shadow: 0 24px 60px rgba(0,0,0,.5);
+}
+
+#imageFullscreenTitle {
+  margin: 0;
+  color: var(--accent);
+  font-weight: 950;
+  text-align: center;
+}
+
+@media(max-width:780px) {
+  body.training-final-v449 .hero-header,
+  body.training-v448 .hero-header {
+    gap: 6px !important;
+  }
+
+  body.training-final-v449 .hero-header .eyebrow,
+  body.training-v448 .hero-header .eyebrow {
+    font-size: .64rem !important;
+    letter-spacing: .055em !important;
+    padding: 6px 8px !important;
+  }
+
+  body.training-final-v449 #homeBtn,
+  body.training-v448 #homeBtn {
+    width: 36px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    font-size: 1rem !important;
+  }
+}
