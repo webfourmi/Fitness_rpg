@@ -2,8 +2,8 @@ function initPlanningFusionV441() {
   if (window.__planningFusionV441Ready) return;
   window.__planningFusionV441Ready = true;
 
-  const VERSION = "0.4.4.1";
-  const DISPLAY_VERSION = "V4.4.1";
+  const VERSION = "0.4.4.9";
+  const DISPLAY_VERSION = "V4.4.9";
 
   function todayKey() {
     const d = new Date();
