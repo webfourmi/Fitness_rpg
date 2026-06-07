@@ -2,8 +2,7 @@ function initHomePolishV444() {
   if (window.__homePolishV444Ready) return;
   window.__homePolishV444Ready = true;
 
-  const VERSION = "0.4.5.2";
-  const DISPLAY_VERSION = "V4.5.2";
+ 
   let isPatching = false;
 
   function isHomeVisible() {
@@ -44,27 +43,24 @@ function initHomePolishV444() {
   }
 
   function patchVersion() {
-    if (window.FitnessRpgConfig) {
-      window.FitnessRpgConfig.version = VERSION;
-      window.FitnessRpgConfig.displayVersion = DISPLAY_VERSION;
-    }
-    if (document.title !== `Fitness RPG - ${DISPLAY_VERSION}`) document.title = `Fitness RPG - ${DISPLAY_VERSION}`;
-    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => setText(node, VERSION));
-    setText(document.querySelector(".hero-header .eyebrow"), `Fitness RPG · ${DISPLAY_VERSION}`);
-  }
+  window.FitnessRpgConfig?.setVersionLabels?.();
+}
 
   function ensureGameVersionBadge() {
-    const visual = document.querySelector(".home-hero-visual");
-    if (!visual) return;
-    let badge = document.querySelector("#homeGameVersionBadge");
-    if (!badge) {
-      badge = document.createElement("div");
-      badge.id = "homeGameVersionBadge";
-      badge.className = "home-game-version";
-      visual.insertBefore(badge, visual.firstChild);
-    }
-    setText(badge, `Fitness RPG · ${DISPLAY_VERSION}`);
+  const visual = document.querySelector(".home-hero-visual");
+  if (!visual) return;
+
+  let badge = document.querySelector("#homeGameVersionBadge");
+
+  if (!badge) {
+    badge = document.createElement("div");
+    badge.id = "homeGameVersionBadge";
+    badge.className = "home-game-version";
+    visual.insertBefore(badge, visual.firstChild);
   }
+
+  window.FitnessRpgConfig?.setVersionLabels?.();
+}
 
   function patchHomeTexts() {
     const start = document.querySelector("#continueProfileBtn");
@@ -145,13 +141,11 @@ function initHomePolishV444() {
   function patch() {
     if (isPatching) return;
     isPatching = true;
-    patchVersion();
     ensureGameVersionBadge();
+    patchVersion();
     patchHomeTexts();
     patchHomeImage();
-    ensureTrainingHeroLabel();
-    ensureTrainingProgressTitle();
-    patchStats();
+    
     togglePageClasses();
     isPatching = false;
   }
