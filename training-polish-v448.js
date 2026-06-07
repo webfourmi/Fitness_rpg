@@ -2,8 +2,12 @@ function initTrainingPolishV448() {
   if (window.__trainingPolishV448Ready) return;
   window.__trainingPolishV448Ready = true;
 
-  const VERSION = "0.4.4.9";
-  const DISPLAY_VERSION = "V4.4.9";
+ const config = window.FitnessRpgConfig || {
+    version: "0.4.6.0",
+    displayVersion: "V4.6.0",
+    storageKeys: {}
+  };
+
 
   function setText(node, value) {
     if (node && node.textContent !== value) node.textContent = value;
@@ -34,14 +38,8 @@ function initTrainingPolishV448() {
   }
 
   function updateVersion() {
-    if (window.FitnessRpgConfig) {
-      window.FitnessRpgConfig.version = VERSION;
-      window.FitnessRpgConfig.displayVersion = DISPLAY_VERSION;
-    }
-    document.title = `Fitness RPG - ${DISPLAY_VERSION}`;
-    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => setText(node, VERSION));
-    setText(document.querySelector(".hero-header .eyebrow"), `Fitness RPG · ${DISPLAY_VERSION}`);
-  }
+  window.FitnessRpgConfig?.setVersionLabels?.();
+}
 
   function ensureHeroName() {
     const portrait = document.querySelector("#heroPortrait");
