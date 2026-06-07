@@ -2,8 +2,11 @@ function initAppCoreV4() {
   if (window.__appCoreV4Ready) return;
   window.__appCoreV4Ready = true;
 
-  const config = window.FitnessRpgConfig || { version: "0.4.5.3", displayVersion: "V4.5.3" };
-
+ const config = window.FitnessRpgConfig || {
+  version: "0.4.6.0",
+  displayVersion: "V4.6.0",
+  assetVersion: "4.6.0"
+};
   function currentProfile() {
     return typeof profile !== "undefined" ? profile : null;
   }
@@ -226,13 +229,8 @@ function initAppCoreV4() {
   }
 
   function patchVersion() {
-    if (config.setVersionLabels) config.setVersionLabels();
-    else {
-      document.title = "Fitness RPG - V4.0";
-      const header = document.querySelector(".hero-header .eyebrow");
-      if (header) header.textContent = "Fitness RPG · V4.0";
-    }
-  }
+  window.FitnessRpgConfig?.setVersionLabels?.();
+}
 
   function patch() {
     ensureProfilePage();
@@ -241,7 +239,7 @@ function initAppCoreV4() {
   }
 
   window.FitnessRpgCore = {
-    version: config.version || "0.4.0",
+    version: config.version || "0.4.6.0",
     openPage,
     closeToolsToDashboard,
     applyXpGain,
