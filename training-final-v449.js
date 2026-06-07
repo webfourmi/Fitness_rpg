@@ -11,12 +11,12 @@ function initTrainingFinalV449() {
 
   function isTrainingPage() {
     const dashboard = document.querySelector("#dashboard");
-    const setupPanel = document.querySelector("#setupPanel");
     const sportHub = document.querySelector("#sportHub");
+    const heroCard = document.querySelector(".hero-card");
     return Boolean(
       dashboard && !dashboard.classList.contains("hidden") &&
       sportHub && !sportHub.classList.contains("hidden") &&
-      (!setupPanel || setupPanel.classList.contains("hidden"))
+      heroCard && !heroCard.classList.contains("hidden")
     );
   }
 
@@ -48,6 +48,29 @@ function initTrainingFinalV449() {
     document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => setText(node, VERSION));
   }
 
+  function forceHeader() {
+    const header = document.querySelector(".hero-header");
+    const homeBtn = document.querySelector("#homeBtn");
+    const resetBtn = document.querySelector("#resetProfileBtn");
+    if (!header) return;
+
+    header.style.display = "flex";
+    header.style.visibility = "visible";
+    header.style.opacity = "1";
+    header.style.position = "relative";
+    header.style.zIndex = "50";
+    header.style.justifyContent = "space-between";
+    header.style.alignItems = "center";
+
+    if (homeBtn) {
+      homeBtn.classList.remove("hidden");
+      homeBtn.style.display = "inline-flex";
+      homeBtn.style.visibility = "visible";
+      homeBtn.style.opacity = "1";
+    }
+    if (resetBtn) resetBtn.classList.add("hidden");
+  }
+
   function ensureHeroLine() {
     const portrait = document.querySelector("#heroPortrait");
     if (!portrait || typeof profile === "undefined" || !profile) return;
@@ -73,7 +96,13 @@ function initTrainingFinalV449() {
 
     document.querySelectorAll(".stats-grid > div").forEach((card) => {
       const label = card.querySelector("span")?.textContent?.trim().toLowerCase() || "";
-      if (label.includes("xp total")) card.remove();
+      if (label.includes("xp total")) {
+        card.classList.add("training-hide-xp-total");
+        card.dataset.statCard = "xp-total";
+      } else {
+        card.classList.remove("training-hide-xp-total");
+        card.style.display = "block";
+      }
     });
   }
 
@@ -87,8 +116,8 @@ function initTrainingFinalV449() {
     document.body.classList.toggle("training-final-v449", active);
     if (active) {
       document.body.classList.remove("training-polished");
-      document.querySelector("#homeBtn")?.classList.remove("hidden");
-      document.querySelector("#resetProfileBtn")?.classList.add("hidden");
+      document.body.classList.remove("home-polished");
+      forceHeader();
     }
   }
 
@@ -96,6 +125,7 @@ function initTrainingFinalV449() {
     updateVersion();
     toggleTrainingClass();
     if (!isTrainingPage()) return;
+    forceHeader();
     ensureHeroLine();
     cleanupHeroInfo();
     cleanupSportHub();
@@ -111,12 +141,14 @@ function initTrainingFinalV449() {
     render = function trainingFinalRender() {
       oldRender();
       window.requestAnimationFrame(patch);
+      window.setTimeout(patch, 120);
     };
     render();
   }
 
   document.addEventListener("click", () => window.setTimeout(patch, 80), true);
   document.addEventListener("visibilitychange", patch);
+  window.setTimeout(patch, 250);
 }
 
 if (document.readyState === "loading") {
