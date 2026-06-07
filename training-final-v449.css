@@ -1,9 +1,16 @@
 /* V4.4.9 - Correctif final page Entraînement */
-body.training-final-v449 .hero-header {
+body.training-final-v449 .hero-header,
+body.training-final-v449.home-polished .hero-header,
+body.training-final-v449.training-polished .hero-header {
   display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  z-index: 50 !important;
   align-items: center !important;
   justify-content: space-between !important;
   max-width: 900px !important;
+  width: min(100%, 900px) !important;
   margin: 0 auto 10px !important;
   padding: 0 6px !important;
 }
@@ -16,6 +23,8 @@ body.training-final-v449 #resetProfileBtn {
 
 body.training-final-v449 .hero-header .eyebrow {
   display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   margin: 0 !important;
   padding: 6px 10px !important;
   border-radius: 999px !important;
@@ -29,6 +38,8 @@ body.training-final-v449 .hero-header .eyebrow {
 
 body.training-final-v449 #homeBtn {
   display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   align-items: center !important;
   justify-content: center !important;
   min-height: 34px !important;
@@ -140,7 +151,12 @@ body.training-final-v449 .stats-grid {
   gap: 8px !important;
 }
 
-body.training-final-v449 .stats-grid > div:first-child,
+body.training-final-v449 .stats-grid > div {
+  display: block !important;
+}
+
+body.training-final-v449 .stats-grid > div.training-hide-xp-total,
+body.training-final-v449 .stats-grid > div[data-stat-card="xp-total"],
 body.training-final-v449 #totalXpLabel,
 body.training-final-v449 #totalXpLabel + span {
   display: none !important;
