@@ -1,5 +1,13 @@
-const APP_VERSION = "0.2.1";
-const STORAGE_KEY = "sportRpgV1Profile";
+const appConfig = window.FitnessRpgConfig || {
+  version: "0.4.6.0",
+  displayVersion: "V4.6.0",
+  storageKeys: {
+    profile: "sportRpgV1Profile"
+  }
+};
+
+const APP_VERSION = appConfig.version;
+const STORAGE_KEY = appConfig.storageKeys?.profile || "sportRpgV1Profile";
 const LOG_LIMIT = 12;
 
 const genderLabels = { homme: "Homme", femme: "Femme" };
@@ -128,8 +136,35 @@ const el = {
 function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
 function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(profile))}
 function load(){try{profile=JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");currentView=profile?"home":"setup"}catch{profile=null;currentView="setup"}}
-function need(level){return 100+(level-1)*25}
-function levelInfo(xp){let level=1,remaining=xp;while(remaining>=need(level)){remaining-=need(level);level+=1}return{level,currentXp:remaining,nextXp:need(level)}}
+function need(level) {
+  return Math.max(1, Number(level) || 1) * 100;
+}
+
+function totalXpForLevel(level) {
+  const targetLevel = Math.max(1, Number(level) || 1);
+  return ((targetLevel - 1) * targetLevel / 2) * 100;
+}
+
+function levelInfo(totalXp) {
+  const xp = Math.max(0, Number(totalXp) || 0);
+  let level = 1;
+
+  while (xp >= totalXpForLevel(level + 1)) {
+    level += 1;
+  }
+
+  const currentLevelStart = totalXpForLevel(level);
+  const nextLevelTotal = totalXpForLevel(level + 1);
+
+  return {
+    level,
+    currentXp: xp - currentLevelStart,
+    nextXp: nextLevelTotal - currentLevelStart,
+    currentLevelStart,
+    nextLevelTotal,
+    totalXp: xp
+  };
+}
 function stage(level){if(level>=30)return 5;if(level>=20)return 4;if(level>=10)return 3;if(level>=5)return 2;return 1}
 function rank(stageNumber){return["","Débutant","Mise en forme","Sportif régulier","Athlétique","Héros confirmé"][stageNumber]}
 function coachImg(id,wantedPose="idle"){const coach=coaches[id];return coach?.poses?.[wantedPose]||coach?.fallbackImage||coach?.image||""}
@@ -148,7 +183,7 @@ function normalizedEntryId(entry){return oldToNewExerciseIds[entryId(entry)]||en
 function updateStreak(){const t=today();if(profile.lastActiveDate===t)return;const y=new Date();y.setDate(y.getDate()-1);const ky=`${y.getFullYear()}-${String(y.getMonth()+1).padStart(2,"0")}-${String(y.getDate()).padStart(2,"0")}`;profile.streak=profile.lastActiveDate===ky?profile.streak+1:1;profile.lastActiveDate=t}
 function calcXp(exercise,amount){return Math.max(1,Math.round((exercise.xpBase||0)+amount*exercise.xpPerUnit))}
 function completeExercise(id,amount){const exercise=exerciseById[id];if(!exercise)return;const value=Number(amount);if(!Number.isFinite(value)||value<exercise.min){alert(`Entre une valeur d’au moins ${exercise.min} ${exercise.unit}.`);return}const oldLevel=levelInfo(profile.totalXp).level,xp=calcXp(exercise,value),list=entriesToday();list.push({id:exercise.id,sportId:exercise.sportId,sportTitle:exercise.sportTitle,title:exercise.title,amount:value,unit:exercise.unit,xp,at:new Date().toISOString()});setEntries(list);updateStreak();profile.totalXp+=xp;profile.xp+=xp;pose=exercise.pose||"victory";log(`+${xp} XP · ${exercise.sportTitle} · ${exercise.title} (${value} ${exercise.unit})`);const newLevel=levelInfo(profile.totalXp).level;if(newLevel>oldLevel){pose="levelup";log(`Niveau ${newLevel} atteint !`);el.coachMsg.textContent=msg("levelUp")}else el.coachMsg.textContent=exerciseMessage(id);save();render()}
-function render(){const hasProfile=Boolean(profile),isDashboard=hasProfile&&["dashboard","music","quests","week","badges"].includes(currentView);if(el.appVersionLabel)el.appVersionLabel.textContent=APP_VERSION;if(el.appVersionLabelEditor)el.appVersionLabelEditor.textContent=APP_VERSION;el.home?.classList.toggle("hidden",!isDashboard);if(!isDashboard){el.setupPanel.classList.remove("hidden");el.dashboard.classList.add("hidden");const isHome=hasProfile&&currentView==="home",isCoach=hasProfile&&currentView==="coach";el.homePanel.classList.toggle("hidden",!isHome);el.editorPanel.classList.toggle("hidden",isHome);if(isHome){const info=levelInfo(profile.totalXp);el.homeHeroSummary.textContent=`${profile.name} · ${profileLabel()} · Niveau ${info.level} · ${profile.totalXp} XP`;el.homeCoachSummary.textContent=`Coach actuel : ${coaches[profile.coach].fullName}`;return}el.heroCreationFields.classList.toggle("hidden",isCoach);el.create.classList.toggle("hidden",isCoach);el.saveCoach.classList.toggle("hidden",!isCoach);el.cancel.classList.toggle("hidden",!hasProfile);el.setupTitle.textContent=isCoach?"Changer de coach":"Créer ton héros";el.setupHelp.textContent=isCoach?"Choisis un nouveau coach. Ton XP et ton niveau seront conservés.":"Choisis ton profil et ton coach pour commencer.";if(isCoach)selectCoach(profile.coach);syncCards();syncGenderCards();return}el.setupPanel.classList.add("hidden");el.dashboard.classList.remove("hidden");const pages={dashboard:el.sportHub,music:el.musicPage,quests:el.questsPage,week:el.weekPage,badges:el.badgesPage};Object.entries(pages).forEach(([name,panel])=>panel?.classList.toggle("hidden",currentView!==name));el.logCard?.classList.toggle("hidden",currentView!=="dashboard");if(currentView==="music")pose="motivate";if(currentView==="quests")pose="explain";if(currentView==="week")pose="welcome";if(currentView==="badges")pose="victory";const info=levelInfo(profile.totalXp),currentStage=stage(info.level),todayEntries=entriesToday(),coach=coaches[profile.coach];el.heroName.textContent=profile.name;el.avatarLabel.textContent=profileLabel();el.rank.textContent=`${rank(currentStage)} · stade ${currentStage}`;el.level.textContent=`Niveau ${info.level}`;el.xp.textContent=`${info.currentXp} / ${info.nextXp} XP`;el.bar.style.width=`${Math.min(100,Math.round(info.currentXp/info.nextXp*100))}%`;el.total.textContent=profile.totalXp;el.streak.textContent=profile.streak;el.done.textContent=todayEntries.length;el.coachName.textContent=coach.fullName;safeCoachImage(el.coachPortrait,profile.coach,pose);el.coachPortrait.alt=coach.fullName;el.heroPortrait.innerHTML=heroSvg(currentStage);renderExercises(todayEntries);renderWeek();renderBadges();renderLog();summaries()}
+function render(){const hasProfile=Boolean(profile),isDashboard=hasProfile&&["dashboard","music","quests","week","badges"].includes(currentView);window.FitnessRpgConfig?.setVersionLabels?.();;el.home?.classList.toggle("hidden",!isDashboard);if(!isDashboard){el.setupPanel.classList.remove("hidden");el.dashboard.classList.add("hidden");const isHome=hasProfile&&currentView==="home",isCoach=hasProfile&&currentView==="coach";el.homePanel.classList.toggle("hidden",!isHome);el.editorPanel.classList.toggle("hidden",isHome);if(isHome){const info=levelInfo(profile.totalXp);el.homeHeroSummary.textContent=`${profile.name} · ${profileLabel()} · Niveau ${info.level} · ${profile.totalXp} XP`;el.homeCoachSummary.textContent=`Coach actuel : ${coaches[profile.coach].fullName}`;return}el.heroCreationFields.classList.toggle("hidden",isCoach);el.create.classList.toggle("hidden",isCoach);el.saveCoach.classList.toggle("hidden",!isCoach);el.cancel.classList.toggle("hidden",!hasProfile);el.setupTitle.textContent=isCoach?"Changer de coach":"Créer ton héros";el.setupHelp.textContent=isCoach?"Choisis un nouveau coach. Ton XP et ton niveau seront conservés.":"Choisis ton profil et ton coach pour commencer.";if(isCoach)selectCoach(profile.coach);syncCards();syncGenderCards();return}el.setupPanel.classList.add("hidden");el.dashboard.classList.remove("hidden");const pages={dashboard:el.sportHub,music:el.musicPage,quests:el.questsPage,week:el.weekPage,badges:el.badgesPage};Object.entries(pages).forEach(([name,panel])=>panel?.classList.toggle("hidden",currentView!==name));el.logCard?.classList.toggle("hidden",currentView!=="dashboard");if(currentView==="music")pose="motivate";if(currentView==="quests")pose="explain";if(currentView==="week")pose="welcome";if(currentView==="badges")pose="victory";const info=levelInfo(profile.totalXp),currentStage=stage(info.level),todayEntries=entriesToday(),coach=coaches[profile.coach];el.heroName.textContent=profile.name;el.avatarLabel.textContent=profileLabel();el.rank.textContent=`${rank(currentStage)} · stade ${currentStage}`;el.level.textContent=`Niveau ${info.level}`;el.xp.textContent=`${info.currentXp} / ${info.nextXp} XP`;el.bar.style.width=`${Math.min(100,Math.round(info.currentXp/info.nextXp*100))}%`;el.total.textContent=profile.totalXp;el.streak.textContent=profile.streak;el.done.textContent=todayEntries.length;el.coachName.textContent=coach.fullName;safeCoachImage(el.coachPortrait,profile.coach,pose);el.coachPortrait.alt=coach.fullName;el.heroPortrait.innerHTML=heroSvg(currentStage);renderExercises(todayEntries);renderWeek();renderBadges();renderLog();summaries()}
 function renderExercises(todayEntries){el.questsList.innerHTML="";sports.forEach(sport=>{const article=document.createElement("article"),isOpen=openedSportId===sport.id,doneCount=todayEntries.filter(entry=>exerciseById[normalizedEntryId(entry)]?.sportId===sport.id).length;article.className=`sport-item${isOpen?" open":""}`;article.innerHTML=`<button class="sport-toggle" type="button"><span class="sport-icon">${sport.icon}</span><span><strong>${sport.title}</strong><small>${sport.description}</small></span><em>${doneCount} fait${doneCount>1?"s":""}</em></button><div class="duration-grid ${isOpen?"":"hidden"}"></div>`;article.querySelector(".sport-toggle").onclick=()=>{openedSportId=openedSportId===sport.id?null:sport.id;renderExercises(entriesToday())};const grid=article.querySelector(".duration-grid");sport.exercises.forEach(exercise=>{const doneForExercise=todayEntries.filter(entry=>normalizedEntryId(entry)===exercise.id).length,card=document.createElement("div"),estimate=calcXp(exercise,exercise.defaultValue);card.className="duration-btn";card.innerHTML=`<strong>${exercise.title}</strong><span>${exercise.stat}</span><label class="amount-label">${exercise.unit}<input class="exercise-amount" type="number" min="${exercise.min}" step="${exercise.step}" value="${exercise.defaultValue}" data-exercise-id="${exercise.id}"></label><span class="xp-preview">≈ ${estimate} XP</span><button class="primary-btn validate-exercise-btn" type="button" data-exercise-id="${exercise.id}">Valider</button>${doneForExercise?`<span class="done-note">Déjà validé ${doneForExercise} fois aujourd’hui</span>`:""}`;const input=card.querySelector(".exercise-amount"),preview=card.querySelector(".xp-preview");input.addEventListener("input",()=>{preview.textContent=`≈ ${calcXp(exercise,Number(input.value)||0)} XP`});card.querySelector(".validate-exercise-btn").onclick=()=>completeExercise(exercise.id,input.value);grid.appendChild(card)});el.questsList.appendChild(article)})}
 function renderWeek(){if(!el.weekList||!profile)return;const start=new Date(),day=(start.getDay()+6)%7;start.setDate(start.getDate()-day);const names=["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"];el.weekList.innerHTML="";for(let i=0;i<7;i+=1){const d=new Date(start);d.setDate(start.getDate()+i);const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`,items=profile.completedByDate[key]||[],count=Array.isArray(items)?items.length:0,item=document.createElement("div");item.className=`week-day${key===today()?" today":""}${count?" active":""}`;item.innerHTML=`<strong>${names[i]}</strong><span>${count} entrée${count>1?"s":""}</span>`;el.weekList.appendChild(item)}}
 function allEntries(){return Object.values(profile?.completedByDate||{}).flat()}
