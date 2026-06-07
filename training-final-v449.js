@@ -9,6 +9,20 @@ function initTrainingFinalV449() {
     if (node && node.textContent !== value) node.textContent = value;
   }
 
+  function loadV45Assets() {
+    if (!document.querySelector('link[href^="v45-ui.css"]')) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "v45-ui.css?v=4.5.0";
+      document.head.appendChild(link);
+    }
+    if (!document.querySelector('script[src^="sport-distance-v45.js"]')) {
+      const script = document.createElement("script");
+      script.src = "sport-distance-v45.js?v=4.5.0";
+      document.body.appendChild(script);
+    }
+  }
+
   function isTrainingPage() {
     const dashboard = document.querySelector("#dashboard");
     const sportHub = document.querySelector("#sportHub");
@@ -52,6 +66,8 @@ function initTrainingFinalV449() {
     const header = document.querySelector(".hero-header");
     const homeBtn = document.querySelector("#homeBtn");
     const resetBtn = document.querySelector("#resetProfileBtn");
+    const titleBlock = header?.querySelector("div:first-child");
+    const actions = header?.querySelector(".header-actions");
     if (!header) return;
 
     header.style.display = "flex";
@@ -63,6 +79,26 @@ function initTrainingFinalV449() {
     header.style.alignItems = "center";
     header.style.flexWrap = "nowrap";
     header.style.gap = "8px";
+
+    if (titleBlock) {
+      titleBlock.style.flex = "1 1 auto";
+      titleBlock.style.minWidth = "0";
+    }
+    if (actions) {
+      actions.style.display = "flex";
+      actions.style.flex = "0 0 auto";
+      actions.style.alignItems = "center";
+      actions.style.justifyContent = "flex-end";
+      actions.style.whiteSpace = "nowrap";
+    }
+
+    const eyebrow = header.querySelector(".eyebrow");
+    if (eyebrow) {
+      eyebrow.style.whiteSpace = "nowrap";
+      eyebrow.style.overflow = "hidden";
+      eyebrow.style.textOverflow = "ellipsis";
+      eyebrow.style.maxWidth = "100%";
+    }
 
     if (homeBtn) {
       homeBtn.classList.remove("hidden");
@@ -138,6 +174,7 @@ function initTrainingFinalV449() {
   }
 
   function patch() {
+    loadV45Assets();
     updateVersion();
     toggleTrainingClass();
     if (!isTrainingPage()) return;
