@@ -61,7 +61,7 @@ window.FitnessRpgConfig = {
     { id: "mobilite", icon: "🧙", title: "Mobilité / récupération", rhythm: "2 à 4 séances légères" }
   ],
 
-  pages: [
+   pages: [
     "dashboard",
     "music",
     "quests",
@@ -71,7 +71,9 @@ window.FitnessRpgConfig = {
     "journal",
     "weight",
     "today",
-    "profile"
+    "profile",
+    "goal",
+    "planning"
   ]
 };
 
