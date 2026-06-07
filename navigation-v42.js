@@ -2,10 +2,16 @@ function initNavigationV42() {
   if (window.__navigationV42Ready) return;
   window.__navigationV42Ready = true;
 
-  const config = window.FitnessRpgConfig || {};
-  const VERSION = "0.4.5.2";
-  const DISPLAY_VERSION = "V4.5.2";
-  const ASSET_VERSION = "4.5.2";
+ const config = window.FitnessRpgConfig || {
+  version: "0.4.6.0",
+  displayVersion: "V4.6.0",
+  assetVersion: "4.6.0",
+  storageKeys: {}
+};
+
+  const VERSION = config.version;
+  const DISPLAY_VERSION = config.displayVersion;
+  const ASSET_VERSION = config.assetVersion;
   const NAV_KEY = config.storageKeys?.navigationState || "sportRpgV42NavigationState";
 
   const pageMap = {
@@ -84,44 +90,17 @@ function initNavigationV42() {
   }
 
   function ensureExtraAssets() {
-    ensureStylesheet("profile-v43.css");
-    ensureStylesheet("title-cleanup-v431.css");
-    ensureStylesheet("exercise-timer.css");
-    ensureStylesheet("planning-fusion-v441.css");
-    ensureStylesheet("mobile-music-fix.css");
-    ensureStylesheet("exercise-explainer.css");
-    ensureStylesheet("xp-curve-v443.css");
-    ensureStylesheet("home-polish-v444.css");
-    ensureStylesheet("training-polish-v448.css");
-    ensureStylesheet("training-final-v449.css");
-    ensureStylesheet("v45-ui.css");
-    ensureScript("profile-v43.js");
-    ensureScript("today-program-direct.js");
-    ensureScript("exercise-timer.js");
-    ensureScript("planning-fusion-v441.js");
-    ensureScript("mobile-music-fix.js");
-    ensureScript("exercise-explainer.js");
-    ensureScript("xp-curve-v443.js");
-    ensureScript("home-polish-v444.js");
-    ensureScript("training-polish-v448.js");
-    ensureScript("training-final-v449.js");
-    ensureScript("sport-distance-v45.js");
-    ensureScript("today-direct-program-v45.js");
-  }
+  // V4.6 : les assets sont chargés directement par index.html.
+  // On ne charge plus d’anciens patchs dynamiquement ici.
+}
 
   function setVersion() {
-    if (config) {
-      config.version = VERSION;
-      config.displayVersion = DISPLAY_VERSION;
-    }
-    document.title = `Fitness RPG - ${DISPLAY_VERSION}`;
-    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => setText(node, VERSION));
-    setText(document.querySelector(".hero-header .eyebrow"), `Fitness RPG · ${DISPLAY_VERSION}`);
-  }
+  window.FitnessRpgConfig?.setVersionLabels?.();
+}
 
   function setMainHeader(pageName = "dashboard") {
     const [title, subtitle] = headerMap[pageName] || headerMap.dashboard;
-    setText(document.querySelector(".hero-header .eyebrow"), `Fitness RPG · ${DISPLAY_VERSION}`);
+    window.FitnessRpgConfig?.setVersionLabels?.();
     setText(document.querySelector(".hero-header h1"), title);
     setText(document.querySelector(".hero-header .subtitle"), subtitle);
   }
