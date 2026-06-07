@@ -13,12 +13,17 @@ function initTrainingFinalV449() {
     if (!document.querySelector('link[href^="v45-ui.css"]')) {
       const link = document.createElement("link");
       link.rel = "stylesheet";
-      link.href = "v45-ui.css?v=4.5.0";
+      link.href = "v45-ui.css?v=4.5.2";
       document.head.appendChild(link);
     }
     if (!document.querySelector('script[src^="sport-distance-v45.js"]')) {
       const script = document.createElement("script");
-      script.src = "sport-distance-v45.js?v=4.5.0";
+      script.src = "sport-distance-v45.js?v=4.5.2";
+      document.body.appendChild(script);
+    }
+    if (!document.querySelector('script[src^="today-direct-program-v45.js"]')) {
+      const script = document.createElement("script");
+      script.src = "today-direct-program-v45.js?v=4.5.2";
       document.body.appendChild(script);
     }
   }
