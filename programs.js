@@ -370,11 +370,11 @@ function initProgramsModule() {
     button.onclick = openProgramPage;
   }
 
-  function patchRender() {
-    addProgramButton();
-    ensureProgramPage();
-    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((el) => { el.textContent = "0.3.3"; });
-  }
+ function patchRender() {
+  addProgramButton();
+  ensureProgramPage();
+  window.FitnessRpgConfig?.setVersionLabels?.();
+}
 
   patchRender();
   const oldRender = typeof render === "function" ? render : null;
