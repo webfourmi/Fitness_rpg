@@ -1,8 +1,9 @@
 // V4 - Configuration centrale de Fitness RPG.
 // Ce fichier sert de source commune pour les prochaines évolutions.
 window.FitnessRpgConfig = {
-  version: "0.4.5.2",
-  displayVersion: "V4.5.2",
+  version: "0.4.6.0",
+  displayVersion: "V4.6.0",
+  assetVersion: "4.6.0",
 
   storageKeys: {
     profile: "sportRpgV1Profile",
@@ -14,7 +15,6 @@ window.FitnessRpgConfig = {
     centralRewards: "sportRpgV41Rewards",
     navigationState: "sportRpgV42NavigationState"
   },
-
   ranks: [
     { min: 1, max: 4, title: "Novice" },
     { min: 5, max: 9, title: "Aventurier" },
@@ -84,10 +84,14 @@ window.FitnessRpgConfig.getRankTitle = function getRankTitle(level) {
 window.FitnessRpgConfig.setVersionLabels = function setVersionLabels() {
   const version = window.FitnessRpgConfig.version;
   const display = window.FitnessRpgConfig.displayVersion;
+
   document.title = `Fitness RPG - ${display}`;
+
   document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => {
     node.textContent = version;
   });
-  const header = document.querySelector(".hero-header .eyebrow");
-  if (header) header.textContent = `Fitness RPG · ${display}`;
+
+  document.querySelectorAll(".hero-header .eyebrow, #homeGameVersionBadge").forEach((node) => {
+    node.textContent = `Fitness RPG · ${display}`;
+  });
 };
