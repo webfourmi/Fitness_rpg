@@ -2,8 +2,8 @@ function initXpCurveV443() {
   if (window.__xpCurveV443Ready) return;
   window.__xpCurveV443Ready = true;
 
-  const VERSION = "0.4.4.3";
-  const DISPLAY_VERSION = "V4.4.3";
+  const VERSION = "0.4.4.9";
+  const DISPLAY_VERSION = "V4.4.9";
 
   function xpNeededForLevel(level) {
     return Math.max(1, Number(level) || 1) * 100;
@@ -68,37 +68,14 @@ function initXpCurveV443() {
     if (eyebrow) eyebrow.textContent = `Fitness RPG · ${DISPLAY_VERSION}`;
   }
 
-  function renderXpCurvePanel() {
-    const heroInfo = document.querySelector(".hero-info");
-    if (!heroInfo || !profile) return;
-
-    const info = levelFromTotalXp(profile.totalXp || 0);
-    let panel = document.querySelector("#xpCurvePanel");
-    if (!panel) {
-      panel = document.createElement("section");
-      panel.id = "xpCurvePanel";
-      panel.className = "xp-curve-panel";
-      heroInfo.appendChild(panel);
-    }
-
-    const startLevel = Math.max(1, info.level - 1);
-    const levels = Array.from({ length: 5 }, (_, i) => startLevel + i + 1);
-    panel.innerHTML = `
-      <h3>Progression XP</h3>
-      <p>Nouvelle courbe : niveau 2 à 100 XP, niveau 3 à 300 XP, niveau 4 à 600 XP, niveau 5 à 1000 XP.</p>
-      <div class="xp-curve-grid">
-        ${levels.map((level) => {
-          const total = totalXpForLevel(level);
-          return `<article class="xp-curve-cell ${level === info.level ? "current" : ""}"><strong>Niv. ${level}</strong><span>${total} XP total</span></article>`;
-        }).join("")}
-      </div>
-    `;
+  function removeXpCurvePanel() {
+    document.querySelector("#xpCurvePanel")?.remove();
   }
 
   function patch() {
     patchGlobals();
     setVersionLabels();
-    renderXpCurvePanel();
+    removeXpCurvePanel();
   }
 
   patch();
