@@ -1,0 +1,173 @@
+/* V4.4.9 - Correctif final page Entraînement */
+body.training-final-v449 .hero-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  max-width: 900px !important;
+  margin: 0 auto 10px !important;
+  padding: 0 6px !important;
+}
+
+body.training-final-v449 .hero-header h1,
+body.training-final-v449 .hero-header .subtitle,
+body.training-final-v449 #resetProfileBtn {
+  display: none !important;
+}
+
+body.training-final-v449 .hero-header .eyebrow {
+  display: inline-flex !important;
+  margin: 0 !important;
+  padding: 6px 10px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(240,184,79,.35) !important;
+  background: rgba(240,184,79,.08) !important;
+  color: var(--accent) !important;
+  font-size: .78rem !important;
+  font-weight: 950 !important;
+  letter-spacing: .1em !important;
+}
+
+body.training-final-v449 #homeBtn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 34px !important;
+  padding: 7px 12px !important;
+  font-size: .88rem !important;
+}
+
+body.training-final-v449 .hero-card {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  text-align: center !important;
+  max-width: 900px !important;
+  margin: 0 auto 12px !important;
+  padding: 16px !important;
+  gap: 10px !important;
+}
+
+body.training-final-v449 #heroPortrait {
+  order: 1 !important;
+  width: min(100%, 430px) !important;
+  max-width: 430px !important;
+  margin: 0 auto !important;
+  padding: 12px !important;
+  border-radius: 24px !important;
+  border: 1px solid rgba(240,184,79,.35) !important;
+  background: radial-gradient(circle at 50% 20%, rgba(240,184,79,.16), transparent 44%), rgba(255,255,255,.035) !important;
+  box-shadow: 0 18px 40px rgba(0,0,0,.28) !important;
+}
+
+body.training-final-v449 #heroPortrait .hero-level-frame,
+body.training-final-v449 .hero-level-frame {
+  max-width: 360px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+body.training-final-v449 #heroPortrait .hero-level-image,
+body.training-final-v449 .hero-level-image {
+  width: 100% !important;
+  max-height: 500px !important;
+  object-fit: contain !important;
+  border-radius: 18px !important;
+}
+
+body.training-final-v449 .hero-level-badge {
+  top: 9px !important;
+  right: 9px !important;
+}
+
+body.training-final-v449 #trainingFinalHeroLine {
+  order: 2 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(240,184,79,.36) !important;
+  background: rgba(240,184,79,.09) !important;
+  color: var(--accent) !important;
+  font-weight: 950 !important;
+}
+
+body.training-final-v449 .hero-info {
+  order: 3 !important;
+  display: grid !important;
+  justify-items: center !important;
+  width: min(100%, 520px) !important;
+  gap: 8px !important;
+}
+
+body.training-final-v449 #rankLabel,
+body.training-final-v449 #heroName,
+body.training-final-v449 #avatarLabel,
+body.training-final-v449 #levelLabel,
+body.training-final-v449 #trainingHeroLabel,
+body.training-final-v449 #trainingHeroNameV448,
+body.training-final-v449 #trainingProgressTitle,
+body.training-final-v449 #trainingProgressTitleV448,
+body.training-final-v449 .training-hero-label,
+body.training-final-v449 .training-progress-title,
+body.training-final-v449 #xpCurvePanel {
+  display: none !important;
+}
+
+body.training-final-v449 .level-row {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  width: 100% !important;
+}
+
+body.training-final-v449 #xpLabel {
+  display: block !important;
+  color: var(--accent) !important;
+  font-weight: 950 !important;
+}
+
+body.training-final-v449 .progress-bar {
+  width: min(100%, 430px) !important;
+  height: 12px !important;
+}
+
+body.training-final-v449 .stats-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(110px, 1fr)) !important;
+  width: min(100%, 300px) !important;
+  gap: 8px !important;
+}
+
+body.training-final-v449 .stats-grid > div:first-child,
+body.training-final-v449 #totalXpLabel,
+body.training-final-v449 #totalXpLabel + span {
+  display: none !important;
+}
+
+body.training-final-v449 #sportHub > div:first-child {
+  display: none !important;
+}
+
+body.training-final-v449 #sportHub,
+body.training-final-v449 .coach-card {
+  max-width: 900px !important;
+  margin-inline: auto !important;
+}
+
+@media(max-width:780px) {
+  body.training-final-v449 .hero-header .eyebrow {
+    font-size: .7rem !important;
+  }
+
+  body.training-final-v449 #heroPortrait {
+    width: min(100%, 360px) !important;
+    padding: 10px !important;
+  }
+
+  body.training-final-v449 #heroPortrait .hero-level-frame,
+  body.training-final-v449 .hero-level-frame {
+    max-width: 320px !important;
+  }
+}
