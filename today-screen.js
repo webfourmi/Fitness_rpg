@@ -280,13 +280,11 @@ function initTodayScreen() {
   }
 
   function refresh() {
-    ensurePage();
-    addToolbarButton();
-    renderTodayCard();
-    if (typeof window.FitnessRpgConfig?.setVersionLabels === "function") {
-      window.FitnessRpgConfig.setVersionLabels();
-    }
-  }
+  ensurePage();
+  addToolbarButton();
+  renderTodayCard();
+  window.FitnessRpgConfig?.setVersionLabels?.();
+}
 
   window.openTodayPage = openTodayPage;
   window.refreshTodayScreen = refresh;
