@@ -200,7 +200,7 @@ function initRpgProgression() {
     checkLevelProgression();
     updateRankLabels();
     if (typeof currentView !== "undefined" && currentView === "badges") renderRpgBadges();
-    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((el) => { el.textContent = "0.3.5.2"; });
+    window.FitnessRpgConfig?.setVersionLabels?.();
   }
 
   window.getRpgRankTitle = getRankTitle;
