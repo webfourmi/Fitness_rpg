@@ -2,8 +2,7 @@ function initPlanningFusionV441() {
   if (window.__planningFusionV441Ready) return;
   window.__planningFusionV441Ready = true;
 
-  const VERSION = "0.4.4.9";
-  const DISPLAY_VERSION = "V4.4.9";
+ 
 
   function todayKey() {
     const d = new Date();
@@ -37,21 +36,19 @@ function initPlanningFusionV441() {
     }
   }
 
-  function setVersion() {
-    if (window.FitnessRpgConfig) {
-      window.FitnessRpgConfig.version = VERSION;
-      window.FitnessRpgConfig.displayVersion = DISPLAY_VERSION;
-    }
-    document.title = `Fitness RPG - ${DISPLAY_VERSION}`;
-    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => {
-      node.textContent = VERSION;
-    });
-    if (window.FitnessRpgNavigation?.setMainHeader) {
-      const current = window.FitnessRpgNavigation.current?.()?.page || "dashboard";
-      if (current === "week") window.FitnessRpgNavigation.setMainHeader("planning");
-      else window.FitnessRpgNavigation.setMainHeader(current);
+  
+   function setVersion() {
+  window.FitnessRpgConfig?.setVersionLabels?.();
+
+  if (window.FitnessRpgNavigation?.setMainHeader) {
+    const current = window.FitnessRpgNavigation.current?.()?.page || "dashboard";
+    if (current === "week") {
+      window.FitnessRpgNavigation.setMainHeader("planning");
+    } else {
+      window.FitnessRpgNavigation.setMainHeader(current);
     }
   }
+}
 
   function renderWeekSummaryInsidePlanning() {
     const planning = document.querySelector("#planningToolPage");
