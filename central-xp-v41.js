@@ -2,11 +2,14 @@ function initCentralXpV41() {
   if (window.__centralXpV41Ready) return;
   window.__centralXpV41Ready = true;
 
-  const config = window.FitnessRpgConfig || {};
-  const REWARD_KEY = config.storageKeys?.centralRewards || "sportRpgV41Rewards";
-  const VERSION = "0.4.1";
-  const DISPLAY_VERSION = "V4.1";
+  const config = window.FitnessRpgConfig || {
+  version: "0.4.6.0",
+  displayVersion: "V4.6.0",
+  storageKeys: {}
+};
 
+  const REWARD_KEY = config.storageKeys?.centralRewards || "sportRpgV41Rewards";
+ 
   function todayString() {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -226,13 +229,8 @@ function initCentralXpV41() {
   }
 
   function patchVersion() {
-    if (config) {
-      config.version = VERSION;
-      config.displayVersion = DISPLAY_VERSION;
-      config.setVersionLabels?.();
-    }
-  }
-
+  window.FitnessRpgConfig?.setVersionLabels?.();
+}
   window.CentralXpV41 = {
     applyXpGain,
     checkAutomaticBonuses,
