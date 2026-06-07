@@ -2,11 +2,14 @@ function initProfileV43() {
   if (window.__profileV43Ready) return;
   window.__profileV43Ready = true;
 
-  const VERSION = "0.4.3";
-  const DISPLAY_VERSION = "V4.3";
-  const GOAL_KEY = window.FitnessRpgConfig?.storageKeys?.personalGoal || "sportRpgV1PersonalGoal";
-  const WEIGHT_KEY = window.FitnessRpgConfig?.storageKeys?.weights || "sportRpgV1Weights";
+  const config = window.FitnessRpgConfig || {
+    version: "0.4.6.0",
+    displayVersion: "V4.6.0",
+    storageKeys: {}
+  };
 
+  const GOAL_KEY = config.storageKeys?.personalGoal || "sportRpgV1PersonalGoal";
+  const WEIGHT_KEY = config.storageKeys?.weights || "sportRpgV1Weights";
   const goals = window.FitnessRpgConfig?.goals || [
     { id: "perte-poids", icon: "⚖️", title: "Perte de poids", rhythm: "4 à 5 séances douces par semaine" },
     { id: "reprise-douce", icon: "🌅", title: "Reprise douce", rhythm: "3 séances courtes par semaine" },
@@ -247,12 +250,8 @@ function initProfileV43() {
   }
 
   function patchVersion() {
-    if (window.FitnessRpgConfig) {
-      window.FitnessRpgConfig.version = VERSION;
-      window.FitnessRpgConfig.displayVersion = DISPLAY_VERSION;
-      window.FitnessRpgConfig.setVersionLabels?.();
-    }
-  }
+  window.FitnessRpgConfig?.setVersionLabels?.();
+}
 
   function patch() {
     ensureProfilePage();
