@@ -217,7 +217,10 @@ function initNavigationV42() {
       note.className = "v42-nav-note";
       hub.appendChild(note);
     }
-    setText(note, "🧭 Navigation V4.5.2 · proposition directe");
+    setText(
+  note,
+  `🧭 Navigation ${window.FitnessRpgConfig?.displayVersion || "V4.6.0"} · proposition directe`
+);
   }
 
   function patchCore() {
