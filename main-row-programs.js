@@ -17,10 +17,7 @@ function initMainRowPrograms() {
     if (programsButton.innerHTML !== expectedHtml) programsButton.innerHTML = expectedHtml;
     if (programsButton.parentElement !== row) exerciseButton.insertAdjacentElement("afterend", programsButton);
 
-    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((el) => {
-      el.textContent = "0.3.8";
-    });
-  }
+    window.FitnessRpgConfig?.setVersionLabels?.();
 
   function scheduleMove() {
     window.setTimeout(moveProgramsButton, 0);
