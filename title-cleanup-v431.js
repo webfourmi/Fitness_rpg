@@ -2,21 +2,15 @@ function initTitleCleanupV431() {
   if (window.__titleCleanupV431Ready) return;
   window.__titleCleanupV431Ready = true;
 
-  const VERSION = "0.4.3.1";
-  const DISPLAY_VERSION = "V4.3.1";
+ const config = window.FitnessRpgConfig || {
+    version: "0.4.6.0",
+    displayVersion: "V4.6.0",
+    storageKeys: {}
+  };
 
-  function applyVersion() {
-    if (window.FitnessRpgConfig) {
-      window.FitnessRpgConfig.version = VERSION;
-      window.FitnessRpgConfig.displayVersion = DISPLAY_VERSION;
-    }
-    document.title = `Fitness RPG - ${DISPLAY_VERSION}`;
-    document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => {
-      node.textContent = VERSION;
-    });
-    const header = document.querySelector(".hero-header .eyebrow");
-    if (header) header.textContent = `Fitness RPG · ${DISPLAY_VERSION}`;
-  }
+ function applyVersion() {
+  window.FitnessRpgConfig?.setVersionLabels?.();
+}
 
   function cleanupDuplicatedTitles() {
     applyVersion();
