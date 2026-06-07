@@ -1,4 +1,4 @@
-/* V4.5.1 - Header lisible, distance fields, image fullscreen */
+/* V4.5.2 - Header lisible, distance fields, image fullscreen, proposition cliquable */
 body.training-final-v449 .hero-header,
 body.training-v448 .hero-header {
   display: flex !important;
@@ -61,6 +61,22 @@ body.training-v448 #homeBtn {
   border-radius: 999px !important;
   font-size: 1rem !important;
   line-height: 1 !important;
+}
+
+.today-direct-program-card {
+  cursor: pointer;
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+
+.today-direct-program-card:hover,
+.today-direct-program-card:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(240,184,79,.55) !important;
+  box-shadow: 0 0 0 1px rgba(240,184,79,.18), 0 16px 34px rgba(0,0,0,.22);
+}
+
+.today-direct-program-card #todayStartBtn::before {
+  content: "▶ ";
 }
 
 .distance-label input {
