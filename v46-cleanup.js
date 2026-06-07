@@ -2,17 +2,39 @@ function initV46Cleanup() {
   if (window.__v46CleanupReady) return;
   window.__v46CleanupReady = true;
 
-  function applyVersion() {
-    window.FitnessRpgConfig?.setVersionLabels?.();
-  }
+ function installVersionGuard() {
+  if (!window.FitnessRpgConfig) window.FitnessRpgConfig = {};
 
-  function normalizeText(value) {
-    return String(value || "")
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase()
-      .trim();
-  }
+  try {
+    Object.defineProperty(window.FitnessRpgConfig, "version", {
+      configurable: true,
+      get: () => OFFICIAL_VERSION,
+      set: () => {}
+    });
+
+    Object.defineProperty(window.FitnessRpgConfig, "displayVersion", {
+      configurable: true,
+      get: () => OFFICIAL_DISPLAY_VERSION,
+      set: () => {}
+    });
+  } catch {}
+
+  window.FitnessRpgConfig.setVersionLabels = applyVersion;
+}
+
+function applyVersion() {
+  installVersionGuard();
+
+  document.title = `Fitness RPG - ${OFFICIAL_DISPLAY_VERSION}`;
+
+  document.querySelectorAll("#appVersionLabel, #appVersionLabelEditor").forEach((node) => {
+    node.textContent = OFFICIAL_VERSION;
+  });
+
+  document.querySelectorAll(".hero-header .eyebrow, #homeGameVersionBadge").forEach((node) => {
+    node.textContent = `Fitness RPG · ${OFFICIAL_DISPLAY_VERSION}`;
+  });
+}
 
   function recommendedProgramTitle() {
     const fromDashboard = document.querySelector("#todayDashboardCard h2")?.textContent?.trim();
@@ -145,7 +167,18 @@ function initV46Cleanup() {
   }
 
   patch();
+  const observer = new MutationObserver(() => {
+  window.requestAnimationFrame(patch);
+});
 
+observer.observe(document.body, {
+  childList: true,
+  subtree: true,
+  characterData: true
+});
+
+const lockTimer = window.setInterval(patch, 500);
+window.setTimeout(() => window.clearInterval(lockTimer), 12000);
   const oldRender = typeof render === "function" ? render : null;
 
   if (oldRender && !window.__v46RenderPatched) {
