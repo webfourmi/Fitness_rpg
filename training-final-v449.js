@@ -2,8 +2,8 @@ function initTrainingFinalV449() {
   if (window.__trainingFinalV449Ready) return;
   window.__trainingFinalV449Ready = true;
 
-  const VERSION = "0.4.4.9";
-  const DISPLAY_VERSION = "V4.4.9";
+  const VERSION = "0.4.5.2";
+  const DISPLAY_VERSION = "V4.5.2";
 
   function setText(node, value) {
     if (node && node.textContent !== value) node.textContent = value;
