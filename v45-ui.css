@@ -1,4 +1,4 @@
-/* V4.5 - Header compact, distance fields, image fullscreen */
+/* V4.5.1 - Header lisible, distance fields, image fullscreen */
 body.training-final-v449 .hero-header,
 body.training-v448 .hero-header {
   display: flex !important;
@@ -6,35 +6,45 @@ body.training-v448 .hero-header {
   flex-wrap: nowrap !important;
   align-items: center !important;
   justify-content: space-between !important;
-  gap: 8px !important;
+  gap: 6px !important;
   width: min(100%, 900px) !important;
   margin: 0 auto 10px !important;
-  padding: 0 6px !important;
+  padding: 0 4px !important;
+  box-sizing: border-box !important;
 }
 
 body.training-final-v449 .hero-header > div:first-child,
 body.training-v448 .hero-header > div:first-child {
   flex: 1 1 auto !important;
   min-width: 0 !important;
+  max-width: calc(100% - 40px) !important;
 }
 
 body.training-final-v449 .hero-header .header-actions,
 body.training-v448 .hero-header .header-actions {
   display: flex !important;
-  flex: 0 0 auto !important;
+  flex: 0 0 34px !important;
   align-items: center !important;
   justify-content: flex-end !important;
-  gap: 6px !important;
+  gap: 4px !important;
   white-space: nowrap !important;
 }
 
 body.training-final-v449 .hero-header .eyebrow,
 body.training-v448 .hero-header .eyebrow {
   display: inline-flex !important;
-  max-width: 100% !important;
+  align-items: center !important;
+  max-width: none !important;
+  width: auto !important;
+  min-width: 0 !important;
   white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  padding: 6px 8px !important;
+  font-size: .78rem !important;
+  letter-spacing: .025em !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
 }
 
 body.training-final-v449 #homeBtn,
@@ -43,13 +53,13 @@ body.training-v448 #homeBtn {
   align-items: center !important;
   justify-content: center !important;
   flex: 0 0 auto !important;
-  width: 38px !important;
-  min-width: 38px !important;
-  height: 38px !important;
-  min-height: 38px !important;
+  width: 34px !important;
+  min-width: 34px !important;
+  height: 34px !important;
+  min-height: 34px !important;
   padding: 0 !important;
   border-radius: 999px !important;
-  font-size: 1.05rem !important;
+  font-size: 1rem !important;
   line-height: 1 !important;
 }
 
@@ -105,22 +115,44 @@ body.training-v448 #homeBtn {
 @media(max-width:780px) {
   body.training-final-v449 .hero-header,
   body.training-v448 .hero-header {
-    gap: 6px !important;
+    gap: 5px !important;
+    padding: 0 2px !important;
+  }
+
+  body.training-final-v449 .hero-header > div:first-child,
+  body.training-v448 .hero-header > div:first-child {
+    max-width: calc(100% - 36px) !important;
   }
 
   body.training-final-v449 .hero-header .eyebrow,
   body.training-v448 .hero-header .eyebrow {
-    font-size: .64rem !important;
-    letter-spacing: .055em !important;
-    padding: 6px 8px !important;
+    font-size: .68rem !important;
+    letter-spacing: .01em !important;
+    padding: 6px 7px !important;
   }
 
   body.training-final-v449 #homeBtn,
   body.training-v448 #homeBtn {
-    width: 36px !important;
-    min-width: 36px !important;
-    height: 36px !important;
-    min-height: 36px !important;
-    font-size: 1rem !important;
+    width: 32px !important;
+    min-width: 32px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    font-size: .95rem !important;
+  }
+}
+
+@media(max-width:360px) {
+  body.training-final-v449 .hero-header .eyebrow,
+  body.training-v448 .hero-header .eyebrow {
+    font-size: .62rem !important;
+    padding: 5px 6px !important;
+  }
+
+  body.training-final-v449 #homeBtn,
+  body.training-v448 #homeBtn {
+    width: 30px !important;
+    min-width: 30px !important;
+    height: 30px !important;
+    min-height: 30px !important;
   }
 }
