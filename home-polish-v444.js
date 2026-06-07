@@ -2,8 +2,8 @@ function initHomePolishV444() {
   if (window.__homePolishV444Ready) return;
   window.__homePolishV444Ready = true;
 
-  const VERSION = "0.4.4.9";
-  const DISPLAY_VERSION = "V4.4.9";
+  const VERSION = "0.4.5.2";
+  const DISPLAY_VERSION = "V4.5.2";
   let isPatching = false;
 
   function isHomeVisible() {
