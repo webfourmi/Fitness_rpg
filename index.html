@@ -24,7 +24,7 @@
     Version visible dans l’onglet navigateur.
     La version d’affichage dans l’app sera gérée par app-config.js.
   -->
-  <title>Fitness RPG - V5.0.0</title>
+  <title>Fitness RPG - V5.0.1</title>
 
   <!--
     Feuilles de style.
@@ -231,6 +231,8 @@
       <nav class="training-toolbar card">
         <button id="openExercisesButton" type="button">⚔️<span>Exercices</span></button>
         <button id="openProgramsButton" type="button">📜<span>Programmes</span></button>
+        <button id="openGoalButton" type="button">🎯<span>Objectif</span></button>
+        <button id="openPlanningButton" type="button">📅<span>Planning</span></button>
         <button id="openMusicButton" type="button">🎵<span>Musique</span></button>
         <button id="openBadgesButton" type="button">🏅<span>Badges</span></button>
         <button id="openJournalButton" type="button">📖<span>Journal</span></button>
@@ -259,6 +261,38 @@
       </section>
     </main>
 
+    <!-- =======================================================
+      PAGE OBJECTIF PERSONNEL
+    ======================================================== -->
+    <main id="pageGoal" class="app-page page-goal hidden" data-page="goal">
+      <section class="page-header card">
+        <h1>Objectif personnel</h1>
+        <p>Choisis la direction de ton aventure sportive. Le programme recommandé s’adaptera à cet objectif.</p>
+      </section>
+    
+      <section id="goalChoiceList" class="goal-choice-list">
+        <!-- Objectifs générés par app-render.js -->
+      </section>
+    </main>
+    
+    <!-- =======================================================
+      PAGE PLANNING HEBDOMADAIRE
+    ======================================================== -->
+    <main id="pagePlanning" class="app-page page-planning hidden" data-page="planning">
+      <section class="page-header card">
+        <h1>Planning hebdomadaire</h1>
+        <p>Une carte de route simple selon ton objectif. Pas de punition, juste une boussole.</p>
+      </section>
+    
+      <section id="planningSummary" class="planning-summary card">
+        <!-- Résumé généré par app-render.js -->
+      </section>
+    
+      <section id="planningWeekGrid" class="planning-week-grid">
+        <!-- Semaine générée par app-render.js -->
+      </section>
+    </main>
+    
     <!-- =======================================================
       PAGE EXERCICES
       -------------------------------------------------------
