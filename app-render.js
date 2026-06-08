@@ -62,6 +62,8 @@ window.FitnessRpgRender.create = function create(tag, className = "", text = "")
 
 window.FitnessRpgRender.renderPages = function renderPages() {
   const currentPage = window.FitnessRpgState.getPage?.() || "home";
+  
+  document.body.dataset.page = currentPage;
 
   document.querySelectorAll(".app-page").forEach((page) => {
     page.classList.toggle("hidden", page.dataset.page !== currentPage);
@@ -70,7 +72,7 @@ window.FitnessRpgRender.renderPages = function renderPages() {
   const header = document.querySelector("#appHeader");
 
   if (header) {
-    header.classList.toggle("hidden", currentPage === "hero-setup");
+    header.classList.remove("hidden");
   }
 };
 
