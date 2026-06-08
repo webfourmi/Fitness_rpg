@@ -23,8 +23,8 @@ window.FitnessRpgState = {
   selectedProgramId: null,
   selectedGoalId: "reprise-douce",
   currentPose: "idle",
-  musicStatus: "Aucune musique choisie."
-  activeProgramSession: null,
+  musicStatus: "Aucune musique choisie.",
+  activeProgramSession: null
 };
 
 // ============================================================
