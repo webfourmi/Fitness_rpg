@@ -65,8 +65,15 @@ window.FitnessRpgApp.ensureInitialPage = function ensureInitialPage() {
 
 window.FitnessRpgApp.prepareDom = function prepareDom() {
   document.body.classList.add("fitness-rpg-v5");
-
+  
+  const backButton = document.querySelector("#backButton");
   const homeButton = document.querySelector("#homeButton");
+
+  if (backButton) {
+    backButton.innerHTML = "←";
+    backButton.setAttribute("aria-label", "Retour");
+    backButton.setAttribute("title", "Retour");
+  }
 
   if (homeButton) {
     homeButton.innerHTML = "🏠";
