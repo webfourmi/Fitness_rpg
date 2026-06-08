@@ -623,6 +623,110 @@ input:focus {
 }
 
 /* ============================================================
+   Objectif personnel
+============================================================ */
+
+.goal-choice-list {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.goal-choice-card {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  gap: var(--space-sm);
+  align-items: start;
+  cursor: pointer;
+}
+
+.goal-choice-card.selected {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, var(--accent-soft), var(--bg-card));
+}
+
+.goal-icon {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: var(--accent-soft);
+  font-size: 1.6rem;
+}
+
+.goal-program {
+  margin-top: var(--space-sm) !important;
+  color: var(--text) !important;
+}
+
+.choose-goal-btn {
+  margin-top: var(--space-sm);
+  width: 100%;
+}
+
+/* ============================================================
+   Planning hebdomadaire
+============================================================ */
+
+.planning-summary h2 {
+  color: var(--accent);
+}
+
+.planning-recommendation {
+  margin-top: var(--space-sm) !important;
+  color: var(--text) !important;
+}
+
+.planning-week-grid {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.planning-day-card {
+  display: grid;
+  gap: 6px;
+}
+
+.planning-day-card > strong {
+  color: var(--accent);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.planning-day-card h2 {
+  margin: 0;
+}
+
+.planning-day-card.rest-day {
+  opacity: 0.72;
+}
+
+.rest-label {
+  display: inline-flex;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  font-weight: 850;
+}
+
+.planning-program-btn {
+  margin-top: var(--space-sm);
+}
+
+@media (min-width: 700px) {
+  .goal-choice-list,
+  .planning-week-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .training-toolbar {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+/* ============================================================
    Badges
 ============================================================ */
 
