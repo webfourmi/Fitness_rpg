@@ -1,0 +1,421 @@
+// ============================================================
+// Fitness RPG - app-navigation.js
+// Version V5-clean
+// ------------------------------------------------------------
+// Rôle de ce fichier :
+// - gérer la navigation entre les pages ;
+// - brancher les boutons principaux ;
+// - gérer création / modification du héros ;
+// - ouvrir le programme recommandé depuis la quête du jour ;
+// - gérer les boutons simples : journal, poids, coach, accueil.
+//
+// Règle importante :
+// ce fichier ne contient aucune version.
+// Il ne modifie jamais document.title.
+// ============================================================
+
+window.FitnessRpgNavigation = {};
+
+// ============================================================
+// Raccourcis
+// ============================================================
+
+window.FitnessRpgNavigation.render = function render() {
+  window.FitnessRpgRender?.renderAll?.();
+};
+
+window.FitnessRpgNavigation.setPage = function setPage(pageId) {
+  const config = window.FitnessRpgConfig;
+  const allowedPages = config?.pages || [];
+
+  const safePage = allowedPages.includes(pageId) ? pageId : "home";
+
+  window.FitnessRpgState.setPage(safePage);
+  window.FitnessRpgNavigation.render();
+};
+
+window.FitnessRpgNavigation.getInputValue = function getInputValue(selector) {
+  return document.querySelector(selector)?.value?.trim() || "";
+};
+
+window.FitnessRpgNavigation.getCheckedValue = function getCheckedValue(name, fallback = "") {
+  return document.querySelector(`input[name="${name}"]:checked`)?.value || fallback;
+};
+
+// ============================================================
+// Navigation principale
+// ============================================================
+
+window.FitnessRpgNavigation.goHome = function goHome() {
+  window.FitnessRpgState.setPose("idle");
+  window.FitnessRpgNavigation.setPage("home");
+};
+
+window.FitnessRpgNavigation.goTraining = function goTraining() {
+  if (!window.FitnessRpgState.hasProfile()) {
+    window.FitnessRpgNavigation.openHeroSetup();
+    return;
+  }
+
+  window.FitnessRpgState.setPose("idle");
+  window.FitnessRpgNavigation.setPage("training");
+};
+
+window.FitnessRpgNavigation.openHeroSetup = function openHeroSetup() {
+  window.FitnessRpgNavigation.setPage("hero-setup");
+};
+
+window.FitnessRpgNavigation.openPrograms = function openPrograms(programId = null) {
+  if (programId) {
+    window.FitnessRpgState.selectedProgramId = programId;
+  }
+
+  window.FitnessRpgNavigation.setPage("programs");
+
+  if (programId) {
+    window.FitnessRpgRender.renderProgramDetail(programId);
+
+    window.setTimeout(() => {
+      document.querySelector("#programDetail")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }, 80);
+  }
+};
+
+window.FitnessRpgNavigation.openExercises = function openExercises() {
+  window.FitnessRpgNavigation.setPage("exercises");
+};
+
+window.FitnessRpgNavigation.openMusic = function openMusic() {
+  window.FitnessRpgNavigation.setPage("music");
+};
+
+window.FitnessRpgNavigation.openBadges = function openBadges() {
+  window.FitnessRpgNavigation.setPage("badges");
+};
+
+window.FitnessRpgNavigation.openJournal = function openJournal() {
+  window.FitnessRpgNavigation.setPage("journal");
+};
+
+window.FitnessRpgNavigation.openWeight = function openWeight() {
+  window.FitnessRpgNavigation.setPage("weight");
+};
+
+// ============================================================
+// Quête du jour → programme recommandé
+// ============================================================
+
+window.FitnessRpgNavigation.openRecommendedProgram = function openRecommendedProgram() {
+  const recommended = window.FitnessRpgState.getRecommendedProgram?.()
+    || window.FitnessRpgConfig.getProgramById("eveil-heros");
+
+  if (!recommended) {
+    window.FitnessRpgNavigation.openPrograms();
+    return;
+  }
+
+  window.FitnessRpgNavigation.openPrograms(recommended.id);
+};
+
+// ============================================================
+// Création / modification du héros
+// ============================================================
+
+window.FitnessRpgNavigation.readHeroForm = function readHeroForm() {
+  const name = window.FitnessRpgNavigation.getInputValue("#heroNameInput") || "Héros";
+  const ageRaw = window.FitnessRpgNavigation.getInputValue("#heroAgeInput");
+  const age = ageRaw ? Number(ageRaw) : null;
+
+  const gender = window.FitnessRpgNavigation.getCheckedValue("heroGender", "homme");
+  const coachId = window.FitnessRpgNavigation.getCheckedValue(
+    "coachChoice",
+    window.FitnessRpgState.selectedCoachId || "korvan"
+  );
+
+  return {
+    name,
+    age: Number.isFinite(age) && age > 0 ? age : null,
+    gender,
+    coachId
+  };
+};
+
+window.FitnessRpgNavigation.saveHeroFromForm = function saveHeroFromForm() {
+  const data = window.FitnessRpgNavigation.readHeroForm();
+
+  if (window.FitnessRpgState.hasProfile()) {
+    window.FitnessRpgState.updateProfile(data);
+
+    window.FitnessRpgState.addJournalEntry({
+      type: "profile",
+      title: "Profil mis à jour",
+      text: `Profil mis à jour pour ${data.name}.`,
+      xp: 0
+    });
+  } else {
+    window.FitnessRpgState.createProfile(data);
+  }
+
+  window.FitnessRpgState.setPose("welcome");
+  window.FitnessRpgNavigation.setPage("training");
+};
+
+window.FitnessRpgNavigation.startNewHero = function startNewHero() {
+  const hasProfile = window.FitnessRpgState.hasProfile();
+
+  if (hasProfile) {
+    const ok = window.confirm("Créer un nouveau héros ? L’ancien profil sera supprimé de cet appareil.");
+
+    if (!ok) return;
+
+    window.FitnessRpgState.clearProfile();
+  }
+
+  const nameInput = document.querySelector("#heroNameInput");
+  const ageInput = document.querySelector("#heroAgeInput");
+  const maleInput = document.querySelector('input[name="heroGender"][value="homme"]');
+
+  if (nameInput) nameInput.value = "";
+  if (ageInput) ageInput.value = "";
+  if (maleInput) maleInput.checked = true;
+
+  window.FitnessRpgState.selectedCoachId = "korvan";
+  window.FitnessRpgState.setPose("idle");
+
+  window.FitnessRpgNavigation.setPage("hero-setup");
+};
+
+window.FitnessRpgNavigation.cancelHeroSetup = function cancelHeroSetup() {
+  if (window.FitnessRpgState.hasProfile()) {
+    window.FitnessRpgNavigation.goHome();
+  } else {
+    window.FitnessRpgNavigation.setPage("hero-setup");
+  }
+};
+
+// ============================================================
+// Coach
+// ============================================================
+
+window.FitnessRpgNavigation.selectCoachCard = function selectCoachCard(card) {
+  if (!card) return;
+
+  const coachId = card.dataset.coachId;
+  if (!coachId) return;
+
+  window.FitnessRpgState.selectedCoachId = coachId;
+
+  const input = card.querySelector('input[name="coachChoice"]');
+  if (input) input.checked = true;
+
+  document.querySelectorAll(".coach-choice-card").forEach((item) => {
+    item.classList.toggle("active", item.dataset.coachId === coachId);
+  });
+};
+
+window.FitnessRpgNavigation.newCoachMessage = function newCoachMessage() {
+  const profile = window.FitnessRpgState.getProfile?.();
+  if (!profile) return;
+
+  const coachId = window.FitnessRpgState.getCoachId();
+  const message = window.FitnessRpgData.getCoachMessage(coachId, "start");
+
+  window.FitnessRpgState.setPose("motivate");
+
+  const messageNode = document.querySelector("#coachMessage");
+  if (messageNode) messageNode.textContent = message;
+
+  window.FitnessRpgRender.renderCoachPanel();
+};
+
+// ============================================================
+// Journal
+// ============================================================
+
+window.FitnessRpgNavigation.clearJournal = function clearJournal() {
+  const ok = window.confirm("Vider le journal du héros ?");
+
+  if (!ok) return;
+
+  window.FitnessRpgState.clearJournal();
+  window.FitnessRpgRender.renderJournal();
+};
+
+// ============================================================
+// Poids
+// ============================================================
+
+window.FitnessRpgNavigation.saveWeight = function saveWeight() {
+  const input = document.querySelector("#weightInput");
+  if (!input) return;
+
+  const value = Number(input.value);
+
+  if (!Number.isFinite(value) || value <= 0) {
+    alert("Entre un poids valide en kg.");
+    return;
+  }
+
+  const entry = window.FitnessRpgState.addWeight(value);
+
+  if (!entry) {
+    alert("Impossible d’enregistrer ce poids.");
+    return;
+  }
+
+  input.value = "";
+
+  if (window.FitnessRpgState.hasProfile()) {
+    window.FitnessRpgState.addJournalEntry({
+      type: "weight",
+      title: "Poids enregistré",
+      text: `Poids du jour : ${value} kg.`,
+      xp: 0
+    });
+  }
+
+  window.FitnessRpgRender.renderWeight();
+};
+
+// ============================================================
+// Délégation de clics
+// ============================================================
+
+window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(event) {
+  const target = event.target;
+
+  // Header
+  if (target.closest("#homeButton")) {
+    window.FitnessRpgNavigation.goHome();
+    return;
+  }
+
+  // Accueil
+  if (target.closest("#startTrainingButton")) {
+    window.FitnessRpgNavigation.goTraining();
+    return;
+  }
+
+  if (target.closest("#chooseCoachButton")) {
+    window.FitnessRpgNavigation.openHeroSetup();
+    return;
+  }
+
+  if (target.closest("#newHeroButton")) {
+    window.FitnessRpgNavigation.startNewHero();
+    return;
+  }
+
+  // Création héros
+  if (target.closest("#saveHeroButton")) {
+    window.FitnessRpgNavigation.saveHeroFromForm();
+    return;
+  }
+
+  if (target.closest("#cancelHeroSetupButton")) {
+    window.FitnessRpgNavigation.cancelHeroSetup();
+    return;
+  }
+
+  const coachCard = target.closest(".coach-choice-card");
+  if (coachCard) {
+    window.FitnessRpgNavigation.selectCoachCard(coachCard);
+    return;
+  }
+
+  // Entraînement
+  if (target.closest("#newCoachMessageButton")) {
+    window.FitnessRpgNavigation.newCoachMessage();
+    return;
+  }
+
+  if (target.closest("#todayCard") || target.closest("#openTodayProgramButton")) {
+    event.preventDefault();
+    window.FitnessRpgNavigation.openRecommendedProgram();
+    return;
+  }
+
+  // Barre outils entraînement
+  if (target.closest("#openExercisesButton")) {
+    window.FitnessRpgNavigation.openExercises();
+    return;
+  }
+
+  if (target.closest("#openProgramsButton")) {
+    window.FitnessRpgNavigation.openPrograms();
+    return;
+  }
+
+  if (target.closest("#openMusicButton")) {
+    window.FitnessRpgNavigation.openMusic();
+    return;
+  }
+
+  if (target.closest("#openBadgesButton")) {
+    window.FitnessRpgNavigation.openBadges();
+    return;
+  }
+
+  if (target.closest("#openJournalButton")) {
+    window.FitnessRpgNavigation.openJournal();
+    return;
+  }
+
+  if (target.closest("#openWeightButton")) {
+    window.FitnessRpgNavigation.openWeight();
+    return;
+  }
+
+  // Programmes
+  const programCard = target.closest(".program-card");
+  if (programCard) {
+    const programId = programCard.dataset.programId;
+    window.FitnessRpgState.selectedProgramId = programId;
+    window.FitnessRpgRender.renderProgramDetail(programId);
+
+    window.setTimeout(() => {
+      document.querySelector("#programDetail")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }, 80);
+
+    return;
+  }
+
+  // Journal
+  if (target.closest("#clearJournalButton")) {
+    window.FitnessRpgNavigation.clearJournal();
+    return;
+  }
+
+  // Poids
+  if (target.closest("#saveWeightButton")) {
+    window.FitnessRpgNavigation.saveWeight();
+  }
+};
+
+// ============================================================
+// Clavier
+// ============================================================
+
+window.FitnessRpgNavigation.handleDocumentKeydown = function handleDocumentKeydown(event) {
+  const target = event.target;
+
+  if (target.closest("#todayCard") && (event.key === "Enter" || event.key === " ")) {
+    event.preventDefault();
+    window.FitnessRpgNavigation.openRecommendedProgram();
+  }
+};
+
+// ============================================================
+// Initialisation navigation
+// ============================================================
+
+window.FitnessRpgNavigation.init = function initNavigation() {
+  document.addEventListener("click", window.FitnessRpgNavigation.handleDocumentClick);
+  document.addEventListener("keydown", window.FitnessRpgNavigation.handleDocumentKeydown);
+};
