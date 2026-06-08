@@ -5,7 +5,7 @@
 // Rôle de ce fichier :
 // - définir la version officielle de l’application ;
 // - centraliser les clés localStorage ;
-// - centraliser les règles XP ;
+// - centraliser les règles XP  ;
 // - centraliser les rangs RPG ;
 // - centraliser les objectifs et les programmes principaux.
 //
