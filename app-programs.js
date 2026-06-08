@@ -86,7 +86,6 @@ window.FitnessRpgPrograms.formatDayExercises = function formatDayExercises(day) 
 // ============================================================
 // Validation d’une séance de programme
 // ============================================================
-
 window.FitnessRpgPrograms.validateProgramDay = function validateProgramDay(programId, dayNumber) {
   if (!window.FitnessRpgState.hasProfile()) {
     alert("Crée d’abord ton héros.");
@@ -102,55 +101,17 @@ window.FitnessRpgPrograms.validateProgramDay = function validateProgramDay(progr
     return;
   }
 
-  const xp = window.FitnessRpgPrograms.calculateProgramDayXp(programId, dayNumber);
-  const title = window.FitnessRpgPrograms.describeProgramDay(programId, dayNumber);
-  const details = window.FitnessRpgPrograms.formatDayExercises(day);
-
-  const entry = window.FitnessRpgState.addTrainingEntry({
-    type: "program",
-    sportId: "program",
-    sportTitle: "Programme",
-    programId: program.id,
-    programTitle: program.title,
-    title,
-    amount: 1,
-    unit: "séance",
-    xp
-  });
-
-  if (!entry) return;
-
-  window.FitnessRpgState.addJournalEntry({
-    type: "program",
-    title,
-    text: `${title} validé. ${details}`,
-    xp
-  });
-
-  window.FitnessRpgState.setPose("victory");
-
-  const coachId = window.FitnessRpgState.getCoachId();
-  const coachMessage = document.querySelector("#coachMessage");
-
-  if (coachMessage) {
-    const message = window.FitnessRpgData.getCoachMessage(coachId, "complete");
-    coachMessage.textContent = `${message} +${xp} XP.`;
-  }
-
-  window.FitnessRpgProgress.checkBadges();
-  window.FitnessRpgRender.renderAll();
+  window.FitnessRpgState.startProgramSession(programId, dayNumber);
+  window.FitnessRpgRender.renderProgramDetail(programId);
 
   window.setTimeout(() => {
-    const detail = document.querySelector("#programDetail");
-    if (detail) {
-      window.FitnessRpgRender.renderProgramDetail(programId);
-      detail.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }
+    document.querySelector("#activeProgramSession")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
   }, 80);
 };
+
 
 // ============================================================
 // Quête du jour
@@ -200,12 +161,110 @@ window.FitnessRpgPrograms.markCompletedProgramDays = function markCompletedProgr
     button.textContent = done ? "Séance déjà validée" : "Valider cette séance";
   });
 };
+// ============================================================
+// Validation exercice par exercice
+// ============================================================
 
+window.FitnessRpgPrograms.validateProgramExercise = function validateProgramExercise(exerciseId) {
+  const session = window.FitnessRpgState.getActiveProgramSession?.();
+
+  if (!session) return;
+
+  window.FitnessRpgState.completeProgramSessionExercise(exerciseId);
+
+  const exercise = window.FitnessRpgData.getExerciseById(exerciseId);
+  const coachId = window.FitnessRpgState.getCoachId();
+
+  const coachMessage = document.querySelector("#coachMessage");
+
+  if (coachMessage && exercise) {
+    const message = window.FitnessRpgData.getCoachMessage(coachId, "complete", exercise.id);
+    coachMessage.textContent = message;
+  }
+
+  window.FitnessRpgRender.renderProgramDetail(session.programId);
+};
+
+window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession() {
+  const session = window.FitnessRpgState.getActiveProgramSession?.();
+
+  if (!session) return;
+
+  if (!window.FitnessRpgState.isProgramSessionComplete()) {
+    alert("Valide tous les exercices avant de terminer la séance.");
+    return;
+  }
+
+  const program = window.FitnessRpgPrograms.getProgram(session.programId);
+  const day = window.FitnessRpgPrograms.getProgramDay(session.programId, session.dayNumber);
+  const xp = window.FitnessRpgProgress.calculateProgramSessionXp(session.programId, session.dayNumber);
+  const difficulty = window.FitnessRpgProgress.getProgramDayDifficulty(day);
+  const title = `${program.title} · Jour ${day.day} · ${day.title}`;
+
+  window.FitnessRpgState.addTrainingEntry({
+    type: "program",
+    sportId: "program",
+    sportTitle: "Programme",
+    programId: program.id,
+    programTitle: program.title,
+    title,
+    amount: 1,
+    unit: "séance",
+    xp
+  });
+
+  window.FitnessRpgState.addJournalEntry({
+    type: "program",
+    title,
+    text: `${difficulty.label} terminée : ${day.exercises.length} exercices validés.`,
+    xp
+  });
+
+  window.FitnessRpgState.setPose("victory");
+  window.FitnessRpgState.clearActiveProgramSession();
+
+  const coachId = window.FitnessRpgState.getCoachId();
+  const coachMessage = document.querySelector("#coachMessage");
+
+  if (coachMessage) {
+    const message = window.FitnessRpgData.getCoachMessage(coachId, "complete");
+    coachMessage.textContent = `${message} +${xp} XP.`;
+  }
+
+  window.FitnessRpgProgress.checkBadges();
+  window.FitnessRpgRender.renderAll();
+
+  window.setTimeout(() => {
+    window.FitnessRpgRender.renderProgramDetail(program.id);
+    document.querySelector("#programDetail")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }, 80);
+};
 // ============================================================
 // Clics
 // ============================================================
 
 window.FitnessRpgPrograms.handleDocumentClick = function handleDocumentClick(event) {
+  const programExerciseButton = event.target.closest(".validate-program-exercise-btn");
+  
+  if (programExerciseButton) {
+    event.preventDefault();
+  
+    const exerciseId = programExerciseButton.dataset.exerciseId;
+    window.FitnessRpgPrograms.validateProgramExercise(exerciseId);
+    return;
+  }
+  
+  const finishButton = event.target.closest("#finishProgramSessionButton");
+  
+  if (finishButton) {
+    event.preventDefault();
+    window.FitnessRpgPrograms.finishProgramSession();
+    return;
+  }
+  
   const dayButton = event.target.closest(".start-program-day-btn");
 
   if (dayButton) {
