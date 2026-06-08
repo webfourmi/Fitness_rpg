@@ -321,9 +321,9 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
           <p class="goal-program">
             Programme conseillé : <strong>${program?.title || "Éveil du héros"}</strong>
           </p>
-          <button class="primary-btn choose-goal-btn" type="button" data-goal-id="${goal.id}">
-            ${goal.id === selectedGoalId ? "Objectif actuel" : "Choisir cet objectif"}
-          </button>
+         <button class="primary-btn start-program-day-btn" type="button" data-program-id="${programId}" data-day="${day.day}">
+            Démarrer la séance
+         </button>
         </div>
       `;
   
@@ -331,6 +331,85 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
     });
   };
 
+// ============================================================
+// Séance de programme active
+// ============================================================
+
+window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgramSession() {
+  const detail = document.querySelector("#programDetail");
+  const session = window.FitnessRpgState.getActiveProgramSession?.();
+
+  if (!detail || !session) return;
+
+  const program = window.FitnessRpgConfig.getProgramById(session.programId);
+  const day = window.FitnessRpgPrograms.getProgramDay(session.programId, session.dayNumber);
+
+  if (!program || !day) return;
+
+  const difficulty = window.FitnessRpgProgress.getProgramDayDifficulty(day);
+  const xp = window.FitnessRpgProgress.calculateProgramSessionXp(session.programId, session.dayNumber);
+  const complete = window.FitnessRpgState.isProgramSessionComplete();
+
+  const exercisesHtml = day.exercises.map((item, index) => {
+    const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
+    const done = window.FitnessRpgState.isProgramSessionExerciseDone(item.exerciseId);
+
+    return `
+      <article class="program-session-exercise${done ? " done" : ""}">
+        <div class="program-session-index">${index + 1}</div>
+
+        <div>
+          <strong>${item.phase}</strong>
+          <h3>${exercise?.title || item.exerciseId}</h3>
+          <p>${item.amount} ${item.unit}</p>
+        </div>
+
+        <button
+          class="${done ? "ghost-btn" : "secondary-btn"} validate-program-exercise-btn"
+          type="button"
+          data-exercise-id="${item.exerciseId}"
+        >
+          ${done ? "Validé" : "Valider"}
+        </button>
+      </article>
+    `;
+  }).join("");
+
+  const doneCount = session.completedExerciseIds.length;
+  const totalCount = day.exercises.length;
+
+  const sessionHtml = `
+    <section id="activeProgramSession" class="active-program-session card">
+      <p class="eyebrow">${program.icon} Séance en cours</p>
+      <h2>${program.title} · Jour ${day.day}</h2>
+      <p>${day.title}</p>
+
+      <div class="program-session-meta">
+        <span>${difficulty.label}</span>
+        <span>${doneCount}/${totalCount} exercices</span>
+        <span>${xp} XP final</span>
+      </div>
+
+      <div class="program-session-list">
+        ${exercisesHtml}
+      </div>
+
+      <button
+        id="finishProgramSessionButton"
+        class="primary-btn"
+        type="button"
+        ${complete ? "" : "disabled"}
+      >
+        ${complete ? `Terminer la séance · +${xp} XP` : "Valide tous les exercices pour terminer"}
+      </button>
+    </section>
+  `;
+
+  const oldSession = detail.querySelector("#activeProgramSession");
+  if (oldSession) oldSession.remove();
+
+  detail.insertAdjacentHTML("afterbegin", sessionHtml);
+};
 // ============================================================
 // Planning hebdomadaire
 // ============================================================
@@ -534,6 +613,7 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
       <ul>${progressionHtml}</ul>
     </section>
   `;
+  window.FitnessRpgRender.renderActiveProgramSession();
 };
 
 // ============================================================
