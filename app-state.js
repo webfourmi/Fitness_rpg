@@ -24,6 +24,7 @@ window.FitnessRpgState = {
   selectedGoalId: "reprise-douce",
   currentPose: "idle",
   musicStatus: "Aucune musique choisie."
+  activeProgramSession: null,
 };
 
 // ============================================================
@@ -525,6 +526,67 @@ window.FitnessRpgState.unlockBadge = function unlockBadge(badgeId) {
 
 window.FitnessRpgState.hasBadge = function hasBadge(badgeId) {
   return Boolean(window.FitnessRpgState.profile?.badges?.includes(badgeId));
+};
+// ============================================================
+// Séance de programme en cours
+// ============================================================
+
+window.FitnessRpgState.startProgramSession = function startProgramSession(programId, dayNumber) {
+  const day = window.FitnessRpgPrograms?.getProgramDay?.(programId, dayNumber);
+
+  if (!day) return null;
+
+  window.FitnessRpgState.activeProgramSession = {
+    id: window.FitnessRpgState.createId("program-session"),
+    programId,
+    dayNumber: Number(dayNumber),
+    startedAt: window.FitnessRpgState.nowIso(),
+    completedExerciseIds: []
+  };
+
+  return window.FitnessRpgState.activeProgramSession;
+};
+
+window.FitnessRpgState.getActiveProgramSession = function getActiveProgramSession() {
+  return window.FitnessRpgState.activeProgramSession;
+};
+
+window.FitnessRpgState.clearActiveProgramSession = function clearActiveProgramSession() {
+  window.FitnessRpgState.activeProgramSession = null;
+};
+
+window.FitnessRpgState.completeProgramSessionExercise = function completeProgramSessionExercise(exerciseId) {
+  const session = window.FitnessRpgState.getActiveProgramSession();
+
+  if (!session) return null;
+
+  if (!session.completedExerciseIds.includes(exerciseId)) {
+    session.completedExerciseIds.push(exerciseId);
+  }
+
+  return session;
+};
+
+window.FitnessRpgState.isProgramSessionExerciseDone = function isProgramSessionExerciseDone(exerciseId) {
+  const session = window.FitnessRpgState.getActiveProgramSession();
+
+  if (!session) return false;
+
+  return session.completedExerciseIds.includes(exerciseId);
+};
+
+window.FitnessRpgState.isProgramSessionComplete = function isProgramSessionComplete() {
+  const session = window.FitnessRpgState.getActiveProgramSession();
+
+  if (!session) return false;
+
+  const day = window.FitnessRpgPrograms?.getProgramDay?.(session.programId, session.dayNumber);
+
+  if (!day || !Array.isArray(day.exercises)) return false;
+
+  return day.exercises.every((item) => {
+    return session.completedExerciseIds.includes(item.exerciseId);
+  });
 };
 
 // ============================================================
