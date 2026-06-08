@@ -77,6 +77,60 @@ window.FitnessRpgProgress.calculateProgramXp = function calculateProgramXp(progr
 };
 
 // ============================================================
+// Difficulté et XP des séances de programme
+// ============================================================
+
+window.FitnessRpgProgress.estimateProgramDayMinutes = function estimateProgramDayMinutes(day) {
+  if (!day || !Array.isArray(day.exercises)) return 0;
+
+  return day.exercises.reduce((total, item) => {
+    const amount = Number(item.amount || 0);
+
+    if (item.unit === "min") return total + amount;
+    if (item.unit === "sec") return total + amount / 60;
+
+    // Pour les répétitions, on estime grossièrement le temps.
+    if (item.unit === "répétitions") return total + amount / 10;
+
+    return total + 1;
+  }, 0);
+};
+
+window.FitnessRpgProgress.getProgramDayDifficulty = function getProgramDayDifficulty(day) {
+  const minutes = window.FitnessRpgProgress.estimateProgramDayMinutes(day);
+  const count = Array.isArray(day?.exercises) ? day.exercises.length : 0;
+
+  if (minutes <= 15 && count <= 4) {
+    return {
+      id: "short",
+      label: "Séance courte",
+      xpKey: "shortSession"
+    };
+  }
+
+  if (minutes <= 30 && count <= 7) {
+    return {
+      id: "normal",
+      label: "Séance normale",
+      xpKey: "normalSession"
+    };
+  }
+
+  return {
+    id: "hard",
+    label: "Séance difficile",
+    xpKey: "hardSession"
+  };
+};
+
+window.FitnessRpgProgress.calculateProgramSessionXp = function calculateProgramSessionXp(programId, dayNumber) {
+  const day = window.FitnessRpgPrograms?.getProgramDay?.(programId, dayNumber);
+  const difficulty = window.FitnessRpgProgress.getProgramDayDifficulty(day);
+  const rules = window.FitnessRpgConfig.xpRules || {};
+
+  return Number(rules[difficulty.xpKey] || 20);
+};
+// ============================================================
 // Attribution XP
 // ============================================================
 
