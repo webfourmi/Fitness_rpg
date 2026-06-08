@@ -230,6 +230,13 @@ img {
   font-size: 1.1rem;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 button:active {
   transform: translateY(1px);
 }
@@ -286,6 +293,10 @@ input:focus {
 /* ============================================================
    Accueil
 ============================================================ */
+
+body[data-page="home"] #backButton {
+  display: none;
+} 
 
 .home-card {
   display: grid;
