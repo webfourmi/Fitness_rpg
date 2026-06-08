@@ -1,0 +1,627 @@
+// ============================================================
+// Fitness RPG - app-render.js
+// Version V5-clean
+// ------------------------------------------------------------
+// Rôle de ce fichier :
+// - afficher les pages ;
+// - afficher l’accueil ;
+// - afficher le héros et sa progression ;
+// - afficher le coach ;
+// - afficher la quête du jour ;
+// - afficher les badges ;
+// - afficher le journal ;
+// - afficher le suivi du poids.
+//
+// Règle importante :
+// ce fichier ne contient aucune version en dur.
+// Il ne modifie jamais document.title directement.
+// ============================================================
+
+window.FitnessRpgRender = {};
+
+// ============================================================
+// Raccourcis DOM
+// ============================================================
+
+window.FitnessRpgRender.$ = function $(selector) {
+  return document.querySelector(selector);
+};
+
+window.FitnessRpgRender.$$ = function $$(selector) {
+  return Array.from(document.querySelectorAll(selector));
+};
+
+window.FitnessRpgRender.setText = function setText(selectorOrNode, value) {
+  const node = typeof selectorOrNode === "string"
+    ? document.querySelector(selectorOrNode)
+    : selectorOrNode;
+
+  if (node) node.textContent = value ?? "";
+};
+
+window.FitnessRpgRender.clear = function clear(selectorOrNode) {
+  const node = typeof selectorOrNode === "string"
+    ? document.querySelector(selectorOrNode)
+    : selectorOrNode;
+
+  if (node) node.innerHTML = "";
+};
+
+window.FitnessRpgRender.create = function create(tag, className = "", text = "") {
+  const element = document.createElement(tag);
+
+  if (className) element.className = className;
+  if (text) element.textContent = text;
+
+  return element;
+};
+
+// ============================================================
+// Pages
+// ============================================================
+
+window.FitnessRpgRender.renderPages = function renderPages() {
+  const currentPage = window.FitnessRpgState.getPage?.() || "home";
+
+  document.querySelectorAll(".app-page").forEach((page) => {
+    page.classList.toggle("hidden", page.dataset.page !== currentPage);
+  });
+
+  const header = document.querySelector("#appHeader");
+
+  if (header) {
+    header.classList.toggle("hidden", currentPage === "hero-setup");
+  }
+};
+
+window.FitnessRpgRender.renderVersion = function renderVersion() {
+  window.FitnessRpgConfig?.setVersionLabels?.();
+};
+
+// ============================================================
+// Images sûres
+// ============================================================
+
+window.FitnessRpgRender.setSafeImage = function setSafeImage(img, src, fallback = "") {
+  if (!img) return;
+
+  img.onerror = () => {
+    img.onerror = null;
+
+    if (fallback && img.src !== fallback) {
+      img.src = fallback;
+    }
+  };
+
+  img.src = src || fallback || "";
+};
+
+// ============================================================
+// Accueil
+// ============================================================
+
+window.FitnessRpgRender.renderHome = function renderHome() {
+  const profile = window.FitnessRpgState.getProfile?.();
+
+  if (!profile) {
+    window.FitnessRpgRender.setText("#homeHeroSummary", "Aucun héros créé.");
+    window.FitnessRpgRender.setText("#homeCoachSummary", "Aucun coach choisi.");
+    return;
+  }
+
+  const info = window.FitnessRpgConfig.levelInfo(profile.totalXp || 0);
+  const coach = window.FitnessRpgData.getCoach(profile.coachId);
+
+  window.FitnessRpgRender.setText(
+    "#homeHeroSummary",
+    `${profile.name} · Niv. ${info.level} · ${info.rank} · ${profile.totalXp || 0} XP`
+  );
+
+  window.FitnessRpgRender.setText(
+    "#homeCoachSummary",
+    `Coach actuel : ${coach.fullName}`
+  );
+};
+
+// ============================================================
+// Création / modification du héros
+// ============================================================
+
+window.FitnessRpgRender.renderHeroSetup = function renderHeroSetup() {
+  const profile = window.FitnessRpgState.getProfile?.();
+
+  const title = document.querySelector("#heroSetupTitle");
+  const help = document.querySelector("#heroSetupHelp");
+  const saveButton = document.querySelector("#saveHeroButton");
+
+  if (profile) {
+    window.FitnessRpgRender.setText(title, "Modifier ton héros");
+    window.FitnessRpgRender.setText(help, "Tu peux ajuster le nom, l’âge, le genre ou le coach.");
+    window.FitnessRpgRender.setText(saveButton, "Enregistrer");
+
+    const nameInput = document.querySelector("#heroNameInput");
+    const ageInput = document.querySelector("#heroAgeInput");
+
+    if (nameInput && !nameInput.value) nameInput.value = profile.name || "";
+    if (ageInput && !ageInput.value && profile.age) ageInput.value = profile.age;
+
+    const genderInput = document.querySelector(`input[name="heroGender"][value="${profile.gender || "homme"}"]`);
+    if (genderInput) genderInput.checked = true;
+
+    window.FitnessRpgState.selectedCoachId = profile.coachId || "korvan";
+  } else {
+    window.FitnessRpgRender.setText(title, "Créer ton héros");
+    window.FitnessRpgRender.setText(help, "Choisis ton profil et ton coach pour commencer.");
+    window.FitnessRpgRender.setText(saveButton, "Commencer l’aventure");
+  }
+
+  window.FitnessRpgRender.renderCoachChoices();
+};
+
+window.FitnessRpgRender.renderCoachChoices = function renderCoachChoices() {
+  const grid = document.querySelector("#coachChoiceGrid");
+  if (!grid) return;
+
+  const coaches = window.FitnessRpgData.coaches || {};
+  const selectedCoachId = window.FitnessRpgState.getCoachId?.() || window.FitnessRpgState.selectedCoachId || "korvan";
+
+  grid.innerHTML = "";
+
+  Object.values(coaches).forEach((coach) => {
+    const label = document.createElement("label");
+    label.className = `coach-choice-card${coach.id === selectedCoachId ? " active" : ""}`;
+    label.dataset.coachId = coach.id;
+
+    label.innerHTML = `
+      <input type="radio" name="coachChoice" value="${coach.id}" ${coach.id === selectedCoachId ? "checked" : ""} />
+      <img src="${coach.image}" alt="${coach.fullName}" />
+      <div>
+        <strong>${coach.name}</strong>
+        <span>${coach.fullName}</span>
+      </div>
+    `;
+
+    const img = label.querySelector("img");
+    window.FitnessRpgRender.setSafeImage(img, coach.image, coach.fallbackImage);
+
+    grid.appendChild(label);
+  });
+};
+
+// ============================================================
+// Page entraînement
+// ============================================================
+
+window.FitnessRpgRender.renderTraining = function renderTraining() {
+  const profile = window.FitnessRpgState.getProfile?.();
+
+  if (!profile) return;
+
+  window.FitnessRpgRender.renderHeroPanel();
+  window.FitnessRpgRender.renderCoachPanel();
+  window.FitnessRpgRender.renderTodayCard();
+};
+
+window.FitnessRpgRender.renderHeroPanel = function renderHeroPanel() {
+  const profile = window.FitnessRpgState.getProfile?.();
+
+  if (!profile) return;
+
+  const info = window.FitnessRpgProgress.getProfileLevelInfo();
+  const heroPath = window.FitnessRpgProgress.getHeroImagePath();
+  const heroFrame = document.querySelector("#heroImageFrame");
+
+  if (heroFrame) {
+    heroFrame.innerHTML = `
+      <img
+        id="heroImage"
+        class="hero-image"
+        src="${heroPath}"
+        alt="${profile.name}"
+      />
+      <span class="hero-level-badge">Niv. ${info.level}</span>
+    `;
+  }
+
+  window.FitnessRpgRender.setText(
+    "#heroIdentityLine",
+    window.FitnessRpgProgress.getIdentityLine()
+  );
+
+  window.FitnessRpgRender.setText(
+    "#xpTitle",
+    `Niv. ${info.level} · ${info.rank}`
+  );
+
+  window.FitnessRpgRender.setText(
+    "#xpText",
+    window.FitnessRpgProgress.getXpText()
+  );
+
+  const xpBar = document.querySelector("#xpBar");
+  if (xpBar) {
+    xpBar.style.width = `${window.FitnessRpgProgress.getXpPercent()}%`;
+  }
+
+  window.FitnessRpgRender.setText("#streakLabel", profile.streak || 0);
+  window.FitnessRpgRender.setText("#todayEntriesLabel", window.FitnessRpgState.getTodayEntries().length);
+};
+
+window.FitnessRpgRender.renderCoachPanel = function renderCoachPanel() {
+  const profile = window.FitnessRpgState.getProfile?.();
+
+  if (!profile) return;
+
+  const coachId = window.FitnessRpgState.getCoachId();
+  const coach = window.FitnessRpgData.getCoach(coachId);
+  const pose = window.FitnessRpgState.getPose();
+  const img = document.querySelector("#coachImage");
+
+  const src = window.FitnessRpgData.getCoachImage(coachId, pose);
+
+  window.FitnessRpgRender.setSafeImage(img, src, coach.fallbackImage);
+  if (img) img.alt = coach.fullName;
+
+  window.FitnessRpgRender.setText("#coachName", coach.fullName);
+
+  const messageNode = document.querySelector("#coachMessage");
+
+  if (messageNode && !messageNode.textContent.trim()) {
+    messageNode.textContent = window.FitnessRpgData.getCoachMessage(coachId, "start");
+  }
+};
+
+window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
+  const program = window.FitnessRpgState.getRecommendedProgram?.()
+    || window.FitnessRpgConfig.getProgramById("eveil-heros");
+
+  if (!program) return;
+
+  window.FitnessRpgRender.setText("#todayProgramTitle", program.title);
+
+  window.FitnessRpgRender.setText(
+    "#todayProgramDescription",
+    `${program.objective} · ${program.duration} · ${program.frequency || "séance conseillée"}`
+  );
+
+  const todayCard = document.querySelector("#todayCard");
+  if (todayCard) todayCard.dataset.programId = program.id;
+
+  const openButton = document.querySelector("#openTodayProgramButton");
+  if (openButton) openButton.dataset.programId = program.id;
+};
+
+// ============================================================
+// Programmes
+// ============================================================
+
+window.FitnessRpgRender.renderProgramList = function renderProgramList() {
+  const list = document.querySelector("#programList");
+  if (!list) return;
+
+  list.innerHTML = "";
+
+  const programs = window.FitnessRpgConfig.programs || [];
+
+  programs.forEach((program) => {
+    const card = document.createElement("article");
+    card.className = "program-card card";
+    card.dataset.programId = program.id;
+
+    card.innerHTML = `
+      <div class="program-icon">${program.icon}</div>
+      <div>
+        <h2>${program.title}</h2>
+        <p>${program.objective}</p>
+        <ul>
+          <li><strong>Niveau :</strong> ${program.level}</li>
+          <li><strong>Durée :</strong> ${program.duration}</li>
+          <li><strong>Coach conseillé :</strong> ${program.coachAdvice || "Libre"}</li>
+        </ul>
+      </div>
+    `;
+
+    list.appendChild(card);
+  });
+};
+
+window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(programId) {
+  const detail = document.querySelector("#programDetail");
+  if (!detail) return;
+
+  const program = window.FitnessRpgConfig.getProgramById(programId);
+  const programDetail = window.FitnessRpgData.getProgramDetail(programId);
+
+  if (!program || !programDetail) {
+    detail.classList.add("hidden");
+    detail.innerHTML = "";
+    return;
+  }
+
+  detail.classList.remove("hidden");
+  detail.dataset.programId = programId;
+
+  const daysHtml = programDetail.days.map((day) => {
+    const exercisesHtml = day.exercises.map((item) => {
+      const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
+
+      return `
+        <li>
+          <strong>${item.phase}</strong>
+          <span>${exercise?.title || item.exerciseId}</span>
+          <em>${item.amount} ${item.unit}</em>
+        </li>
+      `;
+    }).join("");
+
+    return `
+      <article class="program-day-card">
+        <h3>Jour ${day.day} · ${day.title}</h3>
+        <ul>${exercisesHtml}</ul>
+        <button class="primary-btn start-program-day-btn" type="button" data-program-id="${programId}" data-day="${day.day}">
+          Valider cette séance
+        </button>
+      </article>
+    `;
+  }).join("");
+
+  const progressionHtml = (programDetail.progression || [])
+    .map((line) => `<li>${line}</li>`)
+    .join("");
+
+  detail.innerHTML = `
+    <header class="program-detail-header">
+      <p class="eyebrow">${program.icon} ${program.objective}</p>
+      <h2>${program.title}</h2>
+      <p>${program.duration} · ${program.frequency}</p>
+    </header>
+
+    <section class="program-days">
+      ${daysHtml}
+    </section>
+
+    <section class="program-progression">
+      <h3>Progression</h3>
+      <ul>${progressionHtml}</ul>
+    </section>
+  `;
+};
+
+// ============================================================
+// Exercices
+// ============================================================
+
+window.FitnessRpgRender.renderExerciseList = function renderExerciseList() {
+  const list = document.querySelector("#exerciseList");
+  if (!list) return;
+
+  list.innerHTML = "";
+
+  const sports = window.FitnessRpgData.sports || [];
+
+  sports.forEach((sport) => {
+    const section = document.createElement("section");
+    section.className = "exercise-sport-card card";
+    section.dataset.sportId = sport.id;
+
+    const exercisesHtml = sport.exercises.map((exercise) => {
+      const distanceField = exercise.hasDistance
+        ? `
+          <label>
+            Distance km
+            <input class="exercise-distance-input" type="number" min="0" step="0.1" value="0" data-exercise-id="${exercise.id}" />
+          </label>
+        `
+        : "";
+
+      const timerButton = exercise.hasTimer
+        ? `<button class="ghost-btn start-timer-btn" type="button" data-exercise-id="${exercise.id}">Timer</button>`
+        : "";
+
+      return `
+        <article class="exercise-card">
+          <h3>${exercise.title}</h3>
+          <p>${exercise.stat}</p>
+
+          <label>
+            ${exercise.unit}
+            <input class="exercise-amount-input" type="number" min="${exercise.min}" step="${exercise.step}" value="${exercise.defaultValue}" data-exercise-id="${exercise.id}" />
+          </label>
+
+          ${distanceField}
+
+          <div class="exercise-actions">
+            ${timerButton}
+            <button class="primary-btn validate-exercise-btn" type="button" data-exercise-id="${exercise.id}">
+              Valider
+            </button>
+          </div>
+        </article>
+      `;
+    }).join("");
+
+    section.innerHTML = `
+      <header>
+        <p class="eyebrow">${sport.icon} ${sport.title}</p>
+        <p>${sport.description}</p>
+      </header>
+
+      <div class="exercise-card-grid">
+        ${exercisesHtml}
+      </div>
+    `;
+
+    list.appendChild(section);
+  });
+};
+
+// ============================================================
+// Badges
+// ============================================================
+
+window.FitnessRpgRender.renderBadges = function renderBadges() {
+  const list = document.querySelector("#badgeList");
+  if (!list) return;
+
+  const badges = window.FitnessRpgProgress.getBadgeStatusList();
+
+  list.innerHTML = "";
+
+  badges.forEach((badge) => {
+    const item = document.createElement("article");
+    item.className = `badge-card card${badge.unlocked ? " unlocked" : ""}`;
+
+    item.innerHTML = `
+      <div class="badge-icon">${badge.icon}</div>
+      <div>
+        <h2>${badge.title}</h2>
+        <p>${badge.description}</p>
+        <strong>${badge.unlocked ? "Débloqué" : "Verrouillé"}</strong>
+      </div>
+    `;
+
+    list.appendChild(item);
+  });
+};
+
+// ============================================================
+// Journal
+// ============================================================
+
+window.FitnessRpgRender.renderJournal = function renderJournal() {
+  const list = document.querySelector("#journalList");
+  if (!list) return;
+
+  const journal = window.FitnessRpgState.getJournal();
+
+  list.innerHTML = "";
+
+  if (!journal.length) {
+    const empty = document.createElement("li");
+    empty.textContent = "Aucun exploit enregistré pour l’instant.";
+    list.appendChild(empty);
+    return;
+  }
+
+  journal.forEach((entry) => {
+    const item = document.createElement("li");
+    item.className = "journal-entry";
+
+    const date = new Date(entry.at).toLocaleString("fr-FR", {
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+    item.innerHTML = `
+      <strong>${entry.title}</strong>
+      <span>${date}</span>
+      <p>${entry.text}</p>
+    `;
+
+    list.appendChild(item);
+  });
+};
+
+// ============================================================
+// Poids
+// ============================================================
+
+window.FitnessRpgRender.renderWeight = function renderWeight() {
+  const canvas = document.querySelector("#weightChart");
+  if (!canvas) return;
+
+  const weights = window.FitnessRpgState.getWeights();
+
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (!weights.length) {
+    ctx.font = "14px sans-serif";
+    ctx.fillText("Aucune donnée de poids pour l’instant.", 20, 90);
+    return;
+  }
+
+  const values = weights.map((entry) => Number(entry.value));
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = Math.max(1, max - min);
+
+  ctx.beginPath();
+
+  weights.forEach((entry, index) => {
+    const x = 20 + (index / Math.max(1, weights.length - 1)) * (canvas.width - 40);
+    const y = canvas.height - 20 - ((Number(entry.value) - min) / range) * (canvas.height - 50);
+
+    if (index === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+
+    ctx.fillRect(x - 2, y - 2, 4, 4);
+  });
+
+  ctx.stroke();
+
+  ctx.font = "12px sans-serif";
+  ctx.fillText(`${min.toFixed(1)} kg`, 10, canvas.height - 10);
+  ctx.fillText(`${max.toFixed(1)} kg`, 10, 20);
+};
+
+// ============================================================
+// Rendu global
+// ============================================================
+
+window.FitnessRpgRender.renderCurrentPage = function renderCurrentPage() {
+  const page = window.FitnessRpgState.getPage();
+
+  window.FitnessRpgRender.renderPages();
+  window.FitnessRpgRender.renderVersion();
+
+  switch (page) {
+    case "home":
+      window.FitnessRpgRender.renderHome();
+      break;
+
+    case "hero-setup":
+      window.FitnessRpgRender.renderHeroSetup();
+      break;
+
+    case "training":
+      window.FitnessRpgRender.renderTraining();
+      break;
+
+    case "programs":
+      window.FitnessRpgRender.renderProgramList();
+      break;
+
+    case "exercises":
+      window.FitnessRpgRender.renderExerciseList();
+      break;
+
+    case "badges":
+      window.FitnessRpgProgress.checkBadges();
+      window.FitnessRpgRender.renderBadges();
+      break;
+
+    case "journal":
+      window.FitnessRpgRender.renderJournal();
+      break;
+
+    case "weight":
+      window.FitnessRpgRender.renderWeight();
+      break;
+
+    case "music":
+      window.FitnessRpgRender.setText("#musicStatus", window.FitnessRpgState.musicStatus);
+      break;
+
+    default:
+      window.FitnessRpgState.setPage("home");
+      window.FitnessRpgRender.renderHome();
+      break;
+  }
+};
+
+window.FitnessRpgRender.renderAll = function renderAll() {
+  window.FitnessRpgRender.renderCurrentPage();
+};
