@@ -236,6 +236,9 @@ img {
   gap: 8px;
   flex-shrink: 0;
 }
+body[data-page="home"] #backButton {
+  display: none;
+} 
 
 button:active {
   transform: translateY(1px);
@@ -294,9 +297,7 @@ input:focus {
    Accueil
 ============================================================ */
 
-body[data-page="home"] #backButton {
-  display: none;
-} 
+
 
 .home-card {
   display: grid;
