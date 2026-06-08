@@ -104,6 +104,14 @@ window.FitnessRpgNavigation.openWeight = function openWeight() {
   window.FitnessRpgNavigation.setPage("weight");
 };
 
+window.FitnessRpgNavigation.openGoal = function openGoal() {
+  window.FitnessRpgNavigation.setPage("goal");
+};
+
+window.FitnessRpgNavigation.openPlanning = function openPlanning() {
+  window.FitnessRpgNavigation.setPage("planning");
+};
+
 // ============================================================
 // Quête du jour → programme recommandé
 // ============================================================
@@ -349,6 +357,16 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
     return;
   }
 
+  if (target.closest("#openGoalButton")) {
+    window.FitnessRpgNavigation.openGoal();
+    return;
+  }
+  
+  if (target.closest("#openPlanningButton")) {
+    window.FitnessRpgNavigation.openPlanning();
+    return;
+  }
+
   if (target.closest("#openMusicButton")) {
     window.FitnessRpgNavigation.openMusic();
     return;
@@ -386,6 +404,45 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
     return;
   }
 
+  //Objectifs
+  const goalButton = target.closest(".choose-goal-btn, .goal-choice-card");
+  if (goalButton) {
+    const goalId = goalButton.dataset.goalId || goalButton.closest(".goal-choice-card")?.dataset.goalId;
+  
+    if (goalId) {
+      window.FitnessRpgState.setGoal(goalId);
+  
+      const goal = window.FitnessRpgConfig.getGoalById(goalId);
+      const program = window.FitnessRpgState.getRecommendedProgram();
+  
+      if (window.FitnessRpgState.hasProfile()) {
+        window.FitnessRpgState.addJournalEntry({
+          type: "goal",
+          title: "Objectif mis à jour",
+          text: `Objectif choisi : ${goal?.title || goalId}. Programme recommandé : ${program?.title || "Éveil du héros"}.`,
+          xp: 0
+        });
+      }
+  
+      window.FitnessRpgRender.renderGoalPage();
+      window.FitnessRpgRender.renderTodayCard();
+    }
+  
+    return;
+  }
+
+  //planning
+  const planningButton = target.closest(".planning-program-btn");
+  if (planningButton) {
+    const programId = planningButton.dataset.programId;
+  
+    if (programId) {
+      window.FitnessRpgNavigation.openPrograms(programId);
+    }
+  
+    return;
+  }
+  
   // Journal
   if (target.closest("#clearJournalButton")) {
     window.FitnessRpgNavigation.clearJournal();
