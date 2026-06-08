@@ -292,6 +292,153 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
 };
 
 // ============================================================
+// Objectif personnel
+// ============================================================
+
+  window.FitnessRpgRender.renderGoalPage = function renderGoalPage() {
+    const list = document.querySelector("#goalChoiceList");
+    if (!list) return;
+  
+    const goals = window.FitnessRpgConfig.goals || [];
+    const selectedGoalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
+  
+    list.innerHTML = "";
+  
+    goals.forEach((goal) => {
+      const program = window.FitnessRpgConfig.getProgramById(goal.recommendedProgramId);
+  
+      const card = document.createElement("article");
+      card.className = `goal-choice-card card${goal.id === selectedGoalId ? " selected" : ""}`;
+      card.dataset.goalId = goal.id;
+  
+      card.innerHTML = `
+        <div class="goal-icon">${goal.icon}</div>
+        <div>
+          <h2>${goal.title}</h2>
+          <p>${goal.rhythm}</p>
+          <p class="goal-program">
+            Programme conseillé : <strong>${program?.title || "Éveil du héros"}</strong>
+          </p>
+          <button class="primary-btn choose-goal-btn" type="button" data-goal-id="${goal.id}">
+            ${goal.id === selectedGoalId ? "Objectif actuel" : "Choisir cet objectif"}
+          </button>
+        </div>
+      `;
+  
+      list.appendChild(card);
+    });
+  };
+
+// ============================================================
+// Planning hebdomadaire
+// ============================================================
+
+  window.FitnessRpgRender.getWeeklyPlan = function getWeeklyPlan(goalId) {
+    const plans = {
+      "perte-poids": [
+        ["Lun", "Marche douce", "marche-aventurier"],
+        ["Mar", "Éveil du héros", "eveil-heros"],
+        ["Mer", "Marche active", "marche-aventurier"],
+        ["Jeu", "Tour de mage", "tour-mage"],
+        ["Ven", "Marche ou vélo léger", "marche-aventurier"],
+        ["Sam", "Cœur de dragon", "coeur-dragon"],
+        ["Dim", "Repos actif", "tour-mage"]
+      ],
+      "reprise-douce": [
+        ["Lun", "Éveil du héros", "eveil-heros"],
+        ["Mar", "Repos ou marche douce", "marche-aventurier"],
+        ["Mer", "Éveil du héros", "eveil-heros"],
+        ["Jeu", "Tour de mage", "tour-mage"],
+        ["Ven", "Repos", null],
+        ["Sam", "Éveil du héros", "eveil-heros"],
+        ["Dim", "Marche tranquille", "marche-aventurier"]
+      ],
+      "cardio": [
+        ["Lun", "Cœur de dragon", "coeur-dragon"],
+        ["Mar", "Tour de mage", "tour-mage"],
+        ["Mer", "Course ou vélo", "coeur-dragon"],
+        ["Jeu", "Repos actif", "marche-aventurier"],
+        ["Ven", "Cœur de dragon", "coeur-dragon"],
+        ["Sam", "Marche longue", "marche-aventurier"],
+        ["Dim", "Repos", null]
+      ],
+      "renforcement": [
+        ["Lun", "Forge du guerrier", "forge-guerrier"],
+        ["Mar", "Tour de mage", "tour-mage"],
+        ["Mer", "Forge du guerrier", "forge-guerrier"],
+        ["Jeu", "Marche douce", "marche-aventurier"],
+        ["Ven", "Forge du guerrier", "forge-guerrier"],
+        ["Sam", "Défi boss hebdo", "boss-hebdo"],
+        ["Dim", "Repos", null]
+      ],
+      "regularite": [
+        ["Lun", "Marche de l’aventurier", "marche-aventurier"],
+        ["Mar", "Éveil du héros", "eveil-heros"],
+        ["Mer", "Marche courte", "marche-aventurier"],
+        ["Jeu", "Tour de mage", "tour-mage"],
+        ["Ven", "Marche de l’aventurier", "marche-aventurier"],
+        ["Sam", "Programme libre", "eveil-heros"],
+        ["Dim", "Repos actif", "tour-mage"]
+      ],
+      "mobilite": [
+        ["Lun", "Tour de mage", "tour-mage"],
+        ["Mar", "Marche douce", "marche-aventurier"],
+        ["Mer", "Tour de mage", "tour-mage"],
+        ["Jeu", "Repos", null],
+        ["Ven", "Tour de mage", "tour-mage"],
+        ["Sam", "Éveil du héros", "eveil-heros"],
+        ["Dim", "Respiration et étirements", "tour-mage"]
+      ]
+    };
+  
+    return plans[goalId] || plans["reprise-douce"];
+  };
+  
+  window.FitnessRpgRender.renderPlanningPage = function renderPlanningPage() {
+    const summary = document.querySelector("#planningSummary");
+    const grid = document.querySelector("#planningWeekGrid");
+    if (!summary || !grid) return;
+  
+    const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
+    const goal = window.FitnessRpgConfig.getGoalById(goalId);
+    const recommended = window.FitnessRpgState.getRecommendedProgram?.();
+    const plan = window.FitnessRpgRender.getWeeklyPlan(goalId);
+  
+    summary.innerHTML = `
+      <p class="eyebrow">${goal?.icon || "🎯"} Objectif actuel</p>
+      <h2>${goal?.title || "Reprise douce"}</h2>
+      <p>${goal?.rhythm || "3 séances courtes par semaine"}</p>
+      <p class="planning-recommendation">
+        Programme recommandé : <strong>${recommended?.title || "Éveil du héros"}</strong>
+      </p>
+    `;
+  
+    grid.innerHTML = "";
+  
+    plan.forEach(([day, title, programId]) => {
+      const program = programId ? window.FitnessRpgConfig.getProgramById(programId) : null;
+  
+      const card = document.createElement("article");
+      card.className = `planning-day-card card${programId ? "" : " rest-day"}`;
+      card.dataset.programId = programId || "";
+  
+      card.innerHTML = `
+        <strong>${day}</strong>
+        <h2>${title}</h2>
+        <p>${program ? `${program.objective} · ${program.duration}` : "Repos ou récupération douce."}</p>
+        ${
+          program
+            ? `<button class="secondary-btn planning-program-btn" type="button" data-program-id="${program.id}">
+                Ouvrir ${program.title}
+              </button>`
+            : `<span class="rest-label">Repos</span>`
+        }
+      `;
+  
+      grid.appendChild(card);
+    });
+  };
+// ============================================================
 // Programmes
 // ============================================================
 
@@ -592,6 +739,14 @@ window.FitnessRpgRender.renderCurrentPage = function renderCurrentPage() {
 
     case "programs":
       window.FitnessRpgRender.renderProgramList();
+      break;
+
+    case "goal":
+      window.FitnessRpgRender.renderGoalPage();
+      break;
+    
+    case "planning":
+      window.FitnessRpgRender.renderPlanningPage();
       break;
 
     case "exercises":
