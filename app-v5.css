@@ -595,7 +595,97 @@ input:focus {
   background: rgba(118, 214, 114, 0.22);
   color: var(--text);
 }
+/* ============================================================
+   V5.0.2 - Séance de programme guidée
+============================================================ */
 
+.active-program-session {
+  margin-bottom: var(--space-md);
+  border-color: var(--border-strong);
+}
+
+.program-session-meta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xs);
+  margin: var(--space-md) 0;
+}
+
+.program-session-meta span {
+  display: inline-flex;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.program-session-list {
+  display: grid;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.program-session-exercise {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: var(--space-sm);
+  align-items: center;
+
+  padding: var(--space-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.program-session-exercise.done {
+  border-color: rgba(118, 214, 114, 0.45);
+  background: rgba(118, 214, 114, 0.10);
+}
+
+.program-session-index {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 950;
+}
+
+.program-session-exercise h3 {
+  margin: 2px 0;
+}
+
+.program-session-exercise p {
+  color: var(--text-muted);
+}
+
+.program-session-exercise button {
+  grid-column: 1 / -1;
+}
+
+#finishProgramSessionButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (min-width: 700px) {
+  .program-session-meta {
+    grid-template-columns: repeat(3, auto);
+  }
+
+  .program-session-exercise {
+    grid-template-columns: 34px 1fr auto;
+  }
+
+  .program-session-exercise button {
+    grid-column: auto;
+  }
+}
 /* ============================================================
    Exercices
 ============================================================ */
