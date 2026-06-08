@@ -41,6 +41,25 @@ window.FitnessRpgNavigation.getInputValue = function getInputValue(selector) {
 window.FitnessRpgNavigation.getCheckedValue = function getCheckedValue(name, fallback = "") {
   return document.querySelector(`input[name="${name}"]:checked`)?.value || fallback;
 };
+//bouton retour
+window.FitnessRpgNavigation.goBack = function goBack() {
+  const currentPage = window.FitnessRpgState.getPage();
+
+  if (currentPage === "home") {
+    return;
+  }
+  if (currentPage === "training") {
+    window.FitnessRpgNavigation.goHome();
+    return;
+  }
+  if (currentPage === "hero-setup") {
+    if (window.FitnessRpgState.hasProfile()) {
+      window.FitnessRpgNavigation.goHome();
+    }
+    return;
+  }
+  window.FitnessRpgNavigation.goTraining();
+};
 
 // ============================================================
 // Navigation principale
@@ -296,6 +315,10 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
   const target = event.target;
 
   // Header
+  if (target.closest("#backButton")) {
+    window.FitnessRpgNavigation.goBack();
+    return;
+  }
   if (target.closest("#homeButton")) {
     window.FitnessRpgNavigation.goHome();
     return;
