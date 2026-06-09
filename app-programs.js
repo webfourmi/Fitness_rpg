@@ -112,6 +112,127 @@ window.FitnessRpgPrograms.validateProgramDay = function validateProgramDay(progr
   }, 80);
 };
 
+// ============================================================
+// Planning hebdomadaire interactif
+// ============================================================
+
+window.FitnessRpgPrograms.getWeeklyPlan = function getWeeklyPlan(goalId) {
+  const plans = {
+    "perte-poids": [
+      ["Lun", "Marche douce", "marche-aventurier"],
+      ["Mar", "Éveil du héros", "eveil-heros"],
+      ["Mer", "Marche active", "marche-aventurier"],
+      ["Jeu", "Tour de mage", "tour-mage"],
+      ["Ven", "Marche ou vélo léger", "marche-aventurier"],
+      ["Sam", "Cœur de dragon", "coeur-dragon"],
+      ["Dim", "Repos actif", "tour-mage"]
+    ],
+    "reprise-douce": [
+      ["Lun", "Éveil du héros", "eveil-heros"],
+      ["Mar", "Repos ou marche douce", "marche-aventurier"],
+      ["Mer", "Éveil du héros", "eveil-heros"],
+      ["Jeu", "Tour de mage", "tour-mage"],
+      ["Ven", "Repos", null],
+      ["Sam", "Éveil du héros", "eveil-heros"],
+      ["Dim", "Marche tranquille", "marche-aventurier"]
+    ],
+    "cardio": [
+      ["Lun", "Cavalier de la route", "cavalier-route"],
+      ["Mar", "Tour de mage", "tour-mage"],
+      ["Mer", "Vélo ou cardio", "cavalier-route"],
+      ["Jeu", "Repos actif", "marche-aventurier"],
+      ["Ven", "Cœur de dragon", "coeur-dragon"],
+      ["Sam", "Marche longue", "marche-aventurier"],
+      ["Dim", "Repos", null]
+    ],
+    "renforcement": [
+      ["Lun", "Forge du guerrier", "forge-guerrier"],
+      ["Mar", "Rempart du héros", "rempart-heros"],
+      ["Mer", "Bras du héros", "bras-heros"],
+      ["Jeu", "Marche douce", "marche-aventurier"],
+      ["Ven", "Forge du guerrier", "forge-guerrier"],
+      ["Sam", "Défi boss hebdo", "boss-hebdo"],
+      ["Dim", "Repos", null]
+    ],
+    "regularite": [
+      ["Lun", "Marche de l’aventurier", "marche-aventurier"],
+      ["Mar", "Éveil du héros", "eveil-heros"],
+      ["Mer", "Marche courte", "marche-aventurier"],
+      ["Jeu", "Tour de mage", "tour-mage"],
+      ["Ven", "Marche de l’aventurier", "marche-aventurier"],
+      ["Sam", "Programme libre", "eveil-heros"],
+      ["Dim", "Repos actif", "tour-mage"]
+    ],
+    "mobilite": [
+      ["Lun", "Tour de mage", "tour-mage"],
+      ["Mar", "Marche douce", "marche-aventurier"],
+      ["Mer", "Rempart du héros", "rempart-heros"],
+      ["Jeu", "Repos", null],
+      ["Ven", "Tour de mage", "tour-mage"],
+      ["Sam", "Éveil du héros", "eveil-heros"],
+      ["Dim", "Respiration et étirements", "tour-mage"]
+    ]
+  };
+
+  return plans[goalId] || plans["reprise-douce"];
+};
+
+window.FitnessRpgPrograms.getTodayPlanIndex = function getTodayPlanIndex() {
+  const day = new Date().getDay();
+
+  // JS : dimanche = 0. Planning : lundi = 0.
+  return day === 0 ? 6 : day - 1;
+};
+
+window.FitnessRpgPrograms.getTodayPlanItem = function getTodayPlanItem() {
+  const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
+  const plan = window.FitnessRpgPrograms.getWeeklyPlan(goalId);
+  const index = window.FitnessRpgPrograms.getTodayPlanIndex();
+
+  const item = plan[index] || plan[0];
+
+  return {
+    index,
+    dayLabel: item[0],
+    title: item[1],
+    programId: item[2],
+    plan
+  };
+};
+
+window.FitnessRpgPrograms.getSuggestedDayNumberForPlanItem = function getSuggestedDayNumberForPlanItem(planItem) {
+  if (!planItem?.programId) return 1;
+
+  const detail = window.FitnessRpgPrograms.getProgramDetail(planItem.programId);
+
+  if (!detail?.days?.length) return 1;
+
+  const occurrence = planItem.plan
+    .slice(0, planItem.index + 1)
+    .filter((item) => item[2] === planItem.programId)
+    .length;
+
+  const day = detail.days[(Math.max(1, occurrence) - 1) % detail.days.length];
+
+  return day?.day || 1;
+};
+
+window.FitnessRpgPrograms.startTodayPlanningSession = function startTodayPlanningSession() {
+  const item = window.FitnessRpgPrograms.getTodayPlanItem();
+
+  if (!item.programId) {
+    alert("Aujourd’hui, le planning conseille du repos ou une récupération douce.");
+    return;
+  }
+
+  const dayNumber = window.FitnessRpgPrograms.getSuggestedDayNumberForPlanItem(item);
+
+  window.FitnessRpgNavigation.openPrograms(item.programId);
+
+  window.setTimeout(() => {
+    window.FitnessRpgPrograms.validateProgramDay(item.programId, dayNumber);
+  }, 120);
+};
 
 // ============================================================
 // Quête du jour
@@ -232,6 +353,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   }
 
   window.FitnessRpgProgress.checkBadges();
+  window.FitnessRpgProgress.checkWeeklyPlanningBonus?.();
   window.FitnessRpgRender.renderAll();
 
   window.setTimeout(() => {
@@ -346,6 +468,15 @@ window.FitnessRpgPrograms.handleDocumentClick = function handleDocumentClick(eve
     window.FitnessRpgPrograms.openProgramExerciseTimer(exerciseId);
     return;
   }
+
+ const todayPlanningButton = event.target.closest("#startTodayPlanningButton");
+
+  if (todayPlanningButton) {
+    event.preventDefault();
+    window.FitnessRpgPrograms.startTodayPlanningSession();
+    return;
+  }
+      
   
   const programExerciseButton = event.target.closest(".validate-program-exercise-btn");
   
