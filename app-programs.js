@@ -242,11 +242,110 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     });
   }, 80);
 };
+
+// ============================================================
+// Timer pour les exercices de programme
+// ============================================================
+
+window.FitnessRpgPrograms.getActiveProgramItem = function getActiveProgramItem(exerciseId) {
+  const session = window.FitnessRpgState.getActiveProgramSession?.();
+
+  if (!session) return null;
+
+  const day = window.FitnessRpgPrograms.getProgramDay(session.programId, session.dayNumber);
+
+  if (!day || !Array.isArray(day.exercises)) return null;
+
+  return day.exercises.find((item) => item.exerciseId === exerciseId) || null;
+};
+
+window.FitnessRpgPrograms.programItemToSeconds = function programItemToSeconds(item) {
+  if (!item) return 0;
+
+  const amount = Number(item.amount || 0);
+
+  if (!Number.isFinite(amount) || amount <= 0) return 0;
+
+  if (item.unit === "sec") return Math.round(amount);
+  if (item.unit === "min") return Math.round(amount * 60);
+
+  return 0;
+};
+
+window.FitnessRpgPrograms.openProgramExerciseTimer = function openProgramExerciseTimer(exerciseId) {
+  const item = window.FitnessRpgPrograms.getActiveProgramItem(exerciseId);
+  const exercise = window.FitnessRpgData.getExerciseById(exerciseId);
+
+  if (!item || !exercise) {
+    alert("Exercice introuvable dans la séance.");
+    return;
+  }
+
+  const seconds = window.FitnessRpgPrograms.programItemToSeconds(item);
+
+  if (seconds <= 0) {
+    alert("Cet exercice n’a pas de durée à minuter.");
+    return;
+  }
+
+  window.FitnessRpgExercises.stopTimer?.();
+
+  const overlay = window.FitnessRpgExercises.ensureTimerOverlay();
+  const title = overlay.querySelector("#timerExerciseTitle");
+  const timeText = overlay.querySelector("#timerTimeText");
+  const stopButton = overlay.querySelector("#timerStopButton");
+  const validateButton = overlay.querySelector("#timerValidateButton");
+
+  window.FitnessRpgExercises.timerExerciseId = exerciseId;
+  window.FitnessRpgExercises.remainingSeconds = seconds;
+
+  title.textContent = `${exercise.title} · ${item.amount} ${item.unit}`;
+  timeText.textContent = window.FitnessRpgExercises.formatTime(seconds);
+  validateButton.textContent = "Valider l’exercice";
+
+  overlay.classList.remove("hidden");
+
+  stopButton.onclick = () => {
+    window.FitnessRpgExercises.stopTimer();
+    overlay.classList.add("hidden");
+  };
+
+  validateButton.onclick = () => {
+    const id = window.FitnessRpgExercises.timerExerciseId;
+    window.FitnessRpgExercises.stopTimer();
+    overlay.classList.add("hidden");
+    window.FitnessRpgPrograms.validateProgramExercise(id);
+  };
+
+  window.FitnessRpgExercises.activeTimer = window.setInterval(() => {
+    window.FitnessRpgExercises.remainingSeconds -= 1;
+
+    timeText.textContent = window.FitnessRpgExercises.formatTime(
+      window.FitnessRpgExercises.remainingSeconds
+    );
+
+    if (window.FitnessRpgExercises.remainingSeconds <= 0) {
+      window.FitnessRpgExercises.stopTimer();
+      timeText.textContent = "00:00";
+      validateButton.textContent = "Temps terminé · Valider";
+    }
+  }, 1000);
+};
 // ============================================================
 // Clics
 // ============================================================
 
 window.FitnessRpgPrograms.handleDocumentClick = function handleDocumentClick(event) {
+  const programTimerButton = event.target.closest(".start-program-exercise-timer-btn");
+
+  if (programTimerButton) {
+    event.preventDefault();
+  
+    const exerciseId = programTimerButton.dataset.exerciseId;
+    window.FitnessRpgPrograms.openProgramExerciseTimer(exerciseId);
+    return;
+  }
+  
   const programExerciseButton = event.target.closest(".validate-program-exercise-btn");
   
   if (programExerciseButton) {
