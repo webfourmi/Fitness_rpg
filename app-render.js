@@ -896,6 +896,109 @@ window.FitnessRpgRender.closeLevelUpOverlay = function closeLevelUpOverlay() {
   window.FitnessRpgProgress.consumeLevelUpModal?.();
   window.FitnessRpgRender.renderHeroPanel?.();
 };
+
+// ============================================================
+// Page progression RPG
+// ============================================================
+
+window.FitnessRpgRender.renderProgressionPage = function renderProgressionPage() {
+  const summary = document.querySelector("#progressionSummary");
+  const levelGrid = document.querySelector("#progressionLevelGrid");
+  const badgeSummary = document.querySelector("#progressionBadgeSummary");
+
+  if (!summary || !levelGrid || !badgeSummary) return;
+
+  const stats = window.FitnessRpgProgress.getProgressionStats();
+  const profile = stats.profile;
+
+  if (!profile) {
+    summary.innerHTML = `
+      <p class="eyebrow">Aucun héros</p>
+      <h2>Crée ton héros pour voir ta progression.</h2>
+    `;
+    levelGrid.innerHTML = "";
+    badgeSummary.innerHTML = "";
+    return;
+  }
+
+  const percent = window.FitnessRpgProgress.getXpPercent();
+  const milestones = window.FitnessRpgProgress.getLevelMilestones(20);
+
+  summary.innerHTML = `
+    <p class="eyebrow">🏆 Fiche de progression</p>
+
+    <div class="progression-hero-line">
+      <div>
+        <h2>${profile.name || "Héros"}</h2>
+        <p>${stats.currentRank} · Niveau ${stats.currentLevel}</p>
+      </div>
+      <strong>${stats.totalXp} XP</strong>
+    </div>
+
+    <div class="progression-xp-block">
+      <div class="progression-xp-top">
+        <span>${stats.currentXp} / ${stats.nextXp} XP</span>
+        <span>${stats.xpBeforeNextLevel} XP avant niveau suivant</span>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: ${percent}%"></div>
+      </div>
+    </div>
+
+    <div class="progression-stat-grid">
+      <article>
+        <strong>${stats.totalEntries}</strong>
+        <span>entrées totales</span>
+      </article>
+      <article>
+        <strong>${stats.programSessions}</strong>
+        <span>séances terminées</span>
+      </article>
+      <article>
+        <strong>${stats.streak}</strong>
+        <span>série actuelle</span>
+      </article>
+      <article>
+        <strong>${stats.unlockedBadgeCount}/${stats.totalBadgeCount}</strong>
+        <span>badges</span>
+      </article>
+    </div>
+  `;
+
+  levelGrid.innerHTML = milestones.map((item) => {
+    return `
+      <article class="level-milestone-card card ${item.unlocked ? "unlocked" : "locked"} ${item.current ? "current" : ""}">
+        <strong>${item.chest ? "🎁" : "⭐"}</strong>
+        <h3>Niv. ${item.level}</h3>
+        <p>${item.rank}</p>
+        <span>${item.current ? "Actuel" : item.unlocked ? "Atteint" : `${item.totalXpRequired} XP`}</span>
+      </article>
+    `;
+  }).join("");
+
+  const unlockedBadgesHtml = stats.unlockedBadges.length
+    ? stats.unlockedBadges.map((badge) => {
+        return `
+          <article class="progression-mini-badge">
+            <span>${badge.icon}</span>
+            <div>
+              <strong>${badge.title}</strong>
+              <p>${badge.description}</p>
+            </div>
+          </article>
+        `;
+      }).join("")
+    : `<p>Aucun badge débloqué pour l’instant. Le premier pas arrive vite.</p>`;
+
+  badgeSummary.innerHTML = `
+    <p class="eyebrow">🏅 Badges débloqués</p>
+    <h2>${stats.unlockedBadgeCount}/${stats.totalBadgeCount}</h2>
+    <div class="progression-badge-list">
+      ${unlockedBadgesHtml}
+    </div>
+  `;
+};
 // ============================================================
 // Rendu global
 // ============================================================
@@ -950,6 +1053,11 @@ window.FitnessRpgRender.renderCurrentPage = function renderCurrentPage() {
 
     case "music":
       window.FitnessRpgRender.setText("#musicStatus", window.FitnessRpgState.musicStatus);
+      break;
+
+    case "progression":
+      window.FitnessRpgProgress.checkBadges();
+      window.FitnessRpgRender.renderProgressionPage();
       break;
 
     default:
