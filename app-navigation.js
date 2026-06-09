@@ -312,6 +312,11 @@ window.FitnessRpgNavigation.saveWeight = function saveWeight() {
 // ============================================================
 
 window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(event) {
+  if (target.closest("#closeLevelUpButton")) {
+    window.FitnessRpgRender.closeLevelUpOverlay();
+    return;
+  }
+  
   const target = event.target;
 
   // Header
@@ -477,7 +482,11 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
     window.FitnessRpgNavigation.saveWeight();
   }
 };
-
+ //levelup
+  if (target.id === "levelUpOverlay") {
+    window.FitnessRpgRender.closeLevelUpOverlay();
+    return;
+  }
 // ============================================================
 // Clavier
 // ============================================================
