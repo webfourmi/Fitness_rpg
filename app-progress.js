@@ -125,6 +125,11 @@ window.FitnessRpgProgress.getProgramDayDifficulty = function getProgramDayDiffic
 
 window.FitnessRpgProgress.calculateProgramSessionXp = function calculateProgramSessionXp(programId, dayNumber) {
   const day = window.FitnessRpgPrograms?.getProgramDay?.(programId, dayNumber);
+
+  if (day?.xp) {
+    return Number(day.xp);
+  }
+
   const difficulty = window.FitnessRpgProgress.getProgramDayDifficulty(day);
   const rules = window.FitnessRpgConfig.xpRules || {};
 
