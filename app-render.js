@@ -213,10 +213,11 @@ window.FitnessRpgRender.renderHeroPanel = function renderHeroPanel() {
   const heroPath = window.FitnessRpgProgress.getHeroImagePath();
   const heroFrame = document.querySelector("#heroImageFrame");
 
+  const pendingLevelUp = window.FitnessRpgProgress.peekLevelUpModal?.();
+  const levelUpClass = pendingLevelUp ? " level-up-pulse" : "";
+
   if (heroFrame) {
     heroFrame.innerHTML = `
-    const pendingLevelUp = window.FitnessRpgProgress.peekLevelUpModal?.();
-    const levelUpClass = pendingLevelUp ? " level-up-pulse" : "";
       <img
         id="heroImage"
         class="hero-image${levelUpClass}"
@@ -226,6 +227,30 @@ window.FitnessRpgRender.renderHeroPanel = function renderHeroPanel() {
       <span class="hero-level-badge">Niv. ${info.level}</span>
     `;
   }
+
+  window.FitnessRpgRender.setText(
+    "#heroIdentityLine",
+    window.FitnessRpgProgress.getIdentityLine()
+  );
+
+  window.FitnessRpgRender.setText(
+    "#xpTitle",
+    `Niv. ${info.level} · ${info.rank}`
+  );
+
+  window.FitnessRpgRender.setText(
+    "#xpText",
+    window.FitnessRpgProgress.getXpText()
+  );
+
+  const xpBar = document.querySelector("#xpBar");
+  if (xpBar) {
+    xpBar.style.width = `${window.FitnessRpgProgress.getXpPercent()}%`;
+  }
+
+  window.FitnessRpgRender.setText("#streakLabel", profile.streak || 0);
+  window.FitnessRpgRender.setText("#todayEntriesLabel", window.FitnessRpgState.getTodayEntries().length);
+};
 
   window.FitnessRpgRender.setText(
     "#heroIdentityLine",
@@ -323,8 +348,8 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
           <p class="goal-program">
             Programme conseillé : <strong>${program?.title || "Éveil du héros"}</strong>
           </p>
-         <button class="primary-btn start-program-day-btn" type="button" data-program-id="${programId}" data-day="${day.day}">
-            Démarrer la séance
+         <button class="primary-btn choose-goal-btn" type="button" data-goal-id="${goal.id}">
+            ${goal.id === selectedGoalId ? "Objectif actuel" : "Choisir cet objectif"}
          </button>
         </div>
       `;
