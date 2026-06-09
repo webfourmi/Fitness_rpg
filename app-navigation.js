@@ -41,6 +41,8 @@ window.FitnessRpgNavigation.getInputValue = function getInputValue(selector) {
 window.FitnessRpgNavigation.getCheckedValue = function getCheckedValue(name, fallback = "") {
   return document.querySelector(`input[name="${name}"]:checked`)?.value || fallback;
 };
+
+
 //bouton retour
 window.FitnessRpgNavigation.goBack = function goBack() {
   const currentPage = window.FitnessRpgState.getPage();
@@ -129,6 +131,10 @@ window.FitnessRpgNavigation.openGoal = function openGoal() {
 
 window.FitnessRpgNavigation.openPlanning = function openPlanning() {
   window.FitnessRpgNavigation.setPage("planning");
+};
+
+window.FitnessRpgNavigation.openProgression = function openProgression() {
+  window.FitnessRpgNavigation.setPage("progression");
 };
 
 // ============================================================
@@ -325,6 +331,7 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
     return;
   }
   
+  
   // Header
   if (target.closest("#backButton")) {
     window.FitnessRpgNavigation.goBack();
@@ -418,6 +425,10 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
 
   if (target.closest("#openWeightButton")) {
     window.FitnessRpgNavigation.openWeight();
+    return;
+  }
+  if (target.closest("#openProgressionButton")) {
+    window.FitnessRpgNavigation.openProgression();
     return;
   }
 
