@@ -284,26 +284,23 @@ window.FitnessRpgData = {
   // ------------------------------------------------------------
   sports: [
     {
+  id: "warmup",
+  icon: "🔥",
+  title: "Échauffement",
+  description: "Mobilité douce pour préparer la séance.",
+  exercises: [
+    {
       id: "warmup",
-      icon: "🔥",
       title: "Échauffement",
-      description: "Mobilité douce pour préparer la séance.",
-      exercises: [
-        {
-          id: "warmup",
-          title: "Échauffement",
-          unit: "min",
-          defaultValue: 5,
-          min: 1,
-          step: 1,
-          xpPerUnit: 2,
-          stat: "Discipline",
-          pose: "warmup",
-          hasTimer: true
-        }
-      ]
+      unit: "min",
+      defaultValue: 5,
+      min: 1,
+      step: 1,
+      xpPerUnit: 2,
+      stat: "Discipline",
+      pose: "warmup",
+      hasTimer: true
     },
-
     {
       id: "march_on_spot",
       title: "Marche sur place",
@@ -327,7 +324,9 @@ window.FitnessRpgData = {
       stat: "Échauffement",
       pose: "walk",
       hasTimer: true
-    },
+    }
+  ]
+},
 
     {
       id: "walk",
