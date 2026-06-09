@@ -15,7 +15,8 @@
 window.FitnessRpgMedia = {
   audioContext: null,
   pulseTimer: null,
-  pulseActive: false
+  pulseActive: false,
+  timerSoundContext: null
 };
 
 // ============================================================
@@ -31,6 +32,49 @@ window.FitnessRpgMedia.setMusicStatus = function setMusicStatus(text) {
 
 window.FitnessRpgMedia.getAudioPlayer = function getAudioPlayer() {
   return document.querySelector("#audioPlayer");
+};
+
+// ============================================================
+// Son de fin de timer
+// ============================================================
+
+window.FitnessRpgMedia.playTimerEndSound = function playTimerEndSound() {
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContextClass) return;
+
+    const ctx = new AudioContextClass();
+    const now = ctx.currentTime;
+
+    const notes = [
+      { frequency: 660, start: 0 },
+      { frequency: 880, start: 0.16 },
+      { frequency: 1046, start: 0.32 }
+    ];
+
+    notes.forEach((note) => {
+      const oscillator = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(note.frequency, now + note.start);
+
+      gain.gain.setValueAtTime(0.001, now + note.start);
+      gain.gain.exponentialRampToValueAtTime(0.18, now + note.start + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + note.start + 0.14);
+
+      oscillator.connect(gain).connect(ctx.destination);
+      oscillator.start(now + note.start);
+      oscillator.stop(now + note.start + 0.16);
+    });
+
+    window.setTimeout(() => {
+      ctx.close?.();
+    }, 900);
+  } catch {
+    // Son non disponible : on ne bloque jamais l’application.
+  }
 };
 
 // ============================================================
