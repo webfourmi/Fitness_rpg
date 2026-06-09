@@ -280,13 +280,19 @@ window.FitnessRpgState.addXp = function addXp(amount, source = "Progression") {
 
   if (newInfo.level > oldInfo.level) {
     window.FitnessRpgState.currentPose = "levelup";
-
+  
+    const hasChestReward = newInfo.level % 5 === 0;
+  
     window.FitnessRpgState.addJournalEntry({
       type: "levelup",
       title: `Niveau ${newInfo.level}`,
-      text: `Niveau ${newInfo.level} atteint !`,
+      text: hasChestReward
+        ? `Niveau ${newInfo.level} atteint ! Coffre de récompense débloqué.`
+        : `Niveau ${newInfo.level} atteint !`,
       xp: 0
     });
+  
+    window.FitnessRpgProgress?.queueLevelUpModal?.(oldInfo.level, newInfo.level);
   }
 
   window.FitnessRpgState.saveProfile();
