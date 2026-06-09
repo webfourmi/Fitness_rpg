@@ -819,7 +819,8 @@ window.FitnessRpgData = {
           defaultValue: 16,
           min: 2,
           step: 2,
-          xpPerUnit: 1",
+          xpPerUnit: 1,
+          stat: "Triceps",
           pose: "core"
         },
         
