@@ -776,7 +776,7 @@ window.FitnessRpgData = {
           stat: "Finisher abdos",
           pose: "core",
           hasTimer: true
-        }
+        },
         {
           id: "superman",
           title: "Superman",
@@ -844,7 +844,7 @@ window.FitnessRpgData = {
           stat: "Retour au calme",
           pose: "stretch",
           hasTimer: true
-        }
+        },
         {
           id: "stretch",
           title: "Étirements",
