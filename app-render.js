@@ -215,9 +215,11 @@ window.FitnessRpgRender.renderHeroPanel = function renderHeroPanel() {
 
   if (heroFrame) {
     heroFrame.innerHTML = `
+    const pendingLevelUp = window.FitnessRpgProgress.peekLevelUpModal?.();
+    const levelUpClass = pendingLevelUp ? " level-up-pulse" : "";
       <img
         id="heroImage"
-        class="hero-image"
+        class="hero-image${levelUpClass}"
         src="${heroPath}"
         alt="${profile.name}"
       />
@@ -697,22 +699,34 @@ window.FitnessRpgRender.renderBadges = function renderBadges() {
   list.innerHTML = "";
 
   badges.forEach((badge) => {
+    const progress = window.FitnessRpgProgress.getBadgeProgress(badge);
+
     const item = document.createElement("article");
     item.className = `badge-card card${badge.unlocked ? " unlocked" : ""}`;
 
     item.innerHTML = `
       <div class="badge-icon">${badge.icon}</div>
-      <div>
-        <h2>${badge.title}</h2>
+      <div class="badge-content">
+        <div class="badge-title-row">
+          <h2>${badge.title}</h2>
+          <strong>${badge.unlocked ? "Débloqué" : "En cours"}</strong>
+        </div>
+
         <p>${badge.description}</p>
-        <strong>${badge.unlocked ? "Débloqué" : "Verrouillé"}</strong>
+
+        <div class="badge-progress-bar">
+          <div class="badge-progress-fill" style="width: ${badge.unlocked ? 100 : progress.percent}%"></div>
+        </div>
+
+        <span class="badge-progress-text">
+          ${badge.unlocked ? "Récompense acquise" : `${progress.current}/${progress.target}`}
+        </span>
       </div>
     `;
 
     list.appendChild(item);
   });
 };
-
 // ============================================================
 // Journal
 // ============================================================
@@ -797,6 +811,50 @@ window.FitnessRpgRender.renderWeight = function renderWeight() {
 };
 
 // ============================================================
+// Niveau supérieur
+// ============================================================
+
+window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
+  const pending = window.FitnessRpgProgress.peekLevelUpModal?.();
+  const overlay = document.querySelector("#levelUpOverlay");
+
+  if (!overlay || !pending) return;
+
+  const newLevel = Number(pending.newLevel || 1);
+  const rank = window.FitnessRpgConfig.getRankTitle(newLevel);
+  const hasChest = window.FitnessRpgProgress.hasChestReward(newLevel);
+
+  const icon = document.querySelector("#levelUpIcon");
+  const title = document.querySelector("#levelUpTitle");
+  const text = document.querySelector("#levelUpText");
+  const reward = document.querySelector("#levelUpReward");
+
+  if (icon) icon.textContent = hasChest ? "🎁" : "✨";
+  if (title) title.textContent = `Niveau ${newLevel} atteint !`;
+  if (text) text.textContent = `Ton héros devient ${rank}.`;
+  if (reward) {
+    reward.textContent = window.FitnessRpgProgress.getLevelRewardText(newLevel);
+    reward.classList.toggle("hidden", false);
+  }
+
+  overlay.classList.remove("hidden");
+  overlay.setAttribute("aria-hidden", "false");
+  document.body.classList.add("level-up-active");
+};
+
+window.FitnessRpgRender.closeLevelUpOverlay = function closeLevelUpOverlay() {
+  const overlay = document.querySelector("#levelUpOverlay");
+
+  if (overlay) {
+    overlay.classList.add("hidden");
+    overlay.setAttribute("aria-hidden", "true");
+  }
+
+  document.body.classList.remove("level-up-active");
+  window.FitnessRpgProgress.consumeLevelUpModal?.();
+  window.FitnessRpgRender.renderHeroPanel?.();
+};
+// ============================================================
 // Rendu global
 // ============================================================
 
@@ -861,4 +919,5 @@ window.FitnessRpgRender.renderCurrentPage = function renderCurrentPage() {
 
 window.FitnessRpgRender.renderAll = function renderAll() {
   window.FitnessRpgRender.renderCurrentPage();
+  window.FitnessRpgRender.renderLevelUpOverlay();
 };
