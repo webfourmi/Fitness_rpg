@@ -328,6 +328,7 @@ window.FitnessRpgPrograms.openProgramExerciseTimer = function openProgramExercis
       window.FitnessRpgExercises.stopTimer();
       timeText.textContent = "00:00";
       validateButton.textContent = "Temps terminé · Valider";
+      window.FitnessRpgMedia?.playTimerEndSound?.();
     }
   }, 1000);
 };
