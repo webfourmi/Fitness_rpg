@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "0.5.0.3",
+  version: "0.5.0.4",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V5.0.3",
+  displayVersion: "V5.0.4",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "5.0.3",
+  assetVersion: "5.0.4",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
@@ -101,7 +101,7 @@ window.FitnessRpgConfig = {
       icon: "❤️‍🔥",
       title: "Cardio",
       rhythm: "3 séances cardio progressives",
-      recommendedProgramId: "coeur-dragon"
+      recommendedProgramId: "cavalier-route"
     },
     {
       id: "renforcement",
@@ -150,6 +150,17 @@ window.FitnessRpgConfig = {
       duration: "15-25 min",
       frequency: "3 séances par semaine",
       coachAdvice: "Korvan ou Xara",
+      xp: 40
+    },
+    {
+      id: "cavalier-route",
+      icon: "🚴‍♂️",
+      title: "Cavalier de la route",
+      objective: "Préparation sportive pour vélo",
+      level: "Débutant à intermédiaire",
+      duration: "20-35 min",
+      frequency: "2 à 3 fois par semaine",
+      coachAdvice: "Korvan, Xara ou Bazul",
       xp: 40
     },
     {
