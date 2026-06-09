@@ -389,7 +389,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
       <p>${day.title}</p>
 
       <div class="program-session-meta">
-        <span>${difficulty.label}</span>
+        <span>${day.difficultyLabel || difficulty.label}</span>
         <span>${doneCount}/${totalCount} exercices</span>
         <span>${xp} XP final</span>
       </div>
