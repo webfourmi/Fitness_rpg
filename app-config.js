@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "0.5.0.5",
+  version: "0.5.0.6",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V5.0.5",
+  displayVersion: "V5.0.6",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "5.0.5",
+  assetVersion: "5.0.6",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
@@ -173,6 +173,17 @@ window.FitnessRpgConfig = {
       frequency: "3 séances par semaine",
       coachAdvice: "Bazul ou Xara",
       xp: 40
+    },
+    {
+      id: "rempart-heros",
+      icon: "🛡️",
+      title: "Rempart du héros",
+      objective: "Abdos, gainage, posture et stabilité",
+      level: "Débutant à intermédiaire",
+      duration: "10-20 min",
+      frequency: "3 fois par semaine",
+      coachAdvice: "Xara, Bazul ou Satyne",
+      xp: 35
     },
     {
       id: "tour-mage",
