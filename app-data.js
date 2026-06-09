@@ -651,6 +651,133 @@ window.FitnessRpgData = {
           pose: "core"
         },
         {
+          id: "abdominal_breathing",
+          title: "Respiration abdominale",
+          unit: "min",
+          defaultValue: 1,
+          min: 1,
+          step: 1,
+          xpPerUnit: 1,
+          stat: "Respiration / posture",
+          pose: "core",
+          hasTimer: true
+        },
+        {
+          id: "pelvic_tilt",
+          title: "Bascule du bassin au sol",
+          unit: "répétitions",
+          defaultValue: 10,
+          min: 2,
+          step: 2,
+          xpPerUnit: 0.8,
+          stat: "Activation abdos",
+          pose: "core"
+        },
+        {
+          id: "dead_bug_simplified",
+          title: "Dead bug simplifié",
+          unit: "répétitions",
+          defaultValue: 16,
+          min: 2,
+          step: 2,
+          xpPerUnit: 1,
+          stat: "Abdos doux",
+          pose: "core"
+        },
+        {
+          id: "side_plank_knees",
+          title: "Gainage latéral genoux",
+          unit: "sec",
+          defaultValue: 60,
+          min: 10,
+          step: 5,
+          xpPerUnit: 0.25,
+          stat: "Obliques",
+          pose: "core",
+          hasTimer: true
+        },
+        {
+          id: "side_plank",
+          title: "Gainage latéral",
+          unit: "sec",
+          defaultValue: 40,
+          min: 10,
+          step: 5,
+          xpPerUnit: 0.35,
+          stat: "Obliques",
+          pose: "core",
+          hasTimer: true
+        },
+        {
+          id: "mountain_climber_slow",
+          title: "Mountain climber lent",
+          unit: "sec",
+          defaultValue: 90,
+          min: 15,
+          step: 15,
+          xpPerUnit: 0.3,
+          stat: "Dynamique / gainage",
+          pose: "core",
+          hasTimer: true
+        },
+        {
+          id: "mountain_climber",
+          title: "Mountain climber",
+          unit: "sec",
+          defaultValue: 120,
+          min: 15,
+          step: 15,
+          xpPerUnit: 0.4,
+          stat: "Dynamique / cardio",
+          pose: "core",
+          hasTimer: true
+        },
+        {
+          id: "pelvic_lift_floor",
+          title: "Relevé de bassin au sol",
+          unit: "répétitions",
+          defaultValue: 12,
+          min: 2,
+          step: 2,
+          xpPerUnit: 1,
+          stat: "Contrôle du centre",
+          pose: "core"
+        },
+        {
+          id: "crunch_controlled",
+          title: "Crunch contrôlé",
+          unit: "répétitions",
+          defaultValue: 15,
+          min: 2,
+          step: 1,
+          xpPerUnit: 1,
+          stat: "Abdos",
+          pose: "core"
+        },
+        {
+          id: "dead_bug_slow",
+          title: "Dead bug lent",
+          unit: "répétitions",
+          defaultValue: 20,
+          min: 2,
+          step: 2,
+          xpPerUnit: 1.1,
+          stat: "Contrôle abdos",
+          pose: "core"
+        },
+        {
+          id: "hollow_hold_simplified",
+          title: "Hollow hold simplifié",
+          unit: "sec",
+          defaultValue: 45,
+          min: 10,
+          step: 5,
+          xpPerUnit: 0.4,
+          stat: "Finisher abdos",
+          pose: "core",
+          hasTimer: true
+        }
+        {
           id: "superman",
           title: "Superman",
           unit: "répétitions",
@@ -706,6 +833,18 @@ window.FitnessRpgData = {
           pose: "stretch",
           hasTimer: true
         },
+        {
+          id: "gentle_back_stretch",
+          title: "Étirement doux du dos",
+          unit: "min",
+          defaultValue: 2,
+          min: 1,
+          step: 1,
+          xpPerUnit: 1,
+          stat: "Retour au calme",
+          pose: "stretch",
+          hasTimer: true
+        }
         {
           id: "stretch",
           title: "Étirements",
@@ -923,6 +1062,72 @@ window.FitnessRpgData = {
       ]
     },
 
+    "rempart-heros": {
+      id: "rempart-heros",
+      subtitle: "Renforce ton centre, protège ton dos, tiens la ligne.",
+      material: "Poids du corps. Tapis conseillé.",
+      days: [
+        {
+          day: 1,
+          title: "Séance débutant",
+          xp: 20,
+          difficultyLabel: "Séance abdos courte",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Activation", exerciseId: "pelvic_tilt", amount: 10, unit: "répétitions" },
+            { phase: "Abdos doux", exerciseId: "dead_bug_simplified", amount: 32, unit: "répétitions" },
+            { phase: "Gainage", exerciseId: "knee_plank", amount: 60, unit: "sec" },
+            { phase: "Obliques", exerciseId: "side_plank_knees", amount: 60, unit: "sec" },
+            { phase: "Bas du corps / centre", exerciseId: "bridge", amount: 24, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Séance intermédiaire",
+          xp: 35,
+          difficultyLabel: "Séance abdos normale",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Abdos", exerciseId: "dead_bug", amount: 60, unit: "répétitions" },
+            { phase: "Gainage", exerciseId: "core", amount: 90, unit: "sec" },
+            { phase: "Obliques", exerciseId: "side_plank", amount: 80, unit: "sec" },
+            { phase: "Dynamique", exerciseId: "mountain_climber_slow", amount: 90, unit: "sec" },
+            { phase: "Contrôle", exerciseId: "pelvic_lift_floor", amount: 24, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Séance avancée",
+          xp: 50,
+          difficultyLabel: "Séance abdos avancée",
+          exercises: [
+            { phase: "Gainage", exerciseId: "core", amount: 135, unit: "sec" },
+            { phase: "Obliques", exerciseId: "side_plank", amount: 180, unit: "sec" },
+            { phase: "Dynamique", exerciseId: "mountain_climber", amount: 120, unit: "sec" },
+            { phase: "Abdos", exerciseId: "crunch_controlled", amount: 45, unit: "répétitions" },
+            { phase: "Contrôle", exerciseId: "dead_bug_slow", amount: 60, unit: "répétitions" },
+            { phase: "Finisher", exerciseId: "hollow_hold_simplified", amount: 45, unit: "sec" }
+          ]
+        }
+      ],
+      progression: [
+        "Semaine 1 : apprendre les mouvements en version douce.",
+        "Semaine 2 : ajouter 5 à 10 secondes de gainage.",
+        "Semaine 3 : ajouter une série sur dead bug ou planche.",
+        "Semaine 4 : passer à la version intermédiaire.",
+        "Objectif : renforcer le centre sans brutaliser le dos."
+      ],
+      notes: [
+        "Dead bug : garde le bas du dos proche du sol et alterne sans cambrer.",
+        "Bascule du bassin : contracte doucement les abdos pour rapprocher le bas du dos du sol.",
+        "Planche genoux : corps aligné des épaules aux genoux, abdos serrés.",
+        "Gainage latéral genoux : appui avant-bras et genoux, hanches levées.",
+        "Mountain climber lent : dos stable, genou ramené lentement vers la poitrine."
+      ]
+    },
+
     "marche-aventurier": {
       id: "marche-aventurier",
       days: [
@@ -1042,6 +1247,15 @@ window.FitnessRpgData = {
       type: "sportCount",
       sportId: "strength",
       target: 10
+    },
+    {
+      id: "rempart-heros",
+      icon: "🛡️",
+      title: "Rempart du héros",
+      description: "Terminer une séance du programme Rempart du héros.",
+      type: "program",
+      programId: "rempart-heros",
+      target: 1
     },
     {
       id: "boss",
