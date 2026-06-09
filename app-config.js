@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "0.5.0.6",
+  version: "0.5.0.7",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V5.0.6",
+  displayVersion: "V5.0.7",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "5.0.6",
+  assetVersion: "5.0.7",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
@@ -183,6 +183,17 @@ window.FitnessRpgConfig = {
       duration: "10-20 min",
       frequency: "3 fois par semaine",
       coachAdvice: "Xara, Bazul ou Satyne",
+      xp: 35
+    },
+    {
+      id: "bras-heros",
+      icon: "💪",
+      title: "Bras du héros",
+      objective: "Bras, épaules, posture et tonus du haut du corps",
+      level: "Débutant à intermédiaire",
+      duration: "15-25 min",
+      frequency: "2 à 3 fois par semaine",
+      coachAdvice: "Xara, Bazul ou Korvan",
       xp: 35
     },
     {
