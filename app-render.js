@@ -606,7 +606,7 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
         <h3>Jour ${day.day} · ${day.title}</h3>
         <ul>${exercisesHtml}</ul>
         <button class="primary-btn start-program-day-btn" type="button" data-program-id="${programId}" data-day="${day.day}">
-          Valider cette séance
+          Démarrer
         </button>
       </article>
     `;
