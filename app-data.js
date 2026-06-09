@@ -305,6 +305,31 @@ window.FitnessRpgData = {
     },
 
     {
+      id: "march_on_spot",
+      title: "Marche sur place",
+      unit: "min",
+      defaultValue: 2,
+      min: 1,
+      step: 1,
+      xpPerUnit: 2,
+      stat: "Échauffement",
+      pose: "warmup",
+      hasTimer: true
+    },
+    {
+      id: "dynamic_walk",
+      title: "Marche dynamique",
+      unit: "min",
+      defaultValue: 3,
+      min: 1,
+      step: 1,
+      xpPerUnit: 2,
+      stat: "Échauffement",
+      pose: "walk",
+      hasTimer: true
+    },
+
+    {
       id: "walk",
       icon: "🚶",
       title: "Marche active",
@@ -357,6 +382,18 @@ window.FitnessRpgData = {
           pose: "run",
           hasTimer: true,
           hasDistance: true
+        },
+        {
+          id: "side_steps",
+          title: "Pas chassés",
+          unit: "sec",
+          defaultValue: 90,
+          min: 30,
+          step: 30,
+          xpPerUnit: 0.25,
+          stat: "Cardio",
+          pose: "walk",
+          hasTimer: true
         }
       ]
     },
@@ -411,6 +448,30 @@ window.FitnessRpgData = {
           xpPerUnit: 2,
           stat: "Mobilité",
           pose: "stretch",
+          hasTimer: true
+        },
+        {
+          id: "hip_circles",
+          title: "Cercles de hanches",
+          unit: "sec",
+          defaultValue: 60,
+          min: 30,
+          step: 30,
+          xpPerUnit: 0.15,
+          stat: "Mobilité hanches",
+          pose: "stretch",
+          hasTimer: true
+        },
+        {
+          id: "slow_knee_raises",
+          title: "Montées de genoux lentes",
+          unit: "sec",
+          defaultValue: 60,
+          min: 30,
+          step: 30,
+          xpPerUnit: 0.15,
+          stat: "Mobilité / cardio doux",
+          pose: "warmup",
           hasTimer: true
         },
         {
@@ -514,6 +575,72 @@ window.FitnessRpgData = {
           hasTimer: true
         },
         {
+          id: "assisted_reverse_lunges",
+          title: "Fentes arrière assistées",
+          unit: "répétitions",
+          defaultValue: 16,
+          min: 2,
+          step: 2,
+          xpPerUnit: 1.1,
+          stat: "Jambes",
+          pose: "squats"
+        },
+        {
+          id: "reverse_lunges",
+          title: "Fentes arrière",
+          unit: "répétitions",
+          defaultValue: 16,
+          min: 2,
+          step: 2,
+          xpPerUnit: 1.3,
+          stat: "Jambes",
+          pose: "squats"
+        },
+        {
+          id: "calf_raises",
+          title: "Montées sur pointes",
+          unit: "répétitions",
+          defaultValue: 15,
+          min: 5,
+          step: 5,
+          xpPerUnit: 0.8,
+          stat: "Mollets",
+          pose: "squats"
+        },
+        {
+          id: "slow_calf_raises",
+          title: "Montées sur pointes lentes",
+          unit: "répétitions",
+          defaultValue: 15,
+          min: 5,
+          step: 5,
+          xpPerUnit: 1,
+          stat: "Mollets",
+          pose: "squats"
+        },
+        {
+          id: "single_leg_bridge_alternate",
+          title: "Pont de hanches une jambe alternée",
+          unit: "répétitions",
+          defaultValue: 16,
+          min: 2,
+          step: 2,
+          xpPerUnit: 1.2,
+          stat: "Fessiers",
+          pose: "core"
+        },
+        {
+          id: "dead_bug",
+          title: "Dead bug",
+          unit: "répétitions",
+          defaultValue: 20,
+          min: 2,
+          step: 2,
+          xpPerUnit: 1,
+          stat: "Gainage",
+          pose: "core"
+        },
+        {
           id: "bridge",
           title: "Pont de hanches",
           unit: "répétitions",
@@ -549,6 +676,30 @@ window.FitnessRpgData = {
           title: "Respiration lente",
           unit: "min",
           defaultValue: 2,
+          min: 1,
+          step: 1,
+          xpPerUnit: 1,
+          stat: "Récupération",
+          pose: "stretch",
+          hasTimer: true
+        },
+        {
+          id: "thigh_calf_stretch",
+          title: "Étirement cuisses / mollets",
+          unit: "min",
+          defaultValue: 3,
+          min: 1,
+          step: 1,
+          xpPerUnit: 1,
+          stat: "Récupération",
+          pose: "stretch",
+          hasTimer: true
+        },
+        {
+          id: "hip_quad_stretch",
+          title: "Étirement hanches / quadriceps",
+          unit: "min",
+          defaultValue: 3,
           min: 1,
           step: 1,
           xpPerUnit: 1,
