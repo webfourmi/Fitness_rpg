@@ -1236,3 +1236,655 @@ body.level-up-active .hero-image-frame {
     min-width: 150px;
   }
 }
+/* ============================================================
+   V5.0.8 - Confort mobile + lisibilité
+   ------------------------------------------------------------
+   Objectif :
+   - interface plus compacte sur téléphone
+   - cartes moins hautes
+   - boutons plus lisibles
+   - programmes plus faciles à parcourir
+   - timer plus clair
+   - images mieux centrées
+============================================================ */
+
+/* ------------------------------------------------------------
+   Header compact
+------------------------------------------------------------ */
+
+.app-header {
+  min-height: 54px;
+  padding: 7px 9px;
+  gap: 8px;
+}
+
+.app-header-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.app-version-badge,
+.eyebrow {
+  max-width: 100%;
+  font-size: 0.68rem;
+  padding: 5px 8px;
+  line-height: 1.1;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.header-actions .icon-button,
+#backButton,
+#homeButton {
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  min-height: 38px;
+  font-size: 1rem;
+}
+
+/* Sur l’accueil, le bouton retour disparaît */
+body[data-page="home"] #backButton {
+  display: none;
+}
+
+/* ------------------------------------------------------------
+   Layout mobile plus respirant
+------------------------------------------------------------ */
+
+.app-shell {
+  padding: 8px;
+}
+
+.app-page {
+  gap: 10px;
+  padding-bottom: 72px;
+}
+
+.card {
+  padding: 11px;
+  border-radius: 15px;
+}
+
+.card h1,
+.page-header h1 {
+  font-size: 1.28rem;
+  margin-bottom: 6px;
+}
+
+.card h2 {
+  font-size: 1.05rem;
+  margin-bottom: 5px;
+}
+
+.card h3 {
+  font-size: 0.98rem;
+}
+
+.card p,
+.page-header p {
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+/* ------------------------------------------------------------
+   Boutons plus compacts
+------------------------------------------------------------ */
+
+.primary-btn,
+.secondary-btn,
+.ghost-btn,
+.icon-button,
+.training-toolbar button,
+.exercise-actions button {
+  min-height: 40px;
+  padding: 8px 11px;
+  font-size: 0.9rem;
+}
+
+.primary-btn,
+.secondary-btn,
+.ghost-btn {
+  border-radius: 14px;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+/* ------------------------------------------------------------
+   Page entraînement mobile
+------------------------------------------------------------ */
+
+.page-training {
+  gap: 10px;
+}
+
+.hero-panel {
+  padding: 10px;
+}
+
+.hero-image-frame {
+  max-width: 220px;
+  border-radius: 16px;
+}
+
+.hero-image {
+  max-height: 250px;
+  object-fit: contain;
+  object-position: center top;
+}
+
+.hero-level-badge {
+  top: 7px;
+  right: 7px;
+  padding: 5px 8px;
+  font-size: 0.78rem;
+}
+
+.hero-identity-line {
+  margin-top: 7px !important;
+  font-size: 0.95rem;
+}
+
+.xp-panel {
+  margin-top: 9px;
+  gap: 5px;
+}
+
+#xpTitle,
+#xpText {
+  font-size: 0.86rem;
+}
+
+.progress-bar {
+  height: 11px;
+}
+
+.stats-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-top: 9px;
+}
+
+.stat-card {
+  padding: 8px;
+}
+
+.stat-card strong {
+  font-size: 1.08rem;
+}
+
+.stat-card span {
+  font-size: 0.76rem;
+}
+
+/* ------------------------------------------------------------
+   Coach : miniature centrée visage
+------------------------------------------------------------ */
+
+.coach-panel {
+  grid-template-columns: 58px 1fr;
+  gap: 9px;
+  padding: 10px;
+}
+
+.coach-panel img,
+.coach-choice-card img,
+#coachImage {
+  object-fit: cover;
+  object-position: center 8%;
+}
+
+.coach-panel img {
+  width: 58px;
+  height: 58px;
+  border-radius: 15px;
+}
+
+#coachName {
+  font-size: 0.98rem;
+}
+
+#coachMessage {
+  font-size: 0.88rem;
+}
+
+/* ------------------------------------------------------------
+   Carte quête du jour
+------------------------------------------------------------ */
+
+.today-card {
+  padding: 11px;
+}
+
+.today-card h2 {
+  font-size: 1.05rem;
+}
+
+.today-card p {
+  font-size: 0.88rem;
+}
+
+/* ------------------------------------------------------------
+   Barre outils entraînement
+------------------------------------------------------------ */
+
+.training-toolbar {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  padding: 8px;
+}
+
+.training-toolbar button {
+  min-height: 56px;
+  padding: 6px 4px;
+  border-radius: 14px;
+  font-size: 1rem;
+}
+
+.training-toolbar button span {
+  font-size: 0.7rem;
+  line-height: 1.05;
+}
+
+/* ------------------------------------------------------------
+   Programmes : cartes plus compactes
+------------------------------------------------------------ */
+
+.program-list {
+  gap: 9px;
+}
+
+.program-card {
+  grid-template-columns: 42px 1fr;
+  gap: 9px;
+  padding: 10px;
+}
+
+.program-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  font-size: 1.25rem;
+}
+
+.program-card h2 {
+  font-size: 1rem;
+  margin-bottom: 3px;
+}
+
+.program-card p {
+  font-size: 0.85rem;
+}
+
+.program-card ul,
+.program-detail ul,
+.program-day-card ul {
+  margin-top: 7px;
+  padding-left: 1rem;
+  font-size: 0.84rem;
+}
+
+.program-card li,
+.program-day-card li {
+  margin-bottom: 3px;
+}
+
+/* ------------------------------------------------------------
+   Détail programme et séances guidées
+------------------------------------------------------------ */
+
+.program-detail {
+  padding: 10px;
+}
+
+.program-day-card {
+  padding: 10px;
+  border-radius: 14px;
+}
+
+.program-day-card h3 {
+  margin-bottom: 6px;
+  font-size: 0.98rem;
+}
+
+.program-day-card li {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 7px;
+}
+
+.program-day-card li strong {
+  color: var(--accent);
+  font-size: 0.78rem;
+}
+
+.program-day-card li span {
+  font-weight: 750;
+}
+
+.program-day-card li em {
+  color: var(--text-muted);
+  font-style: normal;
+  font-size: 0.82rem;
+}
+
+/* Séance active */
+.active-program-session {
+  padding: 11px;
+}
+
+.active-program-session h2 {
+  font-size: 1.08rem;
+}
+
+.program-session-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.program-session-meta span {
+  padding: 5px 8px;
+  font-size: 0.74rem;
+}
+
+.program-session-list {
+  gap: 8px;
+}
+
+.program-session-exercise {
+  grid-template-columns: 30px 1fr;
+  gap: 8px;
+  padding: 9px;
+}
+
+.program-session-index {
+  width: 30px;
+  height: 30px;
+  font-size: 0.82rem;
+}
+
+.program-session-exercise h3 {
+  margin: 1px 0;
+  font-size: 0.94rem;
+}
+
+.program-session-exercise p,
+.program-session-exercise strong {
+  font-size: 0.82rem;
+}
+
+.program-session-actions {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.program-session-actions button {
+  width: 100%;
+  min-height: 38px;
+  padding: 7px 8px;
+  font-size: 0.84rem;
+}
+
+#finishProgramSessionButton {
+  min-height: 42px;
+  font-size: 0.9rem;
+}
+
+/* ------------------------------------------------------------
+   Exercices libres
+------------------------------------------------------------ */
+
+.exercise-list,
+.exercise-card-grid {
+  gap: 9px;
+}
+
+.exercise-sport-card {
+  padding: 10px;
+}
+
+.exercise-card {
+  padding: 9px;
+  gap: 7px;
+}
+
+.exercise-card h3 {
+  font-size: 0.96rem;
+}
+
+.exercise-card p {
+  font-size: 0.83rem;
+}
+
+.exercise-actions {
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.exercise-actions input {
+  min-height: 39px;
+}
+
+/* ------------------------------------------------------------
+   Objectif et planning
+------------------------------------------------------------ */
+
+.goal-choice-list,
+.planning-week-grid {
+  gap: 9px;
+}
+
+.goal-choice-card {
+  grid-template-columns: 44px 1fr;
+  gap: 9px;
+  padding: 10px;
+}
+
+.goal-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  font-size: 1.3rem;
+}
+
+.planning-day-card {
+  padding: 10px;
+}
+
+.planning-day-card h2 {
+  font-size: 1rem;
+}
+
+/* ------------------------------------------------------------
+   Badges plus lisibles
+------------------------------------------------------------ */
+
+.badge-card {
+  grid-template-columns: 46px 1fr;
+  gap: 9px;
+  padding: 10px;
+}
+
+.badge-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  font-size: 1.35rem;
+}
+
+.badge-title-row {
+  gap: 6px;
+}
+
+.badge-title-row h2 {
+  font-size: 0.95rem;
+}
+
+.badge-title-row strong {
+  font-size: 0.68rem;
+  padding: 4px 6px;
+}
+
+/* ------------------------------------------------------------
+   Timer plus lisible
+------------------------------------------------------------ */
+
+.timer-overlay {
+  padding: 12px;
+}
+
+.timer-card {
+  width: min(100%, 340px);
+  padding: 16px;
+}
+
+#timerExerciseTitle {
+  font-size: 1.1rem;
+  color: var(--accent-strong);
+}
+
+#timerTimeText {
+  font-size: clamp(3.3rem, 20vw, 5.2rem);
+  margin: 16px 0;
+  letter-spacing: 0.03em;
+}
+
+.timer-actions {
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.timer-actions button {
+  min-height: 44px;
+}
+
+/* ------------------------------------------------------------
+   Overlay image
+------------------------------------------------------------ */
+
+.image-overlay {
+  padding: 10px;
+}
+
+.image-overlay img {
+  max-width: 96vw;
+  max-height: 76vh;
+}
+
+#imageOverlayTitle {
+  font-size: 0.95rem;
+}
+
+/* ------------------------------------------------------------
+   Très petits écrans
+------------------------------------------------------------ */
+
+@media (max-width: 380px) {
+  .app-shell {
+    padding: 6px;
+  }
+
+  .app-header {
+    padding: 6px;
+  }
+
+  .app-version-badge,
+  .eyebrow {
+    font-size: 0.6rem;
+    padding: 5px 6px;
+  }
+
+  .header-actions .icon-button,
+  #backButton,
+  #homeButton {
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
+    min-height: 34px;
+  }
+
+  .training-toolbar {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+  }
+
+  .training-toolbar button {
+    min-height: 52px;
+  }
+
+  .training-toolbar button span {
+    font-size: 0.64rem;
+  }
+
+  .hero-image-frame {
+    max-width: 200px;
+  }
+
+  .hero-image {
+    max-height: 230px;
+  }
+
+  .program-session-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ------------------------------------------------------------
+   Tablette / desktop : on conserve de l’air
+------------------------------------------------------------ */
+
+@media (min-width: 700px) {
+  .app-shell {
+    padding: 18px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .hero-image-frame {
+    max-width: 300px;
+  }
+
+  .hero-image {
+    max-height: 360px;
+  }
+
+  .training-toolbar {
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  .program-card {
+    grid-template-columns: 56px 1fr;
+  }
+
+  .program-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .program-session-exercise {
+    grid-template-columns: 34px 1fr auto;
+  }
+
+  .program-session-actions {
+    grid-column: auto;
+    grid-template-columns: 1fr;
+    min-width: 150px;
+  }
+
+  .timer-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+}
