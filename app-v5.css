@@ -1218,3 +1218,21 @@ body.level-up-active .hero-image-frame {
 #coachImage {
   object-position: center 12%;
 }
+/* ============================================================
+   V5.0.5 - Actions timer dans les séances guidées
+============================================================ */
+
+.program-session-actions {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.program-session-actions button {
+  width: 100%;
+}
+
+@media (min-width: 700px) {
+  .program-session-actions {
+    min-width: 150px;
+  }
+}
