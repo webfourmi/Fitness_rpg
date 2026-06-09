@@ -433,111 +433,132 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
 // Planning hebdomadaire
 // ============================================================
 
-  window.FitnessRpgRender.getWeeklyPlan = function getWeeklyPlan(goalId) {
-    const plans = {
-      "perte-poids": [
-        ["Lun", "Marche douce", "marche-aventurier"],
-        ["Mar", "Éveil du héros", "eveil-heros"],
-        ["Mer", "Marche active", "marche-aventurier"],
-        ["Jeu", "Tour de mage", "tour-mage"],
-        ["Ven", "Marche ou vélo léger", "marche-aventurier"],
-        ["Sam", "Cœur de dragon", "coeur-dragon"],
-        ["Dim", "Repos actif", "tour-mage"]
-      ],
-      "reprise-douce": [
-        ["Lun", "Éveil du héros", "eveil-heros"],
-        ["Mar", "Repos ou marche douce", "marche-aventurier"],
-        ["Mer", "Éveil du héros", "eveil-heros"],
-        ["Jeu", "Tour de mage", "tour-mage"],
-        ["Ven", "Repos", null],
-        ["Sam", "Éveil du héros", "eveil-heros"],
-        ["Dim", "Marche tranquille", "marche-aventurier"]
-      ],
-      "cardio": [
-        ["Lun", "Cœur de dragon", "coeur-dragon"],
-        ["Mar", "Tour de mage", "tour-mage"],
-        ["Mer", "Course ou vélo", "coeur-dragon"],
-        ["Jeu", "Repos actif", "marche-aventurier"],
-        ["Ven", "Cœur de dragon", "coeur-dragon"],
-        ["Sam", "Marche longue", "marche-aventurier"],
-        ["Dim", "Repos", null]
-      ],
-      "renforcement": [
-        ["Lun", "Forge du guerrier", "forge-guerrier"],
-        ["Mar", "Tour de mage", "tour-mage"],
-        ["Mer", "Forge du guerrier", "forge-guerrier"],
-        ["Jeu", "Marche douce", "marche-aventurier"],
-        ["Ven", "Forge du guerrier", "forge-guerrier"],
-        ["Sam", "Défi boss hebdo", "boss-hebdo"],
-        ["Dim", "Repos", null]
-      ],
-      "regularite": [
-        ["Lun", "Marche de l’aventurier", "marche-aventurier"],
-        ["Mar", "Éveil du héros", "eveil-heros"],
-        ["Mer", "Marche courte", "marche-aventurier"],
-        ["Jeu", "Tour de mage", "tour-mage"],
-        ["Ven", "Marche de l’aventurier", "marche-aventurier"],
-        ["Sam", "Programme libre", "eveil-heros"],
-        ["Dim", "Repos actif", "tour-mage"]
-      ],
-      "mobilite": [
-        ["Lun", "Tour de mage", "tour-mage"],
-        ["Mar", "Marche douce", "marche-aventurier"],
-        ["Mer", "Tour de mage", "tour-mage"],
-        ["Jeu", "Repos", null],
-        ["Ven", "Tour de mage", "tour-mage"],
-        ["Sam", "Éveil du héros", "eveil-heros"],
-        ["Dim", "Respiration et étirements", "tour-mage"]
-      ]
-    };
   
-    return plans[goalId] || plans["reprise-douce"];
-  };
   
-  window.FitnessRpgRender.renderPlanningPage = function renderPlanningPage() {
-    const summary = document.querySelector("#planningSummary");
-    const grid = document.querySelector("#planningWeekGrid");
-    if (!summary || !grid) return;
+ window.FitnessRpgRender.renderPlanningPage = function renderPlanningPage() {
+  const summary = document.querySelector("#planningSummary");
+  const grid = document.querySelector("#planningWeekGrid");
+
+  if (!summary || !grid) return;
+
+  const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
+  const goal = window.FitnessRpgConfig.getGoalById(goalId);
+
   
-    const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
-    const goal = window.FitnessRpgConfig.getGoalById(goalId);
-    const recommended = window.FitnessRpgState.getRecommendedProgram?.();
-    const plan = window.FitnessRpgRender.getWeeklyPlan(goalId);
+  const todayItem = window.FitnessRpgPrograms.getTodayPlanItem();
+  const todayProgram = todayItem.programId
+    ? window.FitnessRpgConfig.getProgramById(todayItem.programId)
+    : null;
+
+  const weekKeys = window.FitnessRpgState.getWeekKeys();
+  const todayKey = window.FitnessRpgState.todayKey();
+  const stats = window.FitnessRpgState.getWeeklyActivityStats();
   
-    summary.innerHTML = `
-      <p class="eyebrow">${goal?.icon || "🎯"} Objectif actuel</p>
-      <h2>${goal?.title || "Reprise douce"}</h2>
-      <p>${goal?.rhythm || "3 séances courtes par semaine"}</p>
-      <p class="planning-recommendation">
-        Programme recommandé : <strong>${recommended?.title || "Éveil du héros"}</strong>
+
+  const todayDone = todayProgram
+    ? window.FitnessRpgState.hasDoneProgramOnDate(todayProgram.id, todayKey)
+    : window.FitnessRpgState.hasTrainingToday();
+
+  summary.innerHTML = `
+    <p class="eyebrow">${goal?.icon || "🎯"} Planning interactif</p>
+    <h2>${goal?.title || "Reprise douce"}</h2>
+    <p>${goal?.rhythm || "3 séances courtes par semaine"}</p>
+
+    <section class="today-planning-card">
+      <strong>Aujourd’hui · ${todayItem.dayLabel}</strong>
+      <h3>${todayItem.title}</h3>
+      <p>
+        ${
+          todayProgram
+            ? `${todayProgram.title} · ${todayProgram.duration}`
+            : "Repos ou récupération douce."
+        }
       </p>
-    `;
-  
-    grid.innerHTML = "";
-  
-    plan.forEach(([day, title, programId]) => {
-      const program = programId ? window.FitnessRpgConfig.getProgramById(programId) : null;
-  
-      const card = document.createElement("article");
-      card.className = `planning-day-card card${programId ? "" : " rest-day"}`;
-      card.dataset.programId = programId || "";
-  
-      card.innerHTML = `
-        <strong>${day}</strong>
-        <h2>${title}</h2>
-        <p>${program ? `${program.objective} · ${program.duration}` : "Repos ou récupération douce."}</p>
+
+      <span class="${todayDone ? "planning-status done" : "planning-status"}">
+        ${todayDone ? "Séance déjà faite aujourd’hui" : "Séance à faire aujourd’hui"}
+      </span>
+
+      ${
+        todayProgram
+          ? `<button id="startTodayPlanningButton" class="primary-btn" type="button">
+              ${todayDone ? "Refaire la séance du jour" : "Démarrer la séance du jour"}
+            </button>`
+          : `<button class="ghost-btn" type="button" disabled>Jour de repos</button>`
+      }
+    </section>
+
+    <section class="planning-week-progress">
+      <div>
+        <strong>${stats.activeDays}/7</strong>
+        <span>jours actifs</span>
+      </div>
+      <div>
+        <strong>${stats.totalEntries}</strong>
+        <span>entrées cette semaine</span>
+      </div>
+      <div>
+        <strong>${bonus.earned ? "OK" : `${Math.min(bonus.activeDays, bonus.target)}/${bonus.target}`}</strong>
+        <span>${bonus.earned ? "bonus obtenu" : `bonus +${bonus.xp} XP`}</span>
+      </div>
+    </section>
+  `;
+
+  grid.innerHTML = "";
+
+  plan.forEach(([dayLabel, title, programId], index) => {
+    const dateKey = weekKeys[index];
+    const entries = window.FitnessRpgState.getEntriesForDate(dateKey);
+    const program = programId ? window.FitnessRpgConfig.getProgramById(programId) : null;
+
+    const isToday = dateKey === todayKey;
+    const done = program
+      ? window.FitnessRpgState.hasDoneProgramOnDate(program.id, dateKey)
+      : entries.length > 0;
+
+    const card = document.createElement("article");
+
+    card.className = [
+      "planning-day-card",
+      "card",
+      isToday ? "today" : "",
+      done ? "done" : "",
+      programId ? "" : "rest-day"
+    ].filter(Boolean).join(" ");
+
+    card.dataset.programId = programId || "";
+
+    card.innerHTML = `
+      <div class="planning-day-top">
+        <strong>${dayLabel}</strong>
+        <span>${isToday ? "Aujourd’hui" : done ? "Fait" : "À venir"}</span>
+      </div>
+
+      <h2>${title}</h2>
+
+      <p>
         ${
           program
-            ? `<button class="secondary-btn planning-program-btn" type="button" data-program-id="${program.id}">
-                Ouvrir ${program.title}
-              </button>`
-            : `<span class="rest-label">Repos</span>`
+            ? `${program.title} · ${program.objective}`
+            : "Repos ou récupération douce."
         }
-      `;
-  
-      grid.appendChild(card);
-    });
-  };
+      </p>
+
+      <small>${entries.length} entrée${entries.length > 1 ? "s" : ""} ce jour</small>
+
+      ${
+        program
+          ? `<button class="secondary-btn planning-program-btn" type="button" data-program-id="${program.id}">
+              Ouvrir
+            </button>`
+          : `<span class="rest-label">Repos</span>`
+      }
+    `;
+
+    grid.appendChild(card);
+  });
+};
+
 // ============================================================
 // Programmes
 // ============================================================
