@@ -596,6 +596,113 @@ window.FitnessRpgState.isProgramSessionComplete = function isProgramSessionCompl
 };
 
 // ============================================================
+// Planning hebdomadaire
+// ============================================================
+
+window.FitnessRpgState.dateKeyFromDate = function dateKeyFromDate(date = new Date()) {
+  const d = new Date(date);
+
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
+
+window.FitnessRpgState.todayKey = function todayKey() {
+  return window.FitnessRpgState.dateKeyFromDate(new Date());
+};
+
+window.FitnessRpgState.getMondayOfCurrentWeek = function getMondayOfCurrentWeek() {
+  const now = new Date();
+  const mondayOffset = now.getDay() === 0 ? -6 : 1 - now.getDay();
+  const monday = new Date(now);
+
+  monday.setDate(now.getDate() + mondayOffset);
+  monday.setHours(0, 0, 0, 0);
+
+  return monday;
+};
+
+window.FitnessRpgState.getCurrentWeekId = function getCurrentWeekId() {
+  return window.FitnessRpgState.dateKeyFromDate(
+    window.FitnessRpgState.getMondayOfCurrentWeek()
+  );
+};
+
+window.FitnessRpgState.getWeekKeys = function getWeekKeys() {
+  const monday = window.FitnessRpgState.getMondayOfCurrentWeek();
+
+  return Array.from({ length: 7 }, (_, index) => {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + index);
+    return window.FitnessRpgState.dateKeyFromDate(d);
+  });
+};
+
+window.FitnessRpgState.getEntryDateKey = function getEntryDateKey(entry) {
+  if (!entry) return "";
+
+  if (entry.dateKey) return entry.dateKey;
+  if (entry.dayKey) return entry.dayKey;
+
+  const raw = entry.date || entry.createdAt || entry.at || entry.timestamp;
+
+  if (!raw) return "";
+
+  return String(raw).slice(0, 10);
+};
+
+window.FitnessRpgState.getEntriesForDate = function getEntriesForDate(dateKey) {
+  const entries = window.FitnessRpgState.getAllEntries?.() || [];
+
+  return entries.filter((entry) => {
+    return window.FitnessRpgState.getEntryDateKey(entry) === dateKey;
+  });
+};
+
+window.FitnessRpgState.getWeekEntries = function getWeekEntries() {
+  const keys = window.FitnessRpgState.getWeekKeys();
+
+  return keys.flatMap((key) => {
+    return window.FitnessRpgState.getEntriesForDate(key);
+  });
+};
+
+window.FitnessRpgState.getWeeklyActivityStats = function getWeeklyActivityStats() {
+  const keys = window.FitnessRpgState.getWeekKeys();
+
+  const days = keys.map((key) => {
+    const entries = window.FitnessRpgState.getEntriesForDate(key);
+
+    return {
+      key,
+      entries,
+      count: entries.length,
+      active: entries.length > 0
+    };
+  });
+
+  const activeDays = days.filter((day) => day.active).length;
+  const totalEntries = days.reduce((sum, day) => sum + day.count, 0);
+
+  return {
+    weekId: window.FitnessRpgState.getCurrentWeekId(),
+    days,
+    activeDays,
+    totalEntries
+  };
+};
+
+window.FitnessRpgState.hasDoneProgramOnDate = function hasDoneProgramOnDate(programId, dateKey) {
+  return window.FitnessRpgState.getEntriesForDate(dateKey).some((entry) => {
+    return entry.type === "program" && entry.programId === programId;
+  });
+};
+
+window.FitnessRpgState.hasTrainingToday = function hasTrainingToday() {
+  return window.FitnessRpgState.getEntriesForDate(
+    window.FitnessRpgState.todayKey()
+  ).length > 0;
+};
+
+// ============================================================
 // Navigation d’état
 // ============================================================
 
