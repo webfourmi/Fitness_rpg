@@ -216,6 +216,79 @@ window.FitnessRpgProgress.getLevelRewardText = function getLevelRewardText(level
 
   return "✨ Nouvelle apparence et progression héroïque.";
 };
+
+// ============================================================
+// Bonus planning hebdomadaire
+// ============================================================
+
+window.FitnessRpgProgress.getWeeklyRewardStorageKey = function getWeeklyRewardStorageKey() {
+  return "fitnessRpgV5WeeklyPlanningRewards";
+};
+
+window.FitnessRpgProgress.getWeeklyRewardMap = function getWeeklyRewardMap() {
+  try {
+    return JSON.parse(
+      localStorage.getItem(window.FitnessRpgProgress.getWeeklyRewardStorageKey()) || "{}"
+    );
+  } catch {
+    return {};
+  }
+};
+
+window.FitnessRpgProgress.saveWeeklyRewardMap = function saveWeeklyRewardMap(map) {
+  localStorage.setItem(
+    window.FitnessRpgProgress.getWeeklyRewardStorageKey(),
+    JSON.stringify(map || {})
+  );
+};
+
+window.FitnessRpgProgress.getWeeklyPlanningBonusStatus = function getWeeklyPlanningBonusStatus() {
+  const stats = window.FitnessRpgState.getWeeklyActivityStats?.() || {
+    weekId: "",
+    activeDays: 0,
+    totalEntries: 0
+  };
+
+  const rewards = window.FitnessRpgProgress.getWeeklyRewardMap();
+  const xp = Number(window.FitnessRpgConfig.xpRules?.weeklyThreeSessionsBonus || 40);
+
+  return {
+    weekId: stats.weekId,
+    activeDays: stats.activeDays,
+    totalEntries: stats.totalEntries,
+    target: 3,
+    xp,
+    earned: Boolean(rewards[stats.weekId]),
+    ready: stats.activeDays >= 3
+  };
+};
+
+window.FitnessRpgProgress.checkWeeklyPlanningBonus = function checkWeeklyPlanningBonus() {
+  const status = window.FitnessRpgProgress.getWeeklyPlanningBonusStatus();
+
+  if (!status.ready || status.earned || !status.weekId) {
+    return false;
+  }
+
+  const rewards = window.FitnessRpgProgress.getWeeklyRewardMap();
+  rewards[status.weekId] = {
+    earnedAt: new Date().toISOString(),
+    xp: status.xp
+  };
+
+  window.FitnessRpgProgress.saveWeeklyRewardMap(rewards);
+
+  window.FitnessRpgProgress.applyXp(status.xp, "Bonus planning hebdomadaire");
+
+  window.FitnessRpgState.addJournalEntry?.({
+    type: "bonus",
+    title: "Bonus planning hebdomadaire",
+    text: `3 jours actifs cette semaine : +${status.xp} XP.`,
+    xp: status.xp
+  });
+
+  return true;
+};
 // ============================================================
 // Badges
 // ============================================================
