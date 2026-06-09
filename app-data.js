@@ -805,6 +805,80 @@ window.FitnessRpgData = {
         "Niveaux 16-20 : version intense avec intervalles."
       ]
     },
+    "cavalier-route": {
+      id: "cavalier-route",
+      subtitle: "Prépare tes jambes, renforce ton souffle, roule plus longtemps.",
+      material: "Poids du corps, éventuellement haltères 1 kg à partir de la semaine 3.",
+      days: [
+        {
+          day: 1,
+          title: "Séance débutant",
+          xp: 25,
+          difficultyLabel: "Séance préparation vélo courte",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
+            { phase: "Mobilité", exerciseId: "hip_circles", amount: 60, unit: "sec" },
+            { phase: "Mobilité", exerciseId: "slow_knee_raises", amount: 60, unit: "sec" },
+            { phase: "Jambes", exerciseId: "chair_squat", amount: 20, unit: "répétitions" },
+            { phase: "Jambes", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
+            { phase: "Fessiers", exerciseId: "bridge", amount: 24, unit: "répétitions" },
+            { phase: "Mollets", exerciseId: "calf_raises", amount: 30, unit: "répétitions" },
+            { phase: "Gainage", exerciseId: "knee_plank", amount: 40, unit: "sec" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 3, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Séance intermédiaire",
+          xp: 40,
+          difficultyLabel: "Séance complète",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 3, unit: "min" },
+            { phase: "Cardio", exerciseId: "side_steps", amount: 90, unit: "sec" },
+            { phase: "Jambes", exerciseId: "squats", amount: 36, unit: "répétitions" },
+            { phase: "Jambes", exerciseId: "reverse_lunges", amount: 24, unit: "répétitions" },
+            { phase: "Fessiers", exerciseId: "single_leg_bridge_alternate", amount: 16, unit: "répétitions" },
+            { phase: "Mollets", exerciseId: "slow_calf_raises", amount: 45, unit: "répétitions" },
+            { phase: "Gainage", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Gainage", exerciseId: "core", amount: 75, unit: "sec" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 3, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Mini-quête vélo réel",
+          xp: 30,
+          difficultyLabel: "Sortie vélo facile",
+          exercises: [
+            { phase: "Échauffement très facile", exerciseId: "bike", amount: 5, unit: "min", distanceOptional: true },
+            { phase: "Rythme confortable", exerciseId: "bike", amount: 20, unit: "min", distanceOptional: true },
+            { phase: "Petites accélérations", exerciseId: "bike", amount: 1, unit: "min", distanceOptional: true },
+            { phase: "Retour au calme", exerciseId: "bike", amount: 5, unit: "min", distanceOptional: true }
+          ]
+        },
+        {
+          day: 4,
+          title: "Sortie longue du week-end",
+          xp: 50,
+          difficultyLabel: "Sortie vélo longue",
+          exercises: [
+            { phase: "Vélo facile à modéré", exerciseId: "bike", amount: 45, unit: "min", distanceOptional: true }
+          ]
+        }
+      ],
+      progression: [
+        "Semaine 1 : apprendre les mouvements et protéger les genoux.",
+        "Semaine 2 : ajouter quelques répétitions.",
+        "Semaine 3 : ajouter les haltères 1 kg ou allonger la sortie vélo.",
+        "Semaine 4 : ajouter une séance vélo bonus ou une série de plus.",
+        "Avec 1 kg, l’objectif n’est pas la force brute, mais le contrôle et la stabilité."
+      ],
+      notes: [
+        "Les haltères 1 kg peuvent être utilisés sur les squats, les fentes arrière, les montées sur pointes et la marche dynamique.",
+        "Pas d’haltères sur le gainage.",
+        "Ce programme complète Marche de l’aventurier et Forge du guerrier."
+      ]
+    },
 
     "forge-guerrier": {
       id: "forge-guerrier",
