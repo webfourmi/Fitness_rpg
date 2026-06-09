@@ -314,6 +314,30 @@ window.FitnessRpgData = {
       hasTimer: true
     },
     {
+      id: "arm_circles",
+      title: "Cercles de bras",
+      unit: "sec",
+      defaultValue: 60,
+      min: 30,
+      step: 30,
+      xpPerUnit: 0.2,
+      stat: "Échauffement épaules",
+      pose: "warmup",
+      hasTimer: true
+    },
+    {
+      id: "arm_open_close",
+      title: "Ouverture / fermeture des bras",
+      unit: "min",
+      defaultValue: 1,
+      min: 1,
+      step: 1,
+      xpPerUnit: 2,
+      stat: "Mobilité haut du corps",
+      pose: "warmup",
+      hasTimer: true
+    },
+    {
       id: "dynamic_walk",
       title: "Marche dynamique",
       unit: "min",
@@ -778,6 +802,94 @@ window.FitnessRpgData = {
           hasTimer: true
         },
         {
+          id: "incline_shoulder_taps",
+          title: "Taps épaules en appui incliné",
+          unit: "répétitions",
+          defaultValue: 20,
+          min: 2,
+          step: 2,
+          xpPerUnit: 1,
+          stat: "Épaules / gainage bras",
+          pose: "core"
+        },
+        {
+          id: "wall_triceps_extension",
+          title: "Extension triceps contre un mur",
+          unit: "répétitions",
+          defaultValue: 16,
+          min: 2,
+          step: 2,
+          xpPerUnit: 1",
+          pose: "core"
+        },
+        
+        {
+          id: "biceps_curl_1kg",
+          title: "Curl biceps",
+          unit: "répétitions",
+          defaultValue: 36,
+          min: 2,
+          step: 2,
+          xpPerUnit: 0.9,
+          stat: "Biceps",
+          pose: "core"
+        },
+        {
+          id: "hammer_curl_1kg",
+          title: "Curl marteau",
+          unit: "répétitions",
+          defaultValue: 24,
+          min: 2,
+          step: 2,
+          xpPerUnit: 0.9,
+          stat: "Biceps / avant-bras",
+          pose: "core"
+        },
+        {
+          id: "lateral_raises_1kg",
+          title: "Élévations latérales",
+          unit: "répétitions",
+          defaultValue: 20,
+          min: 2,
+          step: 2,
+          xpPerUnit: 1,
+          stat: "Épaules",
+          pose: "core"
+        },
+        {
+          id: "front_raises_1kg",
+          title: "Élévations frontales",
+          unit: "répétitions",
+          defaultValue: 20,
+          min: 2,
+          step: 2,
+          xpPerUnit: 1,
+          stat: "Épaules",
+          pose: "core"
+        },
+        {
+          id: "triceps_kickback_1kg",
+          title: "Kickback triceps",
+          unit: "répétitions",
+          defaultValue: 20,
+          min: 2,
+          step: 2,
+          xpPerUnit: 1,
+          stat: "Triceps",
+          pose: "core"
+        },
+        {
+          id: "shoulder_press_1kg",
+          title: "Développé épaules",
+          unit: "répétitions",
+          defaultValue: 20,
+          min: 2,
+          step: 2,
+          xpPerUnit: 1,
+          stat: "Épaules / bras",
+          pose: "core"
+        },
+        {
           id: "superman",
           title: "Superman",
           unit: "répétitions",
@@ -836,6 +948,18 @@ window.FitnessRpgData = {
         {
           id: "gentle_back_stretch",
           title: "Étirement doux du dos",
+          unit: "min",
+          defaultValue: 2,
+          min: 1,
+          step: 1,
+          xpPerUnit: 1,
+          stat: "Retour au calme",
+          pose: "stretch",
+          hasTimer: true
+        },
+        {
+          id: "shoulder_arm_stretch",
+          title: "Étirement épaules / bras",
           unit: "min",
           defaultValue: 2,
           min: 1,
@@ -941,6 +1065,73 @@ window.FitnessRpgData = {
         "Niveaux 6-10 : temps de cardio augmenté.",
         "Niveaux 11-15 : ajout de burpees simplifiés.",
         "Niveaux 16-20 : version intense avec intervalles."
+      ]
+    },
+    "bras-heros": {
+      id: "bras-heros",
+      subtitle: "Renforce tes bras, stabilise tes épaules, prépare-toi au prochain combat.",
+      material: "Poids du corps au début, puis haltères de 1 kg à partir de la semaine 3.",
+      days: [
+        {
+          day: 1,
+          title: "Phase 1 · Poids du corps",
+          xp: 35,
+          difficultyLabel: "Séance bras complète",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "arm_open_close", amount: 1, unit: "min" },
+            { phase: "Bras / poitrine", exerciseId: "wall_pushups", amount: 20, unit: "répétitions" },
+            { phase: "Bras / poitrine", exerciseId: "incline_pushups", amount: 16, unit: "répétitions" },
+            { phase: "Épaules", exerciseId: "incline_shoulder_taps", amount: 20, unit: "répétitions" },
+            { phase: "Triceps", exerciseId: "wall_triceps_extension", amount: 16, unit: "répétitions" },
+            { phase: "Gainage bras", exerciseId: "knee_plank", amount: 40, unit: "sec" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 2, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Phase 2 · Haltères 1 kg",
+          xp: 40,
+          difficultyLabel: "Séance avec haltères",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+            { phase: "Biceps", exerciseId: "biceps_curl_1kg", amount: 36, unit: "répétitions" },
+            { phase: "Biceps / avant-bras", exerciseId: "hammer_curl_1kg", amount: 24, unit: "répétitions" },
+            { phase: "Épaules", exerciseId: "lateral_raises_1kg", amount: 20, unit: "répétitions" },
+            { phase: "Épaules", exerciseId: "front_raises_1kg", amount: 20, unit: "répétitions" },
+            { phase: "Triceps", exerciseId: "triceps_kickback_1kg", amount: 20, unit: "répétitions" },
+            { phase: "Épaules / bras", exerciseId: "shoulder_press_1kg", amount: 20, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 2, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Séance express",
+          xp: 20,
+          difficultyLabel: "Séance bras courte",
+          exercises: [
+            { phase: "Bras / poitrine", exerciseId: "wall_pushups", amount: 20, unit: "répétitions" },
+            { phase: "Biceps", exerciseId: "biceps_curl_1kg", amount: 24, unit: "répétitions" },
+            { phase: "Épaules", exerciseId: "lateral_raises_1kg", amount: 20, unit: "répétitions" },
+            { phase: "Triceps", exerciseId: "triceps_kickback_1kg", amount: 20, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" }
+          ]
+        }
+      ],
+      progression: [
+        "Semaine 1 : poids du corps facile.",
+        "Semaine 2 : poids du corps avec une série en plus si tout va bien.",
+        "Semaine 3 : introduction des haltères de 1 kg.",
+        "Semaine 4 : haltères 1 kg avec répétitions plus lentes."
+      ],
+      notes: [
+        "Pompes murales : mains contre un mur, poitrine vers le mur, repousse lentement.",
+        "Taps épaules inclinés : en appui sur table ou mur, touche l’épaule opposée sans bouger le bassin.",
+        "Extension triceps contre un mur : garde les coudes près du corps.",
+        "Curl biceps : monte les haltères sans balancer le corps.",
+        "Élévations latérales et frontales : monte jusqu’à hauteur des épaules, puis redescends lentement.",
+        "Kickback triceps : coude près du corps, tends le bras vers l’arrière.",
+        "Développé épaules : pousse vers le haut sans cambrer le dos."
       ]
     },
     "cavalier-route": {
@@ -1229,6 +1420,15 @@ window.FitnessRpgData = {
       type: "exerciseCount",
       exerciseId: "bike",
       target: 5
+    },
+    {
+      id: "bras-heros",
+      icon: "💪",
+      title: "Bras du héros",
+      description: "Terminer une séance du programme Bras du héros.",
+      type: "program",
+      programId: "bras-heros",
+      target: 1
     },
     {
       id: "runner",
