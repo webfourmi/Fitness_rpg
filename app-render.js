@@ -252,30 +252,7 @@ window.FitnessRpgRender.renderHeroPanel = function renderHeroPanel() {
   window.FitnessRpgRender.setText("#todayEntriesLabel", window.FitnessRpgState.getTodayEntries().length);
 };
 
-  window.FitnessRpgRender.setText(
-    "#heroIdentityLine",
-    window.FitnessRpgProgress.getIdentityLine()
-  );
-
-  window.FitnessRpgRender.setText(
-    "#xpTitle",
-    `Niv. ${info.level} · ${info.rank}`
-  );
-
-  window.FitnessRpgRender.setText(
-    "#xpText",
-    window.FitnessRpgProgress.getXpText()
-  );
-
-  const xpBar = document.querySelector("#xpBar");
-  if (xpBar) {
-    xpBar.style.width = `${window.FitnessRpgProgress.getXpPercent()}%`;
-  }
-
-  window.FitnessRpgRender.setText("#streakLabel", profile.streak || 0);
-  window.FitnessRpgRender.setText("#todayEntriesLabel", window.FitnessRpgState.getTodayEntries().length);
-};
-
+ 
 window.FitnessRpgRender.renderCoachPanel = function renderCoachPanel() {
   const profile = window.FitnessRpgState.getProfile?.();
 
