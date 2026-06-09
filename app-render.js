@@ -357,24 +357,39 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
   const exercisesHtml = day.exercises.map((item, index) => {
     const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
     const done = window.FitnessRpgState.isProgramSessionExerciseDone(item.exerciseId);
-
+    const canUseTimer = item.unit === "min" || item.unit === "sec" || exercise?.hasTimer;
+  
     return `
       <article class="program-session-exercise${done ? " done" : ""}">
         <div class="program-session-index">${index + 1}</div>
-
+  
         <div>
           <strong>${item.phase}</strong>
           <h3>${exercise?.title || item.exerciseId}</h3>
           <p>${item.amount} ${item.unit}</p>
         </div>
-
-        <button
-          class="${done ? "ghost-btn" : "secondary-btn"} validate-program-exercise-btn"
-          type="button"
-          data-exercise-id="${item.exerciseId}"
-        >
-          ${done ? "Validé" : "Valider"}
-        </button>
+  
+        <div class="program-session-actions">
+          ${
+            canUseTimer
+              ? `<button
+                  class="ghost-btn start-program-exercise-timer-btn"
+                  type="button"
+                  data-exercise-id="${item.exerciseId}"
+                >
+                  ⏱️ Timer
+                </button>`
+              : ""
+          }
+  
+          <button
+            class="${done ? "ghost-btn" : "secondary-btn"} validate-program-exercise-btn"
+            type="button"
+            data-exercise-id="${item.exerciseId}"
+          >
+            ${done ? "Validé" : "Valider"}
+          </button>
+        </div>
       </article>
     `;
   }).join("");
@@ -647,8 +662,10 @@ window.FitnessRpgRender.renderExerciseList = function renderExerciseList() {
         `
         : "";
 
-      const timerButton = exercise.hasTimer
-        ? `<button class="ghost-btn start-timer-btn" type="button" data-exercise-id="${exercise.id}">Timer</button>`
+     const canUseTimer = exercise.hasTimer || exercise.unit === "min" || exercise.unit === "sec";
+
+     const timerButton = canUseTimer
+        ? `<button class="ghost-btn start-timer-btn" type="button" data-exercise-id="${exercise.id}">⏱️ Timer</button>`
         : "";
 
       return `
