@@ -443,6 +443,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
 
   const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
   const goal = window.FitnessRpgConfig.getGoalById(goalId);
+  const plan = window.FitnessRpgPrograms.getWeeklyPlan(goalId);
 
   
   const todayItem = window.FitnessRpgPrograms.getTodayPlanItem();
@@ -453,6 +454,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
   const weekKeys = window.FitnessRpgState.getWeekKeys();
   const todayKey = window.FitnessRpgState.todayKey();
   const stats = window.FitnessRpgState.getWeeklyActivityStats();
+  const bonus = window.FitnessRpgProgress.getWeeklyPlanningBonusStatus();
   
 
   const todayDone = todayProgram
