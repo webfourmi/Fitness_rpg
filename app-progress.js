@@ -196,7 +196,21 @@ window.FitnessRpgProgress.consumeLevelUpModal = function consumeLevelUpModal() {
   window.FitnessRpgProgress.pendingLevelUp = null;
   return pending;
 };
+window.FitnessRpgProgress.peekLevelUpModal = function peekLevelUpModal() {
+  return window.FitnessRpgProgress.pendingLevelUp || null;
+};
 
+window.FitnessRpgProgress.hasChestReward = function hasChestReward(level) {
+  return Number(level || 0) > 0 && Number(level) % 5 === 0;
+};
+
+window.FitnessRpgProgress.getLevelRewardText = function getLevelRewardText(level) {
+  if (window.FitnessRpgProgress.hasChestReward(level)) {
+    return "🎁 Coffre de récompense débloqué !";
+  }
+
+  return "✨ Nouvelle apparence et progression héroïque.";
+};
 // ============================================================
 // Badges
 // ============================================================
@@ -296,6 +310,50 @@ window.FitnessRpgProgress.getBadgeStatusList = function getBadgeStatusList() {
       unlocked: window.FitnessRpgState.hasBadge?.(badge.id) || window.FitnessRpgProgress.isBadgeUnlocked(badge)
     };
   });
+};
+
+window.FitnessRpgProgress.getBadgeProgress = function getBadgeProgress(badge) {
+  const profile = window.FitnessRpgState.getProfile?.();
+
+  if (!profile || !badge) {
+    return { current: 0, target: badge?.target || 1, percent: 0 };
+  }
+
+  let current = 0;
+
+  switch (badge.type) {
+    case "totalEntries":
+      current = window.FitnessRpgProgress.countEntries();
+      break;
+
+    case "streak":
+      current = Number(profile.streak || 0);
+      break;
+
+    case "exerciseCount":
+      current = window.FitnessRpgProgress.countExercise(badge.exerciseId);
+      break;
+
+    case "exerciseGroupCount":
+      current = window.FitnessRpgProgress.countExerciseGroup(badge.exerciseIds || []);
+      break;
+
+    case "sportCount":
+      current = window.FitnessRpgProgress.countSport(badge.sportId);
+      break;
+
+    case "program":
+      current = window.FitnessRpgProgress.countProgram(badge.programId);
+      break;
+
+    default:
+      current = 0;
+  }
+
+  const target = Math.max(1, Number(badge.target || 1));
+  const percent = Math.max(0, Math.min(100, Math.round((current / target) * 100)));
+
+  return { current, target, percent };
 };
 
 // ============================================================
