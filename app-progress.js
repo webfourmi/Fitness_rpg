@@ -490,6 +490,61 @@ window.FitnessRpgProgress.getIdentityLine = function getIdentityLine() {
 };
 
 // ============================================================
+// Page progression complète
+// ============================================================
+
+window.FitnessRpgProgress.getUnlockedBadges = function getUnlockedBadges() {
+  return window.FitnessRpgProgress.getBadgeStatusList()
+    .filter((badge) => badge.unlocked);
+};
+
+window.FitnessRpgProgress.getProgressionStats = function getProgressionStats() {
+  const profile = window.FitnessRpgState.getProfile?.();
+  const entries = window.FitnessRpgState.getAllEntries?.() || [];
+  const info = window.FitnessRpgProgress.getProfileLevelInfo();
+
+  const unlockedBadges = window.FitnessRpgProgress.getUnlockedBadges();
+  const programSessions = entries.filter((entry) => entry.type === "program").length;
+
+  return {
+    profile,
+    info,
+    currentLevel: info.level,
+    currentRank: info.rank,
+    currentXp: info.currentXp,
+    nextXp: info.nextXp,
+    xpBeforeNextLevel: Math.max(0, info.nextXp - info.currentXp),
+    totalXp: info.totalXp,
+    totalEntries: entries.length,
+    programSessions,
+    streak: Number(profile?.streak || 0),
+    unlockedBadges,
+    unlockedBadgeCount: unlockedBadges.length,
+    totalBadgeCount: window.FitnessRpgData.badges?.length || 0
+  };
+};
+
+window.FitnessRpgProgress.getLevelMilestones = function getLevelMilestones(maxLevel = 20) {
+  const stats = window.FitnessRpgProgress.getProgressionStats();
+  const currentLevel = stats.currentLevel;
+
+  return Array.from({ length: maxLevel }, (_, index) => {
+    const level = index + 1;
+    const isChest = [5, 10, 15, 20].includes(level);
+
+    return {
+      level,
+      rank: window.FitnessRpgConfig.getRankTitle(level),
+      chest: isChest,
+      current: level === currentLevel,
+      unlocked: level <= currentLevel,
+      locked: level > currentLevel,
+      totalXpRequired: window.FitnessRpgConfig.totalXpForLevel(level)
+    };
+  });
+};
+
+// ============================================================
 // Initialisation
 // ============================================================
 
