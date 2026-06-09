@@ -1205,3 +1205,16 @@ body.level-up-active .hero-image-frame {
     height: 60px;
   }
 }
+/* ============================================================
+   V5.0.5 - Miniatures coach centrées sur le visage
+============================================================ */
+
+.coach-choice-card img,
+.coach-panel img {
+  object-fit: cover;
+  object-position: center 12%;
+}
+
+#coachImage {
+  object-position: center 12%;
+}
