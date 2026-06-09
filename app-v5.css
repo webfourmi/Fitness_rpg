@@ -1888,3 +1888,115 @@ button {
     grid-template-columns: 1fr 1fr;
   }
 }
+/* ============================================================
+   V5.0.9 - Planning hebdomadaire interactif
+============================================================ */
+
+.today-planning-card {
+  display: grid;
+  gap: 8px;
+  margin-top: var(--space-md);
+  padding: var(--space-sm);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-small);
+  background: var(--accent-soft);
+}
+
+.today-planning-card > strong {
+  color: var(--accent-strong);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.today-planning-card h3 {
+  margin: 0;
+}
+
+.planning-status {
+  display: inline-flex;
+  width: fit-content;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.planning-status.done {
+  background: rgba(118, 214, 114, 0.16);
+  color: var(--green);
+}
+
+.planning-week-progress {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  margin-top: var(--space-sm);
+}
+
+.planning-week-progress div {
+  padding: 8px;
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, 0.06);
+  text-align: center;
+}
+
+.planning-week-progress strong {
+  display: block;
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+.planning-week-progress span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+}
+
+.planning-day-card.today {
+  border-color: var(--accent);
+}
+
+.planning-day-card.done {
+  background: rgba(118, 214, 114, 0.08);
+}
+
+.planning-day-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.planning-day-top strong {
+  color: var(--accent);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.planning-day-top span {
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 850;
+}
+
+.planning-day-card.done .planning-day-top span {
+  background: rgba(118, 214, 114, 0.16);
+  color: var(--green);
+}
+
+.planning-day-card small {
+  color: var(--text-muted);
+}
+
+@media (max-width: 380px) {
+  .planning-week-progress {
+    grid-template-columns: 1fr;
+  }
+}
