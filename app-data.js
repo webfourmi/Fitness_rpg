@@ -385,8 +385,8 @@ exercises: [
     categoryId: "warmup",
     title: "Marche sur place",
     images: {
-      male: "assets/exercices/exercice_homme_marchesurplace.png",
-      female: "assets/exercices/exercice_femme_marchesurplace.png"
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
     },
     unit: "min",
     defaultValue: 2,
