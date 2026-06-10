@@ -84,6 +84,24 @@ window.FitnessRpgExercises.imageOrDefault = function imageOrDefault(path) {
   return path || "assets/exercices/default.png";
 };
 
+window.FitnessRpgExercises.getCurrentGender = function getCurrentGender() {
+  const profile = window.FitnessRpgState?.getProfile?.();
+
+  if (profile?.gender === "female") return "female";
+
+  return "male";
+};
+
+window.FitnessRpgExercises.resolveImage = function resolveImage(item) {
+  const gender = window.FitnessRpgExercises.getCurrentGender();
+
+  if (item?.images?.[gender]) return item.images[gender];
+  if (item?.images?.male) return item.images.male;
+  if (item?.images?.female) return item.images.female;
+  if (item?.image) return item.image;
+
+  return "assets/exercice/default.png";
+};
 // ============================================================
 // Helpers inputs
 // ============================================================
@@ -153,8 +171,7 @@ window.FitnessRpgExercises.renderCategories = function renderCategories() {
 window.FitnessRpgExercises.categoryCardHtml = function categoryCardHtml(category) {
   const title = window.FitnessRpgExercises.escapeHtml(category.title);
   const description = window.FitnessRpgExercises.escapeHtml(category.description);
-  const image = window.FitnessRpgExercises.imageOrDefault(category.image);
-
+  const image = window.FitnessRpgExercises.resolveImage(category);
   return `
     <button class="exercise-category-card" type="button" data-category-id="${category.id}">
       <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/default.png'">
@@ -205,8 +222,7 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
   const title = window.FitnessRpgExercises.escapeHtml(exercise.title);
   const description = window.FitnessRpgExercises.escapeHtml(exercise.description || "");
   const stat = window.FitnessRpgExercises.escapeHtml(exercise.stat || "");
-  const image = window.FitnessRpgExercises.imageOrDefault(exercise.image);
-
+  const image = window.FitnessRpgExercises.resolveImage(exercise);
   const distanceField = exercise.hasDistance
     ? `
       <label class="amount-label">
@@ -493,15 +509,14 @@ window.FitnessRpgExercises.openExerciseImage = function openExerciseImage(exerci
 
   if (!exercise) return;
 
+  const image = window.FitnessRpgExercises.resolveImage(exercise);
+
   if (window.FitnessRpgMedia?.openImageFullscreen) {
-    window.FitnessRpgMedia.openImageFullscreen(
-      window.FitnessRpgExercises.imageOrDefault(exercise.image),
-      exercise.title
-    );
+    window.FitnessRpgMedia.openImageFullscreen(image, exercise.title);
     return;
   }
 
-  window.open(window.FitnessRpgExercises.imageOrDefault(exercise.image), "_blank");
+  window.open(image, "_blank");
 };
 
 // ============================================================
