@@ -2359,3 +2359,115 @@ button {
     display: none;
   }
 }
+/* ============================================================
+   V5.1 - Cartes exercices compactes
+   ============================================================ */
+
+#exercisesContent .exercise-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  overflow: hidden;
+}
+
+#exercisesContent .exercise-image-button {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+#exercisesContent .exercise-image-button img {
+  width: 100%;
+  height: auto;
+  max-height: 180px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+#exercisesContent .exercise-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#exercisesContent .exercise-card-body h3 {
+  display: none;
+}
+
+#exercisesContent .exercise-stat {
+  margin: 0;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+#exercisesContent .exercise-description {
+  margin: 0;
+  font-size: 0.78rem;
+  opacity: 0.8;
+}
+
+#exercisesContent .exercise-control-row {
+  display: grid;
+  grid-template-columns: minmax(72px, 1fr) auto auto;
+  gap: 8px;
+  align-items: end;
+}
+
+#exercisesContent .distance-inline-label {
+  grid-column: 1 / -1;
+}
+
+#exercisesContent .amount-inline-label,
+#exercisesContent .distance-inline-label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+#exercisesContent .amount-inline-label input,
+#exercisesContent .distance-inline-label input {
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+}
+
+#exercisesContent .exercise-control-row button {
+  height: 42px;
+  padding: 0 12px;
+  white-space: nowrap;
+}
+
+/* Mobile : garde temps + boutons sur une ligne */
+@media (max-width: 520px) {
+  #exercisesContent .exercise-image-button img {
+    max-height: 145px;
+  }
+
+  #exercisesContent .exercise-description {
+    display: none;
+  }
+
+  #exercisesContent .exercise-control-row {
+    grid-template-columns: minmax(58px, 1fr) auto auto;
+    gap: 6px;
+  }
+
+  #exercisesContent .exercise-control-row button {
+    padding: 0 10px;
+    font-size: 0.82rem;
+  }
+
+  #exercisesContent .amount-inline-label input {
+    height: 40px;
+  }
+}
