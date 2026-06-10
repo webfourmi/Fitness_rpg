@@ -1077,7 +1077,7 @@ exercises: [
             { phase: "Mobilité", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
             { phase: "Renfo doux", exerciseId: "chair_squat", amount: 10, unit: "répétitions" },
             { phase: "Renfo doux", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
-            { phase: "Retour au calme", exerciseId: "stretch", amount: 5, unit: "min" }
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
           ]
         },
         {
@@ -1111,14 +1111,14 @@ exercises: [
             { phase: "Cardio", exerciseId: "run_treadmill", amount: 10, unit: "min" },
             { phase: "Renfo", exerciseId: "squats", amount: 10, unit: "répétitions" },
             { phase: "Gainage", exerciseId: "knee_plank", amount: 20, unit: "sec" },
-            { phase: "Retour au calme", exerciseId: "stretch", amount: 5, unit: "min" }
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 5, unit: "min" }
           ]
         },
         {
           day: 2,
           title: "Souffle du dragon",
           exercises: [
-            { phase: "Échauffement", exerciseId: "warmup", amount: 3, unit: "min" },
+            { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 3, unit: "min" },
             { phase: "Cardio", exerciseId: "run_outdoor", amount: 15, unit: "min" },
             { phase: "Jambes", exerciseId: "squats", amount: 12, unit: "répétitions" },
             { phase: "Centre", exerciseId: "core", amount: 20, unit: "sec" },
@@ -1282,13 +1282,13 @@ exercises: [
           day: 1,
           title: "Renforcement complet",
           exercises: [
-            { phase: "Échauffement", exerciseId: "warmup", amount: 4, unit: "min" },
+            { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 4, unit: "min" },
             { phase: "Jambes", exerciseId: "squats", amount: 12, unit: "répétitions" },
             { phase: "Haut du corps", exerciseId: "incline_pushups", amount: 8, unit: "répétitions" },
             { phase: "Dos", exerciseId: "superman", amount: 10, unit: "répétitions" },
             { phase: "Centre", exerciseId: "core", amount: 20, unit: "sec" },
             { phase: "Fessiers", exerciseId: "bridge", amount: 12, unit: "répétitions" },
-            { phase: "Retour au calme", exerciseId: "stretch", amount: 4, unit: "min" }
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 4, unit: "min" }
           ]
         }
       ],
@@ -1309,7 +1309,7 @@ exercises: [
             { phase: "Mobilité", exerciseId: "cat_cow", amount: 1, unit: "min" },
             { phase: "Mobilité", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
             { phase: "Gainage", exerciseId: "knee_plank", amount: 20, unit: "sec" },
-            { phase: "Étirement", exerciseId: "stretch", amount: 5, unit: "min" }
+            { phase: "Étirement", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
           ]
         }
       ],
@@ -1558,11 +1558,7 @@ window.FitnessRpgData.getExerciseList = function getExerciseList() {
   });
 };
 
-window.FitnessRpgData.getExerciseById = function getExerciseById(exerciseId) {
-  return window.FitnessRpgData.getExerciseList().find((exercise) => {
-    return exercise.id === exerciseId;
-  }) || null;
-};
+
 
 window.FitnessRpgData.getExerciseById = function getExerciseById(exerciseId) {
   return window.FitnessRpgData.getExerciseList().find((exercise) => exercise.id === exerciseId) || null;
