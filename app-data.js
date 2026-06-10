@@ -278,714 +278,777 @@ window.FitnessRpgData = {
       }
     }
   },
+// ------------------------------------------------------------
+// Catégories d’exercices libres
+// ------------------------------------------------------------
+exerciseCategories: [
+  {
+    id: "warmup",
+    icon: "🔥",
+    title: "Échauffement",
+    image: "assets/exercices/categories/echauffement.png",
+    description: "Mobilité douce pour préparer la séance."
+  },
+  {
+    id: "cardio",
+    icon: "❤️‍🔥",
+    title: "Cardio doux",
+    image: "assets/exercices/categories/cardio.png",
+    description: "Faire monter le rythme sans brutalité."
+  },
+  {
+    id: "walk",
+    icon: "🚶",
+    title: "Marche",
+    image: "assets/exercices/categories/marche.png",
+    description: "Marche active dehors ou sur tapis."
+  },
+  {
+    id: "run",
+    icon: "🏃",
+    title: "Course",
+    image: "assets/exercices/categories/course.png",
+    description: "Course sur tapis ou en extérieur."
+  },
+  {
+    id: "bike",
+    icon: "🚴",
+    title: "Vélo",
+    image: "assets/exercices/categories/velo.png",
+    description: "Vélo intérieur ou extérieur."
+  },
+  {
+    id: "strength",
+    icon: "💪",
+    title: "Renforcement",
+    image: "assets/exercices/categories/renforcement.png",
+    description: "Jambes, dos, posture et force générale."
+  },
+  {
+    id: "arms",
+    icon: "🏋️",
+    title: "Bras",
+    image: "assets/exercices/categories/bras.png",
+    description: "Bras, épaules, biceps et triceps."
+  },
+  {
+    id: "core",
+    icon: "🛡️",
+    title: "Abdos / gainage",
+    image: "assets/exercices/categories/abdos.png",
+    description: "Centre du corps, gainage et stabilité."
+  },
+  {
+    id: "mobility",
+    icon: "🌿",
+    title: "Mobilité / récupération",
+    image: "assets/exercices/categories/mobilite.png",
+    description: "Souplesse, respiration et retour au calme."
+  }
+],
+ 
+// ------------------------------------------------------------
+// Exercices libres
+// ------------------------------------------------------------
+exercises: [
+  // Échauffement
+  {
+    id: "march_on_spot",
+    categoryId: "warmup",
+    title: "Marche sur place",
+    image: "assets/exercices/marche_sur_place.png",
+    unit: "min",
+    defaultValue: 2,
+    min: 1,
+    step: 1,
+    xpPerUnit: 2,
+    stat: "Échauffement",
+    pose: "warmup",
+    hasTimer: true
+  },
+  {
+    id: "arm_circles",
+    categoryId: "warmup",
+    title: "Cercles de bras",
+    image: "assets/exercices/cercles_bras.png",
+    unit: "sec",
+    defaultValue: 60,
+    min: 30,
+    step: 30,
+    xpPerUnit: 0.2,
+    stat: "Échauffement épaules",
+    pose: "warmup",
+    hasTimer: true
+  },
+  {
+    id: "arm_open_close",
+    categoryId: "warmup",
+    title: "Ouverture / fermeture des bras",
+    image: "assets/exercices/ouverture_fermeture_bras.png",
+    unit: "min",
+    defaultValue: 1,
+    min: 1,
+    step: 1,
+    xpPerUnit: 2,
+    stat: "Mobilité haut du corps",
+    pose: "warmup",
+    hasTimer: true
+  },
+  {
+    id: "dynamic_walk",
+    categoryId: "warmup",
+    title: "Marche dynamique",
+    image: "assets/exercices/marche_dynamique.png",
+    unit: "min",
+    defaultValue: 3,
+    min: 1,
+    step: 1,
+    xpPerUnit: 2,
+    stat: "Échauffement",
+    pose: "walk",
+    hasTimer: true
+  },
 
-  // ------------------------------------------------------------
-  // Exercices libres
-  // ------------------------------------------------------------
-  sports: [
-    {
-  id: "warmup",
-  icon: "🔥",
-  title: "Échauffement",
-  description: "Mobilité douce pour préparer la séance.",
-  exercises: [
-    {
-      id: "warmup",
-      title: "Échauffement",
-      unit: "min",
-      defaultValue: 5,
-      min: 1,
-      step: 1,
-      xpPerUnit: 2,
-      stat: "Discipline",
-      pose: "warmup",
-      hasTimer: true
-    },
-    {
-      id: "march_on_spot",
-      title: "Marche sur place",
-      unit: "min",
-      defaultValue: 2,
-      min: 1,
-      step: 1,
-      xpPerUnit: 2,
-      stat: "Échauffement",
-      pose: "warmup",
-      hasTimer: true
-    },
-    {
-      id: "arm_circles",
-      title: "Cercles de bras",
-      unit: "sec",
-      defaultValue: 60,
-      min: 30,
-      step: 30,
-      xpPerUnit: 0.2,
-      stat: "Échauffement épaules",
-      pose: "warmup",
-      hasTimer: true
-    },
-    {
-      id: "arm_open_close",
-      title: "Ouverture / fermeture des bras",
-      unit: "min",
-      defaultValue: 1,
-      min: 1,
-      step: 1,
-      xpPerUnit: 2,
-      stat: "Mobilité haut du corps",
-      pose: "warmup",
-      hasTimer: true
-    },
-    {
-      id: "dynamic_walk",
-      title: "Marche dynamique",
-      unit: "min",
-      defaultValue: 3,
-      min: 1,
-      step: 1,
-      xpPerUnit: 2,
-      stat: "Échauffement",
-      pose: "walk",
-      hasTimer: true
-    }
-  ]
-},
+  // Cardio doux
+  {
+    id: "side_steps",
+    categoryId: "cardio",
+    title: "Pas chassés",
+    image: "assets/exercices/pas_chasses.png",
+    unit: "sec",
+    defaultValue: 90,
+    min: 30,
+    step: 30,
+    xpPerUnit: 0.25,
+    stat: "Cardio doux",
+    pose: "walk",
+    hasTimer: true
+  },
+  {
+    id: "slow_knee_raises",
+    categoryId: "cardio",
+    title: "Montées de genoux lentes",
+    image: "assets/exercices/montees_genoux_lentes.png",
+    unit: "sec",
+    defaultValue: 60,
+    min: 30,
+    step: 30,
+    xpPerUnit: 0.15,
+    stat: "Cardio doux",
+    pose: "warmup",
+    hasTimer: true
+  },
+  {
+    id: "mountain_climber_slow",
+    categoryId: "cardio",
+    title: "Mountain climber lent",
+    image: "assets/exercices/mountain_climber_lent.png",
+    unit: "sec",
+    defaultValue: 90,
+    min: 15,
+    step: 15,
+    xpPerUnit: 0.3,
+    stat: "Dynamique / gainage",
+    pose: "core",
+    hasTimer: true
+  },
 
-    {
-      id: "walk",
-      icon: "🚶",
-      title: "Marche active",
-      description: "Dehors ou sur tapis.",
-      exercises: [
-        {
-          id: "walk",
-          title: "Marche active",
-          unit: "min",
-          defaultValue: 30,
-          min: 5,
-          step: 5,
-          xpPerUnit: 1.2,
-          stat: "Endurance",
-          pose: "walk",
-          hasTimer: true,
-          hasDistance: true
-        }
-      ]
-    },
+  // Marche
+  {
+    id: "walk",
+    categoryId: "walk",
+    title: "Marche active",
+    image: "assets/exercices/marche_active.png",
+    unit: "min",
+    defaultValue: 30,
+    min: 5,
+    step: 5,
+    xpPerUnit: 1.2,
+    stat: "Endurance",
+    pose: "walk",
+    hasTimer: true,
+    hasDistance: true
+  },
 
-    {
-      id: "run",
-      icon: "🏃",
-      title: "Course",
-      description: "Course sur tapis ou en extérieur.",
-      exercises: [
-        {
-          id: "run_treadmill",
-          title: "Course sur tapis",
-          unit: "min",
-          defaultValue: 15,
-          min: 5,
-          step: 5,
-          xpPerUnit: 2,
-          stat: "Cardio",
-          pose: "run",
-          hasTimer: true,
-          hasDistance: true
-        },
-        {
-          id: "run_outdoor",
-          title: "Course extérieure",
-          unit: "min",
-          defaultValue: 20,
-          min: 5,
-          step: 5,
-          xpPerUnit: 2.1,
-          stat: "Cardio",
-          pose: "run",
-          hasTimer: true,
-          hasDistance: true
-        },
-        {
-          id: "side_steps",
-          title: "Pas chassés",
-          unit: "sec",
-          defaultValue: 90,
-          min: 30,
-          step: 30,
-          xpPerUnit: 0.25,
-          stat: "Cardio",
-          pose: "walk",
-          hasTimer: true
-        }
-      ]
-    },
+  // Course
+  {
+    id: "run_treadmill",
+    categoryId: "run",
+    title: "Course sur tapis",
+    image: "assets/exercices/course_tapis.png",
+    unit: "min",
+    defaultValue: 15,
+    min: 5,
+    step: 5,
+    xpPerUnit: 2,
+    stat: "Cardio",
+    pose: "run",
+    hasTimer: true,
+    hasDistance: true
+  },
+  {
+    id: "run_outdoor",
+    categoryId: "run",
+    title: "Course extérieure",
+    image: "assets/exercices/course_exterieure.png",
+    unit: "min",
+    defaultValue: 20,
+    min: 5,
+    step: 5,
+    xpPerUnit: 2.1,
+    stat: "Cardio",
+    pose: "run",
+    hasTimer: true,
+    hasDistance: true
+  },
 
-    {
-      id: "bike",
-      icon: "🚴",
-      title: "Vélo",
-      description: "Intérieur ou extérieur, rythme confortable.",
-      exercises: [
-        {
-          id: "bike",
-          title: "Vélo",
-          unit: "min",
-          defaultValue: 15,
-          min: 5,
-          step: 5,
-          xpPerUnit: 1.7,
-          stat: "Cardio",
-          pose: "bike",
-          hasTimer: true,
-          hasDistance: true
-        }
-      ]
-    },
+  // Vélo
+  {
+    id: "bike",
+    categoryId: "bike",
+    title: "Vélo",
+    image: "assets/exercices/velo.png",
+    unit: "min",
+    defaultValue: 15,
+    min: 5,
+    step: 5,
+    xpPerUnit: 1.7,
+    stat: "Cardio",
+    pose: "bike",
+    hasTimer: true,
+    hasDistance: true
+  },
 
-    {
-      id: "mobility",
-      icon: "🧘",
-      title: "Mobilité",
-      description: "Souplesse, posture et récupération.",
-      exercises: [
-        {
-          id: "pilates",
-          title: "Pilates",
-          unit: "min",
-          defaultValue: 10,
-          min: 5,
-          step: 5,
-          xpPerUnit: 1.3,
-          stat: "Stabilité",
-          pose: "core",
-          hasTimer: true
-        },
-        {
-          id: "cat_cow",
-          title: "Chat-vache",
-          unit: "min",
-          defaultValue: 1,
-          min: 1,
-          step: 1,
-          xpPerUnit: 2,
-          stat: "Mobilité",
-          pose: "stretch",
-          hasTimer: true
-        },
-        {
-          id: "hip_circles",
-          title: "Cercles de hanches",
-          unit: "sec",
-          defaultValue: 60,
-          min: 30,
-          step: 30,
-          xpPerUnit: 0.15,
-          stat: "Mobilité hanches",
-          pose: "stretch",
-          hasTimer: true
-        },
-        {
-          id: "slow_knee_raises",
-          title: "Montées de genoux lentes",
-          unit: "sec",
-          defaultValue: 60,
-          min: 30,
-          step: 30,
-          xpPerUnit: 0.15,
-          stat: "Mobilité / cardio doux",
-          pose: "warmup",
-          hasTimer: true
-        },
-        {
-          id: "thoracic_rotation",
-          title: "Rotation thoracique",
-          unit: "min",
-          defaultValue: 1,
-          min: 1,
-          step: 1,
-          xpPerUnit: 2,
-          stat: "Mobilité",
-          pose: "stretch",
-          hasTimer: true
-        }
-      ]
-    },
+  // Renforcement
+  {
+    id: "chair_squat",
+    categoryId: "strength",
+    title: "Squat chaise",
+    image: "assets/exercices/squat_chaise.png",
+    unit: "répétitions",
+    defaultValue: 8,
+    min: 1,
+    step: 1,
+    xpPerUnit: 1,
+    stat: "Jambes",
+    pose: "squats"
+  },
+  {
+    id: "squats",
+    categoryId: "strength",
+    title: "Squats",
+    image: "assets/exercices/squats.png",
+    unit: "répétitions",
+    defaultValue: 10,
+    min: 1,
+    step: 1,
+    xpPerUnit: 1.1,
+    stat: "Force",
+    pose: "squats"
+  },
+  {
+    id: "assisted_reverse_lunges",
+    categoryId: "strength",
+    title: "Fentes arrière assistées",
+    image: "assets/exercices/fentes_arriere_assistees.png",
+    unit: "répétitions",
+    defaultValue: 16,
+    min: 2,
+    step: 2,
+    xpPerUnit: 1.1,
+    stat: "Jambes",
+    pose: "squats"
+  },
+  {
+    id: "reverse_lunges",
+    categoryId: "strength",
+    title: "Fentes arrière",
+    image: "assets/exercices/fentes_arriere.png",
+    unit: "répétitions",
+    defaultValue: 16,
+    min: 2,
+    step: 2,
+    xpPerUnit: 1.3,
+    stat: "Jambes",
+    pose: "squats"
+  },
+  {
+    id: "calf_raises",
+    categoryId: "strength",
+    title: "Montées sur pointes",
+    image: "assets/exercices/montees_pointes.png",
+    unit: "répétitions",
+    defaultValue: 15,
+    min: 5,
+    step: 5,
+    xpPerUnit: 0.8,
+    stat: "Mollets",
+    pose: "squats"
+  },
+  {
+    id: "bridge",
+    categoryId: "strength",
+    title: "Pont de hanches",
+    image: "assets/exercices/pont_hanches.png",
+    unit: "répétitions",
+    defaultValue: 12,
+    min: 1,
+    step: 1,
+    xpPerUnit: 1,
+    stat: "Fessiers",
+    pose: "core"
+  },
+  {
+    id: "single_leg_bridge_alternate",
+    categoryId: "strength",
+    title: "Pont de hanches une jambe alternée",
+    image: "assets/exercices/pont_hanches_une_jambe.png",
+    unit: "répétitions",
+    defaultValue: 16,
+    min: 2,
+    step: 2,
+    xpPerUnit: 1.2,
+    stat: "Fessiers",
+    pose: "core"
+  },
+  {
+    id: "superman",
+    categoryId: "strength",
+    title: "Superman",
+    image: "assets/exercices/superman.png",
+    unit: "répétitions",
+    defaultValue: 10,
+    min: 1,
+    step: 1,
+    xpPerUnit: 1,
+    stat: "Dos",
+    pose: "core"
+  },
 
-    {
-      id: "strength",
-      icon: "💪",
-      title: "Renforcement",
-      description: "Pompes, squats, gainage et fessiers.",
-      exercises: [
-        {
-          id: "chair_squat",
-          title: "Squat chaise",
-          unit: "répétitions",
-          defaultValue: 8,
-          min: 1,
-          step: 1,
-          xpPerUnit: 1,
-          stat: "Jambes",
-          pose: "squats"
-        },
-        {
-          id: "squats",
-          title: "Squats",
-          unit: "répétitions",
-          defaultValue: 10,
-          min: 1,
-          step: 1,
-          xpPerUnit: 1.1,
-          stat: "Force",
-          pose: "squats"
-        },
-        {
-          id: "wall_pushups",
-          title: "Pompes murales",
-          unit: "répétitions",
-          defaultValue: 8,
-          min: 1,
-          step: 1,
-          xpPerUnit: 1,
-          stat: "Haut du corps",
-          pose: "core"
-        },
-        {
-          id: "incline_pushups",
-          title: "Pompes inclinées",
-          unit: "répétitions",
-          defaultValue: 8,
-          min: 1,
-          step: 1,
-          xpPerUnit: 1.2,
-          stat: "Haut du corps",
-          pose: "core"
-        },
-        {
-          id: "pushups",
-          title: "Pompes",
-          unit: "répétitions",
-          defaultValue: 10,
-          min: 1,
-          step: 1,
-          xpPerUnit: 1.2,
-          stat: "Force",
-          pose: "core"
-        },
-        {
-          id: "core",
-          title: "Gainage",
-          unit: "sec",
-          defaultValue: 20,
-          min: 10,
-          step: 5,
-          xpPerUnit: 0.28,
-          stat: "Stabilité",
-          pose: "core",
-          hasTimer: true
-        },
-        {
-          id: "knee_plank",
-          title: "Planche genoux",
-          unit: "sec",
-          defaultValue: 20,
-          min: 10,
-          step: 5,
-          xpPerUnit: 0.22,
-          stat: "Stabilité",
-          pose: "core",
-          hasTimer: true
-        },
-        {
-          id: "assisted_reverse_lunges",
-          title: "Fentes arrière assistées",
-          unit: "répétitions",
-          defaultValue: 16,
-          min: 2,
-          step: 2,
-          xpPerUnit: 1.1,
-          stat: "Jambes",
-          pose: "squats"
-        },
-        {
-          id: "reverse_lunges",
-          title: "Fentes arrière",
-          unit: "répétitions",
-          defaultValue: 16,
-          min: 2,
-          step: 2,
-          xpPerUnit: 1.3,
-          stat: "Jambes",
-          pose: "squats"
-        },
-        {
-          id: "calf_raises",
-          title: "Montées sur pointes",
-          unit: "répétitions",
-          defaultValue: 15,
-          min: 5,
-          step: 5,
-          xpPerUnit: 0.8,
-          stat: "Mollets",
-          pose: "squats"
-        },
-        {
-          id: "slow_calf_raises",
-          title: "Montées sur pointes lentes",
-          unit: "répétitions",
-          defaultValue: 15,
-          min: 5,
-          step: 5,
-          xpPerUnit: 1,
-          stat: "Mollets",
-          pose: "squats"
-        },
-        {
-          id: "single_leg_bridge_alternate",
-          title: "Pont de hanches une jambe alternée",
-          unit: "répétitions",
-          defaultValue: 16,
-          min: 2,
-          step: 2,
-          xpPerUnit: 1.2,
-          stat: "Fessiers",
-          pose: "core"
-        },
-        {
-          id: "dead_bug",
-          title: "Dead bug",
-          unit: "répétitions",
-          defaultValue: 20,
-          min: 2,
-          step: 2,
-          xpPerUnit: 1,
-          stat: "Gainage",
-          pose: "core"
-        },
-        {
-          id: "bridge",
-          title: "Pont de hanches",
-          unit: "répétitions",
-          defaultValue: 12,
-          min: 1,
-          step: 1,
-          xpPerUnit: 1,
-          stat: "Fessiers",
-          pose: "core"
-        },
-        {
-          id: "abdominal_breathing",
-          title: "Respiration abdominale",
-          unit: "min",
-          defaultValue: 1,
-          min: 1,
-          step: 1,
-          xpPerUnit: 1,
-          stat: "Respiration / posture",
-          pose: "core",
-          hasTimer: true
-        },
-        {
-          id: "pelvic_tilt",
-          title: "Bascule du bassin au sol",
-          unit: "répétitions",
-          defaultValue: 10,
-          min: 2,
-          step: 2,
-          xpPerUnit: 0.8,
-          stat: "Activation abdos",
-          pose: "core"
-        },
-        {
-          id: "dead_bug_simplified",
-          title: "Dead bug simplifié",
-          unit: "répétitions",
-          defaultValue: 16,
-          min: 2,
-          step: 2,
-          xpPerUnit: 1,
-          stat: "Abdos doux",
-          pose: "core"
-        },
-        {
-          id: "side_plank_knees",
-          title: "Gainage latéral genoux",
-          unit: "sec",
-          defaultValue: 60,
-          min: 10,
-          step: 5,
-          xpPerUnit: 0.25,
-          stat: "Obliques",
-          pose: "core",
-          hasTimer: true
-        },
-        {
-          id: "side_plank",
-          title: "Gainage latéral",
-          unit: "sec",
-          defaultValue: 40,
-          min: 10,
-          step: 5,
-          xpPerUnit: 0.35,
-          stat: "Obliques",
-          pose: "core",
-          hasTimer: true
-        },
-        {
-          id: "mountain_climber_slow",
-          title: "Mountain climber lent",
-          unit: "sec",
-          defaultValue: 90,
-          min: 15,
-          step: 15,
-          xpPerUnit: 0.3,
-          stat: "Dynamique / gainage",
-          pose: "core",
-          hasTimer: true
-        },
-        {
-          id: "mountain_climber",
-          title: "Mountain climber",
-          unit: "sec",
-          defaultValue: 120,
-          min: 15,
-          step: 15,
-          xpPerUnit: 0.4,
-          stat: "Dynamique / cardio",
-          pose: "core",
-          hasTimer: true
-        },
-        {
-          id: "pelvic_lift_floor",
-          title: "Relevé de bassin au sol",
-          unit: "répétitions",
-          defaultValue: 12,
-          min: 2,
-          step: 2,
-          xpPerUnit: 1,
-          stat: "Contrôle du centre",
-          pose: "core"
-        },
-        {
-          id: "crunch_controlled",
-          title: "Crunch contrôlé",
-          unit: "répétitions",
-          defaultValue: 15,
-          min: 2,
-          step: 1,
-          xpPerUnit: 1,
-          stat: "Abdos",
-          pose: "core"
-        },
-        {
-          id: "dead_bug_slow",
-          title: "Dead bug lent",
-          unit: "répétitions",
-          defaultValue: 20,
-          min: 2,
-          step: 2,
-          xpPerUnit: 1.1,
-          stat: "Contrôle abdos",
-          pose: "core"
-        },
-        {
-          id: "hollow_hold_simplified",
-          title: "Hollow hold simplifié",
-          unit: "sec",
-          defaultValue: 45,
-          min: 10,
-          step: 5,
-          xpPerUnit: 0.4,
-          stat: "Finisher abdos",
-          pose: "core",
-          hasTimer: true
-        },
-        {
-          id: "incline_shoulder_taps",
-          title: "Taps épaules en appui incliné",
-          unit: "répétitions",
-          defaultValue: 20,
-          min: 2,
-          step: 2,
-          xpPerUnit: 1,
-          stat: "Épaules / gainage bras",
-          pose: "core"
-        },
-        {
-          id: "wall_triceps_extension",
-          title: "Extension triceps contre un mur",
-          unit: "répétitions",
-          defaultValue: 16,
-          min: 2,
-          step: 2,
-          xpPerUnit: 1,
-          stat: "Triceps",
-          pose: "core"
-        },
-        
-        {
-          id: "biceps_curl_1kg",
-          title: "Curl biceps",
-          unit: "répétitions",
-          defaultValue: 36,
-          min: 2,
-          step: 2,
-          xpPerUnit: 0.9,
-          stat: "Biceps",
-          pose: "core"
-        },
-        {
-          id: "hammer_curl_1kg",
-          title: "Curl marteau",
-          unit: "répétitions",
-          defaultValue: 24,
-          min: 2,
-          step: 2,
-          xpPerUnit: 0.9,
-          stat: "Biceps / avant-bras",
-          pose: "core"
-        },
-        {
-          id: "lateral_raises_1kg",
-          title: "Élévations latérales",
-          unit: "répétitions",
-          defaultValue: 20,
-          min: 2,
-          step: 2,
-          xpPerUnit: 1,
-          stat: "Épaules",
-          pose: "core"
-        },
-        {
-          id: "front_raises_1kg",
-          title: "Élévations frontales",
-          unit: "répétitions",
-          defaultValue: 20,
-          min: 2,
-          step: 2,
-          xpPerUnit: 1,
-          stat: "Épaules",
-          pose: "core"
-        },
-        {
-          id: "triceps_kickback_1kg",
-          title: "Kickback triceps",
-          unit: "répétitions",
-          defaultValue: 20,
-          min: 2,
-          step: 2,
-          xpPerUnit: 1,
-          stat: "Triceps",
-          pose: "core"
-        },
-        {
-          id: "shoulder_press_1kg",
-          title: "Développé épaules",
-          unit: "répétitions",
-          defaultValue: 20,
-          min: 2,
-          step: 2,
-          xpPerUnit: 1,
-          stat: "Épaules / bras",
-          pose: "core"
-        },
-        {
-          id: "superman",
-          title: "Superman",
-          unit: "répétitions",
-          defaultValue: 10,
-          min: 1,
-          step: 1,
-          xpPerUnit: 1,
-          stat: "Dos",
-          pose: "core"
-        }
-      ]
-    },
+  // Bras
+  {
+    id: "wall_pushups",
+    categoryId: "arms",
+    title: "Pompes murales",
+    image: "assets/exercices/pompes_murales.png",
+    unit: "répétitions",
+    defaultValue: 8,
+    min: 1,
+    step: 1,
+    xpPerUnit: 1,
+    stat: "Haut du corps",
+    pose: "core"
+  },
+  {
+    id: "incline_pushups",
+    categoryId: "arms",
+    title: "Pompes inclinées",
+    image: "assets/exercices/pompes_inclinees.png",
+    unit: "répétitions",
+    defaultValue: 8,
+    min: 1,
+    step: 1,
+    xpPerUnit: 1.2,
+    stat: "Haut du corps",
+    pose: "core"
+  },
+  {
+    id: "pushups",
+    categoryId: "arms",
+    title: "Pompes",
+    image: "assets/exercices/pompes.png",
+    unit: "répétitions",
+    defaultValue: 10,
+    min: 1,
+    step: 1,
+    xpPerUnit: 1.2,
+    stat: "Force",
+    pose: "core"
+  },
+  {
+    id: "biceps_curl_1kg",
+    categoryId: "arms",
+    title: "Curl biceps",
+    image: "assets/exercices/curl_biceps.png",
+    unit: "répétitions",
+    defaultValue: 36,
+    min: 2,
+    step: 2,
+    xpPerUnit: 0.9,
+    stat: "Biceps",
+    pose: "core"
+  },
+  {
+    id: "hammer_curl_1kg",
+    categoryId: "arms",
+    title: "Curl marteau",
+    image: "assets/exercices/curl_marteau.png",
+    unit: "répétitions",
+    defaultValue: 24,
+    min: 2,
+    step: 2,
+    xpPerUnit: 0.9,
+    stat: "Biceps / avant-bras",
+    pose: "core"
+  },
+  {
+    id: "lateral_raises_1kg",
+    categoryId: "arms",
+    title: "Élévations latérales",
+    image: "assets/exercices/elevations_laterales.png",
+    unit: "répétitions",
+    defaultValue: 20,
+    min: 2,
+    step: 2,
+    xpPerUnit: 1,
+    stat: "Épaules",
+    pose: "core"
+  },
+  {
+    id: "front_raises_1kg",
+    categoryId: "arms",
+    title: "Élévations frontales",
+    image: "assets/exercices/elevations_frontales.png",
+    unit: "répétitions",
+    defaultValue: 20,
+    min: 2,
+    step: 2,
+    xpPerUnit: 1,
+    stat: "Épaules",
+    pose: "core"
+  },
+  {
+    id: "triceps_kickback_1kg",
+    categoryId: "arms",
+    title: "Kickback triceps",
+    image: "assets/exercices/kickback_triceps.png",
+    unit: "répétitions",
+    defaultValue: 20,
+    min: 2,
+    step: 2,
+    xpPerUnit: 1,
+    stat: "Triceps",
+    pose: "core"
+  },
+  {
+    id: "shoulder_press_1kg",
+    categoryId: "arms",
+    title: "Développé épaules",
+    image: "assets/exercices/developpe_epaules.png",
+    unit: "répétitions",
+    defaultValue: 20,
+    min: 2,
+    step: 2,
+    xpPerUnit: 1,
+    stat: "Épaules / bras",
+    pose: "core"
+  },
+  {
+    id: "wall_triceps_extension",
+    categoryId: "arms",
+    title: "Extension triceps contre un mur",
+    image: "assets/exercices/extension_triceps_mur.png",
+    unit: "répétitions",
+    defaultValue: 16,
+    min: 2,
+    step: 2,
+    xpPerUnit: 1,
+    stat: "Triceps",
+    pose: "core"
+  },
+  {
+    id: "incline_shoulder_taps",
+    categoryId: "arms",
+    title: "Taps épaules en appui incliné",
+    image: "assets/exercices/taps_epaules_incline.png",
+    unit: "répétitions",
+    defaultValue: 20,
+    min: 2,
+    step: 2,
+    xpPerUnit: 1,
+    stat: "Épaules / gainage bras",
+    pose: "core"
+  },
 
-    {
-      id: "stretch",
-      icon: "🌿",
-      title: "Étirements",
-      description: "Retour au calme et récupération.",
-      exercises: [
-        {
-          id: "slow_breathing",
-          title: "Respiration lente",
-          unit: "min",
-          defaultValue: 2,
-          min: 1,
-          step: 1,
-          xpPerUnit: 1,
-          stat: "Récupération",
-          pose: "stretch",
-          hasTimer: true
-        },
-        {
-          id: "thigh_calf_stretch",
-          title: "Étirement cuisses / mollets",
-          unit: "min",
-          defaultValue: 3,
-          min: 1,
-          step: 1,
-          xpPerUnit: 1,
-          stat: "Récupération",
-          pose: "stretch",
-          hasTimer: true
-        },
-        {
-          id: "hip_quad_stretch",
-          title: "Étirement hanches / quadriceps",
-          unit: "min",
-          defaultValue: 3,
-          min: 1,
-          step: 1,
-          xpPerUnit: 1,
-          stat: "Récupération",
-          pose: "stretch",
-          hasTimer: true
-        },
-        {
-          id: "gentle_back_stretch",
-          title: "Étirement doux du dos",
-          unit: "min",
-          defaultValue: 2,
-          min: 1,
-          step: 1,
-          xpPerUnit: 1,
-          stat: "Retour au calme",
-          pose: "stretch",
-          hasTimer: true
-        },
-        {
-          id: "shoulder_arm_stretch",
-          title: "Étirement épaules / bras",
-          unit: "min",
-          defaultValue: 2,
-          min: 1,
-          step: 1,
-          xpPerUnit: 1,
-          stat: "Retour au calme",
-          pose: "stretch",
-          hasTimer: true
-        },
-        {
-          id: "stretch",
-          title: "Étirements",
-          unit: "min",
-          defaultValue: 10,
-          min: 5,
-          step: 5,
-          xpPerUnit: 1.5,
-          stat: "Souplesse",
-          pose: "stretch",
-          hasTimer: true
-        }
-      ]
-    }
-  ],
+  // Abdos / gainage
+  {
+    id: "core",
+    categoryId: "core",
+    title: "Gainage",
+    image: "assets/exercices/gainage.png",
+    unit: "sec",
+    defaultValue: 20,
+    min: 10,
+    step: 5,
+    xpPerUnit: 0.28,
+    stat: "Stabilité",
+    pose: "core",
+    hasTimer: true
+  },
+  {
+    id: "knee_plank",
+    categoryId: "core",
+    title: "Planche genoux",
+    image: "assets/exercices/planche_genoux.png",
+    unit: "sec",
+    defaultValue: 20,
+    min: 10,
+    step: 5,
+    xpPerUnit: 0.22,
+    stat: "Stabilité",
+    pose: "core",
+    hasTimer: true
+  },
+  {
+    id: "side_plank_knees",
+    categoryId: "core",
+    title: "Gainage latéral genoux",
+    image: "assets/exercices/gainage_lateral_genoux.png",
+    unit: "sec",
+    defaultValue: 60,
+    min: 10,
+    step: 5,
+    xpPerUnit: 0.25,
+    stat: "Obliques",
+    pose: "core",
+    hasTimer: true
+  },
+  {
+    id: "side_plank",
+    categoryId: "core",
+    title: "Gainage latéral",
+    image: "assets/exercices/gainage_lateral.png",
+    unit: "sec",
+    defaultValue: 40,
+    min: 10,
+    step: 5,
+    xpPerUnit: 0.35,
+    stat: "Obliques",
+    pose: "core",
+    hasTimer: true
+  },
+  {
+    id: "dead_bug",
+    categoryId: "core",
+    title: "Dead bug",
+    image: "assets/exercices/dead_bug.png",
+    unit: "répétitions",
+    defaultValue: 20,
+    min: 2,
+    step: 2,
+    xpPerUnit: 1,
+    stat: "Gainage",
+    pose: "core"
+  },
+  {
+    id: "dead_bug_simplified",
+    categoryId: "core",
+    title: "Dead bug simplifié",
+    image: "assets/exercices/dead_bug_simplifie.png",
+    unit: "répétitions",
+    defaultValue: 16,
+    min: 2,
+    step: 2,
+    xpPerUnit: 1,
+    stat: "Abdos doux",
+    pose: "core"
+  },
+  {
+    id: "pelvic_tilt",
+    categoryId: "core",
+    title: "Bascule du bassin au sol",
+    image: "assets/exercices/bascule_bassin_sol.png",
+    unit: "répétitions",
+    defaultValue: 10,
+    min: 2,
+    step: 2,
+    xpPerUnit: 0.8,
+    stat: "Activation abdos",
+    pose: "core"
+  },
+  {
+    id: "pelvic_lift_floor",
+    categoryId: "core",
+    title: "Relevé de bassin au sol",
+    image: "assets/exercices/releve_bassin_sol.png",
+    unit: "répétitions",
+    defaultValue: 12,
+    min: 2,
+    step: 2,
+    xpPerUnit: 1,
+    stat: "Contrôle du centre",
+    pose: "core"
+  },
+  {
+    id: "crunch_controlled",
+    categoryId: "core",
+    title: "Crunch contrôlé",
+    image: "assets/exercices/crunch_controle.png",
+    unit: "répétitions",
+    defaultValue: 15,
+    min: 2,
+    step: 1,
+    xpPerUnit: 1,
+    stat: "Abdos",
+    pose: "core"
+  },
+  {
+    id: "hollow_hold_simplified",
+    categoryId: "core",
+    title: "Hollow hold simplifié",
+    image: "assets/exercices/hollow_hold_simplifie.png",
+    unit: "sec",
+    defaultValue: 45,
+    min: 10,
+    step: 5,
+    xpPerUnit: 0.4,
+    stat: "Finisher abdos",
+    pose: "core",
+    hasTimer: true
+  },
 
+  // Mobilité / récupération
+  {
+    id: "pilates",
+    categoryId: "mobility",
+    title: "Pilates",
+    image: "assets/exercices/pilates.png",
+    unit: "min",
+    defaultValue: 10,
+    min: 5,
+    step: 5,
+    xpPerUnit: 1.3,
+    stat: "Stabilité",
+    pose: "core",
+    hasTimer: true
+  },
+  {
+    id: "cat_cow",
+    categoryId: "mobility",
+    title: "Chat-vache",
+    image: "assets/exercices/chat_vache.png",
+    unit: "min",
+    defaultValue: 1,
+    min: 1,
+    step: 1,
+    xpPerUnit: 2,
+    stat: "Mobilité",
+    pose: "stretch",
+    hasTimer: true
+  },
+  {
+    id: "hip_circles",
+    categoryId: "mobility",
+    title: "Cercles de hanches",
+    image: "assets/exercices/cercles_hanches.png",
+    unit: "sec",
+    defaultValue: 60,
+    min: 30,
+    step: 30,
+    xpPerUnit: 0.15,
+    stat: "Mobilité hanches",
+    pose: "stretch",
+    hasTimer: true
+  },
+  {
+    id: "thoracic_rotation",
+    categoryId: "mobility",
+    title: "Rotation thoracique",
+    image: "assets/exercices/rotation_thoracique.png",
+    unit: "min",
+    defaultValue: 1,
+    min: 1,
+    step: 1,
+    xpPerUnit: 2,
+    stat: "Mobilité",
+    pose: "stretch",
+    hasTimer: true
+  },
+  {
+    id: "abdominal_breathing",
+    categoryId: "mobility",
+    title: "Respiration abdominale",
+    image: "assets/exercices/respiration_abdominale.png",
+    unit: "min",
+    defaultValue: 1,
+    min: 1,
+    step: 1,
+    xpPerUnit: 1,
+    stat: "Respiration / posture",
+    pose: "core",
+    hasTimer: true
+  },
+  {
+    id: "slow_breathing",
+    categoryId: "mobility",
+    title: "Respiration lente",
+    image: "assets/exercices/respiration_lente.png",
+    unit: "min",
+    defaultValue: 2,
+    min: 1,
+    step: 1,
+    xpPerUnit: 1,
+    stat: "Récupération",
+    pose: "stretch",
+    hasTimer: true
+  },
+  {
+    id: "thigh_calf_stretch",
+    categoryId: "mobility",
+    title: "Étirement cuisses / mollets",
+    image: "assets/exercices/etirement_cuisses_mollets.png",
+    unit: "min",
+    defaultValue: 3,
+    min: 1,
+    step: 1,
+    xpPerUnit: 1,
+    stat: "Récupération",
+    pose: "stretch",
+    hasTimer: true
+  },
+  {
+    id: "hip_quad_stretch",
+    categoryId: "mobility",
+    title: "Étirement hanches / quadriceps",
+    image: "assets/exercices/etirement_hanches_quadriceps.png",
+    unit: "min",
+    defaultValue: 3,
+    min: 1,
+    step: 1,
+    xpPerUnit: 1,
+    stat: "Récupération",
+    pose: "stretch",
+    hasTimer: true
+  },
+  {
+    id: "gentle_back_stretch",
+    categoryId: "mobility",
+    title: "Étirement doux du dos",
+    image: "assets/exercices/etirement_dos.png",
+    unit: "min",
+    defaultValue: 2,
+    min: 1,
+    step: 1,
+    xpPerUnit: 1,
+    stat: "Retour au calme",
+    pose: "stretch",
+    hasTimer: true
+  },
+  {
+    id: "shoulder_arm_stretch",
+    categoryId: "mobility",
+    title: "Étirement épaules / bras",
+    image: "assets/exercices/etirement_epaules_bras.png",
+    unit: "min",
+    defaultValue: 2,
+    min: 1,
+    step: 1,
+    xpPerUnit: 1,
+    stat: "Retour au calme",
+    pose: "stretch",
+    hasTimer: true
+  }
+]
   // ------------------------------------------------------------
   // Programmes détaillés
   // ------------------------------------------------------------
