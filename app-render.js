@@ -666,66 +666,13 @@ window.FitnessRpgRender.renderExerciseList = function renderExerciseList() {
   const list = document.querySelector("#exerciseList");
   if (!list) return;
 
-  list.innerHTML = "";
+  list.innerHTML = `
+    <div id="exercisesContent"></div>
+  `;
 
-  const sports = window.FitnessRpgData.sports || [];
-
-  sports.forEach((sport) => {
-    const section = document.createElement("section");
-    section.className = "exercise-sport-card card";
-    section.dataset.sportId = sport.id;
-
-    const exercisesHtml = sport.exercises.map((exercise) => {
-      const distanceField = exercise.hasDistance
-        ? `
-          <label>
-            Distance km
-            <input class="exercise-distance-input" type="number" min="0" step="0.1" value="0" data-exercise-id="${exercise.id}" />
-          </label>
-        `
-        : "";
-
-     const canUseTimer = exercise.hasTimer || exercise.unit === "min" || exercise.unit === "sec";
-
-     const timerButton = canUseTimer
-        ? `<button class="ghost-btn start-timer-btn" type="button" data-exercise-id="${exercise.id}">⏱️ Timer</button>`
-        : "";
-
-      return `
-        <article class="exercise-card">
-          <h3>${exercise.title}</h3>
-          <p>${exercise.stat}</p>
-
-          <label>
-            ${exercise.unit}
-            <input class="exercise-amount-input" type="number" min="${exercise.min}" step="${exercise.step}" value="${exercise.defaultValue}" data-exercise-id="${exercise.id}" />
-          </label>
-
-          ${distanceField}
-
-          <div class="exercise-actions">
-            ${timerButton}
-            <button class="primary-btn validate-exercise-btn" type="button" data-exercise-id="${exercise.id}">
-              Valider
-            </button>
-          </div>
-        </article>
-      `;
-    }).join("");
-
-    section.innerHTML = `
-      <header>
-        <p class="eyebrow">${sport.icon} ${sport.title}</p>
-        <p>${sport.description}</p>
-      </header>
-
-      <div class="exercise-card-grid">
-        ${exercisesHtml}
-      </div>
-    `;
-
-    list.appendChild(section);
-  });
+  window.setTimeout(() => {
+    window.FitnessRpgExercises?.renderCategories?.();
+  }, 0);
 };
 
 // ============================================================
