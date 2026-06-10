@@ -107,6 +107,12 @@ window.FitnessRpgNavigation.openPrograms = function openPrograms(programId = nul
 
 window.FitnessRpgNavigation.openExercises = function openExercises() {
   window.FitnessRpgNavigation.setPage("exercises");
+
+  window.FitnessRpgExercises.currentCategoryId = null;
+
+  window.setTimeout(() => {
+    window.FitnessRpgExercises?.renderCategories?.();
+  }, 0);
 };
 
 window.FitnessRpgNavigation.openMusic = function openMusic() {
