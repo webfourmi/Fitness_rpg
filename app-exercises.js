@@ -571,4 +571,4 @@ window.FitnessRpgExercises.init = function initExercises() {
 };
   
 
-};
+
