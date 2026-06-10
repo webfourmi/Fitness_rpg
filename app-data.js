@@ -281,7 +281,7 @@ window.FitnessRpgData = {
 // ------------------------------------------------------------
 // Catégories d’exercices libres
 // ------------------------------------------------------------
-window.FitnessRpgData = {
+
   exerciseCategories: [
   {
     id: "warmup",
@@ -1049,8 +1049,8 @@ exercises: [
     pose: "stretch",
     hasTimer: true
   }
-]
-  };
+],
+ 
   // ------------------------------------------------------------
   // Programmes détaillés
   // ------------------------------------------------------------
@@ -1062,11 +1062,11 @@ exercises: [
           day: 1,
           title: "Découverte douce",
           exercises: [
-            { phase: "Échauffement", exerciseId: "warmup", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
             { phase: "Mobilité", exerciseId: "cat_cow", amount: 1, unit: "min" },
             { phase: "Renfo doux", exerciseId: "chair_squat", amount: 8, unit: "répétitions" },
             { phase: "Renfo doux", exerciseId: "wall_pushups", amount: 8, unit: "répétitions" },
-            { phase: "Retour au calme", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
           ]
         },
         {
@@ -1084,7 +1084,7 @@ exercises: [
           day: 3,
           title: "Première vraie quête",
           exercises: [
-            { phase: "Échauffement", exerciseId: "warmup", amount: 3, unit: "min" },
+            { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 3, unit: "min" },
             { phase: "Cardio doux", exerciseId: "walk", amount: 10, unit: "min" },
             { phase: "Renfo doux", exerciseId: "chair_squat", amount: 10, unit: "répétitions" },
             { phase: "Fessiers", exerciseId: "bridge", amount: 12, unit: "répétitions" },
@@ -1233,7 +1233,7 @@ exercises: [
             { phase: "Jambes", exerciseId: "squats", amount: 36, unit: "répétitions" },
             { phase: "Jambes", exerciseId: "reverse_lunges", amount: 24, unit: "répétitions" },
             { phase: "Fessiers", exerciseId: "single_leg_bridge_alternate", amount: 16, unit: "répétitions" },
-            { phase: "Mollets", exerciseId: "slow_calf_raises", amount: 45, unit: "répétitions" },
+            { phase: "Mollets", exerciseId: "calf_raises", amount: 45, unit: "répétitions" },
             { phase: "Gainage", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
             { phase: "Gainage", exerciseId: "core", amount: 75, unit: "sec" },
             { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 3, unit: "min" }
@@ -1362,9 +1362,9 @@ exercises: [
           exercises: [
             { phase: "Gainage", exerciseId: "core", amount: 135, unit: "sec" },
             { phase: "Obliques", exerciseId: "side_plank", amount: 180, unit: "sec" },
-            { phase: "Dynamique", exerciseId: "mountain_climber", amount: 120, unit: "sec" },
+            { phase: "Dynamique", exerciseId: "mountain_climber_slow", amount: 120, unit: "sec" },
             { phase: "Abdos", exerciseId: "crunch_controlled", amount: 45, unit: "répétitions" },
-            { phase: "Contrôle", exerciseId: "dead_bug_slow", amount: 60, unit: "répétitions" },
+            { phase: "Contrôle", exerciseId: "dead_bug", amount: 60, unit: "répétitions" },
             { phase: "Finisher", exerciseId: "hollow_hold_simplified", amount: 45, unit: "sec" }
           ]
         }
@@ -1544,14 +1544,24 @@ window.FitnessRpgData.getCoach = function getCoach(coachId) {
 };
 
 window.FitnessRpgData.getExerciseList = function getExerciseList() {
-  return window.FitnessRpgData.sports.flatMap((sport) => {
-    return sport.exercises.map((exercise) => ({
+  return (window.FitnessRpgData.exercises || []).map((exercise) => {
+    const category = window.FitnessRpgData.exerciseCategories.find((item) => {
+      return item.id === exercise.categoryId;
+    });
+
+    return {
       ...exercise,
-      sportId: sport.id,
-      sportTitle: sport.title,
-      sportIcon: sport.icon
-    }));
+      sportId: exercise.categoryId,
+      sportTitle: category?.title || "Exercice",
+      sportIcon: category?.icon || "⚔️"
+    };
   });
+};
+
+window.FitnessRpgData.getExerciseById = function getExerciseById(exerciseId) {
+  return window.FitnessRpgData.getExerciseList().find((exercise) => {
+    return exercise.id === exerciseId;
+  }) || null;
 };
 
 window.FitnessRpgData.getExerciseById = function getExerciseById(exerciseId) {
