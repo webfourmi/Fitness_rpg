@@ -87,14 +87,13 @@ window.FitnessRpgApp.prepareDom = function prepareDom() {
 // ============================================================
 
 window.FitnessRpgApp.initModules = function initModules() {
-  window.FitnessRpgState.init?.();
-  window.FitnessRpgProgress.init?.();
-  window.FitnessRpgNavigation.init?.();
-  window.FitnessRpgExercises.init?.();
-  window.FitnessRpgPrograms.init?.();
-  window.FitnessRpgMedia.init?.();
+  window.FitnessRpgState?.init?.();
+  window.FitnessRpgProgress?.init?.();
+  window.FitnessRpgExercises?.init?.();
+  window.FitnessRpgPrograms?.init?.();
+  window.FitnessRpgMedia?.init?.();
+  window.FitnessRpgNavigation?.init?.();
 };
-
 // ============================================================
 // Rendu global
 // ============================================================
