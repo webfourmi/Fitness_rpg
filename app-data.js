@@ -287,63 +287,90 @@ window.FitnessRpgData = {
     id: "warmup",
     icon: "🔥",
     title: "Échauffement",
-    image: "assets/exercices/categories/echauffement.png",
+    images: {
+      male: "assets/categories/categorie_homme_echauffement.png",
+      female:"assets/categories/categorie_femme_echauffement.png"
+    },
     description: "Mobilité douce pour préparer la séance."
-  },
-  {
+},
+ {
     id: "cardio",
-    icon: "❤️‍🔥",
-    title: "Cardio doux",
-    image: "assets/exercices/categories/cardio.png",
+    icon: "🔥",
+    title: "Cardio",
+    images: {
+      male: "assets/categories/categorie_homme_cardio.png",
+      female:"assets/categories/categorie_femme_cardio.png"
+    },
     description: "Faire monter le rythme sans brutalité."
-  },
+},
   {
     id: "walk",
     icon: "🚶",
     title: "Marche",
-    image: "assets/exercices/categories/marche.png",
+    images: {
+      male: "assets/categories/categorie_homme_marche.png",
+      female:"assets/categories/categorie_femme_marche.png"
+    },
     description: "Marche active dehors ou sur tapis."
   },
   {
     id: "run",
     icon: "🏃",
     title: "Course",
-    image: "assets/exercices/categories/course.png",
+     images: {
+      male: "assets/categories/categorie_homme_course.png",
+      female:"assets/categories/categorie_femme_course.png"
+    },
     description: "Course sur tapis ou en extérieur."
   },
   {
     id: "bike",
     icon: "🚴",
     title: "Vélo",
-    image: "assets/exercices/categories/velo.png",
+     images: {
+      male: "assets/categories/categorie_homme_velo.png",
+      female:"assets/categories/categorie_femme_velo.png"
+    },
     description: "Vélo intérieur ou extérieur."
   },
   {
     id: "strength",
     icon: "💪",
     title: "Renforcement",
-    image: "assets/exercices/categories/renforcement.png",
+     images: {
+      male: "assets/categories/categorie_homme_renforcement.png",
+      female:"assets/categories/categorie_femme_renforcement.png"
+    },
     description: "Jambes, dos, posture et force générale."
   },
   {
     id: "arms",
     icon: "🏋️",
     title: "Bras",
-    image: "assets/exercices/categories/bras.png",
+     images: {
+      male: "assets/categories/categorie_homme_bras.png",
+      female:"assets/categories/categorie_femme_bras.png"
+    },
     description: "Bras, épaules, biceps et triceps."
   },
   {
     id: "core",
     icon: "🛡️",
     title: "Abdos / gainage",
-    image: "assets/exercices/categories/abdos.png",
+     images: {
+      male: "assets/categories/categorie_homme_abdos.png",
+      female:"assets/categories/categorie_femme_abdos.png"
+    },
     description: "Centre du corps, gainage et stabilité."
   },
   {
     id: "mobility",
     icon: "🌿",
     title: "Mobilité / récupération",
-    image: "assets/exercices/categories/mobilite.png",
+     images: {
+      male: "assets/categories/categorie_homme_mobilite.png",
+      female:"assets/categories/categorie_femme_mobilite.png"
+    },
     description: "Souplesse, respiration et retour au calme."
   }
 ],
@@ -357,7 +384,10 @@ exercises: [
     id: "march_on_spot",
     categoryId: "warmup",
     title: "Marche sur place",
-    image: "assets/exercices/marche_sur_place.png",
+    images: {
+      male: "assets/exercices/exercice_homme_marchesurplace.png",
+      female: "assets/exercices/exercice_femme_marchesurplace.png"
+    },
     unit: "min",
     defaultValue: 2,
     min: 1,
