@@ -281,7 +281,8 @@ window.FitnessRpgData = {
 // ------------------------------------------------------------
 // Catégories d’exercices libres
 // ------------------------------------------------------------
-exerciseCategories: [
+window.FitnessRpgData = {
+  exerciseCategories: [
   {
     id: "warmup",
     icon: "🔥",
@@ -1049,6 +1050,7 @@ exercises: [
     hasTimer: true
   }
 ]
+  };
   // ------------------------------------------------------------
   // Programmes détaillés
   // ------------------------------------------------------------
