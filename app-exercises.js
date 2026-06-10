@@ -222,11 +222,12 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
   const title = window.FitnessRpgExercises.escapeHtml(exercise.title);
   const description = window.FitnessRpgExercises.escapeHtml(exercise.description || "");
   const stat = window.FitnessRpgExercises.escapeHtml(exercise.stat || "");
-  const image = window.FitnessRpgExercises.resolveImage(exercise);
+  const image = window.FitnessRpgExercises.imageOrDefault(exercise.image);
+
   const distanceField = exercise.hasDistance
     ? `
-      <label class="amount-label">
-        Distance km
+      <label class="distance-inline-label">
+        <span>km</span>
         <input
           class="exercise-distance-input"
           data-exercise-id="${exercise.id}"
@@ -254,26 +255,26 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
       </button>
 
       <div class="exercise-card-body">
-        <h3>${title}</h3>
-        <p>${description}</p>
-        <span class="exercise-stat">${stat}</span>
+        <p class="exercise-stat">${stat}</p>
+        ${description ? `<p class="exercise-description">${description}</p>` : ""}
 
-        <label class="amount-label">
-          ${exercise.unit}
-          <input
-            class="exercise-amount-input"
-            data-exercise-id="${exercise.id}"
-            type="number"
-            min="${exercise.min}"
-            step="${exercise.step}"
-            value="${exercise.defaultValue}"
-          >
-        </label>
+        <div class="exercise-control-row">
+          <label class="amount-inline-label">
+            <span>${exercise.unit}</span>
+            <input
+              class="exercise-amount-input"
+              data-exercise-id="${exercise.id}"
+              type="number"
+              min="${exercise.min}"
+              step="${exercise.step}"
+              value="${exercise.defaultValue}"
+            >
+          </label>
 
-        ${distanceField}
+          ${distanceField}
 
-        <div class="exercise-card-actions">
           ${timerButton}
+
           <button class="primary-btn validate-exercise-btn" type="button" data-exercise-id="${exercise.id}">
             Valider
           </button>
