@@ -401,7 +401,10 @@ exercises: [
     id: "arm_circles",
     categoryId: "warmup",
     title: "Cercles de bras",
-    image: "assets/exercices/cercles_bras.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "sec",
     defaultValue: 60,
     min: 30,
@@ -415,7 +418,10 @@ exercises: [
     id: "arm_open_close",
     categoryId: "warmup",
     title: "Ouverture / fermeture des bras",
-    image: "assets/exercices/ouverture_fermeture_bras.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "min",
     defaultValue: 1,
     min: 1,
@@ -429,7 +435,10 @@ exercises: [
     id: "dynamic_walk",
     categoryId: "warmup",
     title: "Marche dynamique",
-    image: "assets/exercices/marche_dynamique.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "min",
     defaultValue: 3,
     min: 1,
@@ -445,7 +454,10 @@ exercises: [
     id: "side_steps",
     categoryId: "cardio",
     title: "Pas chassés",
-    image: "assets/exercices/pas_chasses.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "sec",
     defaultValue: 90,
     min: 30,
@@ -459,7 +471,10 @@ exercises: [
     id: "slow_knee_raises",
     categoryId: "cardio",
     title: "Montées de genoux lentes",
-    image: "assets/exercices/montees_genoux_lentes.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "sec",
     defaultValue: 60,
     min: 30,
@@ -473,7 +488,10 @@ exercises: [
     id: "mountain_climber_slow",
     categoryId: "cardio",
     title: "Mountain climber lent",
-    image: "assets/exercices/mountain_climber_lent.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "sec",
     defaultValue: 90,
     min: 15,
@@ -489,7 +507,10 @@ exercises: [
     id: "walk",
     categoryId: "walk",
     title: "Marche active",
-    image: "assets/exercices/marche_active.png",
+   images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "min",
     defaultValue: 30,
     min: 5,
@@ -506,7 +527,10 @@ exercises: [
     id: "run_treadmill",
     categoryId: "run",
     title: "Course sur tapis",
-    image: "assets/exercices/course_tapis.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "min",
     defaultValue: 15,
     min: 5,
@@ -521,7 +545,10 @@ exercises: [
     id: "run_outdoor",
     categoryId: "run",
     title: "Course extérieure",
-    image: "assets/exercices/course_exterieure.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "min",
     defaultValue: 20,
     min: 5,
@@ -538,7 +565,10 @@ exercises: [
     id: "bike",
     categoryId: "bike",
     title: "Vélo",
-    image: "assets/exercices/velo.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "min",
     defaultValue: 15,
     min: 5,
@@ -555,7 +585,10 @@ exercises: [
     id: "chair_squat",
     categoryId: "strength",
     title: "Squat chaise",
-    image: "assets/exercices/squat_chaise.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 8,
     min: 1,
@@ -568,7 +601,10 @@ exercises: [
     id: "squats",
     categoryId: "strength",
     title: "Squats",
-    image: "assets/exercices/squats.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 10,
     min: 1,
@@ -581,7 +617,10 @@ exercises: [
     id: "assisted_reverse_lunges",
     categoryId: "strength",
     title: "Fentes arrière assistées",
-    image: "assets/exercices/fentes_arriere_assistees.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 16,
     min: 2,
@@ -594,7 +633,10 @@ exercises: [
     id: "reverse_lunges",
     categoryId: "strength",
     title: "Fentes arrière",
-    image: "assets/exercices/fentes_arriere.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 16,
     min: 2,
@@ -607,7 +649,10 @@ exercises: [
     id: "calf_raises",
     categoryId: "strength",
     title: "Montées sur pointes",
-    image: "assets/exercices/montees_pointes.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 15,
     min: 5,
@@ -620,7 +665,10 @@ exercises: [
     id: "bridge",
     categoryId: "strength",
     title: "Pont de hanches",
-    image: "assets/exercices/pont_hanches.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 12,
     min: 1,
@@ -633,7 +681,10 @@ exercises: [
     id: "single_leg_bridge_alternate",
     categoryId: "strength",
     title: "Pont de hanches une jambe alternée",
-    image: "assets/exercices/pont_hanches_une_jambe.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 16,
     min: 2,
@@ -646,7 +697,10 @@ exercises: [
     id: "superman",
     categoryId: "strength",
     title: "Superman",
-    image: "assets/exercices/superman.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 10,
     min: 1,
@@ -661,7 +715,10 @@ exercises: [
     id: "wall_pushups",
     categoryId: "arms",
     title: "Pompes murales",
-    image: "assets/exercices/pompes_murales.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 8,
     min: 1,
@@ -674,7 +731,10 @@ exercises: [
     id: "incline_pushups",
     categoryId: "arms",
     title: "Pompes inclinées",
-    image: "assets/exercices/pompes_inclinees.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 8,
     min: 1,
@@ -687,7 +747,10 @@ exercises: [
     id: "pushups",
     categoryId: "arms",
     title: "Pompes",
-    image: "assets/exercices/pompes.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 10,
     min: 1,
@@ -700,7 +763,10 @@ exercises: [
     id: "biceps_curl_1kg",
     categoryId: "arms",
     title: "Curl biceps",
-    image: "assets/exercices/curl_biceps.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 36,
     min: 2,
@@ -713,7 +779,10 @@ exercises: [
     id: "hammer_curl_1kg",
     categoryId: "arms",
     title: "Curl marteau",
-    image: "assets/exercices/curl_marteau.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 24,
     min: 2,
@@ -726,7 +795,10 @@ exercises: [
     id: "lateral_raises_1kg",
     categoryId: "arms",
     title: "Élévations latérales",
-    image: "assets/exercices/elevations_laterales.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 20,
     min: 2,
@@ -739,7 +811,10 @@ exercises: [
     id: "front_raises_1kg",
     categoryId: "arms",
     title: "Élévations frontales",
-    image: "assets/exercices/elevations_frontales.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 20,
     min: 2,
@@ -752,7 +827,10 @@ exercises: [
     id: "triceps_kickback_1kg",
     categoryId: "arms",
     title: "Kickback triceps",
-    image: "assets/exercices/kickback_triceps.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 20,
     min: 2,
@@ -765,7 +843,10 @@ exercises: [
     id: "shoulder_press_1kg",
     categoryId: "arms",
     title: "Développé épaules",
-    image: "assets/exercices/developpe_epaules.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 20,
     min: 2,
@@ -778,7 +859,10 @@ exercises: [
     id: "wall_triceps_extension",
     categoryId: "arms",
     title: "Extension triceps contre un mur",
-    image: "assets/exercices/extension_triceps_mur.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 16,
     min: 2,
@@ -791,7 +875,10 @@ exercises: [
     id: "incline_shoulder_taps",
     categoryId: "arms",
     title: "Taps épaules en appui incliné",
-    image: "assets/exercices/taps_epaules_incline.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 20,
     min: 2,
@@ -806,7 +893,10 @@ exercises: [
     id: "core",
     categoryId: "core",
     title: "Gainage",
-    image: "assets/exercices/gainage.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "sec",
     defaultValue: 20,
     min: 10,
@@ -820,7 +910,10 @@ exercises: [
     id: "knee_plank",
     categoryId: "core",
     title: "Planche genoux",
-    image: "assets/exercices/planche_genoux.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "sec",
     defaultValue: 20,
     min: 10,
@@ -834,7 +927,10 @@ exercises: [
     id: "side_plank_knees",
     categoryId: "core",
     title: "Gainage latéral genoux",
-    image: "assets/exercices/gainage_lateral_genoux.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "sec",
     defaultValue: 60,
     min: 10,
@@ -848,7 +944,10 @@ exercises: [
     id: "side_plank",
     categoryId: "core",
     title: "Gainage latéral",
-    image: "assets/exercices/gainage_lateral.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "sec",
     defaultValue: 40,
     min: 10,
@@ -862,7 +961,10 @@ exercises: [
     id: "dead_bug",
     categoryId: "core",
     title: "Dead bug",
-    image: "assets/exercices/dead_bug.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 20,
     min: 2,
@@ -875,7 +977,10 @@ exercises: [
     id: "dead_bug_simplified",
     categoryId: "core",
     title: "Dead bug simplifié",
-    image: "assets/exercices/dead_bug_simplifie.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 16,
     min: 2,
@@ -888,7 +993,10 @@ exercises: [
     id: "pelvic_tilt",
     categoryId: "core",
     title: "Bascule du bassin au sol",
-    image: "assets/exercices/bascule_bassin_sol.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 10,
     min: 2,
@@ -901,7 +1009,10 @@ exercises: [
     id: "pelvic_lift_floor",
     categoryId: "core",
     title: "Relevé de bassin au sol",
-    image: "assets/exercices/releve_bassin_sol.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 12,
     min: 2,
@@ -914,7 +1025,10 @@ exercises: [
     id: "crunch_controlled",
     categoryId: "core",
     title: "Crunch contrôlé",
-    image: "assets/exercices/crunch_controle.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "répétitions",
     defaultValue: 15,
     min: 2,
@@ -927,7 +1041,10 @@ exercises: [
     id: "hollow_hold_simplified",
     categoryId: "core",
     title: "Hollow hold simplifié",
-    image: "assets/exercices/hollow_hold_simplifie.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "sec",
     defaultValue: 45,
     min: 10,
@@ -943,7 +1060,10 @@ exercises: [
     id: "pilates",
     categoryId: "mobility",
     title: "Pilates",
-    image: "assets/exercices/pilates.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "min",
     defaultValue: 10,
     min: 5,
@@ -957,7 +1077,10 @@ exercises: [
     id: "cat_cow",
     categoryId: "mobility",
     title: "Chat-vache",
-    image: "assets/exercices/chat_vache.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "min",
     defaultValue: 1,
     min: 1,
@@ -971,7 +1094,10 @@ exercises: [
     id: "hip_circles",
     categoryId: "mobility",
     title: "Cercles de hanches",
-    image: "assets/exercices/cercles_hanches.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "sec",
     defaultValue: 60,
     min: 30,
@@ -985,8 +1111,10 @@ exercises: [
     id: "thoracic_rotation",
     categoryId: "mobility",
     title: "Rotation thoracique",
-    image: "assets/exercices/rotation_thoracique.png",
-    unit: "min",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },    unit: "min",
     defaultValue: 1,
     min: 1,
     step: 1,
@@ -999,7 +1127,10 @@ exercises: [
     id: "abdominal_breathing",
     categoryId: "mobility",
     title: "Respiration abdominale",
-    image: "assets/exercices/respiration_abdominale.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "min",
     defaultValue: 1,
     min: 1,
@@ -1013,7 +1144,10 @@ exercises: [
     id: "slow_breathing",
     categoryId: "mobility",
     title: "Respiration lente",
-    image: "assets/exercices/respiration_lente.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "min",
     defaultValue: 2,
     min: 1,
@@ -1027,7 +1161,10 @@ exercises: [
     id: "thigh_calf_stretch",
     categoryId: "mobility",
     title: "Étirement cuisses / mollets",
-    image: "assets/exercices/etirement_cuisses_mollets.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "min",
     defaultValue: 3,
     min: 1,
@@ -1041,7 +1178,10 @@ exercises: [
     id: "hip_quad_stretch",
     categoryId: "mobility",
     title: "Étirement hanches / quadriceps",
-    image: "assets/exercices/etirement_hanches_quadriceps.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "min",
     defaultValue: 3,
     min: 1,
@@ -1055,7 +1195,10 @@ exercises: [
     id: "gentle_back_stretch",
     categoryId: "mobility",
     title: "Étirement doux du dos",
-    image: "assets/exercices/etirement_dos.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "min",
     defaultValue: 2,
     min: 1,
@@ -1069,7 +1212,10 @@ exercises: [
     id: "shoulder_arm_stretch",
     categoryId: "mobility",
     title: "Étirement épaules / bras",
-    image: "assets/exercices/etirement_epaules_bras.png",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
     unit: "min",
     defaultValue: 2,
     min: 1,
