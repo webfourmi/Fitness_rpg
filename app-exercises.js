@@ -3,7 +3,9 @@
 // Version V5-clean
 // ------------------------------------------------------------
 // Rôle de ce fichier :
-// - gérer les exercices libres ;
+// - afficher les 9 catégories d’exercices ;
+// - afficher les exercices d’une catégorie ;
+// - gérer les images cliquables ;
 // - valider temps / répétitions ;
 // - gérer les distances km ;
 // - gérer un timer simple ;
@@ -15,18 +17,76 @@
 // ============================================================
 
 window.FitnessRpgExercises = {
+  currentCategoryId: null,
   activeTimer: null,
   remainingSeconds: 0,
   timerExerciseId: null
 };
 
 // ============================================================
-// Helpers
+// Helpers données
 // ============================================================
 
-window.FitnessRpgExercises.getExercise = function getExercise(exerciseId) {
-  return window.FitnessRpgData.getExerciseById(exerciseId);
+window.FitnessRpgExercises.getData = function getData() {
+  return window.FitnessRpgData || {};
 };
+
+window.FitnessRpgExercises.getCategories = function getCategories() {
+  const data = window.FitnessRpgExercises.getData();
+  return Array.isArray(data.exerciseCategories) ? data.exerciseCategories : [];
+};
+
+window.FitnessRpgExercises.getExercises = function getExercises() {
+  const data = window.FitnessRpgExercises.getData();
+  return Array.isArray(data.exercises) ? data.exercises : [];
+};
+
+window.FitnessRpgExercises.getCategory = function getCategory(categoryId) {
+  return window.FitnessRpgExercises
+    .getCategories()
+    .find((category) => category.id === categoryId);
+};
+
+window.FitnessRpgExercises.getExercise = function getExercise(exerciseId) {
+  const data = window.FitnessRpgExercises.getData();
+
+  if (typeof data.getExerciseById === "function") {
+    return data.getExerciseById(exerciseId);
+  }
+
+  return window.FitnessRpgExercises
+    .getExercises()
+    .find((exercise) => exercise.id === exerciseId);
+};
+
+window.FitnessRpgExercises.getExerciseCategory = function getExerciseCategory(exercise) {
+  if (!exercise) return null;
+  return window.FitnessRpgExercises.getCategory(exercise.categoryId);
+};
+
+window.FitnessRpgExercises.getContainer = function getContainer() {
+  return (
+    document.querySelector("#exercisesContent") ||
+    document.querySelector("#questsList")
+  );
+};
+
+window.FitnessRpgExercises.escapeHtml = function escapeHtml(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+};
+
+window.FitnessRpgExercises.imageOrDefault = function imageOrDefault(path) {
+  return path || "assets/exercices/default.png";
+};
+
+// ============================================================
+// Helpers inputs
+// ============================================================
 
 window.FitnessRpgExercises.getExerciseAmountInput = function getExerciseAmountInput(exerciseId) {
   return document.querySelector(`.exercise-amount-input[data-exercise-id="${exerciseId}"]`);
@@ -64,6 +124,150 @@ window.FitnessRpgExercises.formatDistance = function formatDistance(distanceKm) 
 };
 
 // ============================================================
+// Rendu : catégories
+// ============================================================
+
+window.FitnessRpgExercises.renderCategories = function renderCategories() {
+  const container = window.FitnessRpgExercises.getContainer();
+  if (!container) return;
+
+  const categories = window.FitnessRpgExercises.getCategories();
+
+  container.innerHTML = `
+    <section class="exercise-category-page">
+      <div class="subpage-header">
+        <div>
+          <p class="eyebrow">Exercices</p>
+          <h2>Catégories sportives</h2>
+          <p class="muted">Choisis une catégorie, puis ouvre les exercices correspondants.</p>
+        </div>
+      </div>
+
+      <div class="exercise-category-grid">
+        ${categories.map((category) => window.FitnessRpgExercises.categoryCardHtml(category)).join("")}
+      </div>
+    </section>
+  `;
+};
+
+window.FitnessRpgExercises.categoryCardHtml = function categoryCardHtml(category) {
+  const title = window.FitnessRpgExercises.escapeHtml(category.title);
+  const description = window.FitnessRpgExercises.escapeHtml(category.description);
+  const image = window.FitnessRpgExercises.imageOrDefault(category.image);
+
+  return `
+    <button class="exercise-category-card" type="button" data-category-id="${category.id}">
+      <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/default.png'">
+      <span class="category-icon">${category.icon || "⚔️"}</span>
+      <strong>${title}</strong>
+      <small>${description}</small>
+    </button>
+  `;
+};
+
+// ============================================================
+// Rendu : exercices d’une catégorie
+// ============================================================
+
+window.FitnessRpgExercises.renderCategoryExercises = function renderCategoryExercises(categoryId) {
+  const container = window.FitnessRpgExercises.getContainer();
+  if (!container) return;
+
+  const category = window.FitnessRpgExercises.getCategory(categoryId);
+  const exercises = window.FitnessRpgExercises
+    .getExercises()
+    .filter((exercise) => exercise.categoryId === categoryId);
+
+  window.FitnessRpgExercises.currentCategoryId = categoryId;
+
+  container.innerHTML = `
+    <section class="exercise-category-detail-page">
+      <div class="subpage-header">
+        <div>
+          <p class="eyebrow">Exercices</p>
+          <h2>${category?.icon || "⚔️"} ${window.FitnessRpgExercises.escapeHtml(category?.title || "Catégorie")}</h2>
+          <p class="muted">${window.FitnessRpgExercises.escapeHtml(category?.description || "")}</p>
+        </div>
+
+        <button id="backToExerciseCategoriesBtn" class="ghost-btn" type="button">
+          Retour
+        </button>
+      </div>
+
+      <div class="exercise-card-grid">
+        ${exercises.map((exercise) => window.FitnessRpgExercises.exerciseCardHtml(exercise)).join("")}
+      </div>
+    </section>
+  `;
+};
+
+window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise) {
+  const title = window.FitnessRpgExercises.escapeHtml(exercise.title);
+  const description = window.FitnessRpgExercises.escapeHtml(exercise.description || "");
+  const stat = window.FitnessRpgExercises.escapeHtml(exercise.stat || "");
+  const image = window.FitnessRpgExercises.imageOrDefault(exercise.image);
+
+  const distanceField = exercise.hasDistance
+    ? `
+      <label class="amount-label">
+        Distance km
+        <input
+          class="exercise-distance-input"
+          data-exercise-id="${exercise.id}"
+          type="number"
+          min="0"
+          step="0.1"
+          value="0"
+        >
+      </label>
+    `
+    : "";
+
+  const timerButton = exercise.hasTimer
+    ? `
+      <button class="secondary-btn start-timer-btn" type="button" data-exercise-id="${exercise.id}">
+        Démarrer
+      </button>
+    `
+    : "";
+
+  return `
+    <article class="exercise-card" data-exercise-id="${exercise.id}">
+      <button class="exercise-image-button" type="button" data-exercise-id="${exercise.id}" title="Agrandir l’image">
+        <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/default.png'">
+      </button>
+
+      <div class="exercise-card-body">
+        <h3>${title}</h3>
+        <p>${description}</p>
+        <span class="exercise-stat">${stat}</span>
+
+        <label class="amount-label">
+          ${exercise.unit}
+          <input
+            class="exercise-amount-input"
+            data-exercise-id="${exercise.id}"
+            type="number"
+            min="${exercise.min}"
+            step="${exercise.step}"
+            value="${exercise.defaultValue}"
+          >
+        </label>
+
+        ${distanceField}
+
+        <div class="exercise-card-actions">
+          ${timerButton}
+          <button class="primary-btn validate-exercise-btn" type="button" data-exercise-id="${exercise.id}">
+            Valider
+          </button>
+        </div>
+      </div>
+    </article>
+  `;
+};
+
+// ============================================================
 // Validation d’exercice
 // ============================================================
 
@@ -75,9 +279,9 @@ window.FitnessRpgExercises.validateExercise = function validateExercise(exercise
     return;
   }
 
-  if (!window.FitnessRpgState.hasProfile()) {
+  if (!window.FitnessRpgState?.hasProfile?.()) {
     alert("Crée d’abord ton héros.");
-    window.FitnessRpgNavigation.openHeroSetup();
+    window.FitnessRpgNavigation?.openHeroSetup?.();
     return;
   }
 
@@ -92,12 +296,18 @@ window.FitnessRpgExercises.validateExercise = function validateExercise(exercise
     ? window.FitnessRpgExercises.getDistanceValue(exerciseId)
     : null;
 
-  const xp = window.FitnessRpgProgress.calculateExerciseXp(exercise, amount);
+  const xp = window.FitnessRpgProgress?.calculateExerciseXp
+    ? window.FitnessRpgProgress.calculateExerciseXp(exercise, amount)
+    : Math.max(1, Math.round(amount * Number(exercise.xpPerUnit || 1)));
 
-  const entry = window.FitnessRpgState.addTrainingEntry({
+  const category = window.FitnessRpgExercises.getExerciseCategory(exercise);
+
+  const entry = window.FitnessRpgState?.addTrainingEntry?.({
     type: "exercise",
-    sportId: exercise.sportId,
-    sportTitle: exercise.sportTitle,
+    categoryId: exercise.categoryId,
+    categoryTitle: category?.title || "Exercice",
+    sportId: exercise.categoryId,
+    sportTitle: category?.title || "Exercice",
     exerciseId: exercise.id,
     title: exercise.title,
     amount,
@@ -108,25 +318,27 @@ window.FitnessRpgExercises.validateExercise = function validateExercise(exercise
 
   if (!entry) return;
 
-  window.FitnessRpgState.setPose(exercise.pose || "victory");
+  window.FitnessRpgState?.setPose?.(exercise.pose || "victory");
 
-  const coachId = window.FitnessRpgState.getCoachId();
-  const message = window.FitnessRpgData.getCoachMessage(coachId, "complete", exercise.id);
+  const coachId = window.FitnessRpgState?.getCoachId?.();
+  const message = window.FitnessRpgData?.getCoachMessage
+    ? window.FitnessRpgData.getCoachMessage(coachId, "complete", exercise.id)
+    : "Exercice validé.";
 
   const coachMessage = document.querySelector("#coachMessage");
   if (coachMessage) {
     coachMessage.textContent = `${message} +${xp} XP.`;
   }
 
-  window.FitnessRpgState.addJournalEntry({
+  window.FitnessRpgState?.addJournalEntry?.({
     type: "exercise",
     title: exercise.title,
     text: `${exercise.title} validé : ${amount} ${exercise.unit}${window.FitnessRpgExercises.formatDistance(distanceKm)}.`,
     xp
   });
 
-  window.FitnessRpgProgress.checkBadges();
-  window.FitnessRpgRender.renderAll();
+  window.FitnessRpgProgress?.checkBadges?.();
+  window.FitnessRpgRender?.renderAll?.();
 };
 
 // ============================================================
@@ -205,6 +417,7 @@ window.FitnessRpgExercises.openTimer = function openTimer(exerciseId) {
 
   title.textContent = exercise.title;
   timeText.textContent = window.FitnessRpgExercises.formatTime(seconds);
+  validateButton.textContent = "Valider l’exercice";
 
   overlay.classList.remove("hidden");
 
@@ -272,10 +485,54 @@ window.FitnessRpgExercises.explainExercise = function explainExercise(exerciseId
 };
 
 // ============================================================
+// Images
+// ============================================================
+
+window.FitnessRpgExercises.openExerciseImage = function openExerciseImage(exerciseId) {
+  const exercise = window.FitnessRpgExercises.getExercise(exerciseId);
+
+  if (!exercise) return;
+
+  if (window.FitnessRpgMedia?.openImageFullscreen) {
+    window.FitnessRpgMedia.openImageFullscreen(
+      window.FitnessRpgExercises.imageOrDefault(exercise.image),
+      exercise.title
+    );
+    return;
+  }
+
+  window.open(window.FitnessRpgExercises.imageOrDefault(exercise.image), "_blank");
+};
+
+// ============================================================
 // Clics
 // ============================================================
 
 window.FitnessRpgExercises.handleDocumentClick = function handleDocumentClick(event) {
+  const categoryButton = event.target.closest(".exercise-category-card");
+
+  if (categoryButton) {
+    const categoryId = categoryButton.dataset.categoryId;
+    window.FitnessRpgExercises.renderCategoryExercises(categoryId);
+    return;
+  }
+
+  const backButton = event.target.closest("#backToExerciseCategoriesBtn");
+
+  if (backButton) {
+    window.FitnessRpgExercises.currentCategoryId = null;
+    window.FitnessRpgExercises.renderCategories();
+    return;
+  }
+
+  const imageButton = event.target.closest(".exercise-image-button");
+
+  if (imageButton) {
+    const exerciseId = imageButton.dataset.exerciseId;
+    window.FitnessRpgExercises.openExerciseImage(exerciseId);
+    return;
+  }
+
   const validateButton = event.target.closest(".validate-exercise-btn");
 
   if (validateButton) {
@@ -295,9 +552,8 @@ window.FitnessRpgExercises.handleDocumentClick = function handleDocumentClick(ev
 
   const exerciseCard = event.target.closest(".exercise-card");
 
-  if (exerciseCard) {
-    const button = exerciseCard.querySelector(".validate-exercise-btn, .start-timer-btn");
-    const exerciseId = button?.dataset.exerciseId;
+  if (exerciseCard && !event.target.closest("button, input, label")) {
+    const exerciseId = exerciseCard.dataset.exerciseId;
 
     if (exerciseId) {
       window.FitnessRpgExercises.explainExercise(exerciseId);
@@ -310,5 +566,8 @@ window.FitnessRpgExercises.handleDocumentClick = function handleDocumentClick(ev
 // ============================================================
 
 window.FitnessRpgExercises.init = function initExercises() {
+  document.removeEventListener("click", window.FitnessRpgExercises.handleDocumentClick);
   document.addEventListener("click", window.FitnessRpgExercises.handleDocumentClick);
+
+  window.FitnessRpgExercises.renderCategories();
 };
