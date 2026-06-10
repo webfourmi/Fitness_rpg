@@ -568,6 +568,7 @@ window.FitnessRpgExercises.handleDocumentClick = function handleDocumentClick(ev
 window.FitnessRpgExercises.init = function initExercises() {
   document.removeEventListener("click", window.FitnessRpgExercises.handleDocumentClick);
   document.addEventListener("click", window.FitnessRpgExercises.handleDocumentClick);
-
+};
+  
 
 };
