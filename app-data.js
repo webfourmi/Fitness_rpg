@@ -285,7 +285,7 @@ window.FitnessRpgData = {
   exerciseCategories: [
   {
     id: "warmup",
-    icon: "🔥",
+    
     title: "Échauffement",
     images: {
       male: "assets/categories/categorie_homme_echauffement.png",
@@ -295,7 +295,7 @@ window.FitnessRpgData = {
 },
  {
     id: "cardio",
-    icon: "🔥",
+    
     title: "Cardio",
     images: {
       male: "assets/categories/categorie_homme_cardio.png",
@@ -305,7 +305,7 @@ window.FitnessRpgData = {
 },
   {
     id: "walk",
-    icon: "🚶",
+    
     title: "Marche",
     images: {
       male: "assets/categories/categorie_homme_marche.png",
@@ -315,7 +315,7 @@ window.FitnessRpgData = {
   },
   {
     id: "run",
-    icon: "🏃",
+    
     title: "Course",
      images: {
       male: "assets/categories/categorie_homme_course.png",
@@ -325,7 +325,7 @@ window.FitnessRpgData = {
   },
   {
     id: "bike",
-    icon: "🚴",
+    
     title: "Vélo",
      images: {
       male: "assets/categories/categorie_homme_velo.png",
@@ -335,7 +335,7 @@ window.FitnessRpgData = {
   },
   {
     id: "strength",
-    icon: "💪",
+    
     title: "Renforcement",
      images: {
       male: "assets/categories/categorie_homme_renforcement.png",
@@ -345,7 +345,7 @@ window.FitnessRpgData = {
   },
   {
     id: "arms",
-    icon: "🏋️",
+    
     title: "Bras",
      images: {
       male: "assets/categories/categorie_homme_bras.png",
@@ -355,7 +355,7 @@ window.FitnessRpgData = {
   },
   {
     id: "core",
-    icon: "🛡️",
+    
     title: "Abdos / gainage",
      images: {
       male: "assets/categories/categorie_homme_abdos.png",
@@ -365,7 +365,7 @@ window.FitnessRpgData = {
   },
   {
     id: "mobility",
-    icon: "🌿",
+    
     title: "Mobilité / récupération",
      images: {
       male: "assets/categories/categorie_homme_mobilite.png",
