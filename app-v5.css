@@ -2182,3 +2182,180 @@ button {
     grid-template-columns: repeat(5, 1fr);
   }
 }
+/* ============================================================
+   V5.1 - Grille catégories exercices
+   ============================================================ */
+
+#exercisesContent .exercise-category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+  margin-top: 16px;
+}
+
+#exercisesContent .exercise-category-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+
+  min-height: 0;
+  padding: 10px;
+  border-radius: 18px;
+
+  border: 1px solid rgba(244, 211, 94, 0.35);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-color, #fff);
+
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+#exercisesContent .exercise-category-card img {
+  width: 100%;
+  max-width: 160px;
+  height: 120px;
+  object-fit: cover;
+  object-position: center;
+
+  border-radius: 14px;
+  display: block;
+}
+
+#exercisesContent .exercise-category-card .category-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+#exercisesContent .exercise-category-card strong {
+  font-size: 0.95rem;
+  line-height: 1.1;
+}
+
+#exercisesContent .exercise-category-card small {
+  font-size: 0.78rem;
+  line-height: 1.25;
+  opacity: 0.85;
+}
+
+/* ============================================================
+   V5.1 - Grille exercices dans une catégorie
+   ============================================================ */
+
+#exercisesContent .exercise-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+#exercisesContent .exercise-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  padding: 10px;
+  border-radius: 18px;
+  border: 1px solid rgba(244, 211, 94, 0.25);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+#exercisesContent .exercise-image-button {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
+#exercisesContent .exercise-image-button img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  object-position: center;
+
+  border-radius: 14px;
+  display: block;
+}
+
+#exercisesContent .exercise-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#exercisesContent .exercise-card-body h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+#exercisesContent .exercise-card-body p {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+#exercisesContent .exercise-card-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+#exercisesContent .amount-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.82rem;
+}
+
+#exercisesContent .amount-label input {
+  width: 100%;
+}
+
+/* Mobile très étroit */
+@media (max-width: 480px) {
+  #exercisesContent .exercise-category-grid,
+  #exercisesContent .exercise-card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  #exercisesContent .exercise-category-card {
+    padding: 6px;
+    border-radius: 14px;
+  }
+
+  #exercisesContent .exercise-category-card img {
+    height: 78px;
+    max-width: 100%;
+    border-radius: 10px;
+  }
+
+  #exercisesContent .exercise-category-card strong {
+    font-size: 0.72rem;
+  }
+
+  #exercisesContent .exercise-category-card small {
+    display: none;
+  }
+
+  #exercisesContent .exercise-card {
+    padding: 7px;
+  }
+
+  #exercisesContent .exercise-image-button img {
+    height: 82px;
+  }
+
+  #exercisesContent .exercise-card-body h3 {
+    font-size: 0.78rem;
+  }
+
+  #exercisesContent .exercise-card-body p,
+  #exercisesContent .exercise-stat {
+    display: none;
+  }
+}
