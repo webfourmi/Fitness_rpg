@@ -912,7 +912,7 @@ exercises: [
     title: "Planche genoux",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercise_femme_planchesurlesgenoux.png"
     },
     unit: "sec",
     defaultValue: 20,
@@ -929,7 +929,7 @@ exercises: [
     title: "Gainage latéral genoux",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercise_femme_gainagelateralgenoux.png"
     },
     unit: "sec",
     defaultValue: 60,
@@ -946,7 +946,7 @@ exercises: [
     title: "Gainage latéral",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercise_femme_gainagelateral.png"
     },
     unit: "sec",
     defaultValue: 40,
@@ -963,7 +963,7 @@ exercises: [
     title: "Dead bug",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercise_femme_deadbugcomplet.png"
     },
     unit: "répétitions",
     defaultValue: 20,
@@ -979,7 +979,7 @@ exercises: [
     title: "Dead bug simplifié",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercise_femme_deadbugsimplifie.png"
     },
     unit: "répétitions",
     defaultValue: 16,
@@ -995,7 +995,7 @@ exercises: [
     title: "Bascule du bassin au sol",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercise_femme_basculebassinsol.png".png"
     },
     unit: "répétitions",
     defaultValue: 10,
@@ -1011,7 +1011,7 @@ exercises: [
     title: "Relevé de bassin au sol",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercise_femme_relevedebassinausol.png".png"
     },
     unit: "répétitions",
     defaultValue: 12,
@@ -1027,7 +1027,7 @@ exercises: [
     title: "Crunch contrôlé",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercise_femme_crunchcontrole.png".png"
     },
     unit: "répétitions",
     defaultValue: 15,
@@ -1043,7 +1043,7 @@ exercises: [
     title: "Hollow hold simplifié",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercise_femme_hollowholssimplifie.png"
     },
     unit: "sec",
     defaultValue: 45,
