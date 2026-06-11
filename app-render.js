@@ -327,6 +327,20 @@ window.FitnessRpgRender.renderCoachPanel = function renderCoachPanel() {
 };
 
 window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
+  const quest = window.FitnessRpgPrograms.getTodayQuest();
+
+  window.FitnessRpgRender.setText("#todayProgramTitle", quest.title);
+
+  window.FitnessRpgRender.setText(
+    "#todayProgramDescription",
+    `${quest.subtitle} · ${quest.description}`
+  );
+
+  const todayCard = document.querySelector("#todayCard");
+    if (todayCard) {
+      todayCard.dataset.programId = quest.programId;
+      todayCard.dataset.dayNumber = quest.day.day;
+    }
   const program = window.FitnessRpgState.getRecommendedProgram?.()
     || window.FitnessRpgConfig.getProgramById("eveil-heros");
 
