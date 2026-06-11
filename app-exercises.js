@@ -238,6 +238,14 @@ window.FitnessRpgExercises.renderCategoryExercises = function renderCategoryExer
   `;
 };
 
+window.FitnessRpgExercises.shortUnit = function shortUnit(unit) {
+  if (unit === "répétitions") return "rép.";
+  if (unit === "repetitions") return "rép.";
+  if (unit === "secondes") return "sec";
+  if (unit === "minutes") return "min";
+  return unit;
+};
+
 window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise) {
   const title = window.FitnessRpgExercises.escapeHtml(exercise.title);
   const description = window.FitnessRpgExercises.escapeHtml(exercise.description || "");
@@ -287,7 +295,7 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
 
         <div class="exercise-control-row">
           <label class="amount-inline-label">
-            <span>${exercise.unit}</span>
+            <span>${window.FitnessRpgExercises.shortUnit(exercise.unit)}</span>
             <input
               class="exercise-amount-input"
               data-exercise-id="${exercise.id}"
