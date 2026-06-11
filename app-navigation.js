@@ -450,6 +450,14 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
     return;
   }
 
+  const headerPlanningButton = event.target.closest("#headerPlanningButton");
+
+  if (headerPlanningButton) {
+    event.preventDefault();
+    window.FitnessRpgNavigation.openPlanning();
+    return;
+  }
+
   // Programmes
   const chooseProgramButton = target.closest(".choose-program-btn");
 
