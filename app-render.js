@@ -330,10 +330,10 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
   const quest = window.FitnessRpgPrograms.getTodayQuest?.();
 
   if (!quest) {
-    window.FitnessRpgRender.setText("#todayProgramTitle", "Repos actif");
+    window.FitnessRpgRender.setText("#todayProgramTitle", "Éveil du héros");
     window.FitnessRpgRender.setText(
       "#todayProgramDescription",
-      "Aucune séance prioritaire aujourd’hui. Marche douce, mobilité ou repos."
+      "Séance douce pour reprendre l’aventure."
     );
     return;
   }
@@ -346,17 +346,18 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
   );
 
   const todayCard = document.querySelector("#todayCard");
+
   if (todayCard) {
     todayCard.dataset.programId = quest.programId;
     todayCard.dataset.dayNumber = quest.day?.day || 1;
-    todayCard.dataset.questSource = quest.source || "goal";
+    todayCard.dataset.source = quest.source || "quest";
   }
 
   const openButton = document.querySelector("#openTodayProgramButton");
+
   if (openButton) {
     openButton.dataset.programId = quest.programId;
     openButton.dataset.dayNumber = quest.day?.day || 1;
-    openButton.textContent = "Démarrer la quête du jour";
   }
 };
 
@@ -632,29 +633,68 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
   const list = document.querySelector("#programList");
   if (!list) return;
 
-  list.innerHTML = "";
-
   const programs = window.FitnessRpgConfig.programs || [];
+  const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
+  const activeProgram = activeProgramId
+    ? window.FitnessRpgConfig.getProgramById(activeProgramId)
+    : null;
+
+  const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
+  const goal = window.FitnessRpgConfig.getGoalById?.(goalId);
+
+  list.innerHTML = `
+    <section class="program-choice-header card">
+      <p class="eyebrow">Choisir son programme</p>
+      <h2>${activeProgram ? activeProgram.title : "Aucun programme choisi"}</h2>
+      <p>
+        Objectif actuel : <strong>${goal?.title || "Reprise douce"}</strong>
+      </p>
+      <p class="muted">
+        Le planning utilise ton programme choisi les jours prévus, puis ton objectif les autres jours.
+      </p>
+
+      <button id="startProgramPlanningButton" class="primary-btn" type="button">
+        Commencer
+      </button>
+    </section>
+
+    <div class="program-choice-grid"></div>
+  `;
+
+  const grid = list.querySelector(".program-choice-grid");
 
   programs.forEach((program) => {
+    const selected = program.id === activeProgramId;
+
     const card = document.createElement("article");
-    card.className = "program-card card";
+    card.className = `program-card card${selected ? " selected" : ""}`;
     card.dataset.programId = program.id;
 
     card.innerHTML = `
       <div class="program-icon">${program.icon}</div>
+
       <div>
         <h2>${program.title}</h2>
         <p>${program.objective}</p>
+
         <ul>
           <li><strong>Niveau :</strong> ${program.level}</li>
           <li><strong>Durée :</strong> ${program.duration}</li>
+          <li><strong>Fréquence :</strong> ${program.frequency}</li>
           <li><strong>Coach conseillé :</strong> ${program.coachAdvice || "Libre"}</li>
         </ul>
+
+        <button
+          class="${selected ? "secondary-btn" : "primary-btn"} choose-program-btn"
+          type="button"
+          data-program-id="${program.id}"
+        >
+          ${selected ? "Programme choisi" : "Choisir ce programme"}
+        </button>
       </div>
     `;
 
-    list.appendChild(card);
+    grid.appendChild(card);
   });
 };
 
