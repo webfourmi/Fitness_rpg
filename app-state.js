@@ -106,6 +106,7 @@ window.FitnessRpgState.createDefaultProfile = function createDefaultProfile(data
     age: Number.isFinite(Number(data.age)) && Number(data.age) > 0 ? Number(data.age) : null,
     coachId: data.coachId || data.coach || "korvan",
     goalId: data.goalId || "reprise-douce",
+    activeProgramId: data.activeProgramId || data.programId || null,
 
     totalXp: 0,
     streak: 0,
@@ -137,6 +138,7 @@ window.FitnessRpgState.loadProfile = function loadProfile() {
 
     window.FitnessRpgState.selectedCoachId = window.FitnessRpgState.profile.coachId || "korvan";
     window.FitnessRpgState.selectedGoalId = window.FitnessRpgState.profile.goalId || "reprise-douce";
+    window.FitnessRpgState.selectedProgramId = window.FitnessRpgState.profile.activeProgramId || null;
   } else {
     window.FitnessRpgState.profile = null;
   }
@@ -545,11 +547,14 @@ window.FitnessRpgState.getActiveProgramId = function getActiveProgramId() {
 };
 
 window.FitnessRpgState.setActiveProgramId = function setActiveProgramId(programId) {
-  const profile = window.FitnessRpgState.getProfile?.();
-  if (!profile) return;
+  const cleanProgramId = programId || null;
 
-  profile.activeProgramId = programId;
-  window.FitnessRpgState.saveProfile?.();
+  window.FitnessRpgState.selectedProgramId = cleanProgramId;
+
+  if (window.FitnessRpgState.profile) {
+    window.FitnessRpgState.profile.activeProgramId = cleanProgramId;
+    window.FitnessRpgState.saveProfile?.();
+  }
 };
 
 window.FitnessRpgState.startProgramSession = function startProgramSession(programId, dayNumber) {
