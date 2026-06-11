@@ -148,15 +148,12 @@ window.FitnessRpgNavigation.openProgression = function openProgression() {
 // ============================================================
 
 window.FitnessRpgNavigation.openRecommendedProgram = function openRecommendedProgram() {
-  const recommended = window.FitnessRpgState.getRecommendedProgram?.()
-    || window.FitnessRpgConfig.getProgramById("eveil-heros");
-
-  if (!recommended) {
-    window.FitnessRpgNavigation.openPrograms();
+  if (window.FitnessRpgPrograms?.openTodayProgram) {
+    window.FitnessRpgPrograms.openTodayProgram();
     return;
   }
 
-  window.FitnessRpgNavigation.openPrograms(recommended.id);
+  window.FitnessRpgNavigation.openPrograms("eveil-heros");
 };
 
 // ============================================================
@@ -349,11 +346,10 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
   
   const headerGoalButton = event.target.closest("#headerGoalButton");
   
-  if (headerGoalButton) {
-    event.preventDefault();
-    window.FitnessRpgState.setPage("goal");
-    window.FitnessRpgRender.renderAll();
-    return;
+ if (headerGoalButton) {
+  event.preventDefault();
+  window.FitnessRpgNavigation.openGoal();
+  return;
 }
   if (target.closest("#backButton")) {
     window.FitnessRpgNavigation.goBack();
@@ -455,6 +451,20 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
   }
 
   // Programmes
+  const chooseProgramButton = target.closest(".choose-program-btn");
+
+  if (chooseProgramButton) {
+    event.preventDefault();
+    event.stopPropagation();
+  
+    const programId = chooseProgramButton.dataset.programId;
+  
+    if (programId && window.FitnessRpgPrograms?.chooseProgram) {
+      window.FitnessRpgPrograms.chooseProgram(programId);
+    }
+  
+    return;
+  }
   const programCard = target.closest(".program-card");
   if (programCard) {
     const programId = programCard.dataset.programId;
