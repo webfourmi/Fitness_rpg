@@ -995,7 +995,7 @@ exercises: [
     title: "Bascule du bassin au sol",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/exercise_femme_basculebassinsol.png".png"
+      female: "assets/exercices/exercise_femme_basculebassinsol.png"
     },
     unit: "répétitions",
     defaultValue: 10,
