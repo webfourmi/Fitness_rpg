@@ -137,7 +137,7 @@ window.FitnessRpgData = {
         explain: "assets/coach/violette/violette_explain.jpg",
         motivate: "assets/coach/violette/violette_motivate.jpg",
         victory: "assets/coach/violette/violette_victory.jpg",
-        levelup: "assets/coach/violette/violette_levelup.jpg"
+        levelup: "assets/coach/violette/violette_levelup.jpg",
         warmup: "assets/coach/violette/violette_warmup.jpg",
         walk:"assets/coach/violette/violette_walk.jpg",
         bike: "assets/coach/violette/violette_bike.jpg",
@@ -145,6 +145,7 @@ window.FitnessRpgData = {
         squats: "assets/coach/violette/violette_squats.jpg",
         core: "assets/coach/violette/violette_core.jpg",
         stretch: "assets/coach/violette/violette_stretch.jpg"
+        }
       },
       start: [
         "On y va doucement, mais on y va vraiment !",
