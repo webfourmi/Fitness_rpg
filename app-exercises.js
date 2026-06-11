@@ -172,13 +172,7 @@ window.FitnessRpgExercises.renderCategories = function renderCategories() {
 
   container.innerHTML = `
     <section class="exercise-category-page">
-      <div class="subpage-header">
-        <div>
-          <p class="eyebrow">Exercices</p>
-          <h2>Catégories sportives</h2>
-          <p class="muted">Choisis une catégorie, puis ouvre les exercices correspondants.</p>
-        </div>
-      </div>
+     
 
       <div class="exercise-category-grid">
         ${categories.map((category) => window.FitnessRpgExercises.categoryCardHtml(category)).join("")}
