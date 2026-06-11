@@ -327,7 +327,16 @@ window.FitnessRpgRender.renderCoachPanel = function renderCoachPanel() {
 };
 
 window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
-  const quest = window.FitnessRpgPrograms.getTodayQuest();
+  const quest = window.FitnessRpgPrograms.getTodayQuest?.();
+
+  if (!quest) {
+    window.FitnessRpgRender.setText("#todayProgramTitle", "Repos actif");
+    window.FitnessRpgRender.setText(
+      "#todayProgramDescription",
+      "Aucune séance prioritaire aujourd’hui. Marche douce, mobilité ou repos."
+    );
+    return;
+  }
 
   window.FitnessRpgRender.setText("#todayProgramTitle", quest.title);
 
@@ -337,27 +346,18 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
   );
 
   const todayCard = document.querySelector("#todayCard");
-    if (todayCard) {
-      todayCard.dataset.programId = quest.programId;
-      todayCard.dataset.dayNumber = quest.day.day;
-    }
-  const program = window.FitnessRpgState.getRecommendedProgram?.()
-    || window.FitnessRpgConfig.getProgramById("eveil-heros");
-
-  if (!program) return;
-
-  window.FitnessRpgRender.setText("#todayProgramTitle", program.title);
-
-  window.FitnessRpgRender.setText(
-    "#todayProgramDescription",
-    `${program.objective} · ${program.duration} · ${program.frequency || "séance conseillée"}`
-  );
-
-  const todayCard = document.querySelector("#todayCard");
-  if (todayCard) todayCard.dataset.programId = program.id;
+  if (todayCard) {
+    todayCard.dataset.programId = quest.programId;
+    todayCard.dataset.dayNumber = quest.day?.day || 1;
+    todayCard.dataset.questSource = quest.source || "goal";
+  }
 
   const openButton = document.querySelector("#openTodayProgramButton");
-  if (openButton) openButton.dataset.programId = program.id;
+  if (openButton) {
+    openButton.dataset.programId = quest.programId;
+    openButton.dataset.dayNumber = quest.day?.day || 1;
+    openButton.textContent = "Démarrer la quête du jour";
+  }
 };
 
 // ============================================================
