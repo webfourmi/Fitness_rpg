@@ -260,13 +260,20 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
     `
     : "";
 
-  const timerButton = exercise.hasTimer
-    ? `
-      <button class="secondary-btn start-timer-btn" type="button" data-exercise-id="${exercise.id}">
-        Démarrer
-      </button>
-    `
-    : "";
+ const timerButton = exercise.hasTimer
+  ? `
+    <button
+      class="secondary-btn start-timer-btn"
+      type="button"
+      data-exercise-id="${exercise.id}"
+      aria-label="Démarrer le timer"
+      title="Démarrer"
+    >
+      <span class="btn-icon">▶️</span>
+      <span class="btn-text">Démarrer</span>
+    </button>
+  `
+  : "";
 
   return `
     <article class="exercise-card" data-exercise-id="${exercise.id}">
@@ -295,9 +302,16 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
 
           ${timerButton}
 
-          <button class="primary-btn validate-exercise-btn" type="button" data-exercise-id="${exercise.id}">
-            Valider
-          </button>
+         <button
+          class="primary-btn validate-exercise-btn"
+          type="button"
+          data-exercise-id="${exercise.id}"
+          aria-label="Valider l’exercice"
+          title="Valider"
+        >
+          <span class="btn-icon">✅</span>
+          <span class="btn-text">Valider</span>
+        </button>
         </div>
       </div>
     </article>
