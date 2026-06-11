@@ -394,7 +394,7 @@ exercises: [
     title: "Marche sur place",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercice_femme_marchedelaventurier.jpg"
     },
     unit: "min",
     defaultValue: 2,
@@ -1087,7 +1087,7 @@ exercises: [
     title: "Chat-vache",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercice_femme_chatvache.jpg"
     },
     unit: "min",
     defaultValue: 1,
@@ -1104,7 +1104,7 @@ exercises: [
     title: "Cercles de hanches",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercice_femme_cerclehanches.jpg"
     },
     unit: "sec",
     defaultValue: 60,
@@ -1121,7 +1121,7 @@ exercises: [
     title: "Rotation thoracique",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercice_femme_rotationthoracique.jpg"
     },    unit: "min",
     defaultValue: 1,
     min: 1,
