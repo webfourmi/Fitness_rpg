@@ -342,6 +342,7 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}) 
   const cleanEntry = {
     id: entry.id || window.FitnessRpgState.createId("entry"),
     date: dateKey,
+    dayNumber: entry.dayNumber ? Number(entry.dayNumber) : null,
     type: entry.type || "exercise",
     sportId: entry.sportId || null,
     sportTitle: entry.sportTitle || null,
