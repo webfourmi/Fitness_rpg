@@ -537,6 +537,20 @@ window.FitnessRpgState.hasBadge = function hasBadge(badgeId) {
 // Séance de programme en cours
 // ============================================================
 
+//quand il n y a pas de programme choisi
+window.FitnessRpgState.getActiveProgramId = function getActiveProgramId() {
+  const profile = window.FitnessRpgState.getProfile?.();
+  return profile?.activeProgramId || null;
+};
+
+window.FitnessRpgState.setActiveProgramId = function setActiveProgramId(programId) {
+  const profile = window.FitnessRpgState.getProfile?.();
+  if (!profile) return;
+
+  profile.activeProgramId = programId;
+  window.FitnessRpgState.saveProfile?.();
+};
+
 window.FitnessRpgState.startProgramSession = function startProgramSession(programId, dayNumber) {
   const day = window.FitnessRpgPrograms?.getProgramDay?.(programId, dayNumber);
 
