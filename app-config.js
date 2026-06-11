@@ -88,14 +88,24 @@ window.FitnessRpgConfig = {
       icon: "⚖️",
       title: "Perte de poids",
       rhythm: "4 à 5 séances douces par semaine",
-      recommendedProgramId: "marche-aventurier"
+      recommendedProgramId: "marche-aventurier",
+      programProgression: [
+          "marche-aventurier",
+          "eveil-heros",
+          "coeur-dragon"
+      ]
     },
     {
       id: "reprise-douce",
       icon: "🌅",
       title: "Reprise douce",
       rhythm: "3 séances courtes par semaine",
-      recommendedProgramId: "eveil-heros"
+      recommendedProgramId: "eveil-heros",
+      programProgression: [
+        "eveil-heros",
+        "tour-mage",
+        "marche-aventurier"
+      ]
     },
     {
       id: "cardio",
@@ -109,7 +119,13 @@ window.FitnessRpgConfig = {
       icon: "⚒️",
       title: "Renforcement",
       rhythm: "3 séances de force par semaine",
-      recommendedProgramId: "forge-guerrier"
+      recommendedProgramId: "forge-guerrier",
+      programProgression: [
+        "forge-guerrier",
+        "bras-heros",
+        "rempart-heros"
+      ]
+        
     },
     {
       id: "regularite",
