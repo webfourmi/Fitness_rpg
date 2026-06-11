@@ -93,6 +93,7 @@ img {
 
 body[data-page="home"] #headerProgramsButton,
 body[data-page="home"] #headerGoalButton,
+body[data-page="home"] #headerPlanningButton,
 body[data-page="home"] #backButton,
 body[data-page="home"] #homeButton {
   display: none !important;
