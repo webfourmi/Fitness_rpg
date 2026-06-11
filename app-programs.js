@@ -115,55 +115,50 @@ window.FitnessRpgPrograms.validateProgramDay = function validateProgramDay(progr
 // choisir les seances en fonction du programme puis de l objectif
 // ============================================================
 
+window.FitnessRpgPrograms.getProgramWeeklySlots = function getProgramWeeklySlots(programId) {
+  const program = window.FitnessRpgPrograms.getProgram(programId);
+
+  if (Array.isArray(program?.weeklySlots)) return program.weeklySlots;
+
+  const frequency = String(program?.frequency || "").toLowerCase();
+
+  if (frequency.includes("1 fois")) return [5];          // samedi
+  if (frequency.includes("2")) return [1, 4];             // mardi, vendredi
+  if (frequency.includes("4") || frequency.includes("6")) return [0, 1, 3, 5]; // lun, mar, jeu, sam
+
+  return [0, 2, 4]; // défaut : lundi, mercredi, vendredi
+};
+
+window.FitnessRpgPrograms.isActiveProgramDay = function isActiveProgramDay(programId) {
+  if (!programId) return false;
+
+  const todayIndex = window.FitnessRpgPrograms.getTodayPlanIndex();
+  const slots = window.FitnessRpgPrograms.getProgramWeeklySlots(programId);
+
+  return slots.includes(todayIndex);
+};
+
+window.FitnessRpgPrograms.getCompletedProgramDays = function getCompletedProgramDays(programId) {
+  const entries = window.FitnessRpgState.getAllEntries?.() || [];
+
+  return new Set(
+    entries
+      .filter((entry) => entry.type === "program" && entry.programId === programId)
+      .map((entry) => {
+        if (entry.dayNumber) return Number(entry.dayNumber);
+
+        const match = String(entry.title || "").match(/Jour\s+(\d+)/i);
+        return match ? Number(match[1]) : null;
+      })
+      .filter((dayNumber) => Number.isFinite(dayNumber))
+  );
+};
+
 window.FitnessRpgPrograms.getNextProgramSession = function getNextProgramSession(programId) {
   const detail = window.FitnessRpgData.getProgramDetail(programId);
   if (!detail || !Array.isArray(detail.days)) return null;
 
-  const entries = window.FitnessRpgState.getAllEntries?.() || [];
-
-  const completedDays = new Set(
-    entries
-      .filter((entry) => {
-        return entry.type === "program" && entry.programId === programId;
-      })
-      .map((entry) => Number(entry.dayNumber))
-      .filter((dayNumber) => Number.isFinite(dayNumber) && dayNumber > 0)
-  );
-
-  const nextDay = detail.days.find((day) => {
-    return !completedDays.has(Number(day.day));
-  });
-
-  if (!nextDay) return null;
-
-  const program = window.FitnessRpgConfig.getProgramById(programId);
-
-  return {
-    type: "program",
-    source: "active-program",
-    programId,
-    program,
-    day: nextDay,
-    title: program?.title || "Programme",
-    subtitle: `Jour ${nextDay.day} · ${nextDay.title}`,
-    description: program
-      ? `${program.objective} · ${program.duration}`
-      : "Séance du programme choisi."
-  };
-};window.FitnessRpgPrograms.getNextProgramSession = function getNextProgramSession(programId) {
-  const detail = window.FitnessRpgData.getProgramDetail(programId);
-  if (!detail || !Array.isArray(detail.days)) return null;
-
-  const entries = window.FitnessRpgState.getAllEntries?.() || [];
-
-  const completedDays = new Set(
-    entries
-      .filter((entry) => {
-        return entry.type === "program" && entry.programId === programId;
-      })
-      .map((entry) => Number(entry.dayNumber))
-      .filter((dayNumber) => Number.isFinite(dayNumber) && dayNumber > 0)
-  );
+  const completedDays = window.FitnessRpgPrograms.getCompletedProgramDays(programId);
 
   const nextDay = detail.days.find((day) => {
     return !completedDays.has(Number(day.day));
@@ -187,10 +182,10 @@ window.FitnessRpgPrograms.getNextProgramSession = function getNextProgramSession
   };
 };
 
-// fonction objectif de secours
 window.FitnessRpgPrograms.getNextGoalSession = function getNextGoalSession() {
   const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
   const goal = window.FitnessRpgConfig.getGoalById?.(goalId);
+  const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
 
   const progression = goal?.programProgression || [];
 
@@ -202,8 +197,24 @@ window.FitnessRpgPrograms.getNextGoalSession = function getNextGoalSession() {
 
   const programIds = progression.length ? progression : fallbackProgression;
 
+  const objectiveOnlyIds = programIds.filter((programId) => programId !== activeProgramId);
+
+  for (const programId of objectiveOnlyIds) {
+    const session = window.FitnessRpgPrograms.getNextProgramSession(programId);
+
+    if (session) {
+      return {
+        ...session,
+        source: "goal",
+        goalId,
+        goal
+      };
+    }
+  }
+
   for (const programId of programIds) {
     const session = window.FitnessRpgPrograms.getNextProgramSession(programId);
+
     if (session) {
       return {
         ...session,
@@ -217,25 +228,27 @@ window.FitnessRpgPrograms.getNextGoalSession = function getNextGoalSession() {
   return window.FitnessRpgPrograms.getNextProgramSession("eveil-heros");
 };
 
-//determination quete du jour
-
 window.FitnessRpgPrograms.getTodayQuest = function getTodayQuest() {
-  const profile = window.FitnessRpgState.getProfile?.();
+  const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
 
-  const activeProgramId =
-    profile?.activeProgramId ||
-    window.FitnessRpgState.getActiveProgramId?.();
-
-  if (activeProgramId) {
+  if (
+    activeProgramId &&
+    window.FitnessRpgPrograms.isActiveProgramDay(activeProgramId)
+  ) {
     const activeSession = window.FitnessRpgPrograms.getNextProgramSession(activeProgramId);
 
     if (activeSession) {
-      return activeSession;
+      return {
+        ...activeSession,
+        source: "active-program"
+      };
     }
   }
 
   return window.FitnessRpgPrograms.getNextGoalSession();
 };
+
+
 // ============================================================
 // Planning hebdomadaire interactif
 // ============================================================
@@ -365,15 +378,17 @@ window.FitnessRpgPrograms.startTodayPlanningSession = function startTodayPlannin
 window.FitnessRpgPrograms.openTodayProgram = function openTodayProgram() {
   const quest = window.FitnessRpgPrograms.getTodayQuest?.();
 
-  if (!quest) {
-    alert("Aucune quête du jour disponible.");
+  if (!quest?.programId) {
+    window.FitnessRpgNavigation.openPrograms("eveil-heros");
     return;
   }
 
   window.FitnessRpgNavigation.openPrograms(quest.programId);
 
   window.setTimeout(() => {
-    window.FitnessRpgPrograms.validateProgramDay(quest.programId, quest.day.day);
+    if (quest.day?.day) {
+      window.FitnessRpgPrograms.validateProgramDay(quest.programId, quest.day.day);
+    }
   }, 120);
 };
 
@@ -588,6 +603,36 @@ window.FitnessRpgPrograms.openProgramExerciseTimer = function openProgramExercis
     }
   }, 1000);
 };
+
+window.FitnessRpgPrograms.chooseProgram = function chooseProgram(programId) {
+  const program = window.FitnessRpgConfig.getProgramById(programId);
+
+  if (!program) {
+    alert("Programme introuvable.");
+    return;
+  }
+
+  if (!window.FitnessRpgState.hasProfile?.()) {
+    alert("Crée d’abord ton héros.");
+    window.FitnessRpgNavigation.openHeroSetup?.();
+    return;
+  }
+
+  window.FitnessRpgState.setActiveProgramId(programId);
+  window.FitnessRpgRender.renderProgramList?.();
+};
+
+window.FitnessRpgPrograms.goToPlanning = function goToPlanning() {
+  window.FitnessRpgState.setPage("planning");
+  window.FitnessRpgRender.renderAll();
+
+  window.setTimeout(() => {
+    document.querySelector("#pagePlanning")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }, 80);
+};
 // ============================================================
 // Clics
 // ============================================================
@@ -627,6 +672,24 @@ window.FitnessRpgPrograms.handleDocumentClick = function handleDocumentClick(eve
   if (finishButton) {
     event.preventDefault();
     window.FitnessRpgPrograms.finishProgramSession();
+    return;
+  }
+
+  const chooseProgramButton = event.target.closest(".choose-program-btn");
+
+  if (chooseProgramButton) {
+    event.preventDefault();
+  
+    const programId = chooseProgramButton.dataset.programId;
+    window.FitnessRpgPrograms.chooseProgram(programId);
+    return;
+  }
+  
+  const startProgramPlanningButton = event.target.closest("#startProgramPlanningButton");
+  
+  if (startProgramPlanningButton) {
+    event.preventDefault();
+    window.FitnessRpgPrograms.goToPlanning();
     return;
   }
   
