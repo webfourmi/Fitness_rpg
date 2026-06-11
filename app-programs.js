@@ -633,6 +633,31 @@ window.FitnessRpgPrograms.goToPlanning = function goToPlanning() {
     });
   }, 80);
 };
+
+window.FitnessRpgPrograms.chooseProgram = function chooseProgram(programId) {
+  const program = window.FitnessRpgConfig.getProgramById(programId);
+
+  if (!program) {
+    alert("Programme introuvable.");
+    return;
+  }
+
+  if (!window.FitnessRpgState.hasProfile?.()) {
+    alert("Crée d’abord ton héros.");
+    window.FitnessRpgNavigation.openHeroSetup?.();
+    return;
+  }
+
+  window.FitnessRpgState.setActiveProgramId(programId);
+
+  const coachMessage = document.querySelector("#coachMessage");
+  if (coachMessage) {
+    coachMessage.textContent = `Programme actuel : ${program.title}. Le planning est recalculé.`;
+  }
+
+  window.FitnessRpgRender.renderAll?.();
+};
+
 // ============================================================
 // Clics
 // ============================================================
@@ -692,7 +717,17 @@ window.FitnessRpgPrograms.handleDocumentClick = function handleDocumentClick(eve
     window.FitnessRpgPrograms.goToPlanning();
     return;
   }
-  
+
+  const chooseProgramButton = event.target.closest(".choose-program-btn");
+
+if (chooseProgramButton) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  const programId = chooseProgramButton.dataset.programId;
+  window.FitnessRpgPrograms.chooseProgram(programId);
+  return;
+}
   const dayButton = event.target.closest(".start-program-day-btn");
 
   if (dayButton) {
