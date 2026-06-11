@@ -633,35 +633,10 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
   const list = document.querySelector("#programList");
   if (!list) return;
 
+  list.innerHTML = "";
+
   const programs = window.FitnessRpgConfig.programs || [];
   const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
-  const activeProgram = activeProgramId
-    ? window.FitnessRpgConfig.getProgramById(activeProgramId)
-    : null;
-
-  const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
-  const goal = window.FitnessRpgConfig.getGoalById?.(goalId);
-
-  list.innerHTML = `
-    <section class="program-choice-header card">
-      <p class="eyebrow">Choisir son programme</p>
-      <h2>${activeProgram ? activeProgram.title : "Aucun programme choisi"}</h2>
-      <p>
-        Objectif actuel : <strong>${goal?.title || "Reprise douce"}</strong>
-      </p>
-      <p class="muted">
-        Le planning utilise ton programme choisi les jours prévus, puis ton objectif les autres jours.
-      </p>
-
-      <button id="startProgramPlanningButton" class="primary-btn" type="button">
-        Commencer
-      </button>
-    </section>
-
-    <div class="program-choice-grid"></div>
-  `;
-
-  const grid = list.querySelector(".program-choice-grid");
 
   programs.forEach((program) => {
     const selected = program.id === activeProgramId;
@@ -689,12 +664,12 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
           type="button"
           data-program-id="${program.id}"
         >
-          ${selected ? "Programme choisi" : "Choisir ce programme"}
+          ${selected ? "Programme actuel" : "Choisir ce programme"}
         </button>
       </div>
     `;
 
-    grid.appendChild(card);
+    list.appendChild(card);
   });
 };
 
