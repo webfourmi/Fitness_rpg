@@ -2471,3 +2471,34 @@ button {
     height: 40px;
   }
 }
+/* ============================================================
+   V5.1 - Accueil propre
+   ============================================================ */
+
+body[data-page="home"] #homeButton,
+body[data-page="home"] #backButton {
+  display: none !important;
+}
+
+#homeGameVersionBadge,
+#homeVersionText {
+  display: none !important;
+}
+
+#homePanel .eyebrow.hidden,
+#homeIntroText.hidden,
+.home-image-info.hidden {
+  display: none !important;
+}
+
+.home-image-info {
+  margin: 12px auto 0;
+  max-width: 520px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(244, 211, 94, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
