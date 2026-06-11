@@ -2554,3 +2554,62 @@ body[data-page="home"] #homeSplashImage {
   height: auto;
   border-radius: 18px;
 }
+/* ============================================================
+   V5.1 - Accueil : cadre ajusté à l’image
+   ============================================================ */
+
+body[data-page="home"] .home-card {
+  width: fit-content;
+  max-width: min(94vw, 680px);
+  margin: 16px auto 0;
+  padding: 18px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Titre centré au-dessus de l’image */
+body[data-page="home"] .home-text {
+  width: 100%;
+  text-align: center;
+}
+
+body[data-page="home"] #homeTitle {
+  margin: 0;
+}
+
+/* Cadre juste autour de l’image */
+body[data-page="home"] .home-image-frame {
+  width: fit-content;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Image d’accueil */
+body[data-page="home"] #homeSplashImage {
+  display: block;
+  width: min(100%, 580px);
+  max-width: 100%;
+  height: auto;
+  border-radius: 18px;
+  cursor: pointer;
+}
+
+/* Texte explicatif caché par défaut */
+body[data-page="home"] .home-image-info.hidden {
+  display: none !important;
+}
+
+body[data-page="home"] .home-image-info {
+  margin: 10px auto 0;
+  max-width: 520px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(244, 211, 94, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
