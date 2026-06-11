@@ -1248,6 +1248,95 @@ body.level-up-active .hero-image-frame {
    - images mieux centrées
 ============================================================ */
 
+/* ============================================================
+   V5.1 - Exercices mobile : champ + icônes
+   ============================================================ */
+
+@media (max-width: 640px) {
+  #exercisesContent .exercise-control-row {
+    display: grid;
+    grid-template-columns: minmax(96px, 1.15fr) 46px 46px;
+    gap: 8px;
+    align-items: end;
+  }
+
+  #exercisesContent .amount-inline-label {
+    grid-column: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    min-width: 96px;
+  }
+
+  #exercisesContent .amount-inline-label span {
+    font-size: 0.78rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  #exercisesContent .amount-inline-label input {
+    width: 100%;
+    min-width: 86px;
+    height: 46px;
+    padding: 0 8px;
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  #exercisesContent .distance-inline-label {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    align-items: center;
+    gap: 8px;
+  }
+
+  #exercisesContent .distance-inline-label input {
+    height: 44px;
+    font-size: 1rem;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  #exercisesContent .start-timer-btn,
+  #exercisesContent .validate-exercise-btn {
+    width: 46px;
+    min-width: 46px;
+    height: 46px;
+    padding: 0;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #exercisesContent .start-timer-btn {
+    grid-column: 2;
+  }
+
+  #exercisesContent .validate-exercise-btn {
+    grid-column: 3;
+  }
+
+  #exercisesContent .start-timer-btn .btn-text,
+  #exercisesContent .validate-exercise-btn .btn-text {
+    display: none;
+  }
+
+  #exercisesContent .start-timer-btn .btn-icon,
+  #exercisesContent .validate-exercise-btn .btn-icon {
+    display: inline-block;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  /* Si pas de bouton timer, Valider prend la place du bouton de droite */
+  #exercisesContent .exercise-control-row > .validate-exercise-btn:nth-child(2) {
+    grid-column: 2 / 4;
+    width: 100%;
+  }
+}
 /* ------------------------------------------------------------
    Header compact
 ------------------------------------------------------------ */
