@@ -512,7 +512,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
 
   
   
- window.FitnessRpgRender.renderPlanningPage = function renderPlanningPage() {
+window.FitnessRpgRender.renderPlanningPage = function renderPlanningPage() {
   const summary = document.querySelector("#planningSummary");
   const grid = document.querySelector("#planningWeekGrid");
 
@@ -520,10 +520,23 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
 
   const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
   const goal = window.FitnessRpgConfig.getGoalById(goalId);
-  const plan = window.FitnessRpgPrograms.getWeeklyPlan(goalId);
 
-  
-  const todayItem = window.FitnessRpgPrograms.getTodayPlanItem();
+  const plan = window.FitnessRpgPrograms.getCombinedWeeklyPlan
+    ? window.FitnessRpgPrograms.getCombinedWeeklyPlan(goalId)
+    : window.FitnessRpgPrograms.getWeeklyPlan(goalId);
+
+  const todayIndex = window.FitnessRpgPrograms.getTodayPlanIndex();
+  const todayRaw = plan[todayIndex] || plan[0];
+
+  const todayItem = {
+    index: todayIndex,
+    dayLabel: todayRaw[0],
+    title: todayRaw[1],
+    programId: todayRaw[2],
+    source: todayRaw[3] || "goal",
+    plan
+  };
+
   const todayProgram = todayItem.programId
     ? window.FitnessRpgConfig.getProgramById(todayItem.programId)
     : null;
@@ -532,16 +545,15 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
   const todayKey = window.FitnessRpgState.todayKey();
   const stats = window.FitnessRpgState.getWeeklyActivityStats();
   const bonus = window.FitnessRpgProgress.getWeeklyPlanningBonusStatus();
-  
 
   const todayDone = todayProgram
     ? window.FitnessRpgState.hasDoneProgramOnDate(todayProgram.id, todayKey)
     : window.FitnessRpgState.hasTrainingToday();
 
- const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
-const activeProgram = activeProgramId
-  ? window.FitnessRpgConfig.getProgramById(activeProgramId)
-  : null;
+  const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
+  const activeProgram = activeProgramId
+    ? window.FitnessRpgConfig.getProgramById(activeProgramId)
+    : null;
 
 summary.innerHTML = `
   <div class="planning-compact-header">
