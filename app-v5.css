@@ -2790,3 +2790,22 @@ body[data-page="home"] .home-image-info {
     grid-column: 1 / -1;
   }
 }
+.program-choice-header {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.program-choice-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.program-card.selected {
+  border-color: rgba(244, 211, 94, 0.85);
+  box-shadow: 0 0 0 1px rgba(244, 211, 94, 0.3);
+}
+
+.choose-program-btn {
+  margin-top: 10px;
+}
