@@ -1,236 +1,471 @@
 <!doctype html>
 <html lang="fr">
 <head>
+  <!--
+    Fitness RPG - V5-clean 
+    ------------------------------------------------------------
+    Objectif de cette V5 :
+    - repartir sur une base claire ;
+    - supprimer les anciens scripts-patchs empilés ;
+    - garder la version uniquement dans index.html et app-config.js ;
+    - séparer proprement les responsabilités :
+      config, données, état, rendu, navigation, exercices, programmes, progression, médias.
+  -->
+
   <meta charset="utf-8" />
+
+  <!--
+    Indispensable pour un affichage correct sur mobile.
+    La V5 vise d’abord une utilisation smartphone.
+  -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fitness RPG - V4.5.2</title>
-  <link rel="stylesheet" href="style.css?v=4.5.2" />
-  <link rel="stylesheet" href="coach-carousel.css?v=4.5.2" />
-  <link rel="stylesheet" href="hero-progression.css?v=4.5.2" />
-  <link rel="stylesheet" href="home-screen.css?v=4.5.2" />
-  <link rel="stylesheet" href="quest-drilldown.css?v=4.5.2" />
-  <link rel="stylesheet" href="dashboard-redesign.css?v=4.5.2" />
-  <link rel="stylesheet" href="programs.css?v=4.5.2" />
-  <link rel="stylesheet" href="main-row-programs.css?v=4.5.2" />
-  <link rel="stylesheet" href="progression-rpg.css?v=4.5.2" />
-  <link rel="stylesheet" href="today-screen.css?v=4.5.2" />
-  <link rel="stylesheet" href="app-core-v4.css?v=4.5.2" />
-  <link rel="stylesheet" href="central-xp-v41.css?v=4.5.2" />
-  <link rel="stylesheet" href="navigation-v42.css?v=4.5.2" />
-  <link rel="stylesheet" href="training-polish-v448.css?v=4.5.2" />
-  <link rel="stylesheet" href="training-final-v449.css?v=4.5.2" />
-  <link rel="stylesheet" href="v45-ui.css?v=4.5.2" />
+
+  <!--
+    Version visible dans l’onglet navigateur.
+    La version d’affichage dans l’app sera gérée par app-config.js.
+  -->
+  <title>Fitness RPG - V5.1.0</title>
+
+  <!--
+    Feuilles de style.
+    style.css peut contenir ton style général actuel.
+    app-v5.css servira à nettoyer et centraliser le style V5.
+  -->
+  <link rel="stylesheet" href="style.css?v=5.1.0" />
+  <link rel="stylesheet" href="app-v5.css?v=5.1.0" />
 </head>
+
 <body>
-  <main class="app-shell">
-    <header class="hero-header">
-      <div>
-        <p class="eyebrow">Fitness RPG · V4.5.2</p>
-        <h1>Quêtes sportives</h1>
-        <p class="subtitle">XP, musique, coach et héros qui progresse avec toi.</p>
+  <!--
+    Racine de l’application.
+    Tous les scripts V5 travailleront à l’intérieur de #app.
+  -->
+  <div id="app" class="app-shell">
+
+    <!-- =======================================================
+      HEADER GLOBAL
+      -------------------------------------------------------
+      Visible sur les pages principales.
+      Le texte de version sera rempli par app-config.js.
+      Le bouton accueil devient une icône compacte.+ bouton retour
+    ======================================================== -->
+    <header id="appHeader" class="app-header">
+      <div class="app-header-title">
+        <p id="appVersionBadge" class="app-version-badge">Fitness RPG · V5.1.0</p>
       </div>
-      <div class="header-actions">
-        <button id="homeBtn" class="ghost-btn hidden" type="button">Accueil</button>
-        <button id="resetProfileBtn" class="ghost-btn" type="button">Réinitialiser</button>
-      </div>
+      <button id="backButton" class="icon-button" type="button" aria-label="Retour" title="Retour">
+        ←
+      </button>
+      <button id="homeButton" class="icon-button" type="button" aria-label="Accueil" title="Accueil">
+        🏠
+      </button>
     </header>
 
-    <section id="setupPanel" class="card setup-card">
-      <div id="homePanel" class="home-panel hidden">
-        <div class="home-landing-card">
-          <div class="home-landing-copy">
-            <p class="eyebrow">Fitness RPG</p>
-            <h2>Accueil</h2>
-            <p class="home-landing-title">Ton entraînement devient une aventure</p>
-            <p class="home-landing-text">Choisis ton coach, gagne de l’XP, débloque des niveaux et regarde ton héros évoluer séance après séance.</p>
-            <p class="version-label">Version <span id="appVersionLabel">0.4.5.2</span></p>
-          </div>
-          <div class="home-hero-visual">
-            <img src="assets/ecran/ecran_accueil.png" alt="Illustration d’accueil Fitness RPG" />
-          </div>
-        </div>
+    <!-- =======================================================
+      PAGE ACCUEIL
+      -------------------------------------------------------
+      Page de départ :
+      - image d’accueil ;
+      - résumé du héros ;
+      - boutons Entraînement / Coach / Nouveau héros.
+    ======================================================== -->
+    <main id="pageHome" class="app-page page-home" data-page="home">
+      <section class="home-card card">
+        <div class="home-text">
+         
+          <h1 id="homeTitle">Ton entraînement devient une aventure</h1>
 
-        <div class="home-summary home-summary-highlight">
-          <p id="homeHeroSummary">Aucun héros créé.</p>
-          <p id="homeCoachSummary">Aucun coach choisi.</p>
-        </div>
-        <div class="home-actions home-main-actions">
-          <button id="continueProfileBtn" class="primary-btn home-start-btn" type="button">Entraînement</button>
-          <button id="changeCoachBtn" class="secondary-btn" type="button">Coach</button>
-          <button id="startCreateHeroBtn" class="ghost-btn" type="button">Nouveau héros</button>
-        </div>
-      </div>
+        <p id="homeImageInfoText" class="home-image-info hidden">
+          Choisis ton coach, gagne de l’XP, débloque des niveaux et regarde ton héros évoluer séance après séance.
+        </p>
+        </div>  
 
-      <div id="editorPanel" class="editor-panel">
-        <h2 id="setupTitle">Créer ton héros</h2>
-        <p id="setupHelp" class="muted">Choisis ton profil et ton coach pour commencer.</p>
-        <p class="version-label">Version <span id="appVersionLabelEditor">0.4.5.2</span></p>
+         
+        <div class="home-image-frame">
+          <img id="homeSplashImage" src="assets/ecran/ecran_accueil.png" alt="Fitness RPG">
+        </div>
+      </section>
 
-        <div id="heroCreationFields" class="form-grid">
+      <section class="home-summary card">
+        <p id="homeHeroSummary">Aucun héros créé.</p>
+        <p id="homeCoachSummary">Aucun coach choisi.</p>
+      </section>
+
+      <nav class="home-actions">
+        <button id="startTrainingButton" class="primary-btn" type="button">Entraînement</button>
+        <button id="chooseCoachButton" class="secondary-btn" type="button">Coach</button>
+        <button id="newHeroButton" class="ghost-btn" type="button">Nouveau héros</button>
+      </nav>
+    </main>
+
+    <!-- =======================================================
+      PAGE CRÉATION / MODIFICATION DU HÉROS
+      -------------------------------------------------------
+      Cette page sert pour :
+      - créer un héros ;
+      - changer de coach ;
+      - modifier les informations de base.
+    ======================================================== -->
+    <main id="pageHeroSetup" class="app-page page-hero-setup hidden" data-page="hero-setup">
+      <section class="card">
+        <h1 id="heroSetupTitle">Créer ton héros</h1>
+        <p id="heroSetupHelp" class="muted">Choisis ton profil et ton coach pour commencer.</p>
+
+        <div class="form-grid">
           <label>
             Nom du héros
-            <input id="playerNameInput" type="text" maxlength="30" placeholder="Ex : Webfourmi" />
+            <input id="heroNameInput" type="text" maxlength="30" placeholder="Ex : Vivi" />
           </label>
 
           <label>
             Âge
-            <input id="playerAgeInput" type="number" min="10" max="99" placeholder="Ex : 50" />
+            <input id="heroAgeInput" type="number" min="10" max="99" placeholder="Ex : 50" />
           </label>
 
-          <div class="field-block">
-            <p class="field-label">Genre</p>
-            <div class="gender-choice-grid" id="genderChoiceGrid">
-              <label class="gender-choice-card active" data-gender-card="homme">
-                <input type="radio" name="gender" value="homme" checked />
-                <span class="gender-icon">♂️</span>
-                <strong>Homme</strong>
-              </label>
+          <fieldset class="field-block">
+            <legend>Genre</legend>
 
-              <label class="gender-choice-card" data-gender-card="femme">
-                <input type="radio" name="gender" value="femme" />
-                <span class="gender-icon">♀️</span>
-                <strong>Femme</strong>
-              </label>
-            </div>
-          </div>
+            <label>
+              <input type="radio" name="heroGender" value="homme" checked />
+              Homme
+            </label>
+
+            <label>
+              <input type="radio" name="heroGender" value="femme" />
+              Femme
+            </label>
+          </fieldset>
         </div>
+
+        <section class="coach-selection">
+          <h2>Choisis ton coach</h2>
+
+          <!--
+            Les cartes coach seront générées par app-render.js
+            à partir des données de app-data.js.
+          -->
+          <div id="coachChoiceGrid" class="coach-choice-grid"></div>
+        </section>
+
+        <div class="form-actions">
+          <button id="saveHeroButton" class="primary-btn" type="button">Commencer l’aventure</button>
+          <button id="cancelHeroSetupButton" class="ghost-btn" type="button">Annuler</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- =======================================================
+      PAGE ENTRAÎNEMENT
+      -------------------------------------------------------
+      Cœur de l’application :
+      - image du héros ;
+      - progression XP ;
+      - coach ;
+      - proposition du jour ;
+      - accès exercices, programmes, journal, poids.
+    ======================================================== -->
+    <main id="pageTraining" class="app-page page-training hidden" data-page="training">
+      <section class="hero-panel card">
+        <div id="heroImageFrame" class="hero-image-frame" title="Cliquer pour agrandir">
+          <!-- Image héros générée par app-render.js -->
+        </div>
+
+        <p id="heroIdentityLine" class="hero-identity-line">
+          Héros · Niv. 1 · Novice
+        </p>
+
+        <div class="xp-panel">
+          <p id="xpTitle">Niv. 1 · Novice</p>
+          <div class="progress-bar" aria-label="Progression XP">
+            <div id="xpBar" class="progress-fill"></div>
+          </div>
+          <p id="xpText">0 / 100 XP</p>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <strong id="streakLabel">0</strong>
+            <span>Série</span>
+          </article>
+
+          <article class="stat-card">
+            <strong id="todayEntriesLabel">0</strong>
+            <span>Entrées du jour</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="coach-panel card">
+        <img
+          id="coachImage"
+          src="assets/coach/korvan/idle.jpg"
+          alt="Coach sélectionné"
+          title="Cliquer pour agrandir"
+        />
 
         <div>
-          <p class="setup-subtitle">Choisis ton coach</p>
-          <div class="coach-choice-grid" id="coachChoiceGrid">
-            <label class="coach-choice-card active" data-coach-card="korvan">
-              <input type="radio" name="coach" value="korvan" checked />
-              <img src="assets/coach/korvan/idle.jpg" alt="Coach Korvan" />
-              <div class="coach-choice-text"><strong>Korvan</strong><span>Barbare motivant, direct et énergique</span></div>
-            </label>
-
-            <label class="coach-choice-card" data-coach-card="xara">
-              <input type="radio" name="coach" value="xara" />
-              <img src="assets/coach/xara/xara_idle.jpg" alt="Coach Xara" />
-              <div class="coach-choice-text"><strong>Xara</strong><span>Guerrière disciplinée et déterminée</span></div>
-            </label>
-
-            <label class="coach-choice-card" data-coach-card="violette">
-              <input type="radio" name="coach" value="violette" />
-              <img src="assets/coach/violette/violette_idle.jpg" alt="Coach Violette" />
-              <div class="coach-choice-text"><strong>Violette</strong><span>Halfeline positive, légère et encourageante</span></div>
-            </label>
-
-            <label class="coach-choice-card" data-coach-card="elmin">
-              <input type="radio" name="coach" value="elmin" />
-              <img src="assets/coach/elmin/elmin_idle.jpg" alt="Coach Elmin" />
-              <div class="coach-choice-text"><strong>Elmin</strong><span>Mage calme, posé et stratégique</span></div>
-            </label>
-
-            <label class="coach-choice-card" data-coach-card="bazul">
-              <input type="radio" name="coach" value="bazul" />
-              <img src="assets/coach/bazul/bazul_idle.jpg" alt="Coach Bazul" />
-              <div class="coach-choice-text"><strong>Bazul</strong><span>Nain robuste, franc et tenace</span></div>
-            </label>
-
-            <label class="coach-choice-card" data-coach-card="satyne">
-              <input type="radio" name="coach" value="satyne" />
-              <img src="assets/coach/satyne/image.jpg" alt="Coach Satyne" />
-              <div class="coach-choice-text"><strong>Satyne</strong><span>Sorcière mystique et motivante</span></div>
-            </label>
-          </div>
+          <p id="coachName" class="eyebrow">Coach</p>
+          <p id="coachMessage">Prêt pour la première quête.</p>
         </div>
 
-        <div class="home-actions">
-          <button id="createProfileBtn" class="primary-btn" type="button">Commencer l’aventure</button>
-          <button id="saveCoachBtn" class="primary-btn hidden" type="button">Valider ce coach</button>
-          <button id="cancelSetupBtn" class="ghost-btn hidden" type="button">Annuler</button>
+        <button id="newCoachMessageButton" class="ghost-btn" type="button">
+          Nouvelle phrase
+        </button>
+      </section>
+
+      <section id="todayCard" class="today-card card" role="button" tabindex="0">
+        <p class="eyebrow">Quête du jour</p>
+        <h2 id="todayProgramTitle">Éveil du héros</h2>
+        <p id="todayProgramDescription">
+          Une proposition simple pour lancer ta séance sans fouiller tout le grimoire.
+        </p>
+        <button id="openTodayProgramButton" class="primary-btn" type="button">
+          Ouvrir le programme
+        </button>
+      </section>
+
+      <nav class="training-toolbar card">
+        <button id="openExercisesButton" type="button">⚔️<span>Exercices</span></button>
+        <button id="openProgramsButton" type="button">📜<span>Programmes</span></button>
+        <button id="openGoalButton" type="button">🎯<span>Objectif</span></button>
+        <button id="openPlanningButton" type="button">📅<span>Planning</span></button>
+        <button id="openProgressionButton" type="button">🏆<span>Progression</span></button>
+        <button id="openMusicButton" type="button">🎵<span>Musique</span></button>
+        <button id="openBadgesButton" type="button">🏅<span>Badges</span></button>
+        <button id="openJournalButton" type="button">📖<span>Journal</span></button>
+        <button id="openWeightButton" type="button">⚖️<span>Poids</span></button>
+      </nav>
+    </main>
+
+    <!-- =======================================================
+      PAGE PROGRAMMES
+      -------------------------------------------------------
+      Liste des grands programmes :
+      Éveil du héros, Cœur de dragon, Forge du guerrier, etc.
+    ======================================================== -->
+    <main id="pagePrograms" class="app-page page-programs hidden" data-page="programs">
+      <section class="page-header card">
+        <h1>Programmes</h1>
+        <p>Choisis un parcours complet pour guider tes séances.</p>
+      </section>
+
+      <section id="programList" class="program-list">
+        <!-- Cartes générées par app-programs.js -->
+      </section>
+
+      <section id="programDetail" class="program-detail card hidden">
+        <!-- Détail du programme sélectionné généré par app-programs.js -->
+      </section>
+    </main>
+
+    <!-- =======================================================
+      PAGE OBJECTIF PERSONNEL
+    ======================================================== -->
+    <main id="pageGoal" class="app-page page-goal hidden" data-page="goal">
+      <section class="page-header card">
+        <h1>Objectif personnel</h1>
+        <p>Choisis la direction de ton aventure sportive. Le programme recommandé s’adaptera à cet objectif.</p>
+      </section>
+    
+      <section id="goalChoiceList" class="goal-choice-list">
+        <!-- Objectifs générés par app-render.js -->
+      </section>
+    </main>
+    
+    <!-- =======================================================
+      PAGE PLANNING HEBDOMADAIRE
+    ======================================================== -->
+    <main id="pagePlanning" class="app-page page-planning hidden" data-page="planning">
+      <section class="page-header card">
+        <h1>Planning hebdomadaire</h1>
+        <p>Une carte de route simple selon ton objectif. Pas de punition, juste une boussole.</p>
+      </section>
+    
+      <section id="planningSummary" class="planning-summary card">
+        <!-- Résumé généré par app-render.js -->
+      </section>
+    
+      <section id="planningWeekGrid" class="planning-week-grid">
+        <!-- Semaine générée par app-render.js -->
+      </section>
+    </main>
+
+    <!-- =======================================================
+      PAGE PROGRESSION RPG
+    ======================================================== -->
+    <main id="pageProgression" class="app-page page-progression hidden" data-page="progression">
+      <section class="page-header card">
+        <h1>Progression RPG</h1>
+        <p>Niveau, rang, coffres, badges et traces de tes exploits.</p>
+      </section>
+    
+      <section id="progressionSummary" class="progression-summary card">
+        <!-- Résumé généré par app-render.js -->
+      </section>
+    
+      <section id="progressionLevelGrid" class="progression-level-grid">
+        <!-- Niveaux générés par app-render.js -->
+      </section>
+    
+      <section id="progressionBadgeSummary" class="progression-badge-summary card">
+        <!-- Badges générés par app-render.js -->
+      </section>
+    </main>
+    <!-- =======================================================
+      PAGE EXERCICES
+      -------------------------------------------------------
+      Exercices libres :
+      marche, vélo, course, renforcement, étirements, etc.
+      Les champs distance km seront affichés pour marche/vélo/course.
+    ======================================================== -->
+    <main id="pageExercises" class="app-page page-exercises hidden" data-page="exercises">
+      <section class="page-header card">
+        <h1>Exercices</h1>
+        <p>Choisis une catégorie, indique ton temps ou tes répétitions, puis valide.</p>
+      </section>
+
+      <section id="exerciseList" class="exercise-list">
+        <!-- Exercices générés par app-exercises.js -->
+      </section>
+    </main>
+
+    <!-- =======================================================
+      PAGE MUSIQUE
+      -------------------------------------------------------
+      Gestion de la musique locale et de la pulsation simple.
+    ======================================================== -->
+    <main id="pageMusic" class="app-page page-music hidden" data-page="music">
+      <section class="card">
+        <h1>Musique</h1>
+        <p>Choisis une musique locale ou lance une pulsation simple.</p>
+
+        <input id="audioFileInput" type="file" accept="audio/*" />
+        <audio id="audioPlayer" controls></audio>
+
+        <div class="music-actions">
+          <button id="pulseMusicButton" class="secondary-btn" type="button">Pulse épique</button>
+          <button id="stopMusicButton" class="ghost-btn" type="button">Stop</button>
         </div>
-      </div>
-    </section>
 
-    <section id="dashboard" class="dashboard hidden">
-      <section class="card hero-card">
-        <div class="hero-portrait" id="heroPortrait" aria-label="Portrait du héros"></div>
-        <div class="hero-info">
-          <p class="eyebrow" id="rankLabel">Débutant</p>
-          <h2 id="heroName">Héros</h2>
-          <p id="avatarLabel">Profil</p>
-          <div class="level-row"><span id="levelLabel">Niveau 1</span><span id="xpLabel">0 / 100 XP</span></div>
-          <div class="progress-bar" aria-label="Progression d’XP"><div id="xpBar"></div></div>
-          <div class="stats-grid">
-            <div><strong id="totalXpLabel">0</strong><span>XP total</span></div>
-            <div><strong id="streakLabel">0</strong><span>série</span></div>
-            <div><strong id="doneTodayLabel">0</strong><span>entrées du jour</span></div>
-          </div>
-        </div>
+        <p id="musicStatus">Aucune musique choisie.</p>
+      </section>
+    </main>
+
+    <!-- =======================================================
+      PAGE BADGES
+      -------------------------------------------------------
+      Récompenses visuelles et progression RPG.
+    ======================================================== -->
+    <main id="pageBadges" class="app-page page-badges hidden" data-page="badges">
+      <section class="page-header card">
+        <h1>Badges</h1>
+        <p>Récompenses, trophées et petits feux d’artifice de régularité.</p>
       </section>
 
-      <section class="card coach-card coach-panel-card">
-        <div class="coach-panel-media"><img id="coachPortrait" src="assets/coach/korvan/idle.jpg" alt="Coach sélectionné" /></div>
-        <div class="coach-panel-content"><div><p class="eyebrow" id="coachName">Coach</p><p id="coachMessage" class="coach-message">Prêt pour la première quête.</p></div><button id="newCoachMessageBtn" class="ghost-btn" type="button">Nouvelle phrase</button></div>
+      <section id="badgeList" class="badge-list">
+        <!-- Badges générés par app-progress.js -->
+      </section>
+    </main>
+
+    <!-- =======================================================
+      PAGE JOURNAL
+      -------------------------------------------------------
+      Historique des séances, XP gagnée, humeur, notes.
+    ======================================================== -->
+    <main id="pageJournal" class="app-page page-journal hidden" data-page="journal">
+      <section class="page-header card">
+        <h1>Journal</h1>
+        <p>Les derniers exploits du héros.</p>
       </section>
 
-      <section id="sportHub" class="card sport-hub-card">
-        <div><p class="eyebrow">Tableau de bord</p><h2>Quêtes sportives</h2><p class="muted">Résumé rapide de ta séance.</p></div>
-        <div class="quick-summary-grid">
-          <article class="quick-summary-item"><span class="quick-icon">🎵</span><div><strong>Musique</strong><p id="currentMusicSummary">Aucune musique choisie.</p></div></article>
-          <article class="quick-summary-item"><span class="quick-icon">⚔️</span><div><strong>Dernière entrée</strong><p id="currentQuestSummary">Aucune entrée en cours.</p></div></article>
-        </div>
-        <div class="hub-nav-grid">
-          <button id="openMusicBtn" class="hub-nav-btn" type="button"><span>🎵</span><strong>Musique</strong><small>Choix des morceaux</small></button>
-          <button id="openQuestsBtn" class="hub-nav-btn" type="button"><span>⚔️</span><strong>Exercices</strong><small>Choisir une catégorie</small></button>
-          <button id="openBadgesBtn" class="hub-nav-btn" type="button"><span>🏅</span><strong>Badges</strong><small>Récompenses</small></button>
-          <button id="openWeekBtn" class="hub-nav-btn" type="button"><span>📅</span><strong>Semaine</strong><small>Régularité</small></button>
-        </div>
+      <ul id="journalList" class="journal-list"></ul>
+
+      <button id="clearJournalButton" class="ghost-btn" type="button">
+        Vider le journal
+      </button>
+    </main>
+
+    <!-- =======================================================
+      PAGE POIDS
+      -------------------------------------------------------
+      Suivi du poids :
+      entrée poids, courbe semaine / mois / année.
+    ======================================================== -->
+    <main id="pageWeight" class="app-page page-weight hidden" data-page="weight">
+      <section class="page-header card">
+        <h1>Poids</h1>
+        <p>Note ton poids et suis l’évolution dans le temps.</p>
       </section>
 
-      <section id="musicPage" class="card music-card hidden">
-        <div class="subpage-header"><div><p class="eyebrow">Musique</p><h2>Choix des morceaux</h2><p class="muted">Choisis un fichier audio local, ou lance une pulsation simple.</p></div><button class="ghost-btn back-dashboard-btn" type="button">Retour</button></div>
-        <div class="music-controls"><input id="audioFileInput" type="file" accept="audio/*" /><audio id="audioPlayer" controls></audio><button id="pulseMusicBtn" class="secondary-btn" type="button">Pulse épique</button><button id="stopPulseBtn" class="ghost-btn" type="button">Stop</button></div>
+      <section class="card">
+        <label>
+          Poids du jour en kg
+          <input id="weightInput" type="number" min="20" max="300" step="0.1" placeholder="Ex : 82.5" />
+        </label>
+
+        <button id="saveWeightButton" class="primary-btn" type="button">
+          Enregistrer
+        </button>
       </section>
 
-      <section id="questsPage" class="card quests-card hidden">
-        <div class="subpage-header"><div><p class="eyebrow">Exercices</p><h2>Catégories sportives</h2><p class="muted">Choisis une catégorie, puis une page dédiée affichera les exercices.</p></div><button class="ghost-btn back-dashboard-btn" type="button">Retour</button></div>
-        <div class="section-title-row"><p class="muted">Tu peux valider plusieurs entrées dans la même journée.</p><button id="resetDailyBtn" class="ghost-btn" type="button">Effacer les entrées du jour</button></div>
-        <div id="questsList" class="quests-list sport-list"></div>
+      <section class="card">
+        <h2>Courbe</h2>
+        <canvas id="weightChart" width="320" height="180"></canvas>
       </section>
+    </main>
 
-      <section id="badgesPage" class="card badges-card hidden">
-        <div class="subpage-header"><div><p class="eyebrow">Badges</p><h2>Récompenses</h2><p class="muted">Des petites récompenses pour les grandes habitudes.</p></div><button class="ghost-btn back-dashboard-btn" type="button">Retour</button></div>
-        <div id="badgesList" class="badges-list"></div>
-      </section>
+    <!-- =======================================================
+      OVERLAY IMAGE PLEIN ÉCRAN
+      -------------------------------------------------------
+      Utilisé pour agrandir :
+      - image héros ;
+      - image coach.
+    ======================================================== -->
+    <div id="imageOverlay" class="image-overlay hidden" aria-hidden="true">
+      <button id="closeImageOverlayButton" class="ghost-btn" type="button">
+        ← Retour
+      </button>
 
-      <section id="weekPage" class="card week-card hidden">
-        <div class="subpage-header"><div><p class="eyebrow">Cette semaine</p><h2>Régularité</h2><p class="muted">Un regard rapide sur tes jours actifs.</p></div><button class="ghost-btn back-dashboard-btn" type="button">Retour</button></div>
-        <div id="weekList" class="week-list"></div>
-      </section>
+      <img id="imageOverlayImg" alt="Image agrandie" />
+      <p id="imageOverlayTitle"></p>
+    </div>
+  </div>
 
-      <section id="logCard" class="card log-card">
-        <div class="section-title-row"><div><h2>Journal</h2><p class="muted">Les derniers exploits du héros.</p></div><button id="clearLogBtn" class="ghost-btn" type="button">Vider</button></div>
-        <ul id="logList" class="log-list"></ul>
-      </section>
-    </section>
-  </main>
-  <script src="app-config.js?v=4.5.3"></script>
-  <script src="app.js?v=4.5.3"></script>
-  <script src="coach-carousel.js?v=4.5.3"></script>
-  <script src="hero-progression.js?v=4.5.3"></script>
-  <script src="home-screen.js?v=4.5.3"></script>
-  <script src="quest-drilldown.js?v=4.5.3"></script>
-  <script src="coach-violette-poses.js?v=4.5.3"></script>
-  <script src="coach-elmin-poses.js?v=4.5.3"></script>
-  <script src="coach-bazul-poses.js?v=4.5.3"></script>
-  <script src="music-pulse-fix.js?v=4.5.3"></script>
-  <script src="dashboard-redesign.js?v=4.5.3"></script>
-  <script src="programs.js?v=4.5.3"></script>
-  <script src="main-row-programs.js?v=4.5.3"></script>
-  <script src="progression-rpg.js?v=4.5.3"></script>
-  <script src="today-screen.js?v=4.5.3"></script>
-  <script src="goal-selection-polish.js?v=4.5.3"></script>
-  <script src="app-core-v4.js?v=4.5.3"></script>
-  <script src="central-xp-v41.js?v=4.5.3"></script>
-  <script src="navigation-v42.js?v=4.5.3"></script>
-  <script src="training-polish-v448.js?v=4.5.3"></script>
-  <script src="training-final-v449.js?v=4.5.3"></script>
-  <script src="sport-distance-v45.js?v=4.5.3"></script>
-  <script src="today-direct-program-v45.js?v=4.5.3"></script>
-  <script src="v46-cleanup.js?v=4.6.0"></script>
-  
+  <!-- =======================================================
+  MODALE NIVEAU SUPÉRIEUR
+======================================================== -->
+<div id="levelUpOverlay" class="level-up-overlay hidden" aria-hidden="true">
+  <section class="level-up-card card">
+    <p class="eyebrow">Niveau supérieur</p>
+    <div id="levelUpIcon" class="level-up-icon">✨</div>
+    <h1 id="levelUpTitle">Niveau supérieur !</h1>
+    <p id="levelUpText">Ton héros progresse.</p>
+    <p id="levelUpReward" class="level-up-reward hidden"></p>
+
+    <button id="closeLevelUpButton" class="primary-btn" type="button">
+      Continuer l’aventure
+    </button>
+  </section>
+</div>
+
+  <!-- =======================================================
+    SCRIPTS V5 PROPRES
+    -------------------------------------------------------
+    IMPORTANT :
+    - aucun ancien patch V4 ne doit être chargé ici ;
+    - la version est définie dans app-config.js ;
+    - app.js est chargé en dernier pour initialiser l’application.
+  ======================================================== -->
+
+  <script src="app-config.js?v=5.1.0"></script>
+  <script src="app-data.js?v=5.1.0"></script>
+  <script src="app-state.js?v=5.1.0"></script>
+  <script src="app-progress.js?v=5.1.0"></script>
+  <script src="app-render.js?v=5.1.0"></script>
+  <script src="app-navigation.js?v=5.1.0"></script>
+  <script src="app-exercises.js?v=5.1.0"></script>
+  <script src="app-programs.js?v=5.1.0"></script>
+  <script src="app-media.js?v=5.1.0"></script>
+  <script src="app.js?v=5.1.0"></script>
 </body>
 </html>
