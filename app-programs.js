@@ -111,7 +111,93 @@ window.FitnessRpgPrograms.validateProgramDay = function validateProgramDay(progr
     });
   }, 80);
 };
+// ============================================================
+// choisir les seances en fonction du programme puis de l objectif
+// ============================================================
 
+window.FitnessRpgPrograms.getNextProgramSession = function getNextProgramSession(programId) {
+  const detail = window.FitnessRpgData.getProgramDetail(programId);
+  if (!detail || !Array.isArray(detail.days)) return null;
+
+  const profile = window.FitnessRpgState.getProfile?.();
+  const entries = profile?.entries || [];
+
+  const completedDays = new Set(
+    entries
+      .filter((entry) => entry.type === "program" && entry.programId === programId)
+      .map((entry) => Number(entry.dayNumber))
+  );
+
+  const nextDay = detail.days.find((day) => {
+    return !completedDays.has(Number(day.day));
+  });
+
+  if (!nextDay) return null;
+
+  const program = window.FitnessRpgConfig.getProgramById(programId);
+
+  return {
+    type: "program",
+    source: "active-program",
+    programId,
+    program,
+    day: nextDay,
+    title: program?.title || "Programme",
+    subtitle: `Jour ${nextDay.day} · ${nextDay.title}`,
+    description: program
+      ? `${program.objective} · ${program.duration}`
+      : "Séance du programme choisi."
+  };
+};
+// fonction objectif de secours
+window.FitnessRpgPrograms.getNextGoalSession = function getNextGoalSession() {
+  const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
+  const goal = window.FitnessRpgConfig.getGoalById?.(goalId);
+
+  const progression = goal?.programProgression || [];
+
+  const fallbackProgression = [
+    "eveil-heros",
+    "marche-aventurier",
+    "coeur-dragon"
+  ];
+
+  const programIds = progression.length ? progression : fallbackProgression;
+
+  for (const programId of programIds) {
+    const session = window.FitnessRpgPrograms.getNextProgramSession(programId);
+    if (session) {
+      return {
+        ...session,
+        source: "goal",
+        goalId,
+        goal
+      };
+    }
+  }
+
+  return window.FitnessRpgPrograms.getNextProgramSession("eveil-heros");
+};
+
+//determination quete du jour
+
+window.FitnessRpgPrograms.getTodayQuest = function getTodayQuest() {
+  const profile = window.FitnessRpgState.getProfile?.();
+
+  const activeProgramId =
+    profile?.activeProgramId ||
+    window.FitnessRpgState.getActiveProgramId?.();
+
+  if (activeProgramId) {
+    const activeSession = window.FitnessRpgPrograms.getNextProgramSession(activeProgramId);
+
+    if (activeSession) {
+      return activeSession;
+    }
+  }
+
+  return window.FitnessRpgPrograms.getNextGoalSession();
+};
 // ============================================================
 // Planning hebdomadaire interactif
 // ============================================================
