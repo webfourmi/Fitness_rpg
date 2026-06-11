@@ -538,50 +538,49 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
     ? window.FitnessRpgState.hasDoneProgramOnDate(todayProgram.id, todayKey)
     : window.FitnessRpgState.hasTrainingToday();
 
-  summary.innerHTML = `
-    <p class="eyebrow">${goal?.icon || "🎯"} Planning interactif</p>
-    <h2>${goal?.title || "Reprise douce"}</h2>
-    <p>${goal?.rhythm || "3 séances courtes par semaine"}</p>
+ const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
+const activeProgram = activeProgramId
+  ? window.FitnessRpgConfig.getProgramById(activeProgramId)
+  : null;
 
-    <section class="today-planning-card">
+summary.innerHTML = `
+  <div class="planning-compact-header">
+    <span class="eyebrow">${goal?.icon || "🎯"} Planning interactif</span>
+    <span><strong>Programme :</strong> ${activeProgram?.title || "Aucun programme choisi"}</span>
+    <span><strong>Objectif :</strong> ${goal?.title || "Reprise douce"}</span>
+  </div>
+
+  <section class="today-planning-card compact">
+    <div class="today-planning-line">
       <strong>Aujourd’hui · ${todayItem.dayLabel}</strong>
-      <h3>${todayItem.title}</h3>
-      <p>
-        ${
-          todayProgram
-            ? `${todayProgram.title} · ${todayProgram.duration}`
-            : "Repos ou récupération douce."
-        }
-      </p>
+      <span>${todayItem.title}</span>
+      <span>${todayProgram ? todayProgram.duration : "Repos"}</span>
+    </div>
 
-      <span class="${todayDone ? "planning-status done" : "planning-status"}">
-        ${todayDone ? "Séance déjà faite aujourd’hui" : "Séance à faire aujourd’hui"}
-      </span>
+    ${
+      todayProgram
+        ? `<button id="startTodayPlanningButton" class="primary-btn" type="button">
+            Démarrer la séance du jour
+          </button>`
+        : `<button class="ghost-btn" type="button" disabled>Jour de repos</button>`
+    }
+  </section>
 
-      ${
-        todayProgram
-          ? `<button id="startTodayPlanningButton" class="primary-btn" type="button">
-              ${todayDone ? "Refaire la séance du jour" : "Démarrer la séance du jour"}
-            </button>`
-          : `<button class="ghost-btn" type="button" disabled>Jour de repos</button>`
-      }
-    </section>
-
-    <section class="planning-week-progress">
-      <div>
-        <strong>${stats.activeDays}/7</strong>
-        <span>jours actifs</span>
-      </div>
-      <div>
-        <strong>${stats.totalEntries}</strong>
-        <span>entrées cette semaine</span>
-      </div>
-      <div>
-        <strong>${bonus.earned ? "OK" : `${Math.min(bonus.activeDays, bonus.target)}/${bonus.target}`}</strong>
-        <span>${bonus.earned ? "bonus obtenu" : `bonus +${bonus.xp} XP`}</span>
-      </div>
-    </section>
-  `;
+  <section class="planning-week-progress">
+    <div>
+      <strong>${stats.activeDays}/7</strong>
+      <span>jours actifs</span>
+    </div>
+    <div>
+      <strong>${stats.totalEntries}</strong>
+      <span>entrées cette semaine</span>
+    </div>
+    <div>
+      <strong>${bonus.earned ? "OK" : `${Math.min(bonus.activeDays, bonus.target)}/${bonus.target}`}</strong>
+      <span>${bonus.earned ? "bonus obtenu" : `bonus +${bonus.xp} XP`}</span>
+    </div>
+  </section>
+`;
 
   grid.innerHTML = "";
 
