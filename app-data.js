@@ -456,7 +456,7 @@ exercises: [
     title: "Pas chassés",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercice_femme_paschasses.jpg"
     },
     unit: "sec",
     defaultValue: 90,
@@ -473,7 +473,7 @@ exercises: [
     title: "Montées de genoux lentes",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercice_femme_monteegenouxlente.jpg"
     },
     unit: "sec",
     defaultValue: 60,
@@ -490,7 +490,7 @@ exercises: [
     title: "Mountain climber lent",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercice_femme_montagneclimberlent.jpg"
     },
     unit: "sec",
     defaultValue: 90,
@@ -547,7 +547,7 @@ exercises: [
     title: "Course extérieure",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      female: "assets/exercices/exercice_femme_courseext.jpg"
     },
     unit: "min",
     defaultValue: 20,
