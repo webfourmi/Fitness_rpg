@@ -278,7 +278,7 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
       title="Démarrer"
     >
       <span class="btn-icon">▶️</span>
-      <span class="btn-text">Démarrer</span>
+      
     </button>
   `
   : "";
@@ -318,7 +318,7 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
           title="Valider"
         >
           <span class="btn-icon">✅</span>
-          <span class="btn-text">Valider</span>
+          
         </button>
         </div>
       </div>
