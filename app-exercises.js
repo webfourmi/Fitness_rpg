@@ -192,7 +192,7 @@ window.FitnessRpgExercises.categoryCardHtml = function categoryCardHtml(category
   const description = window.FitnessRpgExercises.escapeHtml(category.description);
   const image = window.FitnessRpgExercises.resolveImage(category);
   return `
-   return `
+  
   <button class="exercise-category-card" type="button" data-category-id="${category.id}">
     <img src="${image}" alt="${title}" onerror="this.src='assets/exercice/default_homme.png'">
     <strong>${title}</strong>
