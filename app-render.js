@@ -78,6 +78,7 @@ window.FitnessRpgRender.renderPages = function renderPages() {
   const backButton = document.querySelector("#backButton");
   const headerProgramsButton = document.querySelector("#headerProgramsButton");
   const headerGoalButton = document.querySelector("#headerGoalButton");
+  const headerPlanningButton = document.querySelector("#headerPlanningButton");
 
   if (homeButton) {
     homeButton.classList.toggle("hidden", currentPage === "home");
@@ -92,6 +93,9 @@ window.FitnessRpgRender.renderPages = function renderPages() {
   
   if (headerGoalButton) {
     headerGoalButton.classList.toggle("hidden", currentPage === "home");
+  }
+  if (headerPlanningButton) {
+    headerPlanningButton.classList.toggle("hidden", currentPage === "home");
   }
 };
 
