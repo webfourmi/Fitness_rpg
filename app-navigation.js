@@ -339,6 +339,22 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
   
   
   // Header
+  const headerProgramsButton = event.target.closest("#headerProgramsButton");
+
+  if (headerProgramsButton) {
+    event.preventDefault();
+    window.FitnessRpgNavigation.openPrograms?.();
+    return;
+  }
+  
+  const headerGoalButton = event.target.closest("#headerGoalButton");
+  
+  if (headerGoalButton) {
+    event.preventDefault();
+    window.FitnessRpgState.setPage("goal");
+    window.FitnessRpgRender.renderAll();
+    return;
+}
   if (target.closest("#backButton")) {
     window.FitnessRpgNavigation.goBack();
     return;
