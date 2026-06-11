@@ -112,7 +112,12 @@ window.FitnessRpgConfig = {
       icon: "❤️‍🔥",
       title: "Cardio",
       rhythm: "3 séances cardio progressives",
-      recommendedProgramId: "cavalier-route"
+      recommendedProgramId: "cavalier-route",
+      programProgression: [
+        "cavalier-route",
+        "coeur-dragon",
+        "marche-aventurier"
+      ]
     },
     {
       id: "renforcement",
@@ -132,14 +137,24 @@ window.FitnessRpgConfig = {
       icon: "📅",
       title: "Régularité",
       rhythm: "Bouger souvent, sans pression",
-      recommendedProgramId: "marche-aventurier"
+      recommendedProgramId: "marche-aventurier",
+       programProgression: [
+        "marche-aventurier",
+        "eveil-heros",
+        "tour-mage"
+      ]
     },
     {
       id: "mobilite",
       icon: "🧙",
       title: "Mobilité / récupération",
       rhythm: "2 à 4 séances légères",
-      recommendedProgramId: "tour-mage"
+      recommendedProgramId: "tour-mage",
+       programProgression: [
+        "tour-mage",
+        "rempart-heros",
+        "eveil-heros"
+      ]
     }
   ],
 
