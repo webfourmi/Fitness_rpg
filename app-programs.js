@@ -323,7 +323,7 @@ window.FitnessRpgPrograms.getTodayPlanIndex = function getTodayPlanIndex() {
 
 window.FitnessRpgPrograms.getTodayPlanItem = function getTodayPlanItem() {
   const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
-  const plan = window.FitnessRpgPrograms.getWeeklyPlan(goalId);
+  const plan = window.FitnessRpgPrograms.getCombinedWeeklyPlan(goalId);
   const index = window.FitnessRpgPrograms.getTodayPlanIndex();
 
   const item = plan[index] || plan[0];
