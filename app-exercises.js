@@ -87,20 +87,39 @@ window.FitnessRpgExercises.imageOrDefault = function imageOrDefault(path) {
 window.FitnessRpgExercises.getCurrentGender = function getCurrentGender() {
   const profile = window.FitnessRpgState?.getProfile?.();
 
-  if (profile?.gender === "female") return "female";
+  if (profile?.gender === "femme") return "femme";
 
-  return "male";
+  return "homme";
+};
+
+window.FitnessRpgExercises.getCurrentGender = function getCurrentGender() {
+  const profile = window.FitnessRpgState?.getProfile?.();
+  const gender = String(profile?.gender || "homme").toLowerCase();
+
+  if (gender === "femme" || gender === "female") return "femme";
+
+  return "homme";
 };
 
 window.FitnessRpgExercises.resolveImage = function resolveImage(item) {
   const gender = window.FitnessRpgExercises.getCurrentGender();
 
   if (item?.images?.[gender]) return item.images[gender];
+
+  // Compatibilité si certains objets utilisent encore male/female
+  if (gender === "homme" && item?.images?.male) return item.images.male;
+  if (gender === "femme" && item?.images?.female) return item.images.female;
+
+  if (item?.images?.homme) return item.images.homme;
+  if (item?.images?.femme) return item.images.femme;
   if (item?.images?.male) return item.images.male;
   if (item?.images?.female) return item.images.female;
+
   if (item?.image) return item.image;
 
-  return "assets/exercice/default.png";
+  return gender === "femme"
+    ? "assets/exercice/default_femme.png"
+    : "assets/exercice/default_homme.png";
 };
 // ============================================================
 // Helpers inputs
@@ -173,12 +192,13 @@ window.FitnessRpgExercises.categoryCardHtml = function categoryCardHtml(category
   const description = window.FitnessRpgExercises.escapeHtml(category.description);
   const image = window.FitnessRpgExercises.resolveImage(category);
   return `
-    <button class="exercise-category-card" type="button" data-category-id="${category.id}">
-      <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/default.png'">
-      <span class="category-icon">${category.icon || "⚔️"}</span>
-      <strong>${title}</strong>
-      <small>${description}</small>
-    </button>
+   return `
+  <button class="exercise-category-card" type="button" data-category-id="${category.id}">
+    <img src="${image}" alt="${title}" onerror="this.src='assets/exercice/default_homme.png'">
+    <strong>${title}</strong>
+    <small>${description}</small>
+  </button>
+
   `;
 };
 
@@ -202,7 +222,7 @@ window.FitnessRpgExercises.renderCategoryExercises = function renderCategoryExer
       <div class="subpage-header">
         <div>
           <p class="eyebrow">Exercices</p>
-          <h2>${category?.icon || "⚔️"} ${window.FitnessRpgExercises.escapeHtml(category?.title || "Catégorie")}</h2>
+        <h2>${window.FitnessRpgExercises.escapeHtml(category?.title || "Catégorie")}</h2>
           <p class="muted">${window.FitnessRpgExercises.escapeHtml(category?.description || "")}</p>
         </div>
 
@@ -222,7 +242,7 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
   const title = window.FitnessRpgExercises.escapeHtml(exercise.title);
   const description = window.FitnessRpgExercises.escapeHtml(exercise.description || "");
   const stat = window.FitnessRpgExercises.escapeHtml(exercise.stat || "");
-  const image = window.FitnessRpgExercises.imageOrDefault(exercise.image);
+  const image = window.FitnessRpgExercises.resolveImage(exercise);
 
   const distanceField = exercise.hasDistance
     ? `
