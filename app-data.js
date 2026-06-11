@@ -145,7 +145,7 @@ window.FitnessRpgData = {
         squats: "assets/coach/violette/violette_squats.jpg",
         core: "assets/coach/violette/violette_core.jpg",
         stretch: "assets/coach/violette/violette_stretch.jpg"
-        }
+        },
       
       start: [
         "On y va doucement, mais on y va vraiment !",
