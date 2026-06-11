@@ -1011,7 +1011,7 @@ exercises: [
     title: "Relevé de bassin au sol",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/exercise_femme_relevedebassinausol.png".png"
+      female: "assets/exercices/exercise_femme_relevedebassinausol.png"
     },
     unit: "répétitions",
     defaultValue: 12,
@@ -1027,7 +1027,7 @@ exercises: [
     title: "Crunch contrôlé",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/exercise_femme_crunchcontrole.png".png"
+      female: "assets/exercices/exercise_femme_crunchcontrole.png"
     },
     unit: "répétitions",
     defaultValue: 15,
