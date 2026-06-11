@@ -2516,3 +2516,41 @@ body[data-page="home"] #backButton {
   font-size: 0.95rem;
   line-height: 1.4;
 }
+/* ============================================================
+   V5.1 - Accueil : cadre ajusté à l’image
+   ============================================================ */
+
+body[data-page="home"] .home-landing-card {
+  width: fit-content;
+  max-width: min(94vw, 720px);
+  margin: 16px auto 0;
+  padding: 18px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body[data-page="home"] .home-landing-copy {
+  width: 100%;
+}
+
+body[data-page="home"] .home-landing-title {
+  margin: 0 0 10px;
+  text-align: center;
+}
+
+body[data-page="home"] .home-hero-visual {
+  width: fit-content;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+body[data-page="home"] #homeSplashImage {
+  display: block;
+  width: min(100%, 620px);
+  max-width: 100%;
+  height: auto;
+  border-radius: 18px;
+}
