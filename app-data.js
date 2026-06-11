@@ -133,11 +133,18 @@ window.FitnessRpgData = {
       fallbackImage: "assets/coach/violette/image.jpg",
       poses: {
         idle: "assets/coach/violette/violette_idle.jpg",
-        welcome: "assets/coach/violette/violette_idle.jpg",
-        explain: "assets/coach/violette/violette_idle.jpg",
-        motivate: "assets/coach/violette/violette_idle.jpg",
-        victory: "assets/coach/violette/violette_idle.jpg",
-        levelup: "assets/coach/violette/violette_idle.jpg"
+        welcome: "assets/coach/violette/violette_welcome.jpg",
+        explain: "assets/coach/violette/violette_explain.jpg",
+        motivate: "assets/coach/violette/violette_motivate.jpg",
+        victory: "assets/coach/violette/violette_victory.jpg",
+        levelup: "assets/coach/violette/violette_levelup.jpg"
+        warmup: "assets/coach/violette/violette_warmup.jpg",
+        walk:"assets/coach/violette/violette_walk.jpg",
+        bike: "assets/coach/violette/violette_bike.jpg",
+        run: "assets/coach/violette/violette_run.jpg",
+        squats: "assets/coach/violette/violette_squats.jpg",
+        core: "assets/coach/violette/violette_core.jpg",
+        stretch: "assets/coach/violette/violette_stretch.jpg"
       },
       start: [
         "On y va doucement, mais on y va vraiment !",
