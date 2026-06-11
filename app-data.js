@@ -146,7 +146,7 @@ window.FitnessRpgData = {
         core: "assets/coach/violette/violette_core.jpg",
         stretch: "assets/coach/violette/violette_stretch.jpg"
         }
-      },
+      
       start: [
         "On y va doucement, mais on y va vraiment !",
         "Petit pas, grand progrès. Aujourd’hui, on avance."
@@ -166,7 +166,7 @@ window.FitnessRpgData = {
         run_outdoor: ["Course dehors : chaque foulée est une petite victoire."],
         pilates: ["Pilates bien placé. Petit effort, vrai progrès."],
         stretch: ["On s’étire, on respire, on remet le corps en mode velours."]
-      }
+       }
     },
 
     elmin: {
