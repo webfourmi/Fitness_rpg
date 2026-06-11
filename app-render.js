@@ -159,26 +159,10 @@ window.FitnessRpgRender.renderHome = function renderHome() {
 };
 
 window.FitnessRpgRender.prepareHomeImageInfoToggle = function prepareHomeImageInfoToggle() {
-  const homePanel = document.querySelector("#homePanel");
-  if (!homePanel) return;
+  const image = document.querySelector("#homeSplashImage");
+  const infoBox = document.querySelector("#homeImageInfoText");
 
-  const image =
-    homePanel.querySelector(".home-hero-visual img") ||
-    homePanel.querySelector(".home-image img") ||
-    homePanel.querySelector("img");
-
-  if (!image) return;
-
-  let infoBox = document.querySelector("#homeImageInfoText");
-
-  if (!infoBox) {
-    infoBox = document.createElement("p");
-    infoBox.id = "homeImageInfoText";
-    infoBox.className = "home-image-info hidden";
-    infoBox.textContent = "Choisis ton coach, gagne de l’XP, débloque des niveaux et regarde ton héros évoluer séance après séance.";
-
-    image.insertAdjacentElement("afterend", infoBox);
-  }
+  if (!image || !infoBox) return;
 
   if (image.dataset.infoToggleReady === "true") return;
 
