@@ -346,6 +346,7 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}) 
     exerciseId: entry.exerciseId || null,
     programId: entry.programId || null,
     programTitle: entry.programTitle || null,
+    dayNumber: entry.dayNumber ? Number(entry.dayNumber) : null,
     title: entry.title || "Séance",
     amount: Number(entry.amount || 0),
     unit: entry.unit || "",
