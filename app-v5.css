@@ -2848,3 +2848,70 @@ body[data-page="home"] .home-image-info {
 .choose-program-btn {
   margin-top: 10px;
 }
+/* ============================================================
+   V5.1 - Planning compact
+   ============================================================ */
+
+.planning-compact-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.planning-compact-header .eyebrow {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.planning-compact-header span {
+  font-size: 0.95rem;
+}
+
+.today-planning-card.compact {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.today-planning-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.today-planning-line strong {
+  color: var(--accent, #f4d33f);
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.today-planning-line span {
+  font-size: 1rem;
+}
+
+.today-planning-card.compact .primary-btn,
+.today-planning-card.compact .ghost-btn {
+  width: 100%;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .planning-compact-header {
+    gap: 6px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .today-planning-line {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .today-planning-card.compact {
+    padding: 12px;
+  }
+}
