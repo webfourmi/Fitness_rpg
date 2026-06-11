@@ -74,6 +74,16 @@ window.FitnessRpgRender.renderPages = function renderPages() {
   if (header) {
     header.classList.remove("hidden");
   }
+  const homeButton = document.querySelector("#homeButton");
+  const backButton = document.querySelector("#backButton");
+
+  if (homeButton) {
+    homeButton.classList.toggle("hidden", currentPage === "home");
+  }
+
+  if (backButton) {
+    backButton.classList.toggle("hidden", currentPage === "home");
+  }
 };
 
 window.FitnessRpgRender.renderVersion = function renderVersion() {
@@ -105,6 +115,29 @@ window.FitnessRpgRender.setSafeImage = function setSafeImage(img, src, fallback 
 window.FitnessRpgRender.renderHome = function renderHome() {
   const profile = window.FitnessRpgState.getProfile?.();
 
+  const duplicateBadge = document.querySelector("#homeGameVersionBadge");
+  if (duplicateBadge) duplicateBadge.classList.add("hidden");
+
+  const homeEyebrow = document.querySelector("#homePanel .eyebrow");
+  if (homeEyebrow && homeEyebrow.textContent.trim().toLowerCase().includes("fitness")) {
+    homeEyebrow.classList.add("hidden");
+  }
+
+  const homeVersion = document.querySelector("#homeVersionText");
+  if (homeVersion) homeVersion.classList.add("hidden");
+
+  const homeTitle = document.querySelector("#homeTitle");
+  if (homeTitle) {
+    homeTitle.textContent = "Ton entraînement devient une aventure";
+  }
+
+  const homeIntro = document.querySelector("#homeIntroText");
+  if (homeIntro) {
+    homeIntro.classList.add("hidden");
+  }
+
+  window.FitnessRpgRender.prepareHomeImageInfoToggle();
+
   if (!profile) {
     window.FitnessRpgRender.setText("#homeHeroSummary", "Aucun héros créé.");
     window.FitnessRpgRender.setText("#homeCoachSummary", "Aucun coach choisi.");
@@ -125,6 +158,38 @@ window.FitnessRpgRender.renderHome = function renderHome() {
   );
 };
 
+window.FitnessRpgRender.prepareHomeImageInfoToggle = function prepareHomeImageInfoToggle() {
+  const homePanel = document.querySelector("#homePanel");
+  if (!homePanel) return;
+
+  const image =
+    homePanel.querySelector(".home-hero-visual img") ||
+    homePanel.querySelector(".home-image img") ||
+    homePanel.querySelector("img");
+
+  if (!image) return;
+
+  let infoBox = document.querySelector("#homeImageInfoText");
+
+  if (!infoBox) {
+    infoBox = document.createElement("p");
+    infoBox.id = "homeImageInfoText";
+    infoBox.className = "home-image-info hidden";
+    infoBox.textContent = "Choisis ton coach, gagne de l’XP, débloque des niveaux et regarde ton héros évoluer séance après séance.";
+
+    image.insertAdjacentElement("afterend", infoBox);
+  }
+
+  if (image.dataset.infoToggleReady === "true") return;
+
+  image.dataset.infoToggleReady = "true";
+  image.style.cursor = "pointer";
+  image.setAttribute("title", "Afficher l’explication");
+
+  image.addEventListener("click", () => {
+    infoBox.classList.toggle("hidden");
+  });
+};
 // ============================================================
 // Création / modification du héros
 // ============================================================
