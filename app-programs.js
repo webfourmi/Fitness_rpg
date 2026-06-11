@@ -100,7 +100,7 @@ window.FitnessRpgPrograms.validateProgramDay = function validateProgramDay(progr
     alert("Programme ou séance introuvable.");
     return;
   }
-  window.FitnessRpgState.setActiveProgramId?.(programId);
+ 
   window.FitnessRpgState.startProgramSession(programId, dayNumber);
   window.FitnessRpgRender.renderProgramDetail(programId);
 
@@ -312,6 +312,32 @@ window.FitnessRpgPrograms.getWeeklyPlan = function getWeeklyPlan(goalId) {
   };
 
   return plans[goalId] || plans["reprise-douce"];
+};
+
+window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan(goalId) {
+  const basePlan = window.FitnessRpgPrograms.getWeeklyPlan(goalId).map((item) => [...item]);
+
+  const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
+  const activeProgram = activeProgramId
+    ? window.FitnessRpgConfig.getProgramById(activeProgramId)
+    : null;
+
+  if (!activeProgram) return basePlan;
+
+  const slots = window.FitnessRpgPrograms.getProgramWeeklySlots(activeProgramId);
+
+  slots.forEach((index) => {
+    if (!basePlan[index]) return;
+
+    basePlan[index] = [
+      basePlan[index][0],
+      activeProgram.title,
+      activeProgramId,
+      "active-program"
+    ];
+  });
+
+  return basePlan;
 };
 
 window.FitnessRpgPrograms.getTodayPlanIndex = function getTodayPlanIndex() {
@@ -604,23 +630,6 @@ window.FitnessRpgPrograms.openProgramExerciseTimer = function openProgramExercis
   }, 1000);
 };
 
-window.FitnessRpgPrograms.chooseProgram = function chooseProgram(programId) {
-  const program = window.FitnessRpgConfig.getProgramById(programId);
-
-  if (!program) {
-    alert("Programme introuvable.");
-    return;
-  }
-
-  if (!window.FitnessRpgState.hasProfile?.()) {
-    alert("Crée d’abord ton héros.");
-    window.FitnessRpgNavigation.openHeroSetup?.();
-    return;
-  }
-
-  window.FitnessRpgState.setActiveProgramId(programId);
-  window.FitnessRpgRender.renderProgramList?.();
-};
 
 window.FitnessRpgPrograms.goToPlanning = function goToPlanning() {
   window.FitnessRpgState.setPage("planning");
@@ -700,16 +709,7 @@ window.FitnessRpgPrograms.handleDocumentClick = function handleDocumentClick(eve
     return;
   }
 
-  const chooseProgramButton = event.target.closest(".choose-program-btn");
-
-  if (chooseProgramButton) {
-    event.preventDefault();
-  
-    const programId = chooseProgramButton.dataset.programId;
-    window.FitnessRpgPrograms.chooseProgram(programId);
-    return;
-  }
-  
+   
   const startProgramPlanningButton = event.target.closest("#startProgramPlanningButton");
   
   if (startProgramPlanningButton) {
