@@ -555,6 +555,19 @@ window.FitnessRpgRender.renderPlanningPage = function renderPlanningPage() {
     ? window.FitnessRpgConfig.getProgramById(activeProgramId)
     : null;
 
+  const bossLockedToday = todayItem.source === "boss-locked";
+  const missingSessions = window.FitnessRpgPrograms.getMissingMainSessionsThisWeek?.() || [];
+  const firstMissing = missingSessions[0] || null;
+  
+  if (bossLockedToday) {
+    window.FitnessRpgState.setPose?.("motivate");
+  
+    const coachMessage = document.querySelector("#coachMessage");
+    if (coachMessage) {
+      coachMessage.textContent = "Tu n’as pas réussi à faire tout ton programme ! Rattrape une des séances de ta semaine maintenant !";
+    }
+}
+  
 summary.innerHTML = `
   <div class="planning-compact-header">
     <span class="eyebrow">${goal?.icon || "🎯"} Planning interactif</span>
@@ -569,18 +582,22 @@ summary.innerHTML = `
       <span>${todayProgram ? todayProgram.duration : "Repos"}</span>
     </div>
 
-   ${
+ ${
   todayProgram
     ? `<button id="startTodayPlanningButton" class="primary-btn" type="button">
         Démarrer la séance du jour
       </button>`
-    : todayItem.source === "boss-locked"
-      ? `<button class="ghost-btn" type="button" disabled>
-          Boss verrouillé · valide les 5 séances
+    : bossLockedToday && firstMissing
+      ? `<button id="startWeeklyCatchupButton" class="primary-btn" type="button">
+          Rattraper : ${firstMissing.dayLabel} · ${firstMissing.title}
         </button>`
-      : `<button class="ghost-btn" type="button" disabled>
-          Jour de repos
-        </button>`
+      : bossLockedToday
+        ? `<button class="ghost-btn" type="button" disabled>
+            Boss verrouillé · valide les 5 séances
+          </button>`
+        : `<button class="ghost-btn" type="button" disabled>
+            Jour de repos
+          </button>`
 }
   </section>
 
