@@ -320,7 +320,7 @@ window.FitnessRpgData = {
       female:"assets/categories/categorie_femme_mobilite.png"
     },
     description: "Souplesse"
-  }
+  },
   {
     id: "walk",
     
