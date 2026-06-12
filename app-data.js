@@ -1356,9 +1356,9 @@ exercises: [
         badgeTitle: "Héros Éveillé",
         chest: true,
         nextPrograms: ["forge-guerrier", "marche-aventurier"]
-    },
+      },
   
-    {
+     { 
         day: 1,
         title: "Réveil du Corps",
         xp: 50,
