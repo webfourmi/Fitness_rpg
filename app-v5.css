@@ -2934,3 +2934,12 @@ body[data-page="home"] .home-image-info {
 .planning-day-card.boss-locked h2 {
   color: rgba(255, 220, 120, 0.9);
 }
+.planning-coach-warning {
+  margin: 8px 0 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(244, 211, 94, 0.45);
+  background: rgba(244, 211, 94, 0.08);
+  font-weight: 700;
+  color: #f4d33f;
+}
