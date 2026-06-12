@@ -1252,7 +1252,7 @@ exercises: [
     coachTip: "Allonge surtout l’expiration."
   },
   {
-    id: "slow_breathing",
+    id: "slow_breathing_extended",
     categoryId: "mobility",
     title: "Respiration lente",
     images: {
@@ -1358,46 +1358,7 @@ exercises: [
         nextPrograms: ["forge-guerrier", "marche-aventurier"]
       },
   
-     { 
-        day: 1,
-        title: "Réveil du Corps",
-        xp: 50,
-        difficultyLabel: "Semaine 1 · L’Appel de l’Aventure",
-        exercises: [
-          { phase: "Échauffement", exerciseId: "march_on_spot", amount: 3, unit: "min" },
-          { phase: "Mobilité", exerciseId: "arm_circles", amount: 20, unit: "répétitions" },
-          { phase: "Mobilité", exerciseId: "hip_circles", amount: 20, unit: "répétitions" },
-          { phase: "Jambes", exerciseId: "chair_squat", amount: 8, unit: "répétitions" },
-          { phase: "Cardio doux", exerciseId: "slow_knee_raises", amount: 20, unit: "répétitions" },
-          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
-        ]
-      },
-      {
-        day: 2,
-        title: "Fondation du Héros",
-        xp: 50,
-        difficultyLabel: "Semaine 1 · L’Appel de l’Aventure",
-        exercises: [
-          { phase: "Échauffement", exerciseId: "march_on_spot", amount: 3, unit: "min" },
-          { phase: "Haut du corps", exerciseId: "wall_pushups", amount: 8, unit: "répétitions" },
-          { phase: "Jambes", exerciseId: "wall_sit", amount: 20, unit: "sec" },
-          { phase: "Dos / équilibre", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
-          { phase: "Gainage", exerciseId: "core", amount: 15, unit: "sec" },
-          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
-        ]
-      },
-      {
-        day: 3,
-        title: "Endurance de l’Aventurier",
-        xp: 50,
-        difficultyLabel: "Semaine 1 · L’Appel de l’Aventure",
-        exercises: [
-          { phase: "Endurance", exerciseId: "walk", amount: 15, unit: "min", distanceOptional: true },
-          { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" },
-          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
-        ]
-      }
-    ],
+   
   
    weeks: [
       {
