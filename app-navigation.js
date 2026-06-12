@@ -87,22 +87,18 @@ window.FitnessRpgNavigation.openHeroSetup = function openHeroSetup() {
 };
 
 window.FitnessRpgNavigation.openPrograms = function openPrograms(programId = null) {
-  if (programId) {
-    window.FitnessRpgState.selectedProgramId = programId;
-  }
-
   window.FitnessRpgNavigation.setPage("programs");
 
   if (programId) {
-    window.FitnessRpgRender.renderProgramDetail(programId);
-
     window.setTimeout(() => {
-      document.querySelector("#programDetail")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }, 80);
+      window.FitnessRpgPrograms?.openProgramDetail?.(programId);
+    }, 0);
+    return;
   }
+
+  window.setTimeout(() => {
+    window.FitnessRpgPrograms?.openProgramList?.();
+  }, 0);
 };
 
 window.FitnessRpgNavigation.openExercises = function openExercises() {
