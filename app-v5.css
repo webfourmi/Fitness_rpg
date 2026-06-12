@@ -2943,3 +2943,86 @@ body[data-page="home"] .home-image-info {
   font-weight: 700;
   color: #f4d33f;
 }
+/* ============================================================
+   V5.2 - Programmes : choix puis détail avec carrousels
+============================================================ */
+
+.program-card.selected {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, var(--accent-soft), var(--bg-card));
+}
+
+.program-card-actions,
+.program-detail-actions {
+  display: grid;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.program-detail-header {
+  display: grid;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+}
+
+.program-suggested-line,
+.program-week-note {
+  color: var(--accent-strong) !important;
+  font-weight: 850;
+}
+
+.program-carousel {
+  display: grid;
+  gap: var(--space-sm);
+  margin: var(--space-sm) 0;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.program-carousel-row {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: var(--space-sm);
+  text-align: center;
+}
+
+.program-carousel-row > div {
+  display: grid;
+  gap: 3px;
+}
+
+.program-carousel-row strong {
+  color: var(--accent);
+  font-size: 1.05rem;
+}
+
+.program-carousel-row span {
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.program-carousel-row button {
+  min-width: 44px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 14px;
+}
+
+.program-carousel-row button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.selected-program-day {
+  border-color: var(--border-strong);
+}
+
+@media (min-width: 700px) {
+  .program-card-actions,
+  .program-detail-actions {
+    grid-template-columns: repeat(2, max-content);
+    align-items: center;
+  }
+}
