@@ -422,6 +422,54 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
   ];
 };
 
+window.FitnessRpgPrograms.getMissingMainSessionsThisWeek = function getMissingMainSessionsThisWeek() {
+  const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
+  const plan = window.FitnessRpgPrograms.getCombinedWeeklyPlan(goalId);
+  const weekKeys = window.FitnessRpgState.getWeekKeys?.() || [];
+
+  return plan.slice(0, 5).map((item, index) => {
+    const [dayLabel, title, programId, source] = item;
+    const dateKey = weekKeys[index];
+
+    const done = programId
+      ? window.FitnessRpgState.getEntriesForDate(dateKey).some((entry) => {
+          return entry.type === "program";
+        })
+      : false;
+
+    return {
+      index,
+      dayLabel,
+      title,
+      programId,
+      source,
+      dateKey,
+      plan,
+      done
+    };
+  }).filter((item) => {
+    return item.programId && !item.done;
+  });
+};
+
+window.FitnessRpgPrograms.startWeeklyCatchupSession = function startWeeklyCatchupSession() {
+  const missing = window.FitnessRpgPrograms.getMissingMainSessionsThisWeek();
+
+  if (!missing.length) {
+    alert("Toutes les séances principales sont déjà validées.");
+    return;
+  }
+
+  const item = missing[0];
+  const dayNumber = window.FitnessRpgPrograms.getSuggestedDayNumberForPlanItem(item);
+
+  window.FitnessRpgNavigation.openPrograms(item.programId);
+
+  window.setTimeout(() => {
+    window.FitnessRpgPrograms.validateProgramDay(item.programId, dayNumber);
+  }, 120);
+};
+
 // ============================================================
 // Quête du jour
 // ============================================================
@@ -707,6 +755,13 @@ window.FitnessRpgPrograms.handleDocumentClick = function handleDocumentClick(eve
     return;
   }
 
+  const catchupButton = event.target.closest("#startWeeklyCatchupButton");
+
+  if (catchupButton) {
+      event.preventDefault();
+      window.FitnessRpgPrograms.startWeeklyCatchupSession();
+      return;
+    }
  const todayPlanningButton = event.target.closest("#startTodayPlanningButton");
 
   if (todayPlanningButton) {
