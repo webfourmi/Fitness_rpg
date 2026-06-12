@@ -1193,7 +1193,7 @@ exercises: [
     xpPerUnit: 0.15,
     stat: "Mobilité hanches",
     pose: "stretch",
-    hasTimer: true
+    hasTimer: true,
     description: "Mains sur les hanches, fais des cercles lents avec le bassin.",
     shortDescription: "Fais tourner ton bassin lentement.",
     coachTip: "Le mouvement doit rester doux et contrôlé."
