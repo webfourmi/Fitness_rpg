@@ -314,87 +314,112 @@ window.FitnessRpgPrograms.getWeeklyPlan = function getWeeklyPlan(goalId) {
   return plans[goalId] || plans["reprise-douce"];
 };
 
-window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan(goalId) {
-  const basePlan = window.FitnessRpgPrograms.getWeeklyPlan(goalId).map((item) => [...item]);
+window.FitnessRpgPrograms.getCompletedMainSessionsThisWeek = function getCompletedMainSessionsThisWeek() {
+  const weekKeys = window.FitnessRpgState.getWeekKeys?.() || [];
 
-  const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
-  const activeProgram = activeProgramId
-    ? window.FitnessRpgConfig.getProgramById(activeProgramId)
-    : null;
+  // On compte seulement lundi à vendredi.
+  const mainWeekKeys = weekKeys.slice(0, 5);
 
-  if (!activeProgram) return basePlan;
-
-  const slots = window.FitnessRpgPrograms.getProgramWeeklySlots(activeProgramId);
-
-  slots.forEach((index) => {
-    if (!basePlan[index]) return;
-
-    basePlan[index] = [
-      basePlan[index][0],
-      activeProgram.title,
-      activeProgramId,
-      "active-program"
-    ];
-  });
-
-  return basePlan;
+  return mainWeekKeys.filter((dateKey) => {
+    return window.FitnessRpgState.getEntriesForDate(dateKey).some((entry) => {
+      return entry.type === "program";
+    });
+  }).length;
 };
 
-window.FitnessRpgPrograms.getTodayPlanIndex = function getTodayPlanIndex() {
-  const day = new Date().getDay();
+window.FitnessRpgPrograms.getObjectiveProgramIds = function getObjectiveProgramIds(goalId) {
+  const goal = window.FitnessRpgConfig.getGoalById?.(goalId);
 
-  // JS : dimanche = 0. Planning : lundi = 0.
-  return day === 0 ? 6 : day - 1;
-};
-
-window.FitnessRpgPrograms.getTodayPlanItem = function getTodayPlanItem() {
-  const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
-  const plan = window.FitnessRpgPrograms.getCombinedWeeklyPlan(goalId);
-  const index = window.FitnessRpgPrograms.getTodayPlanIndex();
-
-  const item = plan[index] || plan[0];
-
-  return {
-    index,
-    dayLabel: item[0],
-    title: item[1],
-    programId: item[2],
-    plan
-  };
-};
-
-window.FitnessRpgPrograms.getSuggestedDayNumberForPlanItem = function getSuggestedDayNumberForPlanItem(planItem) {
-  if (!planItem?.programId) return 1;
-
-  const detail = window.FitnessRpgPrograms.getProgramDetail(planItem.programId);
-
-  if (!detail?.days?.length) return 1;
-
-  const occurrence = planItem.plan
-    .slice(0, planItem.index + 1)
-    .filter((item) => item[2] === planItem.programId)
-    .length;
-
-  const day = detail.days[(Math.max(1, occurrence) - 1) % detail.days.length];
-
-  return day?.day || 1;
-};
-
-window.FitnessRpgPrograms.startTodayPlanningSession = function startTodayPlanningSession() {
-  const item = window.FitnessRpgPrograms.getTodayPlanItem();
-
-  if (!item.programId) {
-    alert("Aujourd’hui, le planning conseille du repos ou une récupération douce.");
-    return;
+  if (Array.isArray(goal?.programProgression) && goal.programProgression.length) {
+    return goal.programProgression;
   }
 
-  const dayNumber = window.FitnessRpgPrograms.getSuggestedDayNumberForPlanItem(item);
+  if (goal?.recommendedProgramId) {
+    return [goal.recommendedProgramId];
+  }
 
-  window.FitnessRpgNavigation.openPrograms(item.programId);
+  return ["eveil-heros", "marche-aventurier"];
+};
 
-  window.setTimeout(() => {
-    window.FitnessRpgPrograms.validateProgramDay(item.programId, dayNumber);
-  }, 120);
+window.FitnessRpgPrograms.getObjectiveProgramForSlot = function getObjectiveProgramForSlot(goalId, slotIndex) {
+  const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
+  const ids = window.FitnessRpgPrograms
+    .getObjectiveProgramIds(goalId)
+    .filter((programId) => programId && programId !== activeProgramId);
+
+  const safeIds = ids.length ? ids : window.FitnessRpgPrograms.getObjectiveProgramIds(goalId);
+
+  return safeIds[slotIndex % safeIds.length] || "eveil-heros";
+};
+
+window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan(goalId) {
+  const activeProgramId =
+    window.FitnessRpgState.getActiveProgramId?.()
+    || window.FitnessRpgConfig.getGoalById?.(goalId)?.recommendedProgramId
+    || "eveil-heros";
+
+  const activeProgram = window.FitnessRpgConfig.getProgramById(activeProgramId);
+
+  const objectiveProgram1Id = window.FitnessRpgPrograms.getObjectiveProgramForSlot(goalId, 0);
+  const objectiveProgram2Id = window.FitnessRpgPrograms.getObjectiveProgramForSlot(goalId, 1);
+
+  const objectiveProgram1 = window.FitnessRpgConfig.getProgramById(objectiveProgram1Id);
+  const objectiveProgram2 = window.FitnessRpgConfig.getProgramById(objectiveProgram2Id);
+
+  const completedMainSessions = window.FitnessRpgPrograms.getCompletedMainSessionsThisWeek();
+  const bossUnlocked = completedMainSessions >= 5;
+
+  return [
+    [
+      "Lun",
+      activeProgram?.title || "Programme choisi",
+      activeProgramId,
+      "active-program"
+    ],
+    [
+      "Mar",
+      objectiveProgram1?.title || "Séance objectif",
+      objectiveProgram1Id,
+      "goal"
+    ],
+    [
+      "Mer",
+      activeProgram?.title || "Programme choisi",
+      activeProgramId,
+      "active-program"
+    ],
+    [
+      "Jeu",
+      objectiveProgram2?.title || "Séance objectif",
+      objectiveProgram2Id,
+      "goal"
+    ],
+    [
+      "Ven",
+      activeProgram?.title || "Programme choisi",
+      activeProgramId,
+      "active-program"
+    ],
+    bossUnlocked
+      ? [
+          "Sam",
+          "Défi boss hebdo",
+          "boss-hebdo",
+          "boss"
+        ]
+      : [
+          "Sam",
+          `Boss verrouillé · ${completedMainSessions}/5 séances`,
+          null,
+          "boss-locked"
+        ],
+    [
+      "Dim",
+      "Repos",
+      null,
+      "rest"
+    ]
+  ];
 };
 
 // ============================================================
