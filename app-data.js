@@ -311,6 +311,16 @@ window.FitnessRpgData = {
     },
     description: "Faire monter le rythme sans brutalité."
 },
+     {
+    id: "mobility",
+    
+    title: "Mobilité ",
+     images: {
+      male: "assets/categories/categorie_homme_mobilite.png",
+      female:"assets/categories/categorie_femme_mobilite.png"
+    },
+    description: "Souplesse"
+  }
   {
     id: "walk",
     
@@ -371,16 +381,7 @@ window.FitnessRpgData = {
     },
     description: "Centre du corps, gainage et stabilité."
   },
-  {
-    id: "mobility",
-    
-    title: "Mobilité / récupération",
-     images: {
-      male: "assets/categories/categorie_homme_mobilite.png",
-      female:"assets/categories/categorie_femme_mobilite.png"
-    },
-    description: "Souplesse, respiration et retour au calme."
-  }
+ 
 ],
  
 // ------------------------------------------------------------
