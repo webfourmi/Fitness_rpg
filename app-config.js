@@ -162,17 +162,24 @@ window.FitnessRpgConfig = {
   // Programmes principaux
   // ------------------------------------------------------------
   programs: [
-    {
-      id: "eveil-heros",
-      icon: "🌅",
-      title: "Éveil du héros",
-      objective: "Reprise douce",
-      level: "Débutant",
-      duration: "10-15 min",
-      frequency: "3 séances par semaine",
-      coachAdvice: "Violette ou Elmin",
-      xp: 20
-    },
+   {
+    id: "eveil-heros",
+    icon: "🌅",
+    title: "Éveil du héros",
+    objective: "Reprise douce · débutant complet",
+    level: "Niveau 1 · Débutant complet",
+    unlockLevel: 1,
+    duration: "15-30 min",
+    frequency: "3 séances par semaine · 4 semaines",
+    coachAdvice: "Violette ou Elmin",
+    xp: 50,
+    reward: {
+      badgeId: "heros-eveille",
+      title: "Héros Éveillé",
+      chest: true,
+      nextPrograms: ["forge-guerrier", "marche-aventurier"]
+    }
+  },
     {
       id: "coeur-dragon",
       icon: "❤️‍🔥",
