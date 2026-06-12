@@ -857,7 +857,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   const day = window.FitnessRpgPrograms.getProgramDay(
     session.programId,
     session.dayNumber,
-    session.weekNumber || 1
+    session.weekNumber || 1,
   );
   const xp = window.FitnessRpgProgress.calculateProgramSessionXp(session.programId, session.dayNumber);
   const difficulty = window.FitnessRpgProgress.getProgramDayDifficulty(day);
@@ -870,7 +870,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     programId: program.id,
     programTitle: program.title,
     dayNumber: session.dayNumber,
-    session.weekNumber || 1
+    session.weekNumber || 1,
     title,
     amount: 1,
     unit: "séance",
