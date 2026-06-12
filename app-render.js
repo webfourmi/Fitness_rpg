@@ -569,13 +569,19 @@ summary.innerHTML = `
       <span>${todayProgram ? todayProgram.duration : "Repos"}</span>
     </div>
 
-    ${
-      todayProgram
-        ? `<button id="startTodayPlanningButton" class="primary-btn" type="button">
-            Démarrer la séance du jour
-          </button>`
-        : `<button class="ghost-btn" type="button" disabled>Jour de repos</button>`
-    }
+   ${
+  todayProgram
+    ? `<button id="startTodayPlanningButton" class="primary-btn" type="button">
+        Démarrer la séance du jour
+      </button>`
+    : todayItem.source === "boss-locked"
+      ? `<button class="ghost-btn" type="button" disabled>
+          Boss verrouillé · valide les 5 séances
+        </button>`
+      : `<button class="ghost-btn" type="button" disabled>
+          Jour de repos
+        </button>`
+}
   </section>
 
   <section class="planning-week-progress">
@@ -596,7 +602,7 @@ summary.innerHTML = `
 
   grid.innerHTML = "";
 
-  plan.forEach(([dayLabel, title, programId], index) => {
+ plan.forEach(([dayLabel, title, programId, source], index) => {
     const dateKey = weekKeys[index];
     const entries = window.FitnessRpgState.getEntriesForDate(dateKey);
     const program = programId ? window.FitnessRpgConfig.getProgramById(programId) : null;
@@ -613,7 +619,11 @@ summary.innerHTML = `
       "card",
       isToday ? "today" : "",
       done ? "done" : "",
-      programId ? "" : "rest-day"
+      source === "rest" ? "rest-day" : "",
+      source === "boss-locked" ? "boss-locked" : "",
+      source === "boss" ? "boss-day" : "",
+      source === "active-program" ? "active-program-day" : "",
+      source === "goal" ? "goal-day" : ""
     ].filter(Boolean).join(" ");
 
     card.dataset.programId = programId || "";
@@ -637,11 +647,14 @@ summary.innerHTML = `
       <small>${entries.length} entrée${entries.length > 1 ? "s" : ""} ce jour</small>
 
       ${
-        program
+        
+          program
           ? `<button class="secondary-btn planning-program-btn" type="button" data-program-id="${program.id}">
               Ouvrir
             </button>`
-          : `<span class="rest-label">Repos</span>`
+          : source === "boss-locked"
+            ? `<span class="rest-label">Boss verrouillé</span>`
+            : `<span class="rest-label">Repos</span>`
       }
     `;
 
