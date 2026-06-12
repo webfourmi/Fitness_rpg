@@ -3026,3 +3026,15 @@ body[data-page="home"] .home-image-info {
     align-items: center;
   }
 }
+.program-day-card li small {
+  display: block;
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
+.program-day-card li .coach-tip {
+  color: var(--accent-strong);
+  font-weight: 800;
+}
