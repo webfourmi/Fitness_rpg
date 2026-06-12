@@ -854,7 +854,11 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   }
 
   const program = window.FitnessRpgPrograms.getProgram(session.programId);
-  const day = window.FitnessRpgPrograms.getProgramDay(session.programId, session.dayNumber);
+  const day = window.FitnessRpgPrograms.getProgramDay(
+    session.programId,
+    session.dayNumber,
+    session.weekNumber || 1
+  );
   const xp = window.FitnessRpgProgress.calculateProgramSessionXp(session.programId, session.dayNumber);
   const difficulty = window.FitnessRpgProgress.getProgramDayDifficulty(day);
   const title = `${program.title} · Jour ${day.day} · ${day.title}`;
@@ -866,6 +870,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     programId: program.id,
     programTitle: program.title,
     dayNumber: session.dayNumber,
+    session.weekNumber || 1
     title,
     amount: 1,
     unit: "séance",
@@ -878,7 +883,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     text: `${difficulty.label} terminée : ${day.exercises.length} exercices validés.`,
     xp
   });
-
+  window.FitnessRpgProgress?.checkBadges?.();
   window.FitnessRpgState.setPose("victory");
   window.FitnessRpgState.clearActiveProgramSession();
 
@@ -912,7 +917,11 @@ window.FitnessRpgPrograms.getActiveProgramItem = function getActiveProgramItem(e
 
   if (!session) return null;
 
-  const day = window.FitnessRpgPrograms.getProgramDay(session.programId, session.dayNumber);
+  const day = window.FitnessRpgPrograms.getProgramDay(
+  session.programId,
+  session.dayNumber,
+  session.weekNumber || 1
+);
 
   if (!day || !Array.isArray(day.exercises)) return null;
 
