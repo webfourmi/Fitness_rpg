@@ -342,6 +342,7 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}) 
   const cleanEntry = {
     id: entry.id || window.FitnessRpgState.createId("entry"),
     date: dateKey,
+    weekNumber: entry.weekNumber ? Number(entry.weekNumber) : null,
     dayNumber: entry.dayNumber ? Number(entry.dayNumber) : null,
     type: entry.type || "exercise",
     sportId: entry.sportId || null,
@@ -350,6 +351,7 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}) 
     programId: entry.programId || null,
     programTitle: entry.programTitle || null,
     dayNumber: entry.dayNumber ? Number(entry.dayNumber) : null,
+    
     title: entry.title || "Séance",
     amount: Number(entry.amount || 0),
     unit: entry.unit || "",
@@ -558,8 +560,9 @@ window.FitnessRpgState.setActiveProgramId = function setActiveProgramId(programI
   }
 };
 
-window.FitnessRpgState.startProgramSession = function startProgramSession(programId, dayNumber) {
-  const day = window.FitnessRpgPrograms?.getProgramDay?.(programId, dayNumber);
+window.FitnessRpgState.startProgramSession = function startProgramSession(programId, dayNumber, weekNumber = 1) {
+  const safeWeekNumber = Math.max(1, Number(weekNumber) || 1);
+  const day = window.FitnessRpgPrograms?.getProgramDay?.(programId, dayNumber, safeWeekNumber);
 
   if (!day) return null;
 
@@ -567,6 +570,7 @@ window.FitnessRpgState.startProgramSession = function startProgramSession(progra
     id: window.FitnessRpgState.createId("program-session"),
     programId,
     dayNumber: Number(dayNumber),
+    weekNumber: safeWeekNumber,
     startedAt: window.FitnessRpgState.nowIso(),
     completedExerciseIds: []
   };
