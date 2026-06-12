@@ -252,6 +252,13 @@ window.FitnessRpgPrograms.getTodayQuest = function getTodayQuest() {
 // ============================================================
 // Planning hebdomadaire interactif
 // ============================================================
+window.FitnessRpgPrograms.getTodayPlanIndex = function getTodayPlanIndex() {
+  const day = new Date().getDay();
+
+  // JavaScript : dimanche = 0.
+  // Notre planning : lundi = 0, mardi = 1, ..., dimanche = 6.
+  return day === 0 ? 6 : day - 1;
+};
 
 window.FitnessRpgPrograms.getWeeklyPlan = function getWeeklyPlan(goalId) {
   const plans = {
@@ -351,6 +358,7 @@ window.FitnessRpgPrograms.getObjectiveProgramForSlot = function getObjectiveProg
 
   return safeIds[slotIndex % safeIds.length] || "eveil-heros";
 };
+
 
 window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan(goalId) {
   const activeProgramId =
