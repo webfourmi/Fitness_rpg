@@ -870,7 +870,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     programId: program.id,
     programTitle: program.title,
     dayNumber: session.dayNumber,
-    session.weekNumber || 1,
+    
     title,
     amount: 1,
     unit: "séance",
