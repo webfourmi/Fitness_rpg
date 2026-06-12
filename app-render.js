@@ -422,30 +422,41 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
 
   if (!detail || !session) return;
 
+  // Si on regarde un autre programme, on n'affiche pas la séance active ici.
+  if (detail.dataset.programId && detail.dataset.programId !== session.programId) return;
+
   const program = window.FitnessRpgConfig.getProgramById(session.programId);
-  const day = window.FitnessRpgPrograms.getProgramDay(session.programId, session.dayNumber);
+  const day = window.FitnessRpgPrograms.getProgramDay(
+    session.programId,
+    session.dayNumber,
+    session.weekNumber || 1
+  );
 
   if (!program || !day) return;
 
   const difficulty = window.FitnessRpgProgress.getProgramDayDifficulty(day);
-  const xp = window.FitnessRpgProgress.calculateProgramSessionXp(session.programId, session.dayNumber);
+  const xp = window.FitnessRpgProgress.calculateProgramSessionXp(
+    session.programId,
+    session.dayNumber
+  );
+
   const complete = window.FitnessRpgState.isProgramSessionComplete();
 
   const exercisesHtml = day.exercises.map((item, index) => {
     const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
     const done = window.FitnessRpgState.isProgramSessionExerciseDone(item.exerciseId);
     const canUseTimer = item.unit === "min" || item.unit === "sec" || exercise?.hasTimer;
-  
+
     return `
       <article class="program-session-exercise${done ? " done" : ""}">
         <div class="program-session-index">${index + 1}</div>
-  
+
         <div>
           <strong>${item.phase}</strong>
           <h3>${exercise?.title || item.exerciseId}</h3>
           <p>${item.amount} ${item.unit}</p>
         </div>
-  
+
         <div class="program-session-actions">
           ${
             canUseTimer
@@ -458,7 +469,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
                 </button>`
               : ""
           }
-  
+
           <button
             class="${done ? "ghost-btn" : "secondary-btn"} validate-program-exercise-btn"
             type="button"
@@ -477,7 +488,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
   const sessionHtml = `
     <section id="activeProgramSession" class="active-program-session card">
       <p class="eyebrow">${program.icon} Séance en cours</p>
-      <h2>${program.title} · Jour ${day.day}</h2>
+      <h2>${program.title} · Semaine ${session.weekNumber || 1} · Jour ${day.day}</h2>
       <p>${day.title}</p>
 
       <div class="program-session-meta">
@@ -506,6 +517,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
 
   detail.insertAdjacentHTML("afterbegin", sessionHtml);
 };
+
 // ============================================================
 // Planning hebdomadaire
 // ============================================================
@@ -685,7 +697,16 @@ summary.innerHTML = `
 
 window.FitnessRpgRender.renderProgramList = function renderProgramList() {
   const list = document.querySelector("#programList");
+  const detail = document.querySelector("#programDetail");
+
   if (!list) return;
+
+  list.classList.remove("hidden");
+
+  if (detail) {
+    detail.classList.add("hidden");
+    detail.innerHTML = "";
+  }
 
   list.innerHTML = "";
 
@@ -713,13 +734,23 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
           <li><strong>Coach conseillé :</strong> ${program.coachAdvice || "Libre"}</li>
         </ul>
 
-        <button
-          class="${selected ? "secondary-btn" : "primary-btn"} choose-program-btn"
-          type="button"
-          data-program-id="${program.id}"
-        >
-          ${selected ? "Programme actuel" : "Choisir ce programme"}
-        </button>
+        <div class="program-card-actions">
+          <button
+            class="secondary-btn open-program-detail-btn"
+            type="button"
+            data-program-id="${program.id}"
+          >
+            Voir le programme
+          </button>
+
+          <button
+            class="${selected ? "secondary-btn" : "primary-btn"} choose-program-btn"
+            type="button"
+            data-program-id="${program.id}"
+          >
+            ${selected ? "Programme actuel" : "Choisir ce programme"}
+          </button>
+        </div>
       </div>
     `;
 
@@ -728,7 +759,9 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
 };
 
 window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(programId) {
+  const list = document.querySelector("#programList");
   const detail = document.querySelector("#programDetail");
+
   if (!detail) return;
 
   const program = window.FitnessRpgConfig.getProgramById(programId);
@@ -737,33 +770,69 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
   if (!program || !programDetail) {
     detail.classList.add("hidden");
     detail.innerHTML = "";
+
+    if (list) list.classList.remove("hidden");
+
     return;
   }
+
+  if (list) list.classList.add("hidden");
 
   detail.classList.remove("hidden");
   detail.dataset.programId = programId;
 
-  const daysHtml = programDetail.days.map((day) => {
-    const exercisesHtml = day.exercises.map((item) => {
-      const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
+  const selection = window.FitnessRpgPrograms.getProgramBrowserSelection(programId);
+  const weeks = window.FitnessRpgPrograms.getProgramWeeks(programId);
+  const week = window.FitnessRpgPrograms.getSelectedProgramWeek(programId);
+  const days = window.FitnessRpgPrograms.getProgramDaysForWeek(
+    programId,
+    selection.weekNumber
+  );
 
-      return `
-        <li>
-          <strong>${item.phase}</strong>
-          <span>${exercise?.title || item.exerciseId}</span>
-          <em>${item.amount} ${item.unit}</em>
-        </li>
-      `;
-    }).join("");
+  const day = window.FitnessRpgPrograms.getSelectedProgramDay(programId);
+
+  const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
+  const isActiveProgram = activeProgramId === programId;
+
+  const suggested = window.FitnessRpgPrograms.getSuggestedProgramPosition(programId);
+
+  if (!day) {
+    detail.innerHTML = `
+      <button id="backToProgramListBtn" class="ghost-btn" type="button">
+        ← Choisir un autre programme
+      </button>
+
+      <p>Impossible d’afficher cette séance.</p>
+    `;
+
+    return;
+  }
+
+  const weekIndex = Math.max(
+    0,
+    weeks.findIndex((item) => Number(item.week) === Number(selection.weekNumber))
+  );
+
+  const dayIndex = Math.max(
+    0,
+    days.findIndex((item) => Number(item.day) === Number(selection.dayNumber))
+  );
+
+  const previousWeekDisabled = selection.weekNumber <= 1 ? "disabled" : "";
+  const nextWeekDisabled = selection.weekNumber >= weeks.length ? "disabled" : "";
+
+  const previousDayDisabled = dayIndex <= 0 ? "disabled" : "";
+  const nextDayDisabled = dayIndex >= days.length - 1 ? "disabled" : "";
+
+  const exercisesHtml = day.exercises.map((item) => {
+    const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
 
     return `
-      <article class="program-day-card">
-        <h3>Jour ${day.day} · ${day.title}</h3>
-        <ul>${exercisesHtml}</ul>
-        <button class="primary-btn start-program-day-btn" type="button" data-program-id="${programId}" data-day="${day.day}">
-          Démarrer
-        </button>
-      </article>
+      <li>
+        <strong>${item.phase}</strong>
+        <span>${exercise?.title || item.exerciseId}</span>
+        <em>${item.amount} ${item.unit}</em>
+      </li>
     `;
   }).join("");
 
@@ -771,22 +840,122 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
     .map((line) => `<li>${line}</li>`)
     .join("");
 
+  const weekNote = week?.progression
+    ? `<p class="program-week-note">${week.progression}</p>`
+    : "";
+
+  const suggestedText = `Séance conseillée : semaine ${suggested.weekNumber}, jour ${suggested.dayNumber}`;
+
   detail.innerHTML = `
+    <button id="backToProgramListBtn" class="ghost-btn" type="button">
+      ← Choisir un autre programme
+    </button>
+
     <header class="program-detail-header">
       <p class="eyebrow">${program.icon} ${program.objective}</p>
       <h2>${program.title}</h2>
       <p>${program.duration} · ${program.frequency}</p>
+      <p class="program-suggested-line">${suggestedText}</p>
     </header>
 
+    <section class="program-carousel card">
+      <p class="eyebrow">Progression</p>
+
+      <div class="program-carousel-row">
+        <button
+          class="ghost-btn program-week-carousel-btn"
+          type="button"
+          data-delta="-1"
+          ${previousWeekDisabled}
+        >
+          ←
+        </button>
+
+        <div>
+          <strong>Semaine ${selection.weekNumber}</strong>
+          <span>${weekIndex + 1}/${weeks.length}</span>
+        </div>
+
+        <button
+          class="ghost-btn program-week-carousel-btn"
+          type="button"
+          data-delta="1"
+          ${nextWeekDisabled}
+        >
+          →
+        </button>
+      </div>
+
+      ${weekNote}
+    </section>
+
+    <section class="program-carousel card">
+      <p class="eyebrow">Séance</p>
+
+      <div class="program-carousel-row">
+        <button
+          class="ghost-btn program-day-carousel-btn"
+          type="button"
+          data-delta="-1"
+          ${previousDayDisabled}
+        >
+          ←
+        </button>
+
+        <div>
+          <strong>Jour ${day.day}</strong>
+          <span>${dayIndex + 1}/${days.length}</span>
+        </div>
+
+        <button
+          class="ghost-btn program-day-carousel-btn"
+          type="button"
+          data-delta="1"
+          ${nextDayDisabled}
+        >
+          →
+        </button>
+      </div>
+    </section>
+
     <section class="program-days">
-      ${daysHtml}
+      <article class="program-day-card selected-program-day">
+        <h3>Semaine ${selection.weekNumber} · Jour ${day.day} · ${day.title}</h3>
+
+        <ul>${exercisesHtml}</ul>
+
+        <button
+          class="primary-btn start-program-day-btn"
+          type="button"
+          data-program-id="${programId}"
+          data-week="${selection.weekNumber}"
+          data-day="${day.day}"
+        >
+          Démarrer cette séance
+        </button>
+      </article>
+    </section>
+
+    <section class="program-detail-actions">
+      <button
+        class="${isActiveProgram ? "secondary-btn" : "primary-btn"} choose-program-btn"
+        type="button"
+        data-program-id="${programId}"
+      >
+        ${isActiveProgram ? "Programme actuel" : "Choisir ce programme"}
+      </button>
+
+      <button id="startProgramPlanningButton" class="secondary-btn" type="button">
+        Voir le planning
+      </button>
     </section>
 
     <section class="program-progression">
-      <h3>Progression</h3>
+      <h3>Notes de progression</h3>
       <ul>${progressionHtml}</ul>
     </section>
   `;
+
   window.FitnessRpgRender.renderActiveProgramSession();
 };
 
