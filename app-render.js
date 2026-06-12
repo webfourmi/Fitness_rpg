@@ -827,13 +827,18 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
   const exercisesHtml = day.exercises.map((item) => {
     const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
 
-    return `
-      <li>
-        <strong>${item.phase}</strong>
-        <span>${exercise?.title || item.exerciseId}</span>
-        <em>${item.amount} ${item.unit}</em>
-      </li>
-    `;
+    const description = exercise?.shortDescription || exercise?.description || "";
+const coachTip = exercise?.coachTip || "";
+
+return `
+  <li>
+    <strong>${item.phase}</strong>
+    <span>${exercise?.title || item.exerciseId}</span>
+    <em>${item.amount} ${item.unit}</em>
+    ${description ? `<small>${description}</small>` : ""}
+    ${coachTip ? `<small class="coach-tip">💬 ${coachTip}</small>` : ""}
+  </li>
+`;
   }).join("");
 
   const progressionHtml = (programDetail.progression || [])
