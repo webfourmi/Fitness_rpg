@@ -404,7 +404,10 @@ exercises: [
     xpPerUnit: 2,
     stat: "Échauffement",
     pose: "warmup",
-    hasTimer: true
+    hasTimer: true,
+    description: "Marche sans avancer en levant naturellement les pieds.",
+    shortDescription: "Marche sans bouger de ta position.",
+    coachTip: "Commence tranquille, puis trouve ton rythme."
   },
   {
     id: "arm_circles",
@@ -421,7 +424,10 @@ exercises: [
     xpPerUnit: 0.2,
     stat: "Échauffement épaules",
     pose: "warmup",
-    hasTimer: true
+    hasTimer: true,
+    description: "Tends les bras et dessine de grands cercles vers l’avant puis l’arrière.",
+    shortDescription: "Dessine des cercles avec les bras.",
+    coachTip: "Fais des cercles lents, sans hausser les épaules."
   },
   {
     id: "arm_open_close",
@@ -455,7 +461,10 @@ exercises: [
     xpPerUnit: 2,
     stat: "Échauffement",
     pose: "walk",
-    hasTimer: true
+    hasTimer: true,
+    description: "Marche énergique avec les bras qui accompagnent le mouvement.",
+    shortDescription: "Marche énergique avec les bras.",
+    coachTip: "Garde le regard devant et les épaules basses."
   },
 
   // Cardio doux
@@ -491,7 +500,10 @@ exercises: [
     xpPerUnit: 0.15,
     stat: "Cardio doux",
     pose: "warmup",
-    hasTimer: true
+    hasTimer: true,
+    description: "Monte alternativement les genoux devant toi à hauteur confortable.",
+    shortDescription: "Monte les genoux alternativement.",
+    coachTip: "Reste droit et garde une respiration régulière."
   },
   {
     id: "mountain_climber_slow",
@@ -528,7 +540,10 @@ exercises: [
     stat: "Endurance",
     pose: "walk",
     hasTimer: true,
-    hasDistance: true
+    hasDistance: true,
+    description: "Marche à un rythme soutenu permettant encore de parler.",
+    shortDescription: "Marche à rythme soutenu.",
+    coachTip: "Tu dois pouvoir parler, mais pas chanter."
   },
 
   // Course
@@ -604,7 +619,10 @@ exercises: [
     step: 1,
     xpPerUnit: 1,
     stat: "Jambes",
-    pose: "squats"
+    pose: "squats",
+    description: "Assieds-toi légèrement vers l’arrière en t’aidant d’une chaise ou d’un mur.",
+    shortDescription: "Assieds-toi puis relève-toi avec aide.",
+    coachTip: "Garde les talons au sol."
   },
   {
     id: "squats",
@@ -620,8 +638,31 @@ exercises: [
     step: 1,
     xpPerUnit: 1.1,
     stat: "Force",
-    pose: "squats"
+    pose: "squats",
+    description: "Fléchis les jambes comme pour t’asseoir puis remonte.",
+    shortDescription: "Descends comme pour t’asseoir puis remonte.",
+    coachTip: "Genoux souples, dos fier, mouvement propre."
   },
+  {
+  id: "wall_sit",
+  categoryId: "strength",
+  title: "Chaise contre un mur",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/femme_default.png"
+  },
+  unit: "sec",
+  defaultValue: 20,
+  min: 10,
+  step: 5,
+  xpPerUnit: 0.35,
+  stat: "Jambes / endurance",
+  pose: "squats",
+  hasTimer: true,
+  description: "Dos au mur, reste assis dans une position imaginaire.",
+  shortDescription: "Tiens une position assise contre un mur.",
+  coachTip: "Garde le dos contre le mur et respire calmement."
+},
   {
     id: "assisted_reverse_lunges",
     categoryId: "strength",
@@ -636,7 +677,10 @@ exercises: [
     step: 2,
     xpPerUnit: 1.1,
     stat: "Jambes",
-    pose: "squats"
+    pose: "squats",
+    description: "Fais un pas en arrière et plie légèrement les jambes en gardant un appui.",
+    shortDescription: "Fente avec appui pour garder l’équilibre.",
+    coachTip: "Utilise une chaise ou un mur si besoin."
   },
   {
     id: "reverse_lunges",
@@ -652,7 +696,10 @@ exercises: [
     step: 2,
     xpPerUnit: 1.3,
     stat: "Jambes",
-    pose: "squats"
+    pose: "squats",
+    description: "Fais un grand pas en arrière puis descends le genou arrière vers le sol.",
+    shortDescription: "Grand pas arrière puis descente contrôlée.",
+    coachTip: "Descends peu au début. La maîtrise d’abord."
   },
   {
     id: "calf_raises",
@@ -716,7 +763,10 @@ exercises: [
     step: 1,
     xpPerUnit: 1,
     stat: "Dos",
-    pose: "core"
+    pose: "core",
+    description: "Allongé sur le ventre, soulève légèrement bras et jambes.",
+    shortDescription: "Soulève bras et jambes au sol.",
+    coachTip: "Monte peu, sans forcer le bas du dos."
   },
 
   // Bras
@@ -734,7 +784,10 @@ exercises: [
     step: 1,
     xpPerUnit: 1,
     stat: "Haut du corps",
-    pose: "core"
+    pose: "core",
+    description: "Pompes réalisées contre un mur pour réduire la difficulté.",
+    shortDescription: "Pompes contre un mur.",
+    coachTip: "Le mouvement doit rester fluide."
   },
   {
     id: "incline_pushups",
@@ -750,7 +803,10 @@ exercises: [
     step: 1,
     xpPerUnit: 1.2,
     stat: "Haut du corps",
-    pose: "core"
+    pose: "core",
+    description: "Pompes avec les mains sur une table ou un support surélevé.",
+    shortDescription: "Pompes sur un support surélevé.",
+    coachTip: "Plus le support est haut, plus c’est facile."
   },
   {
     id: "pushups",
@@ -895,6 +951,7 @@ exercises: [
     xpPerUnit: 1,
     stat: "Épaules / gainage bras",
     pose: "core"
+    
   },
 
   // Abdos / gainage
@@ -913,7 +970,10 @@ exercises: [
     xpPerUnit: 0.28,
     stat: "Stabilité",
     pose: "core",
-    hasTimer: true
+    hasTimer: true,
+    description: "Maintiens le corps droit en appui sur les avant-bras ou les mains.",
+    shortDescription: "Corps droit et immobile.",
+    coachTip: "Mieux vaut 20 secondes propres qu’une minute bancale."
   },
   {
     id: "knee_plank",
@@ -931,6 +991,25 @@ exercises: [
     stat: "Stabilité",
     pose: "core",
     hasTimer: true
+  },
+  {
+    id: "bird_dog",
+    categoryId: "core",
+    title: "Bird Dog",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
+    unit: "répétitions",
+    defaultValue: 12,
+    min: 2,
+    step: 2,
+    xpPerUnit: 1,
+    stat: "Équilibre / dos",
+    pose: "core",
+    description: "À quatre pattes, tends simultanément un bras et la jambe opposée.",
+    shortDescription: "Bras et jambe opposés tendus.",
+    coachTip: "Cherche l’équilibre avant la vitesse."
   },
   {
     id: "side_plank_knees",
@@ -1115,6 +1194,9 @@ exercises: [
     stat: "Mobilité hanches",
     pose: "stretch",
     hasTimer: true
+    description: "Mains sur les hanches, fais des cercles lents avec le bassin.",
+    shortDescription: "Fais tourner ton bassin lentement.",
+    coachTip: "Le mouvement doit rester doux et contrôlé."
   },
   {
     id: "thoracic_rotation",
@@ -1148,6 +1230,26 @@ exercises: [
     stat: "Respiration / posture",
     pose: "core",
     hasTimer: true
+  },
+{
+    id: "slow_breathing",
+    categoryId: "mobility",
+    title: "Respiration profonde",
+    images: {
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    },
+    unit: "min",
+    defaultValue: 1,
+    min: 1,
+    step: 1,
+    xpPerUnit: 1,
+    stat: "Respiration / posture",
+    pose: "core",
+    hasTimer: true,
+    description: "Inspire lentement par le nez puis expire doucement par la bouche.",
+    shortDescription: "Inspire calmement, expire lentement.",
+    coachTip: "Allonge surtout l’expiration."
   },
   {
     id: "slow_breathing",
@@ -1215,7 +1317,10 @@ exercises: [
     xpPerUnit: 1,
     stat: "Retour au calme",
     pose: "stretch",
-    hasTimer: true
+    hasTimer: true,
+    description: "Étire doucement les muscles sans douleur ni à-coups.",
+    shortDescription: "Allonge doucement les muscles.",
+    coachTip: "Tu dois sentir l’étirement, jamais la douleur." 
   },
   {
     id: "shoulder_arm_stretch",
@@ -1242,223 +1347,435 @@ exercises: [
   programDetails: {
     "eveil-heros": {
       id: "eveil-heros",
-      days: [
-        {
-          day: 1,
-          title: "Découverte douce",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
-            { phase: "Mobilité", exerciseId: "cat_cow", amount: 1, unit: "min" },
-            { phase: "Renfo doux", exerciseId: "chair_squat", amount: 8, unit: "répétitions" },
-            { phase: "Renfo doux", exerciseId: "wall_pushups", amount: 8, unit: "répétitions" },
-            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
-          ]
-        },
-        {
-          day: 2,
-          title: "Remise en mouvement",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "walk", amount: 5, unit: "min" },
-            { phase: "Mobilité", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
-            { phase: "Renfo doux", exerciseId: "chair_squat", amount: 10, unit: "répétitions" },
-            { phase: "Renfo doux", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
-            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
-          ]
-        },
-        {
-          day: 3,
-          title: "Première vraie quête",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 3, unit: "min" },
-            { phase: "Cardio doux", exerciseId: "walk", amount: 10, unit: "min" },
-            { phase: "Renfo doux", exerciseId: "chair_squat", amount: 10, unit: "répétitions" },
-            { phase: "Fessiers", exerciseId: "bridge", amount: 12, unit: "répétitions" },
-            { phase: "Retour au calme", exerciseId: "slow_breathing", amount: 2, unit: "min" }
-          ]
-        }
-      ],
-      progression: [
-        "Semaine 1 : découverte, peu de répétitions.",
-        "Semaine 2 : +1 série sur squat chaise.",
-        "Semaine 3 : +30 sec de cardio.",
-        "Semaine 4 : passage vers Forge du guerrier ou Cœur de dragon."
-      ]
+      subtitle: "Une reprise douce pour débutant complet ou retour après plusieurs mois.",
+      unlockLevel: 1,
+      duration: "15 à 30 min",
+      frequency: "3 séances par semaine",
+      reward: {
+        badgeId: "heros-eveille",
+        badgeTitle: "Héros Éveillé",
+        chest: true,
+        nextPrograms: ["forge-guerrier", "marche-aventurier"]
     },
+  
+    {
+        day: 1,
+        title: "Réveil du Corps",
+        xp: 50,
+        difficultyLabel: "Semaine 1 · L’Appel de l’Aventure",
+        exercises: [
+          { phase: "Échauffement", exerciseId: "march_on_spot", amount: 3, unit: "min" },
+          { phase: "Mobilité", exerciseId: "arm_circles", amount: 20, unit: "répétitions" },
+          { phase: "Mobilité", exerciseId: "hip_circles", amount: 20, unit: "répétitions" },
+          { phase: "Jambes", exerciseId: "chair_squat", amount: 8, unit: "répétitions" },
+          { phase: "Cardio doux", exerciseId: "slow_knee_raises", amount: 20, unit: "répétitions" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+        ]
+      },
+      {
+        day: 2,
+        title: "Fondation du Héros",
+        xp: 50,
+        difficultyLabel: "Semaine 1 · L’Appel de l’Aventure",
+        exercises: [
+          { phase: "Échauffement", exerciseId: "march_on_spot", amount: 3, unit: "min" },
+          { phase: "Haut du corps", exerciseId: "wall_pushups", amount: 8, unit: "répétitions" },
+          { phase: "Jambes", exerciseId: "wall_sit", amount: 20, unit: "sec" },
+          { phase: "Dos / équilibre", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+          { phase: "Gainage", exerciseId: "core", amount: 15, unit: "sec" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+        ]
+      },
+      {
+        day: 3,
+        title: "Endurance de l’Aventurier",
+        xp: 50,
+        difficultyLabel: "Semaine 1 · L’Appel de l’Aventure",
+        exercises: [
+          { phase: "Endurance", exerciseId: "walk", amount: 15, unit: "min", distanceOptional: true },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+        ]
+      }
+    ],
+  
+   weeks: [
+      {
+        week: 1,
+        title: "L’Appel de l’Aventure",
+        xp: 50,
+        progression: "Découverte douce, aucun exercice punitif. On réveille le corps sans le brusquer.",
+        days: [
+          {
+            day: 1,
+            title: "Réveil du Corps",
+            xp: 50,
+            difficultyLabel: "≈ 15 min",
+            exercises: [
+              { phase: "Échauffement", exerciseId: "march_on_spot", amount: 3, unit: "min" },
+              { phase: "Mobilité", exerciseId: "arm_circles", amount: 20, unit: "répétitions" },
+              { phase: "Mobilité", exerciseId: "hip_circles", amount: 20, unit: "répétitions" },
+              { phase: "Jambes", exerciseId: "chair_squat", amount: 8, unit: "répétitions" },
+              { phase: "Cardio doux", exerciseId: "slow_knee_raises", amount: 20, unit: "répétitions" },
+              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+            ]
+          },
+          {
+            day: 2,
+            title: "Fondation du Héros",
+            xp: 50,
+            difficultyLabel: "≈ 15 min",
+            exercises: [
+              { phase: "Échauffement", exerciseId: "march_on_spot", amount: 3, unit: "min" },
+              { phase: "Haut du corps", exerciseId: "wall_pushups", amount: 8, unit: "répétitions" },
+              { phase: "Jambes", exerciseId: "wall_sit", amount: 20, unit: "sec" },
+              { phase: "Dos / équilibre", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+              { phase: "Gainage", exerciseId: "core", amount: 15, unit: "sec" },
+              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+            ]
+          },
+          {
+            day: 3,
+            title: "Endurance de l’Aventurier",
+            xp: 50,
+            difficultyLabel: "≈ 20 min",
+            exercises: [
+              { phase: "Endurance", exerciseId: "walk", amount: 15, unit: "min", distanceOptional: true },
+              { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" },
+              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+            ]
+          }
+        ]
+      },
 
-    "coeur-dragon": {
-      id: "coeur-dragon",
-      days: [
-        {
-          day: 1,
-          title: "Cardio sans saut",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "walk", amount: 5, unit: "min" },
-            { phase: "Cardio", exerciseId: "run_treadmill", amount: 10, unit: "min" },
-            { phase: "Renfo", exerciseId: "squats", amount: 10, unit: "répétitions" },
-            { phase: "Gainage", exerciseId: "knee_plank", amount: 20, unit: "sec" },
-            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 5, unit: "min" }
-          ]
-        },
-        {
-          day: 2,
-          title: "Souffle du dragon",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 3, unit: "min" },
-            { phase: "Cardio", exerciseId: "run_outdoor", amount: 15, unit: "min" },
-            { phase: "Jambes", exerciseId: "squats", amount: 12, unit: "répétitions" },
-            { phase: "Centre", exerciseId: "core", amount: 20, unit: "sec" },
-            { phase: "Retour au calme", exerciseId: "slow_breathing", amount: 2, unit: "min" }
-          ]
-        }
-      ],
-      progression: [
-        "Niveaux 1-5 : sans saut.",
-        "Niveaux 6-10 : temps de cardio augmenté.",
-        "Niveaux 11-15 : ajout de burpees simplifiés.",
-        "Niveaux 16-20 : version intense avec intervalles."
-      ]
-    },
-    "bras-heros": {
-      id: "bras-heros",
-      subtitle: "Renforce tes bras, stabilise tes épaules, prépare-toi au prochain combat.",
-      material: "Poids du corps au début, puis haltères de 1 kg à partir de la semaine 3.",
-      days: [
-        {
-          day: 1,
-          title: "Phase 1 · Poids du corps",
-          xp: 35,
-          difficultyLabel: "Séance bras complète",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "arm_open_close", amount: 1, unit: "min" },
-            { phase: "Bras / poitrine", exerciseId: "wall_pushups", amount: 20, unit: "répétitions" },
-            { phase: "Bras / poitrine", exerciseId: "incline_pushups", amount: 16, unit: "répétitions" },
-            { phase: "Épaules", exerciseId: "incline_shoulder_taps", amount: 20, unit: "répétitions" },
-            { phase: "Triceps", exerciseId: "wall_triceps_extension", amount: 16, unit: "répétitions" },
-            { phase: "Gainage bras", exerciseId: "knee_plank", amount: 40, unit: "sec" },
-            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 2, unit: "min" }
-          ]
-        },
-        {
-          day: 2,
-          title: "Phase 2 · Haltères 1 kg",
-          xp: 40,
-          difficultyLabel: "Séance avec haltères",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
-            { phase: "Biceps", exerciseId: "biceps_curl_1kg", amount: 36, unit: "répétitions" },
-            { phase: "Biceps / avant-bras", exerciseId: "hammer_curl_1kg", amount: 24, unit: "répétitions" },
-            { phase: "Épaules", exerciseId: "lateral_raises_1kg", amount: 20, unit: "répétitions" },
-            { phase: "Épaules", exerciseId: "front_raises_1kg", amount: 20, unit: "répétitions" },
-            { phase: "Triceps", exerciseId: "triceps_kickback_1kg", amount: 20, unit: "répétitions" },
-            { phase: "Épaules / bras", exerciseId: "shoulder_press_1kg", amount: 20, unit: "répétitions" },
-            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 2, unit: "min" }
-          ]
-        },
-        {
-          day: 3,
-          title: "Séance express",
-          xp: 20,
-          difficultyLabel: "Séance bras courte",
-          exercises: [
-            { phase: "Bras / poitrine", exerciseId: "wall_pushups", amount: 20, unit: "répétitions" },
-            { phase: "Biceps", exerciseId: "biceps_curl_1kg", amount: 24, unit: "répétitions" },
-            { phase: "Épaules", exerciseId: "lateral_raises_1kg", amount: 20, unit: "répétitions" },
-            { phase: "Triceps", exerciseId: "triceps_kickback_1kg", amount: 20, unit: "répétitions" },
-            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" }
-          ]
-        }
-      ],
-      progression: [
-        "Semaine 1 : poids du corps facile.",
-        "Semaine 2 : poids du corps avec une série en plus si tout va bien.",
-        "Semaine 3 : introduction des haltères de 1 kg.",
-        "Semaine 4 : haltères 1 kg avec répétitions plus lentes."
-      ],
-      notes: [
-        "Pompes murales : mains contre un mur, poitrine vers le mur, repousse lentement.",
-        "Taps épaules inclinés : en appui sur table ou mur, touche l’épaule opposée sans bouger le bassin.",
-        "Extension triceps contre un mur : garde les coudes près du corps.",
-        "Curl biceps : monte les haltères sans balancer le corps.",
-        "Élévations latérales et frontales : monte jusqu’à hauteur des épaules, puis redescends lentement.",
-        "Kickback triceps : coude près du corps, tends le bras vers l’arrière.",
-        "Développé épaules : pousse vers le haut sans cambrer le dos."
-      ]
-    },
-    "cavalier-route": {
-      id: "cavalier-route",
-      subtitle: "Prépare tes jambes, renforce ton souffle, roule plus longtemps.",
-      material: "Poids du corps, éventuellement haltères 1 kg à partir de la semaine 3.",
-      days: [
-        {
-          day: 1,
-          title: "Séance débutant",
-          xp: 25,
-          difficultyLabel: "Séance préparation vélo courte",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
-            { phase: "Mobilité", exerciseId: "hip_circles", amount: 60, unit: "sec" },
-            { phase: "Mobilité", exerciseId: "slow_knee_raises", amount: 60, unit: "sec" },
-            { phase: "Jambes", exerciseId: "chair_squat", amount: 20, unit: "répétitions" },
-            { phase: "Jambes", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
-            { phase: "Fessiers", exerciseId: "bridge", amount: 24, unit: "répétitions" },
-            { phase: "Mollets", exerciseId: "calf_raises", amount: 30, unit: "répétitions" },
-            { phase: "Gainage", exerciseId: "knee_plank", amount: 40, unit: "sec" },
-            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 3, unit: "min" }
-          ]
-        },
-        {
-          day: 2,
-          title: "Séance intermédiaire",
-          xp: 40,
-          difficultyLabel: "Séance complète",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 3, unit: "min" },
-            { phase: "Cardio", exerciseId: "side_steps", amount: 90, unit: "sec" },
-            { phase: "Jambes", exerciseId: "squats", amount: 36, unit: "répétitions" },
-            { phase: "Jambes", exerciseId: "reverse_lunges", amount: 24, unit: "répétitions" },
-            { phase: "Fessiers", exerciseId: "single_leg_bridge_alternate", amount: 16, unit: "répétitions" },
-            { phase: "Mollets", exerciseId: "calf_raises", amount: 45, unit: "répétitions" },
-            { phase: "Gainage", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
-            { phase: "Gainage", exerciseId: "core", amount: 75, unit: "sec" },
-            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 3, unit: "min" }
-          ]
-        },
-        {
-          day: 3,
-          title: "Mini-quête vélo réel",
-          xp: 30,
-          difficultyLabel: "Sortie vélo facile",
-          exercises: [
-            { phase: "Échauffement très facile", exerciseId: "bike", amount: 5, unit: "min", distanceOptional: true },
-            { phase: "Rythme confortable", exerciseId: "bike", amount: 20, unit: "min", distanceOptional: true },
-            { phase: "Petites accélérations", exerciseId: "bike", amount: 1, unit: "min", distanceOptional: true },
-            { phase: "Retour au calme", exerciseId: "bike", amount: 5, unit: "min", distanceOptional: true }
-          ]
-        },
-        {
-          day: 4,
-          title: "Sortie longue du week-end",
-          xp: 50,
-          difficultyLabel: "Sortie vélo longue",
-          exercises: [
-            { phase: "Vélo facile à modéré", exerciseId: "bike", amount: 45, unit: "min", distanceOptional: true }
-          ]
-        }
-      ],
-      progression: [
-        "Semaine 1 : apprendre les mouvements et protéger les genoux.",
-        "Semaine 2 : ajouter quelques répétitions.",
-        "Semaine 3 : ajouter les haltères 1 kg ou allonger la sortie vélo.",
-        "Semaine 4 : ajouter une séance vélo bonus ou une série de plus.",
-        "Avec 1 kg, l’objectif n’est pas la force brute, mais le contrôle et la stabilité."
-      ],
-      notes: [
-        "Les haltères 1 kg peuvent être utilisés sur les squats, les fentes arrière, les montées sur pointes et la marche dynamique.",
-        "Pas d’haltères sur le gainage.",
-        "Ce programme complète Marche de l’aventurier et Forge du guerrier."
-      ]
-    },
+      {
+        week: 2,
+        title: "Premiers Pas du Héros",
+        xp: 60,
+        progression: "On augmente un peu le volume, sans changer l’esprit : propre, accessible, rassurant.",
+        days: [
+          {
+            day: 1,
+            title: "Réveil du Corps",
+            xp: 60,
+            difficultyLabel: "≈ 18 min",
+            exercises: [
+              { phase: "Échauffement", exerciseId: "march_on_spot", amount: 4, unit: "min" },
+              { phase: "Mobilité", exerciseId: "arm_circles", amount: 30, unit: "répétitions" },
+              { phase: "Mobilité", exerciseId: "hip_circles", amount: 30, unit: "répétitions" },
+              { phase: "Jambes", exerciseId: "squats", amount: 12, unit: "répétitions" },
+              { phase: "Cardio doux", exerciseId: "slow_knee_raises", amount: 30, unit: "répétitions" },
+              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 4, unit: "min" }
+            ]
+          },
+          {
+            day: 2,
+            title: "Fondation du Héros",
+            xp: 60,
+            difficultyLabel: "≈ 18 min",
+            exercises: [
+              { phase: "Échauffement", exerciseId: "walk", amount: 4, unit: "min" },
+              { phase: "Haut du corps", exerciseId: "wall_pushups", amount: 12, unit: "répétitions" },
+              { phase: "Jambes", exerciseId: "wall_sit", amount: 30, unit: "sec" },
+              { phase: "Dos / équilibre", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+              { phase: "Gainage", exerciseId: "core", amount: 20, unit: "sec" },
+              { phase: "Dos", exerciseId: "superman", amount: 8, unit: "répétitions" }
+            ]
+          },
+          {
+            day: 3,
+            title: "Endurance de l’Aventurier",
+            xp: 60,
+            difficultyLabel: "≈ 24 min",
+            exercises: [
+              { phase: "Endurance", exerciseId: "walk", amount: 20, unit: "min", distanceOptional: true },
+              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 4, unit: "min" }
+            ]
+          }
+        ]
+      },
+
+      {
+        week: 3,
+        title: "Entraînement du Novice",
+        xp: 70,
+        progression: "Le héros prend confiance : un peu plus de jambes, un peu plus de souffle, toujours sans punition.",
+        days: [
+          {
+            day: 1,
+            title: "Réveil du Corps",
+            xp: 70,
+            difficultyLabel: "≈ 22 min",
+            exercises: [
+              { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 5, unit: "min" },
+              { phase: "Jambes", exerciseId: "squats", amount: 15, unit: "répétitions" },
+              { phase: "Jambes", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
+              { phase: "Cardio doux", exerciseId: "slow_knee_raises", amount: 40, unit: "répétitions" },
+              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 4, unit: "min" }
+            ]
+          },
+          {
+            day: 2,
+            title: "Fondation du Héros",
+            xp: 70,
+            difficultyLabel: "≈ 22 min",
+            exercises: [
+              { phase: "Haut du corps", exerciseId: "incline_pushups", amount: 10, unit: "répétitions" },
+              { phase: "Jambes", exerciseId: "wall_sit", amount: 40, unit: "sec" },
+              { phase: "Dos / équilibre", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+              { phase: "Dos", exerciseId: "superman", amount: 10, unit: "répétitions" },
+              { phase: "Gainage", exerciseId: "core", amount: 25, unit: "sec" }
+            ]
+          },
+          {
+            day: 3,
+            title: "Endurance de l’Aventurier",
+            xp: 70,
+            difficultyLabel: "≈ 30 min",
+            exercises: [
+              { phase: "Endurance", exerciseId: "dynamic_walk", amount: 25, unit: "min", distanceOptional: true },
+              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
+            ]
+          }
+        ]
+      },
+
+      {
+        week: 4,
+        title: "Le Héros s’Éveille",
+        xp: 80,
+        progression: "Dernière semaine : le héros termine la reprise et peut choisir sa prochaine voie.",
+        days: [
+          {
+            day: 1,
+            title: "Réveil du Corps",
+            xp: 80,
+            difficultyLabel: "≈ 25 min",
+            exercises: [
+              { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 5, unit: "min" },
+              { phase: "Jambes", exerciseId: "squats", amount: 20, unit: "répétitions" },
+              { phase: "Jambes", exerciseId: "reverse_lunges", amount: 20, unit: "répétitions" },
+              { phase: "Cardio doux", exerciseId: "slow_knee_raises", amount: 50, unit: "répétitions" },
+              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
+            ]
+          },
+          {
+            day: 2,
+            title: "Fondation du Héros",
+            xp: 80,
+            difficultyLabel: "≈ 25 min",
+            exercises: [
+              { phase: "Haut du corps", exerciseId: "incline_pushups", amount: 12, unit: "répétitions" },
+              { phase: "Jambes", exerciseId: "wall_sit", amount: 45, unit: "sec" },
+              { phase: "Dos / équilibre", exerciseId: "bird_dog", amount: 24, unit: "répétitions" },
+              { phase: "Dos", exerciseId: "superman", amount: 12, unit: "répétitions" },
+              { phase: "Gainage", exerciseId: "core", amount: 30, unit: "sec" }
+            ]
+          },
+          {
+            day: 3,
+            title: "Endurance de l’Aventurier",
+            xp: 80,
+            difficultyLabel: "≈ 35 min",
+            exercises: [
+              { phase: "Endurance", exerciseId: "dynamic_walk", amount: 30, unit: "min", distanceOptional: true },
+              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
+            ]
+          }
+        ]
+      }
+    ],
+  
+    progression: [
+      "Semaine 1 : L’Appel de l’Aventure · découvrir sans se punir.",
+      "Semaine 2 : Premiers Pas du Héros · augmenter doucement.",
+      "Semaine 3 : Entraînement du Novice · construire la régularité.",
+      "Semaine 4 : Le Héros s’Éveille · terminer la reprise.",
+      "Récompense : badge Héros Éveillé, coffre de récompense, puis choix entre Forge du Guerrier ou Marche de l’Aventurier."
+    ],
+  
+    notes: [
+      "Objectif : débutant complet ou reprise après plusieurs mois.",
+      "3 séances différentes par semaine.",
+      "Progression douce.",
+      "Aucune séance punitive."
+    ]
+  },
+  
+      "coeur-dragon": {
+        id: "coeur-dragon",
+        days: [
+          {
+            day: 1,
+            title: "Cardio sans saut",
+            exercises: [
+              { phase: "Échauffement", exerciseId: "walk", amount: 5, unit: "min" },
+              { phase: "Cardio", exerciseId: "run_treadmill", amount: 10, unit: "min" },
+              { phase: "Renfo", exerciseId: "squats", amount: 10, unit: "répétitions" },
+              { phase: "Gainage", exerciseId: "knee_plank", amount: 20, unit: "sec" },
+              { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 5, unit: "min" }
+            ]
+          },
+          {
+            day: 2,
+            title: "Souffle du dragon",
+            exercises: [
+              { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 3, unit: "min" },
+              { phase: "Cardio", exerciseId: "run_outdoor", amount: 15, unit: "min" },
+              { phase: "Jambes", exerciseId: "squats", amount: 12, unit: "répétitions" },
+              { phase: "Centre", exerciseId: "core", amount: 20, unit: "sec" },
+              { phase: "Retour au calme", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+            ]
+          }
+        ],
+        progression: [
+          "Niveaux 1-5 : sans saut.",
+          "Niveaux 6-10 : temps de cardio augmenté.",
+          "Niveaux 11-15 : ajout de burpees simplifiés.",
+          "Niveaux 16-20 : version intense avec intervalles."
+        ]
+      },
+      "bras-heros": {
+        id: "bras-heros",
+        subtitle: "Renforce tes bras, stabilise tes épaules, prépare-toi au prochain combat.",
+        material: "Poids du corps au début, puis haltères de 1 kg à partir de la semaine 3.",
+        days: [
+          {
+            day: 1,
+            title: "Phase 1 · Poids du corps",
+            xp: 35,
+            difficultyLabel: "Séance bras complète",
+            exercises: [
+              { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+              { phase: "Échauffement", exerciseId: "arm_open_close", amount: 1, unit: "min" },
+              { phase: "Bras / poitrine", exerciseId: "wall_pushups", amount: 20, unit: "répétitions" },
+              { phase: "Bras / poitrine", exerciseId: "incline_pushups", amount: 16, unit: "répétitions" },
+              { phase: "Épaules", exerciseId: "incline_shoulder_taps", amount: 20, unit: "répétitions" },
+              { phase: "Triceps", exerciseId: "wall_triceps_extension", amount: 16, unit: "répétitions" },
+              { phase: "Gainage bras", exerciseId: "knee_plank", amount: 40, unit: "sec" },
+              { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 2, unit: "min" }
+            ]
+          },
+          {
+            day: 2,
+            title: "Phase 2 · Haltères 1 kg",
+            xp: 40,
+            difficultyLabel: "Séance avec haltères",
+            exercises: [
+              { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+              { phase: "Biceps", exerciseId: "biceps_curl_1kg", amount: 36, unit: "répétitions" },
+              { phase: "Biceps / avant-bras", exerciseId: "hammer_curl_1kg", amount: 24, unit: "répétitions" },
+              { phase: "Épaules", exerciseId: "lateral_raises_1kg", amount: 20, unit: "répétitions" },
+              { phase: "Épaules", exerciseId: "front_raises_1kg", amount: 20, unit: "répétitions" },
+              { phase: "Triceps", exerciseId: "triceps_kickback_1kg", amount: 20, unit: "répétitions" },
+              { phase: "Épaules / bras", exerciseId: "shoulder_press_1kg", amount: 20, unit: "répétitions" },
+              { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 2, unit: "min" }
+            ]
+          },
+          {
+            day: 3,
+            title: "Séance express",
+            xp: 20,
+            difficultyLabel: "Séance bras courte",
+            exercises: [
+              { phase: "Bras / poitrine", exerciseId: "wall_pushups", amount: 20, unit: "répétitions" },
+              { phase: "Biceps", exerciseId: "biceps_curl_1kg", amount: 24, unit: "répétitions" },
+              { phase: "Épaules", exerciseId: "lateral_raises_1kg", amount: 20, unit: "répétitions" },
+              { phase: "Triceps", exerciseId: "triceps_kickback_1kg", amount: 20, unit: "répétitions" },
+              { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" }
+            ]
+          }
+        ],
+        progression: [
+          "Semaine 1 : poids du corps facile.",
+          "Semaine 2 : poids du corps avec une série en plus si tout va bien.",
+          "Semaine 3 : introduction des haltères de 1 kg.",
+          "Semaine 4 : haltères 1 kg avec répétitions plus lentes."
+        ],
+        notes: [
+          "Pompes murales : mains contre un mur, poitrine vers le mur, repousse lentement.",
+          "Taps épaules inclinés : en appui sur table ou mur, touche l’épaule opposée sans bouger le bassin.",
+          "Extension triceps contre un mur : garde les coudes près du corps.",
+          "Curl biceps : monte les haltères sans balancer le corps.",
+          "Élévations latérales et frontales : monte jusqu’à hauteur des épaules, puis redescends lentement.",
+          "Kickback triceps : coude près du corps, tends le bras vers l’arrière.",
+          "Développé épaules : pousse vers le haut sans cambrer le dos."
+        ]
+      },
+      "cavalier-route": {
+        id: "cavalier-route",
+        subtitle: "Prépare tes jambes, renforce ton souffle, roule plus longtemps.",
+        material: "Poids du corps, éventuellement haltères 1 kg à partir de la semaine 3.",
+        days: [
+          {
+            day: 1,
+            title: "Séance débutant",
+            xp: 25,
+            difficultyLabel: "Séance préparation vélo courte",
+            exercises: [
+              { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
+              { phase: "Mobilité", exerciseId: "hip_circles", amount: 60, unit: "sec" },
+              { phase: "Mobilité", exerciseId: "slow_knee_raises", amount: 60, unit: "sec" },
+              { phase: "Jambes", exerciseId: "chair_squat", amount: 20, unit: "répétitions" },
+              { phase: "Jambes", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
+              { phase: "Fessiers", exerciseId: "bridge", amount: 24, unit: "répétitions" },
+              { phase: "Mollets", exerciseId: "calf_raises", amount: 30, unit: "répétitions" },
+              { phase: "Gainage", exerciseId: "knee_plank", amount: 40, unit: "sec" },
+              { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 3, unit: "min" }
+            ]
+          },
+          {
+            day: 2,
+            title: "Séance intermédiaire",
+            xp: 40,
+            difficultyLabel: "Séance complète",
+            exercises: [
+              { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 3, unit: "min" },
+              { phase: "Cardio", exerciseId: "side_steps", amount: 90, unit: "sec" },
+              { phase: "Jambes", exerciseId: "squats", amount: 36, unit: "répétitions" },
+              { phase: "Jambes", exerciseId: "reverse_lunges", amount: 24, unit: "répétitions" },
+              { phase: "Fessiers", exerciseId: "single_leg_bridge_alternate", amount: 16, unit: "répétitions" },
+              { phase: "Mollets", exerciseId: "calf_raises", amount: 45, unit: "répétitions" },
+              { phase: "Gainage", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+              { phase: "Gainage", exerciseId: "core", amount: 75, unit: "sec" },
+              { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 3, unit: "min" }
+            ]
+          },
+          {
+            day: 3,
+            title: "Mini-quête vélo réel",
+            xp: 30,
+            difficultyLabel: "Sortie vélo facile",
+            exercises: [
+              { phase: "Échauffement très facile", exerciseId: "bike", amount: 5, unit: "min", distanceOptional: true },
+              { phase: "Rythme confortable", exerciseId: "bike", amount: 20, unit: "min", distanceOptional: true },
+              { phase: "Petites accélérations", exerciseId: "bike", amount: 1, unit: "min", distanceOptional: true },
+              { phase: "Retour au calme", exerciseId: "bike", amount: 5, unit: "min", distanceOptional: true }
+            ]
+          },
+          {
+            day: 4,
+            title: "Sortie longue du week-end",
+            xp: 50,
+            difficultyLabel: "Sortie vélo longue",
+            exercises: [
+              { phase: "Vélo facile à modéré", exerciseId: "bike", amount: 45, unit: "min", distanceOptional: true }
+            ]
+          }
+        ],
+        progression: [
+          "Semaine 1 : apprendre les mouvements et protéger les genoux.",
+          "Semaine 2 : ajouter quelques répétitions.",
+          "Semaine 3 : ajouter les haltères 1 kg ou allonger la sortie vélo.",
+          "Semaine 4 : ajouter une séance vélo bonus ou une série de plus.",
+          "Avec 1 kg, l’objectif n’est pas la force brute, mais le contrôle et la stabilité."
+        ],
+        notes: [
+          "Les haltères 1 kg peuvent être utilisés sur les squats, les fentes arrière, les montées sur pointes et la marche dynamique.",
+          "Pas d’haltères sur le gainage.",
+          "Ce programme complète Marche de l’aventurier et Forge du guerrier."
+        ]
+      },
 
     "forge-guerrier": {
       id: "forge-guerrier",
@@ -1664,6 +1981,15 @@ exercises: [
       target: 5
     },
     {
+      id: "heros-eveille",
+      icon: "🌅",
+      title: "Héros Éveillé",
+      description: "Terminer les 12 séances du programme Éveil du héros.",
+      type: "program",
+      programId: "eveil-heros",
+      target: 12
+    },
+    {
       id: "cyclist",
       icon: "🚴",
       title: "Cycliste novice",
@@ -1773,482 +2099,3 @@ window.FitnessRpgData.getCoachMessage = function getCoachMessage(coachId, type =
 
   return list[Math.floor(Math.random() * list.length)];
 };
-// ============================================================
-// V5.12 - Programme Éveil du héros
-// ------------------------------------------------------------
-// Reprise douce · 4 semaines · 3 séances / semaine
-// ============================================================
-
-(function setupEveilDuHerosV512() {
-  const data = window.FitnessRpgData;
-
-  if (!data) return;
-
-  if (!Array.isArray(data.exercises)) {
-    data.exercises = [];
-  }
-
-  if (!data.programDetails) {
-    data.programDetails = {};
-  }
-
-  if (!Array.isArray(data.badges)) {
-    data.badges = [];
-  }
-
-  function addExerciseIfMissing(exercise) {
-    const exists = data.exercises.some((item) => item.id === exercise.id);
-
-    if (!exists) {
-      data.exercises.push(exercise);
-    }
-  }
-
-  function patchExercise(id, patch) {
-    const exercise = data.exercises.find((item) => item.id === id);
-
-    if (exercise) {
-      Object.assign(exercise, patch);
-    }
-  }
-
-  // ------------------------------------------------------------
-  // Exercices manquants
-  // ------------------------------------------------------------
-
-  addExerciseIfMissing({
-    id: "wall_sit",
-    categoryId: "strength",
-    title: "Chaise contre un mur",
-    images: {
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
-    unit: "sec",
-    defaultValue: 20,
-    min: 10,
-    step: 5,
-    xpPerUnit: 0.35,
-    stat: "Jambes / endurance",
-    pose: "squats",
-    hasTimer: true,
-    description: "Dos au mur, reste assis dans une position imaginaire.",
-    shortDescription: "Tiens une position assise contre un mur.",
-    coachTip: "Garde le dos contre le mur et respire calmement."
-  });
-
-  addExerciseIfMissing({
-    id: "bird_dog",
-    categoryId: "core",
-    title: "Bird Dog",
-    images: {
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
-    unit: "répétitions",
-    defaultValue: 12,
-    min: 2,
-    step: 2,
-    xpPerUnit: 1,
-    stat: "Équilibre / dos",
-    pose: "core",
-    description: "À quatre pattes, tends simultanément un bras et la jambe opposée.",
-    shortDescription: "Bras et jambe opposés tendus.",
-    coachTip: "Cherche l’équilibre avant la vitesse."
-  });
-
-  // ------------------------------------------------------------
-  // Descriptions courtes des exercices utilisés
-  // ------------------------------------------------------------
-
-  patchExercise("march_on_spot", {
-    title: "Marche sur place",
-    description: "Marche sans avancer en levant naturellement les pieds.",
-    shortDescription: "Marche sans bouger de ta position.",
-    coachTip: "Commence tranquille, puis trouve ton rythme."
-  });
-
-  patchExercise("walk", {
-    title: "Marche active",
-    description: "Marche à un rythme soutenu permettant encore de parler.",
-    shortDescription: "Marche à rythme soutenu.",
-    coachTip: "Tu dois pouvoir parler, mais pas chanter."
-  });
-
-  patchExercise("dynamic_walk", {
-    title: "Marche rapide",
-    description: "Marche énergique avec les bras qui accompagnent le mouvement.",
-    shortDescription: "Marche énergique avec les bras.",
-    coachTip: "Garde le regard devant et les épaules basses."
-  });
-
-  patchExercise("arm_circles", {
-    title: "Cercles de bras",
-    description: "Tends les bras et dessine de grands cercles vers l’avant puis l’arrière.",
-    shortDescription: "Dessine des cercles avec les bras.",
-    coachTip: "Fais des cercles lents, sans hausser les épaules."
-  });
-
-  patchExercise("hip_circles", {
-    title: "Rotations de hanches",
-    description: "Mains sur les hanches, fais des cercles lents avec le bassin.",
-    shortDescription: "Fais tourner ton bassin lentement.",
-    coachTip: "Le mouvement doit rester doux et contrôlé."
-  });
-
-  patchExercise("chair_squat", {
-    title: "Squat assisté",
-    description: "Assieds-toi légèrement vers l’arrière en t’aidant d’une chaise ou d’un mur.",
-    shortDescription: "Assieds-toi puis relève-toi avec aide.",
-    coachTip: "Garde les talons au sol."
-  });
-
-  patchExercise("squats", {
-    title: "Squat",
-    description: "Fléchis les jambes comme pour t’asseoir puis remonte.",
-    shortDescription: "Descends comme pour t’asseoir puis remonte.",
-    coachTip: "Genoux souples, dos fier, mouvement propre."
-  });
-
-  patchExercise("assisted_reverse_lunges", {
-    title: "Fente assistée",
-    description: "Fais un pas en arrière et plie légèrement les jambes en gardant un appui.",
-    shortDescription: "Fente avec appui pour garder l’équilibre.",
-    coachTip: "Utilise une chaise ou un mur si besoin."
-  });
-
-  patchExercise("reverse_lunges", {
-    title: "Fente",
-    description: "Fais un grand pas en arrière puis descends le genou arrière vers le sol.",
-    shortDescription: "Grand pas arrière puis descente contrôlée.",
-    coachTip: "Descends peu au début. La maîtrise d’abord."
-  });
-
-  patchExercise("slow_knee_raises", {
-    title: "Montées de genoux",
-    description: "Monte alternativement les genoux devant toi à hauteur confortable.",
-    shortDescription: "Monte les genoux alternativement.",
-    coachTip: "Reste droit et garde une respiration régulière."
-  });
-
-  patchExercise("wall_pushups", {
-    title: "Pompes murales",
-    description: "Pompes réalisées contre un mur pour réduire la difficulté.",
-    shortDescription: "Pompes contre un mur.",
-    coachTip: "Le mouvement doit rester fluide."
-  });
-
-  patchExercise("incline_pushups", {
-    title: "Pompes inclinées",
-    description: "Pompes avec les mains sur une table ou un support surélevé.",
-    shortDescription: "Pompes sur un support surélevé.",
-    coachTip: "Plus le support est haut, plus c’est facile."
-  });
-
-  patchExercise("core", {
-    title: "Gainage",
-    description: "Maintiens le corps droit en appui sur les avant-bras ou les mains.",
-    shortDescription: "Corps droit et immobile.",
-    coachTip: "Mieux vaut 20 secondes propres qu’une minute bancale."
-  });
-
-  patchExercise("superman", {
-    title: "Superman",
-    description: "Allongé sur le ventre, soulève légèrement bras et jambes.",
-    shortDescription: "Soulève bras et jambes au sol.",
-    coachTip: "Monte peu, sans forcer le bas du dos."
-  });
-
-  patchExercise("slow_breathing", {
-    title: "Respiration profonde",
-    description: "Inspire lentement par le nez puis expire doucement par la bouche.",
-    shortDescription: "Inspire calmement, expire lentement.",
-    coachTip: "Allonge surtout l’expiration."
-  });
-
-  patchExercise("gentle_back_stretch", {
-    title: "Étirements",
-    description: "Étire doucement les muscles sans douleur ni à-coups.",
-    shortDescription: "Allonge doucement les muscles.",
-    coachTip: "Tu dois sentir l’étirement, jamais la douleur."
-  });
-
-  // ------------------------------------------------------------
-  // Nouveau programme Éveil du héros
-  // ------------------------------------------------------------
-
-  data.programDetails["eveil-heros"] = {
-    id: "eveil-heros",
-    subtitle: "Une reprise douce pour débutant complet ou retour après plusieurs mois.",
-    unlockLevel: 1,
-    duration: "15 à 30 min",
-    frequency: "3 séances par semaine",
-    reward: {
-      badgeId: "heros-eveille",
-      badgeTitle: "Héros Éveillé",
-      chest: true,
-      nextPrograms: ["forge-guerrier", "marche-aventurier"]
-    },
-
-    // Fallback pour les anciennes fonctions qui ne lisent que days.
-    days: [
-      {
-        day: 1,
-        title: "Réveil du Corps",
-        xp: 50,
-        difficultyLabel: "Semaine 1 · L’Appel de l’Aventure",
-        exercises: [
-          { phase: "Échauffement", exerciseId: "march_on_spot", amount: 3, unit: "min" },
-          { phase: "Mobilité", exerciseId: "arm_circles", amount: 20, unit: "répétitions" },
-          { phase: "Mobilité", exerciseId: "hip_circles", amount: 20, unit: "répétitions" },
-          { phase: "Jambes", exerciseId: "chair_squat", amount: 8, unit: "répétitions" },
-          { phase: "Cardio doux", exerciseId: "slow_knee_raises", amount: 20, unit: "répétitions" },
-          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
-        ]
-      },
-      {
-        day: 2,
-        title: "Fondation du Héros",
-        xp: 50,
-        difficultyLabel: "Semaine 1 · L’Appel de l’Aventure",
-        exercises: [
-          { phase: "Échauffement", exerciseId: "march_on_spot", amount: 3, unit: "min" },
-          { phase: "Haut du corps", exerciseId: "wall_pushups", amount: 8, unit: "répétitions" },
-          { phase: "Jambes", exerciseId: "wall_sit", amount: 20, unit: "sec" },
-          { phase: "Dos / équilibre", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
-          { phase: "Gainage", exerciseId: "core", amount: 15, unit: "sec" },
-          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
-        ]
-      },
-      {
-        day: 3,
-        title: "Endurance de l’Aventurier",
-        xp: 50,
-        difficultyLabel: "Semaine 1 · L’Appel de l’Aventure",
-        exercises: [
-          { phase: "Endurance", exerciseId: "walk", amount: 15, unit: "min", distanceOptional: true },
-          { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" },
-          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
-        ]
-      }
-    ],
-
-    weeks: [
-      {
-        week: 1,
-        title: "L’Appel de l’Aventure",
-        xp: 50,
-        progression: "Découverte douce, aucun exercice punitif. On réveille le corps sans le brusquer.",
-        days: [
-          {
-            day: 1,
-            title: "Réveil du Corps",
-            xp: 50,
-            difficultyLabel: "≈ 15 min",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "march_on_spot", amount: 3, unit: "min" },
-              { phase: "Mobilité", exerciseId: "arm_circles", amount: 20, unit: "répétitions" },
-              { phase: "Mobilité", exerciseId: "hip_circles", amount: 20, unit: "répétitions" },
-              { phase: "Jambes", exerciseId: "chair_squat", amount: 8, unit: "répétitions" },
-              { phase: "Cardio doux", exerciseId: "slow_knee_raises", amount: 20, unit: "répétitions" },
-              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
-            ]
-          },
-          {
-            day: 2,
-            title: "Fondation du Héros",
-            xp: 50,
-            difficultyLabel: "≈ 15 min",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "march_on_spot", amount: 3, unit: "min" },
-              { phase: "Haut du corps", exerciseId: "wall_pushups", amount: 8, unit: "répétitions" },
-              { phase: "Jambes", exerciseId: "wall_sit", amount: 20, unit: "sec" },
-              { phase: "Dos / équilibre", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
-              { phase: "Gainage", exerciseId: "core", amount: 15, unit: "sec" },
-              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
-            ]
-          },
-          {
-            day: 3,
-            title: "Endurance de l’Aventurier",
-            xp: 50,
-            difficultyLabel: "≈ 20 min",
-            exercises: [
-              { phase: "Endurance", exerciseId: "walk", amount: 15, unit: "min", distanceOptional: true },
-              { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
-            ]
-          }
-        ]
-      },
-
-      {
-        week: 2,
-        title: "Premiers Pas du Héros",
-        xp: 60,
-        progression: "On augmente un peu le volume, sans changer l’esprit : propre, accessible, rassurant.",
-        days: [
-          {
-            day: 1,
-            title: "Réveil du Corps",
-            xp: 60,
-            difficultyLabel: "≈ 18 min",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "march_on_spot", amount: 4, unit: "min" },
-              { phase: "Mobilité", exerciseId: "arm_circles", amount: 30, unit: "répétitions" },
-              { phase: "Mobilité", exerciseId: "hip_circles", amount: 30, unit: "répétitions" },
-              { phase: "Jambes", exerciseId: "squats", amount: 12, unit: "répétitions" },
-              { phase: "Cardio doux", exerciseId: "slow_knee_raises", amount: 30, unit: "répétitions" },
-              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 4, unit: "min" }
-            ]
-          },
-          {
-            day: 2,
-            title: "Fondation du Héros",
-            xp: 60,
-            difficultyLabel: "≈ 18 min",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "walk", amount: 4, unit: "min" },
-              { phase: "Haut du corps", exerciseId: "wall_pushups", amount: 12, unit: "répétitions" },
-              { phase: "Jambes", exerciseId: "wall_sit", amount: 30, unit: "sec" },
-              { phase: "Dos / équilibre", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
-              { phase: "Gainage", exerciseId: "core", amount: 20, unit: "sec" },
-              { phase: "Dos", exerciseId: "superman", amount: 8, unit: "répétitions" }
-            ]
-          },
-          {
-            day: 3,
-            title: "Endurance de l’Aventurier",
-            xp: 60,
-            difficultyLabel: "≈ 24 min",
-            exercises: [
-              { phase: "Endurance", exerciseId: "walk", amount: 20, unit: "min", distanceOptional: true },
-              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 4, unit: "min" }
-            ]
-          }
-        ]
-      },
-
-      {
-        week: 3,
-        title: "Entraînement du Novice",
-        xp: 70,
-        progression: "Le héros prend confiance : un peu plus de jambes, un peu plus de souffle, toujours sans punition.",
-        days: [
-          {
-            day: 1,
-            title: "Réveil du Corps",
-            xp: 70,
-            difficultyLabel: "≈ 22 min",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 5, unit: "min" },
-              { phase: "Jambes", exerciseId: "squats", amount: 15, unit: "répétitions" },
-              { phase: "Jambes", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
-              { phase: "Cardio doux", exerciseId: "slow_knee_raises", amount: 40, unit: "répétitions" },
-              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 4, unit: "min" }
-            ]
-          },
-          {
-            day: 2,
-            title: "Fondation du Héros",
-            xp: 70,
-            difficultyLabel: "≈ 22 min",
-            exercises: [
-              { phase: "Haut du corps", exerciseId: "incline_pushups", amount: 10, unit: "répétitions" },
-              { phase: "Jambes", exerciseId: "wall_sit", amount: 40, unit: "sec" },
-              { phase: "Dos / équilibre", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
-              { phase: "Dos", exerciseId: "superman", amount: 10, unit: "répétitions" },
-              { phase: "Gainage", exerciseId: "core", amount: 25, unit: "sec" }
-            ]
-          },
-          {
-            day: 3,
-            title: "Endurance de l’Aventurier",
-            xp: 70,
-            difficultyLabel: "≈ 30 min",
-            exercises: [
-              { phase: "Endurance", exerciseId: "dynamic_walk", amount: 25, unit: "min", distanceOptional: true },
-              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
-            ]
-          }
-        ]
-      },
-
-      {
-        week: 4,
-        title: "Le Héros s’Éveille",
-        xp: 80,
-        progression: "Dernière semaine : le héros termine la reprise et peut choisir sa prochaine voie.",
-        days: [
-          {
-            day: 1,
-            title: "Réveil du Corps",
-            xp: 80,
-            difficultyLabel: "≈ 25 min",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 5, unit: "min" },
-              { phase: "Jambes", exerciseId: "squats", amount: 20, unit: "répétitions" },
-              { phase: "Jambes", exerciseId: "reverse_lunges", amount: 20, unit: "répétitions" },
-              { phase: "Cardio doux", exerciseId: "slow_knee_raises", amount: 50, unit: "répétitions" },
-              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
-            ]
-          },
-          {
-            day: 2,
-            title: "Fondation du Héros",
-            xp: 80,
-            difficultyLabel: "≈ 25 min",
-            exercises: [
-              { phase: "Haut du corps", exerciseId: "incline_pushups", amount: 12, unit: "répétitions" },
-              { phase: "Jambes", exerciseId: "wall_sit", amount: 45, unit: "sec" },
-              { phase: "Dos / équilibre", exerciseId: "bird_dog", amount: 24, unit: "répétitions" },
-              { phase: "Dos", exerciseId: "superman", amount: 12, unit: "répétitions" },
-              { phase: "Gainage", exerciseId: "core", amount: 30, unit: "sec" }
-            ]
-          },
-          {
-            day: 3,
-            title: "Endurance de l’Aventurier",
-            xp: 80,
-            difficultyLabel: "≈ 35 min",
-            exercises: [
-              { phase: "Endurance", exerciseId: "dynamic_walk", amount: 30, unit: "min", distanceOptional: true },
-              { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
-            ]
-          }
-        ]
-      }
-    ],
-
-    progression: [
-      "Semaine 1 : L’Appel de l’Aventure · découvrir sans se punir.",
-      "Semaine 2 : Premiers Pas du Héros · augmenter doucement.",
-      "Semaine 3 : Entraînement du Novice · construire la régularité.",
-      "Semaine 4 : Le Héros s’Éveille · terminer la reprise.",
-      "Récompense : badge Héros Éveillé, coffre de récompense, puis choix entre Forge du Guerrier ou Marche de l’Aventurier."
-    ],
-
-    notes: [
-      "Objectif : débutant complet ou reprise après plusieurs mois.",
-      "3 séances différentes par semaine.",
-      "Durée maximale visée : 15 à 30 minutes. Le jour 3 de semaine 4 peut atteindre environ 35 minutes si la marche est faite rapidement.",
-      "Aucune séance punitive : l’utilisateur doit finir avec l’impression d’avoir avancé, pas d’avoir été puni."
-    ]
-  };
-
-  // ------------------------------------------------------------
-  // Badge de fin de programme
-  // ------------------------------------------------------------
-
-  if (!data.badges.some((badge) => badge.id === "heros-eveille")) {
-    data.badges.push({
-      id: "heros-eveille",
-      icon: "🌅",
-      title: "Héros Éveillé",
-      description: "Terminer les 12 séances du programme Éveil du héros.",
-      type: "program",
-      programId: "eveil-heros",
-      target: 12
-    });
-  }
-})();
