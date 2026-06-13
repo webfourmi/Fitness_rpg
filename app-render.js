@@ -55,7 +55,111 @@ window.FitnessRpgRender.create = function create(tag, className = "", text = "")
 
   return element;
 };
+// ============================================================
+// Modal RPG globale
+// ============================================================
 
+window.FitnessRpgRender.escapeHtml = function escapeHtml(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+};
+
+window.FitnessRpgRender.ensureModal = function ensureModal() {
+  let overlay = document.querySelector("#rpgModalOverlay");
+
+  if (overlay) return overlay;
+
+  overlay = document.createElement("div");
+  overlay.id = "rpgModalOverlay";
+  overlay.className = "rpg-modal-overlay hidden";
+  overlay.setAttribute("aria-hidden", "true");
+
+  overlay.innerHTML = `
+    <section class="rpg-modal-card card" role="dialog" aria-modal="true" aria-labelledby="rpgModalTitle">
+      <div class="rpg-modal-icon" id="rpgModalIcon">⚔️</div>
+
+      <div class="rpg-modal-content">
+        <h2 id="rpgModalTitle">Message</h2>
+        <div id="rpgModalMessage" class="rpg-modal-message"></div>
+
+        <div id="rpgModalActions" class="rpg-modal-actions">
+          <button id="rpgModalOkButton" class="primary-btn" type="button">OK</button>
+        </div>
+      </div>
+    </section>
+  `;
+
+  document.body.appendChild(overlay);
+
+  return overlay;
+};
+
+window.FitnessRpgRender.showModal = function showModal(options = {}) {
+  const overlay = window.FitnessRpgRender.ensureModal();
+
+  const icon = overlay.querySelector("#rpgModalIcon");
+  const title = overlay.querySelector("#rpgModalTitle");
+  const message = overlay.querySelector("#rpgModalMessage");
+  const actions = overlay.querySelector("#rpgModalActions");
+
+  const modalIcon = options.icon || "⚔️";
+  const modalTitle = options.title || "Message du coach";
+  const modalMessage = options.message || "";
+  const okText = options.okText || "OK";
+  const onOk = typeof options.onOk === "function" ? options.onOk : null;
+
+  if (icon) icon.textContent = modalIcon;
+  if (title) title.textContent = modalTitle;
+
+  if (message) {
+    if (Array.isArray(modalMessage)) {
+      message.innerHTML = modalMessage
+        .map((line) => `<p>${window.FitnessRpgRender.escapeHtml(line)}</p>`)
+        .join("");
+    } else {
+      message.innerHTML = String(modalMessage)
+        .split("\n")
+        .map((line) => `<p>${window.FitnessRpgRender.escapeHtml(line)}</p>`)
+        .join("");
+    }
+  }
+
+  if (actions) {
+    actions.innerHTML = `
+      <button id="rpgModalOkButton" class="primary-btn" type="button">
+        ${window.FitnessRpgRender.escapeHtml(okText)}
+      </button>
+    `;
+  }
+
+  overlay.classList.remove("hidden");
+  overlay.setAttribute("aria-hidden", "false");
+
+  const okButton = overlay.querySelector("#rpgModalOkButton");
+
+  if (okButton) {
+    okButton.focus();
+
+    okButton.onclick = () => {
+      window.FitnessRpgRender.closeModal();
+
+      if (onOk) onOk();
+    };
+  }
+};
+
+window.FitnessRpgRender.closeModal = function closeModal() {
+  const overlay = document.querySelector("#rpgModalOverlay");
+
+  if (!overlay) return;
+
+  overlay.classList.add("hidden");
+  overlay.setAttribute("aria-hidden", "true");
+};
 // ============================================================
 // Pages
 // ============================================================
