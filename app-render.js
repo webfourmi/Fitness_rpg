@@ -489,29 +489,6 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
   }
 };
 
-  window.FitnessRpgRender.setText("#todayProgramTitle", quest.title);
-
-  window.FitnessRpgRender.setText(
-    "#todayProgramDescription",
-    `${quest.subtitle} · ${quest.description}`
-  );
-
-  const todayCard = document.querySelector("#todayCard");
-
-  if (todayCard) {
-    todayCard.dataset.programId = quest.programId;
-    todayCard.dataset.dayNumber = quest.day?.day || 1;
-    todayCard.dataset.source = quest.source || "quest";
-  }
-
-  const openButton = document.querySelector("#openTodayProgramButton");
-
-  if (openButton) {
-    openButton.dataset.programId = quest.programId;
-    openButton.dataset.dayNumber = quest.day?.day || 1;
-  }
-};
-
 // ============================================================
 // Objectif personnel
 // ============================================================
@@ -624,7 +601,11 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
     `;
   }).join("");
 
-  const doneCount = session.completedExerciseIds.length;
+  const doneCount = (
+  session.completedExerciseKeys
+  || session.completedExerciseIds
+  || []
+).length;
   const totalCount = day.exercises.length;
 
   const sessionHtml = `
@@ -672,17 +653,18 @@ window.FitnessRpgRender.renderPlanningPage = function renderPlanningPage() {
 
   if (!summary || !grid) return;
 
-  const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
-  const goal = window.FitnessRpgConfig.getGoalById(goalId);
+ const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
+const goal = window.FitnessRpgConfig.getGoalById(goalId);
 
-  const plan = window.FitnessRpgPrograms.getCombinedWeeklyPlan
+const todayQuest = window.FitnessRpgPrograms.getTodayPlanningQuest?.();
+
+const plan = todayQuest?.plan || (
+  window.FitnessRpgPrograms.getCombinedWeeklyPlan
     ? window.FitnessRpgPrograms.getCombinedWeeklyPlan(goalId)
-    : window.FitnessRpgPrograms.getWeeklyPlan(goalId);
+    : window.FitnessRpgPrograms.getWeeklyPlan(goalId)
+);
 
- const todayQuest = window.FitnessRpgPrograms.getTodayPlanningQuest?.();
-const plan = todayQuest?.plan || window.FitnessRpgPrograms.getCombinedWeeklyPlan(goalId);
 const todayIndex = todayQuest?.index ?? window.FitnessRpgPrograms.getTodayPlanIndex();
-
 const todayItem = {
   index: todayIndex,
   dayLabel: todayQuest?.dayLabel || "Jour",
