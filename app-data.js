@@ -1563,39 +1563,493 @@ exercises: [
     ]
   },
   
-      "coeur-dragon": {
-        id: "coeur-dragon",
-        days: [
-          {
-            day: 1,
-            title: "Cardio sans saut",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "walk", amount: 5, unit: "min" },
-              { phase: "Cardio", exerciseId: "run_treadmill", amount: 10, unit: "min" },
-              { phase: "Renfo", exerciseId: "squats", amount: 10, unit: "répétitions" },
-              { phase: "Gainage", exerciseId: "knee_plank", amount: 20, unit: "sec" },
-              { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 5, unit: "min" }
-            ]
-          },
-          {
-            day: 2,
-            title: "Souffle du dragon",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 3, unit: "min" },
-              { phase: "Cardio", exerciseId: "run_outdoor", amount: 15, unit: "min" },
-              { phase: "Jambes", exerciseId: "squats", amount: 12, unit: "répétitions" },
-              { phase: "Centre", exerciseId: "core", amount: 20, unit: "sec" },
-              { phase: "Retour au calme", exerciseId: "slow_breathing", amount: 2, unit: "min" }
-            ]
-          }
-        ],
-        progression: [
-          "Niveaux 1-5 : sans saut.",
-          "Niveaux 6-10 : temps de cardio augmenté.",
-          "Niveaux 11-15 : ajout de burpees simplifiés.",
-          "Niveaux 16-20 : version intense avec intervalles."
-        ]
-      },
+    "coeur-dragon": {
+  id: "coeur-dragon",
+  subtitle: "Cardio progressif sans impact violent, idéal après Éveil du héros.",
+  unlockLevel: 2,
+  duration: "20 à 35 min",
+  frequency: "3 séances par semaine · boss hebdomadaire",
+  reward: {
+    badgeId: "coeur-dragon",
+    badgeTitle: "Cœur de Dragon",
+    chest: true,
+    nextPrograms: ["messager-sentiers", "cavalier-route", "forge-guerrier"]
+  },
+
+  days: [
+    {
+      day: 1,
+      title: "Souffle du Dragon",
+      xp: 60,
+      difficultyLabel: "Semaine 1 · ≈ 20 min",
+      instructions: "Cardio continu doux : effort court, marche active, puis nouvel effort.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 5, unit: "min" },
+        { phase: "Cardio doux", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
+        { phase: "Récupération active", exerciseId: "walk", amount: 2, unit: "min", distanceOptional: true },
+        { phase: "Cardio doux", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+        { phase: "Récupération active", exerciseId: "walk", amount: 2, unit: "min", distanceOptional: true },
+        { phase: "Cardio sans impact", exerciseId: "no_jump_jacks", amount: 30, unit: "sec" },
+        { phase: "Récupération active", exerciseId: "walk", amount: 2, unit: "min", distanceOptional: true },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+      ]
+    },
+    {
+      day: 2,
+      title: "Battement d’Ailes",
+      xp: 60,
+      difficultyLabel: "Semaine 1 · ≈ 20 min",
+      instructions: "Intervalles faciles avec marche lente de récupération.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 5, unit: "min" },
+        { phase: "Intervalles", exerciseId: "side_steps", amount: 30, unit: "sec" },
+        { phase: "Récupération", exerciseId: "slow_walk", amount: 1, unit: "min" },
+        { phase: "Intervalles", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+        { phase: "Récupération", exerciseId: "slow_walk", amount: 1, unit: "min" },
+        { phase: "Intervalles", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
+        { phase: "Récupération", exerciseId: "slow_walk", amount: 1, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+      ]
+    },
+    {
+      day: 3,
+      title: "Marche du Dragon",
+      xp: 60,
+      difficultyLabel: "Semaine 1 · ≈ 30 min",
+      instructions: "Endurance longue, sans impact.",
+      exercises: [
+        { phase: "Endurance", exerciseId: "dynamic_walk", amount: 25, unit: "min", distanceOptional: true },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
+      ]
+    }
+  ],
+
+  weeks: [
+    {
+      week: 1,
+      title: "Le Dragon s’Éveille",
+      xp: 60,
+      progression: "On découvre le cardio sans impact : souffle, rythme, récupération active.",
+      days: [
+        {
+          day: 1,
+          title: "Souffle du Dragon",
+          xp: 60,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Cardio continu doux : effort court, marche active, puis nouvel effort.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 5, unit: "min" },
+            { phase: "Cardio doux", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
+            { phase: "Récupération active", exerciseId: "walk", amount: 2, unit: "min", distanceOptional: true },
+            { phase: "Cardio doux", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Récupération active", exerciseId: "walk", amount: 2, unit: "min", distanceOptional: true },
+            { phase: "Cardio sans impact", exerciseId: "no_jump_jacks", amount: 30, unit: "sec" },
+            { phase: "Récupération active", exerciseId: "walk", amount: 2, unit: "min", distanceOptional: true },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Battement d’Ailes",
+          xp: 60,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Intervalles faciles avec marche lente de récupération.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 5, unit: "min" },
+            { phase: "Intervalles", exerciseId: "side_steps", amount: 30, unit: "sec" },
+            { phase: "Récupération", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Intervalles", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Récupération", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Intervalles", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
+            { phase: "Récupération", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Marche du Dragon",
+          xp: 60,
+          difficultyLabel: "≈ 30 min",
+          instructions: "Marche rapide continue.",
+          exercises: [
+            { phase: "Endurance", exerciseId: "dynamic_walk", amount: 25, unit: "min", distanceOptional: true },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
+          ]
+        }
+      ]
+    },
+
+    {
+      week: 2,
+      title: "Les Premières Flammes",
+      xp: 70,
+      progression: "On augmente doucement les efforts courts, sans impact violent.",
+      days: [
+        {
+          day: 1,
+          title: "Souffle du Dragon",
+          xp: 70,
+          difficultyLabel: "≈ 23 min",
+          instructions: "Même structure que la semaine 1, avec des efforts de 45 secondes.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 5, unit: "min" },
+            { phase: "Cardio doux", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+            { phase: "Récupération active", exerciseId: "walk", amount: 2, unit: "min", distanceOptional: true },
+            { phase: "Cardio doux", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Récupération active", exerciseId: "walk", amount: 2, unit: "min", distanceOptional: true },
+            { phase: "Cardio sans impact", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+            { phase: "Récupération active", exerciseId: "walk", amount: 2, unit: "min", distanceOptional: true },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Battement d’Ailes",
+          xp: 70,
+          difficultyLabel: "≈ 25 min · 2 tours",
+          instructions: "Effectuer 2 tours : pas chassés, marche, montées de genoux, marche, pas latéraux, marche.",
+          exercises: [
+            { phase: "Tour 1", exerciseId: "side_steps", amount: 30, unit: "sec" },
+            { phase: "Tour 1 · Récupération", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Tour 1", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Tour 1 · Récupération", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Tour 1", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
+            { phase: "Tour 1 · Récupération", exerciseId: "slow_walk", amount: 1, unit: "min" },
+
+            { phase: "Tour 2", exerciseId: "side_steps", amount: 30, unit: "sec" },
+            { phase: "Tour 2 · Récupération", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Tour 2", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Tour 2 · Récupération", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Tour 2", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
+            { phase: "Tour 2 · Récupération", exerciseId: "slow_walk", amount: 1, unit: "min" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Marche du Dragon",
+          xp: 70,
+          difficultyLabel: "≈ 35 min",
+          instructions: "Endurance longue.",
+          exercises: [
+            { phase: "Endurance", exerciseId: "dynamic_walk", amount: 30, unit: "min", distanceOptional: true },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
+          ]
+        }
+      ]
+    },
+
+    {
+      week: 3,
+      title: "Le Dragon Prend Son Envol",
+      xp: 80,
+      progression: "Le souffle commence à tenir, les tours deviennent plus réguliers.",
+      days: [
+        {
+          day: 1,
+          title: "Souffle du Dragon",
+          xp: 80,
+          difficultyLabel: "≈ 25 min · 3 tours",
+          instructions: "Effectuer 3 tours : pas latéraux, montées de genoux, jumping jack sans saut, marche active.",
+          exercises: [
+            { phase: "Tour 1", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+            { phase: "Tour 1", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Tour 1", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+            { phase: "Tour 1 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+            { phase: "Tour 2", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+            { phase: "Tour 2", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Tour 2", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+            { phase: "Tour 2 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+            { phase: "Tour 3", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+            { phase: "Tour 3", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Tour 3", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+            { phase: "Tour 3 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Battement d’Ailes",
+          xp: 80,
+          difficultyLabel: "≈ 25 min · 3 tours",
+          instructions: "Effectuer 3 tours : pas chassés, marche, montées de genoux, marche.",
+          exercises: [
+            { phase: "Tour 1", exerciseId: "side_steps", amount: 45, unit: "sec" },
+            { phase: "Tour 1 · Récupération", exerciseId: "slow_walk", amount: 45, unit: "sec" },
+            { phase: "Tour 1", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Tour 1 · Récupération", exerciseId: "slow_walk", amount: 45, unit: "sec" },
+
+            { phase: "Tour 2", exerciseId: "side_steps", amount: 45, unit: "sec" },
+            { phase: "Tour 2 · Récupération", exerciseId: "slow_walk", amount: 45, unit: "sec" },
+            { phase: "Tour 2", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Tour 2 · Récupération", exerciseId: "slow_walk", amount: 45, unit: "sec" },
+
+            { phase: "Tour 3", exerciseId: "side_steps", amount: 45, unit: "sec" },
+            { phase: "Tour 3 · Récupération", exerciseId: "slow_walk", amount: 45, unit: "sec" },
+            { phase: "Tour 3", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Tour 3 · Récupération", exerciseId: "slow_walk", amount: 45, unit: "sec" },
+
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Marche du Dragon",
+          xp: 80,
+          difficultyLabel: "≈ 40 min",
+          instructions: "Endurance longue.",
+          exercises: [
+            { phase: "Endurance", exerciseId: "dynamic_walk", amount: 35, unit: "min", distanceOptional: true },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
+          ]
+        }
+      ]
+    },
+
+    {
+      week: 4,
+      title: "Cœur de Dragon",
+      xp: 90,
+      progression: "Le joueur termine avec une vraie base cardio.",
+      days: [
+        {
+          day: 1,
+          title: "Souffle du Dragon",
+          xp: 90,
+          difficultyLabel: "≈ 30 min · 4 tours",
+          instructions: "Effectuer 4 tours : pas latéraux, montées de genoux, jumping jack sans saut, marche active.",
+          exercises: [
+            { phase: "Tour 1", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+            { phase: "Tour 1", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Tour 1", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+            { phase: "Tour 1 · Récupération active", exerciseId: "walk", amount: 45, unit: "sec", distanceOptional: true },
+
+            { phase: "Tour 2", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+            { phase: "Tour 2", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Tour 2", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+            { phase: "Tour 2 · Récupération active", exerciseId: "walk", amount: 45, unit: "sec", distanceOptional: true },
+
+            { phase: "Tour 3", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+            { phase: "Tour 3", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Tour 3", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+            { phase: "Tour 3 · Récupération active", exerciseId: "walk", amount: 45, unit: "sec", distanceOptional: true },
+
+            { phase: "Tour 4", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+            { phase: "Tour 4", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Tour 4", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+            { phase: "Tour 4 · Récupération active", exerciseId: "walk", amount: 45, unit: "sec", distanceOptional: true },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 4, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Battement d’Ailes",
+          xp: 90,
+          difficultyLabel: "≈ 30 min · 4 tours",
+          instructions: "Effectuer 4 tours : pas chassés, montées de genoux, jumping jack sans saut, marche.",
+          exercises: [
+            { phase: "Tour 1", exerciseId: "side_steps", amount: 45, unit: "sec" },
+            { phase: "Tour 1", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Tour 1", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+            { phase: "Tour 1 · Récupération", exerciseId: "slow_walk", amount: 45, unit: "sec" },
+
+            { phase: "Tour 2", exerciseId: "side_steps", amount: 45, unit: "sec" },
+            { phase: "Tour 2", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Tour 2", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+            { phase: "Tour 2 · Récupération", exerciseId: "slow_walk", amount: 45, unit: "sec" },
+
+            { phase: "Tour 3", exerciseId: "side_steps", amount: 45, unit: "sec" },
+            { phase: "Tour 3", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Tour 3", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+            { phase: "Tour 3 · Récupération", exerciseId: "slow_walk", amount: 45, unit: "sec" },
+
+            { phase: "Tour 4", exerciseId: "side_steps", amount: 45, unit: "sec" },
+            { phase: "Tour 4", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+            { phase: "Tour 4", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+            { phase: "Tour 4 · Récupération", exerciseId: "slow_walk", amount: 45, unit: "sec" },
+
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 3, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Marche du Dragon",
+          xp: 90,
+          difficultyLabel: "≈ 45 min",
+          instructions: "Endurance longue finale.",
+          exercises: [
+            { phase: "Endurance", exerciseId: "dynamic_walk", amount: 40, unit: "min", distanceOptional: true },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
+          ]
+        }
+      ]
+    }
+  ],
+
+  bosses: [
+    {
+      week: 1,
+      title: "Le Dragon Endormi",
+      xp: 50,
+      badgeId: "ecaille-dragon",
+      difficultyLabel: "Boss semaine 1 · ≈ 20 min",
+      instructions: "Débloqué après les 3 séances de la semaine 1.",
+      lockedMessage: "Le Dragon refuse encore de t’affronter. Termine ton entraînement et reviens me voir.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 3, unit: "min" },
+
+        { phase: "Tour 1", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
+        { phase: "Tour 1", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+        { phase: "Tour 1 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 2", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
+        { phase: "Tour 2", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+        { phase: "Tour 2 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 3", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
+        { phase: "Tour 3", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+        { phase: "Tour 3 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Fin", exerciseId: "slow_walk", amount: 3, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+      ]
+    },
+    {
+      week: 2,
+      title: "Le Gardien des Flammes",
+      xp: 60,
+      badgeId: "gardien-flammes",
+      difficultyLabel: "Boss semaine 2 · ≈ 25 min",
+      instructions: "Débloqué après les 3 séances de la semaine 2.",
+      lockedMessage: "Le Dragon refuse encore de t’affronter. Termine ton entraînement et reviens me voir.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 5, unit: "min" },
+
+        { phase: "Tour 1", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 1", exerciseId: "side_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 1", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+        { phase: "Tour 1 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 2", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 2", exerciseId: "side_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 2", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+        { phase: "Tour 2 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 3", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 3", exerciseId: "side_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 3", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+        { phase: "Tour 3 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+      ]
+    },
+    {
+      week: 3,
+      title: "Le Drake Rouge",
+      xp: 70,
+      badgeId: "drake-rouge",
+      difficultyLabel: "Boss semaine 3 · ≈ 30 min",
+      instructions: "Débloqué après les 3 séances de la semaine 3.",
+      lockedMessage: "Le Dragon refuse encore de t’affronter. Termine ton entraînement et reviens me voir.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 5, unit: "min" },
+
+        { phase: "Tour 1", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 1", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+        { phase: "Tour 1", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+        { phase: "Tour 1 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 2", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 2", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+        { phase: "Tour 2", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+        { phase: "Tour 2 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 3", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 3", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+        { phase: "Tour 3", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+        { phase: "Tour 3 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 4", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 4", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+        { phase: "Tour 4", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+        { phase: "Tour 4 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Fin", exerciseId: "slow_walk", amount: 3, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 4, unit: "min" }
+      ]
+    },
+    {
+      week: 4,
+      title: "Cœur de Dragon",
+      xp: 100,
+      badgeId: "coeur-dragon",
+      chest: true,
+      nextPrograms: ["messager-sentiers", "cavalier-route", "forge-guerrier"],
+      difficultyLabel: "Boss final · ≈ 35 min",
+      instructions: "Débloqué après les 3 séances de la semaine 4.",
+      lockedMessage: "Le Dragon refuse encore de t’affronter. Termine ton entraînement et reviens me voir.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 5, unit: "min" },
+
+        { phase: "Tour 1", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 1", exerciseId: "side_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 1", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+        { phase: "Tour 1", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+        { phase: "Tour 1 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 2", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 2", exerciseId: "side_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 2", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+        { phase: "Tour 2", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+        { phase: "Tour 2 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 3", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 3", exerciseId: "side_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 3", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+        { phase: "Tour 3", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+        { phase: "Tour 3 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 4", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 4", exerciseId: "side_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 4", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+        { phase: "Tour 4", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+        { phase: "Tour 4 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 5", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 5", exerciseId: "side_steps", amount: 45, unit: "sec" },
+        { phase: "Tour 5", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+        { phase: "Tour 5", exerciseId: "no_jump_jacks", amount: 45, unit: "sec" },
+        { phase: "Tour 5 · Récupération active", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Fin", exerciseId: "slow_walk", amount: 5, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
+      ]
+    }
+  ],
+
+  progression: [
+    "Semaine 1 : Le Dragon s’Éveille · découvrir le cardio sans impact.",
+    "Semaine 2 : Les Premières Flammes · augmenter les efforts à 45 secondes.",
+    "Semaine 3 : Le Dragon Prend Son Envol · consolider le souffle.",
+    "Semaine 4 : Cœur de Dragon · tenir une vraie base cardio.",
+    "Chaque samedi : boss hebdomadaire débloqué après les 3 séances de la semaine.",
+    "Récompense finale : badge Cœur de Dragon, coffre de récompense, puis programmes conseillés : Messager des Sentiers, Cavalier de la Route ou Forge du Guerrier."
+  ],
+
+  notes: [
+    "Objectif : préparer à la course, au vélo, à la randonnée ou aux programmes plus sportifs.",
+    "Cardio progressif sans impact violent.",
+    "Structure principale : effort court puis récupération active.",
+    "Les marches répétées sont volontairement séparées pour créer une vraie alternance cardio.",
+    "Les boss sont stockés séparément dans bosses pour ne pas compter comme séances normales."
+  ]
+},
       "bras-heros": {
         id: "bras-heros",
         subtitle: "Renforce tes bras, stabilise tes épaules, prépare-toi au prochain combat.",
@@ -1995,6 +2449,46 @@ exercises: [
       programId: "rempart-heros",
       target: 1
     },
+    {
+  id: "ecaille-dragon",
+  icon: "🐉",
+  title: "Écaille du Dragon",
+  description: "Vaincre le boss de la semaine 1 du programme Cœur de Dragon.",
+  type: "program-boss",
+  programId: "coeur-dragon",
+  weekNumber: 1,
+  target: 1
+},
+{
+  id: "gardien-flammes",
+  icon: "🔥",
+  title: "Gardien des Flammes",
+  description: "Vaincre le boss de la semaine 2 du programme Cœur de Dragon.",
+  type: "program-boss",
+  programId: "coeur-dragon",
+  weekNumber: 2,
+  target: 1
+},
+{
+  id: "drake-rouge",
+  icon: "🐲",
+  title: "Drake Rouge",
+  description: "Vaincre le boss de la semaine 3 du programme Cœur de Dragon.",
+  type: "program-boss",
+  programId: "coeur-dragon",
+  weekNumber: 3,
+  target: 1
+},
+{
+  id: "coeur-dragon",
+  icon: "❤️‍🔥",
+  title: "Cœur de Dragon",
+  description: "Vaincre le boss final du programme Cœur de Dragon.",
+  type: "program-boss",
+  programId: "coeur-dragon",
+  weekNumber: 4,
+  target: 1
+},
     {
       id: "boss",
       icon: "👹",
