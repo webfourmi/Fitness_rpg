@@ -2593,7 +2593,7 @@ exercises: [
       target: 1
     },
     {
-      id: "loup-solitaire-vaincu",est ce qu on a bi
+      id: "loup-solitaire-vaincu",
       icon: "🐺",
       title: "Loup Solitaire vaincu",
       description: "Vaincre le boss de la semaine 2 du programme Éveil du héros.",
