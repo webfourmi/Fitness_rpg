@@ -547,8 +547,9 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
   const complete = window.FitnessRpgState.isProgramSessionComplete();
 
   const exercisesHtml = day.exercises.map((item, index) => {
+    const exerciseKey = `${index}-${item.exerciseId}`;
     const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
-    const done = window.FitnessRpgState.isProgramSessionExerciseDone(item.exerciseId);
+    const done = window.FitnessRpgState.isProgramSessionExerciseDone(exerciseKey);
     const canUseTimer = item.unit === "min" || item.unit === "sec" || exercise?.hasTimer;
 
     return `
@@ -581,6 +582,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
           >
             ${done ? "Validé" : "Valider"}
           </button>
+          
         </div>
       </article>
     `;
