@@ -598,25 +598,34 @@ window.FitnessRpgState.completeProgramSessionExercise = function completeProgram
   return session;
 };
 
-window.FitnessRpgState.isProgramSessionExerciseDone = function isProgramSessionExerciseDone(exerciseId) {
-  const session = window.FitnessRpgState.getActiveProgramSession();
+window.FitnessRpgState.isProgramSessionExerciseDone = function isProgramSessionExerciseDone(exerciseKey) {
+  const session = window.FitnessRpgState.activeProgramSession;
 
   if (!session) return false;
 
-  return session.completedExerciseIds.includes(exerciseId);
+  const completed = session.completedExerciseKeys || session.completedExerciseIds || [];
+
+  return completed.includes(exerciseKey);
 };
-
 window.FitnessRpgState.isProgramSessionComplete = function isProgramSessionComplete() {
-  const session = window.FitnessRpgState.getActiveProgramSession();
+  const session = window.FitnessRpgState.activeProgramSession;
 
   if (!session) return false;
 
-  const day = window.FitnessRpgPrograms?.getProgramDay?.(session.programId, session.dayNumber);
+  const day = window.FitnessRpgPrograms?.getProgramDay?.(
+    session.programId,
+    session.dayNumber,
+    session.weekNumber || 1
+  );
 
-  if (!day || !Array.isArray(day.exercises)) return false;
+  if (!day || !Array.isArray(day.exercises) || !day.exercises.length) {
+    return false;
+  }
 
-  return day.exercises.every((item) => {
-    return session.completedExerciseIds.includes(item.exerciseId);
+  const completed = session.completedExerciseKeys || session.completedExerciseIds || [];
+
+  return day.exercises.every((item, index) => {
+    return completed.includes(`${index}-${item.exerciseId}`);
   });
 };
 
