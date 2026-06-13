@@ -566,12 +566,13 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
           ${
             canUseTimer
               ? `<button
-                  class="ghost-btn start-program-exercise-timer-btn"
-                  type="button"
-                  data-exercise-id="${item.exerciseId}"
-                >
-                  ⏱️ Timer
-                </button>`
+                    class="ghost-btn start-program-exercise-timer-btn"
+                    type="button"
+                    data-exercise-id="${item.exerciseId}"
+                    data-exercise-key="${exerciseKey}"
+                  >
+                    ⏱️ Timer
+                  </button>`
               : ""
           }
 
@@ -579,6 +580,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
             class="${done ? "ghost-btn" : "secondary-btn"} validate-program-exercise-btn"
             type="button"
             data-exercise-id="${item.exerciseId}"
+            data-exercise-key="${exerciseKey}"
           >
             ${done ? "Validé" : "Valider"}
           </button>
