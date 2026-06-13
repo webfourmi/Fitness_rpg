@@ -310,14 +310,6 @@ window.FitnessRpgState.addXp = function addXp(amount, source = "Progression") {
 // Entrées d’entraînement
 // ============================================================
 
-window.FitnessRpgState.getEntriesForDate = function getEntriesForDate(dateKey) {
-  if (!window.FitnessRpgState.profile) return [];
-
-  const entries = window.FitnessRpgState.profile.completedByDate?.[dateKey];
-
-  return Array.isArray(entries) ? entries : [];
-};
-
 window.FitnessRpgState.getTodayEntries = function getTodayEntries() {
   return window.FitnessRpgState.getEntriesForDate(window.FitnessRpgState.todayKey());
 };
@@ -600,6 +592,8 @@ window.FitnessRpgState.completeProgramSessionExercise = function completeProgram
     session.completedExerciseKeys = [];
   }
 
+  // Une ligne de séance = une clé unique, par exemple "3-walk".
+  // Cela permet d'avoir plusieurs fois le même exercice dans une séance.
   if (!session.completedExerciseKeys.includes(exerciseKey)) {
     session.completedExerciseKeys.push(exerciseKey);
   }
@@ -616,6 +610,16 @@ window.FitnessRpgState.isProgramSessionExerciseDone = function isProgramSessionE
 
   return completed.includes(exerciseKey);
 };
+window.FitnessRpgState.getProgramSessionCompletedCount = function getProgramSessionCompletedCount() {
+  const session = window.FitnessRpgState.activeProgramSession;
+
+  if (!session) return 0;
+
+  const completed = session.completedExerciseKeys || session.completedExerciseIds || [];
+
+  return Array.isArray(completed) ? completed.length : 0;
+};
+
 window.FitnessRpgState.isProgramSessionComplete = function isProgramSessionComplete() {
   const session = window.FitnessRpgState.activeProgramSession;
 
@@ -648,9 +652,6 @@ window.FitnessRpgState.dateKeyFromDate = function dateKeyFromDate(date = new Dat
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 };
 
-window.FitnessRpgState.todayKey = function todayKey() {
-  return window.FitnessRpgState.dateKeyFromDate(new Date());
-};
 
 window.FitnessRpgState.getMondayOfCurrentWeek = function getMondayOfCurrentWeek() {
   const now = new Date();
