@@ -823,22 +823,17 @@ window.FitnessRpgPrograms.markCompletedProgramDays = function markCompletedProgr
 // Validation exercice par exercice
 // ============================================================
 
-window.FitnessRpgPrograms.validateProgramExercise = function validateProgramExercise(exerciseId) {
+window.FitnessRpgPrograms.validateProgramExercise = function validateProgramExercise(exerciseId, exerciseKey = null) {
   const session = window.FitnessRpgState.getActiveProgramSession?.();
 
   if (!session) return;
 
-  window.FitnessRpgState.completeProgramSessionExercise(exerciseId);
+  const key = exerciseKey || exerciseId;
 
-  const exercise = window.FitnessRpgData.getExerciseById(exerciseId);
-  const coachId = window.FitnessRpgState.getCoachId();
+  window.FitnessRpgState.markProgramSessionExerciseDone(key);
 
-  const coachMessage = document.querySelector("#coachMessage");
-
-  if (coachMessage && exercise) {
-    const message = window.FitnessRpgData.getCoachMessage(coachId, "complete", exercise.id);
-    coachMessage.textContent = message;
-  }
+  window.FitnessRpgRender.renderProgramDetail(session.programId);
+};
 
   window.FitnessRpgRender.renderProgramDetail(session.programId);
 };
@@ -941,19 +936,29 @@ window.FitnessRpgPrograms.programItemToSeconds = function programItemToSeconds(i
   return 0;
 };
 
-window.FitnessRpgPrograms.openProgramExerciseTimer = function openProgramExerciseTimer(exerciseId) {
-  const item = window.FitnessRpgPrograms.getActiveProgramItem(exerciseId);
+window.FitnessRpgPrograms.openProgramExerciseTimer = function openProgramExerciseTimer(exerciseId, exerciseKey = null) {
+  const item = window.FitnessRpgPrograms.getActiveProgramItemByKey(exerciseKey, exerciseId);
   const exercise = window.FitnessRpgData.getExerciseById(exerciseId);
 
   if (!item || !exercise) {
-    alert("Exercice introuvable dans la séance.");
+    window.FitnessRpgRender?.showModal?.({
+      icon: "⚠️",
+      title: "Exercice introuvable",
+      message: "Impossible de trouver cet exercice dans la séance.",
+      okText: "Compris"
+    });
     return;
   }
 
   const seconds = window.FitnessRpgPrograms.programItemToSeconds(item);
 
   if (seconds <= 0) {
-    alert("Cet exercice n’a pas de durée à minuter.");
+    window.FitnessRpgRender?.showModal?.({
+      icon: "⏱️",
+      title: "Timer indisponible",
+      message: "Cet exercice n’a pas de durée à minuter.",
+      okText: "Compris"
+    });
     return;
   }
 
@@ -962,11 +967,34 @@ window.FitnessRpgPrograms.openProgramExerciseTimer = function openProgramExercis
     seconds,
     title: `${exercise.title} · ${item.amount} ${item.unit}`,
     onValidate: () => {
-      window.FitnessRpgPrograms.validateProgramExercise(exerciseId);
+      window.FitnessRpgPrograms.validateProgramExercise(exerciseId, exerciseKey);
     }
   });
 };
 
+window.FitnessRpgPrograms.getActiveProgramItemByKey = function getActiveProgramItemByKey(exerciseKey, fallbackExerciseId = null) {
+  const session = window.FitnessRpgState.getActiveProgramSession?.();
+
+  if (!session) return null;
+
+  const day = window.FitnessRpgPrograms.getProgramDay(
+    session.programId,
+    session.dayNumber,
+    session.weekNumber || 1
+  );
+
+  if (!day || !Array.isArray(day.exercises)) return null;
+
+  if (exerciseKey) {
+    const index = Number(String(exerciseKey).split("-")[0]);
+
+    if (Number.isFinite(index) && day.exercises[index]) {
+      return day.exercises[index];
+    }
+  }
+
+  return day.exercises.find((item) => item.exerciseId === fallbackExerciseId) || null;
+};
 
 window.FitnessRpgPrograms.goToPlanning = function goToPlanning() {
   window.FitnessRpgState.setPage("planning");
