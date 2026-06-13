@@ -78,6 +78,77 @@ window.FitnessRpgMedia.playTimerEndSound = function playTimerEndSound() {
 };
 
 // ============================================================
+// Sons timer : décompte et départ
+// ============================================================
+
+window.FitnessRpgMedia.playTimerCountdownBeep = function playTimerCountdownBeep() {
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+
+    const ctx = new AudioContextClass();
+    const now = ctx.currentTime;
+
+    const oscillator = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(520, now);
+
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.exponentialRampToValueAtTime(0.12, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+
+    oscillator.connect(gain).connect(ctx.destination);
+    oscillator.start(now);
+    oscillator.stop(now + 0.14);
+
+    window.setTimeout(() => {
+      ctx.close?.();
+    }, 300);
+  } catch {
+    // Son non disponible : on ne bloque jamais l’application.
+  }
+};
+
+window.FitnessRpgMedia.playTimerStartSound = function playTimerStartSound() {
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+
+    const ctx = new AudioContextClass();
+    const now = ctx.currentTime;
+
+    const notes = [
+      { frequency: 740, start: 0 },
+      { frequency: 980, start: 0.12 }
+    ];
+
+    notes.forEach((note) => {
+      const oscillator = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(note.frequency, now + note.start);
+
+      gain.gain.setValueAtTime(0.001, now + note.start);
+      gain.gain.exponentialRampToValueAtTime(0.16, now + note.start + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + note.start + 0.16);
+
+      oscillator.connect(gain).connect(ctx.destination);
+      oscillator.start(now + note.start);
+      oscillator.stop(now + note.start + 0.18);
+    });
+
+    window.setTimeout(() => {
+      ctx.close?.();
+    }, 500);
+  } catch {
+    // Son non disponible : on ne bloque jamais l’application.
+  }
+};
+
+// ============================================================
 // Musique locale
 // ============================================================
 
