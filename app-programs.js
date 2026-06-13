@@ -835,8 +835,7 @@ window.FitnessRpgPrograms.validateProgramExercise = function validateProgramExer
   window.FitnessRpgRender.renderProgramDetail(session.programId);
 };
 
-  window.FitnessRpgRender.renderProgramDetail(session.programId);
-};
+  
 
 window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession() {
   const session = window.FitnessRpgState.getActiveProgramSession?.();
