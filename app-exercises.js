@@ -404,7 +404,6 @@ window.FitnessRpgExercises.amountToSeconds = function amountToSeconds(exercise, 
   if (!Number.isFinite(value) || value <= 0) return 0;
 
   if (exercise.unit === "sec") return Math.round(value);
-
   if (exercise.unit === "min") return Math.round(value * 60);
 
   return 0;
@@ -418,6 +417,97 @@ window.FitnessRpgExercises.formatTime = function formatTime(seconds) {
   return `${String(minutes).padStart(2, "0")}:${String(rest).padStart(2, "0")}`;
 };
 
+window.FitnessRpgExercises.getTimerPoseForExercise = function getTimerPoseForExercise(exercise) {
+  const categoryId = String(exercise?.categoryId || "").toLowerCase();
+  const pose = String(exercise?.pose || "").toLowerCase();
+
+  if (categoryId === "bike" || pose === "bike") return "bike";
+  if (categoryId === "walk" || pose === "walk") return "walk";
+  if (categoryId === "warmup" || pose === "warmup") return "warmup";
+
+  if (
+    categoryId === "mobility" ||
+    categoryId === "stretch" ||
+    pose === "stretch"
+  ) {
+    return "stretch";
+  }
+
+  if (
+    categoryId === "strength" ||
+    categoryId === "core" ||
+    categoryId === "arms" ||
+    pose === "core" ||
+    pose === "squats"
+  ) {
+    return "core";
+  }
+
+  return "motivate";
+};
+
+window.FitnessRpgExercises.getTimerCoachMessage = function getTimerCoachMessage(exercise) {
+  const pose = window.FitnessRpgExercises.getTimerPoseForExercise(exercise);
+
+  const messages = {
+    bike: [
+      "Trouve ton rythme. Les roues aiment la régularité.",
+      "Pédale souple, respire propre, avance sans te cramer."
+    ],
+    walk: [
+      "Chaque pas compte. Garde une allure confortable.",
+      "Avance tranquille, mais avance vraiment."
+    ],
+    warmup: [
+      "On réveille le corps doucement. Pas de charge héroïque à froid.",
+      "Prépare les articulations, la quête commence proprement."
+    ],
+    stretch: [
+      "Respire lentement. L’étirement doit rester doux.",
+      "On allonge, on relâche, on ne force pas."
+    ],
+    core: [
+      "Reste solide. La qualité vaut plus que la quantité.",
+      "Tiens proprement. Le héros construit ses fondations."
+    ],
+    motivate: [
+      "C’est parti. Reste concentré jusqu’au signal final.",
+      "Un geste après l’autre. La quête avance."
+    ]
+  };
+
+  const list = messages[pose] || messages.motivate;
+  return list[Math.floor(Math.random() * list.length)];
+};
+
+window.FitnessRpgExercises.updateTimerCoach = function updateTimerCoach(exercise) {
+  const overlay = document.querySelector("#exerciseTimerOverlay");
+  if (!overlay || !exercise) return;
+
+  const coachId = window.FitnessRpgState?.getCoachId?.() || "korvan";
+  const pose = window.FitnessRpgExercises.getTimerPoseForExercise(exercise);
+  const image = window.FitnessRpgData?.getCoachImage?.(coachId, pose);
+
+  const img = overlay.querySelector("#timerCoachImage");
+  const name = overlay.querySelector("#timerCoachName");
+  const message = overlay.querySelector("#timerCoachMessage");
+
+  const coach = window.FitnessRpgData?.getCoach?.(coachId);
+
+  if (img && image) {
+    img.src = image;
+    img.alt = coach?.fullName || "Coach";
+  }
+
+  if (name) {
+    name.textContent = coach?.fullName || "Coach";
+  }
+
+  if (message) {
+    message.textContent = window.FitnessRpgExercises.getTimerCoachMessage(exercise);
+  }
+};
+
 window.FitnessRpgExercises.ensureTimerOverlay = function ensureTimerOverlay() {
   let overlay = document.querySelector("#exerciseTimerOverlay");
 
@@ -428,20 +518,116 @@ window.FitnessRpgExercises.ensureTimerOverlay = function ensureTimerOverlay() {
   overlay.className = "timer-overlay hidden";
 
   overlay.innerHTML = `
-    <section class="timer-card card">
-      <h2 id="timerExerciseTitle">Timer</h2>
-      <p id="timerTimeText">00:00</p>
+    <section class="timer-card card timer-card-with-coach">
+      <aside class="timer-coach-panel">
+        <img id="timerCoachImage" src="" alt="Coach">
+        <p id="timerCoachName" class="eyebrow">Coach</p>
+        <p id="timerCoachMessage">Prépare-toi.</p>
+      </aside>
 
-      <div class="timer-actions">
-        <button id="timerStopButton" class="ghost-btn" type="button">Arrêter</button>
-        <button id="timerValidateButton" class="primary-btn" type="button">Valider l’exercice</button>
-      </div>
+      <section class="timer-main-panel">
+        <p id="timerStatusText" class="timer-status-text">Préparation</p>
+        <h2 id="timerExerciseTitle">Timer</h2>
+        <p id="timerTimeText">00:00</p>
+
+        <div class="timer-actions">
+          <button id="timerStopButton" class="ghost-btn" type="button">Arrêter</button>
+          <button id="timerValidateButton" class="primary-btn" type="button">Valider l’exercice</button>
+        </div>
+      </section>
     </section>
   `;
 
   document.body.appendChild(overlay);
 
   return overlay;
+};
+
+window.FitnessRpgExercises.runTimer = function runTimer(options = {}) {
+  const exercise = options.exercise;
+  const seconds = Number(options.seconds || 0);
+  const titleText = options.title || exercise?.title || "Timer";
+  const onValidate = typeof options.onValidate === "function" ? options.onValidate : null;
+
+  if (!exercise || seconds <= 0) {
+    alert("Cet exercice n’a pas de durée exploitable pour le timer.");
+    return;
+  }
+
+  window.FitnessRpgExercises.stopTimer();
+
+  const overlay = window.FitnessRpgExercises.ensureTimerOverlay();
+  const title = overlay.querySelector("#timerExerciseTitle");
+  const timeText = overlay.querySelector("#timerTimeText");
+  const statusText = overlay.querySelector("#timerStatusText");
+  const stopButton = overlay.querySelector("#timerStopButton");
+  const validateButton = overlay.querySelector("#timerValidateButton");
+
+  window.FitnessRpgExercises.timerExerciseId = exercise.id;
+  window.FitnessRpgExercises.remainingSeconds = seconds;
+
+  title.textContent = titleText;
+  timeText.textContent = "5";
+  statusText.textContent = "Départ dans";
+  validateButton.textContent = "Valider l’exercice";
+
+  window.FitnessRpgExercises.updateTimerCoach(exercise);
+
+  overlay.classList.remove("hidden");
+
+  stopButton.onclick = () => {
+    window.FitnessRpgExercises.stopTimer();
+    overlay.classList.add("hidden");
+  };
+
+  validateButton.onclick = () => {
+    window.FitnessRpgExercises.stopTimer();
+    overlay.classList.add("hidden");
+
+    if (onValidate) {
+      onValidate();
+    } else {
+      window.FitnessRpgExercises.validateExercise(exercise.id);
+    }
+  };
+
+  let countdown = 5;
+
+  window.FitnessRpgMedia?.playTimerCountdownBeep?.();
+
+  window.FitnessRpgExercises.countdownTimer = window.setInterval(() => {
+    countdown -= 1;
+
+    if (countdown > 0) {
+      timeText.textContent = String(countdown);
+      window.FitnessRpgMedia?.playTimerCountdownBeep?.();
+      return;
+    }
+
+    window.clearInterval(window.FitnessRpgExercises.countdownTimer);
+    window.FitnessRpgExercises.countdownTimer = null;
+
+    window.FitnessRpgMedia?.playTimerStartSound?.();
+
+    statusText.textContent = "En cours";
+    timeText.textContent = window.FitnessRpgExercises.formatTime(seconds);
+
+    window.FitnessRpgExercises.activeTimer = window.setInterval(() => {
+      window.FitnessRpgExercises.remainingSeconds -= 1;
+
+      timeText.textContent = window.FitnessRpgExercises.formatTime(
+        window.FitnessRpgExercises.remainingSeconds
+      );
+
+      if (window.FitnessRpgExercises.remainingSeconds <= 0) {
+        window.FitnessRpgExercises.stopTimer();
+        statusText.textContent = "Temps terminé";
+        timeText.textContent = "00:00";
+        validateButton.textContent = "Temps terminé · Valider";
+        window.FitnessRpgMedia?.playTimerEndSound?.();
+      }
+    }, 1000);
+  }, 1000);
 };
 
 window.FitnessRpgExercises.openTimer = function openTimer(exerciseId) {
@@ -452,61 +638,26 @@ window.FitnessRpgExercises.openTimer = function openTimer(exerciseId) {
   const amount = window.FitnessRpgExercises.getAmountValue(exerciseId);
   const seconds = window.FitnessRpgExercises.amountToSeconds(exercise, amount);
 
-  if (seconds <= 0) {
-    alert("Cet exercice n’a pas de durée exploitable pour le timer.");
-    return;
-  }
-
-  window.FitnessRpgExercises.stopTimer();
-
-  const overlay = window.FitnessRpgExercises.ensureTimerOverlay();
-  const title = overlay.querySelector("#timerExerciseTitle");
-  const timeText = overlay.querySelector("#timerTimeText");
-  const stopButton = overlay.querySelector("#timerStopButton");
-  const validateButton = overlay.querySelector("#timerValidateButton");
-
-  window.FitnessRpgExercises.timerExerciseId = exerciseId;
-  window.FitnessRpgExercises.remainingSeconds = seconds;
-
-  title.textContent = exercise.title;
-  timeText.textContent = window.FitnessRpgExercises.formatTime(seconds);
-  validateButton.textContent = "Valider l’exercice";
-
-  overlay.classList.remove("hidden");
-
-  stopButton.onclick = () => {
-    window.FitnessRpgExercises.stopTimer();
-    overlay.classList.add("hidden");
-  };
-
-  validateButton.onclick = () => {
-    const id = window.FitnessRpgExercises.timerExerciseId;
-    window.FitnessRpgExercises.stopTimer();
-    overlay.classList.add("hidden");
-    window.FitnessRpgExercises.validateExercise(id);
-  };
-
-  window.FitnessRpgExercises.activeTimer = window.setInterval(() => {
-    window.FitnessRpgExercises.remainingSeconds -= 1;
-
-    timeText.textContent = window.FitnessRpgExercises.formatTime(
-      window.FitnessRpgExercises.remainingSeconds
-    );
-
-    if (window.FitnessRpgExercises.remainingSeconds <= 0) {
-      window.FitnessRpgExercises.stopTimer();
-      timeText.textContent = "00:00";
-      validateButton.textContent = "Temps terminé · Valider";
-      window.FitnessRpgMedia?.playTimerEndSound?.();
+  window.FitnessRpgExercises.runTimer({
+    exercise,
+    seconds,
+    title: exercise.title,
+    onValidate: () => {
+      window.FitnessRpgExercises.validateExercise(exercise.id);
     }
-  }, 1000);
+  });
 };
 
 window.FitnessRpgExercises.stopTimer = function stopTimer() {
+  if (window.FitnessRpgExercises.countdownTimer) {
+    window.clearInterval(window.FitnessRpgExercises.countdownTimer);
+  }
+
   if (window.FitnessRpgExercises.activeTimer) {
     window.clearInterval(window.FitnessRpgExercises.activeTimer);
   }
 
+  window.FitnessRpgExercises.countdownTimer = null;
   window.FitnessRpgExercises.activeTimer = null;
 };
 
