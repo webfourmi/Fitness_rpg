@@ -275,21 +275,8 @@ window.FitnessRpgPrograms.getNextGoalSession = function getNextGoalSession() {
 };
 
 window.FitnessRpgPrograms.getTodayQuest = function getTodayQuest() {
-  const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
-
-  if (
-    activeProgramId &&
-    window.FitnessRpgPrograms.isActiveProgramDay(activeProgramId)
-  ) {
-    const activeSession = window.FitnessRpgPrograms.getNextProgramSession(activeProgramId);
-
-    if (activeSession) {
-      return {
-        ...activeSession,
-        source: "active-program"
-      };
-    }
-  }
+  return window.FitnessRpgPrograms.getTodayPlanningQuest();
+};
 
   return window.FitnessRpgPrograms.getNextGoalSession();
 };
@@ -304,6 +291,98 @@ window.FitnessRpgPrograms.getTodayPlanIndex = function getTodayPlanIndex() {
   // JavaScript : dimanche = 0.
   // Notre planning : lundi = 0, mardi = 1, ..., dimanche = 6.
   return day === 0 ? 6 : day - 1;
+};
+
+window.FitnessRpgPrograms.getTodayPlanningQuest = function getTodayPlanningQuest() {
+  const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
+
+  const plan = window.FitnessRpgPrograms.getCombinedWeeklyPlan
+    ? window.FitnessRpgPrograms.getCombinedWeeklyPlan(goalId)
+    : window.FitnessRpgPrograms.getWeeklyPlan(goalId);
+
+  const todayIndex = window.FitnessRpgPrograms.getTodayPlanIndex();
+  const raw = plan[todayIndex] || plan[0];
+
+  const dayLabel = raw?.[0] || "Jour";
+  const title = raw?.[1] || "Séance";
+  const programId = raw?.[2] || null;
+  const source = raw?.[3] || "goal";
+
+  const program = programId
+    ? window.FitnessRpgConfig.getProgramById(programId)
+    : null;
+
+  const item = {
+    index: todayIndex,
+    dayLabel,
+    title,
+    programId,
+    source,
+    plan
+  };
+
+  if (source === "boss-locked") {
+    const missing = window.FitnessRpgPrograms.getMissingMainSessionsThisWeek?.() || [];
+    const firstMissing = missing[0] || null;
+
+    return {
+      ...item,
+      type: "boss-locked",
+      program: null,
+      day: null,
+      weekNumber: 1,
+      dayNumber: 1,
+      title: "Boss verrouillé",
+      subtitle: "Défi du samedi non débloqué",
+      description: firstMissing
+        ? `Rattrape : ${firstMissing.dayLabel} · ${firstMissing.title}`
+        : "Valide les 5 séances principales pour débloquer le boss."
+    };
+  }
+
+  if (!programId || !program) {
+    return {
+      ...item,
+      type: "rest",
+      program: null,
+      day: null,
+      weekNumber: 1,
+      dayNumber: 1,
+      title: title || "Repos",
+      subtitle: dayLabel,
+      description: "Repos ou récupération douce."
+    };
+  }
+
+  const weekNumber = window.FitnessRpgPrograms.getSuggestedWeekNumberForPlanItem
+    ? window.FitnessRpgPrograms.getSuggestedWeekNumberForPlanItem(item)
+    : 1;
+
+  const dayNumber = window.FitnessRpgPrograms.getSuggestedDayNumberForPlanItem
+    ? window.FitnessRpgPrograms.getSuggestedDayNumberForPlanItem(item)
+    : (
+        window.FitnessRpgPrograms.getNextProgramSession?.(programId)?.day?.day || 1
+      );
+
+  const day = window.FitnessRpgPrograms.getProgramDay(
+    programId,
+    dayNumber,
+    weekNumber
+  );
+
+  return {
+    ...item,
+    type: "program",
+    program,
+    day,
+    weekNumber,
+    dayNumber,
+    title: program.title,
+    subtitle: `Aujourd’hui · ${dayLabel} · Semaine ${weekNumber} · Jour ${dayNumber}`,
+    description: day
+      ? `${day.title} · ${day.difficultyLabel || program.duration}`
+      : `${program.objective} · ${program.duration}`
+  };
 };
 
 window.FitnessRpgPrograms.getWeeklyPlan = function getWeeklyPlan(goalId) {
@@ -765,20 +844,33 @@ window.FitnessRpgPrograms.startWeeklyCatchupSession = function startWeeklyCatchu
 // ============================================================
 
 window.FitnessRpgPrograms.openTodayProgram = function openTodayProgram() {
-  const quest = window.FitnessRpgPrograms.getTodayQuest?.();
+  const quest = window.FitnessRpgPrograms.getTodayPlanningQuest?.();
 
-  if (!quest?.programId) {
-    window.FitnessRpgNavigation.openPrograms("eveil-heros");
+  if (!quest) return;
+
+  if (quest.source === "boss-locked") {
+    window.FitnessRpgPrograms.startWeeklyCatchupSession?.();
     return;
   }
 
-  window.FitnessRpgNavigation.openPrograms(quest.programId);
+  if (!quest.programId) {
+    window.FitnessRpgRender?.showModal?.({
+      icon: "🌙",
+      title: "Jour de repos",
+      message: "Aujourd’hui, ton planning indique repos ou récupération douce.",
+      okText: "Compris"
+    });
+    return;
+  }
 
-  window.setTimeout(() => {
-    if (quest.day?.day) {
-      window.FitnessRpgPrograms.validateProgramDay(quest.programId, quest.day.day);
-    }
-  }, 120);
+  if (window.FitnessRpgPrograms.openProgramDetail) {
+    window.FitnessRpgPrograms.openProgramDetail(quest.programId, {
+      weekNumber: quest.weekNumber || 1,
+      dayNumber: quest.dayNumber || 1
+    });
+  } else {
+    window.FitnessRpgNavigation.openPrograms(quest.programId);
+  }
 };
 
 window.FitnessRpgPrograms.validateTodayRecommendedProgram = function validateTodayRecommendedProgram() {
