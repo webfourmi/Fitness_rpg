@@ -374,6 +374,32 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
 
     return;
   }
+
+    // Programmes : timer d’un exercice dans une séance active
+  const programTimerButton = target.closest(".start-program-exercise-timer-btn");
+
+  if (programTimerButton) {
+    event.preventDefault();
+
+    const exerciseId = programTimerButton.dataset.exerciseId;
+    const exerciseKey = programTimerButton.dataset.exerciseKey;
+
+    window.FitnessRpgPrograms?.openProgramExerciseTimer?.(exerciseId, exerciseKey);
+    return;
+  }
+
+  // Programmes : valider un exercice dans une séance active
+  const validateProgramExerciseButton = target.closest(".validate-program-exercise-btn");
+
+  if (validateProgramExerciseButton) {
+    event.preventDefault();
+
+    const exerciseId = validateProgramExerciseButton.dataset.exerciseId;
+    const exerciseKey = validateProgramExerciseButton.dataset.exerciseKey;
+
+    window.FitnessRpgPrograms?.validateProgramExercise?.(exerciseId, exerciseKey);
+    return;
+  }
   
    //levelup
   if (target.closest("#closeLevelUpButton")) {
