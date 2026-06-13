@@ -444,7 +444,8 @@ window.FitnessRpgRender.renderCoachPanel = function renderCoachPanel() {
 };
 
 window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
-  const quest = window.FitnessRpgPrograms.getTodayQuest?.();
+  const quest = window.FitnessRpgPrograms.getTodayPlanningQuest?.()
+    || window.FitnessRpgPrograms.getTodayQuest?.();
 
   if (!quest) {
     window.FitnessRpgRender.setText("#todayProgramTitle", "Éveil du héros");
@@ -454,6 +455,39 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
     );
     return;
   }
+
+  window.FitnessRpgRender.setText("#todayProgramTitle", quest.title);
+
+  window.FitnessRpgRender.setText(
+    "#todayProgramDescription",
+    `${quest.subtitle} · ${quest.description}`
+  );
+
+  const todayCard = document.querySelector("#todayCard");
+
+  if (todayCard) {
+    todayCard.dataset.programId = quest.programId || "";
+    todayCard.dataset.weekNumber = quest.weekNumber || 1;
+    todayCard.dataset.dayNumber = quest.dayNumber || 1;
+    todayCard.dataset.source = quest.source || "planning";
+  }
+
+  const openButton = document.querySelector("#openTodayProgramButton");
+
+  if (openButton) {
+    openButton.dataset.programId = quest.programId || "";
+    openButton.dataset.weekNumber = quest.weekNumber || 1;
+    openButton.dataset.dayNumber = quest.dayNumber || 1;
+
+    if (quest.source === "boss-locked") {
+      openButton.textContent = "Rattraper une séance";
+    } else if (!quest.programId) {
+      openButton.textContent = "Jour de repos";
+    } else {
+      openButton.textContent = "Voir la séance du jour";
+    }
+  }
+};
 
   window.FitnessRpgRender.setText("#todayProgramTitle", quest.title);
 
@@ -645,17 +679,18 @@ window.FitnessRpgRender.renderPlanningPage = function renderPlanningPage() {
     ? window.FitnessRpgPrograms.getCombinedWeeklyPlan(goalId)
     : window.FitnessRpgPrograms.getWeeklyPlan(goalId);
 
-  const todayIndex = window.FitnessRpgPrograms.getTodayPlanIndex();
-  const todayRaw = plan[todayIndex] || plan[0];
+ const todayQuest = window.FitnessRpgPrograms.getTodayPlanningQuest?.();
+const plan = todayQuest?.plan || window.FitnessRpgPrograms.getCombinedWeeklyPlan(goalId);
+const todayIndex = todayQuest?.index ?? window.FitnessRpgPrograms.getTodayPlanIndex();
 
-  const todayItem = {
-    index: todayIndex,
-    dayLabel: todayRaw[0],
-    title: todayRaw[1],
-    programId: todayRaw[2],
-    source: todayRaw[3] || "goal",
-    plan
-  };
+const todayItem = {
+  index: todayIndex,
+  dayLabel: todayQuest?.dayLabel || "Jour",
+  title: todayQuest?.title || "Séance",
+  programId: todayQuest?.programId || null,
+  source: todayQuest?.source || "goal",
+  plan
+};
 
   const todayProgram = todayItem.programId
     ? window.FitnessRpgConfig.getProgramById(todayItem.programId)
