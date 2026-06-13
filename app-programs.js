@@ -918,10 +918,10 @@ window.FitnessRpgPrograms.getActiveProgramItem = function getActiveProgramItem(e
   if (!session) return null;
 
   const day = window.FitnessRpgPrograms.getProgramDay(
-  session.programId,
-  session.dayNumber,
-  session.weekNumber || 1
-);
+    session.programId,
+    session.dayNumber,
+    session.weekNumber || 1
+  );
 
   if (!day || !Array.isArray(day.exercises)) return null;
 
@@ -957,49 +957,14 @@ window.FitnessRpgPrograms.openProgramExerciseTimer = function openProgramExercis
     return;
   }
 
-  window.FitnessRpgExercises.stopTimer?.();
-
-  const overlay = window.FitnessRpgExercises.ensureTimerOverlay();
-  const title = overlay.querySelector("#timerExerciseTitle");
-  const timeText = overlay.querySelector("#timerTimeText");
-  const stopButton = overlay.querySelector("#timerStopButton");
-  const validateButton = overlay.querySelector("#timerValidateButton");
-
-  window.FitnessRpgExercises.timerExerciseId = exerciseId;
-  window.FitnessRpgExercises.remainingSeconds = seconds;
-
-  title.textContent = `${exercise.title} · ${item.amount} ${item.unit}`;
-  timeText.textContent = window.FitnessRpgExercises.formatTime(seconds);
-  validateButton.textContent = "Valider l’exercice";
-
-  overlay.classList.remove("hidden");
-
-  stopButton.onclick = () => {
-    window.FitnessRpgExercises.stopTimer();
-    overlay.classList.add("hidden");
-  };
-
-  validateButton.onclick = () => {
-    const id = window.FitnessRpgExercises.timerExerciseId;
-    window.FitnessRpgExercises.stopTimer();
-    overlay.classList.add("hidden");
-    window.FitnessRpgPrograms.validateProgramExercise(id);
-  };
-
-  window.FitnessRpgExercises.activeTimer = window.setInterval(() => {
-    window.FitnessRpgExercises.remainingSeconds -= 1;
-
-    timeText.textContent = window.FitnessRpgExercises.formatTime(
-      window.FitnessRpgExercises.remainingSeconds
-    );
-
-    if (window.FitnessRpgExercises.remainingSeconds <= 0) {
-      window.FitnessRpgExercises.stopTimer();
-      timeText.textContent = "00:00";
-      validateButton.textContent = "Temps terminé · Valider";
-      window.FitnessRpgMedia?.playTimerEndSound?.();
+  window.FitnessRpgExercises.runTimer({
+    exercise,
+    seconds,
+    title: `${exercise.title} · ${item.amount} ${item.unit}`,
+    onValidate: () => {
+      window.FitnessRpgPrograms.validateProgramExercise(exerciseId);
     }
-  }, 1000);
+  });
 };
 
 
