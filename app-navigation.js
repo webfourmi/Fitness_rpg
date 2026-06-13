@@ -319,6 +319,16 @@ window.FitnessRpgNavigation.saveWeight = function saveWeight() {
 window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(event) {
    const target = event.target;
 
+    if (target.closest("#rpgModalOkButton")) {
+    window.FitnessRpgRender?.closeModal?.();
+    return;
+  }
+
+  if (target.id === "rpgModalOverlay") {
+    window.FitnessRpgRender?.closeModal?.();
+    return;
+  }
+
     // Programmes : retour à la liste
   if (target.closest("#backToProgramListBtn")) {
     event.preventDefault();
@@ -588,6 +598,9 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
 
 window.FitnessRpgNavigation.handleDocumentKeydown = function handleDocumentKeydown(event) {
   const target = event.target;
+    if (event.key === "Escape") {
+      window.FitnessRpgRender?.closeModal?.();
+    }
 
   if (target.closest("#todayCard") && (event.key === "Enter" || event.key === " ")) {
     event.preventDefault();
