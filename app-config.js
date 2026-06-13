@@ -184,13 +184,21 @@ window.FitnessRpgConfig = {
       id: "coeur-dragon",
       icon: "❤️‍🔥",
       title: "Cœur de dragon",
-      objective: "Cardio léger",
-      level: "Débutant/intermédiaire",
-      duration: "15-25 min",
-      frequency: "3 séances par semaine",
+      objective: "Cardio progressif sans impact violent",
+      level: "Après Éveil du héros",
+      unlockLevel: 2,
+      duration: "20-35 min",
+      frequency: "3 séances par semaine · boss le samedi",
       coachAdvice: "Korvan ou Xara",
-      xp: 40
-    },
+      weeklySlots: [0, 2, 4],
+      xp: 60,
+      reward: {
+        badgeId: "coeur-dragon",
+        title: "Cœur de Dragon",
+        chest: true,
+        nextPrograms: ["messager-sentiers", "cavalier-route", "forge-guerrier"]
+      }
+},
     {
       id: "cavalier-route",
       icon: "🚴‍♂️",
