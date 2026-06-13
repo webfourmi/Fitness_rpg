@@ -483,7 +483,10 @@ exercises: [
     xpPerUnit: 0.25,
     stat: "Cardio doux",
     pose: "walk",
-    hasTimer: true
+    hasTimer: true,
+    description: "Déplace-toi latéralement en rapprochant les pieds à chaque pas.",
+shortDescription: "Pas chassés de côté.",
+coachTip: "Reste fluide, sans chercher la vitesse."
   },
   {
     id: "slow_knee_raises",
@@ -522,7 +525,66 @@ exercises: [
     pose: "core",
     hasTimer: true
   },
-
+{
+  id: "lateral_steps",
+  categoryId: "cardio",
+  title: "Pas latéraux",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/femme_default.png"
+  },
+  unit: "sec",
+  defaultValue: 30,
+  min: 15,
+  step: 15,
+  xpPerUnit: 0.25,
+  stat: "Cardio doux",
+  pose: "walk",
+  hasTimer: true,
+  description: "Déplace-toi de quelques pas à droite puis à gauche en gardant le rythme.",
+  shortDescription: "Déplace-toi à droite puis à gauche.",
+  coachTip: "Garde les genoux souples et le buste droit."
+},
+{
+  id: "no_jump_jacks",
+  categoryId: "cardio",
+  title: "Jumping jack sans saut",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/femme_default.png"
+  },
+  unit: "sec",
+  defaultValue: 30,
+  min: 15,
+  step: 15,
+  xpPerUnit: 0.3,
+  stat: "Cardio sans impact",
+  pose: "walk",
+  hasTimer: true,
+  description: "Écarte une jambe et lève les bras, puis reviens au centre sans quitter le sol.",
+  shortDescription: "Ouvre jambe et bras sans sauter.",
+  coachTip: "Reste léger, sans claquer les pieds au sol."
+},
+{
+  id: "slow_walk",
+  categoryId: "walk",
+  title: "Marche lente",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/femme_default.png"
+  },
+  unit: "min",
+  defaultValue: 1,
+  min: 1,
+  step: 1,
+  xpPerUnit: 1,
+  stat: "Récupération active",
+  pose: "walk",
+  hasTimer: true,
+  description: "Marche doucement pour récupérer entre deux efforts.",
+  shortDescription: "Marche douce de récupération.",
+  coachTip: "Profite de cette minute pour retrouver ton souffle."
+},
   // Marche
   {
     id: "walk",
@@ -2121,7 +2183,7 @@ exercises: [
       week: 4,
       title: "Cœur de Dragon",
       xp: 100,
-      badgeId: "coeur-dragon",
+      badgeId: "coeur-dragon-vaincu",
       chest: true,
       nextPrograms: ["messager-sentiers", "cavalier-route", "forge-guerrier"],
       difficultyLabel: "Boss final · ≈ 35 min",
@@ -2653,9 +2715,9 @@ exercises: [
       target: 1
     },
     {
-      id: "coeur-dragon",
+      id: "coeur-dragon-vaincu",
       icon: "❤️‍🔥",
-      title: "Cœur de Dragon",
+      title: "Cœur de Dragon vaincu",
       description: "Vaincre le boss final du programme Cœur de Dragon.",
       type: "program-boss",
       programId: "coeur-dragon",
