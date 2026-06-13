@@ -1546,6 +1546,139 @@ exercises: [
         ]
       }
     ],
+
+       bosses: [
+    {
+      week: 1,
+      title: "Le Rat des Caves",
+      subtitle: "Premier ennemi du héros.",
+      xp: 30,
+      badgeId: "rat-caves-vaincu",
+      difficultyLabel: "Boss semaine 1 · 12 à 15 min",
+      instructions: "Débloqué après les 3 séances de la semaine 1.",
+      lockedMessage: "Même les plus grands héros ont commencé par chasser les rats. Termine tes entraînements, puis reviens.",
+      coachLine: "Même les plus grands héros ont commencé par chasser les rats.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
+
+        { phase: "Tour 1", exerciseId: "chair_squat", amount: 6, unit: "répétitions" },
+        { phase: "Tour 1", exerciseId: "wall_pushups", amount: 6, unit: "répétitions" },
+        { phase: "Tour 1", exerciseId: "slow_knee_raises", amount: 20, unit: "répétitions" },
+        { phase: "Tour 1 · Récupération", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+
+        { phase: "Tour 2", exerciseId: "chair_squat", amount: 6, unit: "répétitions" },
+        { phase: "Tour 2", exerciseId: "wall_pushups", amount: 6, unit: "répétitions" },
+        { phase: "Tour 2", exerciseId: "slow_knee_raises", amount: 20, unit: "répétitions" },
+        { phase: "Tour 2 · Récupération", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+      ]
+    },
+
+    {
+      week: 2,
+      title: "Le Loup Solitaire",
+      xp: 40,
+      badgeId: "loup-solitaire-vaincu",
+      difficultyLabel: "Boss semaine 2 · 15 à 18 min",
+      instructions: "Débloqué après les 3 séances de la semaine 2.",
+      lockedMessage: "Le loup observe les faibles. Termine ta semaine, puis montre-lui qu’il se trompe.",
+      coachLine: "Le loup observe les faibles. Aujourd’hui, montre-lui qu’il se trompe.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 1", exerciseId: "squats", amount: 10, unit: "répétitions" },
+        { phase: "Tour 1", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+        { phase: "Tour 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+        { phase: "Tour 1", exerciseId: "slow_knee_raises", amount: 30, unit: "répétitions" },
+        { phase: "Tour 1 · Récupération", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 2", exerciseId: "squats", amount: 10, unit: "répétitions" },
+        { phase: "Tour 2", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+        { phase: "Tour 2", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+        { phase: "Tour 2", exerciseId: "slow_knee_raises", amount: 30, unit: "répétitions" },
+        { phase: "Tour 2 · Récupération", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+      ]
+    },
+
+    {
+      week: 3,
+      title: "Le Sanglier des Fourrés",
+      xp: 50,
+      badgeId: "sanglier-fourres-vaincu",
+      difficultyLabel: "Boss semaine 3 · 20 à 25 min",
+      instructions: "Débloqué après les 3 séances de la semaine 3.",
+      lockedMessage: "Le sanglier charge sans réfléchir. Toi, avance avec méthode : termine d’abord ta semaine.",
+      coachLine: "Le sanglier charge sans réfléchir. Toi, tu avances avec méthode.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 4, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 1", exerciseId: "squats", amount: 10, unit: "répétitions" },
+        { phase: "Tour 1", exerciseId: "assisted_reverse_lunges", amount: 12, unit: "répétitions" },
+        { phase: "Tour 1", exerciseId: "incline_pushups", amount: 8, unit: "répétitions" },
+        { phase: "Tour 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+        { phase: "Tour 1 · Récupération", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 2", exerciseId: "squats", amount: 10, unit: "répétitions" },
+        { phase: "Tour 2", exerciseId: "assisted_reverse_lunges", amount: 12, unit: "répétitions" },
+        { phase: "Tour 2", exerciseId: "incline_pushups", amount: 8, unit: "répétitions" },
+        { phase: "Tour 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+        { phase: "Tour 2 · Récupération", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 3", exerciseId: "squats", amount: 10, unit: "répétitions" },
+        { phase: "Tour 3", exerciseId: "assisted_reverse_lunges", amount: 12, unit: "répétitions" },
+        { phase: "Tour 3", exerciseId: "incline_pushups", amount: 8, unit: "répétitions" },
+        { phase: "Tour 3", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+        { phase: "Tour 3 · Récupération", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 4, unit: "min" }
+      ]
+    },
+
+    {
+      week: 4,
+      title: "L’Ogre Endormi",
+      subtitle: "Le premier véritable adversaire.",
+      xp: 75,
+      badgeId: "ogre-endormi-vaincu",
+      chest: true,
+      nextPrograms: ["coeur-dragon", "forge-guerrier", "marche-aventurier"],
+      difficultyLabel: "Boss final · 25 à 30 min",
+      instructions: "Débloqué après les 3 séances de la semaine 4.",
+      lockedMessage: "L’ogre paraît invincible de loin. Termine ta préparation, puis approche-toi.",
+      coachLine: "L’ogre paraît invincible quand on le regarde de loin. Approche-toi et tu verras qu’il tombe comme les autres.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 5, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 1", exerciseId: "squats", amount: 15, unit: "répétitions" },
+        { phase: "Tour 1", exerciseId: "reverse_lunges", amount: 16, unit: "répétitions" },
+        { phase: "Tour 1", exerciseId: "incline_pushups", amount: 10, unit: "répétitions" },
+        { phase: "Tour 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+        { phase: "Tour 1", exerciseId: "core", amount: 20, unit: "sec" },
+        { phase: "Tour 1 · Récupération", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 2", exerciseId: "squats", amount: 15, unit: "répétitions" },
+        { phase: "Tour 2", exerciseId: "reverse_lunges", amount: 16, unit: "répétitions" },
+        { phase: "Tour 2", exerciseId: "incline_pushups", amount: 10, unit: "répétitions" },
+        { phase: "Tour 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+        { phase: "Tour 2", exerciseId: "core", amount: 20, unit: "sec" },
+        { phase: "Tour 2 · Récupération", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Tour 3", exerciseId: "squats", amount: 15, unit: "répétitions" },
+        { phase: "Tour 3", exerciseId: "reverse_lunges", amount: 16, unit: "répétitions" },
+        { phase: "Tour 3", exerciseId: "incline_pushups", amount: 10, unit: "répétitions" },
+        { phase: "Tour 3", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+        { phase: "Tour 3", exerciseId: "core", amount: 20, unit: "sec" },
+        { phase: "Tour 3 · Récupération", exerciseId: "walk", amount: 1, unit: "min", distanceOptional: true },
+
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
+      ]
+    }
+  ], 
   
     progression: [
       "Semaine 1 : L’Appel de l’Aventure · découvrir sans se punir.",
@@ -2450,45 +2583,85 @@ exercises: [
       target: 1
     },
     {
-  id: "ecaille-dragon",
-  icon: "🐉",
-  title: "Écaille du Dragon",
-  description: "Vaincre le boss de la semaine 1 du programme Cœur de Dragon.",
-  type: "program-boss",
-  programId: "coeur-dragon",
-  weekNumber: 1,
-  target: 1
-},
-{
-  id: "gardien-flammes",
-  icon: "🔥",
-  title: "Gardien des Flammes",
-  description: "Vaincre le boss de la semaine 2 du programme Cœur de Dragon.",
-  type: "program-boss",
-  programId: "coeur-dragon",
-  weekNumber: 2,
-  target: 1
-},
-{
-  id: "drake-rouge",
-  icon: "🐲",
-  title: "Drake Rouge",
-  description: "Vaincre le boss de la semaine 3 du programme Cœur de Dragon.",
-  type: "program-boss",
-  programId: "coeur-dragon",
-  weekNumber: 3,
-  target: 1
-},
-{
-  id: "coeur-dragon",
-  icon: "❤️‍🔥",
-  title: "Cœur de Dragon",
-  description: "Vaincre le boss final du programme Cœur de Dragon.",
-  type: "program-boss",
-  programId: "coeur-dragon",
-  weekNumber: 4,
-  target: 1
-},
+      id: "rat-caves-vaincu",
+      icon: "🐀",
+      title: "Rat des Caves vaincu",
+      description: "Vaincre le boss de la semaine 1 du programme Éveil du héros.",
+      type: "program-boss",
+      programId: "eveil-heros",
+      weekNumber: 1,
+      target: 1
+    },
+    {
+      id: "loup-solitaire-vaincu",est ce qu on a bi
+      icon: "🐺",
+      title: "Loup Solitaire vaincu",
+      description: "Vaincre le boss de la semaine 2 du programme Éveil du héros.",
+      type: "program-boss",
+      programId: "eveil-heros",
+      weekNumber: 2,
+      target: 1
+    },
+    {
+      id: "sanglier-fourres-vaincu",
+      icon: "🐗",
+      title: "Sanglier des Fourrés vaincu",
+      description: "Vaincre le boss de la semaine 3 du programme Éveil du héros.",
+      type: "program-boss",
+      programId: "eveil-heros",
+      weekNumber: 3,
+      target: 1
+    },
+    {
+      id: "ogre-endormi-vaincu",
+      icon: "🧌",
+      title: "Ogre Endormi vaincu",
+      description: "Vaincre le boss final du programme Éveil du héros.",
+      type: "program-boss",
+      programId: "eveil-heros",
+      weekNumber: 4,
+      target: 1
+    },
+    {
+      id: "ecaille-dragon",
+      icon: "🐉",
+      title: "Écaille du Dragon",
+      description: "Vaincre le boss de la semaine 1 du programme Cœur de Dragon.",
+      type: "program-boss",
+      programId: "coeur-dragon",
+      weekNumber: 1,
+      target: 1
+    },
+    {
+      id: "gardien-flammes",
+      icon: "🔥",
+      title: "Gardien des Flammes",
+      description: "Vaincre le boss de la semaine 2 du programme Cœur de Dragon.",
+      type: "program-boss",
+      programId: "coeur-dragon",
+      weekNumber: 2,
+      target: 1
+    },
+    {
+      id: "drake-rouge",
+      icon: "🐲",
+      title: "Drake Rouge",
+      description: "Vaincre le boss de la semaine 3 du programme Cœur de Dragon.",
+      type: "program-boss",
+      programId: "coeur-dragon",
+      weekNumber: 3,
+      target: 1
+    },
+    {
+      id: "coeur-dragon",
+      icon: "❤️‍🔥",
+      title: "Cœur de Dragon",
+      description: "Vaincre le boss final du programme Cœur de Dragon.",
+      type: "program-boss",
+      programId: "coeur-dragon",
+      weekNumber: 4,
+      target: 1
+    },
     {
       id: "boss",
       icon: "👹",
