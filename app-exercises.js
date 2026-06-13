@@ -328,12 +328,24 @@ window.FitnessRpgExercises.validateExercise = function validateExercise(exercise
   const exercise = window.FitnessRpgExercises.getExercise(exerciseId);
 
   if (!exercise) {
-    alert("Exercice introuvable.");
+     window.FitnessRpgRender?.showModal?.({
+    icon: "⚠️",
+    title: "Exercice introuvable",
+    message: "Impossible de trouver cet exercice dans le grimoire."
+  });
     return;
   }
 
   if (!window.FitnessRpgState?.hasProfile?.()) {
-    alert("Crée d’abord ton héros.");
+    window.FitnessRpgRender?.showModal?.({
+      icon: "🧙",
+      title: "Héros requis",
+      message: "Crée d’abord ton héros avant de partir à l’entraînement.",
+      okText: "Créer mon héros",
+      onOk: () => {
+        window.FitnessRpgNavigation?.openHeroSetup?.();
+      }
+    });
     window.FitnessRpgNavigation?.openHeroSetup?.();
     return;
   }
@@ -341,7 +353,11 @@ window.FitnessRpgExercises.validateExercise = function validateExercise(exercise
   const amount = window.FitnessRpgExercises.getAmountValue(exerciseId);
 
   if (!Number.isFinite(amount) || amount < exercise.min) {
-    alert(`Entre une valeur d’au moins ${exercise.min} ${exercise.unit}.`);
+   window.FitnessRpgRender?.showModal?.({
+      icon: "📏",
+      title: "Valeur trop basse",
+      message: `Entre une valeur d’au moins ${exercise.min} ${exercise.unit}.`
+    });
     return;
   }
 
@@ -550,9 +566,18 @@ window.FitnessRpgExercises.runTimer = function runTimer(options = {}) {
   const onValidate = typeof options.onValidate === "function" ? options.onValidate : null;
 
   if (!exercise || seconds <= 0) {
-    alert("Cet exercice n’a pas de durée exploitable pour le timer.");
+    window.FitnessRpgRender?.showModal?.({
+      icon: "⏱️",
+      title: "Timer indisponible",
+      message: [
+        "Cet exercice n’a pas de durée exploitable pour le timer.",
+        "Tu peux quand même le valider avec le bouton ✅ après l’avoir réalisé."
+      ],
+      okText: "Compris"
+    });
     return;
   }
+  
 
   window.FitnessRpgExercises.stopTimer();
 
@@ -677,15 +702,18 @@ window.FitnessRpgExercises.explainExercise = function explainExercise(exerciseId
   localStorage.setItem(key, "true");
 
   const message = [
-    `${exercise.title}`,
-    "",
-    `Objectif : ${exercise.stat}.`,
-    `Valeur conseillée : ${exercise.defaultValue} ${exercise.unit}.`,
-    exercise.hasDistance ? "Tu peux aussi noter la distance en kilomètres." : "",
-    exercise.hasTimer ? "Tu peux lancer le timer pour suivre le temps." : ""
-  ].filter(Boolean).join("\n");
+  `Objectif : ${exercise.stat}.`,
+  `Valeur conseillée : ${exercise.defaultValue} ${exercise.unit}.`,
+  exercise.hasDistance ? "Tu peux aussi noter la distance en kilomètres." : "",
+  exercise.hasTimer ? "Tu peux lancer le timer pour suivre le temps." : ""
+].filter(Boolean);
 
-  alert(message);
+window.FitnessRpgRender?.showModal?.({
+  icon: exercise.hasTimer ? "⏱️" : "⚔️",
+  title: exercise.title,
+  message,
+  okText: "J’ai compris"
+});
 };
 
 // ============================================================
@@ -748,7 +776,6 @@ window.FitnessRpgExercises.handleDocumentClick = function handleDocumentClick(ev
 
   if (timerButton) {
     const exerciseId = timerButton.dataset.exerciseId;
-    window.FitnessRpgExercises.explainExercise(exerciseId);
     window.FitnessRpgExercises.openTimer(exerciseId);
     return;
   }
