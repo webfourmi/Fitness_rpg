@@ -318,6 +318,52 @@ window.FitnessRpgNavigation.saveWeight = function saveWeight() {
 
 window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(event) {
    const target = event.target;
+
+    // Programmes : retour à la liste
+  if (target.closest("#backToProgramListBtn")) {
+    event.preventDefault();
+    window.FitnessRpgPrograms?.openProgramList?.();
+    return;
+  }
+
+  // Programmes : ouvrir le détail d’un programme
+  const openProgramDetailButton = target.closest(".open-program-detail-btn");
+
+  if (openProgramDetailButton) {
+    event.preventDefault();
+
+    const programId = openProgramDetailButton.dataset.programId;
+
+    if (programId) {
+      window.FitnessRpgPrograms?.openProgramDetail?.(programId);
+    }
+
+    return;
+  }
+
+  // Programmes : carrousel des semaines
+  const weekCarouselButton = target.closest(".program-week-carousel-btn");
+
+  if (weekCarouselButton) {
+    event.preventDefault();
+
+    const delta = Number(weekCarouselButton.dataset.delta || 0);
+    window.FitnessRpgPrograms?.changeProgramWeek?.(delta);
+
+    return;
+  }
+
+  // Programmes : carrousel des jours
+  const dayCarouselButton = target.closest(".program-day-carousel-btn");
+
+  if (dayCarouselButton) {
+    event.preventDefault();
+
+    const delta = Number(dayCarouselButton.dataset.delta || 0);
+    window.FitnessRpgPrograms?.changeProgramDay?.(delta);
+
+    return;
+  }
   
    //levelup
   if (target.closest("#closeLevelUpButton")) {
