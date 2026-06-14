@@ -123,44 +123,30 @@ window.FitnessRpgPrograms.getProgramDay = function getProgramDay(programId, dayN
 
 window.FitnessRpgPrograms.getProgramBosses = function getProgramBosses(programId) {
   const detail = window.FitnessRpgPrograms.getProgramDetail(programId);
-
   return Array.isArray(detail?.bosses) ? detail.bosses : [];
 };
 
 window.FitnessRpgPrograms.getProgramBoss = function getProgramBoss(programId, weekNumber = 1) {
   const bosses = window.FitnessRpgPrograms.getProgramBosses(programId);
-  const safeWeekNumber = Number(weekNumber) || 1;
+  const safeWeekNumber = Math.max(1, Number(weekNumber) || 1);
 
   return bosses.find((boss) => Number(boss.week) === safeWeekNumber) || null;
 };
 
-window.FitnessRpgPrograms.getProgramBossVariant = function getProgramBossVariant(programId, weekNumber = 1, variantId = "indoor") {
-  const boss = window.FitnessRpgPrograms.getProgramBoss(programId, weekNumber);
+window.FitnessRpgPrograms.getPlanningBossWeekNumber = function getPlanningBossWeekNumber(programId) {
+  const weeks = window.FitnessRpgPrograms.getProgramWeeks?.(programId) || [];
+  const days = window.FitnessRpgPrograms.getProgramDaysForWeek?.(programId, 1) || [];
 
-  if (!boss) return null;
+  const weekCount = Math.max(1, weeks.length || 1);
+  const daysPerWeek = Math.max(1, days.length || 3);
+  const completedCount = window.FitnessRpgPrograms.getCompletedProgramSessionCount?.(programId) || 0;
 
-  if (boss.variants?.[variantId]) {
-    return boss.variants[variantId];
-  }
+  const bossWeekNumber = Math.ceil(Math.max(1, completedCount) / daysPerWeek);
 
-  if (boss.variants?.indoor) {
-    return boss.variants.indoor;
-  }
-
-  // Compatibilité avec les anciens boss Éveil du héros qui ont directement boss.exercises.
-  if (Array.isArray(boss.exercises)) {
-    return {
-      id: "single",
-      label: "⚔️ Boss",
-      title: boss.title,
-      mission: boss.coachLine || boss.subtitle || "",
-      difficultyLabel: boss.difficultyLabel || "",
-      exercises: boss.exercises
-    };
-  }
-
-  return null;
+  return Math.min(weekCount, Math.max(1, bossWeekNumber));
 };
+
+ 
 
 window.FitnessRpgPrograms.getActiveProgramWorkout = function getActiveProgramWorkout(session = null) {
   const activeSession = session || window.FitnessRpgState?.getActiveProgramSession?.();
@@ -708,15 +694,40 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
   const completedMainSessions = window.FitnessRpgPrograms.getCompletedMainSessionsThisWeek();
   const bossUnlocked = completedMainSessions >= 5;
 
+  const bossWeekNumber = window.FitnessRpgPrograms.getPlanningBossWeekNumber(activeProgramId);
+  const programBoss = window.FitnessRpgPrograms.getProgramBoss(activeProgramId, bossWeekNumber);
+
+  const bossTitle = programBoss
+    ? programBoss.title
+    : "Défi boss hebdo";
+
+  const bossProgramId = programBoss
+    ? activeProgramId
+    : "boss-hebdo";
+
+  const bossSource = programBoss
+    ? "program-boss"
+    : "boss";
+
   return [
     ["Lun", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
     ["Mar", objectiveProgram1?.title || "Séance objectif", objectiveProgram1Id, "goal"],
     ["Mer", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
     ["Jeu", objectiveProgram2?.title || "Séance objectif", objectiveProgram2Id, "goal"],
     ["Ven", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
+
     bossUnlocked
-      ? ["Sam", "Défi boss hebdo", "boss-hebdo", "boss"]
-      : ["Sam", `Boss verrouillé · ${completedMainSessions}/5 séances`, null, "boss-locked"],
+      ? ["Sam", bossTitle, bossProgramId, bossSource, bossWeekNumber]
+      : [
+          "Sam",
+          programBoss
+            ? `Boss verrouillé · ${programBoss.title} · ${completedMainSessions}/5 séances`
+            : `Boss verrouillé · ${completedMainSessions}/5 séances`,
+          null,
+          "boss-locked",
+          bossWeekNumber
+        ],
+
     ["Dim", "Repos", null, "rest"]
   ];
 };
@@ -731,12 +742,13 @@ window.FitnessRpgPrograms.getTodayPlanningItem = function getTodayPlanningItem()
   const todayIndex = window.FitnessRpgPrograms.getTodayPlanIndex();
   const item = plan[todayIndex] || plan[0];
 
-  return {
+   return {
     index: todayIndex,
     dayLabel: item?.[0] || "Lun",
     title: item?.[1] || "Séance",
     programId: item?.[2] || null,
     source: item?.[3] || "goal",
+    bossWeekNumber: Number(item?.[4] || 1),
     plan
   };
 };
@@ -775,6 +787,24 @@ window.FitnessRpgPrograms.getTodayPlanningQuest = function getTodayPlanningQuest
         : "Valide les 5 séances principales pour débloquer le boss."
     };
   }
+  if (item.source === "program-boss") {
+  const boss = window.FitnessRpgPrograms.getProgramBoss(
+    item.programId,
+    item.bossWeekNumber || 1
+  );
+
+  return {
+    ...item,
+    type: "program-boss",
+    program,
+    boss,
+    weekNumber: item.bossWeekNumber || 1,
+    dayNumber: 0,
+    title: boss?.title || "Boss de programme",
+    subtitle: `${item.dayLabel} · Boss semaine ${item.bossWeekNumber || 1}`,
+    description: boss?.subtitle || "Choisis une mission intérieure ou extérieure."
+  };
+}
 
   if (!item.programId || !program) {
     return {
@@ -957,7 +987,21 @@ window.FitnessRpgPrograms.startTodayPlanningSession = function startTodayPlannin
     window.FitnessRpgPrograms.startWeeklyCatchupSession();
     return;
   }
-
+  if (quest.source === "program-boss" || quest.type === "program-boss") {
+    window.FitnessRpgPrograms.openProgramDetail(quest.programId, {
+      weekNumber: quest.weekNumber || 1,
+      dayNumber: 1
+    });
+  
+    window.setTimeout(() => {
+      document.querySelector(".program-boss-choice")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }, 120);
+  
+    return;
+  }
   if (!quest.programId) {
     window.FitnessRpgPrograms.showMessage({
       icon: "🌙",
