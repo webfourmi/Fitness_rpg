@@ -452,7 +452,7 @@ exercises: [
     title: "Marche dynamique",
     images: {
       male: "assets/exercices/homme_default.png",
-      female: "assets/exercices//exercice_femme_marchedelaventurier.jpg"
+      female: "assets/exercices/exercice_femme_marchedelaventurier.jpg"
     },
     unit: "min",
     defaultValue: 3,
@@ -2312,15 +2312,6 @@ exercises: [
     "Accent mis sur la variété et la coordination.",
     "Les boss servent de jalons narratifs et de validation hebdomadaire.",
     "Pour la marche avec accélérations, le détail complet est donné dans le champ instructions."
-  ]
-},
-    
-  notes: [
-    "Objectif : préparer à la course, au vélo, à la randonnée ou aux programmes plus sportifs.",
-    "Cardio progressif sans impact violent.",
-    "Structure principale : effort court puis récupération active.",
-    "Les marches répétées sont volontairement séparées pour créer une vraie alternance cardio.",
-    "Les boss sont stockés séparément dans bosses pour ne pas compter comme séances normales."
   ]
 },
       "bras-heros": {
