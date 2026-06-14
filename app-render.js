@@ -806,8 +806,17 @@ summary.innerHTML = `
       ${
         
           program
-          ? `<button class="secondary-btn planning-program-btn" type="button" data-program-id="${program.id}">
-              Ouvrir
+          ? `<button
+              class="secondary-btn planning-program-btn"
+              type="button"
+              data-program-id="${program.id}"
+              data-planning-index="${index}"
+              data-date-key="${dateKey}"
+              data-day-label="${dayLabel}"
+              data-planning-title="${title}"
+              data-source="${source || "planning"}"
+            >
+              ${done ? "Revoir" : "Ouvrir"}
             </button>`
           : source === "boss-locked"
             ? `<span class="rest-label">Boss verrouillé</span>`
