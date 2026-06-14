@@ -2123,95 +2123,178 @@ exercises: [
     }
   ],
 
-  bosses: [
-    {
-      week: 1,
-      title: "Le Rat des Braises",
-      subtitle: "Mission : nettoyer les caves du fort.",
-      xp: 50,
-      badgeId: "ecaille-braise",
-      difficultyLabel: "Boss semaine 1 · ≈ 20 min",
-      instructions: "Débloqué après les 3 séances de la semaine 1.",
-      lockedMessage: "Le feu n’est pas encore assez vif. Termine tes 3 séances avant d’affronter le Rat des Braises.",
-      coachLine: "Même une braise mal éteinte peut enflammer tout un fort. Va nettoyer ça.",
-      exercises: [
-        { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 3, unit: "min" },
-        { phase: "Parcours", exerciseId: "stomping", amount: 30, unit: "sec" },
-        { phase: "Parcours", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
-        { phase: "Parcours", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
-        { phase: "Parcours", exerciseId: "cross_knee_tap", amount: 30, unit: "sec" },
-        { phase: "Marche active", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
-        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
-      ]
-    },
-    {
-      week: 2,
-      title: "La Salamandre Rouge",
-      subtitle: "Mission : traverser le canyon brûlant.",
-      xp: 60,
-      badgeId: "salamandre-rouge",
-      difficultyLabel: "Boss semaine 2 · ≈ 25 min",
-      instructions: "Débloqué après les 3 séances de la semaine 2.",
-      lockedMessage: "La Salamandre Rouge t’attend encore. Termine d’abord ta semaine.",
-      coachLine: "La Salamandre Rouge aime les hésitants. Ne lui donne pas ce plaisir.",
-      exercises: [
-        { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 3, unit: "min" },
-        { phase: "Parcours", exerciseId: "butt_kicks", amount: 45, unit: "sec" },
-        { phase: "Parcours", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
-        { phase: "Parcours", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
-        { phase: "Parcours", exerciseId: "cross_knee_tap", amount: 45, unit: "sec" },
-        { phase: "Parcours", exerciseId: "stomping", amount: 45, unit: "sec" },
-        { phase: "Marche active", exerciseId: "walk", amount: 5, unit: "min", distanceOptional: true },
-        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
-      ]
-    },
-    {
-      week: 3,
-      title: "Le Drake des Falaises",
-      subtitle: "Mission : gravir les hauteurs.",
-      xp: 70,
-      badgeId: "drake-falaises",
-      difficultyLabel: "Boss semaine 3 · ≈ 30 min",
-      instructions: "Débloqué après les 3 séances de la semaine 3.",
-      lockedMessage: "Le Drake des Falaises ne se montre qu’aux aventuriers réguliers.",
-      coachLine: "Monte, souffle, tiens bon. Les hauteurs ne respectent que les courageux.",
-      exercises: [
-        { phase: "Quête extérieure", exerciseId: "walk", amount: 20, unit: "min", distanceOptional: true },
-        { phase: "Retour", exerciseId: "step_touch", amount: 45, unit: "sec" },
-        { phase: "Retour", exerciseId: "butt_kicks", amount: 45, unit: "sec" },
-        { phase: "Retour", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
-        { phase: "Retour", exerciseId: "stomping", amount: 45, unit: "sec" },
-        { phase: "Retour", exerciseId: "cross_knee_tap", amount: 45, unit: "sec" },
-        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 4, unit: "min" }
-      ]
-    },
-    {
-      week: 4,
-      title: "Le Cœur du Dragon",
-      subtitle: "Mission : atteindre le sommet du volcan.",
-      xp: 100,
-      badgeId: "coeur-dragon-legendaire",
-      chest: true,
-      nextPrograms: ["messager-sentiers", "cavalier-route", "forge-guerrier"],
-      difficultyLabel: "Boss final · ≈ 40 min",
-      instructions: "Débloqué après les 3 séances de la semaine 4. Pendant la marche rapide, faire une accélération de 1 min toutes les 5 min.",
-      lockedMessage: "Le sommet du volcan n’est pas pour les hésitants. Termine d’abord ton entraînement.",
-      coachLine: "Un héros agile survit plus longtemps qu’un héros immobile. Bouge tes pieds !",
-      exercises: [
-        { phase: "Quête extérieure", exerciseId: "walk", amount: 30, unit: "min", distanceOptional: true },
-        { phase: "Accélérations régulières", exerciseId: "walk_acceleration", amount: 1, unit: "min" },
-        { phase: "Agilité", exerciseId: "light_boxer", amount: 45, unit: "sec" },
-        { phase: "Cardio", exerciseId: "step_touch", amount: 45, unit: "sec" },
-        { phase: "Cardio", exerciseId: "skater_steps", amount: 45, unit: "sec" },
-        { phase: "Cardio", exerciseId: "butt_kicks", amount: 45, unit: "sec" },
-        { phase: "Cardio", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
-        { phase: "Coordination", exerciseId: "cross_knee_tap", amount: 45, unit: "sec" },
-        { phase: "Cardio", exerciseId: "stomping", amount: 45, unit: "sec" },
-        { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" },
-        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
-      ]
+ bosses: [
+  {
+    week: 1,
+    title: "Le Rat des Braises",
+    subtitle: "Mission : nettoyer les caves du fort.",
+    xp: 50,
+    badgeId: "ecaille-braise",
+    difficultyLabel: "Boss semaine 1",
+    instructions: "Débloqué après les 3 séances de la semaine 1.",
+    lockedMessage: "Le feu n’est pas encore assez vif. Termine tes 3 séances avant d’affronter le Rat des Braises.",
+    variants: {
+      indoor: {
+        id: "indoor",
+        label: "🏠 Boss Intérieur",
+        title: "Caves du Fort",
+        mission: "Le dragon se cache dans les tunnels du fort. Affronte-le ici même !",
+        difficultyLabel: "≈ 15 à 20 min",
+        exercises: [
+          { phase: "Parcours", exerciseId: "stomping", amount: 30, unit: "sec" },
+          { phase: "Parcours", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+          { phase: "Parcours", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
+          { phase: "Parcours", exerciseId: "cross_knee_tap", amount: 30, unit: "sec" },
+          { phase: "Marche active", exerciseId: "walk", amount: 2, unit: "min", distanceOptional: true },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+        ]
+      },
+      outdoor: {
+        id: "outdoor",
+        label: "🌲 Boss Extérieur",
+        title: "Patrouille autour du fort",
+        mission: "Le dragon rôde dans les terres sauvages. Pars à sa recherche !",
+        difficultyLabel: "≈ 20 min",
+        instructions: "Pendant la marche rapide, fais 3 accélérations de 30 secondes.",
+        exercises: [
+          { phase: "Patrouille", exerciseId: "walk", amount: 20, unit: "min", distanceOptional: true },
+          { phase: "Accélérations", exerciseId: "walk_acceleration", amount: 1, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+        ]
+      }
     }
-  ],
+  },
+
+  {
+    week: 2,
+    title: "La Salamandre Rouge",
+    subtitle: "Mission : traverser le canyon brûlant.",
+    xp: 60,
+    badgeId: "salamandre-rouge",
+    difficultyLabel: "Boss semaine 2",
+    instructions: "Débloqué après les 3 séances de la semaine 2.",
+    lockedMessage: "La Salamandre Rouge t’attend encore. Termine d’abord ta semaine.",
+    variants: {
+      indoor: {
+        id: "indoor",
+        label: "🏠 Boss Intérieur",
+        title: "Canyon intérieur",
+        mission: "Le dragon se cache dans les tunnels du fort. Affronte-le ici même !",
+        difficultyLabel: "≈ 20 à 25 min",
+        exercises: [
+          { phase: "Parcours", exerciseId: "butt_kicks", amount: 45, unit: "sec" },
+          { phase: "Parcours", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+          { phase: "Parcours", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+          { phase: "Parcours", exerciseId: "cross_knee_tap", amount: 45, unit: "sec" },
+          { phase: "Parcours", exerciseId: "stomping", amount: 45, unit: "sec" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+        ]
+      },
+      outdoor: {
+        id: "outdoor",
+        label: "🌲 Boss Extérieur",
+        title: "Traversée des Terres Rouges",
+        mission: "Le dragon rôde dans les terres sauvages. Pars à sa recherche !",
+        difficultyLabel: "≈ 25 min",
+        instructions: "Marche rapide 25 minutes. Toutes les 5 minutes, fais une accélération de 45 secondes.",
+        exercises: [
+          { phase: "Traversée", exerciseId: "walk", amount: 25, unit: "min", distanceOptional: true },
+          { phase: "Accélérations", exerciseId: "walk_acceleration", amount: 1, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" }
+        ]
+      }
+    }
+  },
+
+  {
+    week: 3,
+    title: "Le Drake des Falaises",
+    subtitle: "Mission : gravir les hauteurs.",
+    xp: 70,
+    badgeId: "drake-falaises",
+    difficultyLabel: "Boss semaine 3",
+    instructions: "Débloqué après les 3 séances de la semaine 3.",
+    lockedMessage: "Le Drake des Falaises ne se montre qu’aux aventuriers réguliers.",
+    variants: {
+      indoor: {
+        id: "indoor",
+        label: "🏠 Boss Intérieur",
+        title: "Falaises simulées",
+        mission: "Le dragon se cache dans les tunnels du fort. Affronte-le ici même !",
+        difficultyLabel: "≈ 25 à 30 min",
+        exercises: [
+          { phase: "Parcours", exerciseId: "step_touch", amount: 45, unit: "sec" },
+          { phase: "Parcours", exerciseId: "butt_kicks", amount: 45, unit: "sec" },
+          { phase: "Parcours", exerciseId: "stomping", amount: 45, unit: "sec" },
+          { phase: "Parcours", exerciseId: "cross_knee_tap", amount: 45, unit: "sec" },
+          { phase: "Parcours", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+          { phase: "Parcours", exerciseId: "skater_steps", amount: 45, unit: "sec" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 4, unit: "min" }
+        ]
+      },
+      outdoor: {
+        id: "outdoor",
+        label: "🌲 Boss Extérieur",
+        title: "Ascension des Falaises",
+        mission: "Le dragon rôde dans les terres sauvages. Pars à sa recherche !",
+        difficultyLabel: "≈ 30 min",
+        instructions: "Marche rapide 30 minutes. Toutes les 5 minutes, fais une accélération de 1 minute.",
+        exercises: [
+          { phase: "Ascension", exerciseId: "walk", amount: 30, unit: "min", distanceOptional: true },
+          { phase: "Accélérations", exerciseId: "walk_acceleration", amount: 1, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 4, unit: "min" }
+        ]
+      }
+    }
+  },
+
+  {
+    week: 4,
+    title: "Le Cœur du Dragon",
+    subtitle: "Mission : atteindre le sommet du volcan.",
+    xp: 100,
+    badgeId: "coeur-dragon-legendaire",
+    chest: true,
+    nextPrograms: ["messager-sentiers", "cavalier-route", "forge-guerrier"],
+    difficultyLabel: "Boss final",
+    instructions: "Débloqué après les 3 séances de la semaine 4.",
+    lockedMessage: "Le sommet du volcan n’est pas pour les hésitants. Termine d’abord ton entraînement.",
+    variants: {
+      indoor: {
+        id: "indoor",
+        label: "🏠 Boss Intérieur",
+        title: "Le Cœur dans les tunnels",
+        mission: "Le dragon se cache dans les tunnels du fort. Affronte-le ici même !",
+        difficultyLabel: "≈ 35 min",
+        exercises: [
+          { phase: "Agilité", exerciseId: "light_boxer", amount: 45, unit: "sec" },
+          { phase: "Cardio", exerciseId: "step_touch", amount: 45, unit: "sec" },
+          { phase: "Cardio", exerciseId: "skater_steps", amount: 45, unit: "sec" },
+          { phase: "Cardio", exerciseId: "butt_kicks", amount: 45, unit: "sec" },
+          { phase: "Cardio", exerciseId: "slow_knee_raises", amount: 45, unit: "sec" },
+          { phase: "Coordination", exerciseId: "cross_knee_tap", amount: 45, unit: "sec" },
+          { phase: "Cardio", exerciseId: "stomping", amount: 45, unit: "sec" },
+          { phase: "Cardio", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
+        ]
+      },
+      outdoor: {
+        id: "outdoor",
+        label: "🌲 Boss Extérieur",
+        title: "Sommet du Dragon",
+        mission: "Le dragon rôde dans les terres sauvages. Pars à sa recherche !",
+        difficultyLabel: "≈ 40 min",
+        instructions: "Marche rapide 40 minutes. Toutes les 5 minutes, fais une accélération de 1 minute.",
+        exercises: [
+          { phase: "Ascension", exerciseId: "walk", amount: 40, unit: "min", distanceOptional: true },
+          { phase: "Accélérations", exerciseId: "walk_acceleration", amount: 1, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 5, unit: "min" }
+        ]
+      }
+    }
+  }
+],
 
   progression: [
     "Semaine 1 : découverte du cardio doux avec Piétinement.",
