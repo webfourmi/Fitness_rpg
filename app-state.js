@@ -341,6 +341,9 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}) 
     sportTitle: entry.sportTitle || null,
     exerciseId: entry.exerciseId || null,
     programId: entry.programId || null,
+    bossTitle: entry.bossTitle || null,
+    bossVariant: entry.bossVariant || null,
+    badgeId: entry.badgeId || null,
     programTitle: entry.programTitle || null,
     dayNumber: entry.dayNumber ? Number(entry.dayNumber) : null,
     
@@ -575,6 +578,35 @@ window.FitnessRpgState.startProgramSession = function startProgramSession(progra
   return window.FitnessRpgState.activeProgramSession;
 };
 
+window.FitnessRpgState.startProgramBossSession = function startProgramBossSession(programId, weekNumber = 1, variantId = "indoor") {
+  const safeWeekNumber = Math.max(1, Number(weekNumber) || 1);
+
+  const boss = window.FitnessRpgPrograms?.getProgramBoss?.(programId, safeWeekNumber);
+  const variant = window.FitnessRpgPrograms?.getProgramBossVariant?.(
+    programId,
+    safeWeekNumber,
+    variantId
+  );
+
+  if (!boss || !variant) return null;
+
+  window.FitnessRpgState.activeProgramSession = {
+    id: window.FitnessRpgState.createId("program-boss-session"),
+    type: "program-boss",
+    programId,
+    weekNumber: safeWeekNumber,
+    dayNumber: 0,
+    bossTitle: boss.title,
+    bossVariant: variant.id || variantId,
+    badgeId: boss.badgeId || null,
+    startedAt: window.FitnessRpgState.nowIso(),
+    completedExerciseIds: [],
+    completedExerciseKeys: []
+  };
+
+  return window.FitnessRpgState.activeProgramSession;
+};
+
 window.FitnessRpgState.getActiveProgramSession = function getActiveProgramSession() {
   return window.FitnessRpgState.activeProgramSession;
 };
@@ -625,19 +657,15 @@ window.FitnessRpgState.isProgramSessionComplete = function isProgramSessionCompl
 
   if (!session) return false;
 
-  const day = window.FitnessRpgPrograms?.getProgramDay?.(
-    session.programId,
-    session.dayNumber,
-    session.weekNumber || 1
-  );
+  const workout = window.FitnessRpgPrograms?.getActiveProgramWorkout?.(session);
 
-  if (!day || !Array.isArray(day.exercises) || !day.exercises.length) {
+  if (!workout || !Array.isArray(workout.exercises) || !workout.exercises.length) {
     return false;
   }
 
   const completed = session.completedExerciseKeys || session.completedExerciseIds || [];
 
-  return day.exercises.every((item, index) => {
+  return workout.exercises.every((item, index) => {
     return completed.includes(`${index}-${item.exerciseId}`);
   });
 };
