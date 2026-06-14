@@ -7,6 +7,7 @@
 // - brancher les boutons principaux ;
 // - gérer création / modification du héros ;
 // - ouvrir le programme recommandé depuis la quête du jour ;
+// - centraliser les clics des programmes, séances et boss ;
 // - gérer les boutons simples : journal, poids, coach, accueil.
 //
 // Règle importante :
@@ -14,7 +15,7 @@
 // Il ne modifie jamais document.title.
 // ============================================================
 
-window.FitnessRpgNavigation = {};
+window.FitnessRpgNavigation = window.FitnessRpgNavigation || {};
 
 // ============================================================
 // Raccourcis
@@ -27,7 +28,6 @@ window.FitnessRpgNavigation.render = function render() {
 window.FitnessRpgNavigation.setPage = function setPage(pageId) {
   const config = window.FitnessRpgConfig;
   const allowedPages = config?.pages || [];
-
   const safePage = allowedPages.includes(pageId) ? pageId : "home";
 
   window.FitnessRpgState.setPage(safePage);
@@ -42,30 +42,50 @@ window.FitnessRpgNavigation.getCheckedValue = function getCheckedValue(name, fal
   return document.querySelector(`input[name="${name}"]:checked`)?.value || fallback;
 };
 
+window.FitnessRpgNavigation.showMessage = function showMessage(options = {}) {
+  if (window.FitnessRpgRender?.showModal) {
+    window.FitnessRpgRender.showModal(options);
+    return;
+  }
 
-//bouton retour
+  window.alert(options.message || options.title || "Message");
+};
+
+window.FitnessRpgNavigation.stopEvent = function stopEvent(event) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  if (typeof event.stopImmediatePropagation === "function") {
+    event.stopImmediatePropagation();
+  }
+};
+
+// ============================================================
+// Navigation principale
+// ============================================================
+
 window.FitnessRpgNavigation.goBack = function goBack() {
   const currentPage = window.FitnessRpgState.getPage();
 
   if (currentPage === "home") {
     return;
   }
+
   if (currentPage === "training") {
     window.FitnessRpgNavigation.goHome();
     return;
   }
+
   if (currentPage === "hero-setup") {
     if (window.FitnessRpgState.hasProfile()) {
       window.FitnessRpgNavigation.goHome();
     }
+
     return;
   }
+
   window.FitnessRpgNavigation.goTraining();
 };
-
-// ============================================================
-// Navigation principale
-// ============================================================
 
 window.FitnessRpgNavigation.goHome = function goHome() {
   window.FitnessRpgState.setPose("idle");
@@ -100,7 +120,6 @@ window.FitnessRpgNavigation.openPrograms = function openPrograms(programId = nul
 
 window.FitnessRpgNavigation.openExercises = function openExercises() {
   window.FitnessRpgNavigation.setPage("exercises");
-
   window.FitnessRpgExercises.currentCategoryId = null;
 
   window.setTimeout(() => {
@@ -157,7 +176,6 @@ window.FitnessRpgNavigation.readHeroForm = function readHeroForm() {
   const name = window.FitnessRpgNavigation.getInputValue("#heroNameInput") || "Héros";
   const ageRaw = window.FitnessRpgNavigation.getInputValue("#heroAgeInput");
   const age = ageRaw ? Number(ageRaw) : null;
-
   const gender = window.FitnessRpgNavigation.getCheckedValue("heroGender", "homme");
   const coachId = window.FitnessRpgNavigation.getCheckedValue(
     "coachChoice",
@@ -213,7 +231,6 @@ window.FitnessRpgNavigation.startNewHero = function startNewHero() {
 
   window.FitnessRpgState.selectedCoachId = "korvan";
   window.FitnessRpgState.setPose("idle");
-
   window.FitnessRpgNavigation.setPage("hero-setup");
 };
 
@@ -284,14 +301,24 @@ window.FitnessRpgNavigation.saveWeight = function saveWeight() {
   const value = Number(input.value);
 
   if (!Number.isFinite(value) || value <= 0) {
-    alert("Entre un poids valide en kg.");
+    window.FitnessRpgNavigation.showMessage({
+      icon: "⚖️",
+      title: "Poids invalide",
+      message: "Entre un poids valide en kg.",
+      okText: "Compris"
+    });
     return;
   }
 
   const entry = window.FitnessRpgState.addWeight(value);
 
   if (!entry) {
-    alert("Impossible d’enregistrer ce poids.");
+    window.FitnessRpgNavigation.showMessage({
+      icon: "⚠️",
+      title: "Enregistrement impossible",
+      message: "Impossible d’enregistrer ce poids.",
+      okText: "Compris"
+    });
     return;
   }
 
@@ -310,53 +337,58 @@ window.FitnessRpgNavigation.saveWeight = function saveWeight() {
 };
 
 // ============================================================
-// Délégation de clics
+// Clics : overlays et modales
 // ============================================================
 
-window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(event) {
-   const target = event.target;
-
-    if (target.closest("#rpgModalOkButton")) {
+window.FitnessRpgNavigation.handleOverlayClick = function handleOverlayClick(event, target) {
+  if (target.closest("#rpgModalOkButton")) {
     window.FitnessRpgRender?.closeModal?.();
-    return;
+    return true;
   }
 
   if (target.id === "rpgModalOverlay") {
     window.FitnessRpgRender?.closeModal?.();
-    return;
+    return true;
   }
 
-    // Programmes : retour à la liste
-  if (target.closest("#backToProgramListBtn")) {
-    event.preventDefault();
+  if (target.closest("#closeLevelUpButton")) {
+    window.FitnessRpgRender?.closeLevelUpOverlay?.();
+    return true;
+  }
+
+  if (target.id === "levelUpOverlay") {
+    window.FitnessRpgRender?.closeLevelUpOverlay?.();
+    return true;
+  }
+
+  return false;
+};
+
+// ============================================================
+// Clics : programmes, séances, boss
+// ============================================================
+
+window.FitnessRpgNavigation.handleProgramClick = function handleProgramClick(event, target) {
+  const backToProgramListButton = target.closest("#backToProgramListBtn");
+
+  if (backToProgramListButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
     window.FitnessRpgPrograms?.openProgramList?.();
-    return;
-  }
-  
-  const startBossButton = target.closest(".start-program-boss-btn");
-
-  if (startBossButton) {
-    event.preventDefault();
-    event.stopPropagation();
-  
-    const programId = startBossButton.dataset.programId;
-    const weekNumber = Number(startBossButton.dataset.weekNumber || 1);
-    const variantId = startBossButton.dataset.variantId || "indoor";
-  
-    window.FitnessRpgPrograms?.startProgramBossSession?.(
-      programId,
-      weekNumber,
-      variantId
-    );
-  
-    return;
+    return true;
   }
 
-  // Programmes : ouvrir le détail d’un programme
+  const startProgramPlanningButton = target.closest("#startProgramPlanningButton");
+
+  if (startProgramPlanningButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgNavigation.openPlanning();
+    return true;
+  }
+
   const openProgramDetailButton = target.closest(".open-program-detail-btn");
 
   if (openProgramDetailButton) {
-    event.preventDefault();
+    window.FitnessRpgNavigation.stopEvent(event);
 
     const programId = openProgramDetailButton.dataset.programId;
 
@@ -364,132 +396,271 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
       window.FitnessRpgPrograms?.openProgramDetail?.(programId);
     }
 
-    return;
+    return true;
   }
 
-  // Programmes : carrousel des semaines
+  const chooseProgramButton = target.closest(".choose-program-btn");
+
+  if (chooseProgramButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    const programId = chooseProgramButton.dataset.programId;
+
+    if (programId) {
+      window.FitnessRpgPrograms?.chooseProgram?.(programId);
+    }
+
+    return true;
+  }
+
   const weekCarouselButton = target.closest(".program-week-carousel-btn");
 
   if (weekCarouselButton) {
-    event.preventDefault();
+    window.FitnessRpgNavigation.stopEvent(event);
 
     const delta = Number(weekCarouselButton.dataset.delta || 0);
     window.FitnessRpgPrograms?.changeProgramWeek?.(delta);
 
-    return;
+    return true;
   }
 
-  // Programmes : carrousel des jours
   const dayCarouselButton = target.closest(".program-day-carousel-btn");
 
   if (dayCarouselButton) {
-    event.preventDefault();
+    window.FitnessRpgNavigation.stopEvent(event);
 
     const delta = Number(dayCarouselButton.dataset.delta || 0);
     window.FitnessRpgPrograms?.changeProgramDay?.(delta);
 
-    return;
+    return true;
   }
 
-    // Programmes : timer d’un exercice dans une séance active
+  const startProgramDayButton = target.closest(".start-program-day-btn");
+
+  if (startProgramDayButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    const programId = startProgramDayButton.dataset.programId;
+    const weekNumber = Number(
+      startProgramDayButton.dataset.week
+      || startProgramDayButton.dataset.weekNumber
+      || 1
+    );
+    const dayNumber = Number(
+      startProgramDayButton.dataset.day
+      || startProgramDayButton.dataset.dayNumber
+      || 1
+    );
+
+    window.FitnessRpgPrograms?.validateProgramDay?.(
+      programId,
+      dayNumber,
+      weekNumber
+    );
+
+    return true;
+  }
+
+  const startBossButton = target.closest(".start-program-boss-btn");
+
+  if (startBossButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    const programId = startBossButton.dataset.programId;
+    const weekNumber = Number(startBossButton.dataset.weekNumber || 1);
+    const variantId = startBossButton.dataset.variantId || "indoor";
+
+    window.FitnessRpgPrograms?.startProgramBossSession?.(
+      programId,
+      weekNumber,
+      variantId
+    );
+
+    return true;
+  }
+
   const programTimerButton = target.closest(".start-program-exercise-timer-btn");
 
   if (programTimerButton) {
-    event.preventDefault();
+    window.FitnessRpgNavigation.stopEvent(event);
 
     const exerciseId = programTimerButton.dataset.exerciseId;
     const exerciseKey = programTimerButton.dataset.exerciseKey;
 
-    window.FitnessRpgPrograms?.openProgramExerciseTimer?.(exerciseId, exerciseKey);
-    return;
+    window.FitnessRpgPrograms?.openProgramExerciseTimer?.(
+      exerciseId,
+      exerciseKey
+    );
+
+    return true;
   }
 
-  // Programmes : valider un exercice dans une séance active
   const validateProgramExerciseButton = target.closest(".validate-program-exercise-btn");
 
   if (validateProgramExerciseButton) {
-    event.preventDefault();
+    window.FitnessRpgNavigation.stopEvent(event);
 
     const exerciseId = validateProgramExerciseButton.dataset.exerciseId;
     const exerciseKey = validateProgramExerciseButton.dataset.exerciseKey;
 
-    window.FitnessRpgPrograms?.validateProgramExercise?.(exerciseId, exerciseKey);
-    return;
-  }
-  const finishProgramSessionButton = target.closest("#finishProgramSessionButton");
-  
-  if (finishProgramSessionButton) {
-    event.preventDefault();
-  
-    window.FitnessRpgPrograms?.finishProgramSession?.();
-    return;
-  }
-  
-   //levelup
-  if (target.closest("#closeLevelUpButton")) {
-    window.FitnessRpgRender.closeLevelUpOverlay();
-    return;
-  }
- 
-  if (target.id === "levelUpOverlay") {
-    window.FitnessRpgRender.closeLevelUpOverlay();
-    return;
-  }
-  
-  
-  // Header
-  const headerProgramsButton = event.target.closest("#headerProgramsButton");
+    window.FitnessRpgPrograms?.validateProgramExercise?.(
+      exerciseId,
+      exerciseKey
+    );
 
-  if (headerProgramsButton) {
+    return true;
+  }
+
+  const finishProgramSessionButton = target.closest("#finishProgramSessionButton");
+
+  if (finishProgramSessionButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgPrograms?.finishProgramSession?.();
+    return true;
+  }
+
+  const programCard = target.closest(".program-card");
+
+  if (
+    programCard
+    && !target.closest("button")
+    && !target.closest("a")
+    && !target.closest("input")
+    && !target.closest("select")
+    && !target.closest("textarea")
+  ) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    const programId = programCard.dataset.programId;
+
+    if (programId) {
+      window.FitnessRpgPrograms?.openProgramDetail?.(programId);
+    }
+
+    return true;
+  }
+
+  return false;
+};
+
+// ============================================================
+// Clics : planning
+// ============================================================
+
+window.FitnessRpgNavigation.handlePlanningClick = function handlePlanningClick(event, target) {
+  const startTodayPlanningButton = target.closest("#startTodayPlanningButton");
+
+  if (startTodayPlanningButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgPrograms?.startTodayPlanningSession?.();
+    return true;
+  }
+
+  const startWeeklyCatchupButton = target.closest("#startWeeklyCatchupButton");
+
+  if (startWeeklyCatchupButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgPrograms?.startWeeklyCatchupSession?.();
+    return true;
+  }
+
+  const planningButton = target.closest(".planning-program-btn");
+
+  if (planningButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    const programId = planningButton.dataset.programId;
+
+    if (programId) {
+      window.FitnessRpgNavigation.openPrograms(programId);
+    }
+
+    return true;
+  }
+
+  return false;
+};
+
+// ============================================================
+// Délégation de clics principale
+// ============================================================
+
+window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(event) {
+  const target = event.target instanceof Element
+    ? event.target
+    : event.target?.parentElement;
+
+  if (!target) return;
+
+  if (window.FitnessRpgNavigation.handleOverlayClick(event, target)) return;
+  if (window.FitnessRpgNavigation.handleProgramClick(event, target)) return;
+  if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;
+
+  // Header
+  if (target.closest("#headerProgramsButton")) {
     event.preventDefault();
-    window.FitnessRpgNavigation.openPrograms?.();
+    window.FitnessRpgNavigation.openPrograms();
     return;
   }
-  
-  const headerGoalButton = event.target.closest("#headerGoalButton");
-  
- if (headerGoalButton) {
-  event.preventDefault();
-  window.FitnessRpgNavigation.openGoal();
-  return;
-}
+
+  if (target.closest("#headerGoalButton")) {
+    event.preventDefault();
+    window.FitnessRpgNavigation.openGoal();
+    return;
+  }
+
+  if (target.closest("#headerPlanningButton")) {
+    event.preventDefault();
+    window.FitnessRpgNavigation.openPlanning();
+    return;
+  }
+
   if (target.closest("#backButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.goBack();
     return;
   }
+
   if (target.closest("#homeButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.goHome();
     return;
   }
 
   // Accueil
   if (target.closest("#startTrainingButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.goTraining();
     return;
   }
 
   if (target.closest("#chooseCoachButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.openHeroSetup();
     return;
   }
 
   if (target.closest("#newHeroButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.startNewHero();
     return;
   }
 
   // Création héros
   if (target.closest("#saveHeroButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.saveHeroFromForm();
     return;
   }
 
   if (target.closest("#cancelHeroSetupButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.cancelHeroSetup();
     return;
   }
 
   const coachCard = target.closest(".coach-choice-card");
+
   if (coachCard) {
     window.FitnessRpgNavigation.selectCoachCard(coachCard);
     return;
@@ -497,6 +668,7 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
 
   // Entraînement
   if (target.closest("#newCoachMessageButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.newCoachMessage();
     return;
   }
@@ -509,99 +681,74 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
 
   // Barre outils entraînement
   if (target.closest("#openExercisesButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.openExercises();
     return;
   }
 
   if (target.closest("#openProgramsButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.openPrograms();
     return;
   }
 
   if (target.closest("#openGoalButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.openGoal();
     return;
   }
-  
+
   if (target.closest("#openPlanningButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.openPlanning();
     return;
   }
 
   if (target.closest("#openMusicButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.openMusic();
     return;
   }
 
   if (target.closest("#openBadgesButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.openBadges();
     return;
   }
 
   if (target.closest("#openJournalButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.openJournal();
     return;
   }
 
   if (target.closest("#openWeightButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.openWeight();
     return;
   }
+
   if (target.closest("#openProgressionButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.openProgression();
     return;
   }
 
-  const headerPlanningButton = event.target.closest("#headerPlanningButton");
-
-  if (headerPlanningButton) {
-    event.preventDefault();
-    window.FitnessRpgNavigation.openPlanning();
-    return;
-  }
-
-  // Programmes
-  const chooseProgramButton = target.closest(".choose-program-btn");
-
-  if (chooseProgramButton) {
-    event.preventDefault();
-    event.stopPropagation();
-  
-    const programId = chooseProgramButton.dataset.programId;
-  
-    if (programId && window.FitnessRpgPrograms?.chooseProgram) {
-      window.FitnessRpgPrograms.chooseProgram(programId);
-    }
-  
-    return;
-  }
-  const programCard = target.closest(".program-card");
-  if (programCard) {
-    const programId = programCard.dataset.programId;
-    window.FitnessRpgState.selectedProgramId = programId;
-    window.FitnessRpgRender.renderProgramDetail(programId);
-
-    window.setTimeout(() => {
-      document.querySelector("#programDetail")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }, 80);
-
-    return;
-  }
-
-  //Objectifs
+  // Objectifs
   const goalButton = target.closest(".choose-goal-btn, .goal-choice-card");
+
   if (goalButton) {
-    const goalId = goalButton.dataset.goalId || goalButton.closest(".goal-choice-card")?.dataset.goalId;
-  
+    event.preventDefault();
+
+    const goalId = goalButton.dataset.goalId
+      || goalButton.closest(".goal-choice-card")?.dataset.goalId;
+
     if (goalId) {
       window.FitnessRpgState.setGoal(goalId);
-  
+
       const goal = window.FitnessRpgConfig.getGoalById(goalId);
       const program = window.FitnessRpgState.getRecommendedProgram();
-  
+
       if (window.FitnessRpgState.hasProfile()) {
         window.FitnessRpgState.addJournalEntry({
           type: "goal",
@@ -610,47 +757,43 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
           xp: 0
         });
       }
-  
+
       window.FitnessRpgRender.renderGoalPage();
       window.FitnessRpgRender.renderTodayCard();
     }
-  
+
     return;
   }
 
-  //planning
-  const planningButton = target.closest(".planning-program-btn");
-  if (planningButton) {
-    const programId = planningButton.dataset.programId;
-  
-    if (programId) {
-      window.FitnessRpgNavigation.openPrograms(programId);
-    }
-  
-    return;
-  }
-  
   // Journal
   if (target.closest("#clearJournalButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.clearJournal();
     return;
   }
 
   // Poids
   if (target.closest("#saveWeightButton")) {
+    event.preventDefault();
     window.FitnessRpgNavigation.saveWeight();
   }
 };
- 
+
 // ============================================================
 // Clavier
 // ============================================================
 
 window.FitnessRpgNavigation.handleDocumentKeydown = function handleDocumentKeydown(event) {
-  const target = event.target;
-    if (event.key === "Escape") {
-      window.FitnessRpgRender?.closeModal?.();
-    }
+  const target = event.target instanceof Element
+    ? event.target
+    : event.target?.parentElement;
+
+  if (event.key === "Escape") {
+    window.FitnessRpgRender?.closeModal?.();
+    return;
+  }
+
+  if (!target) return;
 
   if (target.closest("#todayCard") && (event.key === "Enter" || event.key === " ")) {
     event.preventDefault();
@@ -663,6 +806,10 @@ window.FitnessRpgNavigation.handleDocumentKeydown = function handleDocumentKeydo
 // ============================================================
 
 window.FitnessRpgNavigation.init = function initNavigation() {
+  if (window.FitnessRpgNavigation.isInitialized) return;
+
   document.addEventListener("click", window.FitnessRpgNavigation.handleDocumentClick);
   document.addEventListener("keydown", window.FitnessRpgNavigation.handleDocumentKeydown);
+
+  window.FitnessRpgNavigation.isInitialized = true;
 };
