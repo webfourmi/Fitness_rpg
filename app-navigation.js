@@ -564,19 +564,26 @@ window.FitnessRpgNavigation.handlePlanningClick = function handlePlanningClick(e
     return true;
   }
 
-  const planningButton = target.closest(".planning-program-btn");
+const planningButton = target.closest(".planning-program-btn");
 
-  if (planningButton) {
-    window.FitnessRpgNavigation.stopEvent(event);
+if (planningButton) {
+  window.FitnessRpgNavigation.stopEvent(event);
 
-    const programId = planningButton.dataset.programId;
+  const programId = planningButton.dataset.programId;
 
-    if (programId) {
-      window.FitnessRpgNavigation.openPrograms(programId);
-    }
-
-    return true;
+  if (programId) {
+    window.FitnessRpgPrograms?.openPlanningProgram?.({
+      programId,
+      planningIndex: Number(planningButton.dataset.planningIndex || 0),
+      planningDateKey: planningButton.dataset.dateKey || "",
+      planningDayLabel: planningButton.dataset.dayLabel || "",
+      planningTitle: planningButton.dataset.planningTitle || "",
+      planningSource: planningButton.dataset.source || "planning"
+    });
   }
+
+  return true;
+}
 
   return false;
 };
