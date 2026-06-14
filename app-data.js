@@ -829,6 +829,84 @@ exercises: [
     hasTimer: true,
     hasDistance: true
   },
+  {
+  id: "cyclist_half_squat",
+  categoryId: "strength",
+  title: "Demi-squat cycliste",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/femme_default.png"
+  },
+  unit: "répétitions",
+  defaultValue: 10,
+  min: 2,
+  step: 2,
+  xpPerUnit: 1,
+  stat: "Jambes / vélo",
+  pose: "squats",
+  description: "Descends légèrement comme si tu te mettais en danseuse sur un vélo, puis remonte.",
+  shortDescription: "Petit squat contrôlé façon cycliste.",
+  coachTip: "Garde les genoux souples et le dos fier."
+},
+{
+  id: "ankle_circles",
+  categoryId: "mobility",
+  title: "Cercles de chevilles",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/femme_default.png"
+  },
+  unit: "sec",
+  defaultValue: 30,
+  min: 15,
+  step: 15,
+  xpPerUnit: 0.15,
+  stat: "Mobilité chevilles",
+  pose: "stretch",
+  hasTimer: true,
+  description: "Fais tourner une cheville puis l’autre dans les deux sens.",
+  shortDescription: "Fais tourner les chevilles.",
+  coachTip: "Mouvement lent, sans forcer."
+},
+{
+  id: "single_leg_balance",
+  categoryId: "core",
+  title: "Équilibre sur une jambe",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/femme_default.png"
+  },
+  unit: "sec",
+  defaultValue: 20,
+  min: 10,
+  step: 5,
+  xpPerUnit: 0.25,
+  stat: "Équilibre",
+  pose: "core",
+  hasTimer: true,
+  description: "Tiens debout sur une seule jambe sans te balancer.",
+  shortDescription: "Tiens en équilibre sur une jambe.",
+  coachTip: "Fixe un point devant toi."
+},
+{
+  id: "slow_calf_raises",
+  categoryId: "strength",
+  title: "Montées sur pointes lentes",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/femme_default.png"
+  },
+  unit: "répétitions",
+  defaultValue: 20,
+  min: 5,
+  step: 5,
+  xpPerUnit: 0.9,
+  stat: "Mollets / contrôle",
+  pose: "squats",
+  description: "Monte sur la pointe des pieds puis redescends lentement.",
+  shortDescription: "Montée et descente contrôlées.",
+  coachTip: "Ne retombe pas : contrôle la descente."
+}
 
   // Renforcement
   {
@@ -2403,79 +2481,527 @@ exercises: [
         ]
       },
       "cavalier-route": {
-        id: "cavalier-route",
-        subtitle: "Prépare tes jambes, renforce ton souffle, roule plus longtemps.",
-        material: "Poids du corps, éventuellement haltères 1 kg à partir de la semaine 3.",
-        days: [
-          {
-            day: 1,
-            title: "Séance débutant",
-            xp: 25,
-            difficultyLabel: "Séance préparation vélo courte",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
-              { phase: "Mobilité", exerciseId: "hip_circles", amount: 60, unit: "sec" },
-              { phase: "Mobilité", exerciseId: "slow_knee_raises", amount: 60, unit: "sec" },
-              { phase: "Jambes", exerciseId: "chair_squat", amount: 20, unit: "répétitions" },
-              { phase: "Jambes", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
-              { phase: "Fessiers", exerciseId: "bridge", amount: 24, unit: "répétitions" },
-              { phase: "Mollets", exerciseId: "calf_raises", amount: 30, unit: "répétitions" },
-              { phase: "Gainage", exerciseId: "knee_plank", amount: 40, unit: "sec" },
-              { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 3, unit: "min" }
-            ]
-          },
-          {
-            day: 2,
-            title: "Séance intermédiaire",
-            xp: 40,
-            difficultyLabel: "Séance complète",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "dynamic_walk", amount: 3, unit: "min" },
-              { phase: "Cardio", exerciseId: "side_steps", amount: 90, unit: "sec" },
-              { phase: "Jambes", exerciseId: "squats", amount: 36, unit: "répétitions" },
-              { phase: "Jambes", exerciseId: "reverse_lunges", amount: 24, unit: "répétitions" },
-              { phase: "Fessiers", exerciseId: "single_leg_bridge_alternate", amount: 16, unit: "répétitions" },
-              { phase: "Mollets", exerciseId: "calf_raises", amount: 45, unit: "répétitions" },
-              { phase: "Gainage", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
-              { phase: "Gainage", exerciseId: "core", amount: 75, unit: "sec" },
-              { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 3, unit: "min" }
-            ]
-          },
-          {
-            day: 3,
-            title: "Mini-quête vélo réel",
-            xp: 30,
-            difficultyLabel: "Sortie vélo facile",
-            exercises: [
-              { phase: "Échauffement très facile", exerciseId: "bike", amount: 5, unit: "min", distanceOptional: true },
-              { phase: "Rythme confortable", exerciseId: "bike", amount: 20, unit: "min", distanceOptional: true },
-              { phase: "Petites accélérations", exerciseId: "bike", amount: 1, unit: "min", distanceOptional: true },
-              { phase: "Retour au calme", exerciseId: "bike", amount: 5, unit: "min", distanceOptional: true }
-            ]
-          },
-          {
-            day: 4,
-            title: "Sortie longue du week-end",
-            xp: 50,
-            difficultyLabel: "Sortie vélo longue",
-            exercises: [
-              { phase: "Vélo facile à modéré", exerciseId: "bike", amount: 45, unit: "min", distanceOptional: true }
-            ]
-          }
-        ],
-        progression: [
-          "Semaine 1 : apprendre les mouvements et protéger les genoux.",
-          "Semaine 2 : ajouter quelques répétitions.",
-          "Semaine 3 : ajouter les haltères 1 kg ou allonger la sortie vélo.",
-          "Semaine 4 : ajouter une séance vélo bonus ou une série de plus.",
-          "Avec 1 kg, l’objectif n’est pas la force brute, mais le contrôle et la stabilité."
-        ],
-        notes: [
-          "Les haltères 1 kg peuvent être utilisés sur les squats, les fentes arrière, les montées sur pointes et la marche dynamique.",
-          "Pas d’haltères sur le gainage.",
-          "Ce programme complète Marche de l’aventurier et Forge du guerrier."
-        ]
-      },
+  id: "cavalier-route",
+  subtitle: "Prépare tes jambes, ton équilibre et ton souffle pour rouler plus longtemps.",
+  unlockLevel: 2,
+  duration: "20 à 75 min",
+  frequency: "3 séances par semaine + boss hebdomadaire",
+  material: "Poids du corps, vélo intérieur ou extérieur.",
+  reward: {
+    badgeId: "cavalier-route-vaincu",
+    badgeTitle: "Cavalier de la Route",
+    chest: true,
+    nextPrograms: ["coeur-dragon", "forge-guerrier", "marche-aventurier"]
+  },
+
+  weeks: [
+    {
+      week: 1,
+      title: "Les Roues du Destin",
+      xp: 60,
+      progression: "Premiers appuis cyclistes : jambes, mollets, gainage et sortie facile.",
+      days: [
+        {
+          day: 1,
+          title: "Force du Cycliste",
+          xp: 60,
+          difficultyLabel: "≈ 25 min",
+          instructions: "Nouveau mouvement : demi-squat cycliste. Effectuer les deux défis en 2 cycles.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "chair_squat", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "cyclist_half_squat", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "chair_squat", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "cyclist_half_squat", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 15, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 15, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Équilibre de la Selle",
+          xp: 60,
+          difficultyLabel: "≈ 25 min",
+          instructions: "Stabilité, dos, équilibre et mollets. Effectuer les deux défis en 2 cycles.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "ankle_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "bird_dog", amount: 8, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "single_leg_balance", amount: 20, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "bird_dog", amount: 8, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "single_leg_balance", amount: 20, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "superman", amount: 8, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 15, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "superman", amount: 8, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 15, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Première Sortie",
+          xp: 60,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Vélo facile. Tu dois pouvoir tenir une conversation.",
+          exercises: [
+            { phase: "Sortie vélo", exerciseId: "bike", amount: 20, unit: "min", distanceOptional: true }
+          ]
+        }
+      ]
+    },
+
+    {
+      week: 2,
+      title: "La Route des Collines",
+      xp: 70,
+      progression: "On ajoute les fentes arrière assistées pour préparer les montées.",
+      days: [
+        {
+          day: 1,
+          title: "Jambes de Grimpeur",
+          xp: 70,
+          difficultyLabel: "≈ 30 min",
+          instructions: "Nouveau mouvement : fentes arrière assistées. Effectuer les deux défis en 2 cycles.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "squats", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "cyclist_half_squat", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "squats", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "cyclist_half_squat", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 20, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 20, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Maîtrise du Guidon",
+          xp: 70,
+          difficultyLabel: "≈ 30 min",
+          instructions: "Contrôle du buste et stabilité. Effectuer les deux défis en 2 cycles.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "ankle_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "bird_dog", amount: 8, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "superman", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "single_leg_balance", amount: 25, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "bird_dog", amount: 8, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "superman", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "single_leg_balance", amount: 25, unit: "sec" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 20, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 20, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Sortie des Collines",
+          xp: 70,
+          difficultyLabel: "≈ 30 min",
+          instructions: "Vélo 30 min avec 3 accélérations de 30 secondes.",
+          exercises: [
+            { phase: "Sortie vélo", exerciseId: "bike", amount: 30, unit: "min", distanceOptional: true },
+            { phase: "Accélérations", exerciseId: "bike", amount: 2, unit: "min", distanceOptional: true }
+          ]
+        }
+      ]
+    },
+
+    {
+      week: 3,
+      title: "Les Longues Distances",
+      xp: 80,
+      progression: "On consolide l’endurance et le contrôle avec le pont une jambe alternée.",
+      days: [
+        {
+          day: 1,
+          title: "Force de Montagne",
+          xp: 80,
+          difficultyLabel: "≈ 30 min",
+          instructions: "Nouveau mouvement : pont de hanches une jambe alternée.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "squats", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "cyclist_half_squat", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "squats", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "cyclist_half_squat", amount: 15, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "single_leg_bridge_alternate", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "slow_calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 25, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "single_leg_bridge_alternate", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "slow_calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 25, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 3, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Contrôle du Vélo",
+          xp: 80,
+          difficultyLabel: "≈ 30 min",
+          instructions: "Stabilité, dos et contrôle de la posture.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "ankle_circles", amount: 30, unit: "sec" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "superman", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "single_leg_balance", amount: 30, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "superman", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "single_leg_balance", amount: 30, unit: "sec" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 25, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 25, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Sortie Endurance",
+          xp: 80,
+          difficultyLabel: "≈ 45 min",
+          instructions: "Vélo 45 min à rythme régulier.",
+          exercises: [
+            { phase: "Sortie vélo", exerciseId: "bike", amount: 45, unit: "min", distanceOptional: true }
+          ]
+        }
+      ]
+    },
+
+    {
+      week: 4,
+      title: "Cavalier de la Route",
+      xp: 90,
+      progression: "Dernière semaine : jambes solides, posture stable, grande sortie.",
+      days: [
+        {
+          day: 1,
+          title: "Jambes de Fer",
+          xp: 90,
+          difficultyLabel: "≈ 35 min",
+          instructions: "Nouveau mouvement : chaise contre un mur.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "squats", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "wall_sit", amount: 30, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "cyclist_half_squat", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "squats", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "wall_sit", amount: 30, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "cyclist_half_squat", amount: 20, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "reverse_lunges", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "single_leg_bridge_alternate", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "reverse_lunges", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "single_leg_bridge_alternate", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 3, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Maîtrise de la Monture",
+          xp: 90,
+          difficultyLabel: "≈ 30 min",
+          instructions: "Contrôle, posture et gainage.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "ankle_circles", amount: 30, unit: "sec" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "superman", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "single_leg_balance", amount: 40, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "superman", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "single_leg_balance", amount: 40, unit: "sec" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 30, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 30, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Grande Expédition",
+          xp: 90,
+          difficultyLabel: "≈ 60 min",
+          instructions: "Objectif : rouler confortablement pendant une heure.",
+          exercises: [
+            { phase: "Sortie vélo", exerciseId: "bike", amount: 60, unit: "min", distanceOptional: true }
+          ]
+        }
+      ]
+    }
+  ],
+
+  bosses: [
+    {
+      week: 1,
+      title: "Gobelin des Pavés",
+      xp: 50,
+      badgeId: "roues-destin",
+      difficultyLabel: "Boss semaine 1",
+      instructions: "Débloqué après les 3 séances de la semaine 1.",
+      lockedMessage: "Le Gobelin des Pavés attend que tes roues soient prêtes. Termine les 3 séances de la semaine.",
+      variants: {
+        indoor: {
+          id: "indoor",
+          label: "🏠 Boss Intérieur",
+          title: "Gobelin des Pavés",
+          mission: "Affronte le pavé sans quitter le fort.",
+          difficultyLabel: "2 cycles",
+          exercises: [
+            { phase: "Cycle 1", exerciseId: "chair_squat", amount: 10, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "cyclist_half_squat", amount: 10, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "core", amount: 15, unit: "sec" },
+
+            { phase: "Cycle 2", exerciseId: "chair_squat", amount: 10, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "cyclist_half_squat", amount: 10, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "core", amount: 15, unit: "sec" }
+          ]
+        },
+        outdoor: {
+          id: "outdoor",
+          label: "🌲 Boss Extérieur",
+          title: "Sortie contre le Gobelin",
+          mission: "Roule 25 minutes à rythme facile.",
+          difficultyLabel: "≈ 25 min",
+          exercises: [
+            { phase: "Sortie vélo", exerciseId: "bike", amount: 25, unit: "min", distanceOptional: true }
+          ]
+        }
+      }
+    },
+
+    {
+      week: 2,
+      title: "L’Orque de la Côte",
+      xp: 60,
+      badgeId: "grimpeur-novice",
+      difficultyLabel: "Boss semaine 2",
+      instructions: "Débloqué après les 3 séances de la semaine 2.",
+      lockedMessage: "L’Orque de la Côte garde la montée. Termine les 3 séances de la semaine avant de le défier.",
+      variants: {
+        indoor: {
+          id: "indoor",
+          label: "🏠 Boss Intérieur",
+          title: "Côte en salle",
+          mission: "Tous les exercices appris, 2 cycles.",
+          difficultyLabel: "2 cycles",
+          exercises: [
+            { phase: "Cycle 1", exerciseId: "squats", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "cyclist_half_squat", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "core", amount: 20, unit: "sec" },
+
+            { phase: "Cycle 2", exerciseId: "squats", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "cyclist_half_squat", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "core", amount: 20, unit: "sec" }
+          ]
+        },
+        outdoor: {
+          id: "outdoor",
+          label: "🌲 Boss Extérieur",
+          title: "Côte extérieure",
+          mission: "Vélo 35 minutes.",
+          difficultyLabel: "≈ 35 min",
+          exercises: [
+            { phase: "Sortie vélo", exerciseId: "bike", amount: 35, unit: "min", distanceOptional: true }
+          ]
+        }
+      }
+    },
+
+    {
+      week: 3,
+      title: "Troll du Col Noir",
+      xp: 70,
+      badgeId: "maitre-collines",
+      difficultyLabel: "Boss semaine 3",
+      instructions: "Débloqué après les 3 séances de la semaine 3.",
+      lockedMessage: "Le Troll du Col Noir ne laisse passer que les cyclistes réguliers.",
+      variants: {
+        indoor: {
+          id: "indoor",
+          label: "🏠 Boss Intérieur",
+          title: "Col Noir en salle",
+          mission: "Tous les exercices appris, 2 cycles.",
+          difficultyLabel: "2 cycles",
+          exercises: [
+            { phase: "Cycle 1", exerciseId: "squats", amount: 15, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "cyclist_half_squat", amount: 15, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "single_leg_bridge_alternate", amount: 16, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "slow_calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "core", amount: 25, unit: "sec" },
+
+            { phase: "Cycle 2", exerciseId: "squats", amount: 15, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "cyclist_half_squat", amount: 15, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "single_leg_bridge_alternate", amount: 16, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "slow_calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "core", amount: 25, unit: "sec" }
+          ]
+        },
+        outdoor: {
+          id: "outdoor",
+          label: "🌲 Boss Extérieur",
+          title: "Col Noir extérieur",
+          mission: "Vélo 50 minutes avec 5 accélérations de 30 secondes.",
+          difficultyLabel: "≈ 50 min",
+          exercises: [
+            { phase: "Sortie vélo", exerciseId: "bike", amount: 50, unit: "min", distanceOptional: true },
+            { phase: "Accélérations", exerciseId: "bike", amount: 3, unit: "min", distanceOptional: true }
+          ]
+        }
+      }
+    },
+
+    {
+      week: 4,
+      title: "Le Cavalier Noir",
+      xp: 100,
+      badgeId: "cavalier-route-vaincu",
+      chest: true,
+      nextPrograms: ["coeur-dragon", "forge-guerrier", "marche-aventurier"],
+      difficultyLabel: "Boss final",
+      instructions: "Débloqué après les 3 séances de la semaine 4.",
+      lockedMessage: "Le Cavalier Noir attend au bout de la route. Termine d’abord ta préparation.",
+      variants: {
+        indoor: {
+          id: "indoor",
+          label: "🏠 Boss Intérieur",
+          title: "Duel contre le Cavalier Noir",
+          mission: "Tous les exercices du programme. 2 cycles complets.",
+          difficultyLabel: "2 cycles complets",
+          exercises: [
+            { phase: "Cycle 1", exerciseId: "squats", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "wall_sit", amount: 30, unit: "sec" },
+            { phase: "Cycle 1", exerciseId: "cyclist_half_squat", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "reverse_lunges", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "single_leg_bridge_alternate", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
+
+            { phase: "Cycle 2", exerciseId: "squats", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "wall_sit", amount: 30, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "cyclist_half_squat", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "reverse_lunges", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "single_leg_bridge_alternate", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "calf_raises", amount: 25, unit: "répétitions" }
+          ]
+        },
+        outdoor: {
+          id: "outdoor",
+          label: "🌲 Boss Extérieur",
+          title: "Grande chevauchée",
+          mission: "Vélo 75 minutes ou 15 km selon ce qui est atteint en premier.",
+          difficultyLabel: "≈ 75 min ou 15 km",
+          instructions: "Valide la mission dès que tu atteins 75 minutes ou 15 km.",
+          exercises: [
+            { phase: "Grande sortie vélo", exerciseId: "bike", amount: 75, unit: "min", distanceOptional: true }
+          ]
+        }
+      }
+    }
+  ],
+
+  progression: [
+    "Semaine 1 : Les Roues du Destin · apprendre les bases cyclistes.",
+    "Semaine 2 : La Route des Collines · ajouter les fentes arrière assistées.",
+    "Semaine 3 : Les Longues Distances · renforcer l’endurance et la stabilité.",
+    "Semaine 4 : Cavalier de la Route · rouler confortablement pendant une heure.",
+    "Chaque semaine, le boss propose une mission intérieure ou extérieure.",
+    "Récompense finale : badge Cavalier de la Route, coffre de récompense, +100 XP."
+  ],
+
+  notes: [
+    "Objectif : préparer une balade vélo longue ou une reprise régulière.",
+    "3 séances par semaine : deux séances de préparation physique et une sortie vélo.",
+    "Un nouvel exercice est introduit chaque semaine.",
+    "Les exercices par jambe ou par côté sont convertis en répétitions totales.",
+    "Le boss extérieur final peut être validé à 75 minutes ou 15 km, selon ce qui est atteint en premier."
+  ]
+},
 
     "forge-guerrier": {
       id: "forge-guerrier",
@@ -2811,6 +3337,46 @@ exercises: [
       description: "Vaincre le boss final du programme Cœur de Dragon.",
       type: "program-boss",
       programId: "coeur-dragon",
+      weekNumber: 4,
+      target: 1
+    },
+    {
+      id: "roues-destin",
+      icon: "🚴",
+      title: "Roues du Destin",
+      description: "Vaincre le boss de la semaine 1 du programme Cavalier de la Route.",
+      type: "program-boss",
+      programId: "cavalier-route",
+      weekNumber: 1,
+      target: 1
+    },
+    {
+      id: "grimpeur-novice",
+      icon: "🏔️",
+      title: "Grimpeur Novice",
+      description: "Vaincre le boss de la semaine 2 du programme Cavalier de la Route.",
+      type: "program-boss",
+      programId: "cavalier-route",
+      weekNumber: 2,
+      target: 1
+    },
+    {
+      id: "maitre-collines",
+      icon: "⛰️",
+      title: "Maître des Collines",
+      description: "Vaincre le boss de la semaine 3 du programme Cavalier de la Route.",
+      type: "program-boss",
+      programId: "cavalier-route",
+      weekNumber: 3,
+      target: 1
+    },
+    {
+      id: "cavalier-route-vaincu",
+      icon: "🚴‍♂️",
+      title: "Cavalier de la Route",
+      description: "Vaincre le boss final du programme Cavalier de la Route.",
+      type: "program-boss",
+      programId: "cavalier-route",
       weekNumber: 4,
       target: 1
     },
