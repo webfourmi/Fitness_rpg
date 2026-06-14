@@ -175,13 +175,20 @@ window.FitnessRpgData = {
       fullName: "Coach Elmin le Mage",
       image: "assets/coach/elmin/elmin_idle.jpg",
       fallbackImage: "assets/coach/elmin/image.jpg",
-      poses: {
+       poses: {
         idle: "assets/coach/elmin/elmin_idle.jpg",
-        welcome: "assets/coach/elmin/elmin_idle.jpg",
-        explain: "assets/coach/elmin/elmin_idle.jpg",
-        motivate: "assets/coach/elmin/elmin_idle.jpg",
-        victory: "assets/coach/elmin/elmin_idle.jpg",
-        levelup: "assets/coach/elmin/elmin_idle.jpg"
+        welcome: "assets/coach/elmin/elmin_welcome.jpg",
+        explain: "assets/coach/elmin/elmin_explain.jpg",
+        motivate: "assets/coach/elmin/elmin_motivate.jpg",
+        warmup: "assets/coach/elmin/elmin_warmup.jpg",
+        walk: "assets/coach/elmin/elmin_walk.jpg",
+        bike: "assets/coach/elmin/elmin_bike.jpg",
+        run: "assets/coach/elmin/elmin_walk.jpg",
+        squats: "assets/coach/elmin/elmin_squats.jpg",
+        core: "assets/coach/elmin/elmin_core.jpg",
+        stretch: "assets/coach/elmin/elmin_stretchup.jpg",
+        victory: "assets/coach/elmin/elmin_victory.jpg",
+        levelup: "assets/coach/elmin/elmin_levelup.jpg"
       },
       start: [
         "Concentre-toi. Chaque répétition est un sort bien exécuté.",
@@ -212,14 +219,21 @@ window.FitnessRpgData = {
       fullName: "Coach Bazul le Nain",
       image: "assets/coach/bazul/bazul_idle.jpg",
       fallbackImage: "assets/coach/bazul/image.jpg",
-      poses: {
+       poses: {
         idle: "assets/coach/bazul/bazul_idle.jpg",
-        welcome: "assets/coach/bazul/bazul_idle.jpg",
-        explain: "assets/coach/bazul/bazul_idle.jpg",
-        motivate: "assets/coach/bazul/bazul_idle.jpg",
-        victory: "assets/coach/bazul/bazul_idle.jpg",
-        levelup: "assets/coach/bazul/bazul_idle.jpg"
-      },
+        welcome: "assets/coach/bazul/bazul_welcome.jpg",
+        explain: "assets/coach/bazul/bazul_explain.jpg",
+        motivate: "assets/coach/bazul/bazul_motivate.jpg",
+        victory: "assets/coach/bazul/bazul_victory.jpg",
+        levelup: "assets/coach/bazul/bazul_levelup.jpg",
+        warmup: "assets/coach/bazul/bazul_warmup.jpg",
+        walk:"assets/coach/bazul/bazul_walk.jpg",
+        bike: "assets/coach/bazul/bazul_bike.jpg",
+        run: "assets/coach/bazul/bazul_run.jpg",
+        squats: "assets/coach/bazul/bazul_squats.jpg",
+        core: "assets/coach/bazul/bazul_core.jpg",
+        stretch: "assets/coach/bazul/bazul_stretch.jpg"
+        },
       start: [
         "Allez, on s’y met. Une montagne ne se taille pas en la regardant.",
         "Pieds au sol, souffle stable. On construit solide.",
@@ -250,16 +264,23 @@ window.FitnessRpgData = {
       id: "satyne",
       name: "Satyne",
       fullName: "Coach Satyne la Sorcière",
-      image: "assets/coach/satyne/image.jpg",
+      image: "assets/coach/satyne/satyne_idle.jpg",
       fallbackImage: "assets/coach/satyne/image.jpg",
       poses: {
-        idle: "assets/coach/satyne/image.jpg",
-        welcome: "assets/coach/satyne/image.jpg",
-        explain: "assets/coach/satyne/image.jpg",
-        motivate: "assets/coach/satyne/image.jpg",
-        victory: "assets/coach/satyne/image.jpg",
-        levelup: "assets/coach/satyne/image.jpg"
-      },
+        idle: "assets/coach/satyne/satyne_idle.jpg",
+        welcome: "assets/coach/satyne/satyne_welcome.jpg",
+        explain: "assets/coach/satyne/satyne_explain.jpg",
+        motivate: "assets/coach/satyne/satyne_motivate.jpg",
+        victory: "assets/coach/satyne/satyne_victory.jpg",
+        levelup: "assets/coach/satyne/satyne_levelup.jpg",
+        warmup: "assets/coach/satyne/satyne_warmup.jpg",
+        walk:"assets/coach/satyne/satyne_walk.jpg",
+        bike: "assets/coach/satyne/satyne_bike.jpg",
+        run: "assets/coach/satyne/satyne_run.jpg",
+        squats: "assets/coach/satyne/satyne_squats.jpg",
+        core: "assets/coach/satyne/satyne_core.jpg",
+        stretch: "assets/coach/satyne/satyne_stretch.jpg"
+        },
       start: [
         "Viens, mon petit sort d’endurance. On va réveiller les muscles endormis.",
         "Un souffle, un geste, une goutte d’effort. La potion commence.",
