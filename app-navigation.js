@@ -89,15 +89,12 @@ window.FitnessRpgNavigation.openHeroSetup = function openHeroSetup() {
 window.FitnessRpgNavigation.openPrograms = function openPrograms(programId = null) {
   window.FitnessRpgNavigation.setPage("programs");
 
-  if (programId) {
-    window.setTimeout(() => {
-      window.FitnessRpgPrograms?.openProgramDetail?.(programId);
-    }, 0);
-    return;
-  }
-
   window.setTimeout(() => {
-    window.FitnessRpgPrograms?.openProgramList?.();
+    if (programId) {
+      window.FitnessRpgPrograms?.openProgramDetail?.(programId);
+    } else {
+      window.FitnessRpgPrograms?.openProgramList?.();
+    }
   }, 0);
 };
 
