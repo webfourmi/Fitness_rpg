@@ -94,7 +94,7 @@ window.FitnessRpgData = {
         run: "assets/coach/xara/xara_walk.jpg",
         squats: "assets/coach/xara/xara_squats.jpg",
         core: "assets/coach/xara/xara_core.jpg",
-        stretch: "assets/coach/xara/xara_stretchup.jpg",
+        stretch: "assets/coach/xara/xara_stretch.jpg",
         victory: "assets/coach/xara/xara_victory.jpg",
         levelup: "assets/coach/xara/xara_levelup.jpg"
       },
@@ -186,7 +186,7 @@ window.FitnessRpgData = {
         run: "assets/coach/elmin/elmin_walk.jpg",
         squats: "assets/coach/elmin/elmin_squats.jpg",
         core: "assets/coach/elmin/elmin_core.jpg",
-        stretch: "assets/coach/elmin/elmin_stretchup.jpg",
+        stretch: "assets/coach/elmin/elmin_stretch.jpg",
         victory: "assets/coach/elmin/elmin_victory.jpg",
         levelup: "assets/coach/elmin/elmin_levelup.jpg"
       },
@@ -906,7 +906,7 @@ exercises: [
   description: "Monte sur la pointe des pieds puis redescends lentement.",
   shortDescription: "Montée et descente contrôlées.",
   coachTip: "Ne retombe pas : contrôle la descente."
-}
+},
 
   // Renforcement
   {
