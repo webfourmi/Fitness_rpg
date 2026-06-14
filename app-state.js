@@ -555,23 +555,28 @@ window.FitnessRpgState.setActiveProgramId = function setActiveProgramId(programI
   }
 };
 
-window.FitnessRpgState.startProgramSession = function startProgramSession(programId, dayNumber, weekNumber = 1) {
+window.FitnessRpgState.startProgramSession = function startProgramSession(programId, dayNumber, weekNumber = 1, context = {}) {
   const safeWeekNumber = Math.max(1, Number(weekNumber) || 1);
   const day = window.FitnessRpgPrograms?.getProgramDay?.(programId, dayNumber, safeWeekNumber);
 
   if (!day) return null;
 
- window.FitnessRpgState.activeProgramSession = {
+window.FitnessRpgState.activeProgramSession = {
   id: window.FitnessRpgState.createId("program-session"),
   programId,
   dayNumber: Number(dayNumber),
   weekNumber: safeWeekNumber,
   startedAt: window.FitnessRpgState.nowIso(),
 
-  // Ancien champ gardé par sécurité.
-  completedExerciseIds: [],
+  planningDateKey: context.planningDateKey || null,
+  planningIndex: Number.isFinite(Number(context.planningIndex))
+    ? Number(context.planningIndex)
+    : null,
+  planningDayLabel: context.planningDayLabel || null,
+  planningTitle: context.planningTitle || null,
+  planningSource: context.planningSource || null,
 
-  // Nouveau champ fiable : une ligne de séance = une clé unique.
+  completedExerciseIds: [],
   completedExerciseKeys: []
 };
 
