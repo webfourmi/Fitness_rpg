@@ -759,16 +759,21 @@ summary.innerHTML = `
 
   grid.innerHTML = "";
 
- plan.forEach(([dayLabel, title, programId, source], index) => {
+plan.forEach(([dayLabel, title, programId, source, bossWeekNumber], index) => {
     const dateKey = weekKeys[index];
     const entries = window.FitnessRpgState.getEntriesForDate(dateKey);
     const program = programId ? window.FitnessRpgConfig.getProgramById(programId) : null;
 
     const isToday = dateKey === todayKey;
-    const done = program
-      ? window.FitnessRpgState.hasDoneProgramOnDate(program.id, dateKey)
-      : entries.length > 0;
-
+    const done = source === "program-boss"
+  ? entries.some((entry) => {
+      return entry.type === "program-boss"
+        && entry.programId === programId
+        && Number(entry.weekNumber || 1) === Number(bossWeekNumber || 1);
+    })
+  : program
+    ? window.FitnessRpgState.hasDoneProgramOnDate(program.id, dateKey)
+    : entries.length > 0;
     const card = document.createElement("article");
 
     card.className = [
@@ -778,7 +783,7 @@ summary.innerHTML = `
       done ? "done" : "",
       source === "rest" ? "rest-day" : "",
       source === "boss-locked" ? "boss-locked" : "",
-      source === "boss" ? "boss-day" : "",
+      (source === "boss" || source === "program-boss") ? "boss-day" : "",
       source === "active-program" ? "active-program-day" : "",
       source === "goal" ? "goal-day" : ""
     ].filter(Boolean).join(" ");
@@ -810,13 +815,15 @@ summary.innerHTML = `
               class="secondary-btn planning-program-btn"
               type="button"
               data-program-id="${program.id}"
-              data-planning-index="${index}"
-              data-date-key="${dateKey}"
-              data-day-label="${dayLabel}"
-              data-planning-title="${title}"
               data-source="${source || "planning"}"
+              data-week-number="${bossWeekNumber || 1}"
+              data-date-key="${dateKey}"
             >
-              ${done ? "Revoir" : "Ouvrir"}
+              ${
+                source === "program-boss"
+                  ? done ? "Boss vaincu" : "Choisir la mission"
+                  : done ? "Revoir" : "Ouvrir"
+              }
             </button>`
           : source === "boss-locked"
             ? `<span class="rest-label">Boss verrouillé</span>`
