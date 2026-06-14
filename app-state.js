@@ -345,7 +345,14 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}) 
     bossVariant: entry.bossVariant || null,
     badgeId: entry.badgeId || null,
     programTitle: entry.programTitle || null,
-    dayNumber: entry.dayNumber ? Number(entry.dayNumber) : null,
+    
+    planningDateKey: entry.planningDateKey || null,
+    planningIndex: Number.isFinite(Number(entry.planningIndex))
+      ? Number(entry.planningIndex)
+      : null,
+    planningDayLabel: entry.planningDayLabel || null,
+    planningTitle: entry.planningTitle || null,
+    planningSource: entry.planningSource || null,
     
     title: entry.title || "Séance",
     amount: Number(entry.amount || 0),
