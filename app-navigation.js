@@ -335,6 +335,25 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
     window.FitnessRpgPrograms?.openProgramList?.();
     return;
   }
+  
+  const startBossButton = target.closest(".start-program-boss-btn");
+
+  if (startBossButton) {
+    event.preventDefault();
+    event.stopPropagation();
+  
+    const programId = startBossButton.dataset.programId;
+    const weekNumber = Number(startBossButton.dataset.weekNumber || 1);
+    const variantId = startBossButton.dataset.variantId || "indoor";
+  
+    window.FitnessRpgPrograms?.startProgramBossSession?.(
+      programId,
+      weekNumber,
+      variantId
+    );
+  
+    return;
+  }
 
   // Programmes : ouvrir le détail d’un programme
   const openProgramDetailButton = target.closest(".open-program-detail-btn");
@@ -398,6 +417,14 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
     const exerciseKey = validateProgramExerciseButton.dataset.exerciseKey;
 
     window.FitnessRpgPrograms?.validateProgramExercise?.(exerciseId, exerciseKey);
+    return;
+  }
+  const finishProgramSessionButton = target.closest("#finishProgramSessionButton");
+  
+  if (finishProgramSessionButton) {
+    event.preventDefault();
+  
+    window.FitnessRpgPrograms?.finishProgramSession?.();
     return;
   }
   
