@@ -570,17 +570,32 @@ if (planningButton) {
   window.FitnessRpgNavigation.stopEvent(event);
 
   const programId = planningButton.dataset.programId;
+  const source = planningButton.dataset.source || "planning";
+  const weekNumber = Number(planningButton.dataset.weekNumber || 1);
 
-  if (programId) {
-    window.FitnessRpgPrograms?.openPlanningProgram?.({
-      programId,
-      planningIndex: Number(planningButton.dataset.planningIndex || 0),
-      planningDateKey: planningButton.dataset.dateKey || "",
-      planningDayLabel: planningButton.dataset.dayLabel || "",
-      planningTitle: planningButton.dataset.planningTitle || "",
-      planningSource: planningButton.dataset.source || "planning"
+  if (!programId) return true;
+
+  if (source === "program-boss") {
+    window.FitnessRpgPrograms?.openProgramDetail?.(programId, {
+      weekNumber,
+      dayNumber: 1
     });
+
+    window.setTimeout(() => {
+      document.querySelector(".program-boss-choice")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }, 120);
+
+    return true;
   }
+
+  window.FitnessRpgPrograms?.openPlanningProgram?.({
+    programId,
+    planningDateKey: planningButton.dataset.dateKey || "",
+    planningSource: source
+  });
 
   return true;
 }
