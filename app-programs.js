@@ -1306,20 +1306,29 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   };
 
   const title = `${program.title} · Semaine ${session.weekNumber || 1} · Jour ${day.day} · ${day.title}`;
+  const entryDate = session.planningDateKey || window.FitnessRpgState.todayKey?.();
 
-  window.FitnessRpgState.addTrainingEntry({
-    type: "program",
-    sportId: "program",
-    sportTitle: "Programme",
-    programId: program.id,
-    programTitle: program.title,
-    weekNumber: session.weekNumber || 1,
-    dayNumber: session.dayNumber,
-    title,
-    amount: 1,
-    unit: "séance",
-    xp
-  });
+ window.FitnessRpgState.addTrainingEntry({
+  date: entryDate,
+  type: "program",
+  sportId: "program",
+  sportTitle: "Programme",
+  programId: program.id,
+  programTitle: program.title,
+  weekNumber: session.weekNumber || 1,
+  dayNumber: session.dayNumber,
+
+  planningDateKey: session.planningDateKey || null,
+  planningIndex: session.planningIndex ?? null,
+  planningDayLabel: session.planningDayLabel || null,
+  planningTitle: session.planningTitle || null,
+  planningSource: session.planningSource || null,
+
+  title,
+  amount: 1,
+  unit: "séance",
+  xp
+});
 
   window.FitnessRpgState.addJournalEntry({
     type: "program",
