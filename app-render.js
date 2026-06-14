@@ -537,29 +537,29 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
 
   if (!detail || !session) return;
 
-  // Si on regarde un autre programme, on n'affiche pas la séance active ici.
-  if (detail.dataset.programId && detail.dataset.programId !== session.programId) return;
-
   const program = window.FitnessRpgConfig.getProgramById(session.programId);
-  const day = window.FitnessRpgPrograms.getProgramDay(
-    session.programId,
-    session.dayNumber,
-    session.weekNumber || 1
-  );
+  const workout = window.FitnessRpgPrograms.getActiveProgramWorkout?.(session);
 
-  if (!program || !day) return;
+  if (!program || !workout) return;
 
-  const difficulty = window.FitnessRpgProgress.getProgramDayDifficulty(day);
-  const xp = window.FitnessRpgProgress.calculateProgramSessionXp(
-    session.programId,
-    session.dayNumber
-  );
-
+  const isBoss = session.type === "program-boss";
   const complete = window.FitnessRpgState.isProgramSessionComplete();
 
-  const exercisesHtml = day.exercises.map((item, index) => {
-    const exerciseKey = `${index}-${item.exerciseId}`;
+  const xp = isBoss
+    ? Number(workout.xp || workout.boss?.xp || 50)
+    : (
+        window.FitnessRpgProgress.calculateProgramSessionXp
+          ? window.FitnessRpgProgress.calculateProgramSessionXp(
+              session.programId,
+              session.dayNumber,
+              session.weekNumber || 1
+            )
+          : Number(workout.xp || 20)
+      );
+
+  const exercisesHtml = workout.exercises.map((item, index) => {
     const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
+    const exerciseKey = `${index}-${item.exerciseId}`;
     const done = window.FitnessRpgState.isProgramSessionExerciseDone(exerciseKey);
     const canUseTimer = item.unit === "min" || item.unit === "sec" || exercise?.hasTimer;
 
@@ -577,13 +577,13 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
           ${
             canUseTimer
               ? `<button
-                    class="ghost-btn start-program-exercise-timer-btn"
-                    type="button"
-                    data-exercise-id="${item.exerciseId}"
-                    data-exercise-key="${exerciseKey}"
-                  >
-                    ⏱️ Timer
-                  </button>`
+                  class="ghost-btn start-program-exercise-timer-btn"
+                  type="button"
+                  data-exercise-id="${item.exerciseId}"
+                  data-exercise-key="${exerciseKey}"
+                >
+                  ⏱️ Timer
+                </button>`
               : ""
           }
 
@@ -595,27 +595,30 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
           >
             ${done ? "Validé" : "Valider"}
           </button>
-          
         </div>
       </article>
     `;
   }).join("");
 
-  const doneCount = (
-  session.completedExerciseKeys
-  || session.completedExerciseIds
-  || []
-).length;
-  const totalCount = day.exercises.length;
+  const doneCount = window.FitnessRpgState.getProgramSessionCompletedCount?.() || 0;
+  const totalCount = workout.exercises.length;
+
+  const title = isBoss
+    ? `${program.title} · ${workout.title}`
+    : `${program.title} · Semaine ${session.weekNumber || 1} · Jour ${workout.day}`;
+
+  const subtitle = isBoss
+    ? `${workout.subtitle || ""} · ${workout.label || ""}`.replace(/^ · | · $/g, "")
+    : workout.title;
 
   const sessionHtml = `
     <section id="activeProgramSession" class="active-program-session card">
-      <p class="eyebrow">${program.icon} Séance en cours</p>
-      <h2>${program.title} · Semaine ${session.weekNumber || 1} · Jour ${day.day}</h2>
-      <p>${day.title}</p>
+      <p class="eyebrow">${isBoss ? "🐉 Boss en cours" : `${program.icon} Séance en cours`}</p>
+      <h2>${title}</h2>
+      <p>${subtitle}</p>
 
       <div class="program-session-meta">
-        <span>${day.difficultyLabel || difficulty.label}</span>
+        <span>${workout.difficultyLabel || "Défi"}</span>
         <span>${doneCount}/${totalCount} exercices</span>
         <span>${xp} XP final</span>
       </div>
@@ -630,7 +633,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
         type="button"
         ${complete ? "" : "disabled"}
       >
-        ${complete ? `Terminer la séance · +${xp} XP` : "Valide tous les exercices pour terminer"}
+        ${complete ? `Terminer · +${xp} XP` : "Valide tous les exercices pour terminer"}
       </button>
     </section>
   `;
@@ -882,6 +885,72 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
     list.appendChild(card);
   });
 };
+window.FitnessRpgRender.renderProgramBossChoiceHtml = function renderProgramBossChoiceHtml(programId, weekNumber = 1) {
+  const boss = window.FitnessRpgPrograms.getProgramBoss?.(programId, weekNumber);
+
+  if (!boss) return "";
+
+  const unlocked = window.FitnessRpgPrograms.isProgramBossUnlocked?.(programId, weekNumber);
+  const variants = boss.variants || {};
+  const variantList = Object.values(variants);
+
+  if (!variantList.length && Array.isArray(boss.exercises)) {
+    variantList.push({
+      id: "single",
+      label: "⚔️ Boss",
+      title: boss.title,
+      mission: boss.coachLine || boss.subtitle || "",
+      difficultyLabel: boss.difficultyLabel || "",
+      exercises: boss.exercises
+    });
+  }
+
+  const variantsHtml = variantList.map((variant) => {
+    const exercisesPreview = (variant.exercises || [])
+      .slice(0, 4)
+      .map((item) => {
+        const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
+        return `<li>${exercise?.title || item.exerciseId} · ${item.amount} ${item.unit}</li>`;
+      })
+      .join("");
+
+    return `
+      <article class="program-boss-variant-card">
+        <h4>${variant.label || variant.title || "Boss"}</h4>
+        <p>${variant.mission || ""}</p>
+        <p><strong>${variant.difficultyLabel || boss.difficultyLabel || ""}</strong></p>
+        <ul>${exercisesPreview}</ul>
+
+        <button
+          class="secondary-btn start-program-boss-btn"
+          type="button"
+          data-program-id="${programId}"
+          data-week-number="${weekNumber}"
+          data-variant-id="${variant.id || "single"}"
+          ${unlocked ? "" : "disabled"}
+        >
+          ${unlocked ? "Démarrer cette mission" : "Boss verrouillé"}
+        </button>
+      </article>
+    `;
+  }).join("");
+
+  return `
+    <section class="program-boss-choice card">
+      <p class="eyebrow">🐉 Boss de la semaine ${weekNumber}</p>
+      <h3>${boss.title}</h3>
+      <p>${boss.subtitle || boss.instructions || ""}</p>
+      ${
+        unlocked
+          ? `<p class="success-text">Boss débloqué. Choisis ta mission.</p>`
+          : `<p class="planning-coach-warning">${boss.lockedMessage || "Termine les 3 séances de la semaine pour débloquer le boss."}</p>`
+      }
+      <div class="program-boss-variants">
+        ${variantsHtml}
+      </div>
+    </section>
+  `;
+};
 
 window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(programId) {
   const list = document.querySelector("#programList");
@@ -906,14 +975,20 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
   detail.classList.remove("hidden");
   detail.dataset.programId = programId;
 
-  const selection = window.FitnessRpgPrograms.getProgramBrowserSelection(programId);
+  const selection = window.FitnessRpgPrograms.getProgramBrowserSelection
+  ? window.FitnessRpgPrograms.getProgramBrowserSelection(programId)
+  : { weekNumber: 1, dayNumber: 1 };
+
   const weeks = window.FitnessRpgPrograms.getProgramWeeks(programId);
   const week = window.FitnessRpgPrograms.getSelectedProgramWeek(programId);
   const days = window.FitnessRpgPrograms.getProgramDaysForWeek(
     programId,
     selection.weekNumber
   );
-
+ const bossHtml = window.FitnessRpgRender.renderProgramBossChoiceHtml(
+  programId,
+  selection.weekNumber || 1
+);
   const day = window.FitnessRpgPrograms.getSelectedProgramDay(programId);
 
   const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
@@ -1065,6 +1140,7 @@ return `
         </button>
       </article>
     </section>
+    ${bossHtml}
 
     <section class="program-detail-actions">
       <button
