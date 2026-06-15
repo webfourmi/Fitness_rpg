@@ -634,6 +634,17 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
   if (window.FitnessRpgNavigation.handleProgramClick(event, target)) return;
   if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;
 
+  // ============================================================
+// COFFRE RECOMPENSE FERMETURE
+// ============================================================
+const closeChestRewardButton = target.closest(".close-chest-reward-modal-btn");
+
+if (closeChestRewardButton || target.id === "chestRewardOverlay") {
+  window.FitnessRpgNavigation.stopEvent(event);
+  window.FitnessRpgRender?.closeChestRewardModal?.();
+  return true;
+}
+
   // Header
   if (target.closest("#headerProgramsButton")) {
     event.preventDefault();
@@ -817,16 +828,7 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
   }
 };
 
-// ============================================================
-// COFFRE RECOMPENSE FERMETURE
-// ============================================================
-const closeChestRewardButton = target.closest(".close-chest-reward-modal-btn");
 
-if (closeChestRewardButton || target.id === "chestRewardOverlay") {
-  window.FitnessRpgNavigation.stopEvent(event);
-  window.FitnessRpgRender?.closeChestRewardModal?.();
-  return true;
-}
 // ============================================================
 // Clavier
 // ============================================================
