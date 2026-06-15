@@ -397,6 +397,60 @@ window.FitnessRpgState.getAllEntries = function getAllEntries() {
     .filter(Boolean);
 };
 
+window.FitnessRpgState.resetProgramProgress = function resetProgramProgress(programId) {
+  if (!window.FitnessRpgState.profile || !programId) {
+    return { removedEntries: 0 };
+  }
+
+  const profile = window.FitnessRpgState.profile;
+  let removedEntries = 0;
+
+  if (!profile.completedByDate) {
+    profile.completedByDate = {};
+  }
+
+  Object.keys(profile.completedByDate).forEach((dateKey) => {
+    const entries = Array.isArray(profile.completedByDate[dateKey])
+      ? profile.completedByDate[dateKey]
+      : [];
+
+    const keptEntries = entries.filter((entry) => {
+      const isSameProgram = entry.programId === programId;
+
+      if (!isSameProgram) return true;
+
+      const isProgramEntry =
+        entry.type === "program" ||
+        entry.type === "program-boss" ||
+        entry.sportId === "program";
+
+      if (isProgramEntry) {
+        removedEntries += 1;
+        return false;
+      }
+
+      return true;
+    });
+
+    if (keptEntries.length > 0) {
+      profile.completedByDate[dateKey] = keptEntries;
+    } else {
+      delete profile.completedByDate[dateKey];
+    }
+  });
+
+  const activeSession = window.FitnessRpgState.getActiveProgramSession?.();
+
+  if (activeSession?.programId === programId) {
+    window.FitnessRpgState.clearActiveProgramSession?.();
+  }
+
+  window.FitnessRpgState.saveProfile?.();
+
+  return {
+    removedEntries
+  };
+};
 // ============================================================
 // Série
 // ============================================================
