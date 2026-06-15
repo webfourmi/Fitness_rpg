@@ -413,6 +413,8 @@ window.FitnessRpgNavigation.handleProgramClick = function handleProgramClick(eve
     return true;
   }
 
+  
+
   const weekCarouselButton = target.closest(".program-week-carousel-btn");
 
   if (weekCarouselButton) {
@@ -434,6 +436,20 @@ window.FitnessRpgNavigation.handleProgramClick = function handleProgramClick(eve
 
     return true;
   }
+
+  const resetProgramButton = target.closest(".reset-program-progress-btn");
+
+if (resetProgramButton) {
+  window.FitnessRpgNavigation.stopEvent(event);
+
+  const programId = resetProgramButton.dataset.programId;
+
+  if (programId) {
+    window.FitnessRpgPrograms?.resetProgramProgress?.(programId);
+  }
+
+  return true;
+}
 
   const startProgramDayButton = target.closest(".start-program-day-btn");
 
