@@ -217,6 +217,29 @@ window.FitnessRpgProgress.getLevelRewardText = function getLevelRewardText(level
   return "✨ Nouvelle apparence et progression héroïque.";
 };
 
+window.FitnessRpgProgress.getLevelUpNarrative = function getLevelUpNarrative(level) {
+  const safeLevel = Number(level) || 1;
+
+  const specialMessages = {
+    2: "Le héros quitte l’échauffement du destin. Les premières cicatrices sont encore invisibles.",
+    3: "La routine devient une arme. Chaque séance ajoute une maille à l’armure.",
+    4: "Le souffle tient mieux. Le corps commence à croire à la légende.",
+    5: "Transformation majeure. Le novice devient aventurier, et le coffre s’ouvre dans un bruit de tonnerre.",
+    10: "Le héros entre dans les chroniques. Les anciennes excuses reculent dans l’ombre.",
+    15: "Le champion devient une figure de saga. Même les boss prennent une seconde pour réfléchir.",
+    20: "Héros mythique. Le corps, le souffle et la volonté avancent sous la même bannière."
+  };
+
+  if (specialMessages[safeLevel]) {
+    return specialMessages[safeLevel];
+  }
+
+  if (safeLevel > 20) {
+    return "La légende continue au-delà des cartes connues.";
+  }
+
+  return "Nouvelle étape franchie. Le héros change, lentement mais sûrement.";
+};
 // ============================================================
 // Bonus planning hebdomadaire
 // ============================================================
