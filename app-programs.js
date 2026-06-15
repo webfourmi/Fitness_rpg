@@ -132,7 +132,33 @@ window.FitnessRpgPrograms.getProgramBoss = function getProgramBoss(programId, we
 
   return bosses.find((boss) => Number(boss.week) === safeWeekNumber) || null;
 };
+window.FitnessRpgPrograms.getProgramBossVariant = function getProgramBossVariant(programId, weekNumber = 1, variantId = "indoor") {
+  const boss = window.FitnessRpgPrograms.getProgramBoss(programId, weekNumber);
 
+  if (!boss) return null;
+
+  const variants = boss.variants || {};
+
+  if (variants[variantId]) {
+    return variants[variantId];
+  }
+
+  if (Array.isArray(boss.exercises) && boss.exercises.length) {
+    return {
+      id: "single",
+      label: "⚔️ Boss",
+      title: boss.title,
+      mission: boss.coachLine || boss.subtitle || "",
+      difficultyLabel: boss.difficultyLabel || "",
+      exercises: boss.exercises
+    };
+  }
+
+  return variants.indoor
+    || variants.outdoor
+    || Object.values(variants)[0]
+    || null;
+};
 
 window.FitnessRpgPrograms.getProgramBossVariant = function getProgramBossVariant(programId, weekNumber = 1, variantId = "indoor") {
   const boss = window.FitnessRpgPrograms.getProgramBoss(programId, weekNumber);
