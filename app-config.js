@@ -32,7 +32,9 @@ window.FitnessRpgConfig = {
     weights: "fitnessRpgV5Weights",
     today: "fitnessRpgV5Today",
     badges: "fitnessRpgV5Badges",
-    settings: "fitnessRpgV5Settings"
+    settings: "fitnessRpgV5Settings",
+    familiars: "fitness_rpg_familiars",
+    lastChestReward: "fitness_rpg_last_chest_reward",
   },
 
   // ------------------------------------------------------------
