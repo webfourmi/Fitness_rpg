@@ -630,42 +630,23 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
 
   if (!target) return;
 
-  if (window.FitnessRpgNavigation.handleOverlayClick(event, target)) return;
-  if (window.FitnessRpgNavigation.handleProgramClick(event, target)) return;
-  if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;
-window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(event) {
-  const target = event.target;
-
   // ============================================================
   // COFFRE RECOMPENSE FERMETURE
   // ============================================================
   const closeChestRewardButton = target.closest(".close-chest-reward-modal-btn");
 
   if (closeChestRewardButton || target.id === "chestRewardOverlay") {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (window.FitnessRpgRender && window.FitnessRpgRender.closeChestRewardModal) {
-      window.FitnessRpgRender.closeChestRewardModal();
-    }
-
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgRender?.closeChestRewardModal?.();
     return;
   }
 
   // ============================================================
-  // LEVEL UP FERMETURE
+  // Modales / overlays
   // ============================================================
-  if (target.closest("#closeLevelUpButton")) {
-    window.FitnessRpgRender.closeLevelUpOverlay();
-    return;
-  }
-
-  if (target.id === "levelUpOverlay") {
-    window.FitnessRpgRender.closeLevelUpOverlay();
-    return;
-  }
-
-
+  if (window.FitnessRpgNavigation.handleOverlayClick(event, target)) return;
+  if (window.FitnessRpgNavigation.handleProgramClick(event, target)) return;
+  if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;
 
   // Header
   if (target.closest("#headerProgramsButton")) {
@@ -847,9 +828,9 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
   if (target.closest("#saveWeightButton")) {
     event.preventDefault();
     window.FitnessRpgNavigation.saveWeight();
+    return;
   }
 };
-
 
 // ============================================================
 // Clavier
