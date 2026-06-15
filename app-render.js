@@ -1386,7 +1386,20 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
         </div>
       </div>
 
-      <p>Ton héros devient <strong>${rank}</strong>.</p>
+     if (text) {
+      text.innerHTML = `
+        Ton héros devient <strong>${rank}</strong>.
+    
+        <br><br>
+    
+        <button
+          class="secondary-btn open-progression-from-levelup-btn"
+          type="button"
+        >
+          Voir l’évolution du héros
+        </button>
+      `;
+    }
       <p class="level-up-narrative">${narrative}</p>
       <p>${hasChest ? "Transformation majeure accomplie." : "Nouvelle apparence héroïque débloquée."}</p>
     `;
@@ -1534,9 +1547,14 @@ window.FitnessRpgRender.renderProgressionPage = function renderProgressionPage()
     `;
     levelGrid.innerHTML = "";
     badgeSummary.innerHTML = "";
+
+    const heroEvolution = document.querySelector("#heroEvolutionCarousel");
+    if (heroEvolution) heroEvolution.innerHTML = "";
+    
     return;
   }
 
+  window.FitnessRpgRender.renderHeroEvolutionCarousel();
   const percent = window.FitnessRpgProgress.getXpPercent();
   const milestones = window.FitnessRpgProgress.getLevelMilestones(20);
 
@@ -1799,6 +1817,10 @@ window.FitnessRpgRender.renderCurrentPage = function renderCurrentPage() {
       window.FitnessRpgRender.renderBadges();
       break;
 
+    case "familiars":
+      window.FitnessRpgRender.renderFamiliarsPage();
+      break;
+      
     case "journal":
       window.FitnessRpgRender.renderJournal();
       break;
