@@ -133,6 +133,39 @@ window.FitnessRpgPrograms.getProgramBoss = function getProgramBoss(programId, we
   return bosses.find((boss) => Number(boss.week) === safeWeekNumber) || null;
 };
 
+
+window.FitnessRpgPrograms.getProgramBossVariant = function getProgramBossVariant(programId, weekNumber = 1, variantId = "indoor") {
+  const boss = window.FitnessRpgPrograms.getProgramBoss(programId, weekNumber);
+
+  if (!boss) return null;
+
+  const variants = boss.variants || {};
+  const wantedVariant = String(variantId || "indoor");
+
+  if (variants[wantedVariant]) {
+    return variants[wantedVariant];
+  }
+
+  if (variants.indoor) return variants.indoor;
+  if (variants.outdoor) return variants.outdoor;
+
+  const firstVariant = Object.values(variants)[0];
+  if (firstVariant) return firstVariant;
+
+  if (Array.isArray(boss.exercises) && boss.exercises.length) {
+    return {
+      id: "single",
+      label: "⚔️ Boss",
+      title: boss.title,
+      mission: boss.coachLine || boss.subtitle || "",
+      difficultyLabel: boss.difficultyLabel || "",
+      exercises: boss.exercises
+    };
+  }
+
+  return null;
+};
+
 window.FitnessRpgPrograms.getPlanningBossWeekNumber = function getPlanningBossWeekNumber(programId) {
   const weeks = window.FitnessRpgPrograms.getProgramWeeks?.(programId) || [];
   const days = window.FitnessRpgPrograms.getProgramDaysForWeek?.(programId, 1) || [];
@@ -265,7 +298,43 @@ window.FitnessRpgPrograms.startProgramBossSession = function startProgramBossSes
     return;
   }
 
-  window.FitnessRpgState.startProgramBossSession(programId, weekNumber, variantId);
+  if (typeof window.FitnessRpgState.startProgramBossSession === "function") {
+    window.FitnessRpgState.startProgramBossSession(programId, weekNumber, variantId);
+  } else {
+    window.FitnessRpgState.activeProgramSession = {
+      id: window.FitnessRpgState.createId
+        ? window.FitnessRpgState.createId("program-boss-session")
+        : `program-boss-${Date.now()}`,
+      type: "program-boss",
+      programId,
+      weekNumber: Number(weekNumber || 1),
+      dayNumber: 0,
+      bossVariant: variantId || "indoor",
+      startedAt: window.FitnessRpgState.nowIso
+        ? window.FitnessRpgState.nowIso()
+        : new Date().toISOString(),
+      completedExerciseIds: [],
+      completedExerciseKeys: []
+    };
+  }
+
+  const activeSession = window.FitnessRpgState.getActiveProgramSession?.();
+  if (activeSession) {
+    activeSession.type = "program-boss";
+    activeSession.programId = programId;
+    activeSession.weekNumber = Number(weekNumber || 1);
+    activeSession.dayNumber = 0;
+    activeSession.bossVariant = variantId || "indoor";
+
+    if (!Array.isArray(activeSession.completedExerciseIds)) {
+      activeSession.completedExerciseIds = [];
+    }
+
+    if (!Array.isArray(activeSession.completedExerciseKeys)) {
+      activeSession.completedExerciseKeys = [];
+    }
+  }
+
   window.FitnessRpgRender?.renderProgramDetail?.(programId);
 
   const coachLine = variant.mission || boss.coachLine || "Le boss t’attend.";
@@ -1237,6 +1306,27 @@ window.FitnessRpgState.startProgramSession(
   planningContext
 );
 
+const activeSession = window.FitnessRpgState.getActiveProgramSession?.();
+if (activeSession) {
+  activeSession.type = "program";
+  activeSession.programId = programId;
+  activeSession.dayNumber = Number(dayNumber || 1);
+  activeSession.weekNumber = Number(weekNumber || 1);
+  activeSession.planningDateKey = planningContext.planningDateKey || null;
+  activeSession.planningIndex = planningContext.planningIndex ?? null;
+  activeSession.planningDayLabel = planningContext.planningDayLabel || null;
+  activeSession.planningTitle = planningContext.planningTitle || null;
+  activeSession.planningSource = planningContext.planningSource || null;
+
+  if (!Array.isArray(activeSession.completedExerciseIds)) {
+    activeSession.completedExerciseIds = [];
+  }
+
+  if (!Array.isArray(activeSession.completedExerciseKeys)) {
+    activeSession.completedExerciseKeys = [];
+  }
+}
+
 window.FitnessRpgPrograms.setProgramBrowserSelection(
   programId,
   weekNumber,
@@ -1273,12 +1363,166 @@ window.FitnessRpgPrograms.validateProgramExercise = function validateProgramExer
   window.FitnessRpgRender?.renderProgramDetail?.(session.programId);
 };
 
+
+window.FitnessRpgPrograms.getCompletedExerciseKeys = function getCompletedExerciseKeys(session = null) {
+  const activeSession = session || window.FitnessRpgState?.getActiveProgramSession?.();
+
+  if (!activeSession) return [];
+
+  const completed = activeSession.completedExerciseKeys || activeSession.completedExerciseIds || [];
+
+  return Array.isArray(completed) ? completed : [];
+};
+
+window.FitnessRpgPrograms.isActiveProgramSessionComplete = function isActiveProgramSessionComplete() {
+  const session = window.FitnessRpgState?.getActiveProgramSession?.();
+
+  if (!session) return false;
+
+  const workout = window.FitnessRpgPrograms.getActiveProgramWorkout(session);
+
+  if (!workout || !Array.isArray(workout.exercises) || !workout.exercises.length) {
+    return false;
+  }
+
+  const completed = window.FitnessRpgPrograms.getCompletedExerciseKeys(session);
+
+  return workout.exercises.every((item, index) => {
+    const key = `${index}-${item.exerciseId}`;
+    return completed.includes(key) || completed.includes(item.exerciseId);
+  });
+};
+
+window.FitnessRpgPrograms.resolveBadgeRewardMessage = function resolveBadgeRewardMessage(badgeId) {
+  if (!badgeId) return "";
+
+  const badge = (window.FitnessRpgData?.badges || []).find((item) => item.id === badgeId);
+  const badgeTitle = badge?.title || badgeId;
+
+  if (window.FitnessRpgState?.hasBadge?.(badgeId)) {
+    return `Badge déjà gagné : ${badgeTitle}.`;
+  }
+
+  const unlocked = window.FitnessRpgState?.unlockBadge?.(badgeId);
+
+  if (unlocked) {
+    return `Badge débloqué : ${badgeTitle}.`;
+  }
+
+  return `Badge déjà gagné : ${badgeTitle}.`;
+};
+
+window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession() {
+  const session = window.FitnessRpgState?.getActiveProgramSession?.();
+
+  if (!session) return;
+
+  if (session.type === "program-boss") {
+    window.FitnessRpgPrograms.finishProgramBossSession();
+    return;
+  }
+
+  if (!window.FitnessRpgPrograms.isActiveProgramSessionComplete()) {
+    window.FitnessRpgPrograms.showMessage({
+      icon: "🛡️",
+      title: "Séance incomplète",
+      message: "Valide tous les exercices avant de terminer la séance.",
+      okText: "Compris"
+    });
+    return;
+  }
+
+  const program = window.FitnessRpgPrograms.getProgram(session.programId);
+  const day = window.FitnessRpgPrograms.getProgramDay(
+    session.programId,
+    session.dayNumber,
+    session.weekNumber || 1
+  );
+
+  if (!program || !day) {
+    window.FitnessRpgPrograms.showMessage({
+      icon: "⚠️",
+      title: "Séance introuvable",
+      message: "Impossible de terminer cette séance.",
+      okText: "Compris"
+    });
+    return;
+  }
+
+  const xp = window.FitnessRpgProgress?.calculateProgramSessionXp
+    ? window.FitnessRpgProgress.calculateProgramSessionXp(
+        session.programId,
+        session.dayNumber,
+        session.weekNumber || 1
+      )
+    : window.FitnessRpgPrograms.calculateProgramDayXp(
+        session.programId,
+        session.dayNumber,
+        session.weekNumber || 1
+      );
+
+  const difficulty = window.FitnessRpgProgress?.getProgramDayDifficulty?.(day) || {
+    label: day.difficultyLabel || "Séance"
+  };
+
+  const weekNumber = Number(session.weekNumber || 1);
+  const dayNumber = Number(session.dayNumber || day.day || 1);
+  const title = `${program.title} · Semaine ${weekNumber} · Jour ${dayNumber} · ${day.title}`;
+  const entryDate = session.planningDateKey || window.FitnessRpgState?.todayKey?.();
+
+  window.FitnessRpgState.addTrainingEntry({
+    date: entryDate,
+    type: "program",
+    sportId: "program",
+    sportTitle: "Programme",
+    programId: program.id,
+    programTitle: program.title,
+    weekNumber,
+    dayNumber,
+    planningDateKey: session.planningDateKey || null,
+    planningIndex: session.planningIndex ?? null,
+    planningDayLabel: session.planningDayLabel || null,
+    planningTitle: session.planningTitle || null,
+    planningSource: session.planningSource || null,
+    title,
+    amount: 1,
+    unit: "séance",
+    xp
+  });
+
+  window.FitnessRpgState.addJournalEntry({
+    type: "program",
+    title,
+    text: `${difficulty.label} terminée : ${day.exercises.length} exercices validés.`,
+    xp
+  });
+
+  window.FitnessRpgState.setPose?.("victory");
+  window.FitnessRpgState.clearActiveProgramSession();
+
+  const coachId = window.FitnessRpgState.getCoachId?.();
+  const message = window.FitnessRpgData?.getCoachMessage?.(coachId, "complete");
+
+  window.FitnessRpgPrograms.setCoachMessage(
+    `${message || "Séance terminée !"} +${xp} XP.`
+  );
+
+  window.FitnessRpgProgress?.checkBadges?.();
+  window.FitnessRpgProgress?.checkWeeklyPlanningBonus?.();
+  window.FitnessRpgRender?.renderAll?.();
+
+  window.setTimeout(() => {
+    window.FitnessRpgRender?.renderProgramDetail?.(program.id);
+    window.FitnessRpgPrograms.scrollToProgramDetail?.();
+  }, 80);
+};
+
 window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossSession() {
   const session = window.FitnessRpgState?.getActiveProgramSession?.();
 
   if (!session || session.type !== "program-boss") return;
 
-  if (!window.FitnessRpgState.isProgramSessionComplete()) {
+  if (!window.FitnessRpgPrograms.isActiveProgramSessionComplete()) {
     window.FitnessRpgPrograms.showMessage({
       icon: "🛡️",
       title: "Boss incomplet",
@@ -1407,8 +1651,6 @@ if (exerciseKey) {
 }
 
 return workout.exercises.find((item) => item.exerciseId === fallbackExerciseId) || null;
-
-  return day.exercises.find((item) => item.exerciseId === fallbackExerciseId) || null;
 };
 
 window.FitnessRpgPrograms.getActiveProgramItem = function getActiveProgramItem(exerciseId) {
