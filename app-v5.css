@@ -2115,7 +2115,13 @@ body.level-up-active .hero-image-frame {
     transform: rotate(90deg);
   }
 }
-
+.level-up-narrative {
+  margin: 12px auto;
+  max-width: 420px;
+  font-weight: 700;
+  line-height: 1.45;
+  opacity: 0.95;
+}
 /* ============================================================
    12 - Responsive
 ============================================================ */
