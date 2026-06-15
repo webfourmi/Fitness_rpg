@@ -1414,10 +1414,108 @@ window.FitnessRpgRender.closeLevelUpOverlay = function closeLevelUpOverlay() {
   window.FitnessRpgProgress.consumeLevelUpModal?.();
   window.FitnessRpgRender.renderHeroPanel?.();
 };
+// ============================================================
+// Carrousel évolution du héros
+// ============================================================
 
+window.FitnessRpgRender.heroEvolutionLevel = null;
+
+window.FitnessRpgRender.getHeroImagePathForLevel = window.FitnessRpgRender.getHeroImagePathForLevel || function getHeroImagePathForLevel(level) {
+  const profile = window.FitnessRpgState.getProfile?.();
+  const safeLevel = Math.max(1, Math.min(20, Number(level) || 1));
+  const padded = String(safeLevel).padStart(2, "0");
+
+  if (profile?.gender === "femme") {
+    return `assets/joueuse/joueuse_niveau_${padded}.png`;
+  }
+
+  return `assets/joueur/joueur_niveau_${padded}.png`;
+};
+
+window.FitnessRpgRender.renderHeroEvolutionCarousel = function renderHeroEvolutionCarousel() {
+  const container = document.querySelector("#heroEvolutionCarousel");
+
+  if (!container) return;
+
+  const profile = window.FitnessRpgState.getProfile?.();
+
+  if (!profile) {
+    container.innerHTML = "";
+    return;
+  }
+
+  const info = window.FitnessRpgConfig.levelInfo(profile.totalXp || 0);
+  const currentLevel = Math.max(1, Math.min(20, Number(info.level) || 1));
+
+  if (!window.FitnessRpgRender.heroEvolutionLevel) {
+    window.FitnessRpgRender.heroEvolutionLevel = currentLevel;
+  }
+
+  const selectedLevel = Math.max(
+    1,
+    Math.min(currentLevel, Number(window.FitnessRpgRender.heroEvolutionLevel) || currentLevel)
+  );
+
+  window.FitnessRpgRender.heroEvolutionLevel = selectedLevel;
+
+  const image = window.FitnessRpgRender.getHeroImagePathForLevel(selectedLevel);
+  const rank = window.FitnessRpgConfig.getRankTitle(selectedLevel);
+
+  container.innerHTML = `
+    <p class="eyebrow">🧬 Évolution du héros</p>
+
+    <div class="hero-level-carousel-row">
+      <button
+        class="ghost-btn hero-level-carousel-btn"
+        type="button"
+        data-delta="-1"
+        ${selectedLevel <= 1 ? "disabled" : ""}
+      >
+        ←
+      </button>
+
+      <div class="hero-level-carousel-main">
+        <img
+          src="${image}"
+          alt="Héros niveau ${selectedLevel}"
+          class="hero-level-carousel-image"
+        />
+
+        <h2>Niveau ${selectedLevel}</h2>
+        <p>${rank}</p>
+        <span>
+          ${selectedLevel === currentLevel ? "Apparence actuelle" : "Ancienne apparence débloquée"}
+        </span>
+      </div>
+
+      <button
+        class="ghost-btn hero-level-carousel-btn"
+        type="button"
+        data-delta="1"
+        ${selectedLevel >= currentLevel ? "disabled" : ""}
+      >
+        →
+      </button>
+    </div>
+  `;
+};
+
+window.FitnessRpgRender.changeHeroEvolutionLevel = function changeHeroEvolutionLevel(delta) {
+  const profile = window.FitnessRpgState.getProfile?.();
+
+  if (!profile) return;
+
+  const info = window.FitnessRpgConfig.levelInfo(profile.totalXp || 0);
+  const currentLevel = Math.max(1, Math.min(20, Number(info.level) || 1));
+  const nextLevel = Number(window.FitnessRpgRender.heroEvolutionLevel || currentLevel) + Number(delta || 0);
+
+  window.FitnessRpgRender.heroEvolutionLevel = Math.max(1, Math.min(currentLevel, nextLevel));
+  window.FitnessRpgRender.renderHeroEvolutionCarousel();
+};
 // ============================================================
 // Page progression RPG
 // ============================================================
+
 
 window.FitnessRpgRender.renderProgressionPage = function renderProgressionPage() {
   const summary = document.querySelector("#progressionSummary");
@@ -1600,8 +1698,66 @@ window.FitnessRpgRender.closeChestRewardModal = function closeChestRewardModal()
   overlay.setAttribute("aria-hidden", "true");
 };
 // ============================================================
+// Page familiers
+// ============================================================
+
+window.FitnessRpgRender.renderFamiliarsPage = function renderFamiliarsPage() {
+  const summary = document.querySelector("#familiarCollectionSummary");
+  const grid = document.querySelector("#familiarCollectionGrid");
+
+  if (!summary || !grid) return;
+
+  const allFamiliars = window.FitnessRpgRewards?.getRewardFamiliars?.() || [];
+  const unlockedIds = window.FitnessRpgRewards?.getUnlockedFamiliarIds?.() || [];
+
+  const unlockedCount = unlockedIds.length;
+  const totalCount = allFamiliars.length;
+
+  summary.innerHTML = `
+    <p class="eyebrow">🐾 Collection</p>
+    <h2>${unlockedCount} / ${totalCount} familiers débloqués</h2>
+    <p>
+      Les familiers sont obtenus dans les coffres de récompense.
+      Les silhouettes inconnues seront révélées quand tu les gagneras.
+    </p>
+  `;
+
+  if (!allFamiliars.length) {
+    grid.innerHTML = `
+      <article class="card">
+        <h2>Aucun familier disponible</h2>
+        <p>Ajoute tes 8 familiers dans app-data.js ou vérifie app-rewards.js.</p>
+      </article>
+    `;
+    return;
+  }
+
+  grid.innerHTML = allFamiliars.map((familiar) => {
+    const unlocked = unlockedIds.includes(familiar.id);
+
+    return `
+      <article class="familiar-card card ${unlocked ? "unlocked" : "locked"}">
+        <div class="familiar-image-frame">
+          ${
+            unlocked
+              ? `<img src="${familiar.image}" alt="${familiar.name}" class="familiar-image" />`
+              : `<div class="familiar-locked-silhouette">?</div>`
+          }
+        </div>
+
+        <h2>${unlocked ? familiar.name : "Familier inconnu"}</h2>
+
+        <p>
+          ${unlocked ? "Compagnon débloqué." : "Encore caché dans un coffre."}
+        </p>
+      </article>
+    `;
+  }).join("");
+};
+// ============================================================
 // Rendu global
 // ============================================================
+
 
 window.FitnessRpgRender.renderCurrentPage = function renderCurrentPage() {
   const page = window.FitnessRpgState.getPage();
