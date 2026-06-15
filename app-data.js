@@ -3489,3 +3489,30 @@ window.FitnessRpgData.getCoachMessage = function getCoachMessage(coachId, type =
 
   return list[Math.floor(Math.random() * list.length)];
 };
+window.FitnessRpgData.getRewardFamiliars = function getRewardFamiliars() {
+  return Array.isArray(window.FitnessRpgData.rewardFamiliars)
+    ? [...window.FitnessRpgData.rewardFamiliars]
+    : [];
+};
+
+window.FitnessRpgData.pickRandomFamiliar = function pickRandomFamiliar(alreadyOwnedIds = []) {
+  const allFamiliars = window.FitnessRpgData.getRewardFamiliars();
+
+  if (!allFamiliars.length) {
+    return null;
+  }
+
+  const remainingFamiliars = allFamiliars.filter((familiar) => {
+    return !alreadyOwnedIds.includes(familiar.id);
+  });
+
+  const pool = remainingFamiliars.length > 0 ? remainingFamiliars : allFamiliars;
+  const randomIndex = Math.floor(Math.random() * pool.length);
+  const selected = pool[randomIndex];
+
+  return {
+    familiar: selected,
+    isNew: !alreadyOwnedIds.includes(selected.id),
+    allCollected: remainingFamiliars.length === 0
+  };
+};
