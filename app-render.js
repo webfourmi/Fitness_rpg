@@ -1072,12 +1072,21 @@ return `
       ← Choisir un autre programme
     </button>
 
-    <header class="program-detail-header">
-      <p class="eyebrow">${program.icon} ${program.objective}</p>
-      <h2>${program.title}</h2>
-      <p>${program.duration} · ${program.frequency}</p>
-      <p class="program-suggested-line">${suggestedText}</p>
-    </header>
+   <header class="program-detail-header">
+    <p class="eyebrow">${program.icon} ${program.objective}</p>
+    <h2>${program.title}</h2>
+    <p>${program.duration} · ${program.frequency}</p>
+  
+    <div class="program-detail-actions">
+      <button
+        class="ghost-btn reset-program-progress-btn"
+        type="button"
+        data-program-id="${programId}"
+      >
+        ♻️ Réinitialiser ce programme
+      </button>
+    </div>
+  </header>
 
     <section class="program-carousel card">
       <p class="eyebrow">Progression</p>
