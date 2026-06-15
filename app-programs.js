@@ -1350,7 +1350,27 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
     window.FitnessRpgPrograms.scrollToProgramDetail?.();
   }, 80);
 };
+window.FitnessRpgPrograms.resolveBadgeRewardMessage = function resolveBadgeRewardMessage(badgeId) {
+  if (!badgeId) return "";
 
+  const badge = (window.FitnessRpgData?.badges || []).find((item) => {
+    return item.id === badgeId;
+  });
+
+  const badgeTitle = badge?.title || badgeId;
+
+  if (window.FitnessRpgState.hasBadge?.(badgeId)) {
+    return `Badge déjà gagné : ${badgeTitle}.`;
+  }
+
+  const unlocked = window.FitnessRpgState.unlockBadge?.(badgeId);
+
+  if (unlocked) {
+    return `Badge débloqué : ${badgeTitle}.`;
+  }
+
+  return "";
+};
 window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession() {
   const session = window.FitnessRpgState?.getActiveProgramSession?.();
     if (session?.type === "program-boss") {
@@ -1451,6 +1471,19 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     window.FitnessRpgPrograms.scrollToProgramDetail();
   }, 80);
 };
+
+let badgeMessage = "";
+
+if (session.type === "program-boss" || session.isBoss) {
+  const detail = window.FitnessRpgData.getProgramDetail?.(session.programId);
+  const weekNumber = Number(session.weekNumber || session.bossWeekNumber || 1);
+
+  const boss = (detail?.bosses || []).find((item) => {
+    return Number(item.week) === weekNumber;
+  });
+
+  badgeMessage = window.FitnessRpgPrograms.resolveBadgeRewardMessage?.(boss?.badgeId) || "";
+}
 
 // ============================================================
 // Timer pour les exercices de programme
