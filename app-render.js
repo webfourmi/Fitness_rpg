@@ -1386,22 +1386,26 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
         </div>
       </div>
 
-     if (text) {
-      text.innerHTML = `
+      <p>
         Ton héros devient <strong>${rank}</strong>.
-    
-        <br><br>
-    
-        <button
-          class="secondary-btn open-progression-from-levelup-btn"
-          type="button"
-        >
-          Voir l’évolution du héros
-        </button>
-      `;
-    }
-      <p class="level-up-narrative">${narrative}</p>
-      <p>${hasChest ? "Transformation majeure accomplie." : "Nouvelle apparence héroïque débloquée."}</p>
+      </p>
+
+      ${
+        narrative
+          ? `<p class="level-up-narrative">${narrative}</p>`
+          : ""
+      }
+
+      <p>
+        ${hasChest ? "Transformation majeure accomplie." : "Nouvelle apparence héroïque débloquée."}
+      </p>
+
+      <button
+        class="secondary-btn open-progression-from-levelup-btn"
+        type="button"
+      >
+        Voir l’évolution du héros
+      </button>
     `;
   }
 
