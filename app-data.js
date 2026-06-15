@@ -3168,7 +3168,51 @@ exercises: [
       ]
     }
   },
-
+  // ------------------------------------------------------------
+  // Familiers de récompense
+  // ------------------------------------------------------------
+  rewardFamiliars: [
+    {
+      id: "familier-01",
+      name: "Batraglyphe",
+      image: "assets/familiers/familier_grenouille.png"
+    },
+    {
+      id: "familier-02",
+      name: "Plumérion",
+      image: "assets/familiers/familier_hibou.png"
+    },
+    {
+      id: "familier-03",
+      name: "Flambis",
+      image: "assets/familiers/familier_renard.png"
+    },
+    {
+      id: "familier-04",
+      name: "Noxplume",
+      image: "assets/familiers/familier_corbeau.png"
+    },
+    {
+      id: "familier-05",
+      name: "Bravouf",
+      image: "assets/familiers/familier_chien.png"
+    },
+    {
+      id: "familier-06",
+      name: "Noctimaow",
+      image: "assets/familiers/familier_chat.png"
+    },
+    {
+      id: "familier-07",
+      name: "Gribzouk",
+      image: "assets/familiers/familier_diablotin.png"
+    },
+    {
+      id: "familier-08",
+      name: "Pyrolins",
+      image: "assets/familiers/familier_dragon.png"
+    }
+  ],
   // ------------------------------------------------------------
   // Badges
   // ------------------------------------------------------------
