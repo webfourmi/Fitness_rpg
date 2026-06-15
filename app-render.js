@@ -1357,6 +1357,7 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
   const newLevel = Number(pending.newLevel || 1);
   const rank = window.FitnessRpgConfig.getRankTitle(newLevel);
   const hasChest = window.FitnessRpgProgress.hasChestReward(newLevel);
+  const narrative = window.FitnessRpgProgress.getLevelUpNarrative?.(newLevel) || "";
 
   const oldHeroImage = window.FitnessRpgRender.getHeroImagePathForLevel(oldLevel);
   const newHeroImage = window.FitnessRpgRender.getHeroImagePathForLevel(newLevel);
@@ -1386,6 +1387,7 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
       </div>
 
       <p>Ton héros devient <strong>${rank}</strong>.</p>
+      <p class="level-up-narrative">${narrative}</p>
       <p>${hasChest ? "Transformation majeure accomplie." : "Nouvelle apparence héroïque débloquée."}</p>
     `;
   }
