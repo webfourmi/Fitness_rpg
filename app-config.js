@@ -208,7 +208,7 @@ window.FitnessRpgConfig = {
       objective: "Préparation sportive pour vélo",
       level: "Débutant à intermédiaire",
       duration: "20-35 min",
-      frequency: "2 à 3 fois par semaine",
+      frequency: "3 fois par semaine",
       coachAdvice: "Korvan, Xara ou Bazul",
       xp: 40
     },
@@ -241,7 +241,7 @@ window.FitnessRpgConfig = {
       objective: "Bras, épaules, posture et tonus du haut du corps",
       level: "Débutant à intermédiaire",
       duration: "15-25 min",
-      frequency: "2 à 3 fois par semaine",
+      frequency: "3 fois par semaine",
       coachAdvice: "Xara, Bazul ou Korvan",
       xp: 35
     },
@@ -252,7 +252,7 @@ window.FitnessRpgConfig = {
       objective: "Mobilité + gainage",
       level: "Débutant",
       duration: "10-20 min",
-      frequency: "2 à 4 séances par semaine",
+      frequency: "3 séances par semaine",
       coachAdvice: "Elmin ou Satyne",
       xp: 20
     },
@@ -263,7 +263,7 @@ window.FitnessRpgConfig = {
       objective: "Endurance douce",
       level: "Tous niveaux",
       duration: "20-45 min",
-      frequency: "4 à 6 fois par semaine",
+      frequency: "3 fois par semaine",
       coachAdvice: "Violette, Korvan ou Elmin",
       xp: 10
     },
@@ -295,7 +295,8 @@ window.FitnessRpgConfig = {
     "weight",
     "goal",
     "planning",
-    "progression"
+    "progression",
+    "familiars"
 
   ]
 };
