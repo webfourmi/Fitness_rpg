@@ -1335,15 +1335,31 @@ window.FitnessRpgRender.renderWeight = function renderWeight() {
 // Niveau supérieur
 // ============================================================
 
+window.FitnessRpgRender.getHeroImagePathForLevel = function getHeroImagePathForLevel(level) {
+  const profile = window.FitnessRpgState.getProfile?.();
+  const safeLevel = Math.max(1, Math.min(20, Number(level) || 1));
+  const padded = String(safeLevel).padStart(2, "0");
+
+  if (profile?.gender === "femme") {
+    return `assets/joueuse/joueuse_niveau_${padded}.png`;
+  }
+
+  return `assets/joueur/joueur_niveau_${padded}.png`;
+};
+
 window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
   const pending = window.FitnessRpgProgress.peekLevelUpModal?.();
   const overlay = document.querySelector("#levelUpOverlay");
 
   if (!overlay || !pending) return;
 
+  const oldLevel = Number(pending.oldLevel || 1);
   const newLevel = Number(pending.newLevel || 1);
   const rank = window.FitnessRpgConfig.getRankTitle(newLevel);
   const hasChest = window.FitnessRpgProgress.hasChestReward(newLevel);
+
+  const oldHeroImage = window.FitnessRpgRender.getHeroImagePathForLevel(oldLevel);
+  const newHeroImage = window.FitnessRpgRender.getHeroImagePathForLevel(newLevel);
 
   const icon = document.querySelector("#levelUpIcon");
   const title = document.querySelector("#levelUpTitle");
@@ -1352,7 +1368,28 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
 
   if (icon) icon.textContent = hasChest ? "🎁" : "✨";
   if (title) title.textContent = `Niveau ${newLevel} atteint !`;
-  if (text) text.textContent = `Ton héros devient ${rank}.`;
+
+  if (text) {
+    text.innerHTML = `
+      <div class="level-up-transform">
+        <div class="level-up-hero-stage">
+          <img src="${oldHeroImage}" alt="Ancien niveau" />
+          <span>Niv. ${oldLevel}</span>
+        </div>
+
+        <div class="level-up-arrow">➜</div>
+
+        <div class="level-up-hero-stage level-up-new">
+          <img src="${newHeroImage}" alt="Nouveau niveau" />
+          <span>Niv. ${newLevel}</span>
+        </div>
+      </div>
+
+      <p>Ton héros devient <strong>${rank}</strong>.</p>
+      <p>${hasChest ? "Transformation majeure accomplie." : "Nouvelle apparence héroïque débloquée."}</p>
+    `;
+  }
+
   if (reward) {
     reward.textContent = window.FitnessRpgProgress.getLevelRewardText(newLevel);
     reward.classList.toggle("hidden", false);
