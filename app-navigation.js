@@ -818,6 +818,16 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
 };
 
 // ============================================================
+// COFFRE RECOMPENSE FERMETURE
+// ============================================================
+const closeChestRewardButton = target.closest(".close-chest-reward-modal-btn");
+
+if (closeChestRewardButton || target.id === "chestRewardOverlay") {
+  window.FitnessRpgNavigation.stopEvent(event);
+  window.FitnessRpgRender?.closeChestRewardModal?.();
+  return true;
+}
+// ============================================================
 // Clavier
 // ============================================================
 
