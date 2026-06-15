@@ -534,6 +534,60 @@ window.FitnessRpgPrograms.goToPlanning = function goToPlanning() {
   }, 80);
 };
 
+window.FitnessRpgPrograms.resetProgramProgress = function resetProgramProgress(programId) {
+  const program = window.FitnessRpgPrograms.getProgram?.(programId);
+
+  if (!program) {
+    window.FitnessRpgPrograms.showMessage?.({
+      icon: "⚠️",
+      title: "Programme introuvable",
+      message: "Impossible de réinitialiser ce programme.",
+      okText: "Compris"
+    });
+    return;
+  }
+
+  const confirmed = window.confirm(
+    `Réinitialiser le programme "${program.title}" ?\n\n` +
+    "Les séances et boss validés de ce programme seront effacés.\n" +
+    "L’XP total, le niveau et le journal général seront conservés."
+  );
+
+  if (!confirmed) return;
+
+  const result = window.FitnessRpgState.resetProgramProgress?.(programId) || {
+    removedEntries: 0,
+    removedBadges: 0
+  };
+
+  window.FitnessRpgPrograms.programBrowser = {
+    programId,
+    weekNumber: 1,
+    dayNumber: 1
+  };
+
+  window.FitnessRpgState.selectedProgramId = programId;
+
+  window.FitnessRpgPrograms.showMessage?.({
+    icon: "♻️",
+    title: "Programme réinitialisé",
+    message:
+      `${program.title} repart à la semaine 1, jour 1.\n\n` +
+      `Séances supprimées : ${result.removedEntries}\n` +
+      "Les badges déjà gagnés sont conservés."
+    okText: "Parfait"
+  });
+
+  window.FitnessRpgRender?.renderAll?.();
+
+  window.setTimeout(() => {
+    window.FitnessRpgPrograms.openProgramDetail?.(programId, {
+      weekNumber: 1,
+      dayNumber: 1
+    });
+  }, 80);
+};
+
 window.FitnessRpgPrograms.chooseProgram = function chooseProgram(programId) {
   const program = window.FitnessRpgPrograms.getProgram(programId);
 
