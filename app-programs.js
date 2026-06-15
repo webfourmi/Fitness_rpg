@@ -1333,21 +1333,34 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
     xp
   });
 
-  const badgeMessage = window.FitnessRpgPrograms.resolveBadgeRewardMessage?.(boss.badgeId) || "";
+ const badgeMessage = window.FitnessRpgPrograms.resolveBadgeRewardMessage?.(boss.badgeId) || "";
 
-  window.FitnessRpgState.setPose?.("victory");
-  window.FitnessRpgState.clearActiveProgramSession();
+const chestReward = boss.chest
+  ? window.FitnessRpgRewards?.drawChestFamiliarReward?.()
+  : null;
 
-  const victoryMessage = boss.chest
-    ? `Boss final vaincu ! +${xp} XP. Coffre de récompense débloqué.`
-    : `Boss vaincu ! +${xp} XP.`;
+window.FitnessRpgState.setPose?.("victory");
+window.FitnessRpgState.clearActiveProgramSession();
+
+const victoryMessage = boss.chest
+  ? `Boss final vaincu ! +${xp} XP. Coffre de récompense débloqué.`
+  : `Boss vaincu ! +${xp} XP.`;
+
+const chestMessage = chestReward?.success
+  ? window.FitnessRpgRewards?.getChestRewardMessage?.(chestReward)
+  : "";
 
   window.FitnessRpgPrograms.setCoachMessage(
-    [victoryMessage, badgeMessage].filter(Boolean).join(" ")
-  );
+  [victoryMessage, badgeMessage, chestMessage].filter(Boolean).join(" ")
+);
 
   window.FitnessRpgProgress?.checkBadges?.();
   window.FitnessRpgRender?.renderAll?.();
+  if (chestReward?.success) {
+  window.setTimeout(() => {
+    window.FitnessRpgRender?.showChestRewardModal?.(chestReward);
+  }, 150);
+}
 
   window.setTimeout(() => {
     window.FitnessRpgRender?.renderProgramDetail?.(program.id);
