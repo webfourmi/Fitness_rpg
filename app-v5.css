@@ -1908,7 +1908,45 @@ audio {
   color: var(--accent);
   font-weight: 800;
 }
+.reward-chest-box {
+  text-align: center;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  margin-top: 12px;
+}
 
+.reward-xp {
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.reward-familiar-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.reward-familiar-image {
+  width: 160px;
+  max-width: 70%;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.reward-familiar-name {
+  margin: 6px 0 0 0;
+  font-size: 1.1rem;
+}
+
+.reward-familiar-status,
+.reward-familiar-progress {
+  margin: 0;
+  font-size: 0.95rem;
+}
 /* ============================================================
    11 - Overlays et animations
 ============================================================ */
