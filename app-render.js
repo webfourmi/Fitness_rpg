@@ -1370,44 +1370,44 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
   if (icon) icon.textContent = hasChest ? "🎁" : "✨";
   if (title) title.textContent = `Niveau ${newLevel} atteint !`;
 
-  if (text) {
-    text.innerHTML = `
-      <div class="level-up-transform">
-        <div class="level-up-hero-stage">
-          <img src="${oldHeroImage}" alt="Ancien niveau" />
-          <span>Niv. ${oldLevel}</span>
-        </div>
-
-        <div class="level-up-arrow">➜</div>
-
-        <div class="level-up-hero-stage level-up-new">
-          <img src="${newHeroImage}" alt="Nouveau niveau" />
-          <span>Niv. ${newLevel}</span>
-        </div>
+ if (text) {
+  text.innerHTML = `
+    <div class="level-up-transform">
+      <div class="level-up-hero-stage">
+        <img src="${oldHeroImage}" alt="Ancien niveau" />
+        <span>Niv. ${oldLevel}</span>
       </div>
 
-      <p>
-        Ton héros devient <strong>${rank}</strong>.
-      </p>
+      <div class="level-up-arrow">➜</div>
 
-      ${
-        narrative
-          ? `<p class="level-up-narrative">${narrative}</p>`
-          : ""
-      }
+      <div class="level-up-hero-stage level-up-new">
+        <img src="${newHeroImage}" alt="Nouveau niveau" />
+        <span>Niv. ${newLevel}</span>
+      </div>
+    </div>
 
-      <p>
-        ${hasChest ? "Transformation majeure accomplie." : "Nouvelle apparence héroïque débloquée."}
-      </p>
+    <p>
+      Ton héros devient <strong>${rank}</strong>.
+    </p>
 
-      <button
-        class="secondary-btn open-progression-from-levelup-btn"
-        type="button"
-      >
-        Voir l’évolution du héros
-      </button>
-    `;
-  }
+    ${
+      narrative
+        ? `<p class="level-up-narrative">${narrative}</p>`
+        : ""
+    }
+
+    <p>
+      ${hasChest ? "Transformation majeure accomplie." : "Nouvelle apparence héroïque débloquée."}
+    </p>
+
+    <button
+      class="secondary-btn open-progression-from-levelup-btn"
+      type="button"
+    >
+      Voir l’évolution du héros
+    </button>
+  `;
+}
 
   if (reward) {
     reward.textContent = window.FitnessRpgProgress.getLevelRewardText(newLevel);
