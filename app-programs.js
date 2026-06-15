@@ -571,11 +571,11 @@ window.FitnessRpgPrograms.resetProgramProgress = function resetProgramProgress(p
   window.FitnessRpgPrograms.showMessage?.({
     icon: "♻️",
     title: "Programme réinitialisé",
-    message:
-      `${program.title} repart à la semaine 1, jour 1.\n\n` +
-      `Séances supprimées : ${result.removedEntries}\n` +
-      "Les badges déjà gagnés sont conservés."
-    okText: "Parfait"
+      message:
+    `${program.title} repart à la semaine 1, jour 1.\n\n` +
+    `Séances supprimées : ${result.removedEntries}\n` +
+    "Les badges déjà gagnés sont conservés.",
+  okText: "Parfait"
   });
 
   window.FitnessRpgRender?.renderAll?.();
@@ -1333,14 +1333,18 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
     xp
   });
 
+  const badgeMessage = window.FitnessRpgPrograms.resolveBadgeRewardMessage?.(boss.badgeId) || "";
+
   window.FitnessRpgState.setPose?.("victory");
   window.FitnessRpgState.clearActiveProgramSession();
 
-  const message = boss.chest
+  const victoryMessage = boss.chest
     ? `Boss final vaincu ! +${xp} XP. Coffre de récompense débloqué.`
     : `Boss vaincu ! +${xp} XP.`;
 
-  window.FitnessRpgPrograms.setCoachMessage(message);
+  window.FitnessRpgPrograms.setCoachMessage(
+    [victoryMessage, badgeMessage].filter(Boolean).join(" ")
+  );
 
   window.FitnessRpgProgress?.checkBadges?.();
   window.FitnessRpgRender?.renderAll?.();
@@ -1472,18 +1476,6 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   }, 80);
 };
 
-let badgeMessage = "";
-
-if (session.type === "program-boss" || session.isBoss) {
-  const detail = window.FitnessRpgData.getProgramDetail?.(session.programId);
-  const weekNumber = Number(session.weekNumber || session.bossWeekNumber || 1);
-
-  const boss = (detail?.bosses || []).find((item) => {
-    return Number(item.week) === weekNumber;
-  });
-
-  badgeMessage = window.FitnessRpgPrograms.resolveBadgeRewardMessage?.(boss?.badgeId) || "";
-}
 
 // ============================================================
 // Timer pour les exercices de programme
