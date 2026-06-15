@@ -1554,7 +1554,7 @@ window.FitnessRpgRender.renderProgressionPage = function renderProgressionPage()
     return;
   }
 
-  window.FitnessRpgRender.renderHeroEvolutionCarousel();
+
   const percent = window.FitnessRpgProgress.getXpPercent();
   const milestones = window.FitnessRpgProgress.getLevelMilestones(20);
 
@@ -1599,6 +1599,8 @@ window.FitnessRpgRender.renderProgressionPage = function renderProgressionPage()
       </article>
     </div>
   `;
+
+  window.FitnessRpgRender.renderHeroEvolutionCarousel();
 
   levelGrid.innerHTML = milestones.map((item) => {
     return `
