@@ -135,6 +135,10 @@ window.FitnessRpgNavigation.openBadges = function openBadges() {
   window.FitnessRpgNavigation.setPage("badges");
 };
 
+window.FitnessRpgNavigation.openFamiliars = function openFamiliars() {
+  window.FitnessRpgNavigation.setPage("familiars");
+};
+
 window.FitnessRpgNavigation.openJournal = function openJournal() {
   window.FitnessRpgNavigation.setPage("journal");
 };
@@ -641,6 +645,17 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
     return;
   }
 
+  const heroLevelCarouselButton = target.closest(".hero-level-carousel-btn");
+
+  if (heroLevelCarouselButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+  
+    const delta = Number(heroLevelCarouselButton.dataset.delta || 0);
+    window.FitnessRpgRender?.changeHeroEvolutionLevel?.(delta);
+  
+    return;
+  }
+
   // ============================================================
   // Modales / overlays
   // ============================================================
@@ -735,6 +750,18 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
   if (target.closest("#openExercisesButton")) {
     event.preventDefault();
     window.FitnessRpgNavigation.openExercises();
+    return;
+  }
+
+  if (target.closest("#openFamiliarsButton")) {
+    event.preventDefault();
+    window.FitnessRpgNavigation.openFamiliars();
+    return;
+  }
+  if (target.closest(".open-progression-from-levelup-btn")) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgRender?.closeLevelUpOverlay?.();
+    window.FitnessRpgNavigation.openProgression();
     return;
   }
 
