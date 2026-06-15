@@ -1908,44 +1908,57 @@ audio {
   color: var(--accent);
   font-weight: 800;
 }
-.reward-chest-box {
-  text-align: center;
-  padding: 16px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.08);
-  margin-top: 12px;
+.reward-chest-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.72);
 }
 
-.reward-xp {
-  font-weight: bold;
-  margin-bottom: 12px;
+.reward-chest-overlay.hidden {
+  display: none;
+}
+
+.reward-chest-modal {
+  width: min(92vw, 420px);
+  padding: 18px;
+  border-radius: 22px;
+  background: #202034;
+  border: 1px solid rgba(255, 230, 90, 0.45);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+  text-align: center;
+}
+
+.reward-chest-box h3 {
+  margin: 0 0 12px;
 }
 
 .reward-familiar-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  justify-items: center;
   gap: 8px;
-  margin-top: 10px;
 }
 
 .reward-familiar-image {
-  width: 160px;
-  max-width: 70%;
-  height: auto;
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  width: 180px;
+  max-width: 72vw;
+  border-radius: 18px;
+  box-shadow: 0 0 24px rgba(255, 220, 80, 0.35);
 }
 
 .reward-familiar-name {
-  margin: 6px 0 0 0;
-  font-size: 1.1rem;
+  margin: 6px 0 0;
+  font-size: 1.25rem;
 }
 
 .reward-familiar-status,
-.reward-familiar-progress {
+.reward-familiar-progress,
+.reward-familiar-complete {
   margin: 0;
-  font-size: 0.95rem;
+  font-weight: 700;
 }
 /* ============================================================
    11 - Overlays et animations
