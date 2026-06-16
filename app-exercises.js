@@ -397,6 +397,51 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
 // ============================================================
 // V3 - Mini-fiche exercice utilisée dans les programmes
 // ============================================================
+window.FitnessRpgExercises.shortUnit = function shortUnit(unit) {
+  if (unit === "répétitions") return "rép.";
+  if (unit === "repetitions") return "rép.";
+  if (unit === "sec") return "sec";
+  if (unit === "secondes") return "sec";
+  if (unit === "min") return "min";
+  if (unit === "minutes") return "min";
+  return unit || "";
+};
+
+window.FitnessRpgExercises.openExerciseDetails = function openExerciseDetails(exerciseId) {
+  const exercise = window.FitnessRpgExercises.getExercise?.(exerciseId);
+
+  if (!exercise) {
+    window.FitnessRpgRender?.showModal?.({
+      icon: "⚠️",
+      title: "Exercice introuvable",
+      message: "Impossible de trouver cet exercice.",
+      okText: "Compris"
+    });
+    return;
+  }
+
+  const message = [
+    exercise.description || exercise.shortDescription || "Aucune description détaillée pour cet exercice.",
+    "",
+    exercise.coachTip ? `Conseil : ${exercise.coachTip}` : "",
+    exercise.defaultValue && exercise.unit
+      ? `Valeur conseillée : ${exercise.defaultValue} ${exercise.unit}.`
+      : "",
+    exercise.hasTimer ? "Tu peux lancer le timer pour suivre la durée." : "",
+    exercise.hasDistance ? "Tu peux aussi noter la distance en kilomètres." : ""
+  ].filter(Boolean);
+
+  window.FitnessRpgRender?.showModal?.({
+    icon: "📜",
+    title: exercise.title || "Exercice",
+    message,
+    okText: "Compris"
+  });
+};
+
+window.FitnessRpgExercises.closeExerciseDetails = function closeExerciseDetails() {
+  window.FitnessRpgRender?.closeModal?.();
+};
 
 window.FitnessRpgExercises.programExerciseCardHtml = function programExerciseCardHtml(item, index, options = {}) {
   const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
