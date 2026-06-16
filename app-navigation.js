@@ -632,6 +632,117 @@ if (planningButton) {
 };
 
 // ============================================================
+// Clics : exercices libres
+// ============================================================
+
+window.FitnessRpgNavigation.handleExerciseClick = function handleExerciseClick(event, target) {
+  // Ouvrir une catégorie
+  const categoryButton = target.closest(".exercise-category-card, .v3-category-card");
+
+  if (categoryButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    const categoryId = categoryButton.dataset.categoryId;
+
+    if (categoryId) {
+      window.FitnessRpgExercises?.renderCategoryExercises?.(categoryId, 0);
+    }
+
+    return true;
+  }
+
+  // Retour aux catégories
+  const backToCategoriesButton = target.closest("#backToExerciseCategoriesBtn");
+
+  if (backToCategoriesButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    window.FitnessRpgExercises.currentCategoryId = null;
+    window.FitnessRpgExercises.currentExercisePage = 0;
+    window.FitnessRpgExercises?.renderCategories?.();
+
+    return true;
+  }
+
+  // Pagination / carrousel des exercices
+  const exercisePageButton = target.closest(".exercise-page-btn");
+
+  if (exercisePageButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    const delta = Number(exercisePageButton.dataset.delta || 0);
+    const categoryId = window.FitnessRpgExercises.currentCategoryId;
+    const currentPage = Number(window.FitnessRpgExercises.currentExercisePage || 0);
+    const nextPage = currentPage + delta;
+
+    if (categoryId) {
+      window.FitnessRpgExercises?.renderCategoryExercises?.(categoryId, nextPage);
+    }
+
+    return true;
+  }
+
+  // Image d’exercice : fiche détail
+  const exerciseImageButton = target.closest(
+    ".exercise-image-button, .v3-exercise-image-button, .v3-program-exercise-image"
+  );
+
+  if (exerciseImageButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    const exerciseId = exerciseImageButton.dataset.exerciseId;
+
+    if (exerciseId) {
+      if (window.FitnessRpgExercises?.openExerciseDetails) {
+        window.FitnessRpgExercises.openExerciseDetails(exerciseId);
+      } else {
+        window.FitnessRpgExercises?.openExerciseImage?.(exerciseId);
+      }
+    }
+
+    return true;
+  }
+
+  // Fermer fiche détail si tu utilises un overlay dédié
+  if (target.closest("#closeExerciseDetailButton") || target.id === "exerciseDetailOverlay") {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgExercises?.closeExerciseDetails?.();
+    return true;
+  }
+
+  // Timer exercice libre
+  const timerButton = target.closest(".start-timer-btn");
+
+  if (timerButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    const exerciseId = timerButton.dataset.exerciseId;
+
+    if (exerciseId) {
+      window.FitnessRpgExercises?.openTimer?.(exerciseId);
+    }
+
+    return true;
+  }
+
+  // Validation exercice libre
+  const validateButton = target.closest(".validate-exercise-btn");
+
+  if (validateButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    const exerciseId = validateButton.dataset.exerciseId;
+
+    if (exerciseId) {
+      window.FitnessRpgExercises?.validateExercise?.(exerciseId);
+    }
+
+    return true;
+  }
+
+  return false;
+};
+// ============================================================
 // Délégation de clics principale
 // ============================================================
 
@@ -667,10 +778,10 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
   // ============================================================
   // Modales / overlays
   // ============================================================
-  if (window.FitnessRpgNavigation.handleOverlayClick(event, target)) return;
-  if (window.FitnessRpgNavigation.handleProgramClick(event, target)) return;
-  if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;
-
+ if (window.FitnessRpgNavigation.handleOverlayClick(event, target)) return;
+if (window.FitnessRpgNavigation.handleExerciseClick(event, target)) return;
+if (window.FitnessRpgNavigation.handleProgramClick(event, target)) return;
+if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;
   // Header
   if (target.closest("#headerProgramsButton")) {
     event.preventDefault();
