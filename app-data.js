@@ -310,100 +310,125 @@ window.FitnessRpgData = {
 // ------------------------------------------------------------
 // Catégories d’exercices libres
 // ------------------------------------------------------------
-
   exerciseCategories: [
-  {
-    id: "warmup",
-    
-    title: "Échauffement",
-    images: {
-      male: "assets/categories/categorie_homme_echauffement.png",
-      female:"assets/categories/categorie_femme_echauffement.png"
+    {
+      id: "warmup",
+      title: "Échauffement",
+      icon: "🔥",
+      color: "#f0b84f",
+      images: {
+        homme: "assets/categories/categorie_homme_echauffement.png",
+        femme: "assets/categories/categorie_femme_echauffement.png",
+        male: "assets/categories/categorie_homme_echauffement.png",
+        female: "assets/categories/categorie_femme_echauffement.png"
+      },
+      description: "Préparer le corps avant l’effort."
     },
-    description: "Mobilité douce pour préparer la séance."
-},
- {
-    id: "cardio",
-    
-    title: "Cardio",
-    images: {
-      male: "assets/categories/categorie_homme_cardio.png",
-      female:"assets/categories/categorie_femme_cardio.png"
+    {
+      id: "mobility",
+      title: "Mobilité",
+      icon: "🌀",
+      color: "#7db7ff",
+      images: {
+        homme: "assets/categories/categorie_homme_mobilite.png",
+        femme: "assets/categories/categorie_femme_mobilite.png",
+        male: "assets/categories/categorie_homme_mobilite.png",
+        female: "assets/categories/categorie_femme_mobilite.png"
+      },
+      description: "Bouger mieux, délier les articulations."
     },
-    description: "Faire monter le rythme sans brutalité."
-},
-     {
-    id: "mobility",
-    
-    title: "Mobilité ",
-     images: {
-      male: "assets/categories/categorie_homme_mobilite.png",
-      female:"assets/categories/categorie_femme_mobilite.png"
+    {
+      id: "cardio",
+      title: "Cardio",
+      icon: "❤️‍🔥",
+      color: "#ef6b6b",
+      images: {
+        homme: "assets/categories/categorie_homme_cardio.png",
+        femme: "assets/categories/categorie_femme_cardio.png",
+        male: "assets/categories/categorie_homme_cardio.png",
+        female: "assets/categories/categorie_femme_cardio.png"
+      },
+      description: "Faire monter le souffle sans brutalité."
     },
-    description: "Souplesse"
-  },
-  {
-    id: "walk",
-    
-    title: "Marche",
-    images: {
-      male: "assets/categories/categorie_homme_marche.png",
-      female:"assets/categories/categorie_femme_marche.png"
+    {
+      id: "strength",
+      title: "Renforcement",
+      icon: "🛡️",
+      color: "#76d672",
+      images: {
+        homme: "assets/categories/categorie_homme_renforcement.png",
+        femme: "assets/categories/categorie_femme_renforcement.png",
+        male: "assets/categories/categorie_homme_renforcement.png",
+        female: "assets/categories/categorie_femme_renforcement.png"
+      },
+      description: "Gainage, jambes, posture et stabilité."
     },
-    description: "Marche active dehors ou sur tapis."
-  },
-  {
-    id: "run",
-    
-    title: "Course",
-     images: {
-      male: "assets/categories/categorie_homme_course.png",
-      female:"assets/categories/categorie_femme_course.png"
+    {
+      id: "muscle",
+      title: "Musculation",
+      icon: "💪",
+      color: "#c27dff",
+      images: {
+        homme: "assets/categories/categorie_homme_bras.png",
+        femme: "assets/categories/categorie_femme_bras.png",
+        male: "assets/categories/categorie_homme_bras.png",
+        female: "assets/categories/categorie_femme_bras.png"
+      },
+      description: "Bras, épaules, force ciblée."
     },
-    description: "Course sur tapis ou en extérieur."
-  },
-  {
-    id: "bike",
-    
-    title: "Vélo",
-     images: {
-      male: "assets/categories/categorie_homme_velo.png",
-      female:"assets/categories/categorie_femme_velo.png"
+    {
+      id: "stretch",
+      title: "Étirement",
+      icon: "🌿",
+      color: "#78d6c6",
+      images: {
+        homme: "assets/categories/categorie_homme_etirement.png",
+        femme: "assets/categories/categorie_femme_etirement.png",
+        male: "assets/categories/categorie_homme_etirement.png",
+        female: "assets/categories/categorie_femme_etirement.png"
+      },
+      description: "Retour au calme et récupération."
     },
-    description: "Vélo intérieur ou extérieur."
-  },
-  {
-    id: "strength",
-    
-    title: "Renforcement",
-     images: {
-      male: "assets/categories/categorie_homme_renforcement.png",
-      female:"assets/categories/categorie_femme_renforcement.png"
+    {
+      id: "walk",
+      title: "Marche",
+      icon: "🥾",
+      color: "#a7d672",
+      images: {
+        homme: "assets/categories/categorie_homme_marche.png",
+        femme: "assets/categories/categorie_femme_marche.png",
+        male: "assets/categories/categorie_homme_marche.png",
+        female: "assets/categories/categorie_femme_marche.png"
+      },
+      description: "Marche active dehors ou sur tapis."
     },
-    description: "Jambes, dos, posture et force générale."
-  },
-  {
-    id: "arms",
-    
-    title: "Bras",
-     images: {
-      male: "assets/categories/categorie_homme_bras.png",
-      female:"assets/categories/categorie_femme_bras.png"
+    {
+      id: "run",
+      title: "Course",
+      icon: "🏃",
+      color: "#ff8a5b",
+      images: {
+        homme: "assets/categories/categorie_homme_course.png",
+        femme: "assets/categories/categorie_femme_course.png",
+        male: "assets/categories/categorie_homme_course.png",
+        female: "assets/categories/categorie_femme_course.png"
+      },
+      description: "Course sur tapis ou en extérieur."
     },
-    description: "Bras, épaules, biceps et triceps."
-  },
-  {
-    id: "core",
-    
-    title: "Abdos / gainage",
-     images: {
-      male: "assets/categories/categorie_homme_abdos.png",
-      female:"assets/categories/categorie_femme_abdos.png"
-    },
-    description: "Centre du corps, gainage et stabilité."
-  },
- 
-],
+    {
+      id: "bike",
+      title: "Vélo",
+      icon: "🚴",
+      color: "#66d9ef",
+      images: {
+        homme: "assets/categories/categorie_homme_velo.png",
+        femme: "assets/categories/categorie_femme_velo.png",
+        male: "assets/categories/categorie_homme_velo.png",
+        female: "assets/categories/categorie_femme_velo.png"
+      },
+      description: "Vélo intérieur ou extérieur."
+    }
+  ],
  
 // ------------------------------------------------------------
 // Exercices libres
@@ -512,7 +537,7 @@ exercises: [
   
   {
     id: "slow_knee_raises",
-    categoryId: "cardio",
+    categoryId: "warmup",
     title: "Montées de genoux lentes",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -870,7 +895,7 @@ exercises: [
 },
 {
   id: "single_leg_balance",
-  categoryId: "core",
+  categoryId: "strength",
   title: "Équilibre sur une jambe",
   images: {
     male: "assets/exercices/homme_default.png",
@@ -1076,7 +1101,7 @@ exercises: [
   // Bras
   {
     id: "wall_pushups",
-    categoryId: "arms",
+    categoryId: "muscle",
     title: "Pompes murales",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1095,7 +1120,7 @@ exercises: [
   },
   {
     id: "incline_pushups",
-    categoryId: "arms",
+    categoryId: "muscle",
     title: "Pompes inclinées",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1114,7 +1139,7 @@ exercises: [
   },
   {
     id: "pushups",
-    categoryId: "arms",
+    categoryId: "muscle",
     title: "Pompes",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1130,7 +1155,7 @@ exercises: [
   },
   {
     id: "biceps_curl_1kg",
-    categoryId: "arms",
+    categoryId: "muscle",
     title: "Curl biceps",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1146,7 +1171,7 @@ exercises: [
   },
   {
     id: "hammer_curl_1kg",
-    categoryId: "arms",
+    categoryId: "muscle",
     title: "Curl marteau",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1162,7 +1187,7 @@ exercises: [
   },
   {
     id: "lateral_raises_1kg",
-    categoryId: "arms",
+    categoryId: "muscle",
     title: "Élévations latérales",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1178,7 +1203,7 @@ exercises: [
   },
   {
     id: "front_raises_1kg",
-    categoryId: "arms",
+    categoryId: "muscle",
     title: "Élévations frontales",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1194,7 +1219,7 @@ exercises: [
   },
   {
     id: "triceps_kickback_1kg",
-    categoryId: "arms",
+    categoryId: "muscle",
     title: "Kickback triceps",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1210,7 +1235,7 @@ exercises: [
   },
   {
     id: "shoulder_press_1kg",
-    categoryId: "arms",
+    categoryId: "muscle",
     title: "Développé épaules",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1226,7 +1251,7 @@ exercises: [
   },
   {
     id: "wall_triceps_extension",
-    categoryId: "arms",
+    categoryId: "muscle",
     title: "Extension triceps contre un mur",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1242,7 +1267,7 @@ exercises: [
   },
   {
     id: "incline_shoulder_taps",
-    categoryId: "arms",
+    categoryId: "muscle",
     title: "Taps épaules en appui incliné",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1261,7 +1286,7 @@ exercises: [
   // Abdos / gainage
   {
     id: "core",
-    categoryId: "core",
+    categoryId: "strength",
     title: "Gainage",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1281,7 +1306,7 @@ exercises: [
   },
   {
     id: "knee_plank",
-    categoryId: "core",
+    categoryId: "strength",
     title: "Planche genoux",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1298,7 +1323,7 @@ exercises: [
   },
   {
     id: "bird_dog",
-    categoryId: "core",
+    categoryId: "strength",
     title: "Bird Dog",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1317,7 +1342,7 @@ exercises: [
   },
   {
     id: "side_plank_knees",
-    categoryId: "core",
+    categoryId: "strength",
     title: "Gainage latéral genoux",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1334,7 +1359,7 @@ exercises: [
   },
   {
     id: "side_plank",
-    categoryId: "core",
+    categoryId: "strength",
     title: "Gainage latéral",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1351,7 +1376,7 @@ exercises: [
   },
   {
     id: "dead_bug",
-    categoryId: "core",
+    categoryId: "strength",
     title: "Dead bug",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1367,7 +1392,7 @@ exercises: [
   },
   {
     id: "dead_bug_simplified",
-    categoryId: "core",
+    categoryId: "strength",
     title: "Dead bug simplifié",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1383,7 +1408,7 @@ exercises: [
   },
   {
     id: "pelvic_tilt",
-    categoryId: "core",
+    categoryId: "strength",
     title: "Bascule du bassin au sol",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1399,7 +1424,7 @@ exercises: [
   },
   {
     id: "pelvic_lift_floor",
-    categoryId: "core",
+    categoryId: "strength",
     title: "Relevé de bassin au sol",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1415,7 +1440,7 @@ exercises: [
   },
   {
     id: "crunch_controlled",
-    categoryId: "core",
+    categoryId: "strength",
     title: "Crunch contrôlé",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1431,7 +1456,7 @@ exercises: [
   },
   {
     id: "hollow_hold_simplified",
-    categoryId: "core",
+    categoryId: "strength",
     title: "Hollow hold simplifié",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1537,7 +1562,7 @@ exercises: [
   },
 {
     id: "slow_breathing",
-    categoryId: "mobility",
+    categoryId: "stretch",
     title: "Respiration profonde",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1557,7 +1582,7 @@ exercises: [
   },
   {
     id: "slow_breathing_extended",
-    categoryId: "mobility",
+    categoryId: "stretch",
     title: "Respiration lente",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1574,7 +1599,7 @@ exercises: [
   },
   {
     id: "thigh_calf_stretch",
-    categoryId: "mobility",
+    categoryId: "stretch",
     title: "Étirement cuisses / mollets",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1591,7 +1616,7 @@ exercises: [
   },
   {
     id: "hip_quad_stretch",
-    categoryId: "mobility",
+    categoryId: "stretch",
     title: "Étirement hanches / quadriceps",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1608,7 +1633,7 @@ exercises: [
   },
   {
     id: "gentle_back_stretch",
-    categoryId: "mobility",
+    categoryId: "stretch",
     title: "Étirement doux du dos",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -1628,7 +1653,7 @@ exercises: [
   },
   {
     id: "shoulder_arm_stretch",
-    categoryId: "mobility",
+    categoryId: "stretch",
     title: "Étirement épaules / bras",
     images: {
       male: "assets/exercices/homme_default.png",
@@ -3437,211 +3462,6 @@ exercises: [
 };
 
 // ============================================================
-// V3 - Catégories exercices 3x3 + couleurs
-// À placer après la fermeture de window.FitnessRpgData
-// et avant les fonctions utilitaires getCoach, getExerciseList, etc.
-// ============================================================
-
-window.FitnessRpgData.exerciseCategories = [
-  {
-    id: "warmup",
-    title: "Échauffement",
-    icon: "🔥",
-    color: "#f0b84f",
-    images: {
-      homme: "assets/categories/categorie_homme_echauffement.png",
-      femme: "assets/categories/categorie_femme_echauffement.png"
-    },
-    description: "Préparer le corps avant l’effort."
-  },
-  {
-    id: "mobility",
-    title: "Mobilité",
-    icon: "🌀",
-    color: "#7db7ff",
-    images: {
-      homme: "assets/categories/categorie_homme_mobilite.png",
-      femme: "assets/categories/categorie_femme_mobilite.png"
-    },
-    description: "Bouger mieux, délier les articulations."
-  },
-  {
-    id: "cardio",
-    title: "Cardio",
-    icon: "❤️‍🔥",
-    color: "#ef6b6b",
-    images: {
-      homme: "assets/categories/categorie_homme_cardio.png",
-      femme: "assets/categories/categorie_femme_cardio.png"
-    },
-    description: "Faire monter le souffle sans brutalité."
-  },
-  {
-    id: "strength",
-    title: "Renforcement",
-    icon: "🛡️",
-    color: "#76d672",
-    images: {
-      homme: "assets/categories/categorie_homme_renforcement.png",
-      femme: "assets/categories/categorie_femme_renforcement.png"
-    },
-    description: "Gainage, jambes, posture et stabilité."
-  },
-  {
-    id: "muscle",
-    title: "Musculation",
-    icon: "💪",
-    color: "#c27dff",
-    images: {
-      homme: "assets/categories/categorie_homme_bras.png",
-      femme: "assets/categories/categorie_femme_bras.png"
-    },
-    description: "Bras, épaules, force ciblée."
-  },
-  {
-    id: "stretch",
-    title: "Étirement",
-    icon: "🌿",
-    color: "#78d6c6",
-    images: {
-      homme: "assets/categories/categorie_homme_etirement.png",
-      femme: "assets/categories/categorie_femme_etirement.png"
-    },
-    description: "Retour au calme et récupération."
-  },
-  {
-    id: "walk",
-    title: "Marche",
-    icon: "🥾",
-    color: "#a7d672",
-    images: {
-      homme: "assets/categories/categorie_homme_marche.png",
-      femme: "assets/categories/categorie_femme_marche.png"
-    },
-    description: "Marche active dehors ou sur tapis."
-  },
-  {
-    id: "run",
-    title: "Course",
-    icon: "🏃",
-    color: "#ff8a5b",
-    images: {
-      homme: "assets/categories/categorie_homme_course.png",
-      femme: "assets/categories/categorie_femme_course.png"
-    },
-    description: "Course sur tapis ou en extérieur."
-  },
-  {
-    id: "bike",
-    title: "Vélo",
-    icon: "🚴",
-    color: "#66d9ef",
-    images: {
-      homme: "assets/categories/categorie_homme_velo.png",
-      femme: "assets/categories/categorie_femme_velo.png"
-    },
-    description: "Vélo intérieur ou extérieur."
-  }
-];
-
-// ============================================================
-// V3 - Reclassement automatique des exercices
-// ============================================================
-
-window.FitnessRpgData.exerciseCategoryRemap = {
-  // Échauffement
-  march_on_spot: "warmup",
-  arm_circles: "warmup",
-  arm_open_close: "warmup",
-  dynamic_walk: "warmup",
-  slow_knee_raises: "warmup",
-
-  // Mobilité
-  ankle_circles: "mobility",
-  hip_circles: "mobility",
-  cat_cow: "mobility",
-  thoracic_rotation: "mobility",
-  abdominal_breathing: "mobility",
-
-  // Cardio
-  side_steps: "cardio",
-  mountain_climber_slow: "cardio",
-  stomping: "cardio",
-  butt_kicks: "cardio",
-  cross_knee_tap: "cardio",
-  step_touch: "cardio",
-  lateral_steps: "cardio",
-  skater_steps: "cardio",
-  light_boxer: "cardio",
-  no_jump_jacks: "cardio",
-
-  // Renforcement
-  chair_squat: "strength",
-  squats: "strength",
-  wall_sit: "strength",
-  assisted_reverse_lunges: "strength",
-  reverse_lunges: "strength",
-  calf_raises: "strength",
-  slow_calf_raises: "strength",
-  cyclist_half_squat: "strength",
-  bridge: "strength",
-  single_leg_bridge_alternate: "strength",
-  superman: "strength",
-  bird_dog: "strength",
-  single_leg_balance: "strength",
-  core: "strength",
-  knee_plank: "strength",
-  side_plank_knees: "strength",
-  side_plank: "strength",
-  dead_bug: "strength",
-  dead_bug_simplified: "strength",
-  pelvic_tilt: "strength",
-  pelvic_lift_floor: "strength",
-  crunch_controlled: "strength",
-  hollow_hold_simplified: "strength",
-
-  // Musculation
-  wall_pushups: "muscle",
-  incline_pushups: "muscle",
-  pushups: "muscle",
-  biceps_curl_1kg: "muscle",
-  hammer_curl_1kg: "muscle",
-  lateral_raises_1kg: "muscle",
-  front_raises_1kg: "muscle",
-  triceps_kickback_1kg: "muscle",
-  shoulder_press_1kg: "muscle",
-  wall_triceps_extension: "muscle",
-  incline_shoulder_taps: "muscle",
-
-  // Étirement
-  slow_breathing: "stretch",
-  slow_breathing_extended: "stretch",
-  thigh_calf_stretch: "stretch",
-  hip_quad_stretch: "stretch",
-  gentle_back_stretch: "stretch",
-  shoulder_arm_stretch: "stretch",
-
-  // Marche
-  walk: "walk",
-  slow_walk: "walk",
-  walk_acceleration: "walk",
-
-  // Course
-  run_treadmill: "run",
-  run_outdoor: "run",
-
-  // Vélo
-  bike: "bike"
-};
-
-(window.FitnessRpgData.exercises || []).forEach((exercise) => {
-  const newCategoryId = window.FitnessRpgData.exerciseCategoryRemap[exercise.id];
-
-  if (newCategoryId) {
-    exercise.categoryId = newCategoryId;
-  }
-});
-// ============================================================
 // Fonctions utilitaires de données
 // ============================================================
 
@@ -3659,7 +3479,9 @@ window.FitnessRpgData.getExerciseList = function getExerciseList() {
       ...exercise,
       sportId: exercise.categoryId,
       sportTitle: category?.title || "Exercice",
-      sportIcon: category?.icon || "⚔️"
+      sportIcon: category?.icon || "⚔️",
+      sportColor: category?.color || "#888888",
+      categoryColor: category?.color || "#888888"
     };
   });
 };
