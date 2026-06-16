@@ -756,13 +756,21 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
   // ============================================================
   // COFFRE RECOMPENSE FERMETURE
   // ============================================================
-  const closeChestRewardButton = target.closest(".close-chest-reward-modal-btn");
+const openChestRewardButton = target.closest(".open-chest-reward-btn");
 
-  if (closeChestRewardButton || target.id === "chestRewardOverlay") {
-    window.FitnessRpgNavigation.stopEvent(event);
-    window.FitnessRpgRender?.closeChestRewardModal?.();
-    return;
-  }
+if (openChestRewardButton) {
+  window.FitnessRpgNavigation.stopEvent(event);
+  window.FitnessRpgRender?.openChestRewardModal?.();
+  return true;
+}
+
+const closeChestRewardButton = target.closest(".close-chest-reward-modal-btn");
+
+if (closeChestRewardButton || target.id === "chestRewardOverlay") {
+  window.FitnessRpgNavigation.stopEvent(event);
+  window.FitnessRpgRender?.closeChestRewardModal?.();
+  return true;
+}
 
   const heroLevelCarouselButton = target.closest(".hero-level-carousel-btn");
 
