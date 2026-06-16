@@ -311,6 +311,8 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
   const description = window.FitnessRpgExercises.escapeHtml(exercise.shortDescription || exercise.description || "");
   const stat = window.FitnessRpgExercises.escapeHtml(exercise.stat || "");
   const image = window.FitnessRpgExercises.getSafeExerciseImage(exercise);
+  const category = window.FitnessRpgExercises.getExerciseCategory(exercise);
+  const categoryColor = category?.color || "#f4d35e";
   const color = window.FitnessRpgExercises.getCategoryColor(exercise.categoryId);
   const icon = window.FitnessRpgExercises.getCategoryIcon(exercise.categoryId);
 
@@ -344,24 +346,20 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
     `
     : "";
 
-  return `
+   return `
     <article
-      class="exercise-card v3-exercise-card"
+      class="exercise-card"
       data-exercise-id="${exercise.id}"
-      style="--category-color:${color}"
+      style="--exercise-color:${categoryColor}"
     >
-      <button
-        class="exercise-image-button v3-exercise-image-button"
-        type="button"
-        data-exercise-id="${exercise.id}"
-        title="Voir l’explication"
-      >
-        <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/homme_default.png'">
+      <h3 class="exercise-card-title">${title}</h3>
+
+      <button class="exercise-image-button" type="button" data-exercise-id="${exercise.id}" title="Agrandir l’image">
+        <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/default.png'">
       </button>
 
       <div class="exercise-card-body">
-        <p class="exercise-stat">${icon} ${stat}</p>
-        <h3 class="v3-exercise-title">${title}</h3>
+        <p class="exercise-stat">${stat}</p>
         ${description ? `<p class="exercise-description">${description}</p>` : ""}
 
         <div class="exercise-control-row">
