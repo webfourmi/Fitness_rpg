@@ -2477,3 +2477,219 @@ body.level-up-active .hero-image-frame {
     grid-template-columns: repeat(4, 1fr);
   }
 }
+/* ============================================================
+   V3 - Catégories 3x3 + fiches exercices
+============================================================ */
+
+.v3-grid-3x3,
+.exercise-category-grid.v3-grid-3x3,
+.exercise-card-grid.v3-grid-3x3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.v3-category-card,
+.v3-exercise-card {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--category-color);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.v3-category-card {
+  min-height: 132px;
+  padding: 8px;
+  display: grid;
+  gap: 5px;
+  align-content: start;
+  color: var(--text);
+  text-align: center;
+}
+
+.v3-category-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.v3-category-icon {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--category-color);
+}
+
+.v3-category-card strong {
+  font-size: 0.78rem;
+  line-height: 1.05;
+}
+
+.v3-category-card small {
+  font-size: 0.64rem;
+  line-height: 1.05;
+  color: var(--text-muted);
+}
+
+.v3-exercise-card {
+  padding: 7px;
+  display: grid;
+  gap: 6px;
+}
+
+.v3-exercise-image-button {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.v3-exercise-image-button img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--category-color);
+}
+
+.v3-exercise-title {
+  margin: 3px 0;
+  color: var(--text);
+  font-size: 0.82rem;
+  line-height: 1.05;
+}
+
+.v3-exercise-card .exercise-stat {
+  color: var(--category-color);
+  font-size: 0.72rem;
+  margin: 0;
+}
+
+.v3-exercise-card .exercise-description {
+  font-size: 0.7rem;
+  line-height: 1.15;
+  color: var(--text-muted);
+}
+
+.exercise-carousel-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.exercise-carousel-controls span {
+  font-weight: 900;
+  color: var(--accent);
+}
+
+.exercise-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 130;
+  display: grid;
+  place-items: center;
+  padding: 14px;
+  background: rgba(5, 8, 14, 0.94);
+  backdrop-filter: blur(8px);
+}
+
+.exercise-detail-card {
+  width: min(100%, 420px);
+  border-color: var(--category-color);
+}
+
+.exercise-detail-card img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  border-radius: 14px;
+  border: 2px solid var(--category-color);
+  background: rgba(255, 255, 255, 0.05);
+  margin: 10px 0;
+}
+
+#exerciseDetailTitle {
+  color: var(--category-color);
+}
+
+.exercise-detail-info {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.v3-program-exercise-card {
+  grid-template-columns: 34px 70px 1fr;
+  align-items: center;
+  border-color: var(--category-color);
+}
+
+.v3-program-exercise-image {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.v3-program-exercise-image img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--category-color);
+}
+
+.v3-program-exercise-body h3 {
+  margin: 2px 0;
+}
+
+.v3-program-exercise-body p {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 420px) {
+  .v3-grid-3x3,
+  .exercise-category-grid.v3-grid-3x3,
+  .exercise-card-grid.v3-grid-3x3 {
+    gap: 6px;
+  }
+
+  .v3-category-card {
+    min-height: 116px;
+    padding: 6px;
+  }
+
+  .v3-category-card strong {
+    font-size: 0.7rem;
+  }
+
+  .v3-category-card small {
+    display: none;
+  }
+
+  .v3-exercise-card .exercise-description {
+    display: none;
+  }
+
+  .v3-program-exercise-card {
+    grid-template-columns: 30px 56px 1fr;
+  }
+
+  .v3-program-exercise-image img {
+    width: 56px;
+    height: 56px;
+  }
+}
