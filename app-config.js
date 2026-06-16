@@ -213,6 +213,17 @@ window.FitnessRpgConfig = {
       xp: 40
     },
     {
+    id: "champion-arenes",
+    icon: "🏟️",
+    title: "Champion des Arènes",
+    objective: "Programme avancé : force, musculation, kettlebell et sac de frappe",
+    level: "Avancé",
+    duration: "45-75 min",
+    frequency: "3 séances par semaine + boss hebdomadaire",
+    coachAdvice: "Korvan, Xara ou Bazul",
+    xp: 90
+  },
+    {
       id: "forge-guerrier",
       icon: "⚒️",
       title: "Forge du guerrier",
