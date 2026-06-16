@@ -883,11 +883,17 @@ window.FitnessRpgExercises.openExerciseImage = function openExerciseImage(exerci
 window.FitnessRpgExercises.handleDocumentClick = function handleDocumentClick(event) {
   const categoryButton = event.target.closest(".exercise-category-card, .v3-category-card");
 
-  if (categoryButton) {
-    const categoryId = categoryButton.dataset.categoryId;
-    window.FitnessRpgExercises.renderCategoryExercises(categoryId);
-    return;
+if (categoryButton) {
+  event.preventDefault();
+
+  const categoryId = categoryButton.dataset.categoryId;
+
+  if (categoryId) {
+    window.FitnessRpgExercises.renderCategoryExercises(categoryId, 0);
   }
+
+  return;
+}
 
   const backButton = event.target.closest("#backToExerciseCategoriesBtn");
 
