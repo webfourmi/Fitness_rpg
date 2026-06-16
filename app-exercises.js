@@ -400,11 +400,29 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
 
 window.FitnessRpgExercises.programExerciseCardHtml = function programExerciseCardHtml(item, index, options = {}) {
   const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
-  const title = window.FitnessRpgExercises.escapeHtml(exercise?.title || item.exerciseId);
-  const image = window.FitnessRpgExercises.getSafeExerciseImage(exercise);
-  const color = window.FitnessRpgExercises.getCategoryColor(exercise?.categoryId);
-  const icon = window.FitnessRpgExercises.getCategoryIcon(exercise?.categoryId);
-  const category = window.FitnessRpgExercises.getCategory(exercise?.categoryId);
+  const safeExercise = exercise || {
+    id: item.exerciseId,
+    title: item.exerciseId,
+    categoryId: "warmup",
+    unit: item.unit,
+    defaultValue: item.amount
+  };
+
+  const title = window.FitnessRpgExercises.escapeHtml(safeExercise.title || item.exerciseId);
+  const phase = window.FitnessRpgExercises.escapeHtml(item.phase || "");
+  const image = window.FitnessRpgExercises.getSafeExerciseImage
+    ? window.FitnessRpgExercises.getSafeExerciseImage(safeExercise)
+    : window.FitnessRpgExercises.resolveImage(safeExercise);
+
+  const color = window.FitnessRpgExercises.getCategoryColor
+    ? window.FitnessRpgExercises.getCategoryColor(safeExercise.categoryId)
+    : "#f0b84f";
+
+  const icon = window.FitnessRpgExercises.getCategoryIcon
+    ? window.FitnessRpgExercises.getCategoryIcon(safeExercise.categoryId)
+    : "⚔️";
+
+  const category = window.FitnessRpgExercises.getCategory(safeExercise.categoryId);
 
   return `
     <article
@@ -419,18 +437,27 @@ window.FitnessRpgExercises.programExerciseCardHtml = function programExerciseCar
         data-exercise-id="${item.exerciseId}"
         title="Voir l’explication"
       >
-        <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/homme_default.png'">
+        <img
+          src="${image}"
+          alt="${title}"
+          onerror="this.src='assets/exercices/homme_default.png'"
+        >
       </button>
 
       <div class="v3-program-exercise-body">
-        <strong>${window.FitnessRpgExercises.escapeHtml(item.phase || "")}</strong>
+        <strong>${phase}</strong>
         <h3>${title}</h3>
-        <p>${icon} ${window.FitnessRpgExercises.escapeHtml(category?.title || "Exercice")} · ${item.amount} ${item.unit}</p>
+        <p>
+          ${icon} ${window.FitnessRpgExercises.escapeHtml(category?.title || "Exercice")}
+          · ${item.amount} ${item.unit}
+        </p>
       </div>
 
-      <div class="program-session-actions">
-        ${options.actionsHtml || ""}
-      </div>
+      ${
+        options.actionsHtml
+          ? `<div class="program-session-actions">${options.actionsHtml}</div>`
+          : ""
+      }
     </article>
   `;
 };
@@ -854,7 +881,7 @@ window.FitnessRpgExercises.openExerciseImage = function openExerciseImage(exerci
 // ============================================================
 
 window.FitnessRpgExercises.handleDocumentClick = function handleDocumentClick(event) {
-  const categoryButton = event.target.closest(".exercise-category-card");
+  const categoryButton = event.target.closest(".exercise-category-card, .v3-category-card");
 
   if (categoryButton) {
     const categoryId = categoryButton.dataset.categoryId;
@@ -870,7 +897,7 @@ window.FitnessRpgExercises.handleDocumentClick = function handleDocumentClick(ev
     return;
   }
 
-  const imageButton = event.target.closest(".exercise-image-button");
+  const imageButton = event.target.closest(".exercise-image-button, .v3-exercise-image-button, .v3-program-exercise-image");
 
 if (imageButton) {
   const exerciseId = imageButton.dataset.exerciseId;
