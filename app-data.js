@@ -3437,6 +3437,211 @@ exercises: [
 };
 
 // ============================================================
+// V3 - Catégories exercices 3x3 + couleurs
+// À placer après la fermeture de window.FitnessRpgData
+// et avant les fonctions utilitaires getCoach, getExerciseList, etc.
+// ============================================================
+
+window.FitnessRpgData.exerciseCategories = [
+  {
+    id: "warmup",
+    title: "Échauffement",
+    icon: "🔥",
+    color: "#f0b84f",
+    images: {
+      homme: "assets/categories/categorie_homme_echauffement.png",
+      femme: "assets/categories/categorie_femme_echauffement.png"
+    },
+    description: "Préparer le corps avant l’effort."
+  },
+  {
+    id: "mobility",
+    title: "Mobilité",
+    icon: "🌀",
+    color: "#7db7ff",
+    images: {
+      homme: "assets/categories/categorie_homme_mobilite.png",
+      femme: "assets/categories/categorie_femme_mobilite.png"
+    },
+    description: "Bouger mieux, délier les articulations."
+  },
+  {
+    id: "cardio",
+    title: "Cardio",
+    icon: "❤️‍🔥",
+    color: "#ef6b6b",
+    images: {
+      homme: "assets/categories/categorie_homme_cardio.png",
+      femme: "assets/categories/categorie_femme_cardio.png"
+    },
+    description: "Faire monter le souffle sans brutalité."
+  },
+  {
+    id: "strength",
+    title: "Renforcement",
+    icon: "🛡️",
+    color: "#76d672",
+    images: {
+      homme: "assets/categories/categorie_homme_renforcement.png",
+      femme: "assets/categories/categorie_femme_renforcement.png"
+    },
+    description: "Gainage, jambes, posture et stabilité."
+  },
+  {
+    id: "muscle",
+    title: "Musculation",
+    icon: "💪",
+    color: "#c27dff",
+    images: {
+      homme: "assets/categories/categorie_homme_bras.png",
+      femme: "assets/categories/categorie_femme_bras.png"
+    },
+    description: "Bras, épaules, force ciblée."
+  },
+  {
+    id: "stretch",
+    title: "Étirement",
+    icon: "🌿",
+    color: "#78d6c6",
+    images: {
+      homme: "assets/categories/categorie_homme_etirement.png",
+      femme: "assets/categories/categorie_femme_etirement.png"
+    },
+    description: "Retour au calme et récupération."
+  },
+  {
+    id: "walk",
+    title: "Marche",
+    icon: "🥾",
+    color: "#a7d672",
+    images: {
+      homme: "assets/categories/categorie_homme_marche.png",
+      femme: "assets/categories/categorie_femme_marche.png"
+    },
+    description: "Marche active dehors ou sur tapis."
+  },
+  {
+    id: "run",
+    title: "Course",
+    icon: "🏃",
+    color: "#ff8a5b",
+    images: {
+      homme: "assets/categories/categorie_homme_course.png",
+      femme: "assets/categories/categorie_femme_course.png"
+    },
+    description: "Course sur tapis ou en extérieur."
+  },
+  {
+    id: "bike",
+    title: "Vélo",
+    icon: "🚴",
+    color: "#66d9ef",
+    images: {
+      homme: "assets/categories/categorie_homme_velo.png",
+      femme: "assets/categories/categorie_femme_velo.png"
+    },
+    description: "Vélo intérieur ou extérieur."
+  }
+];
+
+// ============================================================
+// V3 - Reclassement automatique des exercices
+// ============================================================
+
+window.FitnessRpgData.exerciseCategoryRemap = {
+  // Échauffement
+  march_on_spot: "warmup",
+  arm_circles: "warmup",
+  arm_open_close: "warmup",
+  dynamic_walk: "warmup",
+  slow_knee_raises: "warmup",
+
+  // Mobilité
+  ankle_circles: "mobility",
+  hip_circles: "mobility",
+  cat_cow: "mobility",
+  thoracic_rotation: "mobility",
+  abdominal_breathing: "mobility",
+
+  // Cardio
+  side_steps: "cardio",
+  mountain_climber_slow: "cardio",
+  stomping: "cardio",
+  butt_kicks: "cardio",
+  cross_knee_tap: "cardio",
+  step_touch: "cardio",
+  lateral_steps: "cardio",
+  skater_steps: "cardio",
+  light_boxer: "cardio",
+  no_jump_jacks: "cardio",
+
+  // Renforcement
+  chair_squat: "strength",
+  squats: "strength",
+  wall_sit: "strength",
+  assisted_reverse_lunges: "strength",
+  reverse_lunges: "strength",
+  calf_raises: "strength",
+  slow_calf_raises: "strength",
+  cyclist_half_squat: "strength",
+  bridge: "strength",
+  single_leg_bridge_alternate: "strength",
+  superman: "strength",
+  bird_dog: "strength",
+  single_leg_balance: "strength",
+  core: "strength",
+  knee_plank: "strength",
+  side_plank_knees: "strength",
+  side_plank: "strength",
+  dead_bug: "strength",
+  dead_bug_simplified: "strength",
+  pelvic_tilt: "strength",
+  pelvic_lift_floor: "strength",
+  crunch_controlled: "strength",
+  hollow_hold_simplified: "strength",
+
+  // Musculation
+  wall_pushups: "muscle",
+  incline_pushups: "muscle",
+  pushups: "muscle",
+  biceps_curl_1kg: "muscle",
+  hammer_curl_1kg: "muscle",
+  lateral_raises_1kg: "muscle",
+  front_raises_1kg: "muscle",
+  triceps_kickback_1kg: "muscle",
+  shoulder_press_1kg: "muscle",
+  wall_triceps_extension: "muscle",
+  incline_shoulder_taps: "muscle",
+
+  // Étirement
+  slow_breathing: "stretch",
+  slow_breathing_extended: "stretch",
+  thigh_calf_stretch: "stretch",
+  hip_quad_stretch: "stretch",
+  gentle_back_stretch: "stretch",
+  shoulder_arm_stretch: "stretch",
+
+  // Marche
+  walk: "walk",
+  slow_walk: "walk",
+  walk_acceleration: "walk",
+
+  // Course
+  run_treadmill: "run",
+  run_outdoor: "run",
+
+  // Vélo
+  bike: "bike"
+};
+
+(window.FitnessRpgData.exercises || []).forEach((exercise) => {
+  const newCategoryId = window.FitnessRpgData.exerciseCategoryRemap[exercise.id];
+
+  if (newCategoryId) {
+    exercise.categoryId = newCategoryId;
+  }
+});
+// ============================================================
 // Fonctions utilitaires de données
 // ============================================================
 
