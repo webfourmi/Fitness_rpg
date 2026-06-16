@@ -394,7 +394,46 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
     </article>
   `;
 };
+// ============================================================
+// V3 - Mini-fiche exercice utilisée dans les programmes
+// ============================================================
 
+window.FitnessRpgExercises.programExerciseCardHtml = function programExerciseCardHtml(item, index, options = {}) {
+  const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
+  const title = window.FitnessRpgExercises.escapeHtml(exercise?.title || item.exerciseId);
+  const image = window.FitnessRpgExercises.getSafeExerciseImage(exercise);
+  const color = window.FitnessRpgExercises.getCategoryColor(exercise?.categoryId);
+  const icon = window.FitnessRpgExercises.getCategoryIcon(exercise?.categoryId);
+  const category = window.FitnessRpgExercises.getCategory(exercise?.categoryId);
+
+  return `
+    <article
+      class="program-session-exercise v3-program-exercise-card${options.done ? " done" : ""}"
+      style="--category-color:${color}"
+    >
+      <div class="program-session-index">${index + 1}</div>
+
+      <button
+        class="exercise-image-button v3-program-exercise-image"
+        type="button"
+        data-exercise-id="${item.exerciseId}"
+        title="Voir l’explication"
+      >
+        <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/homme_default.png'">
+      </button>
+
+      <div class="v3-program-exercise-body">
+        <strong>${window.FitnessRpgExercises.escapeHtml(item.phase || "")}</strong>
+        <h3>${title}</h3>
+        <p>${icon} ${window.FitnessRpgExercises.escapeHtml(category?.title || "Exercice")} · ${item.amount} ${item.unit}</p>
+      </div>
+
+      <div class="program-session-actions">
+        ${options.actionsHtml || ""}
+      </div>
+    </article>
+  `;
+};
 // ============================================================
 // Validation d’exercice
 // ============================================================
