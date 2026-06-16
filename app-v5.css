@@ -2693,3 +2693,27 @@ body.level-up-active .hero-image-frame {
     height: 56px;
   }
 }
+/* ============================================================
+   V5.1 - Titres visibles sur les cartes exercices
+   ============================================================ */
+
+#exercisesContent .exercise-card-title,
+#exerciseList .exercise-card-title {
+  display: block !important;
+  margin: 0 0 6px;
+  padding: 7px 8px;
+  border-radius: 12px;
+
+  background: var(--exercise-color, rgba(244, 211, 94, 0.18));
+  color: #ffffff;
+
+  font-size: 0.9rem;
+  font-weight: 900;
+  line-height: 1.15;
+  text-align: center;
+}
+
+#exercisesContent .exercise-card,
+#exerciseList .exercise-card {
+  border-color: var(--exercise-color, rgba(244, 211, 94, 0.35));
+}
