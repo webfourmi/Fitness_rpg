@@ -698,7 +698,7 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
 
   if (target.closest("#homeButton")) {
     event.preventDefault();
-    window.FitnessRpgNavigation.goHome();
+    window.FitnessRpgNavigation.goTraining();
     return;
   }
 
@@ -776,6 +776,12 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
   if (target.closest("#openProgramsButton")) {
     event.preventDefault();
     window.FitnessRpgNavigation.openPrograms();
+    return;
+  }
+
+  if (target.closest("#openCoachButton")) {
+    event.preventDefault();
+    window.FitnessRpgNavigation.openCoach();
     return;
   }
 
