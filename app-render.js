@@ -557,48 +557,59 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
           : Number(workout.xp || 20)
       );
 
-  const exercisesHtml = workout.exercises.map((item, index) => {
-    const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
-    const exerciseKey = `${index}-${item.exerciseId}`;
-    const done = window.FitnessRpgState.isProgramSessionExerciseDone(exerciseKey);
-    const canUseTimer = item.unit === "min" || item.unit === "sec" || exercise?.hasTimer;
+ const exercisesHtml = workout.exercises.map((item, index) => {
+  const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
+  const exerciseKey = `${index}-${item.exerciseId}`;
+  const done = window.FitnessRpgState.isProgramSessionExerciseDone(exerciseKey);
+  const canUseTimer = item.unit === "min" || item.unit === "sec" || exercise?.hasTimer;
 
-    return `
-      <article class="program-session-exercise${done ? " done" : ""}">
-        <div class="program-session-index">${index + 1}</div>
-
-        <div>
-          <strong>${item.phase}</strong>
-          <h3>${exercise?.title || item.exerciseId}</h3>
-          <p>${item.amount} ${item.unit}</p>
-        </div>
-
-        <div class="program-session-actions">
-          ${
-            canUseTimer
-              ? `<button
-                  class="ghost-btn start-program-exercise-timer-btn"
-                  type="button"
-                  data-exercise-id="${item.exerciseId}"
-                  data-exercise-key="${exerciseKey}"
-                >
-                  ⏱️ Timer
-                </button>`
-              : ""
-          }
-
-          <button
-            class="${done ? "ghost-btn" : "secondary-btn"} validate-program-exercise-btn"
+  const actionsHtml = `
+    ${
+      canUseTimer
+        ? `<button
+            class="ghost-btn start-program-exercise-timer-btn"
             type="button"
             data-exercise-id="${item.exerciseId}"
             data-exercise-key="${exerciseKey}"
           >
-            ${done ? "Validé" : "Valider"}
-          </button>
-        </div>
-      </article>
-    `;
-  }).join("");
+            ⏱️ Timer
+          </button>`
+        : ""
+    }
+
+    <button
+      class="${done ? "ghost-btn" : "secondary-btn"} validate-program-exercise-btn"
+      type="button"
+      data-exercise-id="${item.exerciseId}"
+      data-exercise-key="${exerciseKey}"
+    >
+      ${done ? "Validé" : "Valider"}
+    </button>
+  `;
+
+  if (typeof window.FitnessRpgExercises?.programExerciseCardHtml === "function") {
+    return window.FitnessRpgExercises.programExerciseCardHtml(item, index, {
+      done,
+      actionsHtml
+    });
+  }
+
+  return `
+    <article class="program-session-exercise${done ? " done" : ""}">
+      <div class="program-session-index">${index + 1}</div>
+
+      <div>
+        <strong>${item.phase}</strong>
+        <h3>${exercise?.title || item.exerciseId}</h3>
+        <p>${item.amount} ${item.unit}</p>
+      </div>
+
+      <div class="program-session-actions">
+        ${actionsHtml}
+      </div>
+    </article>
+  `;
+}).join("");
 
   const doneCount = window.FitnessRpgState.getProgramSessionCompletedCount?.() || 0;
   const totalCount = workout.exercises.length;
