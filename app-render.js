@@ -557,7 +557,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
           : Number(workout.xp || 20)
       );
 
- const exercisesHtml = workout.exercises.map((item, index) => {
+const exercisesHtml = workout.exercises.map((item, index) => {
   const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
   const exerciseKey = `${index}-${item.exerciseId}`;
   const done = window.FitnessRpgState.isProgramSessionExerciseDone(exerciseKey);
@@ -1051,22 +1051,25 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
   const previousDayDisabled = dayIndex <= 0 ? "disabled" : "";
   const nextDayDisabled = dayIndex >= days.length - 1 ? "disabled" : "";
 
-  const exercisesHtml = day.exercises.map((item) => {
-    const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
+const exercisesHtml = day.exercises.map((item, index) => {
+  if (typeof window.FitnessRpgExercises?.programExerciseCardHtml === "function") {
+    return window.FitnessRpgExercises.programExerciseCardHtml(item, index);
+  }
 
-    const description = exercise?.shortDescription || exercise?.description || "";
-const coachTip = exercise?.coachTip || "";
+  const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
 
-return `
-  <li>
-    <strong>${item.phase}</strong>
-    <span>${exercise?.title || item.exerciseId}</span>
-    <em>${item.amount} ${item.unit}</em>
-    ${description ? `<small>${description}</small>` : ""}
-    ${coachTip ? `<small class="coach-tip">💬 ${coachTip}</small>` : ""}
-  </li>
-`;
-  }).join("");
+  return `
+    <article class="program-session-exercise">
+      <div class="program-session-index">${index + 1}</div>
+
+      <div>
+        <strong>${item.phase}</strong>
+        <h3>${exercise?.title || item.exerciseId}</h3>
+        <p>${item.amount} ${item.unit}</p>
+      </div>
+    </article>
+  `;
+}).join("");
 
   const progressionHtml = (programDetail.progression || [])
     .map((line) => `<li>${line}</li>`)
@@ -1163,8 +1166,9 @@ return `
       <article class="program-day-card selected-program-day">
         <h3>Semaine ${selection.weekNumber} · Jour ${day.day} · ${day.title}</h3>
 
-        <ul>${exercisesHtml}</ul>
-
+        <div class="program-preview-exercise-grid">
+        ${exercisesHtml}
+      </div>
         <button
           class="primary-btn start-program-day-btn"
           type="button"
