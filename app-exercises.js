@@ -161,7 +161,34 @@ window.FitnessRpgExercises.formatDistance = function formatDistance(distanceKm) 
 };
 
 // ============================================================
-// Rendu : catégories
+// V3 - Helpers catégories, couleurs, pagination
+// ============================================================
+
+window.FitnessRpgExercises.exercisePageSize = 9;
+window.FitnessRpgExercises.currentExercisePage = 0;
+
+window.FitnessRpgExercises.getCategoryColor = function getCategoryColor(categoryId) {
+  const category = window.FitnessRpgExercises.getCategory(categoryId);
+  return category?.color || "#f0b84f";
+};
+
+window.FitnessRpgExercises.getCategoryIcon = function getCategoryIcon(categoryId) {
+  const category = window.FitnessRpgExercises.getCategory(categoryId);
+  return category?.icon || "⚔️";
+};
+
+window.FitnessRpgExercises.getSafeExerciseImage = function getSafeExerciseImage(exercise) {
+  const gender = window.FitnessRpgExercises.getCurrentGender();
+  const image = window.FitnessRpgExercises.resolveImage(exercise);
+
+  if (image) return image;
+
+  return gender === "femme"
+    ? "assets/exercices/femme_default.png"
+    : "assets/exercices/homme_default.png";
+};
+// ============================================================
+// V3 - Rendu : catégories 3x3
 // ============================================================
 
 window.FitnessRpgExercises.renderCategories = function renderCategories() {
@@ -170,11 +197,12 @@ window.FitnessRpgExercises.renderCategories = function renderCategories() {
 
   const categories = window.FitnessRpgExercises.getCategories();
 
+  window.FitnessRpgExercises.currentCategoryId = null;
+  window.FitnessRpgExercises.currentExercisePage = 0;
+
   container.innerHTML = `
     <section class="exercise-category-page">
-     
-
-      <div class="exercise-category-grid">
+      <div class="exercise-category-grid v3-grid-3x3">
         ${categories.map((category) => window.FitnessRpgExercises.categoryCardHtml(category)).join("")}
       </div>
     </section>
@@ -185,38 +213,56 @@ window.FitnessRpgExercises.categoryCardHtml = function categoryCardHtml(category
   const title = window.FitnessRpgExercises.escapeHtml(category.title);
   const description = window.FitnessRpgExercises.escapeHtml(category.description);
   const image = window.FitnessRpgExercises.resolveImage(category);
-  return `
-  
-  <button class="exercise-category-card" type="button" data-category-id="${category.id}">
-    <img src="${image}" alt="${title}" onerror="this.src='assets/exercice/default_homme.png'">
-    <strong>${title}</strong>
-    <small>${description}</small>
-  </button>
+  const color = category.color || "#f0b84f";
+  const icon = category.icon || "⚔️";
 
+  return `
+    <button
+      class="exercise-category-card v3-category-card"
+      type="button"
+      data-category-id="${category.id}"
+      style="--category-color:${color}"
+    >
+      <span class="v3-category-icon">${icon}</span>
+      <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/homme_default.png'">
+      <strong>${title}</strong>
+      <small>${description}</small>
+    </button>
   `;
 };
 
 // ============================================================
-// Rendu : exercices d’une catégorie
+// V3 - Rendu : exercices en grille 3x3 avec pagination
 // ============================================================
 
-window.FitnessRpgExercises.renderCategoryExercises = function renderCategoryExercises(categoryId) {
+window.FitnessRpgExercises.renderCategoryExercises = function renderCategoryExercises(categoryId, page = 0) {
   const container = window.FitnessRpgExercises.getContainer();
   if (!container) return;
 
   const category = window.FitnessRpgExercises.getCategory(categoryId);
-  const exercises = window.FitnessRpgExercises
+
+  const allExercises = window.FitnessRpgExercises
     .getExercises()
     .filter((exercise) => exercise.categoryId === categoryId);
 
+  const pageSize = window.FitnessRpgExercises.exercisePageSize || 9;
+  const maxPage = Math.max(0, Math.ceil(allExercises.length / pageSize) - 1);
+  const safePage = Math.max(0, Math.min(Number(page) || 0, maxPage));
+
+  const start = safePage * pageSize;
+  const exercises = allExercises.slice(start, start + pageSize);
+
   window.FitnessRpgExercises.currentCategoryId = categoryId;
+  window.FitnessRpgExercises.currentExercisePage = safePage;
+
+  const color = category?.color || "#f0b84f";
 
   container.innerHTML = `
-    <section class="exercise-category-detail-page">
-      <div class="subpage-header">
+    <section class="exercise-category-detail-page" style="--category-color:${color}">
+      <div class="subpage-header v3-exercise-header">
         <div>
-          <p class="eyebrow">Exercices</p>
-        <h2>${window.FitnessRpgExercises.escapeHtml(category?.title || "Catégorie")}</h2>
+          <p class="eyebrow">${category?.icon || "⚔️"} Exercices</p>
+          <h2>${window.FitnessRpgExercises.escapeHtml(category?.title || "Catégorie")}</h2>
           <p class="muted">${window.FitnessRpgExercises.escapeHtml(category?.description || "")}</p>
         </div>
 
@@ -225,26 +271,48 @@ window.FitnessRpgExercises.renderCategoryExercises = function renderCategoryExer
         </button>
       </div>
 
-      <div class="exercise-card-grid">
+      <div class="exercise-card-grid v3-grid-3x3">
         ${exercises.map((exercise) => window.FitnessRpgExercises.exerciseCardHtml(exercise)).join("")}
       </div>
+
+      ${
+        maxPage > 0
+          ? `
+            <div class="exercise-carousel-controls">
+              <button
+                class="ghost-btn exercise-page-btn"
+                type="button"
+                data-delta="-1"
+                ${safePage <= 0 ? "disabled" : ""}
+              >
+                ←
+              </button>
+
+              <span>Page ${safePage + 1}/${maxPage + 1}</span>
+
+              <button
+                class="ghost-btn exercise-page-btn"
+                type="button"
+                data-delta="1"
+                ${safePage >= maxPage ? "disabled" : ""}
+              >
+                →
+              </button>
+            </div>
+          `
+          : ""
+      }
     </section>
   `;
 };
 
-window.FitnessRpgExercises.shortUnit = function shortUnit(unit) {
-  if (unit === "répétitions") return "rép.";
-  if (unit === "repetitions") return "rép.";
-  if (unit === "secondes") return "sec";
-  if (unit === "minutes") return "min";
-  return unit;
-};
-
 window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise) {
   const title = window.FitnessRpgExercises.escapeHtml(exercise.title);
-  const description = window.FitnessRpgExercises.escapeHtml(exercise.description || "");
+  const description = window.FitnessRpgExercises.escapeHtml(exercise.shortDescription || exercise.description || "");
   const stat = window.FitnessRpgExercises.escapeHtml(exercise.stat || "");
-  const image = window.FitnessRpgExercises.resolveImage(exercise);
+  const image = window.FitnessRpgExercises.getSafeExerciseImage(exercise);
+  const color = window.FitnessRpgExercises.getCategoryColor(exercise.categoryId);
+  const icon = window.FitnessRpgExercises.getCategoryIcon(exercise.categoryId);
 
   const distanceField = exercise.hasDistance
     ? `
@@ -262,29 +330,38 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
     `
     : "";
 
- const timerButton = exercise.hasTimer
-  ? `
-    <button
-      class="secondary-btn start-timer-btn"
-      type="button"
-      data-exercise-id="${exercise.id}"
-      aria-label="Démarrer le timer"
-      title="Démarrer"
-    >
-      <span class="btn-icon">▶️</span>
-      
-    </button>
-  `
-  : "";
+  const timerButton = exercise.hasTimer
+    ? `
+      <button
+        class="secondary-btn start-timer-btn"
+        type="button"
+        data-exercise-id="${exercise.id}"
+        aria-label="Démarrer le timer"
+        title="Démarrer"
+      >
+        <span class="btn-icon">▶️</span>
+      </button>
+    `
+    : "";
 
   return `
-    <article class="exercise-card" data-exercise-id="${exercise.id}">
-      <button class="exercise-image-button" type="button" data-exercise-id="${exercise.id}" title="Agrandir l’image">
-        <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/default.png'">
+    <article
+      class="exercise-card v3-exercise-card"
+      data-exercise-id="${exercise.id}"
+      style="--category-color:${color}"
+    >
+      <button
+        class="exercise-image-button v3-exercise-image-button"
+        type="button"
+        data-exercise-id="${exercise.id}"
+        title="Voir l’explication"
+      >
+        <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/homme_default.png'">
       </button>
 
       <div class="exercise-card-body">
-        <p class="exercise-stat">${stat}</p>
+        <p class="exercise-stat">${icon} ${stat}</p>
+        <h3 class="v3-exercise-title">${title}</h3>
         ${description ? `<p class="exercise-description">${description}</p>` : ""}
 
         <div class="exercise-control-row">
@@ -301,19 +378,17 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
           </label>
 
           ${distanceField}
-
           ${timerButton}
 
-         <button
-          class="primary-btn validate-exercise-btn"
-          type="button"
-          data-exercise-id="${exercise.id}"
-          aria-label="Valider l’exercice"
-          title="Valider"
-        >
-          <span class="btn-icon">✅</span>
-          
-        </button>
+          <button
+            class="primary-btn validate-exercise-btn"
+            type="button"
+            data-exercise-id="${exercise.id}"
+            aria-label="Valider l’exercice"
+            title="Valider"
+          >
+            <span class="btn-icon">✅</span>
+          </button>
         </div>
       </div>
     </article>
@@ -758,19 +833,35 @@ window.FitnessRpgExercises.handleDocumentClick = function handleDocumentClick(ev
 
   const imageButton = event.target.closest(".exercise-image-button");
 
-  if (imageButton) {
-    const exerciseId = imageButton.dataset.exerciseId;
-    window.FitnessRpgExercises.openExerciseImage(exerciseId);
-    return;
+if (imageButton) {
+  const exerciseId = imageButton.dataset.exerciseId;
+  window.FitnessRpgExercises.openExerciseDetails(exerciseId);
+  return;
+}
+
+const pageButton = event.target.closest(".exercise-page-btn");
+
+if (pageButton) {
+  const delta = Number(pageButton.dataset.delta || 0);
+  const categoryId = window.FitnessRpgExercises.currentCategoryId;
+  const page = Number(window.FitnessRpgExercises.currentExercisePage || 0) + delta;
+
+  if (categoryId) {
+    window.FitnessRpgExercises.renderCategoryExercises(categoryId, page);
   }
 
-  const validateButton = event.target.closest(".validate-exercise-btn");
+  return;
+}
 
-  if (validateButton) {
-    const exerciseId = validateButton.dataset.exerciseId;
-    window.FitnessRpgExercises.validateExercise(exerciseId);
-    return;
-  }
+if (event.target.closest("#closeExerciseDetailButton")) {
+  window.FitnessRpgExercises.closeExerciseDetails();
+  return;
+}
+
+if (event.target.id === "exerciseDetailOverlay") {
+  window.FitnessRpgExercises.closeExerciseDetails();
+  return;
+}
 
   const timerButton = event.target.closest(".start-timer-btn");
 
