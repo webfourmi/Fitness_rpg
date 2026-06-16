@@ -1655,52 +1655,97 @@ window.FitnessRpgRender.renderProgressionPage = function renderProgressionPage()
   `;
 };
 // ============================================================
-// Coffre de récompense familier
+// Coffre de récompense familier - version mobile
 // ============================================================
 
-window.FitnessRpgRender.renderChestRewardHtml = function renderChestRewardHtml(chestReward) {
+window.FitnessRpgRender.currentChestReward = null;
+
+window.FitnessRpgRender.renderChestRewardHtml = function renderChestRewardHtml(chestReward, isOpen = false) {
   if (!chestReward || !chestReward.success || !chestReward.familiar) {
     return `
       <div class="reward-chest-box">
         <h3>🎁 Coffre de récompense</h3>
         <p>Le coffre s’ouvre, mais aucun familier n’est disponible.</p>
+
+        <button
+          class="primary-btn close-chest-reward-modal-btn"
+          type="button"
+        >
+          Continuer l’aventure
+        </button>
       </div>
     `;
   }
 
+  const familiar = chestReward.familiar;
+
   return `
-    <div class="reward-chest-box">
-      <h3>🎁 Coffre de récompense</h3>
+    <div class="reward-chest-box ${isOpen ? "is-open" : "is-closed"}">
+      <p class="eyebrow">🎁 Récompense</p>
+      <h3>Coffre de récompense</h3>
 
-      <div class="reward-familiar-card">
-        <img
-          src="${chestReward.familiar.image}"
-          alt="${chestReward.familiar.name}"
-          class="reward-familiar-image"
-        />
-
-        <h4 class="reward-familiar-name">${chestReward.familiar.name}</h4>
-
-        <p class="reward-familiar-status">
-          ${chestReward.isNew ? "✨ Nouveau familier débloqué !" : "🔁 Familier déjà obtenu !"}
-        </p>
-
-        <p class="reward-familiar-progress">
-          Collection : ${chestReward.unlockedCount} / ${chestReward.totalCount}
-        </p>
-
-        ${
-          chestReward.collectionComplete
-            ? `<p class="reward-familiar-complete">🏆 Collection complète !</p>`
-            : ""
-        }
+      <div class="reward-chest-visual" aria-hidden="true">
+        <div class="reward-chest-light"></div>
+        <div class="reward-chest-lid"></div>
+        <div class="reward-chest-base"></div>
+        <div class="reward-chest-lock">✦</div>
       </div>
+
+      ${
+        !isOpen
+          ? `
+            <p class="reward-chest-intro">
+              Un petit bruit gratte à l’intérieur du coffre...
+            </p>
+
+            <button
+              class="primary-btn open-chest-reward-btn"
+              type="button"
+            >
+              ✨ Ouvrir le coffre
+            </button>
+          `
+          : `
+            <div class="reward-familiar-card">
+              <img
+                src="${familiar.image}"
+                alt="${familiar.name}"
+                class="reward-familiar-image"
+              />
+
+              <h4 class="reward-familiar-name">${familiar.name}</h4>
+
+              <p class="reward-familiar-status">
+                ${chestReward.isNew ? "✨ Nouveau familier débloqué !" : "🔁 Familier déjà obtenu !"}
+              </p>
+
+              <p class="reward-familiar-progress">
+                Collection : ${chestReward.unlockedCount} / ${chestReward.totalCount}
+              </p>
+
+              ${
+                chestReward.collectionComplete
+                  ? `<p class="reward-familiar-complete">🏆 Collection complète !</p>`
+                  : ""
+              }
+            </div>
+
+            <button
+              class="primary-btn close-chest-reward-modal-btn"
+              type="button"
+            >
+              Continuer l’aventure
+            </button>
+          `
+      }
     </div>
   `;
 };
 
 window.FitnessRpgRender.showChestRewardModal = function showChestRewardModal(chestReward) {
   let overlay = document.querySelector("#chestRewardOverlay");
+
+  window.FitnessRpgRender.currentChestReward = chestReward;
 
   if (!overlay) {
     overlay = document.createElement("div");
@@ -1713,19 +1758,39 @@ window.FitnessRpgRender.showChestRewardModal = function showChestRewardModal(che
 
   overlay.innerHTML = `
     <div class="reward-chest-modal" role="dialog" aria-modal="true">
-      ${window.FitnessRpgRender.renderChestRewardHtml(chestReward)}
-
       <button
-        class="primary-btn close-chest-reward-modal-btn"
+        class="reward-chest-close close-chest-reward-modal-btn"
         type="button"
+        aria-label="Fermer"
       >
-        Continuer l’aventure
+        ×
       </button>
+
+      <div id="chestRewardContent">
+        ${window.FitnessRpgRender.renderChestRewardHtml(chestReward, false)}
+      </div>
     </div>
   `;
 
   overlay.classList.remove("hidden");
   overlay.setAttribute("aria-hidden", "false");
+
+  document.body.classList.add("modal-open");
+};
+
+window.FitnessRpgRender.openChestRewardModal = function openChestRewardModal() {
+  const overlay = document.querySelector("#chestRewardOverlay");
+  const content = document.querySelector("#chestRewardContent");
+  const chestReward = window.FitnessRpgRender.currentChestReward;
+
+  if (!overlay || !content || !chestReward) return;
+
+  content.innerHTML = window.FitnessRpgRender.renderChestRewardHtml(chestReward, true);
+
+  const modal = overlay.querySelector(".reward-chest-modal");
+  if (modal) {
+    modal.scrollTop = 0;
+  }
 };
 
 window.FitnessRpgRender.closeChestRewardModal = function closeChestRewardModal() {
@@ -1735,6 +1800,10 @@ window.FitnessRpgRender.closeChestRewardModal = function closeChestRewardModal()
 
   overlay.classList.add("hidden");
   overlay.setAttribute("aria-hidden", "true");
+  overlay.innerHTML = "";
+
+  window.FitnessRpgRender.currentChestReward = null;
+  document.body.classList.remove("modal-open");
 };
 // ============================================================
 // Page familiers
