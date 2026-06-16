@@ -159,6 +159,14 @@ window.FitnessRpgNavigation.openProgression = function openProgression() {
   window.FitnessRpgNavigation.setPage("progression");
 };
 
+window.FitnessRpgNavigation.openCoach = function openCoach() {
+  const coachId = window.FitnessRpgState.getCoachId?.() || "korvan";
+
+  window.FitnessRpgState.selectedCoachId = coachId;
+  window.FitnessRpgState.setPose?.("explain");
+
+  window.FitnessRpgNavigation.setPage("hero-setup");
+};
 // ============================================================
 // Quête du jour → programme recommandé
 // ============================================================
