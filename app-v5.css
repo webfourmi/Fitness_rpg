@@ -2992,4 +2992,220 @@ body.modal-open {
   box-shadow:
     0 18px 38px rgba(0, 0, 0, 0.34),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
+   }
+
+/* ============================================================
+   V6 étape 2 - Boutons modernisés, base stable app-v5
+   ============================================================ */
+
+button,
+.primary-btn,
+.secondary-btn,
+.ghost-btn,
+.danger-btn,
+.program-select-btn,
+.start-program-btn,
+.start-today-btn,
+.start-session-btn,
+.validate-program-exercise-btn,
+.start-program-exercise-timer-btn,
+.open-chest-reward-btn,
+.close-chest-reward-modal-btn {
+  font-family: inherit;
+  border-radius: 16px;
+  min-height: 44px;
+  padding: 10px 16px;
+
+  font-weight: 900;
+  letter-spacing: 0.01em;
+
+  cursor: pointer;
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease,
+    filter 140ms ease,
+    background 140ms ease,
+    border-color 140ms ease;
+}
+
+/* Boutons principaux */
+.primary-btn,
+.start-today-btn,
+.start-session-btn,
+.start-program-btn,
+.program-select-btn,
+.open-chest-reward-btn {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  background:
+    linear-gradient(180deg, rgba(91, 255, 147, 1), rgba(33, 203, 93, 1));
+  color: #07130c;
+
+  box-shadow:
+    0 8px 0 rgba(8, 95, 42, 0.75),
+    0 14px 26px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+/* Boutons secondaires */
+.secondary-btn,
+.validate-program-exercise-btn {
+  border: 1px solid rgba(244, 211, 94, 0.55);
+
+  background:
+    linear-gradient(180deg, rgba(244, 211, 94, 0.24), rgba(184, 135, 36, 0.18));
+  color: #fff7d0;
+
+  box-shadow:
+    0 6px 0 rgba(102, 75, 19, 0.7),
+    0 12px 22px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* Boutons discrets */
+.ghost-btn,
+.start-program-exercise-timer-btn,
+.close-chest-reward-modal-btn {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
+  color: #ffffff;
+
+  box-shadow:
+    0 6px 0 rgba(0, 0, 0, 0.35),
+    0 12px 22px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Boutons danger : reset, suppression, abandon */
+.danger-btn,
+.reset-program-btn,
+.delete-btn {
+  border: 1px solid rgba(255, 90, 111, 0.55);
+
+  background:
+    linear-gradient(180deg, rgba(255, 90, 111, 0.22), rgba(150, 35, 52, 0.26));
+  color: #ffd5dc;
+
+  box-shadow:
+    0 6px 0 rgba(90, 12, 25, 0.7),
+    0 12px 22px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Effet appui */
+button:hover,
+.primary-btn:hover,
+.secondary-btn:hover,
+.ghost-btn:hover,
+.danger-btn:hover,
+.program-select-btn:hover,
+.start-program-btn:hover,
+.start-today-btn:hover,
+.start-session-btn:hover,
+.validate-program-exercise-btn:hover,
+.start-program-exercise-timer-btn:hover,
+.open-chest-reward-btn:hover,
+.close-chest-reward-modal-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+button:active,
+.primary-btn:active,
+.secondary-btn:active,
+.ghost-btn:active,
+.danger-btn:active,
+.program-select-btn:active,
+.start-program-btn:active,
+.start-today-btn:active,
+.start-session-btn:active,
+.validate-program-exercise-btn:active,
+.start-program-exercise-timer-btn:active,
+.open-chest-reward-btn:active,
+.close-chest-reward-modal-btn:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.45),
+    0 8px 16px rgba(0, 0, 0, 0.22);
+}
+
+/* Accessibilité clavier */
+button:focus-visible,
+.primary-btn:focus-visible,
+.secondary-btn:focus-visible,
+.ghost-btn:focus-visible,
+.danger-btn:focus-visible {
+  outline: 3px solid rgba(94, 200, 255, 0.9);
+  outline-offset: 3px;
+}
+
+/* Boutons désactivés */
+button:disabled,
+.primary-btn:disabled,
+.secondary-btn:disabled,
+.ghost-btn:disabled,
+.danger-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  filter: grayscale(0.2);
+  box-shadow: none;
+}
+
+/* Boutons pleine largeur utiles sur mobile */
+.program-select-btn,
+.start-program-btn,
+.start-today-btn,
+.start-session-btn,
+.open-chest-reward-btn,
+.close-chest-reward-modal-btn {
+  width: 100%;
+}
+
+/* Alignement propre des groupes de boutons */
+.program-session-actions,
+.session-actions,
+.card-actions,
+.program-actions,
+.reward-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.program-session-actions > *,
+.session-actions > *,
+.card-actions > *,
+.program-actions > *,
+.reward-actions > * {
+  flex: 1 1 140px;
+}
+
+@media (max-width: 480px) {
+  button,
+  .primary-btn,
+  .secondary-btn,
+  .ghost-btn,
+  .danger-btn,
+  .program-select-btn,
+  .start-program-btn,
+  .start-today-btn,
+  .start-session-btn,
+  .validate-program-exercise-btn,
+  .start-program-exercise-timer-btn {
+    min-height: 46px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+  }
+
+  .program-session-actions,
+  .session-actions,
+  .card-actions,
+  .program-actions,
+  .reward-actions {
+    gap: 8px;
+  }
 }
