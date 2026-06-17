@@ -232,7 +232,7 @@ body[data-page="home"] #homeButton {
 .secondary-btn,
 .ghost-btn,
 .icon-button,
-.header-icon-btn,
+.header-icon-btn {,,
 .training-toolbar button,
 .exercise-actions button {
   min-height: 40px;
@@ -256,14 +256,14 @@ body[data-page="home"] #homeButton {
 
 .ghost-btn,
 .icon-button,
-.header-icon-btn {
+.header-icon-btn {, {
   background: rgba(255, 255, 255, 0.06);
   color: var(--text);
   border: 1px solid var(--border);
 }
 
 .icon-button,
-.header-icon-btn {
+.header-icon-btn {, {
   display: inline-grid;
   place-items: center;
   width: 38px;
@@ -275,7 +275,7 @@ body[data-page="home"] #homeButton {
   border-radius: 999px;
 }
 
-.header-icon-btn:hover {
+.header-icon-btn {,:hover {
   border-color: rgba(244, 211, 94, 0.7);
 }
 
@@ -2195,7 +2195,7 @@ body.level-up-active .hero-image-frame {
   .header-actions .icon-button,
   #backButton,
   #homeButton,
-  .header-icon-btn {
+  .header-icon-btn {, {
     width: 34px;
     min-width: 34px;
     height: 34px;
@@ -3323,8 +3323,8 @@ button[class],
 .secondary-btn,
 .ghost-btn,
 .danger-btn,
-.btn-icon,
-.header-icon-btn,
+buttonbuttonbuttonbutton.btn-icon,
+.header-icon-btn {,,
 .choose-goal-btn,
 .open-program-detail-btn,
 .planning-program-btn,
@@ -3444,8 +3444,8 @@ button[class],
 }
 
 /* Petits boutons icônes : header, accueil, flèches */
-.btn-icon,
-.header-icon-btn {
+buttonbuttonbuttonbutton.btn-icon,
+.header-icon-btn {, {
   width: 42px !important;
   min-width: 42px !important;
   height: 42px !important;
@@ -3483,7 +3483,7 @@ button[class],
   .ghost-btn:hover,
   .danger-btn:hover,
   .btn-icon:hover,
-  .header-icon-btn:hover {
+  .header-icon-btn {,:hover {
     transform: translateY(-1px) !important;
     filter: brightness(1.06) !important;
   }
@@ -3497,7 +3497,7 @@ button[class]:active,
 .ghost-btn:active,
 .danger-btn:active,
 .btn-icon:active,
-.header-icon-btn:active {
+.header-icon-btn {,:active {
   transform: translateY(2px) !important;
   box-shadow:
     0 3px 0 rgba(0, 0, 0, 0.45),
@@ -3512,7 +3512,7 @@ button[class]:focus-visible,
 .ghost-btn:focus-visible,
 .danger-btn:focus-visible,
 .btn-icon:focus-visible,
-.header-icon-btn:focus-visible {
+.header-icon-btn {,:focus-visible {
   outline: 3px solid rgba(94, 200, 255, 0.9) !important;
   outline-offset: 3px !important;
 }
@@ -3605,8 +3605,8 @@ button[class]:disabled,
     min-height: 46px !important;
   }
 
-  .btn-icon,
-  .header-icon-btn {
+  buttonbuttonbutton.btn-icon,
+  .header-icon-btn {, {, {
     width: 40px !important;
     min-width: 40px !important;
     height: 40px !important;
@@ -3623,4 +3623,48 @@ button[class]:disabled,
     gap: 8px !important;
   }
 }
+}
+/* ============================================================
+   V6 - Icônes internes des boutons d'exercices
+   ============================================================ */
+
+.exercise-action-icon {
+  display: inline-grid !important;
+  place-items: center !important;
+
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+
+  font-size: 1.15rem !important;
+  line-height: 1 !important;
+  color: inherit !important;
+
+  transform: none !important;
+}
+#exercisesContent .exercise-control-row .start-timer-btn,
+#exercisesContent .exercise-control-row .validate-exercise-btn {
+  width: 42px !important;
+  min-width: 42px !important;
+  max-width: 42px !important;
+
+  height: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  display: inline-grid !important;
+  place-items: center !important;
+
+  border-radius: 15px !important;
 }
