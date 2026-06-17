@@ -341,7 +341,7 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
         aria-label="Démarrer le timer"
         title="Démarrer"
       >
-        <span class="btn-icon">▶️</span>
+        <span class="exercise-action-icon" aria-hidden="true">▶️</span>
       </button>
     `
     : "";
@@ -385,7 +385,7 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
             aria-label="Valider l’exercice"
             title="Valider"
           >
-            <span class="btn-icon">✅</span>
+            <span class="exercise-action-icon" aria-hidden="true">✅</span>
           </button>
         </div>
       </div>
