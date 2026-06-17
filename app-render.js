@@ -382,22 +382,28 @@ window.FitnessRpgRender.renderHeroPanel = function renderHeroPanel() {
   const pendingLevelUp = window.FitnessRpgProgress.peekLevelUpModal?.();
   const levelUpClass = pendingLevelUp ? " level-up-pulse" : "";
 
-  if (heroFrame) {
-    heroFrame.innerHTML = `
-      <img
-        id="heroImage"
-        class="hero-image${levelUpClass}"
-        src="${heroPath}"
-        alt="${profile.name}"
-      />
-      <span class="hero-level-badge">Niv. ${info.level}</span>
-    `;
-  }
+ const heroName = window.FitnessRpgRender.escapeHtml(profile.name || "Héros");
 
-  window.FitnessRpgRender.setText(
-    "#heroIdentityLine",
-    window.FitnessRpgProgress.getIdentityLine()
-  );
+if (heroFrame) {
+  heroFrame.innerHTML = `
+    <img
+      id="heroImage"
+      class="hero-image${levelUpClass}"
+      src="${heroPath}"
+      alt="${heroName}"
+    />
+
+    <span class="hero-level-badge">Niv. ${info.level}</span>
+
+    <span class="hero-name-badge">${heroName}</span>
+  `;
+}
+
+/*
+  Ligne blanche redondante désactivée.
+  On garde la donnée, mais on ne l’affiche plus.
+*/
+window.FitnessRpgRender.setText("#heroIdentityLine", "");
 
   window.FitnessRpgRender.setText(
     "#xpTitle",
