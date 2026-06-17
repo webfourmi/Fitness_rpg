@@ -395,7 +395,11 @@ if (heroFrame) {
 
     <span class="hero-level-badge">Niv. ${info.level}</span>
 
-    <span class="hero-name-badge">${heroName}</span>
+   <div class="hero-name-banner" aria-label="Nom du héros">
+    <span class="hero-name-banner-tail left"></span>
+    <span class="hero-name-banner-text">${heroName}</span>
+    <span class="hero-name-banner-tail right"></span>
+  </div>
   `;
 }
 
