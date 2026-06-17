@@ -1,6 +1,6 @@
 /* ============================================================
    Fitness RPG - app-v5.css
-   Version V5.1.0 reorganisée
+   5.1.0-exercise-input-top1
    ------------------------------------------------------------
    Structure :
    01 Variables et base
@@ -3646,4 +3646,215 @@ button[class]:disabled,
   place-items: center !important;
 
   border-radius: 15px !important;
+}
+/* ============================================================
+   V6 - Cartes exercices : saisie sous le titre
+   ============================================================ */
+
+#exerciseList .v3-exercise-card,
+#exercisesContent .v3-exercise-card {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 7px !important;
+}
+
+/* Titre en haut */
+#exerciseList .v3-exercise-title,
+#exercisesContent .v3-exercise-title {
+  display: block !important;
+  order: 1;
+  margin: 0 !important;
+  padding: 7px 8px !important;
+
+  border-radius: 12px !important;
+  background: var(--category-color, rgba(244, 211, 94, 0.85)) !important;
+  color: #ffffff !important;
+
+  font-size: 0.88rem !important;
+  font-weight: 950 !important;
+  line-height: 1.12 !important;
+  text-align: center !important;
+}
+
+/* Zone de saisie juste sous le titre, sans cadre */
+#exerciseList .exercise-top-controls,
+#exercisesContent .exercise-top-controls {
+  order: 2;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 5px !important;
+
+  margin: 0 !important;
+  padding: 0 2px !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Si distance présente : valeur + km en deux lignes propres */
+#exerciseList .exercise-top-input,
+#exercisesContent .exercise-top-input {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 6px !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+
+  font-size: 0.76rem !important;
+  font-weight: 900 !important;
+  color: rgba(255, 255, 255, 0.86) !important;
+}
+
+#exerciseList .exercise-top-input span,
+#exercisesContent .exercise-top-input span {
+  min-width: 30px !important;
+  text-align: left !important;
+  color: var(--category-color, var(--accent)) !important;
+  font-weight: 950 !important;
+}
+
+/* Champ visible, mais sans gros cadre */
+#exerciseList .exercise-top-input input,
+#exercisesContent .exercise-top-input input {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 32px !important;
+  min-height: 32px !important;
+
+  padding: 3px 6px !important;
+
+  border: 0 !important;
+  border-bottom: 2px solid var(--category-color, var(--accent)) !important;
+  border-radius: 8px 8px 4px 4px !important;
+
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+
+  font-size: 0.95rem !important;
+  font-weight: 950 !important;
+  text-align: center !important;
+
+  box-shadow: none !important;
+}
+
+/* Image maintenant sous la saisie */
+#exerciseList .exercise-image-button,
+#exercisesContent .exercise-image-button {
+  order: 3;
+}
+
+/* Corps de carte sous l'image */
+#exerciseList .exercise-card-body,
+#exercisesContent .exercise-card-body {
+  order: 4;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  flex: 1 1 auto !important;
+}
+
+/* Les anciens labels ne doivent plus reprendre la grande grille */
+#exerciseList .exercise-card-body .amount-inline-label,
+#exerciseList .exercise-card-body .distance-inline-label,
+#exercisesContent .exercise-card-body .amount-inline-label,
+#exercisesContent .exercise-card-body .distance-inline-label {
+  display: none !important;
+}
+
+/* Ligne des boutons seule, compacte et centrée */
+#exerciseList .exercise-control-row,
+#exercisesContent .exercise-control-row {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 10px !important;
+
+  margin-top: auto !important;
+  padding-top: 4px !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Mini boutons d'action */
+#exerciseList .exercise-control-row .start-timer-btn,
+#exerciseList .exercise-control-row .validate-exercise-btn,
+#exercisesContent .exercise-control-row .start-timer-btn,
+#exercisesContent .exercise-control-row .validate-exercise-btn {
+  width: 40px !important;
+  min-width: 40px !important;
+  max-width: 40px !important;
+
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  display: inline-grid !important;
+  place-items: center !important;
+
+  border-radius: 14px !important;
+  font-size: 1rem !important;
+  line-height: 1 !important;
+}
+
+/* Icône interne propre */
+.exercise-action-icon {
+  display: inline-grid !important;
+  place-items: center !important;
+
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+
+  color: inherit !important;
+  font-size: 1.12rem !important;
+  line-height: 1 !important;
+}
+
+/* Sur très petit écran, on garde tout compact */
+@media (max-width: 420px) {
+  #exerciseList .v3-exercise-title,
+  #exercisesContent .v3-exercise-title {
+    font-size: 0.78rem !important;
+    padding: 6px 7px !important;
+  }
+
+  #exerciseList .exercise-top-input input,
+  #exercisesContent .exercise-top-input input {
+    height: 30px !important;
+    min-height: 30px !important;
+    font-size: 0.88rem !important;
+  }
+
+  #exerciseList .exercise-control-row .start-timer-btn,
+  #exerciseList .exercise-control-row .validate-exercise-btn,
+  #exercisesContent .exercise-control-row .start-timer-btn,
+  #exercisesContent .exercise-control-row .validate-exercise-btn {
+    width: 38px !important;
+    min-width: 38px !important;
+    max-width: 38px !important;
+
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+  }
 }
