@@ -3858,3 +3858,248 @@ button[class]:disabled,
     max-height: 38px !important;
   }
 }
+/* ============================================================
+   V6 - Cartes programmes, séances et boss modernisées
+   Base stable app-v5
+   ============================================================ */
+
+/* Cartes programmes générales */
+.program-card,
+.program-detail-card,
+.program-week-card,
+.program-day-card,
+.program-session-card,
+.program-boss-card,
+.boss-card,
+.week-card,
+.planning-card {
+  position: relative !important;
+  overflow: hidden !important;
+
+  border-radius: 22px !important;
+  border: 1px solid rgba(244, 211, 94, 0.22) !important;
+
+  background:
+    radial-gradient(circle at top left, rgba(244, 211, 94, 0.16), transparent 34%),
+    linear-gradient(180deg, rgba(31, 36, 59, 0.98), rgba(14, 18, 31, 0.98)) !important;
+
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Petit éclat décoratif en haut des cartes */
+.program-card::before,
+.program-day-card::before,
+.program-session-card::before,
+.program-boss-card::before,
+.boss-card::before,
+.planning-card::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 auto auto 0 !important;
+
+  width: 100% !important;
+  height: 4px !important;
+
+  background:
+    linear-gradient(90deg, rgba(244, 211, 94, 0.95), rgba(91, 255, 147, 0.6), rgba(94, 200, 255, 0.55)) !important;
+
+  opacity: 0.9 !important;
+}
+
+/* Titres des programmes */
+.program-card h2,
+.program-card h3,
+.program-detail-card h2,
+.program-detail-card h3,
+.program-week-card h2,
+.program-week-card h3,
+.program-day-card h2,
+.program-day-card h3,
+.program-session-card h2,
+.program-session-card h3,
+.program-boss-card h2,
+.program-boss-card h3,
+.boss-card h2,
+.boss-card h3 {
+  margin-top: 0 !important;
+  color: #fff3bf !important;
+
+  font-weight: 950 !important;
+  line-height: 1.15 !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Sous-titres / descriptions */
+.program-card p,
+.program-detail-card p,
+.program-week-card p,
+.program-day-card p,
+.program-session-card p,
+.program-boss-card p,
+.boss-card p,
+.planning-card p {
+  color: rgba(255, 255, 255, 0.86) !important;
+  line-height: 1.35 !important;
+}
+
+/* Badges de durée, difficulté, niveau */
+.program-card .difficulty-label,
+.program-card .program-meta,
+.program-day-card .difficulty-label,
+.program-session-card .difficulty-label,
+.program-boss-card .difficulty-label,
+.boss-card .difficulty-label,
+.program-level,
+.program-duration,
+.program-frequency {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+
+  width: fit-content !important;
+  max-width: 100% !important;
+
+  padding: 5px 9px !important;
+  border-radius: 999px !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+
+  color: #ffffff !important;
+  font-size: 0.78rem !important;
+  font-weight: 850 !important;
+}
+
+/* Séances validées */
+.program-day-card.done,
+.program-session-card.done,
+.planning-card.done,
+.completed,
+.is-completed {
+  border-color: rgba(91, 255, 147, 0.55) !important;
+  background:
+    radial-gradient(circle at top left, rgba(91, 255, 147, 0.18), transparent 34%),
+    linear-gradient(180deg, rgba(24, 48, 39, 0.98), rgba(14, 24, 21, 0.98)) !important;
+}
+
+/* Boss : ambiance plus épique */
+.program-boss-card,
+.boss-card {
+  border-color: rgba(255, 111, 97, 0.42) !important;
+
+  background:
+    radial-gradient(circle at top left, rgba(255, 111, 97, 0.2), transparent 36%),
+    radial-gradient(circle at bottom right, rgba(244, 211, 94, 0.14), transparent 34%),
+    linear-gradient(180deg, rgba(45, 27, 43, 0.98), rgba(18, 18, 32, 0.98)) !important;
+}
+
+/* Boss verrouillé */
+.program-boss-card.locked,
+.boss-card.locked,
+.is-locked {
+  opacity: 0.72 !important;
+  filter: grayscale(0.25) !important;
+}
+
+/* Variantes de boss intérieur / extérieur */
+.boss-variant-card,
+.boss-choice-card,
+.program-boss-variant {
+  border-radius: 20px !important;
+  padding: 14px !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035)) !important;
+
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+.boss-variant-card h4,
+.boss-choice-card h4,
+.program-boss-variant h4 {
+  margin-top: 0 !important;
+  color: #ffffff !important;
+  font-weight: 950 !important;
+}
+
+/* Liste des exercices dans les programmes */
+.program-exercise-list,
+.session-exercise-list,
+.boss-exercise-list {
+  display: grid !important;
+  gap: 8px !important;
+  margin-top: 10px !important;
+}
+
+.program-exercise-row,
+.session-exercise-row,
+.boss-exercise-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 8px !important;
+  align-items: center !important;
+
+  padding: 9px 10px !important;
+  border-radius: 14px !important;
+
+  background: rgba(255, 255, 255, 0.055) !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+
+  color: #ffffff !important;
+}
+
+/* Petites animations PC seulement */
+@media (hover: hover) {
+  .program-card:hover,
+  .program-day-card:hover,
+  .program-session-card:hover,
+  .program-boss-card:hover,
+  .boss-card:hover,
+  .planning-card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow:
+      0 18px 38px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
+/* Mobile : cartes plus compactes */
+@media (max-width: 520px) {
+  .program-card,
+  .program-detail-card,
+  .program-week-card,
+  .program-day-card,
+  .program-session-card,
+  .program-boss-card,
+  .boss-card,
+  .planning-card {
+    border-radius: 18px !important;
+  }
+
+  .program-card h2,
+  .program-card h3,
+  .program-detail-card h2,
+  .program-detail-card h3,
+  .program-day-card h2,
+  .program-day-card h3,
+  .program-session-card h2,
+  .program-session-card h3,
+  .program-boss-card h2,
+  .program-boss-card h3,
+  .boss-card h2,
+  .boss-card h3 {
+    font-size: 1.05rem !important;
+  }
+
+  .boss-variant-card,
+  .boss-choice-card,
+  .program-boss-variant {
+    padding: 11px !important;
+    border-radius: 16px !important;
+  }
+}
