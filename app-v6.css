@@ -1932,3 +1932,29 @@ body.level-up-active {
     transition-duration: 0.001ms !important;
   }
 }
+/* ============================================================
+   V6 - Icônes internes des boutons d'exercices
+   ============================================================ */
+
+.exercise-action-icon {
+  display: inline-grid !important;
+  place-items: center !important;
+
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+
+  font-size: 1.15rem !important;
+  line-height: 1 !important;
+  color: inherit !important;
+
+  transform: none !important;
+}
