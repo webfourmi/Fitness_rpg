@@ -4363,3 +4363,6 @@ body.level-up-active .hero-image-frame,
     font-size: 0.88rem !important;
   }
 }
+.hero-identity-line {
+  display: none !important;
+}
