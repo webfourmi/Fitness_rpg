@@ -310,15 +310,21 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
   const title = window.FitnessRpgExercises.escapeHtml(exercise.title);
   const description = window.FitnessRpgExercises.escapeHtml(exercise.shortDescription || exercise.description || "");
   const stat = window.FitnessRpgExercises.escapeHtml(exercise.stat || "");
-  const image = window.FitnessRpgExercises.getSafeExerciseImage(exercise);
-  const category = window.FitnessRpgExercises.getExerciseCategory(exercise);
-  const categoryColor = category?.color || "#f4d35e";
-  const color = window.FitnessRpgExercises.getCategoryColor(exercise.categoryId);
-  const icon = window.FitnessRpgExercises.getCategoryIcon(exercise.categoryId);
+  const image = window.FitnessRpgExercises.getSafeExerciseImage
+    ? window.FitnessRpgExercises.getSafeExerciseImage(exercise)
+    : window.FitnessRpgExercises.resolveImage(exercise);
+
+  const color = window.FitnessRpgExercises.getCategoryColor
+    ? window.FitnessRpgExercises.getCategoryColor(exercise.categoryId)
+    : "#f0b84f";
+
+  const icon = window.FitnessRpgExercises.getCategoryIcon
+    ? window.FitnessRpgExercises.getCategoryIcon(exercise.categoryId)
+    : "⚔️";
 
   const distanceField = exercise.hasDistance
     ? `
-      <label class="distance-inline-label">
+      <label class="distance-inline-label exercise-top-input">
         <span>km</span>
         <input
           class="exercise-distance-input"
@@ -346,36 +352,44 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
     `
     : "";
 
-   return `
+  return `
     <article
-      class="exercise-card"
+      class="exercise-card v3-exercise-card"
       data-exercise-id="${exercise.id}"
-      style="--exercise-color:${categoryColor}"
+      style="--category-color:${color}"
     >
-      <h3 class="exercise-card-title">${title}</h3>
+      <h3 class="v3-exercise-title">${title}</h3>
 
-      <button class="exercise-image-button" type="button" data-exercise-id="${exercise.id}" title="Agrandir l’image">
-        <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/default.png'">
+      <div class="exercise-top-controls">
+        <label class="amount-inline-label exercise-top-input">
+          <span>${window.FitnessRpgExercises.shortUnit(exercise.unit)}</span>
+          <input
+            class="exercise-amount-input"
+            data-exercise-id="${exercise.id}"
+            type="number"
+            min="${exercise.min}"
+            step="${exercise.step}"
+            value="${exercise.defaultValue}"
+          >
+        </label>
+
+        ${distanceField}
+      </div>
+
+      <button
+        class="exercise-image-button v3-exercise-image-button"
+        type="button"
+        data-exercise-id="${exercise.id}"
+        title="Voir l’explication"
+      >
+        <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/homme_default.png'">
       </button>
 
       <div class="exercise-card-body">
-        <p class="exercise-stat">${stat}</p>
+        <p class="exercise-stat">${icon} ${stat}</p>
         ${description ? `<p class="exercise-description">${description}</p>` : ""}
 
         <div class="exercise-control-row">
-          <label class="amount-inline-label">
-            <span>${window.FitnessRpgExercises.shortUnit(exercise.unit)}</span>
-            <input
-              class="exercise-amount-input"
-              data-exercise-id="${exercise.id}"
-              type="number"
-              min="${exercise.min}"
-              step="${exercise.step}"
-              value="${exercise.defaultValue}"
-            >
-          </label>
-
-          ${distanceField}
           ${timerButton}
 
           <button
