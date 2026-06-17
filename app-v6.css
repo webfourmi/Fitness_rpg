@@ -1,0 +1,1934 @@
+/* ============================================================
+   Fitness RPG - app-v6.css
+   Version 6.0.0
+   ------------------------------------------------------------
+   Rôle : couche visuelle moderne chargée après app-v5.css.
+   Important : ce fichier ne modifie aucune donnée ni logique JS.
+   Il modernise uniquement l'apparence des pages existantes.
+============================================================ */
+
+/* ============================================================
+   1. Variables V6
+============================================================ */
+
+:root {
+  color-scheme: dark;
+
+  --v6-bg-0: #080a12;
+  --v6-bg-1: #0d1020;
+  --v6-bg-2: #14182b;
+  --v6-bg-3: #1c2240;
+  --v6-bg-4: #252d52;
+
+  --v6-card: rgba(28, 34, 64, 0.92);
+  --v6-card-strong: rgba(37, 45, 82, 0.96);
+  --v6-card-soft: rgba(255, 255, 255, 0.065);
+
+  --v6-text: #ffffff;
+  --v6-text-muted: #c9cce2;
+  --v6-text-soft: #9298bd;
+  --v6-text-dark: #09100d;
+
+  --v6-gold: #f7d061;
+  --v6-gold-2: #ff9f43;
+  --v6-green: #35e27a;
+  --v6-green-2: #19b85a;
+  --v6-blue: #5ec8ff;
+  --v6-cyan: #4dd8ff;
+  --v6-red: #ff5a6f;
+  --v6-purple: #a678ff;
+  --v6-orange: #ff9f43;
+  --v6-bronze: #c9863a;
+  --v6-mint: #56d6a5;
+
+  --v6-border: rgba(255, 255, 255, 0.12);
+  --v6-border-strong: rgba(247, 208, 97, 0.52);
+  --v6-border-green: rgba(53, 226, 122, 0.48);
+
+  --v6-shadow-sm: 0 8px 18px rgba(0, 0, 0, 0.24);
+  --v6-shadow: 0 16px 36px rgba(0, 0, 0, 0.34);
+  --v6-shadow-glow: 0 0 28px rgba(247, 208, 97, 0.18);
+
+  --v6-radius-xs: 10px;
+  --v6-radius-sm: 14px;
+  --v6-radius: 20px;
+  --v6-radius-lg: 26px;
+  --v6-radius-pill: 999px;
+
+  --v6-gap-xs: 6px;
+  --v6-gap-sm: 10px;
+  --v6-gap: 14px;
+  --v6-gap-lg: 18px;
+  --v6-gap-xl: 24px;
+
+  --cat-warmup: #ff9f43;
+  --cat-mobility: #a678ff;
+  --cat-cardio: #ff5a6f;
+  --cat-strength: #5ec8ff;
+  --cat-musculation: #c9863a;
+  --cat-stretch: #56d6a5;
+  --cat-walk: #7ed957;
+  --cat-run: #ffd166;
+  --cat-bike: #4dd8ff;
+
+  --bg: var(--v6-bg-1);
+  --bg-soft: var(--v6-bg-2);
+  --bg-card: var(--v6-bg-3);
+  --bg-card-soft: var(--v6-bg-4);
+  --text: var(--v6-text);
+  --text-muted: var(--v6-text-muted);
+  --accent: var(--v6-gold-2);
+  --accent-strong: var(--v6-gold);
+  --border: var(--v6-border);
+  --border-strong: var(--v6-border-strong);
+  --shadow: var(--v6-shadow);
+  --radius: var(--v6-radius);
+  --radius-small: var(--v6-radius-sm);
+}
+
+/* ============================================================
+   2. Base générale
+============================================================ */
+
+html {
+  min-height: 100%;
+  background: var(--v6-bg-0);
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  color: var(--v6-text);
+  background:
+    radial-gradient(circle at 20% -10%, rgba(94, 200, 255, 0.20), transparent 30rem),
+    radial-gradient(circle at 90% 6%, rgba(166, 120, 255, 0.18), transparent 28rem),
+    radial-gradient(circle at 50% 100%, rgba(247, 208, 97, 0.10), transparent 24rem),
+    linear-gradient(180deg, var(--v6-bg-1) 0%, var(--v6-bg-0) 100%);
+  background-attachment: fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.34;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: linear-gradient(180deg, transparent, #000 16%, #000 78%, transparent);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(94, 200, 255, 0.78);
+  outline-offset: 3px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.muted,
+.card p,
+.page-header p {
+  color: var(--v6-text-muted);
+}
+
+strong {
+  color: var(--v6-text);
+}
+
+/* ============================================================
+   3. Layout commun
+============================================================ */
+
+.app-shell {
+  width: min(100%, 1040px);
+  margin: 0 auto;
+  padding: 10px clamp(10px, 2vw, 18px) 96px;
+}
+
+.app-page {
+  width: min(100%, 620px);
+  margin: 0 auto;
+  display: grid;
+  gap: var(--v6-gap);
+  padding-bottom: 92px;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  width: min(100%, 620px);
+  margin: 0 auto 12px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 0 0 22px 22px;
+  background: rgba(10, 13, 26, 0.82);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.30);
+  backdrop-filter: blur(16px);
+}
+
+.app-header-title {
+  flex: 1;
+  min-width: 0;
+}
+
+body[data-page="home"] .app-header {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  padding-top: 2px;
+}
+
+/* ============================================================
+   4. Cartes modernes
+============================================================ */
+
+.card,
+.v6-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--v6-border);
+  border-radius: var(--v6-radius);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
+    linear-gradient(180deg, var(--v6-card-strong), rgba(16, 20, 38, 0.96));
+  box-shadow: var(--v6-shadow);
+  padding: var(--v6-gap);
+}
+
+.card::before,
+.v6-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 16% 0%, rgba(247, 208, 97, 0.16), transparent 38%),
+    radial-gradient(circle at 100% 0%, rgba(94, 200, 255, 0.11), transparent 36%);
+  opacity: 0.88;
+}
+
+.card > *,
+.v6-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.card h1,
+.card h2,
+.card h3,
+.page-header h1 {
+  color: var(--v6-text);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.page-header.card {
+  padding: 16px;
+  border-color: rgba(247, 208, 97, 0.24);
+}
+
+.page-header h1 {
+  margin-bottom: 6px;
+  font-size: clamp(1.35rem, 5vw, 2rem);
+}
+
+.page-header p {
+  font-size: 0.95rem;
+}
+
+.eyebrow,
+.app-version-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 6px 10px;
+  border: 1px solid rgba(247, 208, 97, 0.42);
+  border-radius: var(--v6-radius-pill);
+  background: rgba(247, 208, 97, 0.14);
+  color: var(--v6-gold);
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ============================================================
+   5. Boutons V6
+============================================================ */
+
+.primary-btn,
+.secondary-btn,
+.ghost-btn,
+.icon-button,
+.header-icon-btn,
+.training-toolbar button,
+.exercise-actions button,
+.choose-program-btn,
+.choose-goal-btn,
+.start-program-day-btn,
+.start-program-exercise-timer-btn,
+.validate-program-exercise-btn,
+.start-timer-btn,
+.validate-exercise-btn,
+.planning-program-btn {
+  min-height: 46px;
+  border-radius: 16px;
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  font-weight: 950;
+  letter-spacing: -0.01em;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    border-color 150ms ease,
+    background 150ms ease,
+    opacity 150ms ease;
+}
+
+.primary-btn {
+  color: var(--v6-text-dark);
+  background: linear-gradient(180deg, #65ff9c 0%, var(--v6-green) 45%, var(--v6-green-2) 100%);
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.22), 0 14px 26px rgba(53, 226, 122, 0.22);
+}
+
+.secondary-btn {
+  color: var(--v6-text);
+  background: linear-gradient(180deg, rgba(94, 200, 255, 0.24), rgba(94, 200, 255, 0.12));
+  border-color: rgba(94, 200, 255, 0.42);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.ghost-btn,
+.icon-button,
+.header-icon-btn,
+.training-toolbar button {
+  color: var(--v6-text);
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(255, 255, 255, 0.13);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+}
+
+.primary-btn:hover,
+.secondary-btn:hover,
+.ghost-btn:hover,
+.icon-button:hover,
+.header-icon-btn:hover,
+.training-toolbar button:hover {
+  transform: translateY(-1px);
+}
+
+.primary-btn:active,
+.secondary-btn:active,
+.ghost-btn:active,
+.icon-button:active,
+.header-icon-btn:active,
+.training-toolbar button:active {
+  transform: translateY(1px) scale(0.99);
+  box-shadow: none;
+}
+
+button:disabled,
+.primary-btn:disabled,
+.secondary-btn:disabled,
+.ghost-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.56;
+  filter: grayscale(0.25);
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.icon-button,
+.header-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 14px;
+  font-size: 1.08rem;
+}
+
+/* ============================================================
+   6. Jauges et stats
+============================================================ */
+
+.progress-bar,
+.badge-progress-bar,
+.v6-progress {
+  width: 100%;
+  height: 12px;
+  border-radius: var(--v6-radius-pill);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.progress-fill,
+.badge-progress-fill,
+.v6-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--v6-gold), var(--v6-gold-2), var(--v6-green));
+  box-shadow: 0 0 18px rgba(247, 208, 97, 0.35);
+  transition: width 380ms ease;
+}
+
+.stats-grid,
+.progression-stat-grid,
+.planning-week-progress {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.stat-card,
+.progression-stat-grid article,
+.planning-week-progress > div {
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.065);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  text-align: center;
+}
+
+.stat-card strong,
+.progression-stat-grid strong,
+.planning-week-progress strong {
+  display: block;
+  color: var(--v6-gold);
+  font-size: 1.22rem;
+  font-weight: 1000;
+  line-height: 1;
+}
+
+.stat-card span,
+.progression-stat-grid span,
+.planning-week-progress span {
+  display: block;
+  margin-top: 4px;
+  color: var(--v6-text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+/* ============================================================
+   7. Accueil et dashboard entraînement
+============================================================ */
+
+.home-card {
+  display: grid;
+  gap: 14px;
+  min-height: 0;
+  padding: 16px;
+  border-radius: 28px;
+  border-color: rgba(247, 208, 97, 0.28);
+}
+
+.home-text h1 {
+  margin: 0;
+  font-size: clamp(1.75rem, 8vw, 2.7rem);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.home-image-frame,
+.hero-image-frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background:
+    radial-gradient(circle at 50% 20%, rgba(247, 208, 97, 0.20), transparent 48%),
+    rgba(255, 255, 255, 0.045);
+  box-shadow: inset 0 0 36px rgba(255, 255, 255, 0.04);
+}
+
+.home-image-frame img,
+.hero-image-frame img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.home-summary {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.home-summary p {
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.055);
+  color: var(--v6-text);
+  font-weight: 800;
+}
+
+.home-actions,
+.form-actions,
+.music-actions,
+.timer-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.home-actions {
+  grid-template-columns: 1fr;
+}
+
+.hero-panel {
+  display: grid;
+  gap: 12px;
+  text-align: center;
+  border-color: rgba(247, 208, 97, 0.28);
+}
+
+.hero-image-frame {
+  width: min(260px, 72vw);
+  margin: 0 auto;
+}
+
+.hero-level-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-grid;
+  place-items: center;
+  min-width: 72px;
+  min-height: 34px;
+  padding: 6px 10px;
+  border-radius: var(--v6-radius-pill);
+  background: linear-gradient(180deg, var(--v6-gold), var(--v6-gold-2));
+  color: #2b1804;
+  font-weight: 1000;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.26);
+}
+
+.hero-identity-line {
+  color: var(--v6-text) !important;
+  font-size: 1.05rem;
+  font-weight: 950;
+}
+
+.xp-panel {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.xp-panel p {
+  margin: 0;
+}
+
+#xpTitle {
+  color: var(--v6-gold);
+  font-weight: 950;
+}
+
+#xpText {
+  color: var(--v6-text-muted);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.coach-panel {
+  display: grid;
+  grid-template-columns: 108px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.coach-panel img {
+  width: 108px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+}
+
+#coachMessage {
+  color: var(--v6-text) !important;
+  font-weight: 750;
+}
+
+.coach-panel #newCoachMessageButton {
+  grid-column: 1 / -1;
+}
+
+.today-card {
+  border-color: rgba(53, 226, 122, 0.32);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(53, 226, 122, 0.16), transparent 48%),
+    linear-gradient(180deg, rgba(34, 44, 76, 0.98), rgba(18, 22, 42, 0.98));
+}
+
+.today-card h2 {
+  margin: 10px 0 6px;
+  font-size: clamp(1.35rem, 5.6vw, 2.05rem);
+}
+
+.today-card .primary-btn,
+#openTodayProgramButton,
+#startTodayPlanningButton {
+  width: 100%;
+  margin-top: 12px;
+  min-height: 54px;
+  font-size: 1.05rem;
+}
+
+.training-toolbar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+  padding: 10px;
+}
+
+.training-toolbar button {
+  min-height: 76px;
+  display: grid;
+  place-items: center;
+  gap: 5px;
+  padding: 10px 6px;
+  border-radius: 18px;
+  font-size: 1.25rem;
+}
+
+.training-toolbar button span {
+  display: block;
+  font-size: 0.72rem;
+  line-height: 1.05;
+  color: var(--v6-text-muted);
+}
+
+/* ============================================================
+   8. Formulaires et choix coach
+============================================================ */
+
+.form-grid,
+.coach-selection,
+.field-block {
+  display: grid;
+  gap: 12px;
+}
+
+label,
+legend {
+  color: var(--v6-text-muted);
+  font-weight: 850;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 6px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(5, 8, 18, 0.58);
+  color: var(--v6-text);
+  padding: 10px 12px;
+}
+
+input[type="radio"] {
+  width: auto;
+  min-height: auto;
+  margin: 0 8px 0 0;
+}
+
+.field-block {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.coach-choice-grid,
+.goal-choice-list,
+.program-list,
+.badge-list,
+.progression-level-grid,
+.exercise-category-grid,
+.exercise-card-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.coach-choice-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.coach-choice-card {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  background: rgba(255, 255, 255, 0.055);
+  cursor: pointer;
+}
+
+.coach-choice-card.active {
+  border-color: rgba(53, 226, 122, 0.65);
+  box-shadow: 0 0 0 2px rgba(53, 226, 122, 0.14);
+}
+
+.coach-choice-card input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.coach-choice-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.coach-choice-card strong,
+.coach-choice-card span {
+  display: block;
+}
+
+.coach-choice-card span {
+  color: var(--v6-text-muted);
+  font-size: 0.78rem;
+}
+
+/* ============================================================
+   9. Programmes et séances
+============================================================ */
+
+.program-list {
+  grid-template-columns: 1fr;
+}
+
+.program-card {
+  display: grid;
+  grid-template-columns: 62px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.program-card.selected {
+  border-color: rgba(53, 226, 122, 0.54);
+  box-shadow: var(--v6-shadow), 0 0 0 2px rgba(53, 226, 122, 0.12);
+}
+
+.program-card.selected::after {
+  content: "Programme actif";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  padding: 5px 9px;
+  border-radius: var(--v6-radius-pill);
+  background: rgba(53, 226, 122, 0.16);
+  border: 1px solid rgba(53, 226, 122, 0.42);
+  color: #7dffac;
+  font-size: 0.68rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.program-icon {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle, rgba(247, 208, 97, 0.28), rgba(247, 208, 97, 0.08));
+  border: 1px solid rgba(247, 208, 97, 0.34);
+  font-size: 2rem;
+}
+
+.program-card h2 {
+  margin: 0 0 5px;
+}
+
+.program-card ul {
+  display: grid;
+  gap: 4px;
+  margin: 10px 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.program-card li {
+  color: var(--v6-text-muted);
+  font-size: 0.86rem;
+}
+
+.program-card .choose-program-btn {
+  width: 100%;
+}
+
+.program-detail {
+  display: grid;
+  gap: 14px;
+}
+
+.program-detail-header {
+  display: grid;
+  gap: 6px;
+}
+
+.program-detail-header h2 {
+  margin: 0;
+  font-size: clamp(1.4rem, 6vw, 2.15rem);
+}
+
+.program-days {
+  display: grid;
+  gap: 12px;
+}
+
+.program-day-card {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.program-day-card h3 {
+  margin: 0;
+}
+
+.program-day-card ul,
+.program-progression ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.program-day-card li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 5px 10px;
+  align-items: center;
+  padding: 9px 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.program-day-card li strong {
+  grid-column: 1 / -1;
+  color: var(--v6-gold);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.program-day-card li span {
+  color: var(--v6-text);
+  font-weight: 850;
+}
+
+.program-day-card li em {
+  color: var(--v6-text-muted);
+  font-style: normal;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.start-program-day-btn {
+  width: 100%;
+}
+
+.program-progression {
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(247, 208, 97, 0.08);
+  border: 1px solid rgba(247, 208, 97, 0.18);
+}
+
+.program-progression h3 {
+  margin: 0 0 10px;
+}
+
+.program-progression li {
+  color: var(--v6-text-muted);
+}
+
+.active-program-session {
+  border-color: rgba(53, 226, 122, 0.42);
+}
+
+.program-session-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.program-session-meta span {
+  padding: 6px 9px;
+  border-radius: var(--v6-radius-pill);
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--v6-text-muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.program-session-list {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.program-session-exercise {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+}
+
+.program-session-exercise.done {
+  border-color: rgba(53, 226, 122, 0.42);
+  background: rgba(53, 226, 122, 0.085);
+}
+
+.program-session-index {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  color: #241604;
+  background: linear-gradient(180deg, var(--v6-gold), var(--v6-gold-2));
+  font-weight: 1000;
+}
+
+.program-session-exercise h3 {
+  margin: 3px 0;
+}
+
+.program-session-exercise p {
+  margin: 0;
+}
+
+.program-session-actions {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+#finishProgramSessionButton {
+  width: 100%;
+  min-height: 54px;
+}
+
+/* ============================================================
+   10. Planning hebdomadaire
+============================================================ */
+
+.planning-summary {
+  display: grid;
+  gap: 12px;
+}
+
+.planning-compact-header {
+  display: grid;
+  gap: 8px;
+}
+
+.today-planning-card {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(53, 226, 122, 0.085);
+  border: 1px solid rgba(53, 226, 122, 0.24);
+}
+
+.today-planning-line {
+  display: grid;
+  gap: 5px;
+}
+
+.today-planning-line strong {
+  color: var(--v6-green);
+}
+
+.today-planning-line span {
+  color: var(--v6-text-muted);
+}
+
+.planning-week-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.planning-day-card {
+  display: grid;
+  gap: 9px;
+  padding: 14px;
+}
+
+.planning-day-card.today {
+  border-color: rgba(94, 200, 255, 0.50);
+  box-shadow: var(--v6-shadow), 0 0 0 2px rgba(94, 200, 255, 0.12);
+}
+
+.planning-day-card.done {
+  border-color: rgba(53, 226, 122, 0.44);
+}
+
+.planning-day-card.boss-day {
+  border-color: rgba(255, 90, 111, 0.46);
+}
+
+.planning-day-card.boss-locked,
+.planning-day-card.rest-day {
+  opacity: 0.82;
+}
+
+.planning-day-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.planning-day-top span,
+.rest-label {
+  padding: 5px 8px;
+  border-radius: var(--v6-radius-pill);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--v6-text-muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.planning-day-card h2 {
+  margin: 0;
+}
+
+.planning-day-card small {
+  color: var(--v6-text-soft);
+  font-weight: 800;
+}
+
+.planning-program-btn {
+  width: 100%;
+}
+
+/* ============================================================
+   11. Exercices, catégories et cartes
+============================================================ */
+
+.exercise-category-page,
+.exercise-category-detail-page {
+  display: grid;
+  gap: 12px;
+}
+
+.exercise-category-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.exercise-category-card,
+.v3-category-card {
+  position: relative;
+  min-height: 112px;
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 10px 6px;
+  border: 1px solid color-mix(in srgb, var(--category-color, var(--v6-gold)) 52%, transparent);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at top, color-mix(in srgb, var(--category-color, var(--v6-gold)) 22%, transparent), transparent 62%),
+    rgba(255, 255, 255, 0.06);
+  color: var(--v6-text);
+  box-shadow: var(--v6-shadow-sm);
+}
+
+.exercise-category-card[data-category-id="warmup"] { --category-color: var(--cat-warmup); }
+.exercise-category-card[data-category-id="mobility"] { --category-color: var(--cat-mobility); }
+.exercise-category-card[data-category-id="cardio"] { --category-color: var(--cat-cardio); }
+.exercise-category-card[data-category-id="strength"] { --category-color: var(--cat-strength); }
+.exercise-category-card[data-category-id="musculation"] { --category-color: var(--cat-musculation); }
+.exercise-category-card[data-category-id="stretch"] { --category-color: var(--cat-stretch); }
+.exercise-category-card[data-category-id="walk"] { --category-color: var(--cat-walk); }
+.exercise-category-card[data-category-id="run"] { --category-color: var(--cat-run); }
+.exercise-category-card[data-category-id="bike"] { --category-color: var(--cat-bike); }
+.exercise-category-card[data-category-id="arms"] { --category-color: var(--cat-musculation); }
+.exercise-category-card[data-category-id="core"] { --category-color: var(--cat-strength); }
+
+.exercise-category-card img,
+.v3-category-card img {
+  width: min(64px, 80%);
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.28));
+}
+
+.exercise-category-card strong,
+.v3-category-card strong,
+.exercise-category-card span,
+.v3-category-card span {
+  display: block;
+  text-align: center;
+  font-weight: 950;
+  line-height: 1.1;
+}
+
+.subpage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.exercise-card-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.exercise-card {
+  --exercise-color: var(--v6-gold);
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid color-mix(in srgb, var(--exercise-color) 44%, transparent);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at top, color-mix(in srgb, var(--exercise-color) 18%, transparent), transparent 54%),
+    rgba(255, 255, 255, 0.055);
+  box-shadow: var(--v6-shadow-sm);
+}
+
+.exercise-card-title,
+#exercisesContent .exercise-card-title,
+#exerciseList .exercise-card-title {
+  display: block !important;
+  min-height: 34px;
+  margin: 0;
+  padding: 7px 8px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--exercise-color, var(--v6-gold)) 24%, rgba(255,255,255,0.06));
+  color: var(--v6-text);
+  font-size: 0.78rem;
+  font-weight: 1000;
+  line-height: 1.12;
+  text-align: center;
+}
+
+.exercise-image-button,
+.v3-exercise-image-button,
+.v3-program-exercise-image {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.20);
+}
+
+.exercise-image-button img,
+.v3-exercise-image-button img,
+.v3-program-exercise-image img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.exercise-card-body {
+  display: grid;
+  gap: 7px;
+}
+
+.exercise-stat {
+  margin: 0;
+  color: var(--v6-gold) !important;
+  font-size: 0.72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.exercise-description {
+  display: none;
+}
+
+.exercise-control-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 7px;
+}
+
+.amount-inline-label,
+.distance-inline-label {
+  display: grid;
+  gap: 4px;
+  color: var(--v6-text-muted);
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.exercise-amount-input,
+.exercise-distance-input {
+  min-height: 38px;
+  margin: 0;
+  text-align: center;
+  padding: 7px;
+}
+
+.exercise-card .primary-btn,
+.exercise-card .secondary-btn,
+.exercise-card .ghost-btn {
+  width: 100%;
+  min-height: 40px;
+  padding-inline: 8px;
+  font-size: 0.78rem;
+}
+
+/* ============================================================
+   12. Badges, récompenses et familiers
+============================================================ */
+
+.badge-list {
+  grid-template-columns: 1fr;
+}
+
+.badge-card {
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.badge-card.unlocked {
+  border-color: rgba(247, 208, 97, 0.50);
+  box-shadow: var(--v6-shadow), var(--v6-shadow-glow);
+}
+
+.badge-icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: rgba(247, 208, 97, 0.12);
+  border: 1px solid rgba(247, 208, 97, 0.24);
+  font-size: 1.9rem;
+}
+
+.badge-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.badge-title-row h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.badge-title-row strong {
+  flex: 0 0 auto;
+  padding: 5px 8px;
+  border-radius: var(--v6-radius-pill);
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--v6-gold);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-progress-text {
+  display: block;
+  margin-top: 6px;
+  color: var(--v6-text-muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.reward-chest-overlay.hidden {
+  display: none !important;
+}
+
+.reward-chest-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100vw;
+  height: 100dvh;
+  padding: 10px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: rgba(3, 6, 14, 0.92);
+  backdrop-filter: blur(10px);
+}
+
+.reward-chest-modal {
+  position: relative;
+  width: min(440px, 100%);
+  max-height: calc(100dvh - 20px);
+  margin: 0 auto;
+  padding: 14px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid rgba(247, 208, 97, 0.58);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top, rgba(247, 208, 97, 0.18), transparent 38%),
+    linear-gradient(180deg, rgba(28, 34, 64, 0.98), rgba(10, 13, 26, 0.98));
+  box-shadow: 0 0 34px rgba(247, 208, 97, 0.26);
+}
+
+.reward-chest-close {
+  position: sticky;
+  top: 0;
+  margin-left: auto;
+  z-index: 3;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--v6-radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.42);
+  color: var(--v6-text);
+  font-size: 1.35rem;
+  font-weight: 1000;
+}
+
+.reward-chest-box {
+  display: grid;
+  gap: 10px;
+  text-align: center;
+}
+
+.reward-chest-box h3 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.reward-chest-visual {
+  position: relative;
+  width: min(230px, 72vw);
+  height: clamp(112px, 24vh, 170px);
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+}
+
+.reward-chest-light {
+  position: absolute;
+  width: 66%;
+  height: 72%;
+  bottom: 8%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 245, 160, 0.96), rgba(255, 195, 70, 0.25) 46%, transparent 74%);
+  filter: blur(9px);
+  opacity: 0;
+  transform: scale(0.72);
+}
+
+.reward-chest-base {
+  position: absolute;
+  bottom: 16%;
+  width: 78%;
+  height: 44%;
+  border-radius: 0 0 20px 20px;
+  background: linear-gradient(180deg, #8b4b22, #4d2814);
+  border: 3px solid #f0c45a;
+  box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.25);
+}
+
+.reward-chest-lid {
+  position: absolute;
+  bottom: 55%;
+  width: 82%;
+  height: 36%;
+  border-radius: 24px 24px 8px 8px;
+  background: linear-gradient(180deg, #b8672f, #6e3518);
+  border: 3px solid #f0c45a;
+  transform-origin: bottom center;
+  transition: transform 650ms ease, bottom 650ms ease;
+}
+
+.reward-chest-lock {
+  position: absolute;
+  bottom: 39%;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #f0c45a;
+  color: #3d250b;
+  font-weight: 1000;
+  box-shadow: 0 0 12px rgba(240, 196, 90, 0.75);
+}
+
+.reward-chest-box.is-open .reward-chest-lid {
+  bottom: 64%;
+  transform: rotateX(62deg) translateY(-18px);
+}
+
+.reward-chest-box.is-open .reward-chest-light {
+  opacity: 1;
+  transform: scale(1);
+  animation: v6ChestGlow 1200ms ease-in-out infinite alternate;
+}
+
+@keyframes v6ChestGlow {
+  from { filter: blur(8px); transform: scale(0.96); }
+  to { filter: blur(13px); transform: scale(1.08); }
+}
+
+.open-chest-reward-btn,
+.close-chest-reward-modal-btn {
+  width: 100%;
+  min-height: 50px;
+}
+
+.reward-familiar-card,
+.familiar-card,
+.familiar-collection-card {
+  display: grid;
+  gap: 8px;
+  margin: 0 auto;
+  padding: 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.075);
+  border: 1px solid rgba(247, 208, 97, 0.38);
+}
+
+.reward-familiar-image,
+.familiar-image {
+  width: min(240px, 78vw);
+  max-height: 250px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  border-radius: 18px;
+}
+
+.reward-familiar-name,
+.familiar-name {
+  margin: 0;
+  color: var(--v6-gold);
+  font-size: 1.25rem;
+  font-weight: 1000;
+}
+
+/* ============================================================
+   13. Progression RPG, niveau et profil
+============================================================ */
+
+.progression-summary {
+  display: grid;
+  gap: 14px;
+}
+
+.progression-hero-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.progression-hero-line h2 {
+  margin: 0;
+}
+
+.progression-hero-line strong {
+  color: var(--v6-gold);
+  font-size: 1.3rem;
+}
+
+.progression-xp-block {
+  display: grid;
+  gap: 8px;
+}
+
+.progression-xp-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--v6-text-muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.progression-level-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.level-milestone-card {
+  text-align: center;
+}
+
+.level-milestone-card.unlocked {
+  border-color: rgba(247, 208, 97, 0.36);
+}
+
+.level-milestone-card.current {
+  border-color: rgba(53, 226, 122, 0.55);
+  box-shadow: var(--v6-shadow), 0 0 0 2px rgba(53, 226, 122, 0.12);
+}
+
+.level-milestone-card.locked {
+  opacity: 0.58;
+  filter: grayscale(0.35);
+}
+
+.progression-badge-list {
+  display: grid;
+  gap: 10px;
+}
+
+.progression-mini-badge {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.progression-mini-badge span {
+  font-size: 1.5rem;
+}
+
+.progression-mini-badge strong,
+.progression-mini-badge p {
+  margin: 0;
+}
+
+.level-up-overlay.hidden {
+  display: none !important;
+}
+
+.level-up-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2600;
+  display: grid;
+  place-items: start center;
+  padding: 12px;
+  overflow-y: auto;
+  background: rgba(3, 6, 14, 0.92);
+  backdrop-filter: blur(10px);
+}
+
+.level-up-card {
+  width: min(440px, 100%);
+  margin-top: 8px;
+  text-align: center;
+  border-color: rgba(247, 208, 97, 0.58);
+  box-shadow: 0 0 38px rgba(247, 208, 97, 0.30);
+}
+
+.level-up-icon {
+  display: grid;
+  place-items: center;
+  width: 86px;
+  height: 86px;
+  margin: 10px auto;
+  border-radius: 28px;
+  background: rgba(247, 208, 97, 0.14);
+  border: 1px solid rgba(247, 208, 97, 0.36);
+  font-size: 3rem;
+  animation: v6RewardPop 1000ms ease infinite alternate;
+}
+
+@keyframes v6RewardPop {
+  from { transform: translateY(0) scale(1); }
+  to { transform: translateY(-4px) scale(1.04); }
+}
+
+.level-up-reward {
+  padding: 10px;
+  border-radius: 16px;
+  background: rgba(247, 208, 97, 0.10);
+  border: 1px solid rgba(247, 208, 97, 0.22);
+  color: var(--v6-gold) !important;
+  font-weight: 900;
+}
+
+.level-up-pulse {
+  animation: v6HeroPulse 1100ms ease-in-out infinite alternate;
+}
+
+@keyframes v6HeroPulse {
+  from { filter: drop-shadow(0 0 0 rgba(247, 208, 97, 0)); transform: scale(1); }
+  to { filter: drop-shadow(0 0 22px rgba(247, 208, 97, 0.65)); transform: scale(1.015); }
+}
+
+/* ============================================================
+   14. Journal, poids, musique
+============================================================ */
+
+.journal-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.journal-entry,
+.journal-list li {
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+}
+
+.journal-entry strong,
+.journal-entry span,
+.journal-entry p {
+  display: block;
+  margin: 0;
+}
+
+.journal-entry span {
+  margin-top: 4px;
+  color: var(--v6-text-soft);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.journal-entry p {
+  margin-top: 8px;
+  color: var(--v6-text-muted);
+}
+
+#audioPlayer,
+#weightChart {
+  width: 100%;
+}
+
+#weightChart {
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 8px;
+}
+
+/* ============================================================
+   15. Timer, image plein écran, modales
+============================================================ */
+
+.timer-overlay,
+.image-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2400;
+  width: 100vw;
+  height: 100dvh;
+  padding: 12px;
+  overflow-y: auto;
+  background: rgba(3, 6, 14, 0.93);
+  backdrop-filter: blur(10px);
+}
+
+.timer-overlay.hidden,
+.image-overlay.hidden {
+  display: none !important;
+}
+
+.timer-overlay {
+  display: grid;
+  place-items: start center;
+}
+
+.timer-card {
+  width: min(440px, 100%);
+  margin-top: 8px;
+  text-align: center;
+}
+
+#timerTimeText {
+  margin: 10px 0 14px;
+  color: var(--v6-gold);
+  font-size: clamp(3rem, 18vw, 5.3rem);
+  line-height: 1;
+  font-weight: 1000;
+  letter-spacing: -0.06em;
+}
+
+.image-overlay {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 10px;
+}
+
+#closeImageOverlayButton {
+  width: min(420px, 100%);
+  margin: 0 auto;
+}
+
+#imageOverlayImg {
+  width: min(720px, 100%);
+  max-height: calc(100dvh - 150px);
+  margin: 0 auto;
+  object-fit: contain;
+  border-radius: 22px;
+  box-shadow: var(--v6-shadow);
+}
+
+#imageOverlayTitle {
+  text-align: center;
+  color: var(--v6-text-muted);
+  font-weight: 850;
+}
+
+body.modal-open,
+body.level-up-active {
+  overflow: hidden;
+}
+
+/* ============================================================
+   16. États utilitaires
+============================================================ */
+
+.selected {
+  border-color: rgba(53, 226, 122, 0.52) !important;
+}
+
+.unlocked {
+  border-color: rgba(247, 208, 97, 0.46) !important;
+}
+
+.done {
+  border-color: rgba(53, 226, 122, 0.42) !important;
+}
+
+.locked {
+  opacity: 0.62;
+}
+
+/* ============================================================
+   17. Responsive desktop et mobile étroit
+============================================================ */
+
+@media (min-width: 740px) {
+  .app-page,
+  .app-header {
+    width: min(100%, 760px);
+  }
+
+  .home-card {
+    grid-template-columns: 1fr 320px;
+    align-items: center;
+  }
+
+  .home-actions,
+  .form-actions,
+  .music-actions,
+  .timer-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .program-list,
+  .badge-list,
+  .planning-week-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .program-detail {
+    gap: 18px;
+  }
+
+  .progression-level-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .app-shell {
+    padding-inline: 8px;
+  }
+
+  .app-page {
+    gap: 10px;
+  }
+
+  .card {
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  .app-header {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .app-version-badge {
+    max-width: 150px;
+    font-size: 0.64rem;
+  }
+
+  .icon-button,
+  .header-icon-btn {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    border-radius: 13px;
+  }
+
+  .coach-panel {
+    grid-template-columns: 92px 1fr;
+  }
+
+  .coach-panel img {
+    width: 92px;
+    border-radius: 18px;
+  }
+
+  .training-toolbar {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .training-toolbar button {
+    min-height: 70px;
+    font-size: 1.12rem;
+  }
+
+  .training-toolbar button span {
+    font-size: 0.66rem;
+  }
+
+  .exercise-category-grid,
+  .exercise-card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .exercise-category-card,
+  .v3-category-card {
+    min-height: 102px;
+    padding: 8px 4px;
+    border-radius: 16px;
+  }
+
+  .exercise-category-card img,
+  .v3-category-card img {
+    width: 54px;
+  }
+
+  .exercise-card {
+    padding: 6px;
+    border-radius: 16px;
+  }
+
+  .exercise-card-title {
+    min-height: 32px;
+    padding: 6px;
+    font-size: 0.68rem;
+  }
+
+  .exercise-stat {
+    font-size: 0.64rem;
+  }
+
+  .exercise-card .primary-btn,
+  .exercise-card .secondary-btn,
+  .exercise-card .ghost-btn {
+    min-height: 38px;
+    font-size: 0.7rem;
+  }
+
+  .program-card {
+    grid-template-columns: 54px 1fr;
+  }
+
+  .program-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 17px;
+    font-size: 1.72rem;
+  }
+
+  .program-session-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .reward-chest-overlay {
+    padding: 8px;
+  }
+
+  .reward-chest-modal {
+    max-height: calc(100dvh - 16px);
+    padding: 10px;
+    border-radius: 18px;
+  }
+
+  .reward-familiar-image {
+    max-height: 210px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
