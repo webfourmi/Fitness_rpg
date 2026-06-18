@@ -2719,13 +2719,33 @@ body.modal-open {
     padding: 9px 8px;
   }
 
-  .app-version-badge,
+
   .eyebrow {
     max-width: 112px;
     font-size: 0.66rem;
     padding-inline: 8px;
   }
 
+   .app-version-badge {
+  margin: 0;
+  padding: 0;
+
+  display: inline-flex;
+  align-items: center;
+
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+
+  color: var(--accent-strong);
+  font-size: 0.95rem;
+  font-weight: 1000;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
   .header-actions {
     gap: 5px;
   }
