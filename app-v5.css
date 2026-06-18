@@ -1110,6 +1110,29 @@ textarea:focus {
 
   white-space: normal;
 }
+.page-hero-menu {
+  width: 100%;
+}
+
+.hero-menu-card {
+  display: grid;
+  gap: 12px;
+}
+
+.hero-menu-card h1 {
+  margin: 0;
+  color: var(--accent-strong);
+}
+
+.hero-menu-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.hero-menu-warning {
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
 /* ============================================================
    06 - Entraînement
 ============================================================ */
