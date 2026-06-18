@@ -8201,6 +8201,46 @@ window.FitnessRpgData = {
       "target": 1
     },
     {
+      id: "forge-marteau-bois",
+      icon: "🔨",
+      title: "Marteau de Bois",
+      description: "Vaincre le boss de la semaine 1 du programme Forge du Guerrier.",
+      type: "program-boss",
+      programId: "forge-guerrier",
+      weekNumber: 1,
+      target: 1
+    },
+    {
+      id: "forge-marteau-fer",
+      icon: "⚒️",
+      title: "Marteau de Fer",
+      description: "Vaincre le boss de la semaine 2 du programme Forge du Guerrier.",
+      type: "program-boss",
+      programId: "forge-guerrier",
+      weekNumber: 2,
+      target: 1
+    },
+    {
+      id: "forge-acier-trempe",
+      icon: "🛡️",
+      title: "Acier Trempé",
+      description: "Vaincre le boss de la semaine 3 du programme Forge du Guerrier.",
+      type: "program-boss",
+      programId: "forge-guerrier",
+      weekNumber: 3,
+      target: 1
+    },
+    {
+      id: "seigneur-forge-vaincu",
+      icon: "👑",
+      title: "Seigneur de la Forge",
+      description: "Vaincre le boss final du programme Forge du Guerrier.",
+      type: "program-boss",
+      programId: "forge-guerrier",
+      weekNumber: 4,
+      target: 1
+    },
+    {
       "id": "boss",
       "icon": "👹",
       "title": "Boss vaincu",
