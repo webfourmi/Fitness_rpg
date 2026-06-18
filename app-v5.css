@@ -2709,7 +2709,27 @@ body.modal-open {
     transform: scale(1.08);
   }
 }
+@media (max-width: 699px) {
+  .page-training {
+    width: 100%;
+  }
 
+  .hero-panel {
+    width: 100%;
+    padding-inline: 10px;
+  }
+
+  .hero-image-frame {
+    width: 100%;
+    max-width: min(100%, 430px);
+  }
+
+  .hero-image {
+    width: 100%;
+    height: auto;
+    max-height: none;
+  }
+}
 @media (max-width: 380px) {
   .app-shell {
     padding: 6px;
@@ -2778,18 +2798,13 @@ body.modal-open {
     font-size: 0.64rem;
   }
 
-  .hero-image-frame {
-    width: 100%;
-     max-width: 320px;
-     margin: 0 auto;
-     cursor: zoom-in;
-     overflow: visible;
-     isolation: isolate;
-     }
+ .hero-image-frame {
+  max-width: 100%;
+}
 
-  .hero-image {
-    max-height: 230px;
-  }
+.hero-image {
+  max-height: none;
+}
 
   .program-session-actions {
     grid-template-columns: 1fr;
