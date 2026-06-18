@@ -1031,39 +1031,85 @@ textarea:focus {
 
 .coach-panel {
   display: grid;
-  grid-template-columns: 58px 1fr;
+  grid-template-columns: 72px minmax(0, 1fr) 84px;
   align-items: center;
-  gap: 9px;
-  padding: 10px;
-}
+  gap: 10px;
 
-.coach-panel img,
-.coach-choice-card img,
-#coachImage {
-  object-fit: cover;
-  object-position: center 8%;
+  width: 100%;
+  padding: 12px;
+
+  overflow: hidden;
 }
 
 .coach-panel img {
-  width: 58px;
-  height: 58px;
-  border-radius: 15px;
+  width: 72px;
+  height: 72px;
+
+  object-fit: cover;
+  object-position: top center;
+
+  border-radius: 18px;
   border: 1px solid var(--border-strong);
-  cursor: zoom-in;
+  background: rgba(255, 255, 255, 0.04);
+
+  overflow: hidden;
+
+  /* évite le texte énorme si l’image ne charge pas */
+  font-size: 0;
+  color: transparent;
 }
 
 #coachName {
-  font-size: 0.98rem;
-  color: #fff3bf;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0 0 4px;
+
+  display: inline-flex;
+  align-items: center;
+
+  padding: 6px 12px;
+
+  color: var(--accent-strong);
+  font-size: 0.76rem;
   font-weight: 1000;
+  letter-spacing: 0.06em;
+  line-height: 1;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #coachMessage {
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 0.88rem;
-  line-height: 1.36;
-}
+  min-width: 0;
+  max-width: 100%;
 
+  margin: 0;
+
+  color: var(--text);
+  font-size: 0.88rem;
+  line-height: 1.25;
+
+  overflow-wrap: anywhere;
+}
+#newCoachMessageButton {
+  width: 84px;
+  min-width: 84px;
+  max-width: 84px;
+
+  min-height: 52px;
+  padding: 6px 8px;
+
+  border-radius: 16px;
+
+  font-size: 0.78rem;
+  font-weight: 1000;
+  line-height: 1.12;
+  text-align: center;
+
+  white-space: normal;
+}
 /* ============================================================
    06 - Entraînement
 ============================================================ */
@@ -2817,6 +2863,39 @@ body.modal-open {
   .progression-level-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+
+   .coach-panel {
+  grid-template-columns: 58px minmax(0, 1fr) 74px;
+  gap: 8px;
+  padding: 10px;
+}
+
+.coach-panel img {
+  width: 58px;
+  height: 58px;
+  border-radius: 15px;
+}
+
+#coachName {
+  padding: 5px 9px;
+  font-size: 0.68rem;
+}
+
+#coachMessage {
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
+#newCoachMessageButton {
+  width: 74px;
+  min-width: 74px;
+  max-width: 74px;
+
+  min-height: 48px;
+  padding: 5px 6px;
+
+  font-size: 0.7rem;
+}
 
   .progression-xp-top {
     display: grid;
