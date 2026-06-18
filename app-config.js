@@ -257,15 +257,16 @@ window.FitnessRpgConfig = {
       xp: 35
     },
     {
+   {
       id: "tour-mage",
-      icon: "🧙",
-      title: "Tour de mage",
-      objective: "Mobilité + gainage",
-      level: "Débutant",
-      duration: "10-20 min",
-      frequency: "3 séances par semaine",
+      icon: "🧘",
+      title: "Tour du Mage",
+      objective: "Pilates : centre du corps, posture, mobilité, équilibre et prévention du mal de dos",
+      level: "Débutant à intermédiaire",
+      duration: "20 min",
+      frequency: "3 séances par semaine + boss hebdomadaire",
       coachAdvice: "Elmin ou Satyne",
-      xp: 20
+      xp: 60
     },
     {
       id: "marche-aventurier",
