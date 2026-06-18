@@ -285,7 +285,7 @@ window.FitnessRpgData = {
       "name": "Bazul",
       "fullName": "Coach Bazul le Nain",
       "image": "assets/coach/bazul/bazul_idle.jpg",
-      "fallbackImage": "assets/coach/bazul/image.jpg",
+      "fallbackImage": "assets/coach/bazul/bazul_idle.jpg",
       "poses": {
         "idle": "assets/coach/bazul/bazul_idle.jpg",
         "welcome": "assets/coach/bazul/bazul_welcome.jpg",
@@ -351,7 +351,7 @@ window.FitnessRpgData = {
       "name": "Satyne",
       "fullName": "Coach Satyne la Sorcière",
       "image": "assets/coach/satyne/satyne_idle.jpg",
-      "fallbackImage": "assets/coach/satyne/image.jpg",
+      "fallbackImage": "assets/coach/satyne/satyne_idle.jpg",
       "poses": {
         "idle": "assets/coach/satyne/satyne_idle.jpg",
         "welcome": "assets/coach/satyne/satyne_welcome.jpg",
