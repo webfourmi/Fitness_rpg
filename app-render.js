@@ -386,17 +386,17 @@ window.FitnessRpgRender.renderHeroPanel = function renderHeroPanel() {
   const pendingLevelUp = window.FitnessRpgProgress.peekLevelUpModal?.();
   const levelUpClass = pendingLevelUp ? " level-up-pulse" : "";
 
- const heroName = window.FitnessRpgRender.escapeHtml(profile.name || "Héros");
-
-const heroName = String(profile.name || "Héros").replace(/[&<>"']/g, (char) => {
-  return {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  }[char];
-});
+const heroName = window.FitnessRpgRender.escapeHtml
+  ? window.FitnessRpgRender.escapeHtml(profile.name || "Héros")
+  : String(profile.name || "Héros").replace(/[&<>"']/g, (char) => {
+      return {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[char];
+    });
 
 if (heroFrame) {
   heroFrame.innerHTML = `
