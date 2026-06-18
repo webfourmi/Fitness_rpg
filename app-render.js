@@ -415,15 +415,7 @@ if (heroFrame) {
       <span class="hero-name-banner-tail right"></span>
     </div>
   `;
-}const heroName = String(profile.name || "Héros").replace(/[&<>"']/g, (char) => {
-  return {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  }[char];
-});
+}
 
 
 /*
