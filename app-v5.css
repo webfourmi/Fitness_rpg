@@ -1,0 +1,2821 @@
+/* ============================================================
+   Fitness RPG - app-v5.css
+   Version V5.2-organized
+   ------------------------------------------------------------
+   Objectif :
+   - une seule définition principale par composant ;
+   - plus de blocs de patch empilés ;
+   - mobile first ;
+   - style RPG fantasy moderne ;
+   - aucune modification de données ni de logique JS.
+   ------------------------------------------------------------
+   Structure :
+   01 Variables et base
+   02 Layout global et header
+   03 Composants communs
+   04 Accueil
+   05 Héros, XP et coach
+   06 Entraînement
+   07 Programmes et séances guidées
+   08 Exercices et catégories
+   09 Objectif et planning
+   10 Progression, badges et journal
+   11 Overlays, timer, niveaux, coffre et familiers
+   12 Responsive
+============================================================ */
+
+/* ============================================================
+   01 - Variables et base
+============================================================ */
+
+:root {
+  --bg: #10131c;
+  --bg-deep: #0c0f17;
+  --bg-soft: #171b28;
+  --bg-card: #202637;
+  --bg-card-soft: #252c40;
+
+  --text: #f7f2e8;
+  --text-muted: #c6bdab;
+  --text-dark: #1b1b1b;
+
+  --accent: #f0b84f;
+  --accent-soft: rgba(240, 184, 79, 0.18);
+  --accent-strong: #ffd36d;
+
+  --green: #76d672;
+  --green-soft: rgba(118, 214, 114, 0.16);
+  --red: #ef6b6b;
+  --red-soft: rgba(239, 107, 107, 0.18);
+  --blue: #7db7ff;
+  --blue-soft: rgba(125, 183, 255, 0.18);
+
+  --border: rgba(255, 255, 255, 0.12);
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(240, 184, 79, 0.42);
+
+  --shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+  --shadow-strong: 0 18px 38px rgba(0, 0, 0, 0.34);
+
+  --radius: 18px;
+  --radius-card: 22px;
+  --radius-small: 12px;
+
+  --space-xs: 6px;
+  --space-sm: 10px;
+  --space-md: 14px;
+  --space-lg: 20px;
+  --space-xl: 28px;
+
+  --shell-width: 980px;
+  --home-width: 680px;
+
+  --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--bg);
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  font-family: var(--font);
+  color: var(--text);
+  background:
+    radial-gradient(circle at top, rgba(240, 184, 79, 0.12), transparent 34rem),
+    linear-gradient(180deg, #111520 0%, var(--bg-deep) 100%);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ============================================================
+   02 - Layout global et header
+============================================================ */
+
+.app-shell {
+  width: min(100%, var(--shell-width));
+  margin: 0 auto;
+  padding: 8px;
+}
+
+.app-page {
+  display: grid;
+  gap: 10px;
+  padding-bottom: 72px;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  min-height: 66px;
+  margin: 0 -8px 12px;
+  padding: 10px;
+
+  border-bottom: 1px solid rgba(244, 211, 94, 0.28);
+  border-radius: 0 0 24px 24px;
+  background:
+    radial-gradient(circle at top left, rgba(244, 211, 94, 0.14), transparent 38%),
+    linear-gradient(180deg, rgba(20, 23, 36, 0.98), rgba(11, 14, 23, 0.96));
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.34),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.app-header-title {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.app-version-badge,
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 132px;
+  min-height: 34px;
+
+  margin: 0;
+  padding: 7px 12px;
+
+  border: 1px solid rgba(244, 211, 94, 0.62);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.18), transparent 32%),
+    linear-gradient(180deg, rgba(80, 62, 28, 0.92), rgba(31, 25, 18, 0.92));
+  color: #ffe28a;
+
+  font-size: 0.72rem;
+  font-weight: 1000;
+  letter-spacing: 0.055em;
+  line-height: 1.1;
+  text-transform: uppercase;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  box-shadow:
+    0 6px 14px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+}
+
+body[data-page="home"] #headerProgramsButton,
+body[data-page="home"] #headerGoalButton,
+body[data-page="home"] #headerPlanningButton,
+body[data-page="home"] #backButton,
+body[data-page="home"] #homeButton {
+  display: none !important;
+}
+
+/* ============================================================
+   03 - Composants communs
+============================================================ */
+
+.card,
+.panel,
+.program-card,
+.program-detail,
+.program-detail-card,
+.program-week-card,
+.program-day-card,
+.program-session-card,
+.program-boss-card,
+.boss-card,
+.week-card,
+.planning-card,
+.planning-summary,
+.today-planning-card,
+.planning-week-progress,
+.exercise-card,
+.badge-card,
+.goal-choice-card,
+.reward-familiar-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
+    rgba(18, 22, 40, 0.92);
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  padding: var(--space-md);
+}
+
+.card h1,
+.card h2,
+.card h3,
+.page-header h1 {
+  margin: 0 0 var(--space-sm);
+  line-height: 1.15;
+}
+
+.card p,
+.page-header p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.page-header {
+  text-align: left;
+}
+
+@media (hover: hover) {
+  .card:hover,
+  .program-card:hover,
+  .exercise-card:hover,
+  .quest-card:hover,
+  .planning-card:hover,
+  .planning-day-card:hover {
+    transform: translateY(-1px);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+    box-shadow:
+      var(--shadow-strong),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+}
+
+button,
+.primary-btn,
+.secondary-btn,
+.ghost-btn,
+.danger-btn,
+.icon-button,
+.header-icon-btn,
+.choose-goal-btn,
+.open-program-detail-btn,
+.planning-program-btn,
+.program-day-carousel-btn,
+.program-week-carousel-btn,
+.start-program-day-btn,
+.start-program-btn,
+.start-session-btn,
+.start-today-btn,
+.start-timer-btn,
+.start-program-exercise-timer-btn,
+.validate-exercise-btn,
+.validate-program-exercise-btn,
+.open-chest-reward-btn,
+.close-chest-reward-modal-btn,
+.reset-program-btn,
+.delete-btn {
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 16px;
+
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease,
+    filter 140ms ease,
+    background 140ms ease,
+    border-color 140ms ease;
+}
+
+.primary-btn,
+.start-today-btn,
+.start-session-btn,
+.start-program-btn,
+.start-program-day-btn,
+.program-select-btn,
+.planning-program-btn,
+.choose-goal-btn,
+.open-chest-reward-btn {
+  min-height: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background:
+    linear-gradient(180deg, rgba(91, 255, 147, 1), rgba(33, 203, 93, 1));
+  color: #07130c;
+  box-shadow:
+    0 7px 0 rgba(8, 95, 42, 0.75),
+    0 13px 24px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.secondary-btn,
+.validate-exercise-btn,
+.validate-program-exercise-btn,
+.open-program-detail-btn {
+  min-height: 46px;
+  border: 1px solid rgba(244, 211, 94, 0.62);
+  background:
+    linear-gradient(180deg, rgba(244, 211, 94, 0.28), rgba(184, 135, 36, 0.2));
+  color: #fff7d0;
+  box-shadow:
+    0 6px 0 rgba(102, 75, 19, 0.72),
+    0 12px 22px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.ghost-btn,
+.icon-button,
+.header-icon-btn,
+.start-timer-btn,
+.start-program-exercise-timer-btn,
+.program-day-carousel-btn,
+.program-week-carousel-btn,
+.close-chest-reward-modal-btn {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04));
+  color: #ffffff;
+  box-shadow:
+    0 6px 0 rgba(0, 0, 0, 0.35),
+    0 12px 22px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.danger-btn,
+.reset-program-btn,
+.delete-btn {
+  border: 1px solid rgba(255, 90, 111, 0.62);
+  background:
+    linear-gradient(180deg, rgba(255, 90, 111, 0.24), rgba(150, 35, 52, 0.28));
+  color: #ffd5dc;
+  box-shadow:
+    0 6px 0 rgba(90, 12, 25, 0.72),
+    0 12px 22px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.icon-button,
+.header-icon-btn,
+button.btn-icon {
+  width: 43px;
+  min-width: 43px;
+  height: 43px;
+  min-height: 43px;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 15px;
+  font-size: 1.1rem;
+}
+
+#homeButton {
+  border-color: rgba(244, 211, 94, 0.36);
+}
+
+#backButton {
+  border-color: rgba(125, 183, 255, 0.32);
+}
+
+.start-today-btn,
+.start-session-btn,
+.start-program-btn,
+.start-program-day-btn,
+.program-select-btn,
+.planning-program-btn,
+.choose-goal-btn,
+.open-chest-reward-btn,
+.close-chest-reward-modal-btn {
+  width: 100%;
+}
+
+button:active,
+.primary-btn:active,
+.secondary-btn:active,
+.ghost-btn:active,
+.danger-btn:active,
+.icon-button:active,
+.header-icon-btn:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.45),
+    0 8px 16px rgba(0, 0, 0, 0.22);
+}
+
+@media (hover: hover) {
+  button:hover,
+  .primary-btn:hover,
+  .secondary-btn:hover,
+  .ghost-btn:hover,
+  .danger-btn:hover,
+  .icon-button:hover,
+  .header-icon-btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.06);
+  }
+}
+
+button:focus-visible,
+.primary-btn:focus-visible,
+.secondary-btn:focus-visible,
+.ghost-btn:focus-visible,
+.danger-btn:focus-visible,
+.icon-button:focus-visible,
+.header-icon-btn:focus-visible {
+  outline: 3px solid rgba(94, 200, 255, 0.9);
+  outline-offset: 3px;
+}
+
+button:disabled,
+.primary-btn:disabled,
+.secondary-btn:disabled,
+.ghost-btn:disabled,
+.danger-btn:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+  transform: none;
+  filter: grayscale(0.25);
+  box-shadow: none;
+}
+
+.program-session-actions,
+.session-actions,
+.card-actions,
+.program-actions,
+.reward-actions,
+.exercise-actions,
+.planning-actions,
+.form-actions,
+.home-actions,
+.music-actions,
+.timer-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.program-session-actions > button,
+.session-actions > button,
+.card-actions > button,
+.program-actions > button,
+.reward-actions > button,
+.exercise-actions > button,
+.planning-actions > button {
+  flex: 1 1 140px;
+}
+
+.form-grid {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+label,
+fieldset {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  color: var(--text);
+  font-weight: 750;
+}
+
+fieldset {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+  padding: var(--space-sm);
+}
+
+legend {
+  padding: 0 6px;
+  color: var(--accent);
+  font-weight: 900;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  padding: 10px 12px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid rgba(240, 184, 79, 0.35);
+  border-color: var(--accent);
+}
+
+/* ============================================================
+   04 - Accueil
+============================================================ */
+
+.home-card {
+  width: fit-content;
+  max-width: min(94vw, var(--home-width));
+  margin: 16px auto 0;
+  padding: 18px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  text-align: center;
+}
+
+.home-text {
+  width: 100%;
+}
+
+.home-text h1,
+#homeTitle {
+  margin: 0;
+  font-size: clamp(1.6rem, 8vw, 2.6rem);
+}
+
+.version-label {
+  margin-top: var(--space-sm);
+  color: var(--accent);
+  font-weight: 850;
+}
+
+.home-image-frame,
+.hero-image-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.home-image-frame {
+  width: fit-content;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.home-image-frame img,
+#homeSplashImage {
+  display: block;
+  width: min(100%, 580px);
+  max-width: 100%;
+  height: auto;
+  border-radius: 18px;
+  cursor: pointer;
+}
+
+.home-summary {
+  display: grid;
+  gap: 4px;
+}
+
+.home-image-info {
+  margin: 10px auto 0;
+  max-width: 520px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(244, 211, 94, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+#homeGameVersionBadge,
+#homeVersionText,
+#homePanel .eyebrow.hidden,
+#homeIntroText.hidden,
+.home-image-info.hidden {
+  display: none !important;
+}
+
+/* ============================================================
+   05 - Héros, XP et coach
+============================================================ */
+
+.page-training {
+  gap: var(--space-md);
+}
+
+.hero-panel {
+  text-align: center;
+}
+
+.hero-image-frame {
+  max-width: 280px;
+  margin: 0 auto;
+  cursor: zoom-in;
+  overflow: visible;
+  isolation: isolate;
+}
+
+.hero-image {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  max-height: 250px;
+  object-fit: contain;
+  object-position: center top;
+}
+
+.hero-level-badge {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  z-index: 40;
+
+  padding: 5px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 211, 94, 0.65);
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.34), transparent 35%),
+    linear-gradient(180deg, rgba(244, 211, 94, 0.98), rgba(184, 135, 36, 0.98));
+  color: #1b1200;
+
+  font-size: 0.78rem;
+  font-weight: 950;
+
+  box-shadow:
+    0 6px 14px rgba(0, 0, 0, 0.38),
+    0 0 18px rgba(244, 211, 94, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.hero-identity-line {
+  display: none;
+}
+
+.hero-name-banner {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  z-index: 80;
+  transform: translateX(-50%);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 108px;
+  max-width: calc(100% - 42px);
+  padding: 8px 16px;
+
+  border-radius: 12px;
+  border: 2px solid #6d4510;
+  background:
+    radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.65), transparent 18%),
+    linear-gradient(180deg, #fff0a3 0%, #f5cf58 34%, #c58b24 72%, #8a5615 100%);
+  color: #2b1703;
+
+  font-size: 0.88rem;
+  font-weight: 1000;
+  letter-spacing: 0.045em;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.55),
+    0 -1px 0 rgba(80, 35, 0, 0.24);
+
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.58),
+    inset 0 -3px 0 rgba(63, 31, 4, 0.32),
+    0 0 0 2px rgba(255, 221, 120, 0.18),
+    0 8px 16px rgba(0, 0, 0, 0.5),
+    0 0 18px rgba(244, 211, 94, 0.34);
+
+  pointer-events: none;
+  animation: heroBannerFloat 3s ease-in-out infinite;
+}
+
+.hero-name-banner::before,
+.hero-name-banner::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  z-index: -1;
+
+  width: 18px;
+  height: 23px;
+
+  background: linear-gradient(180deg, #e75757 0%, #b72727 52%, #761313 100%);
+  border-top: 2px solid #5e1010;
+  border-bottom: 2px solid #5e1010;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.24),
+    0 6px 10px rgba(0, 0, 0, 0.35);
+}
+
+.hero-name-banner::before {
+  left: -12px;
+  transform: translateY(-50%);
+  border-left: 2px solid #5e1010;
+  clip-path: polygon(100% 0, 100% 100%, 0 84%, 22% 50%, 0 16%);
+}
+
+.hero-name-banner::after {
+  right: -12px;
+  transform: translateY(-50%);
+  border-right: 2px solid #5e1010;
+  clip-path: polygon(0 0, 0 100%, 100% 84%, 78% 50%, 100% 16%);
+}
+
+.hero-name-banner-tail {
+  display: none;
+}
+
+.hero-name-banner-text {
+  display: inline;
+  min-width: 0;
+  max-width: none;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hero-name-banner-text::before {
+  content: "♛";
+  margin-right: 8px;
+  color: #5a3208;
+  font-size: 0.95em;
+}
+
+.xp-panel,
+.progression-xp-block {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 7px;
+  margin-top: var(--space-md);
+  padding: 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(244, 211, 94, 0.28);
+  background:
+    radial-gradient(circle at top left, rgba(244, 211, 94, 0.14), transparent 38%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.035));
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+}
+
+#xpTitle,
+.progression-xp-top span:first-child {
+  color: #fff3bf;
+  font-weight: 950;
+  letter-spacing: 0.02em;
+}
+
+#xpText,
+.progression-xp-top span:last-child {
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 850;
+}
+
+.progress-bar,
+.badge-progress-bar {
+  position: relative;
+  width: 100%;
+  height: 14px;
+  overflow: hidden;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.34), rgba(255, 255, 255, 0.06));
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.5),
+    0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+.progress-fill,
+.badge-progress-fill {
+  position: relative;
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #f4d35e 0%, #ff9f43 42%, #35e27a 100%);
+  box-shadow:
+    0 0 12px rgba(244, 211, 94, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38);
+  transition: width 350ms ease;
+}
+
+.progress-fill::after,
+.badge-progress-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.35) 42%, transparent 72%);
+  transform: translateX(-100%);
+  animation: v6ProgressShine 2.4s ease-in-out infinite;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-top: 9px;
+}
+
+.stat-card,
+.progression-stat-grid article {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(94, 200, 255, 0.22);
+  background:
+    radial-gradient(circle at top left, rgba(94, 200, 255, 0.14), transparent 36%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.035));
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  padding: 8px;
+}
+
+.stat-card strong,
+.progression-stat-grid article strong {
+  display: block;
+  color: #ffffff;
+  font-size: 1.18rem;
+  font-weight: 950;
+  text-shadow: 0 0 12px rgba(94, 200, 255, 0.28);
+}
+
+.stat-card span,
+.progression-stat-grid article span,
+.badge-progress-text {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.76rem;
+  font-weight: 850;
+}
+
+.coach-panel {
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  align-items: center;
+  gap: 9px;
+  padding: 10px;
+}
+
+.coach-panel img,
+.coach-choice-card img,
+#coachImage {
+  object-fit: cover;
+  object-position: center 8%;
+}
+
+.coach-panel img {
+  width: 58px;
+  height: 58px;
+  border-radius: 15px;
+  border: 1px solid var(--border-strong);
+  cursor: zoom-in;
+}
+
+#coachName {
+  font-size: 0.98rem;
+  color: #fff3bf;
+  font-weight: 1000;
+}
+
+#coachMessage {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.88rem;
+  line-height: 1.36;
+}
+
+/* ============================================================
+   06 - Entraînement
+============================================================ */
+
+.today-card {
+  cursor: pointer;
+  border-color: var(--border-strong);
+}
+
+.today-card h2 {
+  color: var(--accent);
+}
+
+.training-toolbar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  padding: 8px;
+}
+
+.training-toolbar button {
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  min-height: 56px;
+  padding: 6px 4px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.training-toolbar span {
+  font-size: 0.7rem;
+  line-height: 1.05;
+}
+
+/* ============================================================
+   07 - Programmes et séances guidées
+============================================================ */
+
+.program-list,
+.exercise-list,
+.badge-list,
+.program-choice-grid,
+.program-days,
+.program-session-list {
+  display: grid;
+  gap: 9px;
+}
+
+.program-choice-header {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.program-card {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 9px;
+  align-items: start;
+  cursor: pointer;
+  padding: 10px;
+  border-color: rgba(244, 211, 94, 0.22);
+  background:
+    radial-gradient(circle at top left, rgba(244, 211, 94, 0.16), transparent 34%),
+    linear-gradient(180deg, rgba(31, 36, 59, 0.98), rgba(14, 18, 31, 0.98));
+}
+
+.program-card::before,
+.program-day-card::before,
+.program-session-card::before,
+.program-boss-card::before,
+.boss-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, rgba(244, 211, 94, 0.95), rgba(91, 255, 147, 0.6), rgba(94, 200, 255, 0.55));
+  opacity: 0.9;
+}
+
+.program-card.selected {
+  border-color: rgba(244, 211, 94, 0.9);
+  box-shadow: 0 0 0 1px rgba(244, 211, 94, 0.35);
+}
+
+.program-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--accent-soft);
+  font-size: 1.25rem;
+}
+
+.program-card h2,
+.program-card h3,
+.program-detail h2,
+.program-detail h3,
+.program-day-card h2,
+.program-day-card h3,
+.program-boss-card h2,
+.program-boss-card h3,
+.boss-card h2,
+.boss-card h3 {
+  margin-top: 0;
+  color: #fff3bf;
+  font-weight: 950;
+  line-height: 1.15;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+.program-card p,
+.program-detail p,
+.program-day-card p,
+.program-boss-card p,
+.boss-card p {
+  color: rgba(255, 255, 255, 0.86);
+  line-height: 1.35;
+}
+
+.program-card ul,
+.program-detail ul,
+.program-day-card ul {
+  margin: 7px 0 0;
+  padding-left: 1rem;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+}
+
+.program-card li,
+.program-day-card li {
+  margin-bottom: 3px;
+}
+
+.program-detail {
+  border-color: var(--border-strong);
+  padding: 10px;
+}
+
+.program-day-card {
+  position: relative;
+  overflow: hidden;
+  padding: 10px;
+  border-color: rgba(244, 211, 94, 0.22);
+  background:
+    radial-gradient(circle at top left, rgba(244, 211, 94, 0.16), transparent 34%),
+    linear-gradient(180deg, rgba(31, 36, 59, 0.98), rgba(14, 18, 31, 0.98));
+}
+
+.program-day-card.done,
+.program-session-exercise.done,
+.completed,
+.is-completed {
+  border-color: rgba(91, 255, 147, 0.55);
+  background:
+    radial-gradient(circle at top left, rgba(91, 255, 147, 0.18), transparent 34%),
+    linear-gradient(180deg, rgba(24, 48, 39, 0.98), rgba(14, 24, 21, 0.98));
+}
+
+.program-day-card li {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 7px;
+}
+
+.program-day-card li strong {
+  color: var(--accent);
+  font-size: 0.78rem;
+}
+
+.program-day-card li span {
+  font-weight: 750;
+}
+
+.program-day-card li em {
+  color: var(--text-muted);
+  font-style: normal;
+  font-size: 0.82rem;
+}
+
+.start-program-day-btn.validated {
+  background: rgba(118, 214, 114, 0.22);
+  color: var(--text);
+}
+
+.choose-program-btn {
+  margin-top: 10px;
+}
+
+.active-program-session {
+  margin-bottom: var(--space-md);
+  border-color: var(--border-strong);
+  padding: 11px;
+}
+
+.program-session-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.program-session-meta span {
+  display: inline-flex;
+  width: fit-content;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+
+.program-session-exercise {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 8px;
+  align-items: center;
+
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.program-session-index {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 950;
+}
+
+.program-session-exercise h3 {
+  margin: 1px 0;
+  font-size: 0.94rem;
+}
+
+.program-session-exercise p,
+.program-session-exercise strong {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.program-session-actions {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.program-session-actions button {
+  width: 100%;
+  min-height: 38px;
+  padding: 7px 8px;
+  font-size: 0.84rem;
+}
+
+#finishProgramSessionButton {
+  min-height: 42px;
+  font-size: 0.9rem;
+}
+
+#finishProgramSessionButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.program-boss-card,
+.boss-card {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(255, 111, 97, 0.42);
+  background:
+    radial-gradient(circle at top left, rgba(255, 111, 97, 0.2), transparent 36%),
+    radial-gradient(circle at bottom right, rgba(244, 211, 94, 0.14), transparent 34%),
+    linear-gradient(180deg, rgba(45, 27, 43, 0.98), rgba(18, 18, 32, 0.98));
+}
+
+.program-boss-card.locked,
+.boss-card.locked,
+.is-locked {
+  opacity: 0.72;
+  filter: grayscale(0.25);
+}
+
+.boss-variant-card,
+.boss-choice-card,
+.program-boss-variant {
+  border-radius: 20px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035));
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.boss-variant-card h4,
+.boss-choice-card h4,
+.program-boss-variant h4 {
+  margin-top: 0;
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.v3-program-exercise-card {
+  display: grid;
+  grid-template-columns: 30px 56px 1fr;
+  gap: 8px;
+  align-items: center;
+  border-color: var(--category-color, var(--accent));
+}
+
+.v3-program-exercise-image {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.v3-program-exercise-image img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--category-color, var(--accent));
+}
+
+.v3-program-exercise-body h3 {
+  margin: 2px 0;
+}
+
+.v3-program-exercise-body p {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+/* ============================================================
+   08 - Exercices et catégories
+============================================================ */
+
+.v3-grid-3x3,
+.exercise-category-grid.v3-grid-3x3,
+.exercise-card-grid.v3-grid-3x3,
+#exerciseList .exercise-category-grid,
+#exercisesContent .exercise-category-grid,
+#exerciseList .exercise-card-grid,
+#exercisesContent .exercise-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  width: 100%;
+}
+
+.v3-category-card,
+#exerciseList .exercise-category-card,
+#exercisesContent .exercise-category-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 116px;
+  padding: 6px;
+  display: grid;
+  gap: 5px;
+  align-content: start;
+
+  border: 2px solid var(--category-color, var(--accent));
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.055);
+  color: var(--text);
+  text-align: center;
+  cursor: pointer;
+}
+
+.v3-category-card img,
+#exerciseList .exercise-category-card img,
+#exercisesContent .exercise-category-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px;
+}
+
+.v3-category-icon {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--category-color, var(--accent));
+}
+
+.v3-category-card strong,
+#exerciseList .exercise-category-card strong,
+#exercisesContent .exercise-category-card strong {
+  font-size: 0.7rem;
+  line-height: 1.05;
+}
+
+.v3-category-card small,
+#exerciseList .exercise-category-card small,
+#exercisesContent .exercise-category-card small {
+  display: none;
+  font-size: 0.64rem;
+  line-height: 1.05;
+  color: var(--text-muted);
+}
+
+.v3-exercise-card,
+#exerciseList .exercise-card,
+#exercisesContent .exercise-card {
+  position: relative;
+  overflow: hidden;
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  border: 2px solid var(--category-color, var(--accent));
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.v3-exercise-title,
+#exerciseList .v3-exercise-title,
+#exercisesContent .v3-exercise-title,
+#exerciseList .exercise-card-title,
+#exercisesContent .exercise-card-title {
+  display: block;
+  order: 1;
+  margin: 0;
+  padding: 6px 7px;
+
+  border-radius: 12px;
+  background: var(--category-color, var(--exercise-color, rgba(244, 211, 94, 0.85)));
+  color: #ffffff;
+
+  font-size: 0.78rem;
+  font-weight: 950;
+  line-height: 1.12;
+  text-align: center;
+}
+
+#exerciseList .exercise-top-controls,
+#exercisesContent .exercise-top-controls {
+  order: 2;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5px;
+  margin: 0;
+  padding: 0 2px;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+#exerciseList .exercise-top-input,
+#exercisesContent .exercise-top-input {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+#exerciseList .exercise-top-input span,
+#exercisesContent .exercise-top-input span {
+  min-width: 30px;
+  text-align: left;
+  color: var(--category-color, var(--accent));
+  font-weight: 950;
+}
+
+#exerciseList .exercise-top-input input,
+#exercisesContent .exercise-top-input input {
+  width: 100%;
+  min-width: 0;
+  height: 30px;
+  min-height: 30px;
+  padding: 3px 6px;
+
+  border: 0;
+  border-bottom: 2px solid var(--category-color, var(--accent));
+  border-radius: 8px 8px 4px 4px;
+
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+
+  font-size: 0.88rem;
+  font-weight: 950;
+  text-align: center;
+
+  box-shadow: none;
+}
+
+.v3-exercise-image-button,
+#exerciseList .exercise-image-button,
+#exercisesContent .exercise-image-button {
+  order: 3;
+  width: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: transparent;
+  box-shadow: none;
+  cursor: zoom-in;
+}
+
+.v3-exercise-image-button img,
+#exerciseList .exercise-image-button img,
+#exercisesContent .exercise-image-button img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px;
+  border: 1px solid var(--category-color, var(--accent));
+  background: rgba(0, 0, 0, 0.35);
+}
+
+#exerciseList .exercise-card-body,
+#exercisesContent .exercise-card-body {
+  order: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 auto;
+}
+
+#exerciseList .exercise-card-body h3,
+#exercisesContent .exercise-card-body h3,
+#exerciseList .exercise-description,
+#exercisesContent .exercise-description {
+  display: none;
+}
+
+#exerciseList .exercise-stat,
+#exercisesContent .exercise-stat,
+.v3-exercise-card .exercise-stat {
+  margin: 0;
+  color: var(--category-color, var(--accent));
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+#exerciseList .exercise-card-body .amount-inline-label,
+#exerciseList .exercise-card-body .distance-inline-label,
+#exercisesContent .exercise-card-body .amount-inline-label,
+#exercisesContent .exercise-card-body .distance-inline-label {
+  display: none;
+}
+
+#exerciseList .exercise-control-row,
+#exercisesContent .exercise-control-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: auto;
+  padding-top: 4px;
+
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+#exerciseList .exercise-control-row .start-timer-btn,
+#exerciseList .exercise-control-row .validate-exercise-btn,
+#exercisesContent .exercise-control-row .start-timer-btn,
+#exercisesContent .exercise-control-row .validate-exercise-btn {
+  width: 38px;
+  min-width: 38px;
+  max-width: 38px;
+  height: 38px;
+  min-height: 38px;
+  max-height: 38px;
+  padding: 0;
+  margin: 0;
+
+  display: inline-grid;
+  place-items: center;
+
+  border-radius: 14px;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+#exerciseList .exercise-control-row .start-timer-btn,
+#exercisesContent .exercise-control-row .start-timer-btn {
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.28), transparent 34%),
+    linear-gradient(180deg, rgba(255, 196, 64, 0.95), rgba(202, 128, 22, 0.95));
+  color: #1a1000;
+}
+
+#exerciseList .exercise-control-row .validate-exercise-btn,
+#exercisesContent .exercise-control-row .validate-exercise-btn {
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.28), transparent 34%),
+    linear-gradient(180deg, rgba(82, 255, 145, 0.95), rgba(20, 184, 92, 0.95));
+  color: #041208;
+}
+
+.exercise-action-icon,
+button .exercise-action-icon,
+button .btn-icon {
+  display: inline-grid;
+  place-items: center;
+  width: auto;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font-size: 1.12rem;
+  line-height: 1;
+  transform: none;
+}
+
+.exercise-carousel-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.exercise-carousel-controls span {
+  font-weight: 900;
+  color: var(--accent);
+}
+
+.exercise-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 130;
+  display: grid;
+  place-items: center;
+  padding: 14px;
+  background: rgba(5, 8, 14, 0.94);
+  backdrop-filter: blur(8px);
+}
+
+.exercise-detail-card {
+  width: min(100%, 420px);
+  border-color: var(--category-color, var(--accent));
+}
+
+.exercise-detail-card img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  border-radius: 14px;
+  border: 2px solid var(--category-color, var(--accent));
+  background: rgba(255, 255, 255, 0.05);
+  margin: 10px 0;
+}
+
+#exerciseDetailTitle {
+  color: var(--category-color, var(--accent));
+}
+
+.exercise-detail-info {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ============================================================
+   09 - Objectif et planning
+============================================================ */
+
+.goal-choice-list,
+.planning-week-grid {
+  display: grid;
+  gap: 9px;
+}
+
+.goal-choice-card {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 9px;
+  align-items: start;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.goal-choice-card.selected {
+  border-color: var(--accent);
+  background:
+    linear-gradient(180deg, var(--accent-soft), rgba(18, 22, 40, 0.92));
+}
+
+.goal-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--accent-soft);
+  font-size: 1.3rem;
+}
+
+.goal-program {
+  margin-top: var(--space-sm);
+  color: var(--text);
+}
+
+.choose-goal-btn {
+  margin-top: var(--space-sm);
+}
+
+.planning-summary h2 {
+  color: var(--accent);
+}
+
+.planning-recommendation {
+  margin-top: var(--space-sm);
+  color: var(--text);
+}
+
+.today-planning-card {
+  display: grid;
+  gap: 12px;
+  margin-top: var(--space-md);
+  padding: 14px;
+  border-color: var(--border-strong);
+  background:
+    radial-gradient(circle at top left, rgba(244, 211, 94, 0.14), transparent 36%),
+    linear-gradient(180deg, rgba(31, 36, 59, 0.98), rgba(14, 18, 31, 0.98));
+}
+
+.today-planning-card > strong,
+.today-planning-line strong {
+  color: var(--accent-strong);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.today-planning-card h3 {
+  margin: 0;
+}
+
+.today-planning-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.planning-status,
+.rest-label,
+.planning-day-top span {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 5px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.planning-status.done,
+.planning-day-card.done .planning-day-top span {
+  border-color: rgba(91, 255, 147, 0.45);
+  background: rgba(91, 255, 147, 0.16);
+  color: #91ffb6;
+}
+
+.planning-week-progress {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: var(--space-sm);
+  padding: 12px;
+}
+
+.planning-week-progress div {
+  position: relative;
+  overflow: hidden;
+  padding: 10px 8px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035));
+  text-align: center;
+}
+
+.planning-week-progress strong {
+  display: block;
+  color: #fff3bf;
+  font-size: 1rem;
+  font-weight: 1000;
+}
+
+.planning-week-progress span {
+  display: block;
+  margin-top: 2px;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.64rem;
+  font-weight: 850;
+}
+
+.planning-day-card {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background:
+    radial-gradient(circle at top left, rgba(125, 183, 255, 0.08), transparent 34%),
+    linear-gradient(180deg, rgba(31, 36, 59, 0.96), rgba(15, 19, 32, 0.96));
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.planning-day-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.planning-day-card.today {
+  border-color: rgba(244, 211, 94, 0.65);
+  background:
+    radial-gradient(circle at top left, rgba(244, 211, 94, 0.18), transparent 36%),
+    linear-gradient(180deg, rgba(44, 38, 52, 0.98), rgba(18, 20, 33, 0.98));
+}
+
+.planning-day-card.today::before {
+  background: linear-gradient(90deg, #f4d35e, #ff9f43);
+}
+
+.planning-day-card.done {
+  border-color: rgba(91, 255, 147, 0.55);
+  background:
+    radial-gradient(circle at top left, rgba(91, 255, 147, 0.16), transparent 36%),
+    linear-gradient(180deg, rgba(23, 47, 39, 0.98), rgba(13, 25, 22, 0.98));
+}
+
+.planning-day-card.done::before {
+  background: linear-gradient(90deg, #35e27a, #91ffb6);
+}
+
+.planning-day-card.rest-day {
+  opacity: 0.86;
+  border-color: rgba(125, 183, 255, 0.24);
+  background:
+    radial-gradient(circle at top left, rgba(125, 183, 255, 0.12), transparent 36%),
+    linear-gradient(180deg, rgba(28, 34, 50, 0.96), rgba(14, 18, 31, 0.96));
+}
+
+.planning-day-card.goal-day {
+  border-color: rgba(125, 183, 255, 0.45);
+}
+
+.planning-day-card.goal-day::before {
+  background: linear-gradient(90deg, #7db7ff, #9ecbff);
+}
+
+.planning-day-card.boss-day {
+  border-color: rgba(255, 111, 97, 0.62);
+  background:
+    radial-gradient(circle at top left, rgba(255, 111, 97, 0.18), transparent 36%),
+    radial-gradient(circle at bottom right, rgba(244, 211, 94, 0.1), transparent 34%),
+    linear-gradient(180deg, rgba(48, 29, 43, 0.98), rgba(18, 18, 32, 0.98));
+}
+
+.planning-day-card.boss-day::before {
+  background: linear-gradient(90deg, #ff6f61, #f4d35e);
+}
+
+.planning-day-card.boss-locked {
+  opacity: 0.78;
+  filter: grayscale(0.18);
+}
+
+.planning-day-card.boss-locked::after {
+  content: "🔒";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  width: 30px;
+  height: 30px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.planning-day-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.planning-day-top strong,
+.planning-day-card > strong {
+  color: #fff3bf;
+  font-size: 0.78rem;
+  font-weight: 1000;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.planning-day-card h2 {
+  margin: 0;
+  padding-right: 34px;
+  color: #ffffff;
+  font-size: 0.98rem;
+  font-weight: 950;
+  line-height: 1.16;
+}
+
+.planning-day-card small {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+
+.planning-program-btn {
+  margin-top: 4px;
+}
+
+.planning-coach-warning {
+  margin: 8px 0 0;
+  padding: 10px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(244, 211, 94, 0.42);
+  background: linear-gradient(180deg, rgba(244, 211, 94, 0.12), rgba(244, 211, 94, 0.05));
+  color: #fff3bf;
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+/* ============================================================
+   10 - Progression, badges et journal
+============================================================ */
+
+.progression-summary,
+.progression-badge-summary {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.progression-hero-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.progression-hero-line h2 {
+  margin: 0;
+  color: var(--accent-strong);
+}
+
+.progression-hero-line > strong {
+  flex-shrink: 0;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 0.9rem;
+}
+
+.progression-xp-top {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.progression-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 7px;
+}
+
+.progression-level-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+}
+
+.level-milestone-card {
+  display: grid;
+  place-items: center;
+  gap: 3px;
+  min-height: 94px;
+  padding: 8px;
+  text-align: center;
+}
+
+.level-milestone-card > strong {
+  font-size: 1.35rem;
+}
+
+.level-milestone-card h3 {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.level-milestone-card p,
+.level-milestone-card span {
+  font-size: 0.68rem;
+}
+
+.level-milestone-card span {
+  color: var(--text-muted);
+  font-weight: 800;
+}
+
+.level-milestone-card.locked {
+  opacity: 0.48;
+}
+
+.level-milestone-card.unlocked {
+  border-color: rgba(118, 214, 114, 0.35);
+}
+
+.level-milestone-card.current {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  transform: translateY(-2px);
+}
+
+.badge-card {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  align-items: center;
+  gap: 9px;
+  padding: 10px;
+}
+
+.badge-card:not(.unlocked) {
+  opacity: 0.58;
+}
+
+.badge-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 1.35rem;
+}
+
+.badge-card.unlocked .badge-icon {
+  background: var(--accent-soft);
+}
+
+.badge-content,
+.progression-badge-list {
+  display: grid;
+  gap: 8px;
+}
+
+.badge-title-row {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.badge-title-row h2 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.badge-title-row strong {
+  flex-shrink: 0;
+  padding: 4px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  font-size: 0.68rem;
+}
+
+.badge-card.unlocked .badge-title-row strong {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.badge-progress-text {
+  font-size: 0.85rem;
+}
+
+.progression-mini-badge {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.progression-mini-badge span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  font-size: 1.25rem;
+}
+
+.journal-list {
+  display: grid;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.journal-entry {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, 0.05);
+  padding: var(--space-sm);
+}
+
+.journal-entry strong,
+.journal-entry span,
+.journal-entry p {
+  display: block;
+}
+
+.journal-entry span {
+  margin: 3px 0;
+  color: var(--accent);
+  font-size: 0.82rem;
+}
+
+#weightChart {
+  width: 100%;
+  max-width: 100%;
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+audio {
+  width: 100%;
+  margin-top: var(--space-sm);
+}
+
+#musicStatus {
+  margin-top: var(--space-sm);
+  color: var(--accent);
+  font-weight: 800;
+}
+
+/* ============================================================
+   11 - Overlays, timer, niveaux, coffre et familiers
+============================================================ */
+
+.image-overlay,
+.timer-overlay,
+.exercise-detail-overlay,
+.level-up-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+
+  display: grid;
+  place-items: center;
+  gap: var(--space-sm);
+
+  padding: var(--space-md);
+  background: rgba(5, 8, 14, 0.94);
+  backdrop-filter: blur(8px);
+}
+
+.image-overlay {
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  justify-items: center;
+}
+
+.image-overlay img {
+  max-width: 96vw;
+  max-height: 76vh;
+  object-fit: contain;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+#closeImageOverlayButton {
+  justify-self: start;
+}
+
+#imageOverlayTitle {
+  color: var(--accent);
+  font-size: 0.95rem;
+  font-weight: 900;
+}
+
+.timer-card {
+  width: min(100%, 340px);
+  text-align: center;
+  padding: 16px;
+}
+
+#timerExerciseTitle {
+  font-size: 1.1rem;
+  color: var(--accent-strong);
+}
+
+#timerTimeText {
+  font-size: clamp(3.3rem, 20vw, 5.2rem);
+  color: var(--accent);
+  font-weight: 950;
+  line-height: 1;
+  margin: 16px 0;
+  letter-spacing: 0.03em;
+}
+
+.timer-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.timer-actions button {
+  min-height: 44px;
+}
+
+.level-up-overlay {
+  z-index: 120;
+  background: rgba(5, 8, 14, 0.92);
+  backdrop-filter: blur(10px);
+}
+
+.level-up-card {
+  width: min(100%, 380px);
+  text-align: center;
+  border-color: var(--border-strong);
+  animation: levelUpPop 0.42s ease both;
+}
+
+.level-up-icon {
+  display: grid;
+  place-items: center;
+
+  width: 92px;
+  height: 92px;
+  margin: var(--space-md) auto;
+
+  border-radius: 999px;
+  background: var(--accent-soft);
+  border: 1px solid var(--border-strong);
+
+  font-size: 3rem;
+  animation: levelUpGlow 1.4s ease-in-out infinite;
+}
+
+.level-up-card h1 {
+  color: var(--accent-strong);
+}
+
+.level-up-reward {
+  margin: var(--space-md) 0;
+  padding: var(--space-sm);
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+  font-weight: 900;
+}
+
+.level-up-pulse {
+  animation: heroLevelPulse 1.1s ease-in-out 2;
+}
+
+body.level-up-active .hero-image-frame {
+  border-color: var(--accent);
+}
+
+.familiar-collection-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.familiar-card {
+  text-align: center;
+}
+
+.familiar-image-frame {
+  display: grid;
+  place-items: center;
+  min-height: 150px;
+  margin-bottom: 10px;
+}
+
+.familiar-image {
+  width: 150px;
+  max-width: 70vw;
+  border-radius: 18px;
+  box-shadow: 0 0 24px rgba(255, 220, 80, 0.25);
+}
+
+.familiar-card.locked {
+  opacity: 0.72;
+}
+
+.familiar-locked-silhouette {
+  display: grid;
+  place-items: center;
+  width: 130px;
+  height: 130px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px dashed rgba(255, 255, 255, 0.28);
+  font-size: 3rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.hero-level-carousel-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.hero-level-carousel-main {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 6px;
+}
+
+.hero-level-carousel-image {
+  width: 190px;
+  max-width: 58vw;
+  border-radius: 20px;
+  object-fit: contain;
+  box-shadow: 0 0 28px rgba(240, 184, 79, 0.28);
+}
+
+.hero-level-carousel-main h2,
+.hero-level-carousel-main p {
+  margin: 0;
+}
+
+.hero-level-carousel-main span {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.reward-chest-overlay.hidden {
+  display: none;
+}
+
+.reward-chest-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100vw;
+  height: 100dvh;
+  padding: 8px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: rgba(3, 6, 14, 0.92);
+  backdrop-filter: blur(8px);
+}
+
+.reward-chest-modal {
+  position: relative;
+  width: min(430px, 100%);
+  max-height: calc(100dvh - 16px);
+  margin: 0 auto;
+  padding: 10px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 2px solid rgba(244, 211, 94, 0.75);
+  border-radius: 16px;
+  background: radial-gradient(circle at top, rgba(244, 211, 94, 0.18), rgba(15, 18, 30, 0.98) 45%);
+  box-shadow: 0 0 28px rgba(244, 211, 94, 0.28);
+}
+
+.reward-chest-close {
+  position: sticky;
+  top: 0;
+  margin-left: auto;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 900;
+}
+
+.reward-chest-box {
+  text-align: center;
+  padding: 4px 4px 10px;
+}
+
+.reward-chest-box h3 {
+  margin: 2px 0 8px;
+  font-size: 1.1rem;
+}
+
+.reward-chest-intro {
+  margin: 8px auto 12px;
+  max-width: 300px;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.reward-chest-visual {
+  position: relative;
+  width: min(230px, 72vw);
+  height: clamp(110px, 24vh, 165px);
+  margin: 8px auto 10px;
+  display: grid;
+  place-items: center;
+}
+
+.reward-chest-light {
+  position: absolute;
+  width: 66%;
+  height: 70%;
+  bottom: 10%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 245, 160, 0.95), rgba(255, 195, 70, 0.25) 45%, transparent 72%);
+  filter: blur(8px);
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+.reward-chest-base {
+  position: absolute;
+  bottom: 16%;
+  width: 78%;
+  height: 44%;
+  border-radius: 0 0 18px 18px;
+  background: linear-gradient(180deg, #8b4b22, #4d2814);
+  border: 3px solid #f0c45a;
+  box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.25);
+}
+
+.reward-chest-lid {
+  position: absolute;
+  bottom: 55%;
+  width: 82%;
+  height: 36%;
+  border-radius: 22px 22px 8px 8px;
+  background: linear-gradient(180deg, #b8672f, #6e3518);
+  border: 3px solid #f0c45a;
+  transform-origin: bottom center;
+  transition: transform 650ms ease, bottom 650ms ease;
+}
+
+.reward-chest-lock {
+  position: absolute;
+  bottom: 39%;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #f0c45a;
+  color: #3d250b;
+  font-weight: 900;
+  box-shadow: 0 0 12px rgba(240, 196, 90, 0.75);
+}
+
+.reward-chest-box.is-open .reward-chest-lid {
+  bottom: 64%;
+  transform: rotateX(62deg) translateY(-18px);
+}
+
+.reward-chest-box.is-open .reward-chest-light {
+  opacity: 1;
+  transform: scale(1);
+  animation: rewardChestGlow 1200ms ease-in-out infinite alternate;
+}
+
+.open-chest-reward-btn,
+.close-chest-reward-modal-btn {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 10px;
+  font-size: 1rem;
+}
+
+.reward-familiar-card {
+  margin: 10px auto 0;
+  padding: 10px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(244, 211, 94, 0.45);
+}
+
+.reward-familiar-image {
+  width: min(240px, 78vw);
+  max-height: 210px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 8px;
+  border-radius: 16px;
+}
+
+.reward-familiar-name {
+  margin: 6px 0;
+  font-size: 1.25rem;
+}
+
+.reward-familiar-status,
+.reward-familiar-progress,
+.reward-familiar-complete {
+  margin: 5px 0;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+/* ============================================================
+   12 - Animations et responsive
+============================================================ */
+
+@keyframes heroBannerFloat {
+  0% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-4px); }
+  100% { transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes v6ProgressShine {
+  0% { transform: translateX(-100%); }
+  55% { transform: translateX(120%); }
+  100% { transform: translateX(120%); }
+}
+
+@keyframes levelUpPop {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes levelUpGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(240, 184, 79, 0);
+    transform: scale(1);
+  }
+
+  50% {
+    box-shadow: 0 0 32px rgba(240, 184, 79, 0.42);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes heroLevelPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+
+  50% {
+    transform: scale(1.025);
+    filter: brightness(1.18);
+  }
+}
+
+@keyframes rewardChestGlow {
+  from {
+    filter: blur(8px);
+    transform: scale(0.96);
+  }
+
+  to {
+    filter: blur(13px);
+    transform: scale(1.08);
+  }
+}
+
+@media (max-width: 380px) {
+  .app-shell {
+    padding: 6px;
+  }
+
+  .app-header {
+    padding: 9px 8px;
+  }
+
+  .app-version-badge,
+  .eyebrow {
+    max-width: 112px;
+    font-size: 0.66rem;
+    padding-inline: 8px;
+  }
+
+  .header-actions {
+    gap: 5px;
+  }
+
+  .header-actions .icon-button,
+  .header-actions .header-icon-btn,
+  #backButton,
+  #homeButton,
+  #headerPlanningButton,
+  #headerProgramsButton,
+  #headerGoalButton {
+    width: 38px;
+    min-width: 38px;
+    height: 38px;
+    min-height: 38px;
+    border-radius: 14px;
+    font-size: 1rem;
+  }
+
+  .training-toolbar {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+  }
+
+  .training-toolbar button {
+    min-height: 52px;
+  }
+
+  .training-toolbar button span {
+    font-size: 0.64rem;
+  }
+
+  .hero-image-frame {
+    max-width: 200px;
+  }
+
+  .hero-image {
+    max-height: 230px;
+  }
+
+  .program-session-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .planning-week-progress {
+    grid-template-columns: 1fr;
+  }
+
+  .progression-level-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .progression-xp-top {
+    display: grid;
+  }
+}
+
+@media (min-width: 700px) {
+  .app-shell {
+    padding: 18px;
+  }
+
+  .app-header {
+    margin: 0 0 12px;
+  }
+
+  .card,
+  .program-card,
+  .program-detail,
+  .program-day-card,
+  .planning-day-card {
+    padding: 16px;
+  }
+
+  .home-card {
+    max-width: min(94vw, 760px);
+  }
+
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .coach-choice-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .page-training {
+    grid-template-columns: 320px 1fr;
+    align-items: start;
+  }
+
+  .hero-panel {
+    grid-row: span 3;
+  }
+
+  .hero-image-frame {
+    max-width: 300px;
+  }
+
+  .hero-image {
+    max-height: 360px;
+  }
+
+  .hero-name-banner {
+    bottom: 24px;
+    min-width: 150px;
+    padding: 12px 26px;
+    font-size: 1.06rem;
+  }
+
+  .hero-name-banner::before,
+  .hero-name-banner::after {
+    width: 26px;
+    height: 30px;
+  }
+
+  .hero-name-banner::before {
+    left: -18px;
+  }
+
+  .hero-name-banner::after {
+    right: -18px;
+  }
+
+  .today-card,
+  .training-toolbar {
+    grid-column: 2;
+  }
+
+  .training-toolbar {
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  .program-list,
+  .exercise-card-grid,
+  .badge-list,
+  .goal-choice-list,
+  .planning-week-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .program-card {
+    grid-template-columns: 56px 1fr;
+  }
+
+  .program-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .program-session-exercise {
+    grid-template-columns: 34px 1fr auto;
+  }
+
+  .program-session-actions {
+    grid-column: auto;
+    grid-template-columns: 1fr;
+    min-width: 150px;
+  }
+
+  .v3-category-card,
+  #exerciseList .exercise-category-card,
+  #exercisesContent .exercise-category-card {
+    min-height: 132px;
+    padding: 8px;
+  }
+
+  .v3-category-card strong,
+  #exerciseList .exercise-category-card strong,
+  #exercisesContent .exercise-category-card strong {
+    font-size: 0.78rem;
+  }
+
+  .v3-category-card small,
+  #exerciseList .exercise-category-card small,
+  #exercisesContent .exercise-category-card small {
+    display: block;
+  }
+
+  .v3-exercise-title,
+  #exerciseList .v3-exercise-title,
+  #exercisesContent .v3-exercise-title,
+  #exerciseList .exercise-card-title,
+  #exercisesContent .exercise-card-title {
+    font-size: 0.88rem;
+    padding: 7px 8px;
+  }
+
+  #exerciseList .exercise-top-input input,
+  #exercisesContent .exercise-top-input input {
+    height: 32px;
+    min-height: 32px;
+    font-size: 0.95rem;
+  }
+
+  #exerciseList .exercise-control-row .start-timer-btn,
+  #exerciseList .exercise-control-row .validate-exercise-btn,
+  #exercisesContent .exercise-control-row .start-timer-btn,
+  #exercisesContent .exercise-control-row .validate-exercise-btn {
+    width: 40px;
+    min-width: 40px;
+    max-width: 40px;
+    height: 40px;
+    min-height: 40px;
+    max-height: 40px;
+  }
+
+  .v3-program-exercise-card {
+    grid-template-columns: 34px 70px 1fr;
+  }
+
+  .v3-program-exercise-image img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .planning-day-card {
+    min-height: 170px;
+  }
+
+  .progression-stat-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .progression-level-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .familiar-collection-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .timer-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+}
