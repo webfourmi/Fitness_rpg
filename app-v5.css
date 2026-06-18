@@ -587,14 +587,40 @@ textarea:focus {
   justify-content: center;
 }
 
-.home-image-frame img,
-#homeSplashImage {
+.home-image-frame {
+  width: min(100%, 420px);
+  aspect-ratio: 1 / 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid var(--border-strong);
+  background: rgba(255, 255, 255, 0.04);
+}
+ #homeSplashImage {
+  width: 100%;
+  height: 100%;
+
   display: block;
-  width: min(100%, 580px);
-  max-width: 100%;
-  height: auto;
+  object-fit: cover;
+  object-position: center;
+
   border-radius: 18px;
   cursor: pointer;
+}
+ .home-card {
+  width: fit-content;
+  max-width: min(94vw, 460px);
+  margin: 16px auto 0;
+  padding: 18px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 .home-summary {
