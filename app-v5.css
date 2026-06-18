@@ -4517,3 +4517,230 @@ body.level-up-active .hero-image-frame,
     height: 20px !important;
   }
 }
+/* ============================================================
+   V6 - Bannière héros premium PC + mobile
+   À placer tout en bas de app-v5.css
+   ============================================================ */
+
+.hero-identity-line {
+  display: none !important;
+}
+
+/* Cadre image : ancre commune PC/mobile */
+#heroImageFrame,
+.hero-image-frame {
+  position: relative !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+}
+
+/* Bannière flottante */
+#heroImageFrame .hero-name-banner,
+.hero-image-frame .hero-name-banner {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 14px !important;
+  transform: translateX(-50%) !important;
+  z-index: 30 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  width: auto !important;
+  max-width: calc(100% - 28px) !important;
+
+  pointer-events: none !important;
+  filter:
+    drop-shadow(0 8px 12px rgba(0, 0, 0, 0.55))
+    drop-shadow(0 0 12px rgba(244, 211, 94, 0.28)) !important;
+
+  animation: heroBannerFloat 3s ease-in-out infinite !important;
+}
+
+/* Corps doré de la bannière */
+#heroImageFrame .hero-name-banner-text,
+.hero-image-frame .hero-name-banner-text {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  min-width: 126px !important;
+  max-width: 230px !important;
+
+  padding: 10px 22px !important;
+
+  border-radius: 12px !important;
+  border: 2px solid #6d4510 !important;
+
+  background:
+    linear-gradient(180deg, #fff0a3 0%, #f5cf58 34%, #c58b24 72%, #8a5615 100%) !important;
+
+  color: #2b1703 !important;
+  font-size: 1rem !important;
+  font-weight: 1000 !important;
+  letter-spacing: 0.045em !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.45),
+    0 -1px 0 rgba(80, 35, 0, 0.2) !important;
+
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.58),
+    inset 0 -3px 0 rgba(63, 31, 4, 0.32),
+    0 0 0 2px rgba(255, 221, 120, 0.18),
+    0 0 18px rgba(244, 211, 94, 0.28) !important;
+}
+
+/* Petite couronne avant le nom */
+#heroImageFrame .hero-name-banner-text::before,
+.hero-image-frame .hero-name-banner-text::before {
+  content: "♛" !important;
+  margin-right: 8px !important;
+  color: #5a3208 !important;
+  font-size: 0.95em !important;
+}
+
+/* Reflet animé sur le métal doré */
+#heroImageFrame .hero-name-banner-text::after,
+.hero-image-frame .hero-name-banner-text::after {
+  content: "" !important;
+  position: absolute !important;
+  top: -40% !important;
+  left: -60% !important;
+
+  width: 42% !important;
+  height: 190% !important;
+
+  background:
+    linear-gradient(
+      110deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.5) 48%,
+      transparent 100%
+    ) !important;
+
+  transform: rotate(18deg) translateX(-120%) !important;
+  animation: heroBannerShine 3.6s ease-in-out infinite !important;
+}
+
+/* Pans rouges de bannière */
+#heroImageFrame .hero-name-banner-tail,
+.hero-image-frame .hero-name-banner-tail {
+  position: relative !important;
+  width: 24px !important;
+  height: 30px !important;
+  flex: 0 0 24px !important;
+
+  background:
+    linear-gradient(180deg, #e75757 0%, #b72727 52%, #761313 100%) !important;
+
+  border-top: 2px solid #5e1010 !important;
+  border-bottom: 2px solid #5e1010 !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.22) !important;
+}
+
+#heroImageFrame .hero-name-banner-tail.left,
+.hero-image-frame .hero-name-banner-tail.left {
+  margin-right: -4px !important;
+  border-left: 2px solid #5e1010 !important;
+  clip-path: polygon(100% 0, 100% 100%, 0 84%, 22% 50%, 0 16%) !important;
+}
+
+#heroImageFrame .hero-name-banner-tail.right,
+.hero-image-frame .hero-name-banner-tail.right {
+  margin-left: -4px !important;
+  border-right: 2px solid #5e1010 !important;
+  clip-path: polygon(0 0, 0 100%, 100% 84%, 78% 50%, 100% 16%) !important;
+}
+
+/* Animation flottante */
+@keyframes heroBannerFloat {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-4px);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Brillance */
+@keyframes heroBannerShine {
+  0% {
+    transform: rotate(18deg) translateX(-140%);
+    opacity: 0;
+  }
+  28% {
+    opacity: 0;
+  }
+  48% {
+    opacity: 1;
+  }
+  68% {
+    transform: rotate(18deg) translateX(360%);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(18deg) translateX(360%);
+    opacity: 0;
+  }
+}
+
+/* Desktop : bannière un peu plus présente */
+@media (min-width: 700px) {
+  #heroImageFrame .hero-name-banner,
+  .hero-image-frame .hero-name-banner {
+    bottom: 18px !important;
+  }
+
+  #heroImageFrame .hero-name-banner-text,
+  .hero-image-frame .hero-name-banner-text {
+    min-width: 150px !important;
+    max-width: 260px !important;
+    padding: 12px 26px !important;
+    font-size: 1.08rem !important;
+  }
+
+  #heroImageFrame .hero-name-banner-tail,
+  .hero-image-frame .hero-name-banner-tail {
+    width: 28px !important;
+    height: 34px !important;
+    flex-basis: 28px !important;
+  }
+}
+
+/* Mobile compact */
+@media (max-width: 420px) {
+  #heroImageFrame .hero-name-banner,
+  .hero-image-frame .hero-name-banner {
+    bottom: 10px !important;
+    max-width: calc(100% - 20px) !important;
+  }
+
+  #heroImageFrame .hero-name-banner-text,
+  .hero-image-frame .hero-name-banner-text {
+    min-width: 104px !important;
+    max-width: 184px !important;
+    padding: 8px 15px !important;
+    font-size: 0.88rem !important;
+  }
+
+  #heroImageFrame .hero-name-banner-tail,
+  .hero-image-frame .hero-name-banner-tail {
+    width: 17px !important;
+    height: 23px !important;
+    flex-basis: 17px !important;
+  }
+}
