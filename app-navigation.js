@@ -922,6 +922,27 @@ if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;
     return;
   }
 
+  const coachCarouselButton = target.closest(".coach-carousel-btn");
+
+  if (coachCarouselButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+  
+    const delta = Number(coachCarouselButton.dataset.delta || 0);
+    window.FitnessRpgRender?.changeCoachCarousel?.(delta);
+  
+    return;
+  }
+  
+  const coachCarouselDot = target.closest(".coach-carousel-dot");
+  
+  if (coachCarouselDot) {
+    window.FitnessRpgNavigation.stopEvent(event);
+  
+    const coachId = coachCarouselDot.dataset.coachId;
+    window.FitnessRpgRender?.selectCoachFromCarousel?.(coachId);
+  
+    return;
+  }
   const coachCard = target.closest(".coach-choice-card");
 
   if (coachCard) {
