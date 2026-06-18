@@ -8802,6 +8802,46 @@ window.FitnessRpgData = {
       target: 1
     },
     {
+      id: "tour-apprenti-cercle",
+      icon: "🧘",
+      title: "Apprenti du Cercle",
+      description: "Vaincre le boss de la semaine 1 du programme Tour du Mage.",
+      type: "program-boss",
+      programId: "tour-mage",
+      weekNumber: 1,
+      target: 1
+    },
+    {
+      id: "tour-cercle-pierre",
+      icon: "🪨",
+      title: "Cercle de Pierre",
+      description: "Vaincre le boss de la semaine 2 du programme Tour du Mage.",
+      type: "program-boss",
+      programId: "tour-mage",
+      weekNumber: 2,
+      target: 1
+    },
+    {
+      id: "tour-arcanes-corps",
+      icon: "✨",
+      title: "Arcanes du Corps",
+      description: "Vaincre le boss de la semaine 3 du programme Tour du Mage.",
+      type: "program-boss",
+      programId: "tour-mage",
+      weekNumber: 3,
+      target: 1
+    },
+    {
+      id: "tour-mage-vaincu",
+      icon: "🐉",
+      title: "Tour du Mage",
+      description: "Vaincre le Dragon Astral, boss final du programme Tour du Mage.",
+      type: "program-boss",
+      programId: "tour-mage",
+      weekNumber: 4,
+      target: 1
+    },
+    {
       id: "seigneur-forge-vaincu",
       icon: "👑",
       title: "Seigneur de la Forge",
