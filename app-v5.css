@@ -4349,3 +4349,192 @@ body.level-up-active .hero-image-frame,
     right: -12px !important;
   }
 }
+/* ============================================================
+   V6.1 - Header mobile RPG fantasy
+   Amélioration visuelle uniquement
+============================================================ */
+
+.app-header {
+  border-radius: 0 0 22px 22px !important;
+  border-bottom: 1px solid rgba(244, 211, 94, 0.28) !important;
+
+  background:
+    radial-gradient(circle at top left, rgba(244, 211, 94, 0.14), transparent 38%),
+    linear-gradient(180deg, rgba(20, 23, 36, 0.98), rgba(11, 14, 23, 0.96)) !important;
+
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.34),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Logo / nom de l'application */
+.app-version-badge {
+  min-height: 34px !important;
+  padding: 7px 12px !important;
+
+  border-radius: 999px !important;
+  border: 1px solid rgba(244, 211, 94, 0.62) !important;
+
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.18), transparent 32%),
+    linear-gradient(180deg, rgba(80, 62, 28, 0.92), rgba(31, 25, 18, 0.92)) !important;
+
+  color: #ffe28a !important;
+
+  font-size: 0.76rem !important;
+  font-weight: 1000 !important;
+  letter-spacing: 0.055em !important;
+
+  box-shadow:
+    0 6px 14px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
+}
+
+/* Zone des boutons header */
+.header-actions {
+  gap: 8px !important;
+}
+
+/* Boutons icônes du header */
+.header-actions .icon-button,
+.header-actions .header-icon-btn,
+#backButton,
+#homeButton,
+#headerPlanningButton,
+#headerProgramsButton,
+#headerGoalButton {
+  width: 44px !important;
+  min-width: 44px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+
+  padding: 0 !important;
+  border-radius: 16px !important;
+
+  display: inline-grid !important;
+  place-items: center !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+
+  background:
+    radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.14), transparent 34%),
+    linear-gradient(180deg, rgba(42, 47, 67, 0.96), rgba(20, 24, 37, 0.96)) !important;
+
+  color: #ffffff !important;
+
+  font-size: 1.18rem !important;
+  font-weight: 950 !important;
+
+  box-shadow:
+    0 7px 0 rgba(0, 0, 0, 0.34),
+    0 12px 20px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Bouton accueil légèrement différent */
+#homeButton {
+  border-color: rgba(244, 211, 94, 0.36) !important;
+}
+
+/* Bouton retour avec teinte froide */
+#backButton {
+  border-color: rgba(125, 183, 255, 0.32) !important;
+}
+
+/* Effet actif discret */
+.header-actions .icon-button:active,
+.header-actions .header-icon-btn:active,
+#backButton:active,
+#homeButton:active,
+#headerPlanningButton:active,
+#headerProgramsButton:active,
+#headerGoalButton:active {
+  transform: translateY(2px) !important;
+  box-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.42),
+    0 8px 14px rgba(0, 0, 0, 0.24) !important;
+}
+
+/* Mobile : header façon barre de jeu */
+@media (max-width: 700px) {
+  .app-shell {
+    padding-top: 0 !important;
+  }
+
+  .app-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 80 !important;
+
+    min-height: 66px !important;
+    margin: 0 -8px 12px !important;
+    padding: 10px 10px !important;
+
+    border-radius: 0 0 24px 24px !important;
+  }
+
+  .app-header-title {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+
+  .header-actions {
+    flex: 0 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+  }
+
+  .app-version-badge {
+    max-width: 132px !important;
+    font-size: 0.72rem !important;
+    padding-inline: 10px !important;
+  }
+
+  .header-actions .icon-button,
+  .header-actions .header-icon-btn,
+  #backButton,
+  #homeButton,
+  #headerPlanningButton,
+  #headerProgramsButton,
+  #headerGoalButton {
+    width: 43px !important;
+    min-width: 43px !important;
+    height: 43px !important;
+    min-height: 43px !important;
+    border-radius: 15px !important;
+    font-size: 1.1rem !important;
+  }
+}
+
+/* Très petit mobile : éviter les débordements */
+@media (max-width: 380px) {
+  .app-header {
+    padding: 9px 8px !important;
+  }
+
+  .app-version-badge {
+    max-width: 112px !important;
+    font-size: 0.66rem !important;
+    padding-inline: 8px !important;
+  }
+
+  .header-actions {
+    gap: 5px !important;
+  }
+
+  .header-actions .icon-button,
+  .header-actions .header-icon-btn,
+  #backButton,
+  #homeButton,
+  #headerPlanningButton,
+  #headerProgramsButton,
+  #headerGoalButton {
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    border-radius: 14px !important;
+    font-size: 1rem !important;
+  }
+}
