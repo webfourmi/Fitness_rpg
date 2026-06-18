@@ -984,7 +984,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "single_leg_balance",
-      "categoryId": "core",
+      "categoryId": "strength",
       "title": "Équilibre sur une jambe",
       "images": {
         "male": "assets/exercices/homme_default.png",
