@@ -4869,3 +4869,34 @@ body.level-up-active .hero-image-frame,
   }
 }
 
+/* Planning : éviter le double marquage "Fait" */
+.planning-day-card.done::after {
+  content: none !important;
+  display: none !important;
+}
+
+.planning-day-card.done .planning-status,
+.planning-day-card.done .planning-day-top span {
+  border-color: rgba(91, 255, 147, 0.45) !important;
+  background: rgba(91, 255, 147, 0.16) !important;
+  color: #91ffb6 !important;
+}
+/* Accueil PC : tout aligner sur la largeur de l'image */
+body[data-page="home"] {
+  --home-width: 700px;
+}
+
+body[data-page="home"] #appHeader,
+body[data-page="home"] .home-card,
+body[data-page="home"] .home-text,
+body[data-page="home"] .home-summary,
+body[data-page="home"] .home-actions,
+body[data-page="home"] .home-image-frame {
+  width: min(100%, var(--home-width)) !important;
+  max-width: var(--home-width) !important;
+}
+
+body[data-page="home"] #homeSplashImage {
+  width: 100% !important;
+  max-width: var(--home-width) !important;
+}
