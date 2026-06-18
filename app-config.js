@@ -278,17 +278,7 @@ window.FitnessRpgConfig = {
       coachAdvice: "Violette, Korvan ou Elmin",
       xp: 10
     },
-    {
-      id: "boss-hebdo",
-      icon: "👹",
-      title: "Défi boss hebdo",
-      objective: "Séance plus longue",
-      level: "Selon niveau",
-      duration: "25-40 min",
-      frequency: "1 fois par semaine",
-      coachAdvice: "Selon le thème du boss",
-      xp: 50
-    }
+   
   ],
 
   // ------------------------------------------------------------
