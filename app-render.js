@@ -279,16 +279,20 @@ window.FitnessRpgRender.prepareHomeImageInfoToggle = function prepareHomeImageIn
   const image = document.querySelector("#homeSplashImage");
   const infoBox = document.querySelector("#homeImageInfoText");
 
-  if (!image || !infoBox) return;
+  if (!image) return;
 
-  if (image.dataset.infoToggleReady === "true") return;
+  if (infoBox) {
+    infoBox.classList.add("hidden");
+  }
 
-  image.dataset.infoToggleReady = "true";
+  if (image.dataset.trainingLinkReady === "true") return;
+
+  image.dataset.trainingLinkReady = "true";
   image.style.cursor = "pointer";
-  image.setAttribute("title", "Afficher l’explication");
+  image.setAttribute("title", "Entrer dans l’entraînement");
 
   image.addEventListener("click", () => {
-    infoBox.classList.toggle("hidden");
+    window.FitnessRpgNavigation.goTraining();
   });
 };
 // ============================================================
@@ -384,6 +388,16 @@ window.FitnessRpgRender.renderHeroPanel = function renderHeroPanel() {
 
  const heroName = window.FitnessRpgRender.escapeHtml(profile.name || "Héros");
 
+const heroName = String(profile.name || "Héros").replace(/[&<>"']/g, (char) => {
+  return {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  }[char];
+});
+
 if (heroFrame) {
   heroFrame.innerHTML = `
     <img
@@ -395,13 +409,22 @@ if (heroFrame) {
 
     <span class="hero-level-badge">Niv. ${info.level}</span>
 
-   <div class="hero-name-banner" aria-label="Nom du héros">
-    <span class="hero-name-banner-tail left"></span>
-    <span class="hero-name-banner-text">${heroName}</span>
-    <span class="hero-name-banner-tail right"></span>
-  </div>
+    <div class="hero-name-banner" aria-label="Nom du héros">
+      <span class="hero-name-banner-tail left"></span>
+      <span class="hero-name-banner-text">${heroName}</span>
+      <span class="hero-name-banner-tail right"></span>
+    </div>
   `;
-}
+}const heroName = String(profile.name || "Héros").replace(/[&<>"']/g, (char) => {
+  return {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  }[char];
+});
+
 
 /*
   Ligne blanche redondante désactivée.
