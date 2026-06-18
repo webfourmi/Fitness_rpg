@@ -386,5 +386,5 @@ window.FitnessRpgConfig.setVersionLabels = function setVersionLabels() {
   if (versionLabel) versionLabel.textContent = version;
 
   const versionBadge = document.querySelector("#appVersionBadge");
-  if (versionBadge) versionBadge.textContent = `Fitness RPG · ${displayVersion}`;
+  if (versionBadge) versionBadge.textContent = `Fitness RPG `;
 };
