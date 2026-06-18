@@ -4744,3 +4744,176 @@ body.level-up-active .hero-image-frame,
     flex-basis: 17px !important;
   }
 }
+/* ============================================================
+   V6 - Bannière héros premium robuste PC + mobile
+   Fonctionne même si .hero-name-banner contient seulement du texte
+   ============================================================ */
+
+.hero-identity-line {
+  display: none !important;
+}
+
+#heroImageFrame,
+.hero-image-frame {
+  position: relative !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+}
+
+#heroImageFrame .hero-name-banner,
+.hero-image-frame .hero-name-banner {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 18px !important;
+  transform: translateX(-50%) !important;
+  z-index: 80 !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  min-width: 128px !important;
+  max-width: calc(100% - 54px) !important;
+  padding: 10px 22px !important;
+
+  border-radius: 12px !important;
+  border: 2px solid #6d4510 !important;
+
+  background:
+    radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.65), transparent 18%),
+    linear-gradient(180deg, #fff0a3 0%, #f5cf58 34%, #c58b24 72%, #8a5615 100%) !important;
+
+  color: #2b1703 !important;
+  font-size: 1rem !important;
+  font-weight: 1000 !important;
+  letter-spacing: 0.045em !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.55),
+    0 -1px 0 rgba(80, 35, 0, 0.24) !important;
+
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.58),
+    inset 0 -3px 0 rgba(63, 31, 4, 0.32),
+    0 0 0 2px rgba(255, 221, 120, 0.18),
+    0 8px 16px rgba(0, 0, 0, 0.5),
+    0 0 18px rgba(244, 211, 94, 0.34) !important;
+
+  pointer-events: none !important;
+  animation: heroBannerFloat 3s ease-in-out infinite !important;
+}
+
+/* Cache les anciens pans si tu les avais ajoutés dans le HTML */
+#heroImageFrame .hero-name-banner-tail,
+.hero-image-frame .hero-name-banner-tail {
+  display: none !important;
+}
+
+/* Si le texte est dans un span, on neutralise son ancien style */
+#heroImageFrame .hero-name-banner-text,
+.hero-image-frame .hero-name-banner-text {
+  display: inline !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: inherit !important;
+  font: inherit !important;
+}
+
+/* Pans rouges gauche/droite */
+#heroImageFrame .hero-name-banner::before,
+.hero-image-frame .hero-name-banner::before,
+#heroImageFrame .hero-name-banner::after,
+.hero-image-frame .hero-name-banner::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 50% !important;
+  width: 26px !important;
+  height: 30px !important;
+  z-index: -1 !important;
+
+  background:
+    linear-gradient(180deg, #e75757 0%, #b72727 52%, #761313 100%) !important;
+
+  border-top: 2px solid #5e1010 !important;
+  border-bottom: 2px solid #5e1010 !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.24),
+    0 6px 10px rgba(0, 0, 0, 0.35) !important;
+}
+
+#heroImageFrame .hero-name-banner::before,
+.hero-image-frame .hero-name-banner::before {
+  left: -18px !important;
+  transform: translateY(-50%) !important;
+  border-left: 2px solid #5e1010 !important;
+  clip-path: polygon(100% 0, 100% 100%, 0 84%, 22% 50%, 0 16%) !important;
+}
+
+#heroImageFrame .hero-name-banner::after,
+.hero-image-frame .hero-name-banner::after {
+  right: -18px !important;
+  transform: translateY(-50%) !important;
+  border-right: 2px solid #5e1010 !important;
+  clip-path: polygon(0 0, 0 100%, 100% 84%, 78% 50%, 100% 16%) !important;
+}
+
+@keyframes heroBannerFloat {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-4px);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* PC : bannière un peu plus haute et plus visible */
+@media (min-width: 700px) {
+  #heroImageFrame .hero-name-banner,
+  .hero-image-frame .hero-name-banner {
+    bottom: 24px !important;
+    min-width: 150px !important;
+    padding: 12px 26px !important;
+    font-size: 1.06rem !important;
+  }
+}
+
+/* Mobile compact */
+@media (max-width: 420px) {
+  #heroImageFrame .hero-name-banner,
+  .hero-image-frame .hero-name-banner {
+    bottom: 10px !important;
+    min-width: 108px !important;
+    max-width: calc(100% - 42px) !important;
+    padding: 8px 16px !important;
+    font-size: 0.88rem !important;
+  }
+
+  #heroImageFrame .hero-name-banner::before,
+  .hero-image-frame .hero-name-banner::before,
+  #heroImageFrame .hero-name-banner::after,
+  .hero-image-frame .hero-name-banner::after {
+    width: 18px !important;
+    height: 23px !important;
+  }
+
+  #heroImageFrame .hero-name-banner::before,
+  .hero-image-frame .hero-name-banner::before {
+    left: -12px !important;
+  }
+
+  #heroImageFrame .hero-name-banner::after,
+  .hero-image-frame .hero-name-banner::after {
+    right: -12px !important;
+  }
+}
