@@ -287,6 +287,7 @@ window.FitnessRpgConfig = {
   pages: [
     "home",
     "hero-setup",
+    "hero-menu",
     "training",
     "programs",
     "exercises",
