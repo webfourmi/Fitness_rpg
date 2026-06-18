@@ -295,21 +295,62 @@ window.FitnessRpgRender.prepareHomeImageInfoToggle = function prepareHomeImageIn
     window.FitnessRpgNavigation.goTraining();
   });
 };
+
+window.FitnessRpgRender.renderHeroMenu = function renderHeroMenu() {
+  const summary = document.querySelector("#heroMenuSummary");
+  const profile = window.FitnessRpgState.getProfile?.();
+
+  if (!summary) return;
+
+  if (!profile) {
+    summary.textContent = "Aucun héros créé pour l’instant.";
+    return;
+  }
+
+  const info = window.FitnessRpgProgress.getProfileLevelInfo?.()
+    || window.FitnessRpgConfig.levelInfo(profile.totalXp || 0);
+
+  summary.textContent = `${profile.name || "Héros"} · Niv. ${info.level} · ${info.rank}`;
+};
 // ============================================================
 // Création / modification du héros
 // ============================================================
 
 window.FitnessRpgRender.renderHeroSetup = function renderHeroSetup() {
   const profile = window.FitnessRpgState.getProfile?.();
+  const mode = window.FitnessRpgNavigation.heroSetupMode || (profile ? "edit-hero" : "create");
 
   const title = document.querySelector("#heroSetupTitle");
   const help = document.querySelector("#heroSetupHelp");
   const saveButton = document.querySelector("#saveHeroButton");
+  const formGrid = document.querySelector("#pageHeroSetup .form-grid");
+  const coachSelection = document.querySelector("#pageHeroSetup .coach-selection");
 
-  if (profile) {
+  const isCreate = mode === "create" || !profile;
+  const isEditHero = mode === "edit-hero" && profile;
+  const isEditCoach = mode === "edit-coach" && profile;
+
+  if (formGrid) {
+    formGrid.classList.toggle("hidden", isEditCoach);
+  }
+
+  if (coachSelection) {
+    coachSelection.classList.toggle("hidden", isEditHero);
+  }
+
+  if (isEditCoach) {
+    window.FitnessRpgRender.setText(title, "Changer de coach");
+    window.FitnessRpgRender.setText(help, "Choisis le coach qui accompagnera ton héros.");
+    window.FitnessRpgRender.setText(saveButton, "Enregistrer le coach");
+    window.FitnessRpgState.selectedCoachId = profile.coachId || "korvan";
+    window.FitnessRpgRender.renderCoachChoices();
+    return;
+  }
+
+  if (isEditHero) {
     window.FitnessRpgRender.setText(title, "Modifier ton héros");
-    window.FitnessRpgRender.setText(help, "Tu peux ajuster le nom, l’âge, le genre ou le coach.");
-    window.FitnessRpgRender.setText(saveButton, "Enregistrer");
+    window.FitnessRpgRender.setText(help, "Tu peux ajuster le nom, l’âge ou le genre du héros.");
+    window.FitnessRpgRender.setText(saveButton, "Enregistrer le héros");
 
     const nameInput = document.querySelector("#heroNameInput");
     const ageInput = document.querySelector("#heroAgeInput");
@@ -320,12 +361,12 @@ window.FitnessRpgRender.renderHeroSetup = function renderHeroSetup() {
     const genderInput = document.querySelector(`input[name="heroGender"][value="${profile.gender || "homme"}"]`);
     if (genderInput) genderInput.checked = true;
 
-    window.FitnessRpgState.selectedCoachId = profile.coachId || "korvan";
-  } else {
-    window.FitnessRpgRender.setText(title, "Créer ton héros");
-    window.FitnessRpgRender.setText(help, "Choisis ton profil et ton coach pour commencer.");
-    window.FitnessRpgRender.setText(saveButton, "Commencer l’aventure");
+    return;
   }
+
+  window.FitnessRpgRender.setText(title, "Créer ton héros");
+  window.FitnessRpgRender.setText(help, "Choisis ton profil et ton coach pour commencer.");
+  window.FitnessRpgRender.setText(saveButton, "Commencer l’aventure");
 
   window.FitnessRpgRender.renderCoachChoices();
 };
@@ -1906,7 +1947,11 @@ window.FitnessRpgRender.renderCurrentPage = function renderCurrentPage() {
     case "hero-setup":
       window.FitnessRpgRender.renderHeroSetup();
       break;
-
+      
+    case "hero-menu":
+      window.FitnessRpgRender.renderHeroMenu();
+      break;
+      
     case "training":
       window.FitnessRpgRender.renderTraining();
       break;
