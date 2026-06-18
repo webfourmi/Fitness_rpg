@@ -5571,68 +5571,668 @@ window.FitnessRpgData = {
         "Le boss extérieur final peut être validé à 75 minutes ou 15 km, selon ce qui est atteint en premier."
       ]
     },
-    "forge-guerrier": {
-      "id": "forge-guerrier",
-      "days": [
+"forge-guerrier": {
+  id: "forge-guerrier",
+  subtitle: "Renforcement complet sans matériel : jambes, bras, dos, gainage et posture.",
+  unlockLevel: 2,
+  duration: "20 à 25 min",
+  frequency: "3 séances par semaine + boss hebdomadaire",
+  material: "Aucun matériel. Tapis conseillé.",
+  reward: {
+    badgeId: "seigneur-forge-vaincu",
+    badgeTitle: "Seigneur de la Forge",
+    chest: true,
+    nextPrograms: ["champion-arenes", "cavalier-route", "messager-sentiers"]
+  },
+
+  weeks: [
+    {
+      week: 1,
+      title: "L’Apprenti Forgeron",
+      xp: 60,
+      progression: "Découverte du renforcement général. Nouvel exercice : pompes inclinées.",
+      days: [
         {
-          "day": 1,
-          "title": "Renforcement complet",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "dynamic_walk",
-              "amount": 4,
-              "unit": "min"
-            },
-            {
-              "phase": "Jambes",
-              "exerciseId": "squats",
-              "amount": 12,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Haut du corps",
-              "exerciseId": "incline_pushups",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Dos",
-              "exerciseId": "superman",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Centre",
-              "exerciseId": "core",
-              "amount": 20,
-              "unit": "sec"
-            },
-            {
-              "phase": "Fessiers",
-              "exerciseId": "bridge",
-              "amount": 12,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "gentle_back_stretch",
-              "amount": 4,
-              "unit": "min"
-            }
+          day: 1,
+          title: "Force des Jambes",
+          xp: 60,
+          difficultyLabel: "≈ 20 à 25 min",
+          instructions: "Échauffement standard, puis deux défis en 2 cycles, puis retour au calme.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "chair_squat", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "chair_squat", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 15, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 15, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Haut du Corps",
+          xp: 60,
+          difficultyLabel: "≈ 20 à 25 min",
+          instructions: "Nouvel exercice : pompes inclinées.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "incline_pushups", amount: 8, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "superman", amount: 8, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "incline_pushups", amount: 8, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "superman", amount: 8, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "arm_open_close", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 15, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "arm_open_close", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 15, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Corps Entier",
+          xp: 60,
+          difficultyLabel: "≈ 20 à 25 min",
+          instructions: "Renforcement général en 2 défis.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "superman", amount: 8, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 15, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "superman", amount: 8, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 15, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
           ]
         }
-      ],
-      "progression": [
-        "Débutant : pompes contre un mur, gainage genoux, squats sur chaise.",
-        "Avancé : pompes classiques, fentes, gainage latéral, squat sauté."
-      ],
-      "reward": {
-        "nextPrograms": [
-          "champion-arenes"
-        ]
-      }
+      ]
     },
+
+    {
+      week: 2,
+      title: "Le Compagnon",
+      xp: 70,
+      progression: "On ajoute les fentes arrière assistées pour renforcer jambes et stabilité.",
+      days: [
+        {
+          day: 1,
+          title: "Jambes du Guerrier",
+          xp: 70,
+          difficultyLabel: "≈ 20 à 25 min",
+          instructions: "Nouvel exercice : fentes arrière assistées.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "squats", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "squats", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 20, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 20, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Bras du Guerrier",
+          xp: 70,
+          difficultyLabel: "≈ 20 à 25 min",
+          instructions: "Renforcement haut du corps, dos et gainage.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "incline_pushups", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "wall_pushups", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "superman", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "incline_pushups", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "wall_pushups", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "superman", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "arm_open_close", amount: 25, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 20, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "arm_open_close", amount: 25, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 20, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Forge Complète",
+          xp: 70,
+          difficultyLabel: "≈ 20 à 25 min",
+          instructions: "Séance complète jambes, haut du corps et centre.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "squats", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "incline_pushups", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "squats", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "incline_pushups", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "superman", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 20, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "superman", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 20, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    },
+
+    {
+      week: 3,
+      title: "Le Maître Artisan",
+      xp: 80,
+      progression: "On ajoute Dead Bug pour renforcer le centre sans brutaliser le dos.",
+      days: [
+        {
+          day: 1,
+          title: "Force",
+          xp: 80,
+          difficultyLabel: "≈ 20 à 25 min",
+          instructions: "Nouvel exercice : Dead Bug.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "squats", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "squats", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 25, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 25, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Haut du Corps",
+          xp: 80,
+          difficultyLabel: "≈ 20 à 25 min",
+          instructions: "Haut du corps, dos et centre.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "incline_pushups", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "superman", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "incline_pushups", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "superman", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "arm_open_close", amount: 30, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 25, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "arm_open_close", amount: 30, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 25, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Corps Entier",
+          xp: 80,
+          difficultyLabel: "≈ 20 à 25 min",
+          instructions: "Séance complète avec Dead Bug.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "squats", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "incline_pushups", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "squats", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "incline_pushups", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "superman", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "superman", amount: 12, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    },
+
+    {
+      week: 4,
+      title: "Le Guerrier Forgé",
+      xp: 90,
+      progression: "Dernière étape : gainage latéral genoux et forge finale.",
+      days: [
+        {
+          day: 1,
+          title: "Puissance",
+          xp: 90,
+          difficultyLabel: "≈ 20 à 25 min",
+          instructions: "Nouvel exercice : gainage latéral genoux.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "squats", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "squats", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Force du Haut",
+          xp: 90,
+          difficultyLabel: "≈ 20 à 25 min",
+          instructions: "Haut du corps et gainage renforcé.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "incline_pushups", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "superman", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "incline_pushups", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "superman", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "arm_open_close", amount: 30, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 30, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "arm_open_close", amount: 30, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 30, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Forge Finale",
+          xp: 90,
+          difficultyLabel: "≈ 20 à 25 min",
+          instructions: "Dernière séance complète avant le boss final.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "squats", amount: 10, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "squats", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "incline_pushups", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "squats", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "incline_pushups", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "slow_walk", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    }
+  ],
+
+  bosses: [
+    {
+      week: 1,
+      title: "Le Gobelin Forgeron",
+      xp: 50,
+      badgeId: "forge-marteau-bois",
+      difficultyLabel: "Boss semaine 1 · 3 cycles",
+      instructions: "Débloqué après les 3 séances de la semaine 1.",
+      lockedMessage: "Le Gobelin Forgeron attend que ton marteau soit prêt. Termine les 3 séances de la semaine.",
+      exercises: [
+        { phase: "Cycle 1", exerciseId: "squats", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "incline_pushups", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "superman", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "squats", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "incline_pushups", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "superman", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "squats", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "incline_pushups", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "superman", amount: 8, unit: "répétitions" }
+      ]
+    },
+    {
+      week: 2,
+      title: "L’Orque du Marteau",
+      xp: 60,
+      badgeId: "forge-marteau-fer",
+      difficultyLabel: "Boss semaine 2 · 3 cycles",
+      instructions: "Débloqué après les 3 séances de la semaine 2.",
+      lockedMessage: "L’Orque du Marteau ne défie que les guerriers réguliers.",
+      exercises: [
+        { phase: "Cycle 1", exerciseId: "squats", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "incline_pushups", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "superman", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "core", amount: 20, unit: "sec" },
+
+        { phase: "Cycle 2", exerciseId: "squats", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "incline_pushups", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "superman", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "core", amount: 20, unit: "sec" },
+
+        { phase: "Cycle 3", exerciseId: "squats", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "incline_pushups", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "superman", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "core", amount: 20, unit: "sec" }
+      ]
+    },
+    {
+      week: 3,
+      title: "Le Troll de l’Enclume",
+      xp: 70,
+      badgeId: "forge-acier-trempe",
+      difficultyLabel: "Boss semaine 3 · 3 cycles",
+      instructions: "Débloqué après les 3 séances de la semaine 3.",
+      lockedMessage: "Le Troll de l’Enclume attend que ton acier soit trempé.",
+      exercises: [
+        { phase: "Cycle 1", exerciseId: "squats", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "incline_pushups", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "superman", amount: 12, unit: "répétitions" },
+
+        { phase: "Cycle 2", exerciseId: "squats", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "incline_pushups", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "superman", amount: 12, unit: "répétitions" },
+
+        { phase: "Cycle 3", exerciseId: "squats", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "incline_pushups", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "superman", amount: 12, unit: "répétitions" }
+      ]
+    },
+    {
+      week: 4,
+      title: "Le Seigneur de la Forge",
+      xp: 100,
+      badgeId: "seigneur-forge-vaincu",
+      chest: true,
+      nextPrograms: ["champion-arenes", "cavalier-route", "messager-sentiers"],
+      difficultyLabel: "Boss final · 35 à 45 min",
+      instructions: "Débloqué après les 3 séances de la semaine 4. Coffre de récompense final.",
+      lockedMessage: "Le Seigneur de la Forge attend un guerrier complet. Termine d’abord la semaine.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "arm_circles", amount: 60, unit: "sec" },
+        { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+        { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
+        { phase: "Échauffement", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
+        { phase: "Échauffement", exerciseId: "squats", amount: 10, unit: "répétitions" },
+        { phase: "Échauffement", exerciseId: "wall_pushups", amount: 10, unit: "répétitions" },
+
+        { phase: "Cycle 1", exerciseId: "squats", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "incline_pushups", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "superman", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+
+        { phase: "Cycle 2", exerciseId: "squats", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "incline_pushups", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "superman", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+
+        { phase: "Cycle 3", exerciseId: "squats", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "incline_pushups", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "superman", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+
+        { phase: "Retour au calme", exerciseId: "slow_walk", amount: 1, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 1, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+      ]
+    }
+  ],
+
+  progression: [
+    "Semaine 1 : L’Apprenti Forgeron · introduction des pompes inclinées.",
+    "Semaine 2 : Le Compagnon · ajout des fentes arrière assistées.",
+    "Semaine 3 : Le Maître Artisan · ajout du Dead Bug.",
+    "Semaine 4 : Le Guerrier Forgé · ajout du gainage latéral genoux.",
+    "Chaque séance utilise un échauffement standard et un retour au calme standard.",
+    "Chaque boss se débloque après validation des 3 séances de la semaine.",
+    "Récompense finale : badge Seigneur de la Forge, coffre de récompense et accès aux programmes suivants."
+  ],
+
+  notes: [
+    "Objectif : débutant à intermédiaire.",
+    "Matériel : aucun.",
+    "Les défis sont réalisés en 2 cycles.",
+    "Les boss sont réalisés en 3 cycles.",
+    "Les répétitions par jambe ou par côté sont converties en répétitions ou secondes totales dans l’application.",
+    "Pompes inclinées : mains sur une table ou un support surélevé.",
+    "Fentes arrière assistées : recule une jambe et descends doucement avec un support.",
+    "Dead Bug : allongé sur le dos, tends bras et jambe opposés sans creuser le dos.",
+    "Gainage latéral genoux : appui sur un avant-bras et les genoux, corps aligné sur le côté."
+  ]
+},
     "tour-mage": {
       "id": "tour-mage",
       "days": [
