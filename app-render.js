@@ -375,32 +375,110 @@ window.FitnessRpgRender.renderCoachChoices = function renderCoachChoices() {
   const grid = document.querySelector("#coachChoiceGrid");
   if (!grid) return;
 
-  const coaches = window.FitnessRpgData.coaches || {};
-  const selectedCoachId = window.FitnessRpgState.getCoachId?.() || window.FitnessRpgState.selectedCoachId || "korvan";
+  const coaches = Object.values(window.FitnessRpgData.coaches || {});
+  if (!coaches.length) {
+    grid.innerHTML = "<p>Aucun coach disponible.</p>";
+    return;
+  }
 
-  grid.innerHTML = "";
+  const selectedCoachId =
+    window.FitnessRpgState.selectedCoachId
+    || window.FitnessRpgState.getCoachId?.()
+    || coaches[0].id;
 
-  Object.values(coaches).forEach((coach) => {
-    const label = document.createElement("label");
-    label.className = `coach-choice-card${coach.id === selectedCoachId ? " active" : ""}`;
-    label.dataset.coachId = coach.id;
+  let selectedIndex = coaches.findIndex((coach) => coach.id === selectedCoachId);
 
-    label.innerHTML = `
-      <input type="radio" name="coachChoice" value="${coach.id}" ${coach.id === selectedCoachId ? "checked" : ""} />
-      <img src="${coach.image}" alt="${coach.fullName}" />
-      <div>
-        <strong>${coach.name}</strong>
-        <span>${coach.fullName}</span>
+  if (selectedIndex < 0) {
+    selectedIndex = 0;
+    window.FitnessRpgState.selectedCoachId = coaches[0].id;
+  }
+
+  const coach = coaches[selectedIndex];
+
+  grid.className = "coach-choice-grid coach-carousel-root";
+  grid.innerHTML = `
+    <div class="coach-carousel">
+      <button
+        id="prevCoachButton"
+        class="coach-carousel-btn ghost-btn"
+        type="button"
+        data-delta="-1"
+        aria-label="Coach précédent"
+      >
+        ‹
+      </button>
+
+      <div class="coach-carousel-viewport">
+        <label class="coach-choice-card coach-carousel-card active" data-coach-id="${coach.id}">
+          <input type="radio" name="coachChoice" value="${coach.id}" checked />
+
+          <img src="${coach.image}" alt="${coach.fullName}" />
+
+          <div class="coach-carousel-text">
+            <strong>${coach.name}</strong>
+            <span>${coach.fullName}</span>
+          </div>
+        </label>
       </div>
-    `;
 
-    const img = label.querySelector("img");
-    window.FitnessRpgRender.setSafeImage(img, coach.image, coach.fallbackImage);
+      <button
+        id="nextCoachButton"
+        class="coach-carousel-btn ghost-btn"
+        type="button"
+        data-delta="1"
+        aria-label="Coach suivant"
+      >
+        ›
+      </button>
+    </div>
 
-    grid.appendChild(label);
-  });
+    <div class="coach-carousel-dots" aria-label="Choix du coach">
+      ${coaches.map((item, index) => {
+        return `
+          <button
+            class="coach-carousel-dot${index === selectedIndex ? " active" : ""}"
+            type="button"
+            data-coach-id="${item.id}"
+            aria-label="Choisir ${item.name}"
+          ></button>
+        `;
+      }).join("")}
+    </div>
+  `;
+
+  const img = grid.querySelector("img");
+  window.FitnessRpgRender.setSafeImage(img, coach.image, coach.fallbackImage);
 };
 
+window.FitnessRpgRender.changeCoachCarousel = function changeCoachCarousel(delta = 1) {
+  const coaches = Object.values(window.FitnessRpgData.coaches || {});
+  if (!coaches.length) return;
+
+  const selectedCoachId =
+    window.FitnessRpgState.selectedCoachId
+    || window.FitnessRpgState.getCoachId?.()
+    || coaches[0].id;
+
+  const currentIndex = Math.max(
+    0,
+    coaches.findIndex((coach) => coach.id === selectedCoachId)
+  );
+
+  const nextIndex = (currentIndex + Number(delta || 0) + coaches.length) % coaches.length;
+  const nextCoach = coaches[nextIndex];
+
+  if (!nextCoach) return;
+
+  window.FitnessRpgState.selectedCoachId = nextCoach.id;
+  window.FitnessRpgRender.renderCoachChoices();
+};
+
+window.FitnessRpgRender.selectCoachFromCarousel = function selectCoachFromCarousel(coachId) {
+  if (!coachId) return;
+
+  window.FitnessRpgState.selectedCoachId = coachId;
+  window.FitnessRpgRender.renderCoachChoices();
+};
 // ============================================================
 // Page entraînement
 // ============================================================
