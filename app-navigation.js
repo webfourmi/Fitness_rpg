@@ -879,6 +879,16 @@ if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;
     window.FitnessRpgNavigation.openExercises();
     return;
   }
+  
+    if (target.closest("#openCoachSetupButton")) {
+    window.FitnessRpgNavigation.openHeroSetup();
+    return;
+  }
+  
+  if (target.closest("#trainingNewHeroButton")) {
+    window.FitnessRpgNavigation.startNewHero();
+    return;
+  }
 
   if (target.closest("#openFamiliarsButton")) {
     event.preventDefault();
