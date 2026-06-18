@@ -984,14 +984,14 @@ window.FitnessRpgData = {
     },
     {
       "id": "single_leg_balance",
-      "categoryId": "strength",
+      "categoryId": "core",
       "title": "Équilibre sur une jambe",
       "images": {
         "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/femme_default.png"
       },
       "unit": "sec",
-      "defaultValue": 20,
+      "defaultValue": 40,
       "min": 10,
       "step": 5,
       "xpPerUnit": 0.25,
@@ -1456,6 +1456,8 @@ window.FitnessRpgData = {
       "pose": "core",
       "hasTimer": true
     },
+
+   
     {
       "id": "dead_bug",
       "categoryId": "strength",
@@ -1507,7 +1509,7 @@ window.FitnessRpgData = {
     {
       "id": "pelvic_lift_floor",
       "categoryId": "strength",
-      "title": "Relevé de bassin au sol",
+      title: "Relevé de bassin contrôlé",
       "images": {
         "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercise_femme_relevedebassinausol.png"
@@ -6233,51 +6235,620 @@ window.FitnessRpgData = {
     "Gainage latéral genoux : appui sur un avant-bras et les genoux, corps aligné sur le côté."
   ]
 },
-    "tour-mage": {
-      "id": "tour-mage",
-      "days": [
+ "tour-mage": {
+  id: "tour-mage",
+  subtitle: "Pilates débutant à intermédiaire : centre du corps, posture, mobilité et équilibre.",
+  unlockLevel: 1,
+  duration: "20 min environ",
+  frequency: "Lundi, mercredi, vendredi + boss le samedi",
+  material: "Aucun matériel. Tapis conseillé.",
+  reward: {
+    badgeId: "tour-mage-vaincu",
+    badgeTitle: "Tour du Mage",
+    chest: true
+  },
+
+  weeks: [
+    {
+      week: 1,
+      title: "L’Apprenti Mage",
+      xp: 60,
+      progression: "Découverte du centre du corps. Nouvel exercice : bascule du bassin au sol.",
+      days: [
         {
-          "day": 1,
-          "title": "Mobilité et posture",
-          "exercises": [
-            {
-              "phase": "Respiration",
-              "exerciseId": "slow_breathing",
-              "amount": 2,
-              "unit": "min"
-            },
-            {
-              "phase": "Mobilité",
-              "exerciseId": "cat_cow",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Mobilité",
-              "exerciseId": "thoracic_rotation",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Gainage",
-              "exerciseId": "knee_plank",
-              "amount": 20,
-              "unit": "sec"
-            },
-            {
-              "phase": "Étirement",
-              "exerciseId": "gentle_back_stretch",
-              "amount": 5,
-              "unit": "min"
-            }
+          day: 1,
+          title: "Le Centre",
+          xp: 60,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Échauffement 5 min, deux défis en 2 cycles, retour au calme 5 min.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "pelvic_tilt", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "dead_bug", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "pelvic_tilt", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "dead_bug", amount: 12, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "knee_plank", amount: 15, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "superman", amount: 8, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "knee_plank", amount: 15, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "superman", amount: 8, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Mobilité",
+          xp: 60,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Mobilité douce et gainage profond.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "cat_cow", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "thoracic_rotation", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "cat_cow", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "thoracic_rotation", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dead_bug", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "knee_plank", amount: 15, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dead_bug", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "knee_plank", amount: 15, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Équilibre",
+          xp: 60,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Contrôle, équilibre et stabilité.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "single_leg_balance", amount: 40, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "dead_bug", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "single_leg_balance", amount: 40, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "dead_bug", amount: 12, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "pelvic_tilt", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "superman", amount: 8, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "pelvic_tilt", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "superman", amount: 8, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
           ]
         }
-      ],
-      "progression": [
-        "Très utile pour les jours de fatigue.",
-        "Objectif : sauver la série sans se punir."
       ]
     },
+
+    {
+      week: 2,
+      title: "Le Cercle de Pierre",
+      xp: 70,
+      progression: "Stabilité latérale et contrôle du centre. Nouvel exercice : gainage latéral genoux.",
+      days: [
+        {
+          day: 1,
+          title: "Stabilité",
+          xp: 70,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Travail du centre et des obliques.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "side_plank_knees", amount: 30, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "side_plank_knees", amount: 30, unit: "sec" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "superman", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "superman", amount: 10, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Mobilité du Mage",
+          xp: 70,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Mobilité contrôlée et gainage latéral.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "cat_cow", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "thoracic_rotation", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "side_plank_knees", amount: 30, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "cat_cow", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "thoracic_rotation", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "side_plank_knees", amount: 30, unit: "sec" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Contrôle",
+          xp: 70,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Équilibre, contrôle et stabilité.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "single_leg_balance", amount: 50, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "knee_plank", amount: 20, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "single_leg_balance", amount: 50, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "knee_plank", amount: 20, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "superman", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "superman", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    },
+
+    {
+      week: 3,
+      title: "Les Arcanes du Corps",
+      xp: 80,
+      progression: "Contrôle plus fin du bassin et gainage renforcé. Nouvel exercice : relevé de bassin contrôlé.",
+      days: [
+        {
+          day: 1,
+          title: "Force Intérieure",
+          xp: 80,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Centre du corps et contrôle du bassin.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "pelvic_lift_floor", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "pelvic_lift_floor", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "superman", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 25, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "superman", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 25, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Fluidité",
+          xp: 80,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Mobilité fluide et centre solide.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "cat_cow", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "thoracic_rotation", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "pelvic_lift_floor", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "cat_cow", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "thoracic_rotation", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "pelvic_lift_floor", amount: 12, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Maîtrise",
+          xp: 80,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Maîtrise du centre, équilibre et maintien.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "single_leg_balance", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "core", amount: 25, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "superman", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "single_leg_balance", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "core", amount: 25, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "superman", amount: 12, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "pelvic_lift_floor", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "pelvic_lift_floor", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    },
+
+    {
+      week: 4,
+      title: "Tour du Mage",
+      xp: 90,
+      progression: "Épreuve finale de contrôle. Nouvel exercice : Hollow hold simplifié.",
+      days: [
+        {
+          day: 1,
+          title: "Concentration",
+          xp: 90,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Contrôle profond du centre du corps.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "hollow_hold_simplified", amount: 15, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "hollow_hold_simplified", amount: 15, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "pelvic_lift_floor", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "superman", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "pelvic_lift_floor", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "superman", amount: 12, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Maîtrise Totale",
+          xp: 90,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Gainage, contrôle et mobilité.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "hollow_hold_simplified", amount: 15, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "core", amount: 30, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "hollow_hold_simplified", amount: 15, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "core", amount: 30, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "pelvic_lift_floor", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "thoracic_rotation", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "pelvic_lift_floor", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "thoracic_rotation", amount: 12, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Épreuve Finale",
+          xp: 90,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Dernière épreuve avant le Dragon Astral.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "hollow_hold_simplified", amount: 20, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "superman", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "hollow_hold_simplified", amount: 20, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "superman", amount: 15, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "pelvic_lift_floor", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "pelvic_lift_floor", amount: 15, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    }
+  ],
+
+  bosses: [
+    {
+      week: 1,
+      title: "Le Grimoire Perdu",
+      xp: 50,
+      badgeId: "tour-apprenti-cercle",
+      difficultyLabel: "Boss semaine 1 · 3 cycles",
+      instructions: "Débloqué après les 3 séances de la semaine 1.",
+      lockedMessage: "Le Grimoire Perdu reste fermé. Termine les 3 séances de la semaine.",
+      exercises: [
+        { phase: "Cycle 1", exerciseId: "pelvic_tilt", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "dead_bug", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "superman", amount: 8, unit: "répétitions" },
+
+        { phase: "Cycle 2", exerciseId: "pelvic_tilt", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "dead_bug", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "superman", amount: 8, unit: "répétitions" },
+
+        { phase: "Cycle 3", exerciseId: "pelvic_tilt", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "dead_bug", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "superman", amount: 8, unit: "répétitions" }
+      ]
+    },
+    {
+      week: 2,
+      title: "Le Golem de Marbre",
+      xp: 60,
+      badgeId: "tour-cercle-pierre",
+      difficultyLabel: "Boss semaine 2 · 3 cycles",
+      instructions: "Débloqué après les 3 séances de la semaine 2.",
+      lockedMessage: "Le Golem ne bougera pas tant que le Cercle de Pierre n’est pas achevé.",
+      exercises: [
+        { phase: "Cycle 1", exerciseId: "side_plank_knees", amount: 30, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "superman", amount: 10, unit: "répétitions" },
+
+        { phase: "Cycle 2", exerciseId: "side_plank_knees", amount: 30, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "superman", amount: 10, unit: "répétitions" },
+
+        { phase: "Cycle 3", exerciseId: "side_plank_knees", amount: 30, unit: "sec" },
+        { phase: "Cycle 3", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "superman", amount: 10, unit: "répétitions" }
+      ]
+    },
+    {
+      week: 3,
+      title: "L’Élémentaire d’Air",
+      xp: 70,
+      badgeId: "tour-arcanes-corps",
+      difficultyLabel: "Boss semaine 3 · 3 cycles",
+      instructions: "Débloqué après les 3 séances de la semaine 3.",
+      lockedMessage: "L’Élémentaire attend un corps stable et un souffle calme.",
+      exercises: [
+        { phase: "Cycle 1", exerciseId: "pelvic_lift_floor", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "superman", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+
+        { phase: "Cycle 2", exerciseId: "pelvic_lift_floor", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "superman", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+
+        { phase: "Cycle 3", exerciseId: "pelvic_lift_floor", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+        { phase: "Cycle 3", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "superman", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "dead_bug", amount: 20, unit: "répétitions" }
+      ]
+    },
+    {
+      week: 4,
+      title: "Le Dragon Astral",
+      xp: 100,
+      badgeId: "tour-mage-vaincu",
+      chest: true,
+      difficultyLabel: "Boss final · 30 à 40 min",
+      instructions: "Débloqué après les 3 séances de la semaine 4. Coffre magique final.",
+      lockedMessage: "Le Dragon Astral ne descend que devant un mage prêt.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "march_on_spot", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+        { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+        { phase: "Cycle 1", exerciseId: "hollow_hold_simplified", amount: 20, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "pelvic_lift_floor", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "superman", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+
+        { phase: "Cycle 2", exerciseId: "hollow_hold_simplified", amount: 20, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "pelvic_lift_floor", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "superman", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+
+        { phase: "Cycle 3", exerciseId: "hollow_hold_simplified", amount: 20, unit: "sec" },
+        { phase: "Cycle 3", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "pelvic_lift_floor", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
+        { phase: "Cycle 3", exerciseId: "superman", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+      ]
+    }
+  ],
+
+  progression: [
+    "Semaine 1 : L’Apprenti Mage · ajout de la bascule du bassin au sol.",
+    "Semaine 2 : Le Cercle de Pierre · ajout du gainage latéral genoux.",
+    "Semaine 3 : Les Arcanes du Corps · ajout du relevé de bassin contrôlé.",
+    "Semaine 4 : Tour du Mage · ajout du Hollow Hold simplifié.",
+    "Chaque séance suit le format : échauffement, défi 1, défi 2, retour au calme.",
+    "Les défis sont réalisés en 2 cycles.",
+    "Le boss du samedi se débloque après les 3 séances de la semaine.",
+    "Récompense finale : badge Tour du Mage, coffre magique et +100 XP."
+  ],
+
+  notes: [
+    "Objectif : Pilates débutant à intermédiaire.",
+    "Renforce le centre du corps, améliore la posture et développe la mobilité.",
+    "Les répétitions par côté sont converties en répétitions totales dans l’application.",
+    "Les temps par côté sont convertis en durée totale.",
+    "Bascule du bassin : plaque doucement le bas du dos contre le sol puis relâche.",
+    "Gainage latéral genoux : appui sur un avant-bras et les genoux, corps aligné.",
+    "Relevé de bassin contrôlé : monte les hanches vertèbre après vertèbre puis redescends lentement.",
+    "Hollow Hold simplifié : épaules et pieds légèrement décollés, ventre contracté."
+  ]
+},
     "rempart-heros": {
       "id": "rempart-heros",
       "subtitle": "Renforce ton centre, protège ton dos, tiens la ligne.",
