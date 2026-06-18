@@ -581,13 +581,6 @@ textarea:focus {
 }
 
 .home-image-frame {
-  width: fit-content;
-  max-width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.home-image-frame {
   width: min(100%, 420px);
   aspect-ratio: 1 / 1;
 
@@ -596,10 +589,19 @@ textarea:focus {
   align-items: center;
 
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: var(--radius);
   border: 1px solid var(--border-strong);
   background: rgba(255, 255, 255, 0.04);
 }
+
+.hero-image-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  background: rgba(255, 255, 255, 0.04);
+}
+
  #homeSplashImage {
   width: 100%;
   height: 100%;
@@ -2683,8 +2685,10 @@ body.modal-open {
     padding: 16px;
   }
 
-  .home-card {
-    max-width: min(94vw, 760px);
+ .home-card {
+    max-width: 94vw;
+    padding: 12px;
+    margin-top: 10px;
   }
 
   .form-grid {
@@ -2704,8 +2708,9 @@ body.modal-open {
     grid-row: span 3;
   }
 
-  .hero-image-frame {
-    max-width: 300px;
+   .home-image-frame {
+    width: min(100%, 340px);
+    aspect-ratio: 1 / 1;
   }
 
   .hero-image {
