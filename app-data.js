@@ -1509,7 +1509,7 @@ window.FitnessRpgData = {
     {
       "id": "pelvic_lift_floor",
       "categoryId": "strength",
-      title: "Relevé de bassin contrôlé",
+      "title": "Relevé de bassin contrôlé",
       "images": {
         "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercise_femme_relevedebassinausol.png"
