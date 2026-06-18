@@ -227,12 +227,12 @@ window.FitnessRpgConfig = {
       id: "forge-guerrier",
       icon: "⚒️",
       title: "Forge du guerrier",
-      objective: "Renforcement complet",
-      level: "Tous niveaux",
-      duration: "20-30 min",
-      frequency: "3 séances par semaine",
+      objective: "Renforcement complet sans matériel : jambes, bras, dos, gainage et posture",
+      level: "Débutant à intermédiaire",
+      duration: "20-25 min",
+      frequency: "3 séances par semaine + boss hebdomadaire",
       coachAdvice: "Bazul ou Xara",
-      xp: 40
+      xp: 60
     },
     {
       id: "rempart-heros",
@@ -375,6 +375,6 @@ window.FitnessRpgConfig.setVersionLabels = function setVersionLabels() {
   const versionLabel = document.querySelector("#appVersionLabel");
   if (versionLabel) versionLabel.textContent = version;
 
-  const versionBadge = document.querySelector("#appVersionBadge");
-  if (versionBadge) versionBadge.textContent = `Fitness RPG `;
+ const versionBadge = document.querySelector("#appVersionBadge");
+ if (versionBadge) versionBadge.textContent = "Fitness RPG";
 };
