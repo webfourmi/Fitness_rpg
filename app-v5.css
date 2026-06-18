@@ -4538,3 +4538,275 @@ body.level-up-active .hero-image-frame,
     font-size: 1rem !important;
   }
 }
+/* ============================================================
+   V6.2 - Page entraînement : quête du jour RPG
+   Amélioration visuelle uniquement
+============================================================ */
+
+/* Carte principale de la quête du jour */
+.today-card {
+  position: relative !important;
+  overflow: hidden !important;
+
+  padding: 16px !important;
+  border-radius: 24px !important;
+
+  border: 1px solid rgba(244, 211, 94, 0.42) !important;
+
+  background:
+    radial-gradient(circle at 18% 0%, rgba(244, 211, 94, 0.22), transparent 34%),
+    radial-gradient(circle at 100% 18%, rgba(91, 255, 147, 0.12), transparent 30%),
+    linear-gradient(180deg, rgba(35, 31, 47, 0.98), rgba(14, 18, 31, 0.98)) !important;
+
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.38),
+    0 0 0 1px rgba(244, 211, 94, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Liseré supérieur façon carte rare */
+.today-card::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+
+  height: 5px !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      #f4d35e 0%,
+      #ff9f43 34%,
+      #35e27a 68%,
+      #7db7ff 100%
+    ) !important;
+
+  opacity: 0.95 !important;
+}
+
+/* Petit symbole décoratif */
+.today-card::after {
+  content: "⚔️" !important;
+  position: absolute !important;
+  right: 14px !important;
+  top: 12px !important;
+
+  width: 38px !important;
+  height: 38px !important;
+
+  display: grid !important;
+  place-items: center !important;
+
+  border-radius: 14px !important;
+  border: 1px solid rgba(244, 211, 94, 0.35) !important;
+
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,0.18), transparent 36%),
+    rgba(0, 0, 0, 0.25) !important;
+
+  font-size: 1.2rem !important;
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255,255,255,0.08) !important;
+}
+
+/* Titre quête */
+.today-card h2 {
+  margin: 0 44px 8px 0 !important;
+
+  color: #fff3bf !important;
+  font-size: 1.2rem !important;
+  font-weight: 1000 !important;
+  line-height: 1.15 !important;
+
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.45),
+    0 0 18px rgba(244, 211, 94, 0.16) !important;
+}
+
+/* Texte de la quête */
+.today-card p {
+  color: rgba(255, 255, 255, 0.86) !important;
+  font-size: 0.92rem !important;
+  line-height: 1.42 !important;
+}
+
+/* Mise en avant des infos importantes dans la carte */
+.today-card strong,
+.today-card b {
+  color: #f4d35e !important;
+}
+
+/* Bouton dans la quête du jour */
+.today-card .primary-btn,
+.today-card .start-today-btn,
+.today-card .start-session-btn {
+  margin-top: 12px !important;
+}
+
+/* Effet PC seulement */
+@media (hover: hover) {
+  .today-card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow:
+      0 20px 42px rgba(0, 0, 0, 0.44),
+      0 0 0 1px rgba(244, 211, 94, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+  }
+}
+
+/* ============================================================
+   Barre de raccourcis entraînement
+============================================================ */
+
+.training-toolbar {
+  border-radius: 24px !important;
+  padding: 10px !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+
+  background:
+    radial-gradient(circle at top left, rgba(125, 183, 255, 0.12), transparent 38%),
+    linear-gradient(180deg, rgba(31, 36, 59, 0.96), rgba(14, 18, 31, 0.96)) !important;
+
+  box-shadow:
+    0 12px 26px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Boutons raccourcis */
+.training-toolbar button {
+  position: relative !important;
+  overflow: hidden !important;
+
+  min-height: 62px !important;
+  padding: 8px 5px !important;
+
+  border-radius: 18px !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+
+  background:
+    radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.16), transparent 36%),
+    linear-gradient(180deg, rgba(47, 54, 77, 0.98), rgba(24, 28, 43, 0.98)) !important;
+
+  color: #ffffff !important;
+
+  box-shadow:
+    0 6px 0 rgba(0, 0, 0, 0.32),
+    0 11px 18px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Icône du raccourci */
+.training-toolbar button > span:first-child,
+.training-toolbar button .toolbar-icon {
+  font-size: 1.35rem !important;
+  line-height: 1 !important;
+}
+
+/* Texte du raccourci */
+.training-toolbar button > span:last-child {
+  color: rgba(255, 255, 255, 0.78) !important;
+  font-size: 0.68rem !important;
+  font-weight: 900 !important;
+  line-height: 1.08 !important;
+}
+
+/* Effet actif */
+.training-toolbar button:active {
+  transform: translateY(2px) !important;
+  box-shadow:
+    0 3px 0 rgba(0, 0, 0, 0.42),
+    0 8px 14px rgba(0, 0, 0, 0.22) !important;
+}
+
+/* Petite lueur quand survol PC */
+@media (hover: hover) {
+  .training-toolbar button:hover {
+    border-color: rgba(244, 211, 94, 0.42) !important;
+    filter: brightness(1.06) !important;
+  }
+}
+
+/* ============================================================
+   Coach compact plus premium
+============================================================ */
+
+.coach-panel {
+  border-radius: 24px !important;
+
+  border: 1px solid rgba(244, 211, 94, 0.22) !important;
+
+  background:
+    radial-gradient(circle at top left, rgba(244, 211, 94, 0.13), transparent 34%),
+    linear-gradient(180deg, rgba(31, 36, 59, 0.96), rgba(14, 18, 31, 0.96)) !important;
+
+  box-shadow:
+    0 12px 26px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+.coach-panel img {
+  border-radius: 18px !important;
+  border: 1px solid rgba(244, 211, 94, 0.48) !important;
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.34),
+    0 0 18px rgba(244, 211, 94, 0.12) !important;
+}
+
+#coachName {
+  color: #fff3bf !important;
+  font-weight: 1000 !important;
+}
+
+#coachMessage {
+  color: rgba(255, 255, 255, 0.82) !important;
+  line-height: 1.36 !important;
+}
+
+/* Mobile : éviter que la page soit trop chargée */
+@media (max-width: 520px) {
+  .today-card {
+    padding: 14px !important;
+    border-radius: 22px !important;
+  }
+
+  .today-card h2 {
+    font-size: 1.08rem !important;
+  }
+
+  .today-card::after {
+    width: 34px !important;
+    height: 34px !important;
+    right: 12px !important;
+    top: 11px !important;
+    font-size: 1.05rem !important;
+  }
+
+  .training-toolbar {
+    gap: 8px !important;
+    padding: 9px !important;
+    border-radius: 22px !important;
+  }
+
+  .training-toolbar button {
+    min-height: 58px !important;
+    border-radius: 16px !important;
+  }
+
+  .training-toolbar button > span:first-child,
+  .training-toolbar button .toolbar-icon {
+    font-size: 1.22rem !important;
+  }
+
+  .training-toolbar button > span:last-child {
+    font-size: 0.64rem !important;
+  }
+
+  .coach-panel {
+    border-radius: 22px !important;
+  }
+}
