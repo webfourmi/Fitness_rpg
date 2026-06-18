@@ -76,13 +76,20 @@ window.FitnessRpgNavigation.goBack = function goBack() {
     return;
   }
 
-  if (currentPage === "hero-setup") {
-    if (window.FitnessRpgState.hasProfile()) {
-      window.FitnessRpgNavigation.goHome();
-    }
+  if (currentPage === "hero-menu") {
+  window.FitnessRpgNavigation.goTraining();
+  return;
+}
 
-    return;
+if (currentPage === "hero-setup") {
+  if (window.FitnessRpgState.hasProfile()) {
+    window.FitnessRpgNavigation.openHeroMenu();
+  } else {
+    window.FitnessRpgNavigation.goHome();
   }
+
+  return;
+}
 
   window.FitnessRpgNavigation.goTraining();
 };
@@ -102,8 +109,31 @@ window.FitnessRpgNavigation.goTraining = function goTraining() {
   window.FitnessRpgNavigation.setPage("training");
 };
 
-window.FitnessRpgNavigation.openHeroSetup = function openHeroSetup() {
+window.FitnessRpgNavigation.heroSetupMode = "create";
+
+window.FitnessRpgNavigation.openHeroSetup = function openHeroSetup(mode = null) {
+  const hasProfile = window.FitnessRpgState.hasProfile();
+
+  window.FitnessRpgNavigation.heroSetupMode = mode || (hasProfile ? "edit-hero" : "create");
   window.FitnessRpgNavigation.setPage("hero-setup");
+};
+
+window.FitnessRpgNavigation.openHeroMenu = function openHeroMenu() {
+  if (!window.FitnessRpgState.hasProfile()) {
+    window.FitnessRpgNavigation.openHeroSetup("create");
+    return;
+  }
+
+  window.FitnessRpgNavigation.setPage("hero-menu");
+};
+
+window.FitnessRpgNavigation.openHeroEdit = function openHeroEdit() {
+  if (!window.FitnessRpgState.hasProfile()) {
+    window.FitnessRpgNavigation.openHeroSetup("create");
+    return;
+  }
+
+  window.FitnessRpgNavigation.openHeroSetup("edit-hero");
 };
 
 window.FitnessRpgNavigation.openPrograms = function openPrograms(programId = null) {
@@ -165,7 +195,7 @@ window.FitnessRpgNavigation.openCoach = function openCoach() {
   window.FitnessRpgState.selectedCoachId = coachId;
   window.FitnessRpgState.setPose?.("explain");
 
-  window.FitnessRpgNavigation.setPage("hero-setup");
+  window.FitnessRpgNavigation.openHeroSetup("edit-coach");
 };
 // ============================================================
 // Quête du jour → programme recommandé
@@ -203,9 +233,47 @@ window.FitnessRpgNavigation.readHeroForm = function readHeroForm() {
 };
 
 window.FitnessRpgNavigation.saveHeroFromForm = function saveHeroFromForm() {
+  const mode = window.FitnessRpgNavigation.heroSetupMode || "create";
+  const hasProfile = window.FitnessRpgState.hasProfile();
   const data = window.FitnessRpgNavigation.readHeroForm();
 
-  if (window.FitnessRpgState.hasProfile()) {
+  if (mode === "edit-coach" && hasProfile) {
+    window.FitnessRpgState.updateProfile({
+      coachId: data.coachId
+    });
+
+    window.FitnessRpgState.addJournalEntry({
+      type: "profile",
+      title: "Coach mis à jour",
+      text: "Le coach du héros a été modifié.",
+      xp: 0
+    });
+
+    window.FitnessRpgState.setPose("welcome");
+    window.FitnessRpgNavigation.setPage("training");
+    return;
+  }
+
+  if (mode === "edit-hero" && hasProfile) {
+    window.FitnessRpgState.updateProfile({
+      name: data.name,
+      age: data.age,
+      gender: data.gender
+    });
+
+    window.FitnessRpgState.addJournalEntry({
+      type: "profile",
+      title: "Héros mis à jour",
+      text: `Profil mis à jour pour ${data.name}.`,
+      xp: 0
+    });
+
+    window.FitnessRpgState.setPose("welcome");
+    window.FitnessRpgNavigation.setPage("training");
+    return;
+  }
+
+  if (hasProfile) {
     window.FitnessRpgState.updateProfile(data);
 
     window.FitnessRpgState.addJournalEntry({
@@ -242,8 +310,9 @@ window.FitnessRpgNavigation.startNewHero = function startNewHero() {
   if (maleInput) maleInput.checked = true;
 
   window.FitnessRpgState.selectedCoachId = "korvan";
-  window.FitnessRpgState.setPose("idle");
-  window.FitnessRpgNavigation.setPage("hero-setup");
+window.FitnessRpgNavigation.heroSetupMode = "create";
+window.FitnessRpgState.setPose("idle");
+window.FitnessRpgNavigation.setPage("hero-setup");
 };
 
 window.FitnessRpgNavigation.cancelHeroSetup = function cancelHeroSetup() {
@@ -880,15 +949,23 @@ if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;
     return;
   }
   
-    if (target.closest("#openCoachSetupButton")) {
-    window.FitnessRpgNavigation.openHeroSetup();
-    return;
-  }
-  
-  if (target.closest("#trainingNewHeroButton")) {
-    window.FitnessRpgNavigation.startNewHero();
-    return;
-  }
+  if (target.closest("#openHeroMenuButton")) {
+  event.preventDefault();
+  window.FitnessRpgNavigation.openHeroMenu();
+  return;
+}
+
+if (target.closest("#editHeroProfileButton")) {
+  event.preventDefault();
+  window.FitnessRpgNavigation.openHeroEdit();
+  return;
+}
+
+if (target.closest("#createNewHeroFromMenuButton")) {
+  event.preventDefault();
+  window.FitnessRpgNavigation.startNewHero();
+  return;
+}  
 
   if (target.closest("#openFamiliarsButton")) {
     event.preventDefault();
