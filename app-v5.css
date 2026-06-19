@@ -2822,6 +2822,117 @@ body.modal-open {
 }
 
 /* ============================================================
+   Modale RPG globale
+============================================================ */
+
+.rpg-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 180;
+
+  display: grid;
+  place-items: center;
+
+  padding: 18px;
+  background: rgba(5, 8, 14, 0.88);
+  backdrop-filter: blur(10px);
+}
+
+.rpg-modal-overlay.hidden {
+  display: none !important;
+}
+
+.rpg-modal-card {
+  width: min(100%, 440px);
+  max-height: min(82vh, 680px);
+  overflow-y: auto;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid rgba(240, 184, 79, 0.45);
+
+  background:
+    radial-gradient(circle at top, rgba(240, 184, 79, 0.18), transparent 42%),
+    linear-gradient(180deg, rgba(32, 24, 16, 0.98), rgba(9, 12, 18, 0.98));
+
+  box-shadow:
+    0 22px 70px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.rpg-modal-icon {
+  width: 46px;
+  height: 46px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 16px;
+  background: rgba(240, 184, 79, 0.16);
+  border: 1px solid rgba(240, 184, 79, 0.42);
+
+  font-size: 1.45rem;
+}
+
+.rpg-modal-content {
+  display: grid;
+  gap: 10px;
+}
+
+.rpg-modal-content h2 {
+  margin: 0;
+  color: var(--accent-strong);
+  font-size: 1.2rem;
+  line-height: 1.15;
+}
+
+.rpg-modal-message {
+  display: grid;
+  gap: 7px;
+}
+
+.rpg-modal-message p {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.92rem;
+  line-height: 1.38;
+}
+
+.rpg-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+.rpg-modal-actions button {
+  min-width: 110px;
+}
+
+@media (max-width: 520px) {
+  .rpg-modal-card {
+    grid-template-columns: 1fr;
+    width: min(100%, 380px);
+    padding: 16px;
+    text-align: center;
+  }
+
+  .rpg-modal-icon {
+    margin: 0 auto;
+  }
+
+  .rpg-modal-actions {
+    justify-content: center;
+  }
+
+  .rpg-modal-actions button {
+    width: 100%;
+  }
+}
+/* ============================================================
    12 - Animations et responsive
 ============================================================ */
 
