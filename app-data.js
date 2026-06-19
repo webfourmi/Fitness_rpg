@@ -539,7 +539,7 @@ window.FitnessRpgData = {
       "title": "Marche sur place",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_marchedelaventurier.jpg"
+        "female": "assets/exercices/exercice_femme_marchesurplace.jpg"
       },
       "unit": "min",
       "defaultValue": 2,
@@ -559,7 +559,7 @@ window.FitnessRpgData = {
       "title": "Cercles de bras",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_default.png"
+        "female": "assets/exercices/femme_cercledebras.png"
       },
       "unit": "sec",
       "defaultValue": 60,
@@ -596,7 +596,7 @@ window.FitnessRpgData = {
       "title": "Marche dynamique",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_marchedelaventurier.jpg"
+        "female": "assets/exercices/exercice_femme_marchedynamique.jpg"
       },
       "unit": "min",
       "defaultValue": 3,
@@ -968,7 +968,7 @@ window.FitnessRpgData = {
       "title": "Cercles de chevilles",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_default.png"
+        "female": "assets/exercices/femme_cerclecheville.png"
       },
       "unit": "sec",
       "defaultValue": 30,
@@ -1260,7 +1260,7 @@ window.FitnessRpgData = {
       "title": "Curl marteau",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_default.png"
+        "female": "assets/exercices/femme_curlmarteau.png"
       },
       "unit": "répétitions",
       "defaultValue": 24,
@@ -1409,7 +1409,7 @@ window.FitnessRpgData = {
       "title": "Bird Dog",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_default.png"
+        "female": "assets/exercices/femme_birddog.png"
       },
       "unit": "répétitions",
       "defaultValue": 12,
