@@ -385,10 +385,9 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
         <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/homme_default.png'">
       </button>
 
-      <div class="exercise-card-body">
+     <div class="exercise-card-body">
         <p class="exercise-stat">${icon} ${stat}</p>
-        ${description ? `<p class="exercise-description">${description}</p>` : ""}
-
+      
         <div class="exercise-control-row">
           ${timerButton}
 
