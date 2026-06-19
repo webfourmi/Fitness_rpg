@@ -257,7 +257,7 @@ window.FitnessRpgConfig = {
       xp: 35
     },
     {
-   {
+   
       id: "tour-mage",
       icon: "🧘",
       title: "Tour du Mage",
