@@ -1507,17 +1507,15 @@ window.FitnessRpgRender.getHeroImagePathForLevel = function getHeroImagePathForL
 };
 
 window.FitnessRpgRender.renderLevelUpChestHtml = function renderLevelUpChestHtml(levelReward, familiar) {
-  if (levelReward?.allCollected) {
-    return `
-      <div class="level-up-chest-slot is-open" id="levelUpChestSlot">
-        <div class="level-up-chest-card is-visible">
-          <div class="level-up-chest-trophy">🏆</div>
-          <strong>Collection complète</strong>
-          <span>Tous les familiers sont déjà débloqués.</span>
-        </div>
-      </div>
-    `;
-  }
+ if (levelReward?.allCollected) {
+  return `
+    <div class="level-up-chest-slot is-open" id="levelUpChestSlot">
+      <p class="level-up-chest-empty">
+        🏆 Collection complète : tous les familiers sont déjà débloqués.
+      </p>
+    </div>
+  `;
+}
 
   if (!familiar) {
     return `
