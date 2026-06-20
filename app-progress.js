@@ -181,6 +181,7 @@ window.FitnessRpgProgress.handleLevelUp = function handleLevelUp(oldLevel, newLe
     xp: 0
   });
 
+  window.FitnessRpgProgress.awardFamiliarsForLevelRange?.(oldLevel, newLevel);
   window.FitnessRpgProgress.queueLevelUpModal(oldLevel, newLevel);
 };
 
