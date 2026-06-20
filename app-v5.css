@@ -2690,13 +2690,17 @@ audio {
   background: rgba(5, 8, 14, 0.92);
   backdrop-filter: blur(10px);
 }
-
 .level-up-card {
   width: min(100%, 380px);
   max-height: calc(100dvh - 28px);
   overflow-y: auto;
   overflow-x: hidden;
 
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+
+  padding: 14px;
   text-align: center;
   border-color: var(--border-strong);
   animation: levelUpPop 0.42s ease both;
@@ -2704,21 +2708,45 @@ audio {
   -webkit-overflow-scrolling: touch;
 }
 
+.level-up-card > .eyebrow {
+  margin: -2px auto 0;
+}
+
+.level-up-card h1 {
+  margin: 0;
+  color: var(--accent-strong);
+  font-size: clamp(1.25rem, 5vw, 1.7rem);
+  line-height: 1.05;
+}
+
+.level-up-text {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.level-up-text > p {
+  margin: 0;
+}
+
 .level-up-icon {
   display: none;
 }
 
-.level-up-card h1 {
-  color: var(--accent-strong);
-}
 
 .level-up-reward {
-  margin: var(--space-md) 0;
-  padding: var(--space-sm);
-  border-radius: var(--radius-small);
+  max-width: 100%;
+  margin: 0;
+  padding: 6px 10px;
+
+  border-radius: 999px;
   background: rgba(255, 255, 255, 0.07);
+
   color: var(--text);
+  font-size: 0.78rem;
   font-weight: 900;
+  line-height: 1.15;
 }
 
 .level-up-pulse {
@@ -2730,33 +2758,26 @@ body.level-up-active .hero-image-frame {
 }
 .level-up-transform {
   display: grid;
-  justify-items: center;
-  margin: 10px 0 12px;
-}
-
-.level-up-transform {
-  display: grid;
   place-items: center;
   width: 100%;
-  margin: 6px auto 10px;
+  margin: 0 auto 4px;
 }
 
-..level-up-hero-stage {
+.level-up-hero-stage {
   position: relative;
 
-  width: min(230px, 68vw);
+  width: min(220px, 64vw);
   aspect-ratio: 1 / 1;
 
   display: grid;
   place-items: center;
 
-  margin: 0 auto 8px;
+  margin: 0 auto;
 
   border-radius: 20px;
   border: 1px solid rgba(240, 184, 79, 0.42);
 
   background: #f4f0df;
-
   overflow: hidden;
 
   box-shadow:
@@ -2809,7 +2830,7 @@ body.level-up-active .hero-image-frame {
 .level-up-stage-label {
   position: absolute;
   left: 50%;
-  bottom: 8px;
+  bottom: 6px;
   z-index: 3;
 
   transform: translateX(-50%);
@@ -2824,10 +2845,10 @@ body.level-up-active .hero-image-frame {
   border-radius: 999px;
   border: 1px solid rgba(240, 184, 79, 0.52);
 
-  background: rgba(8, 10, 16, 0.76);
+  background: rgba(8, 10, 16, 0.78);
   color: var(--accent-strong);
 
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   font-weight: 950;
   line-height: 1;
   white-space: nowrap;
@@ -2836,9 +2857,11 @@ body.level-up-active .hero-image-frame {
 }
 
 .level-up-narrative {
+  max-width: 280px;
+  margin: 0 auto;
   color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.35;
+  font-size: 0.82rem;
+  line-height: 1.25;
 }
 /* ============================================================
    Page familiers
@@ -3393,10 +3416,18 @@ body.level-up-active .hero-image-frame {
 
   font-size: 2.2rem;
 }
-
 .level-up-chest-empty {
+  max-width: 280px;
+  margin: 0 auto;
+  padding: 7px 10px;
+
+  border-radius: 999px;
+  border: 1px solid rgba(240, 184, 79, 0.34);
+  background: rgba(240, 184, 79, 0.1);
+
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.78rem;
+  line-height: 1.2;
 }
 body.modal-open {
   overflow: hidden;
@@ -3453,38 +3484,31 @@ body.modal-open {
   .level-up-card {
     width: min(100%, 360px);
     max-height: calc(100dvh - 20px);
-    padding: 12px;
-  }
-
-  .level-up-icon {
-    width: 64px;
-    height: 64px;
-    margin: 8px auto;
-    font-size: 2.1rem;
+    padding: 10px;
+    gap: 7px;
   }
 
   .level-up-hero-stage {
-  width: min(210px, 72vw);
-  aspect-ratio: 1 / 1;
-}
+    width: min(210px, 72vw);
+    aspect-ratio: 1 / 1;
+  }
 
   .level-up-card h1 {
-    font-size: 1.35rem;
-    line-height: 1.1;
+    font-size: 1.3rem;
+    line-height: 1.05;
   }
 
   .level-up-reward {
-    margin: 8px 0;
+    margin: 0;
   }
 
   .level-up-chest-card {
-    width: min(220px, 78vw);
+    width: min(210px, 78vw);
   }
 
   .level-up-chest-card img {
-    width: min(160px, 60vw);
+    width: min(150px, 58vw);
   }
-}
 }
 
 /* ============================================================
