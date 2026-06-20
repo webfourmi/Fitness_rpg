@@ -1612,7 +1612,10 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
   const text = document.querySelector("#levelUpText");
   const reward = document.querySelector("#levelUpReward");
 
-  if (icon) icon.textContent = hasChest ? "🎁" : "✨";
+  if (icon) {
+    icon.textContent = "";
+    icon.classList.add("hidden");
+  }
   if (title) title.textContent = `Niveau ${newLevel} atteint !`;
 
  if (text) {
