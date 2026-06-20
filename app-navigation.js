@@ -825,6 +825,15 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
   // ============================================================
   // COFFRE RECOMPENSE FERMETURE
   // ============================================================
+const levelUpChestButton = target.closest(".level-up-chest-button");
+
+if (levelUpChestButton) {
+  window.FitnessRpgNavigation.stopEvent(event);
+  window.FitnessRpgRender?.openLevelUpChestReward?.();
+  return true;
+}
+
+  
 const openChestRewardButton = target.closest(".open-chest-reward-btn");
 
 if (openChestRewardButton) {
