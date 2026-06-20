@@ -8974,13 +8974,20 @@ window.FitnessRpgData.pickRandomFamiliar = function pickRandomFamiliar(alreadyOw
     return !alreadyOwnedIds.includes(familiar.id);
   });
 
-  const pool = remainingFamiliars.length > 0 ? remainingFamiliars : allFamiliars;
-  const randomIndex = Math.floor(Math.random() * pool.length);
-  const selected = pool[randomIndex];
+  if (!remainingFamiliars.length) {
+    return {
+      familiar: null,
+      isNew: false,
+      allCollected: true
+    };
+  }
+
+  const randomIndex = Math.floor(Math.random() * remainingFamiliars.length);
+  const selected = remainingFamiliars[randomIndex];
 
   return {
     familiar: selected,
-    isNew: !alreadyOwnedIds.includes(selected.id),
-    allCollected: remainingFamiliars.length === 0
+    isNew: true,
+    allCollected: false
   };
 };
