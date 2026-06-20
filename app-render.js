@@ -1506,6 +1506,87 @@ window.FitnessRpgRender.getHeroImagePathForLevel = function getHeroImagePathForL
   return `assets/joueur/joueur_niveau_${padded}.png`;
 };
 
+window.FitnessRpgRender.renderLevelUpChestHtml = function renderLevelUpChestHtml(levelReward, familiar) {
+  if (levelReward?.allCollected) {
+    return `
+      <div class="level-up-chest-slot is-open" id="levelUpChestSlot">
+        <div class="level-up-chest-card is-visible">
+          <div class="level-up-chest-trophy">🏆</div>
+          <strong>Collection complète</strong>
+          <span>Tous les familiers sont déjà débloqués.</span>
+        </div>
+      </div>
+    `;
+  }
+
+  if (!familiar) {
+    return `
+      <p class="level-up-chest-empty">
+        Coffre de familier débloqué, mais aucun familier n’est disponible.
+      </p>
+    `;
+  }
+
+  const safeName = window.FitnessRpgRender.escapeHtml(familiar.name || "Familier");
+  const safeImage = window.FitnessRpgRender.escapeHtml(familiar.image || "");
+
+  return `
+    <div class="level-up-chest-slot" id="levelUpChestSlot">
+      <button
+        class="level-up-chest-button"
+        type="button"
+        aria-label="Ouvrir le coffre de familier"
+      >
+        <div class="reward-chest-box is-closed">
+          <div class="reward-chest-visual" aria-hidden="true">
+            <div class="reward-chest-light"></div>
+            <div class="reward-chest-lid"></div>
+            <div class="reward-chest-base"></div>
+            <div class="reward-chest-lock">✦</div>
+          </div>
+        </div>
+
+        <span class="level-up-chest-hint">
+          Toucher le coffre pour l’ouvrir
+        </span>
+      </button>
+
+      <div class="level-up-chest-card hidden" id="levelUpChestCard">
+        <img src="${safeImage}" alt="${safeName}" />
+        <strong>${safeName}</strong>
+        <span>Nouveau familier débloqué</span>
+      </div>
+    </div>
+  `;
+};
+
+window.FitnessRpgRender.openLevelUpChestReward = function openLevelUpChestReward() {
+  const slot = document.querySelector("#levelUpChestSlot");
+  const button = document.querySelector(".level-up-chest-button");
+  const chestBox = document.querySelector("#levelUpChestSlot .reward-chest-box");
+  const card = document.querySelector("#levelUpChestCard");
+  const hint = document.querySelector(".level-up-chest-hint");
+
+  if (!slot || !button || !chestBox || !card) return;
+  if (slot.classList.contains("is-open")) return;
+
+  slot.classList.add("is-open");
+  button.classList.add("is-open");
+
+  chestBox.classList.remove("is-closed");
+  chestBox.classList.add("is-open");
+
+  if (hint) {
+    hint.textContent = "Coffre ouvert !";
+  }
+
+  window.setTimeout(() => {
+    card.classList.remove("hidden");
+    card.classList.add("is-visible");
+
+    window.FitnessRpgRender.renderFamiliarsPage?.();
+  }, 950);
+};
 window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
   const pending = window.FitnessRpgProgress.peekLevelUpModal?.();
   const overlay = document.querySelector("#levelUpOverlay");
@@ -1566,9 +1647,11 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
         : ""
     }
 
-    <p>
-      ${hasChest ? "Transformation majeure accomplie." : "Nouvelle apparence héroïque débloquée."}
-    </p>
+   ${
+      hasChest
+        ? window.FitnessRpgRender.renderLevelUpChestHtml(levelReward, familiar)
+        : `<p>Nouvelle apparence héroïque débloquée.</p>`
+    }
 
     <button
       class="secondary-btn open-progression-from-levelup-btn"
@@ -1593,7 +1676,7 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
     requestAnimationFrame(() => {
       setTimeout(() => {
         levelUpHeroStage.classList.add("is-transitioning");
-      }, 180);
+      }, 850);
     });
   }
 };
