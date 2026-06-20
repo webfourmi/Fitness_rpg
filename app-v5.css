@@ -2820,6 +2820,55 @@ body.level-up-active .hero-image-frame {
 body.modal-open {
   overflow: hidden;
 }
+.level-up-familiar-reward {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  align-items: center;
+  gap: 12px;
+
+  margin: 12px auto;
+  padding: 10px;
+
+  border-radius: 18px;
+  border: 1px solid rgba(240, 184, 79, 0.45);
+  background: rgba(240, 184, 79, 0.12);
+  text-align: left;
+}
+
+.level-up-familiar-reward img,
+.level-up-familiar-placeholder {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  object-fit: cover;
+
+  display: grid;
+  place-items: center;
+
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 2rem;
+}
+
+.level-up-familiar-reward strong {
+  display: block;
+  color: var(--accent-strong);
+  font-size: 1.05rem;
+}
+
+.level-up-familiar-reward span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 520px) {
+  .level-up-familiar-reward {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+}
 
 /* ============================================================
    Modale RPG globale
