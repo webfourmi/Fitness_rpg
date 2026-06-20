@@ -2202,6 +2202,7 @@ window.FitnessRpgRender.closeFamiliarModal = function closeFamiliarModal() {
   overlay.innerHTML = "";
   document.body.classList.remove("modal-open");
 };
+}  
 // ============================================================
 // Rendu global
 // ============================================================
