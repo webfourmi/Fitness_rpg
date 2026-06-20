@@ -2578,6 +2578,12 @@ body.level-up-active .hero-image-frame {
   text-align: center;
 }
 
+.familiar-collection-summary .eyebrow {
+  max-width: min(100%, 260px);
+  justify-content: center;
+  padding-inline: 14px;
+}
+
 .familiar-collection-summary h2 {
   margin: 6px 0;
   color: var(--accent-strong);
