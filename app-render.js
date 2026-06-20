@@ -1537,16 +1537,22 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
  if (text) {
   text.innerHTML = `
     <div class="level-up-transform">
-      <div class="level-up-hero-stage">
-        <img src="${oldHeroImage}" alt="Ancien niveau" />
-        <span>Niv. ${oldLevel}</span>
-      </div>
+      <div class="level-up-hero-stage" id="levelUpHeroStage">
+        <img
+          src="${oldHeroImage}"
+          alt="Héros niveau ${oldLevel}"
+          class="level-up-hero-img level-up-hero-img-old"
+        />
 
-      <div class="level-up-arrow">➜</div>
+        <img
+          src="${newHeroImage}"
+          alt="Héros niveau ${newLevel}"
+          class="level-up-hero-img level-up-hero-img-new"
+        />
 
-      <div class="level-up-hero-stage level-up-new">
-        <img src="${newHeroImage}" alt="Nouveau niveau" />
-        <span>Niv. ${newLevel}</span>
+        <span class="level-up-stage-label">
+          Niv. ${oldLevel} → Niv. ${newLevel}
+        </span>
       </div>
     </div>
 
@@ -1561,34 +1567,9 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
     }
 
     <p>
-      ${hasChest ? "Coffre de familier ouvert." : "Nouvelle apparence héroïque débloquée."}
+      ${hasChest ? "Transformation majeure accomplie." : "Nouvelle apparence héroïque débloquée."}
     </p>
 
-    ${
-  familiar
-    ? `
-      <div class="level-up-familiar-reward">
-        <img src="${familiar.image}" alt="${familiar.name}" />
-        <div>
-          <strong>${familiar.name}</strong>
-          <span>Nouveau familier débloqué</span>
-        </div>
-      </div>
-    `
-    : (
-      levelReward?.allCollected
-        ? `
-          <div class="level-up-familiar-reward">
-            <div class="level-up-familiar-placeholder">🏆</div>
-            <div>
-              <strong>Collection complète</strong>
-              <span>Tous les familiers sont déjà débloqués.</span>
-            </div>
-          </div>
-        `
-        : ""
-    )
-}
     <button
       class="secondary-btn open-progression-from-levelup-btn"
       type="button"
@@ -1606,6 +1587,15 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
   overlay.classList.remove("hidden");
   overlay.setAttribute("aria-hidden", "false");
   document.body.classList.add("level-up-active");
+  const levelUpHeroStage = document.querySelector("#levelUpHeroStage");
+
+  if (levelUpHeroStage) {
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        levelUpHeroStage.classList.add("is-transitioning");
+      }, 180);
+    });
+  }
 };
 
 window.FitnessRpgRender.closeLevelUpOverlay = function closeLevelUpOverlay() {
