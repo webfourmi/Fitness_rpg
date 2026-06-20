@@ -9085,8 +9085,16 @@ window.FitnessRpgData.pickRandomFamiliar = function pickRandomFamiliar(alreadyOw
     return null;
   }
 
+  const ownedIds = [...new Set(
+    alreadyOwnedIds
+      .map((item) => {
+        return typeof item === "string" ? item : item?.id;
+      })
+      .filter(Boolean)
+  )];
+
   const remainingFamiliars = allFamiliars.filter((familiar) => {
-    return !alreadyOwnedIds.includes(familiar.id);
+    return familiar?.id && !ownedIds.includes(familiar.id);
   });
 
   if (!remainingFamiliars.length) {
