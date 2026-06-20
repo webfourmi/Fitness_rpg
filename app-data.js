@@ -8558,6 +8558,121 @@ window.FitnessRpgData = {
       "id": "familier-08",
       "name": "Pyrolins",
       "image": "assets/familiers/familier_dragon.png"
+    },
+     {
+      "id": "familier-09",
+      "name": "Lunminelle",
+      "image": "assets/familiers/familier_axolot.png"
+    },
+     {
+      "id": "familier-10",
+      "name": "Calmabulle",
+      "image": "assets/familiers/familier_capybara.png"
+    },
+     {
+      "id": "familier-11",
+      "name": "Sylvanelle",
+      "image": "assets/familiers/familier_cerf.png"
+    },
+     {
+      "id": "familier-12",
+      "name": "Crépuskule",
+      "image": "assets/familiers/familier_chauvesouris.png"
+    },
+     {
+      "id": "familier-13",
+      "name": "Corneliot",
+      "image": "assets/familiers/familier_chevre.png"
+    },
+     {
+      "id": "familier-14",
+      "name": "Grisvent",
+      "image": "assets/familiers/familier_chien2.png"
+    },
+     {
+      "id": "familier-15",
+      "name": "Grandcrocs",
+      "image": "assets/familiers/familier_crocodile.png"
+    },
+     {
+      "id": "familier-16",
+      "name": "Noiselys",
+      "image": "assets/familiers/familier_ecureuil.png"
+    },
+     {
+      "id": "familier-17",
+      "name": "Piquelune",
+      "image": "assets/familiers/familier_herisson.png"
+    },
+     {
+      "id": "familier-18",
+      "name": "Griffonus",
+      "image": "assets/familiers/familier_hippogriffe.png"
+    },
+     {
+      "id": "familier-19",
+      "name": "Eukalyptus",
+      "image": "assets/familiers/familier_koala.png"
+    },
+     {
+      "id": "familier-20",
+      "name": "Bondonyx",
+      "image": "assets/familiers/familier_lapin.png"
+    },
+     {
+      "id": "familier-21",
+      "name": "Etoilys",
+      "image": "assets/familiers/familier_licorne.png"
+    },
+     {
+      "id": "familier-22",
+      "name": "Silverine",
+      "image": "assets/familiers/familier_loutre.png"
+    },
+     {
+      "id": "familier-23",
+      "name": "Moumoute",
+      "image": "assets/familiers/familier_mouton.png"
+    },
+     {
+      "id": "familier-24",
+      "name": "Bamboulys",
+      "image": "assets/familiers/familier_panda.png"
+    },
+     {
+      "id": "familier-25",
+      "name": "Vifroux",
+      "image": "assets/familiers/familier_pandaroux.png"
+    },
+     {
+      "id": "familier-26",
+      "name": "Nuagelle",
+      "image": "assets/familiers/familier_pegase.png"
+    },
+     {
+      "id": "familier-27",
+      "name": "Fireflam",
+      "image": "assets/familiers/familier_phenix.png"
+    },
+     {
+      "id": "familier-28",
+      "name": "Ondinou",
+      "image": "assets/familiers/familier_phoque.png"
+    },
+     {
+      "id": "familier-29",
+      "name": "Masquille",
+      "image": "assets/familiers/familier_ratonlaveur.png"
+    },
+     {
+      "id": "familier-30",
+      "name": "Fiolys",
+      "image": "assets/familiers/familier_souris.png"
+    },
+     {
+      "id": "familier-31",
+      "name": "Carapazur",
+      "image": "assets/familiers/familier_tortue.png"
     }
   ],
   "badges": [
