@@ -2577,11 +2577,11 @@ body.level-up-active .hero-image-frame {
   margin: 6px auto 10px;
 }
 
-.level-up-hero-stage {
+..level-up-hero-stage {
   position: relative;
 
-  width: min(210px, 58vw);
-  aspect-ratio: 3 / 4;
+  width: min(230px, 68vw);
+  aspect-ratio: 1 / 1;
 
   display: grid;
   place-items: center;
@@ -2591,9 +2591,7 @@ body.level-up-active .hero-image-frame {
   border-radius: 20px;
   border: 1px solid rgba(240, 184, 79, 0.42);
 
-  background:
-    radial-gradient(circle at center, rgba(240, 184, 79, 0.14), transparent 48%),
-    rgba(0, 0, 0, 0.22);
+  background: #f4f0df;
 
   overflow: hidden;
 
@@ -3302,8 +3300,9 @@ body.modal-open {
   }
 
   .level-up-hero-stage {
-    width: min(170px, 54vw);
-  }
+  width: min(210px, 72vw);
+  aspect-ratio: 1 / 1;
+}
 
   .level-up-card h1 {
     font-size: 1.35rem;
