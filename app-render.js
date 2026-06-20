@@ -1982,59 +1982,114 @@ window.FitnessRpgRender.closeChestRewardModal = function closeChestRewardModal()
 // ============================================================
 // Page familiers
 // ============================================================
-
 window.FitnessRpgRender.renderFamiliarsPage = function renderFamiliarsPage() {
   const summary = document.querySelector("#familiarCollectionSummary");
   const grid = document.querySelector("#familiarCollectionGrid");
 
   if (!summary || !grid) return;
 
-  const allFamiliars = window.FitnessRpgRewards?.getRewardFamiliars?.() || [];
-  const unlockedIds = window.FitnessRpgRewards?.getUnlockedFamiliarIds?.() || [];
-
-  const unlockedCount = unlockedIds.length;
-  const totalCount = allFamiliars.length;
+  const unlockedFamiliars = window.FitnessRpgRewards?.getUnlockedFamiliars?.() || [];
+  const unlockedCount = unlockedFamiliars.length;
 
   summary.innerHTML = `
-    <p class="eyebrow">🐾 Collection</p>
-    <h2>${unlockedCount} / ${totalCount} familiers débloqués</h2>
+    <p class="eyebrow">🐾 Ménagerie du héros</p>
+    <h2>${unlockedCount} familier${unlockedCount > 1 ? "s" : ""} débloqué${unlockedCount > 1 ? "s" : ""}</h2>
     <p>
-      Les familiers sont obtenus dans les coffres de récompense.
-      Les silhouettes inconnues seront révélées quand tu les gagneras.
+      Les compagnons gagnés dans les coffres rejoignent ici ton aventure.
+      Clique sur un familier pour le voir en grand.
     </p>
   `;
 
-  if (!allFamiliars.length) {
+  if (!unlockedFamiliars.length) {
     grid.innerHTML = `
-      <article class="card">
-        <h2>Aucun familier disponible</h2>
-        <p>Ajoute tes 8 familiers dans app-data.js ou vérifie app-rewards.js.</p>
+      <article class="card familiar-empty-card">
+        <h2>Aucun familier pour l’instant</h2>
+        <p>
+          Gagne un niveau, ouvre un coffre, et ton premier compagnon apparaîtra ici.
+        </p>
       </article>
     `;
     return;
   }
 
-  grid.innerHTML = allFamiliars.map((familiar) => {
-    const unlocked = unlockedIds.includes(familiar.id);
+  grid.innerHTML = unlockedFamiliars.map((familiar) => {
+    const safeName = window.FitnessRpgRender.escapeHtml(familiar.name);
+    const safeImage = window.FitnessRpgRender.escapeHtml(familiar.image);
 
     return `
-      <article class="familiar-card card ${unlocked ? "unlocked" : "locked"}">
+      <button
+        class="familiar-card unlocked"
+        type="button"
+        data-familiar-id="${window.FitnessRpgRender.escapeHtml(familiar.id)}"
+        aria-label="Voir ${safeName} en grand"
+      >
         <div class="familiar-image-frame">
-          ${
-            unlocked
-              ? `<img src="${familiar.image}" alt="${familiar.name}" class="familiar-image" />`
-              : `<div class="familiar-locked-silhouette">?</div>`
-          }
+          <img
+            src="${safeImage}"
+            alt="${safeName}"
+            class="familiar-image"
+          />
         </div>
 
-        <h2>${unlocked ? familiar.name : "Familier inconnu"}</h2>
-
-        <p>
-          ${unlocked ? "Compagnon débloqué." : "Encore caché dans un coffre."}
-        </p>
-      </article>
+        <strong>${safeName}</strong>
+      </button>
     `;
   }).join("");
+};
+
+window.FitnessRpgRender.openFamiliarModal = function openFamiliarModal(familiarId) {
+  const familiar = window.FitnessRpgRewards?.getFamiliarById?.(familiarId);
+
+  if (!familiar) return;
+
+  let overlay = document.querySelector("#familiarDetailOverlay");
+
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "familiarDetailOverlay";
+    overlay.className = "familiar-detail-overlay hidden";
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.appendChild(overlay);
+  }
+
+  const safeName = window.FitnessRpgRender.escapeHtml(familiar.name);
+  const safeImage = window.FitnessRpgRender.escapeHtml(familiar.image);
+
+  overlay.innerHTML = `
+    <section class="familiar-detail-modal" role="dialog" aria-modal="true">
+      <button
+        class="familiar-detail-close"
+        type="button"
+        aria-label="Fermer"
+      >
+        ×
+      </button>
+
+      <img
+        src="${safeImage}"
+        alt="${safeName}"
+        class="familiar-detail-image"
+      />
+
+      <h2>${safeName}</h2>
+      <p>Familier débloqué</p>
+    </section>
+  `;
+
+  overlay.classList.remove("hidden");
+  overlay.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+};
+
+window.FitnessRpgRender.closeFamiliarModal = function closeFamiliarModal() {
+  const overlay = document.querySelector("#familiarDetailOverlay");
+
+  if (!overlay) return;
+
+  overlay.classList.add("hidden");
+  overlay.setAttribute("aria-hidden", "true");
+  overlay.innerHTML = "";
+  document.body.classList.remove("modal-open");
 };
 // ============================================================
 // Rendu global
