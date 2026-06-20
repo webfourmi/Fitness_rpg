@@ -122,19 +122,38 @@
             <input id="heroAgeInput" type="number" min="10" max="99" placeholder="Ex : 50" />
           </label>
 
-          <fieldset class="field-block">
-            <legend>Genre</legend>
+         <fieldset class="field-block gender-choice-field">
+  <legend>Héros</legend>
 
-            <label>
-              <input type="radio" name="heroGender" value="homme" checked />
-              Homme
-            </label>
+  <div class="gender-choice-grid">
+    <label class="gender-choice-card">
+      <input
+        class="gender-choice-input"
+        type="radio"
+        name="heroGender"
+        value="homme"
+        checked
+      />
 
-            <label>
-              <input type="radio" name="heroGender" value="femme" />
-              Femme
-            </label>
-          </fieldset>
+      <span class="gender-choice-icon" aria-hidden="true">🛡️</span>
+      <span class="gender-choice-title">Héros</span>
+      <span class="gender-choice-subtitle">Avatar masculin</span>
+    </label>
+
+    <label class="gender-choice-card">
+      <input
+        class="gender-choice-input"
+        type="radio"
+        name="heroGender"
+        value="femme"
+      />
+
+      <span class="gender-choice-icon" aria-hidden="true">⚔️</span>
+      <span class="gender-choice-title">Héroïne</span>
+      <span class="gender-choice-subtitle">Avatar féminin</span>
+    </label>
+  </div>
+</fieldset>
         </div>
 
         <section class="coach-selection">
