@@ -2541,19 +2541,7 @@ audio {
 }
 
 .level-up-icon {
-  display: grid;
-  place-items: center;
-
-  width: 92px;
-  height: 92px;
-  margin: var(--space-md) auto;
-
-  border-radius: 999px;
-  background: var(--accent-soft);
-  border: 1px solid var(--border-strong);
-
-  font-size: 3rem;
-  animation: levelUpGlow 1.4s ease-in-out infinite;
+  display: none;
 }
 
 .level-up-card h1 {
@@ -2582,22 +2570,29 @@ body.level-up-active .hero-image-frame {
   margin: 10px 0 12px;
 }
 
+.level-up-transform {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  margin: 6px auto 10px;
+}
+
 .level-up-hero-stage {
   position: relative;
 
-  width: min(220px, 62vw);
+  width: min(210px, 58vw);
   aspect-ratio: 3 / 4;
 
   display: grid;
   place-items: center;
 
-  margin: 0 auto 10px;
+  margin: 0 auto 8px;
 
   border-radius: 20px;
   border: 1px solid rgba(240, 184, 79, 0.42);
 
   background:
-    radial-gradient(circle at top, rgba(240, 184, 79, 0.14), transparent 46%),
+    radial-gradient(circle at center, rgba(240, 184, 79, 0.14), transparent 48%),
     rgba(0, 0, 0, 0.22);
 
   overflow: hidden;
@@ -2615,12 +2610,12 @@ body.level-up-active .hero-image-frame {
   height: 100%;
 
   object-fit: contain;
-  object-position: center bottom;
+  object-position: center center;
 
- transition:
-  opacity 2.4s ease-in-out,
-  transform 2.4s ease-in-out,
-  filter 2.4s ease-in-out;
+  transition:
+    opacity 2.4s ease-in-out,
+    transform 2.4s ease-in-out,
+    filter 2.4s ease-in-out;
 
   will-change: opacity, transform, filter;
 }
