@@ -206,15 +206,111 @@ window.FitnessRpgProgress.peekLevelUpModal = function peekLevelUpModal() {
 };
 
 window.FitnessRpgProgress.hasChestReward = function hasChestReward(level) {
-  return Number(level || 0) > 0 && Number(level) % 5 === 0;
+  return Number(level || 0) > 1;
 };
 
 window.FitnessRpgProgress.getLevelRewardText = function getLevelRewardText(level) {
   if (window.FitnessRpgProgress.hasChestReward(level)) {
-    return "🎁 Coffre de récompense débloqué !";
+    return "🎁 Coffre de familier débloqué !";
   }
 
   return "✨ Nouvelle apparence et progression héroïque.";
+};
+
+window.FitnessRpgProgress.awardFamiliarForLevel = function awardFamiliarForLevel(level) {
+  const state = window.FitnessRpgState;
+  const profile = state.getProfile?.();
+
+  if (!profile || !window.FitnessRpgProgress.hasChestReward(level)) {
+    return null;
+  }
+
+  if (!Array.isArray(profile.familiars)) {
+    profile.familiars = [];
+  }
+
+  if (!profile.levelFamiliarRewards || typeof profile.levelFamiliarRewards !== "object") {
+    profile.levelFamiliarRewards = {};
+  }
+
+  const levelKey = String(level);
+
+  if (profile.levelFamiliarRewards[levelKey]) {
+    return profile.levelFamiliarRewards[levelKey];
+  }
+
+  const ownedIds = profile.familiars.map((item) => {
+    return typeof item === "string" ? item : item.id;
+  });
+
+  const draw = window.FitnessRpgData.pickRandomFamiliar?.(ownedIds);
+
+  if (!draw || draw.allCollected || !draw.familiar) {
+    const reward = {
+      level,
+      familiarId: null,
+      allCollected: true,
+      at: state.nowIso?.() || new Date().toISOString()
+    };
+
+    profile.levelFamiliarRewards[levelKey] = reward;
+
+    state.addJournalEntry?.({
+      type: "familiar",
+      title: "Collection complète",
+      text: `Niveau ${level} atteint : tous les familiers sont déjà dans ta ménagerie.`,
+      xp: 0
+    });
+
+    state.saveProfile?.();
+    return reward;
+  }
+
+  const familiar = draw.familiar;
+
+  profile.familiars.push({
+    id: familiar.id,
+    name: familiar.name,
+    image: familiar.image,
+    level,
+    unlockedAt: state.nowIso?.() || new Date().toISOString()
+  });
+
+  const reward = {
+    level,
+    familiarId: familiar.id,
+    familiarName: familiar.name,
+    familiarImage: familiar.image,
+    allCollected: false,
+    at: state.nowIso?.() || new Date().toISOString()
+  };
+
+  profile.levelFamiliarRewards[levelKey] = reward;
+
+  state.addJournalEntry?.({
+    type: "familiar",
+    title: "Nouveau familier",
+    text: `Niveau ${level} atteint : ${familiar.name} rejoint ton aventure !`,
+    xp: 0
+  });
+
+  state.saveProfile?.();
+
+  return reward;
+};
+
+window.FitnessRpgProgress.awardFamiliarsForLevelRange = function awardFamiliarsForLevelRange(oldLevel, newLevel) {
+  const rewards = [];
+
+  for (let level = Number(oldLevel) + 1; level <= Number(newLevel); level += 1) {
+    const reward = window.FitnessRpgProgress.awardFamiliarForLevel(level);
+
+    if (reward) {
+      rewards.push(reward);
+    }
+  }
+
+  return rewards;
 };
 
 window.FitnessRpgProgress.getLevelUpNarrative = function getLevelUpNarrative(level) {
