@@ -2086,30 +2086,67 @@ window.FitnessRpgRender.renderFamiliarsPage = function renderFamiliarsPage() {
     return;
   }
 
-  grid.innerHTML = unlockedFamiliars.map((familiar) => {
-    const safeName = window.FitnessRpgRender.escapeHtml(familiar.name);
-    const safeImage = window.FitnessRpgRender.escapeHtml(familiar.image);
+ const familiarCardsHtml = unlockedFamiliars.map((familiar) => {
+  const safeId = window.FitnessRpgRender.escapeHtml(familiar.id);
+  const safeName = window.FitnessRpgRender.escapeHtml(familiar.name);
+  const safeImage = window.FitnessRpgRender.escapeHtml(familiar.image);
 
-    return `
-      <button
-        class="familiar-card unlocked"
-        type="button"
-        data-familiar-id="${window.FitnessRpgRender.escapeHtml(familiar.id)}"
-        aria-label="Voir ${safeName} en grand"
-      >
-        <div class="familiar-image-frame">
-          <img
-            src="${safeImage}"
-            alt="${safeName}"
-            class="familiar-image"
-          />
-        </div>
+  return `
+    <button
+      class="familiar-card unlocked"
+      type="button"
+      data-familiar-id="${safeId}"
+      aria-label="Voir ${safeName} en grand"
+    >
+      <div class="familiar-image-frame">
+        <img
+          src="${safeImage}"
+          alt="${safeName}"
+          class="familiar-image"
+        />
+      </div>
 
-        <strong>${safeName}</strong>
-      </button>
-    `;
-  }).join("");
-};
+      <strong>${safeName}</strong>
+    </button>
+  `;
+}).join("");
+
+grid.innerHTML = `
+  <div class="familiar-carousel-shell">
+    <button
+      class="familiar-carousel-btn"
+      type="button"
+      data-direction="-1"
+      aria-label="Familier précédent"
+      ${unlockedFamiliars.length <= 1 ? "disabled" : ""}
+    >
+      ‹
+    </button>
+
+    <div
+      id="familiarCarouselTrack"
+      class="familiar-carousel-track"
+      tabindex="0"
+      aria-label="Carrousel des familiers débloqués"
+    >
+      ${familiarCardsHtml}
+    </div>
+
+    <button
+      class="familiar-carousel-btn"
+      type="button"
+      data-direction="1"
+      aria-label="Familier suivant"
+      ${unlockedFamiliars.length <= 1 ? "disabled" : ""}
+    >
+      ›
+    </button>
+  </div>
+
+  <p class="familiar-carousel-help">
+    Glisse horizontalement pour parcourir tes familiers. Touche une carte pour l’agrandir.
+  </p>
+`;
 
 window.FitnessRpgRender.openFamiliarModal = function openFamiliarModal(familiarId) {
   const familiar = window.FitnessRpgRewards?.getFamiliarById?.(familiarId);
