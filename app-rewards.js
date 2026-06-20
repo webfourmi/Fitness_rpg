@@ -134,11 +134,29 @@ window.FitnessRpgRewards.getFamiliarById = function getFamiliarById(familiarId) 
 
 window.FitnessRpgRewards.getUnlockedFamiliarIds = function getUnlockedFamiliarIds() {
   const key = window.FitnessRpgRewards.getFamiliarsStorageKey();
-  const unlocked = window.FitnessRpgRewards.readJson(key, []);
+  const stored = window.FitnessRpgRewards.readJson(key, []);
 
-  if (!Array.isArray(unlocked)) return [];
+  const storedIds = Array.isArray(stored)
+    ? stored.filter(Boolean)
+    : [];
 
-  return [...new Set(unlocked.filter(Boolean))];
+  const profile = window.FitnessRpgState?.getProfile?.();
+
+  const profileIds = Array.isArray(profile?.familiars)
+    ? profile.familiars
+        .map((item) => {
+          return typeof item === "string" ? item : item?.id;
+        })
+        .filter(Boolean)
+    : [];
+
+  const mergedIds = [...new Set([...storedIds, ...profileIds])];
+
+  if (mergedIds.length !== storedIds.length) {
+    window.FitnessRpgRewards.saveUnlockedFamiliarIds(mergedIds);
+  }
+
+  return mergedIds;
 };
 
 window.FitnessRpgRewards.saveUnlockedFamiliarIds = function saveUnlockedFamiliarIds(familiarIds) {
