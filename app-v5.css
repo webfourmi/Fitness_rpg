@@ -536,7 +536,171 @@ textarea:focus {
   outline: 2px solid rgba(240, 184, 79, 0.35);
   border-color: var(--accent);
 }
+.gender-choice-field {
+  gap: 10px;
+}
 
+.gender-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.gender-choice-card {
+  position: relative;
+
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+
+  min-height: 118px;
+  padding: 12px 10px;
+
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  background:
+    radial-gradient(circle at top, rgba(240, 184, 79, 0.13), transparent 52%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.035));
+
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  cursor: pointer;
+  text-align: center;
+
+  transition:
+    transform 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    filter 140ms ease;
+}
+
+.gender-choice-input {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+
+  margin: 0;
+  padding: 0;
+
+  opacity: 0;
+  cursor: pointer;
+}
+
+.gender-choice-icon {
+  width: 58px;
+  height: 58px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 20px;
+  border: 1px solid rgba(240, 184, 79, 0.42);
+
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.22), transparent 34%),
+    linear-gradient(180deg, rgba(240, 184, 79, 0.26), rgba(86, 61, 24, 0.42));
+
+  font-size: 2rem;
+
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.gender-choice-title {
+  color: var(--accent-strong);
+  font-size: 0.98rem;
+  font-weight: 1000;
+  line-height: 1.1;
+}
+
+.gender-choice-subtitle {
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  font-weight: 750;
+  line-height: 1.15;
+}
+
+.gender-choice-card:has(.gender-choice-input:checked) {
+  border-color: rgba(240, 184, 79, 0.78);
+
+  background:
+    radial-gradient(circle at top, rgba(240, 184, 79, 0.26), transparent 54%),
+    linear-gradient(180deg, rgba(240, 184, 79, 0.18), rgba(255, 255, 255, 0.045));
+
+  box-shadow:
+    0 12px 26px rgba(0, 0, 0, 0.32),
+    0 0 0 2px rgba(240, 184, 79, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.gender-choice-card:has(.gender-choice-input:checked)::after {
+  content: "✓";
+
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  width: 26px;
+  height: 26px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 999px;
+  background: linear-gradient(180deg, #6dff91, #22c75a);
+  color: #07130c;
+
+  font-size: 0.9rem;
+  font-weight: 1000;
+
+  box-shadow:
+    0 5px 10px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.36);
+}
+
+.gender-choice-card:active {
+  transform: translateY(2px);
+}
+
+@media (hover: hover) {
+  .gender-choice-card:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.06);
+  }
+}
+
+@media (max-width: 360px) {
+  .gender-choice-grid {
+    gap: 8px;
+  }
+
+  .gender-choice-card {
+    min-height: 106px;
+    padding: 10px 8px;
+  }
+
+  .gender-choice-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 17px;
+    font-size: 1.7rem;
+  }
+
+  .gender-choice-title {
+    font-size: 0.9rem;
+  }
+
+  .gender-choice-subtitle {
+    font-size: 0.68rem;
+  }
+}
 /* ============================================================
    Accueil
 ============================================================ */
