@@ -115,6 +115,8 @@ window.FitnessRpgState.createDefaultProfile = function createDefaultProfile(data
     completedByDate: {},
     journal: [],
     badges: [],
+    familiars: [],
+    levelFamiliarRewards: {},
 
     createdAt: window.FitnessRpgState.nowIso(),
     updatedAt: window.FitnessRpgState.nowIso()
@@ -133,7 +135,9 @@ window.FitnessRpgState.loadProfile = function loadProfile() {
       ...loaded,
       completedByDate: loaded.completedByDate || {},
       journal: Array.isArray(loaded.journal) ? loaded.journal : [],
-      badges: Array.isArray(loaded.badges) ? loaded.badges : []
+      badges: Array.isArray(loaded.badges) ? loaded.badges : [],
+      familiars: Array.isArray(loaded.familiars) ? loaded.familiars : [],
+      levelFamiliarRewards: loaded.levelFamiliarRewards || {}
     };
 
     window.FitnessRpgState.selectedCoachId = window.FitnessRpgState.profile.coachId || "korvan";
