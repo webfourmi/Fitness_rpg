@@ -1220,16 +1220,26 @@ window.FitnessRpgPrograms.startWeeklyCatchupSession = function startWeeklyCatchu
   const weekNumber = window.FitnessRpgPrograms.getSuggestedWeekNumberForPlanItem(item);
   const dayNumber = window.FitnessRpgPrograms.getSuggestedDayNumberForPlanItem(item);
 
+  const planningContext = {
+    planningDateKey: item.dateKey,
+    planningIndex: item.index,
+    planningDayLabel: item.dayLabel,
+    planningTitle: item.title,
+    planningSource: `catchup-${item.source || "planning"}`
+  };
+
   window.FitnessRpgPrograms.openProgramDetail(item.programId, {
     weekNumber,
-    dayNumber
+    dayNumber,
+    ...planningContext
   });
 
   window.setTimeout(() => {
     window.FitnessRpgPrograms.validateProgramDay(
       item.programId,
       dayNumber,
-      weekNumber
+      weekNumber,
+      planningContext
     );
   }, 120);
 };
