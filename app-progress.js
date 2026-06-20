@@ -236,13 +236,45 @@ window.FitnessRpgProgress.awardFamiliarForLevel = function awardFamiliarForLevel
 
   const levelKey = String(level);
 
-  if (profile.levelFamiliarRewards[levelKey]) {
-    return profile.levelFamiliarRewards[levelKey];
+ const existingReward = profile.levelFamiliarRewards[levelKey];
+
+if (existingReward?.familiarId) {
+  return existingReward;
+}
+
+if (existingReward?.allCollected) {
+  const profileOwnedIds = Array.isArray(profile.familiars)
+    ? profile.familiars
+        .map((item) => {
+          return typeof item === "string" ? item : item?.id;
+        })
+        .filter(Boolean)
+    : [];
+
+  const rewardOwnedIds = window.FitnessRpgRewards?.getUnlockedFamiliarIds?.() || [];
+
+  const ownedIds = [...new Set([...profileOwnedIds, ...rewardOwnedIds])];
+
+  const stillAvailable = window.FitnessRpgData
+    .getRewardFamiliars()
+    .some((familiar) => {
+      return familiar?.id && !ownedIds.includes(familiar.id);
+    });
+
+  if (!stillAvailable) {
+    return existingReward;
   }
 
-  const ownedIds = profile.familiars.map((item) => {
-    return typeof item === "string" ? item : item.id;
-  });
+  delete profile.levelFamiliarRewards[levelKey];
+}
+
+ const profileOwnedIds = profile.familiars.map((item) => {
+  return typeof item === "string" ? item : item?.id;
+}).filter(Boolean);
+
+const rewardOwnedIds = window.FitnessRpgRewards?.getUnlockedFamiliarIds?.() || [];
+
+const ownedIds = [...new Set([...profileOwnedIds, ...rewardOwnedIds])];
 
   const draw = window.FitnessRpgData.pickRandomFamiliar?.(ownedIds);
 
