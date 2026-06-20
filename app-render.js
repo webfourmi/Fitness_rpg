@@ -1517,6 +1517,11 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
   const rank = window.FitnessRpgConfig.getRankTitle(newLevel);
   const hasChest = window.FitnessRpgProgress.hasChestReward(newLevel);
   const narrative = window.FitnessRpgProgress.getLevelUpNarrative?.(newLevel) || "";
+  const profile = window.FitnessRpgState.getProfile?.();
+  const levelReward = profile?.levelFamiliarRewards?.[String(newLevel)] || null;
+  const familiar = levelReward?.familiarId
+    ? (profile.familiars || []).find((item) => item.id === levelReward.familiarId)
+    : null;
 
   const oldHeroImage = window.FitnessRpgRender.getHeroImagePathForLevel(oldLevel);
   const newHeroImage = window.FitnessRpgRender.getHeroImagePathForLevel(newLevel);
@@ -1556,9 +1561,34 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
     }
 
     <p>
-      ${hasChest ? "Transformation majeure accomplie." : "Nouvelle apparence héroïque débloquée."}
+      ${hasChest ? "Coffre de familier ouvert." : "Nouvelle apparence héroïque débloquée."}
     </p>
 
+    ${
+  familiar
+    ? `
+      <div class="level-up-familiar-reward">
+        <img src="${familiar.image}" alt="${familiar.name}" />
+        <div>
+          <strong>${familiar.name}</strong>
+          <span>Nouveau familier débloqué</span>
+        </div>
+      </div>
+    `
+    : (
+      levelReward?.allCollected
+        ? `
+          <div class="level-up-familiar-reward">
+            <div class="level-up-familiar-placeholder">🏆</div>
+            <div>
+              <strong>Collection complète</strong>
+              <span>Tous les familiers sont déjà débloqués.</span>
+            </div>
+          </div>
+        `
+        : ""
+    )
+}
     <button
       class="secondary-btn open-progression-from-levelup-btn"
       type="button"
