@@ -2593,87 +2593,7 @@ button .btn-icon {
   transform: translateY(-2px);
 }
 
-.badge-card {
-  display: grid;
-  grid-template-columns: 46px 1fr;
-  align-items: center;
-  gap: 9px;
-  padding: 10px;
-}
 
-.badge-card:not(.unlocked) {
-  opacity: 0.58;
-}
-
-.badge-icon {
-  display: grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.08);
-  font-size: 1.35rem;
-}
-
-.badge-card.unlocked .badge-icon {
-  background: var(--accent-soft);
-}
-
-.badge-content,
-.progression-badge-list {
-  display: grid;
-  gap: 8px;
-}
-
-.badge-title-row {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 6px;
-}
-
-.badge-title-row h2 {
-  margin: 0;
-  font-size: 0.95rem;
-}
-
-.badge-title-row strong {
-  flex-shrink: 0;
-  padding: 4px 6px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-muted);
-  font-size: 0.68rem;
-}
-
-.badge-card.unlocked .badge-title-row strong {
-  background: var(--accent-soft);
-  color: var(--accent-strong);
-}
-
-.badge-progress-text {
-  font-size: 0.85rem;
-}
-
-.progression-mini-badge {
-  display: grid;
-  grid-template-columns: 38px 1fr;
-  gap: 8px;
-  align-items: center;
-  padding: 8px;
-  border-radius: var(--radius-small);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.progression-mini-badge span {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 999px;
-  background: var(--accent-soft);
-  font-size: 1.25rem;
-}
 
 .journal-list {
   display: grid;
@@ -2718,6 +2638,388 @@ audio {
   margin-top: var(--space-sm);
   color: var(--accent);
   font-weight: 800;
+}
+/* ============================================================
+   Badges
+============================================================ */
+
+.badge-collection-summary {
+  text-align: center;
+}
+
+.badge-collection-summary .eyebrow {
+  max-width: min(100%, 260px);
+  justify-content: center;
+  padding-inline: 14px;
+}
+
+.badge-collection-summary h2 {
+  margin: 6px 0;
+  color: var(--accent-strong);
+}
+
+.badge-collection-grid {
+  width: 100%;
+}
+
+.badge-carousel-shell {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 42px;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.badge-carousel-track {
+  display: flex;
+  gap: 12px;
+
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  padding: 6px 4px 14px;
+
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 12px;
+  overscroll-behavior-x: contain;
+
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.badge-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.badge-carousel-btn {
+  width: 42px;
+  min-width: 42px;
+  height: 58px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid rgba(240, 184, 79, 0.4);
+  border-radius: 999px;
+
+  background:
+    radial-gradient(circle at top, rgba(240, 184, 79, 0.18), transparent 55%),
+    rgba(255, 255, 255, 0.07);
+
+  color: var(--accent-strong);
+
+  font-size: 2rem;
+  font-weight: 1000;
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.badge-carousel-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.badge-card {
+  appearance: none;
+  border: 0;
+
+  flex: 0 0 min(74vw, 250px);
+  scroll-snap-align: center;
+
+  display: grid;
+  gap: 8px;
+  align-items: start;
+
+  padding: 8px;
+  border-radius: 18px;
+
+  background:
+    radial-gradient(circle at top, rgba(240, 184, 79, 0.18), transparent 48%),
+    rgba(20, 16, 12, 0.92);
+
+  color: var(--text);
+  text-align: center;
+
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.28),
+    inset 0 0 0 1px rgba(240, 184, 79, 0.24);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    filter 0.18s ease;
+}
+
+.badge-card:hover:not(:disabled) {
+  transform: translateY(-3px);
+  filter: brightness(1.06);
+  box-shadow:
+    0 16px 34px rgba(0, 0, 0, 0.36),
+    inset 0 0 0 1px rgba(240, 184, 79, 0.48);
+}
+
+.badge-card.locked {
+  opacity: 0.58;
+  cursor: default;
+}
+
+.badge-card:disabled {
+  pointer-events: none;
+}
+
+.badge-image-frame,
+.badge-detail-image-frame {
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+  border-radius: 14px;
+
+  background: rgba(0, 0, 0, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.badge-image-frame.is-missing::after,
+.badge-detail-image-frame.is-missing::after {
+  content: attr(data-icon);
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 3rem;
+}
+
+.badge-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.badge-locked-sigil {
+  display: grid;
+  place-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.08), transparent 62%),
+    rgba(0, 0, 0, 0.18);
+
+  color: var(--text-muted);
+  font-size: 2.4rem;
+}
+
+.badge-card strong {
+  color: var(--accent-strong);
+  font-size: 0.82rem;
+  line-height: 1.15;
+}
+
+.badge-card-status {
+  justify-self: center;
+
+  padding: 4px 9px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.badge-card.unlocked .badge-card-status {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.badge-card p {
+  min-height: 42px;
+  margin: 0;
+
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  line-height: 1.25;
+}
+
+.badge-progress-bar {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.badge-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+}
+
+.badge-empty-card,
+.badge-carousel-help {
+  text-align: center;
+}
+
+.badge-carousel-help {
+  margin: 8px auto 0;
+  max-width: 340px;
+
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.3;
+}
+
+/* ============================================================
+   Modale badge
+============================================================ */
+
+.badge-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 220;
+
+  display: grid;
+  place-items: center;
+
+  padding: 18px;
+  background: rgba(3, 5, 10, 0.88);
+  backdrop-filter: blur(10px);
+}
+
+.badge-detail-overlay.hidden {
+  display: none !important;
+}
+
+.badge-detail-modal {
+  position: relative;
+
+  width: min(92vw, 460px);
+  max-height: 88vh;
+  overflow-y: auto;
+
+  padding: 18px;
+  border-radius: 24px;
+  border: 1px solid rgba(240, 184, 79, 0.42);
+
+  background:
+    radial-gradient(circle at top, rgba(240, 184, 79, 0.18), transparent 45%),
+    linear-gradient(180deg, rgba(32, 24, 16, 0.98), rgba(8, 10, 16, 0.98));
+
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.68),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  text-align: center;
+}
+
+.badge-detail-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 999px;
+
+  background: rgba(0, 0, 0, 0.42);
+  color: white;
+
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.badge-detail-image-frame {
+  width: min(100%, 360px);
+  margin: 18px auto 14px;
+
+  border-radius: 22px;
+  border: 1px solid rgba(240, 184, 79, 0.42);
+
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.45);
+}
+
+.badge-detail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.badge-detail-modal h2 {
+  margin: 0;
+  color: var(--accent-strong);
+}
+
+.badge-detail-modal p {
+  margin: 8px 0;
+  color: var(--text-muted);
+}
+
+.badge-detail-modal strong {
+  display: inline-flex;
+
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+
+  font-size: 0.78rem;
+}
+
+@media (min-width: 760px) {
+  .badge-card {
+    flex-basis: 210px;
+  }
+
+  .badge-carousel-track {
+    scroll-padding-inline: 24px;
+  }
+}
+
+@media (max-width: 420px) {
+  .badge-carousel-shell {
+    grid-template-columns: 34px minmax(0, 1fr) 34px;
+    gap: 6px;
+  }
+
+  .badge-carousel-btn {
+    width: 34px;
+    min-width: 34px;
+    height: 52px;
+    font-size: 1.7rem;
+  }
+
+  .badge-card {
+    flex-basis: min(78vw, 245px);
+    padding: 7px;
+    border-radius: 16px;
+  }
+
+  .badge-card strong {
+    font-size: 0.76rem;
+  }
+
+  .badge-card p {
+    font-size: 0.72rem;
+  }
 }
 
 /* ============================================================
