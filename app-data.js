@@ -9859,7 +9859,7 @@ window.FitnessRpgData = {
 {
   "id": "flux-vents-invisibles",
   "icon": "💨",
-  "title": "Vents Invisibles",
+  "title": "sylphe des ruines",
   "description": "Vaincre le boss de la semaine 2 du programme Maître du Flux.",
   "type": "program-boss",
   "programId": "maitre-flux",
@@ -9869,7 +9869,7 @@ window.FitnessRpgData = {
 {
   "id": "flux-arcanes-mouvement",
   "icon": "✨",
-  "title": "Arcanes du Mouvement",
+  "title": "gardien des nuages",
   "description": "Vaincre le boss de la semaine 3 du programme Maître du Flux.",
   "type": "program-boss",
   "programId": "maitre-flux",
