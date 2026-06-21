@@ -994,13 +994,20 @@ plan.forEach(([dayLabel, title, programId, source, bossWeekNumber], index) => {
 // Programmes
 // ============================================================
 
+window.FitnessRpgRender.selectedProgramTier = window.FitnessRpgRender.selectedProgramTier || "beginner";
+
 window.FitnessRpgRender.renderProgramList = function renderProgramList() {
   const list = document.querySelector("#programList");
   const detail = document.querySelector("#programDetail");
+  const tabs = document.querySelector("#programLevelTabs");
 
   if (!list) return;
 
   list.classList.remove("hidden");
+
+  if (tabs) {
+    tabs.classList.remove("hidden");
+  }
 
   if (detail) {
     detail.classList.add("hidden");
@@ -1012,7 +1019,56 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
   const programs = window.FitnessRpgConfig.programs || [];
   const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
 
-  programs.forEach((program) => {
+  const tiers = [
+    { id: "beginner", label: "Débutant", icon: "🌱" },
+    { id: "intermediate", label: "Intermédiaire", icon: "⚔️" },
+    { id: "advanced", label: "Avancé", icon: "🏟️" }
+  ];
+
+  const selectedTier = window.FitnessRpgRender.selectedProgramTier || "beginner";
+
+  const getTier = (program) => {
+    return window.FitnessRpgConfig.getProgramTier?.(program) || program.tier || "beginner";
+  };
+
+  if (tabs) {
+    tabs.innerHTML = tiers.map((tier) => {
+      const count = programs.filter((program) => getTier(program) === tier.id).length;
+      const active = tier.id === selectedTier;
+
+      return `
+        <button
+          class="program-level-tab ${active ? "active" : ""}"
+          type="button"
+          data-program-tier="${tier.id}"
+          aria-pressed="${active ? "true" : "false"}"
+        >
+          <span>${tier.icon}</span>
+          <strong>${tier.label}</strong>
+          <em>${count}</em>
+        </button>
+      `;
+    }).join("");
+  }
+
+  const filteredPrograms = programs.filter((program) => {
+    return getTier(program) === selectedTier;
+  });
+
+  if (!filteredPrograms.length) {
+    list.innerHTML = `
+      <article class="program-card card">
+        <div class="program-icon">🧭</div>
+        <div>
+          <h2>Aucun programme dans ce niveau</h2>
+          <p>Cette catégorie est vide pour l’instant.</p>
+        </div>
+      </article>
+    `;
+    return;
+  }
+
+  filteredPrograms.forEach((program) => {
     const selected = program.id === activeProgramId;
 
     const card = document.createElement("article");
@@ -1056,6 +1112,7 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
     list.appendChild(card);
   });
 };
+
 window.FitnessRpgRender.renderProgramBossChoiceHtml = function renderProgramBossChoiceHtml(programId, weekNumber = 1) {
   const boss = window.FitnessRpgPrograms.getProgramBoss?.(programId, weekNumber);
 
@@ -1126,6 +1183,7 @@ window.FitnessRpgRender.renderProgramBossChoiceHtml = function renderProgramBoss
 window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(programId) {
   const list = document.querySelector("#programList");
   const detail = document.querySelector("#programDetail");
+  const tabs = document.querySelector("#programLevelTabs");
 
   if (!detail) return;
 
@@ -1133,15 +1191,17 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
   const programDetail = window.FitnessRpgData.getProgramDetail(programId);
 
   if (!program || !programDetail) {
-    detail.classList.add("hidden");
-    detail.innerHTML = "";
+  detail.classList.add("hidden");
+  detail.innerHTML = "";
 
-    if (list) list.classList.remove("hidden");
+  if (list) list.classList.remove("hidden");
+  if (tabs) tabs.classList.remove("hidden");
 
-    return;
-  }
+  return;
+}
 
   if (list) list.classList.add("hidden");
+  if (tabs) tabs.classList.add("hidden");
 
   detail.classList.remove("hidden");
   detail.dataset.programId = programId;
