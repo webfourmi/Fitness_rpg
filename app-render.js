@@ -1430,42 +1430,216 @@ window.FitnessRpgRender.renderExerciseList = function renderExerciseList() {
 // Badges
 // ============================================================
 
+// ============================================================
+// Badges
+// ============================================================
+
+window.FitnessRpgRender.getBadgeImagePath = function getBadgeImagePath(badge) {
+  if (badge?.image || badge?.imagePath) {
+    return badge.image || badge.imagePath;
+  }
+
+  const rawId = String(badge?.imageId || badge?.id || badge?.title || "badge");
+
+  const safeId = rawId
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+
+  return `assets/badges/badge_${safeId}.png`;
+};
+
 window.FitnessRpgRender.renderBadges = function renderBadges() {
+  const summary = document.querySelector("#badgeCollectionSummary");
   const list = document.querySelector("#badgeList");
+
   if (!list) return;
 
   const badges = window.FitnessRpgProgress.getBadgeStatusList();
+  const unlockedBadges = badges.filter((badge) => badge.unlocked);
+  const unlockedCount = unlockedBadges.length;
+  const totalCount = badges.length;
 
-  list.innerHTML = "";
+  if (summary) {
+    summary.innerHTML = `
+      <p class="eyebrow">🏅 Salle des trophées</p>
+      <h2>${unlockedCount}/${totalCount} badge${totalCount > 1 ? "s" : ""} débloqué${unlockedCount > 1 ? "s" : ""}</h2>
+      <p>
+        Les badges gagnés apparaissent ici sous forme d’images.
+        Touche un badge débloqué pour le voir en grand.
+      </p>
+    `;
+  }
 
-  badges.forEach((badge) => {
+  if (!badges.length) {
+    list.innerHTML = `
+      <article class="card badge-empty-card">
+        <h2>Aucun badge disponible</h2>
+        <p>La salle des trophées est vide pour l’instant.</p>
+      </article>
+    `;
+    return;
+  }
+
+  const badgeCardsHtml = badges.map((badge) => {
     const progress = window.FitnessRpgProgress.getBadgeProgress(badge);
 
-    const item = document.createElement("article");
-    item.className = `badge-card card${badge.unlocked ? " unlocked" : ""}`;
+    const safeId = window.FitnessRpgRender.escapeHtml(badge.id);
+    const safeTitle = window.FitnessRpgRender.escapeHtml(badge.title || "Badge");
+    const safeDescription = window.FitnessRpgRender.escapeHtml(badge.description || "");
+    const safeIcon = window.FitnessRpgRender.escapeHtml(badge.icon || "🏅");
+    const safeImage = window.FitnessRpgRender.escapeHtml(
+      window.FitnessRpgRender.getBadgeImagePath(badge)
+    );
 
-    item.innerHTML = `
-      <div class="badge-icon">${badge.icon}</div>
-      <div class="badge-content">
-        <div class="badge-title-row">
-          <h2>${badge.title}</h2>
-          <strong>${badge.unlocked ? "Débloqué" : "En cours"}</strong>
+    const statusText = badge.unlocked
+      ? "Débloqué"
+      : `${progress.current}/${progress.target}`;
+
+    const percent = badge.unlocked ? 100 : progress.percent;
+
+    return `
+      <button
+        class="badge-card ${badge.unlocked ? "unlocked" : "locked"}"
+        type="button"
+        data-badge-id="${safeId}"
+        aria-label="${badge.unlocked ? `Voir ${safeTitle} en grand` : `${safeTitle} verrouillé`}"
+        ${badge.unlocked ? "" : "disabled"}
+      >
+        <div class="badge-image-frame" data-icon="${safeIcon}">
+          ${
+            badge.unlocked
+              ? `
+                <img
+                  src="${safeImage}"
+                  alt="${safeTitle}"
+                  class="badge-image"
+                  onerror="this.parentElement.classList.add('is-missing'); this.remove();"
+                />
+              `
+              : `
+                <span class="badge-locked-sigil">🔒</span>
+              `
+          }
         </div>
 
-        <p>${badge.description}</p>
+        <strong>${safeTitle}</strong>
+
+        <span class="badge-card-status">
+          ${statusText}
+        </span>
+
+        <p>${safeDescription}</p>
 
         <div class="badge-progress-bar">
-          <div class="badge-progress-fill" style="width: ${badge.unlocked ? 100 : progress.percent}%"></div>
+          <div class="badge-progress-fill" style="width: ${percent}%"></div>
         </div>
-
-        <span class="badge-progress-text">
-          ${badge.unlocked ? "Récompense acquise" : `${progress.current}/${progress.target}`}
-        </span>
-      </div>
+      </button>
     `;
+  }).join("");
 
-    list.appendChild(item);
-  });
+  list.innerHTML = `
+    <div class="badge-carousel-shell">
+      <button
+        class="badge-carousel-btn"
+        type="button"
+        data-direction="-1"
+        aria-label="Badge précédent"
+        ${badges.length <= 1 ? "disabled" : ""}
+      >
+        ‹
+      </button>
+
+      <div
+        id="badgeCarouselTrack"
+        class="badge-carousel-track"
+        tabindex="0"
+        aria-label="Carrousel des badges"
+      >
+        ${badgeCardsHtml}
+      </div>
+
+      <button
+        class="badge-carousel-btn"
+        type="button"
+        data-direction="1"
+        aria-label="Badge suivant"
+        ${badges.length <= 1 ? "disabled" : ""}
+      >
+        ›
+      </button>
+    </div>
+
+    <p class="badge-carousel-help">
+      Glisse horizontalement pour parcourir les badges. Les images apparaissent quand le badge est débloqué.
+    </p>
+  `;
+};
+
+window.FitnessRpgRender.openBadgeModal = function openBadgeModal(badgeId) {
+  const badges = window.FitnessRpgProgress.getBadgeStatusList();
+  const badge = badges.find((item) => item.id === badgeId);
+
+  if (!badge || !badge.unlocked) return;
+
+  let overlay = document.querySelector("#badgeDetailOverlay");
+
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "badgeDetailOverlay";
+    overlay.className = "badge-detail-overlay hidden";
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.appendChild(overlay);
+  }
+
+  const safeTitle = window.FitnessRpgRender.escapeHtml(badge.title || "Badge");
+  const safeDescription = window.FitnessRpgRender.escapeHtml(badge.description || "");
+  const safeImage = window.FitnessRpgRender.escapeHtml(
+    window.FitnessRpgRender.getBadgeImagePath(badge)
+  );
+  const safeIcon = window.FitnessRpgRender.escapeHtml(badge.icon || "🏅");
+
+  overlay.innerHTML = `
+    <section class="badge-detail-modal" role="dialog" aria-modal="true">
+      <button
+        class="badge-detail-close"
+        type="button"
+        aria-label="Fermer"
+      >
+        ×
+      </button>
+
+      <div class="badge-detail-image-frame" data-icon="${safeIcon}">
+        <img
+          src="${safeImage}"
+          alt="${safeTitle}"
+          class="badge-detail-image"
+          onerror="this.parentElement.classList.add('is-missing'); this.remove();"
+        />
+      </div>
+
+      <h2>${safeTitle}</h2>
+      <p>${safeDescription}</p>
+      <strong>Badge débloqué</strong>
+    </section>
+  `;
+
+  overlay.classList.remove("hidden");
+  overlay.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+};
+
+window.FitnessRpgRender.closeBadgeModal = function closeBadgeModal() {
+  const overlay = document.querySelector("#badgeDetailOverlay");
+
+  if (!overlay) return;
+
+  overlay.classList.add("hidden");
+  overlay.setAttribute("aria-hidden", "true");
+  overlay.innerHTML = "";
+  document.body.classList.remove("modal-open");
 };
 // ============================================================
 // Journal
