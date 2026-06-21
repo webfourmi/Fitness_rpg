@@ -458,6 +458,18 @@ window.FitnessRpgNavigation.handleProgramClick = function handleProgramClick(eve
     return true;
   }
 
+  const programLevelTab = target.closest(".program-level-tab");
+
+  if (programLevelTab) {
+    window.FitnessRpgNavigation.stopEvent(event);
+  
+    const tier = programLevelTab.dataset.programTier || "beginner";
+    window.FitnessRpgRender.selectedProgramTier = tier;
+    window.FitnessRpgRender.renderProgramList?.();
+  
+    return true;
+  }
+  
   const startProgramPlanningButton = target.closest("#startProgramPlanningButton");
 
   if (startProgramPlanningButton) {
