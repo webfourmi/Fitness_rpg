@@ -270,11 +270,33 @@ window.FitnessRpgConfig = {
       title: "Tour du Mage",
       objective: "Pilates : centre du corps, posture, mobilité, équilibre et prévention du mal de dos",
       level: "Débutant à intermédiaire",
-      tier: "intermediate",
+      tier: "beginner",
       duration: "20 min",
       frequency: "3 séances par semaine + boss hebdomadaire",
       coachAdvice: "Elmin ou Satyne",
       xp: 60
+    },
+    {
+      id: "maitre-flux",
+      icon: "✨",
+      title: "Maître du Flux",
+      objective: "Pilates intermédiaire · stabilité, contrôle et équilibre",
+      level: "Niveau 2 · Intermédiaire",
+      tier: "intermediate",
+      unlockLevel: 2,
+      duration: "25-30 min",
+      frequency: "3 séances par semaine · 4 semaines + boss le samedi",
+      coachAdvice: "Elmin ou Satyne",
+      xp: 150,
+      reward: {
+        badgeId: "flux-dragon-astral",
+        title: "Dragon Astral",
+        chest: true,
+        nextPrograms: [
+          "forge-guerrier",
+          "champion-arenes"
+        ]
+      }
     },
     {
       id: "marche-aventurier",
