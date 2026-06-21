@@ -9807,7 +9807,7 @@ window.FitnessRpgData = {
     {
       "id": "minotaure-vaincu",
       "icon": "🐂",
-      "title": "Minotaure vaincu",
+      "title": "Minotaure",
       "description": "Vaincre le boss de la semaine 2 du programme Champion des Arènes.",
       "type": "program-boss",
       "programId": "champion-arenes",
@@ -9817,7 +9817,7 @@ window.FitnessRpgData = {
     {
       "id": "seigneur-fer-vaincu",
       "icon": "⚒️",
-      "title": "Seigneur de Fer vaincu",
+      "title": "Seigneur de Fer",
       "description": "Vaincre le boss de la semaine 3 du programme Champion des Arènes.",
       "type": "program-boss",
       "programId": "champion-arenes",
@@ -9867,7 +9867,7 @@ window.FitnessRpgData = {
 {
   "id": "flux-dragon-astral",
   "icon": "🐉",
-  "title": "Dragon Astral",
+  "title": "Dragon Astral spirituel",
   "description": "Vaincre le boss final du programme Maître du Flux.",
   "type": "program-boss",
   "programId": "maitre-flux",
