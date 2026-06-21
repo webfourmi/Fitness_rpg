@@ -420,16 +420,20 @@
       -------------------------------------------------------
       Récompenses visuelles et progression RPG.
     ======================================================== -->
-    <main id="pageBadges" class="app-page page-badges hidden" data-page="badges">
-      <section class="page-header card">
-        <h1>Badges</h1>
-        <p>Récompenses, trophées et petits feux d’artifice de régularité.</p>
-      </section>
-
-      <section id="badgeList" class="badge-list">
-        <!-- Badges générés par app-progress.js -->
-      </section>
-    </main>
+   <main id="pageBadges" class="app-page page-badges hidden" data-page="badges">
+    <section class="page-header card">
+      <h1>Badges</h1>
+      <p>Récompenses, trophées et petits feux d’artifice de régularité.</p>
+    </section>
+  
+    <section id="badgeCollectionSummary" class="badge-collection-summary card">
+      <!-- Résumé généré par app-render.js -->
+    </section>
+  
+    <section id="badgeList" class="badge-collection-grid">
+      <!-- Badges générés par app-render.js -->
+    </section>
+  </main>
 
     <!-- =======================================================
       PAGE FAMILIERS
