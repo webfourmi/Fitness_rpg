@@ -478,6 +478,11 @@ window.FitnessRpgProgress.countProgram = function countProgram(programId) {
     return entry.programId === programId;
   });
 };
+window.FitnessRpgProgress.countProgramGroup = function countProgramGroup(programIds = []) {
+  return window.FitnessRpgProgress.countEntries((entry) => {
+    return programIds.includes(entry.programId);
+  });
+};
 
 window.FitnessRpgProgress.countProgramBoss = function countProgramBoss(programId, weekNumber = null) {
   return window.FitnessRpgProgress.countEntries((entry) => {
@@ -519,6 +524,9 @@ window.FitnessRpgProgress.isBadgeUnlocked = function isBadgeUnlocked(badge) {
 
     case "program":
       return window.FitnessRpgProgress.countProgram(badge.programId) >= badge.target;
+
+    case "programGroup":
+      return window.FitnessRpgProgress.countProgramGroup(badge.programIds || []) >= badge.target;
 
     case "program-boss":
       return window.FitnessRpgProgress.countProgramBoss(
@@ -593,6 +601,10 @@ window.FitnessRpgProgress.getBadgeProgress = function getBadgeProgress(badge) {
 
     case "program":
       current = window.FitnessRpgProgress.countProgram(badge.programId);
+      break;
+
+    case "programGroup":
+      current = window.FitnessRpgProgress.countProgramGroup(badge.programIds || []);
       break;
 
     case "program-boss":
