@@ -170,6 +170,7 @@ window.FitnessRpgConfig = {
     title: "Éveil du héros",
     objective: "Reprise douce · débutant complet",
     level: "Niveau 1 · Débutant complet",
+    tier: "beginner",
     unlockLevel: 1,
     duration: "15-30 min",
     frequency: "3 séances par semaine · 4 semaines",
@@ -188,6 +189,7 @@ window.FitnessRpgConfig = {
       title: "Cœur de dragon",
       objective: "Cardio progressif sans impact violent",
       level: "Après Éveil du héros",
+      tier: "intermediate",
       unlockLevel: 2,
       duration: "20-35 min",
       frequency: "3 séances par semaine · boss le samedi",
@@ -207,6 +209,7 @@ window.FitnessRpgConfig = {
       title: "Cavalier de la route",
       objective: "Préparation sportive pour vélo",
       level: "Débutant à intermédiaire",
+      tier: "intermediate",
       duration: "20-35 min",
       frequency: "3 fois par semaine",
       coachAdvice: "Korvan, Xara ou Bazul",
@@ -218,6 +221,7 @@ window.FitnessRpgConfig = {
     title: "Champion des Arènes",
     objective: "Programme avancé : force, musculation, kettlebell et sac de frappe",
     level: "Avancé",
+    tier: "advanced",  
     duration: "45-75 min",
     frequency: "3 séances par semaine + boss hebdomadaire",
     coachAdvice: "Korvan, Xara ou Bazul",
@@ -229,6 +233,7 @@ window.FitnessRpgConfig = {
       title: "Forge du guerrier",
       objective: "Renforcement complet sans matériel : jambes, bras, dos, gainage et posture",
       level: "Débutant à intermédiaire",
+      tier: "intermediate",
       duration: "20-25 min",
       frequency: "3 séances par semaine + boss hebdomadaire",
       coachAdvice: "Bazul ou Xara",
@@ -240,6 +245,7 @@ window.FitnessRpgConfig = {
       title: "Rempart du héros",
       objective: "Abdos, gainage, posture et stabilité",
       level: "Débutant à intermédiaire",
+      tier: "intermediate",
       duration: "10-20 min",
       frequency: "3 fois par semaine",
       coachAdvice: "Xara, Bazul ou Satyne",
@@ -251,6 +257,7 @@ window.FitnessRpgConfig = {
       title: "Bras du héros",
       objective: "Bras, épaules, posture et tonus du haut du corps",
       level: "Débutant à intermédiaire",
+      tier: "intermediate",
       duration: "15-25 min",
       frequency: "3 fois par semaine",
       coachAdvice: "Xara, Bazul ou Korvan",
@@ -263,6 +270,7 @@ window.FitnessRpgConfig = {
       title: "Tour du Mage",
       objective: "Pilates : centre du corps, posture, mobilité, équilibre et prévention du mal de dos",
       level: "Débutant à intermédiaire",
+      tier: "intermediate",
       duration: "20 min",
       frequency: "3 séances par semaine + boss hebdomadaire",
       coachAdvice: "Elmin ou Satyne",
@@ -274,6 +282,7 @@ window.FitnessRpgConfig = {
       title: "Marche de l’aventurier",
       objective: "Endurance douce",
       level: "Tous niveaux",
+      tier: "beginner",
       duration: "20-45 min",
       frequency: "3 fois par semaine",
       coachAdvice: "Violette, Korvan ou Elmin",
@@ -352,6 +361,23 @@ window.FitnessRpgConfig.levelInfo = function levelInfo(totalXp) {
 
 window.FitnessRpgConfig.getProgramById = function getProgramById(programId) {
   return window.FitnessRpgConfig.programs.find((program) => program.id === programId) || null;
+};
+
+window.FitnessRpgConfig.programTierLabels = {
+  beginner: "Débutant",
+  intermediate: "Intermédiaire",
+  advanced: "Avancé"
+};
+
+window.FitnessRpgConfig.getProgramTier = function getProgramTier(program) {
+  if (program?.tier) return program.tier;
+
+  const text = `${program?.level || ""} ${program?.objective || ""}`.toLowerCase();
+
+  if (text.includes("avancé")) return "advanced";
+  if (text.includes("intermédiaire")) return "intermediate";
+
+  return "beginner";
 };
 
 window.FitnessRpgConfig.getGoalById = function getGoalById(goalId) {
