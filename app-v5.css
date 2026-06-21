@@ -1599,7 +1599,7 @@ textarea:focus {
 .choose-program-btn {
   margin-top: 10px;
 }
-
+.choose-program-btn
 .active-program-session {
   margin-bottom: var(--space-md);
   border-color: var(--border-strong);
@@ -1846,23 +1846,48 @@ textarea:focus {
   background: rgba(255, 255, 255, 0.07);
 }
 
-@media (max-width: 420px) {
+@media (max-width: 520px) {
   .program-level-tabs {
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+
+    width: 100%;
     margin-top: 8px;
+    padding: 4px;
+
+    overflow: hidden;
   }
 
   .program-level-tab {
-    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0;
     min-height: 40px;
-    padding: 7px 10px;
+
+    flex: none;
+
+    padding: 7px 5px;
+    gap: 0;
+
+    justify-content: center;
+  }
+
+  .program-level-tab span,
+  .program-level-tab em {
+    display: none;
   }
 
   .program-level-tab strong {
-    font-size: 0.76rem;
+    min-width: 0;
+
+    font-size: clamp(0.66rem, 3.2vw, 0.78rem);
+    line-height: 1;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
-
 /* ============================================================
    08 - Exercices et catégories
 ============================================================ */
@@ -4577,6 +4602,10 @@ body.modal-open {
   .familiar-collection-grid {
     grid-template-columns: repeat(4, 1fr);
   }
+   
+   .program-card-actions {
+     grid-template-columns: repeat(2, minmax(0, 1fr));
+   }
 
   .timer-actions {
     grid-template-columns: 1fr 1fr;
