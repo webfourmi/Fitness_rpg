@@ -862,6 +862,46 @@ if (closeChestRewardButton || target.id === "chestRewardOverlay") {
   return true;
 }
 
+  const badgeCarouselButton = target.closest(".badge-carousel-btn");
+
+if (badgeCarouselButton) {
+  window.FitnessRpgNavigation.stopEvent(event);
+
+  const shell = badgeCarouselButton.closest(".badge-carousel-shell");
+  const track = shell?.querySelector(".badge-carousel-track");
+  const direction = Number(badgeCarouselButton.dataset.direction || 0);
+
+  if (track && direction) {
+    track.scrollBy({
+      left: direction * Math.max(190, track.clientWidth * 0.78),
+      behavior: "smooth"
+    });
+  }
+
+  return true;
+}
+
+const badgeCard = target.closest(".badge-card[data-badge-id]");
+
+if (badgeCard && !badgeCard.disabled) {
+  window.FitnessRpgNavigation.stopEvent(event);
+
+  const badgeId = badgeCard.dataset.badgeId;
+  window.FitnessRpgRender?.openBadgeModal?.(badgeId);
+
+  return true;
+}
+
+if (
+  target.closest(".badge-detail-close")
+  || target.id === "badgeDetailOverlay"
+) {
+  window.FitnessRpgNavigation.stopEvent(event);
+  window.FitnessRpgRender?.closeBadgeModal?.();
+
+  return true;
+}
+
   const familiarCarouselButton = target.closest(".familiar-carousel-btn");
 
 if (familiarCarouselButton) {
