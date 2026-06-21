@@ -9537,6 +9537,18 @@ window.FitnessRpgData = {
       "target": 10
     },
     {
+      "id": "pilates-5-seances",
+      "icon": "🧘",
+      "title": "Pilates",
+      "description": "Valider 5 séances de programmes Pilates.",
+      "type": "programGroup",
+      "programIds": [
+        "tour-mage",
+        "maitre-flux"
+      ],
+      "target": 5
+    },
+    {
       "id": "rempart-heros",
       "icon": "🛡️",
       "title": "Rempart du héros",
