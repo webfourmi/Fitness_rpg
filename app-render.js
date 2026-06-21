@@ -1426,9 +1426,6 @@ window.FitnessRpgRender.renderExerciseList = function renderExerciseList() {
   }, 0);
 };
 
-// ============================================================
-// Badges
-// ============================================================
 
 // ============================================================
 // Badges
@@ -1439,18 +1436,21 @@ window.FitnessRpgRender.getBadgeImagePath = function getBadgeImagePath(badge) {
     return badge.image || badge.imagePath;
   }
 
-  const rawId = String(badge?.imageId || badge?.id || badge?.title || "badge");
+  const rawName = String(badge?.imageId || badge?.title || badge?.id || "badge");
 
-  const safeId = rawId
+  const safeName = rawName
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "_")
-    .replace(/^_+|_+$/g, "");
+    .replace(/\b-vaincu\b/g, "")
+    .replace(/\bvaincu\b/g, "")
+    .replace(/\blégendaire\b/g, "legendaire")
+    .replace(/\blegendaire\b/g, "legendaire")
+    .replace(/[^a-z0-9]/g, "")
+    .trim();
 
-  return `assets/badges/badge_${safeId}.png`;
+  return `assets/badges/badge_${safeName}.png`;
 };
-
 window.FitnessRpgRender.renderBadges = function renderBadges() {
   const summary = document.querySelector("#badgeCollectionSummary");
   const list = document.querySelector("#badgeList");
