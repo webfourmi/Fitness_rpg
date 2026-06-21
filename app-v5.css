@@ -1751,6 +1751,117 @@ textarea:focus {
   color: var(--text-muted);
   font-size: 0.82rem;
 }
+.program-level-tabs {
+  display: flex;
+  gap: 8px;
+
+  width: 100%;
+  margin: 10px 0 12px;
+  padding: 4px;
+
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  border-radius: 999px;
+  border: 1px solid rgba(240, 184, 79, 0.26);
+
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.program-level-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.program-level-tab {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+
+  flex: 1 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  min-height: 42px;
+  padding: 8px 12px;
+
+  border-radius: 999px;
+
+  background: transparent;
+  color: var(--text-muted);
+
+  font-size: 0.82rem;
+  font-weight: 900;
+  white-space: nowrap;
+
+  transition:
+    transform 0.16s ease,
+    background 0.16s ease,
+    color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.program-level-tab span {
+  font-size: 1rem;
+}
+
+.program-level-tab strong {
+  font-size: 0.82rem;
+}
+
+.program-level-tab em {
+  display: grid;
+  place-items: center;
+
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.08);
+  color: inherit;
+
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 1000;
+}
+
+.program-level-tab.active {
+  background:
+    radial-gradient(circle at top, rgba(240, 184, 79, 0.28), transparent 58%),
+    rgba(240, 184, 79, 0.16);
+
+  color: var(--accent-strong);
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.26),
+    inset 0 0 0 1px rgba(240, 184, 79, 0.45);
+}
+
+.program-level-tab:not(.active):hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+@media (max-width: 420px) {
+  .program-level-tabs {
+    justify-content: flex-start;
+    margin-top: 8px;
+  }
+
+  .program-level-tab {
+    flex: 0 0 auto;
+    min-height: 40px;
+    padding: 7px 10px;
+  }
+
+  .program-level-tab strong {
+    font-size: 0.76rem;
+  }
+}
 
 /* ============================================================
    08 - Exercices et catégories
