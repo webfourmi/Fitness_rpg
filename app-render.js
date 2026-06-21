@@ -1020,9 +1020,9 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
   const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
 
   const tiers = [
-    { id: "beginner", label: "Débutant", icon: "🌱" },
-    { id: "intermediate", label: "Intermédiaire", icon: "⚔️" },
-    { id: "advanced", label: "Avancé", icon: "🏟️" }
+    { id: "beginner", label: "Débutant"},
+    { id: "intermediate", label: "Intermédiaire"},
+    { id: "advanced", label: "Avancé"}
   ];
 
   const selectedTier = window.FitnessRpgRender.selectedProgramTier || "beginner";
@@ -1031,25 +1031,22 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
     return window.FitnessRpgConfig.getProgramTier?.(program) || program.tier || "beginner";
   };
 
-  if (tabs) {
-    tabs.innerHTML = tiers.map((tier) => {
-      const count = programs.filter((program) => getTier(program) === tier.id).length;
-      const active = tier.id === selectedTier;
+ if (tabs) {
+  tabs.innerHTML = tiers.map((tier) => {
+    const active = tier.id === selectedTier;
 
-      return `
-        <button
-          class="program-level-tab ${active ? "active" : ""}"
-          type="button"
-          data-program-tier="${tier.id}"
-          aria-pressed="${active ? "true" : "false"}"
-        >
-          <span>${tier.icon}</span>
-          <strong>${tier.label}</strong>
-          <em>${count}</em>
-        </button>
-      `;
-    }).join("");
-  }
+    return `
+      <button
+        class="program-level-tab ${active ? "active" : ""}"
+        type="button"
+        data-program-tier="${tier.id}"
+        aria-pressed="${active ? "true" : "false"}"
+      >
+        <strong>${tier.label}</strong>
+      </button>
+    `;
+  }).join("");
+}
 
   const filteredPrograms = programs.filter((program) => {
     return getTier(program) === selectedTier;
