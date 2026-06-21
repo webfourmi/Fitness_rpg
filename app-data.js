@@ -1556,6 +1556,83 @@ window.FitnessRpgData = {
       "hasTimer": true
     },
     {
+  "id": "swimming",
+  "categoryId": "strength",
+  "title": "Swimming",
+  "images": {
+    "male": "assets/exercices/homme_default.png",
+    "female": "assets/exercices/femme_default.png"
+  },
+  "unit": "sec",
+  "defaultValue": 20,
+  "min": 10,
+  "step": 5,
+  "xpPerUnit": 0.35,
+  "stat": "Dos / centre",
+  "pose": "core",
+  "hasTimer": true,
+  "description": "Allongé sur le ventre, alterne bras et jambes opposés comme si tu nageais doucement.",
+  "shortDescription": "Nage au sol, bras et jambes alternés.",
+  "coachTip": "Garde le mouvement petit et contrôlé, sans cambrer brutalement."
+},
+{
+  "id": "toe_taps",
+  "categoryId": "strength",
+  "title": "Toe Taps",
+  "images": {
+    "male": "assets/exercices/homme_default.png",
+    "female": "assets/exercices/femme_default.png"
+  },
+  "unit": "répétitions",
+  "defaultValue": 20,
+  "min": 2,
+  "step": 2,
+  "xpPerUnit": 1,
+  "stat": "Abdos profonds",
+  "pose": "core",
+  "description": "Allongé sur le dos, genoux levés à 90°, touche le sol avec une pointe de pied puis remonte.",
+  "shortDescription": "Pointe de pied au sol depuis la position jambes levées.",
+  "coachTip": "Le bas du dos reste stable. La lenteur vaut de l’or."
+},
+{
+  "id": "side_leg_lift",
+  "categoryId": "strength",
+  "title": "Side Leg Lift",
+  "images": {
+    "male": "assets/exercices/homme_default.png",
+    "female": "assets/exercices/femme_default.png"
+  },
+  "unit": "répétitions",
+  "defaultValue": 24,
+  "min": 2,
+  "step": 2,
+  "xpPerUnit": 1,
+  "stat": "Hanches / stabilité",
+  "pose": "core",
+  "description": "Allongé sur le côté, lève la jambe supérieure puis redescends lentement.",
+  "shortDescription": "Élévation latérale de jambe.",
+  "coachTip": "Bassin stable, mouvement propre, pas de coup de fouet."
+},
+{
+  "id": "roll_up_simplified",
+  "categoryId": "strength",
+  "title": "Roll Up simplifié",
+  "images": {
+    "male": "assets/exercices/homme_default.png",
+    "female": "assets/exercices/femme_default.png"
+  },
+  "unit": "répétitions",
+  "defaultValue": 10,
+  "min": 1,
+  "step": 1,
+  "xpPerUnit": 1.2,
+  "stat": "Centre / mobilité",
+  "pose": "core",
+  "description": "Allongé sur le dos, remonte progressivement le buste avec contrôle, puis redescends lentement.",
+  "shortDescription": "Remontée contrôlée du buste.",
+  "coachTip": "Monte vertèbre après vertèbre. Pas d’élan, pas de lutte héroïque inutile."
+},
+    {
       "id": "pilates",
       "categoryId": "mobility",
       "title": "Pilates",
@@ -6849,6 +6926,212 @@ window.FitnessRpgData = {
     "Hollow Hold simplifié : épaules et pieds légèrement décollés, ventre contracté."
   ]
 },
+
+    "maitre-flux": {
+  "id": "maitre-flux",
+  "subtitle": "Pilates intermédiaire : contrôle, stabilité, équilibre et centre du corps.",
+  "unlockLevel": 2,
+  "duration": "25 à 30 min",
+  "frequency": "3 séances par semaine + boss le samedi",
+  "material": "Aucun matériel. Tapis conseillé.",
+  "reward": {
+    "badgeId": "flux-dragon-astral",
+    "badgeTitle": "Dragon Astral",
+    "chest": true,
+    "nextPrograms": [
+      "forge-guerrier",
+      "champion-arenes"
+    ]
+  },
+
+  "weeks": [
+    {
+      "week": 1,
+      "title": "Le Courant Intérieur",
+      "xp": 70,
+      "progression": "Passage vers le Pilates intermédiaire. Nouvel exercice : Swimming.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Centre de Gravité",
+          "xp": 70,
+          "difficultyLabel": "≈ 25 à 30 min",
+          "instructions": "Échauffement 5 min, deux défis en 2 cycles, puis retour au calme.",
+          "exercises": [
+            { "phase": "Échauffement", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "march_on_spot", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "thoracic_rotation", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "arm_circles", "amount": 60, "unit": "sec" },
+
+            { "phase": "Défi 1 · Cycle 1", "exerciseId": "hollow_hold_simplified", "amount": 20, "unit": "sec" },
+            { "phase": "Défi 1 · Cycle 1", "exerciseId": "dead_bug", "amount": 20, "unit": "répétitions" },
+            { "phase": "Défi 1 · Cycle 1", "exerciseId": "pelvic_lift_floor", "amount": 12, "unit": "répétitions" },
+            { "phase": "Défi 1 · Cycle 2", "exerciseId": "hollow_hold_simplified", "amount": 20, "unit": "sec" },
+            { "phase": "Défi 1 · Cycle 2", "exerciseId": "dead_bug", "amount": 20, "unit": "répétitions" },
+            { "phase": "Défi 1 · Cycle 2", "exerciseId": "pelvic_lift_floor", "amount": 12, "unit": "répétitions" },
+
+            { "phase": "Défi 2 · Cycle 1", "exerciseId": "swimming", "amount": 20, "unit": "sec" },
+            { "phase": "Défi 2 · Cycle 1", "exerciseId": "bird_dog", "amount": 20, "unit": "répétitions" },
+            { "phase": "Défi 2 · Cycle 1", "exerciseId": "side_plank_knees", "amount": 40, "unit": "sec" },
+            { "phase": "Défi 2 · Cycle 2", "exerciseId": "swimming", "amount": 20, "unit": "sec" },
+            { "phase": "Défi 2 · Cycle 2", "exerciseId": "bird_dog", "amount": 20, "unit": "répétitions" },
+            { "phase": "Défi 2 · Cycle 2", "exerciseId": "side_plank_knees", "amount": 40, "unit": "sec" },
+
+            { "phase": "Retour au calme", "exerciseId": "gentle_back_stretch", "amount": 2, "unit": "min" },
+            { "phase": "Retour au calme", "exerciseId": "hip_quad_stretch", "amount": 2, "unit": "min" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 1, "unit": "min" }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Souplesse du Mage",
+          "xp": 70,
+          "difficultyLabel": "≈ 25 min",
+          "instructions": "Mobilité, dos et centre du corps.",
+          "exercises": [
+            { "phase": "Échauffement", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "march_on_spot", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "thoracic_rotation", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "arm_circles", "amount": 60, "unit": "sec" },
+
+            { "phase": "Défi 1 · Cycle 1", "exerciseId": "cat_cow", "amount": 12, "unit": "répétitions" },
+            { "phase": "Défi 1 · Cycle 1", "exerciseId": "thoracic_rotation", "amount": 12, "unit": "répétitions" },
+            { "phase": "Défi 1 · Cycle 1", "exerciseId": "swimming", "amount": 20, "unit": "sec" },
+            { "phase": "Défi 1 · Cycle 2", "exerciseId": "cat_cow", "amount": 12, "unit": "répétitions" },
+            { "phase": "Défi 1 · Cycle 2", "exerciseId": "thoracic_rotation", "amount": 12, "unit": "répétitions" },
+            { "phase": "Défi 1 · Cycle 2", "exerciseId": "swimming", "amount": 20, "unit": "sec" },
+
+            { "phase": "Défi 2 · Cycle 1", "exerciseId": "bridge", "amount": 15, "unit": "répétitions" },
+            { "phase": "Défi 2 · Cycle 1", "exerciseId": "bird_dog", "amount": 20, "unit": "répétitions" },
+            { "phase": "Défi 2 · Cycle 1", "exerciseId": "dead_bug", "amount": 20, "unit": "répétitions" },
+            { "phase": "Défi 2 · Cycle 2", "exerciseId": "bridge", "amount": 15, "unit": "répétitions" },
+            { "phase": "Défi 2 · Cycle 2", "exerciseId": "bird_dog", "amount": 20, "unit": "répétitions" },
+            { "phase": "Défi 2 · Cycle 2", "exerciseId": "dead_bug", "amount": 20, "unit": "répétitions" },
+
+            { "phase": "Retour au calme", "exerciseId": "gentle_back_stretch", "amount": 2, "unit": "min" },
+            { "phase": "Retour au calme", "exerciseId": "hip_quad_stretch", "amount": 2, "unit": "min" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 1, "unit": "min" }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Équilibre",
+          "xp": 70,
+          "difficultyLabel": "≈ 25 à 30 min",
+          "instructions": "Équilibre, maintien et contrôle.",
+          "exercises": [
+            { "phase": "Échauffement", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "march_on_spot", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "thoracic_rotation", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "arm_circles", "amount": 60, "unit": "sec" },
+
+            { "phase": "Défi 1 · Cycle 1", "exerciseId": "single_leg_balance", "amount": 60, "unit": "sec" },
+            { "phase": "Défi 1 · Cycle 1", "exerciseId": "hollow_hold_simplified", "amount": 20, "unit": "sec" },
+            { "phase": "Défi 1 · Cycle 1", "exerciseId": "bird_dog", "amount": 20, "unit": "répétitions" },
+            { "phase": "Défi 1 · Cycle 2", "exerciseId": "single_leg_balance", "amount": 60, "unit": "sec" },
+            { "phase": "Défi 1 · Cycle 2", "exerciseId": "hollow_hold_simplified", "amount": 20, "unit": "sec" },
+            { "phase": "Défi 1 · Cycle 2", "exerciseId": "bird_dog", "amount": 20, "unit": "répétitions" },
+
+            { "phase": "Défi 2 · Cycle 1", "exerciseId": "swimming", "amount": 20, "unit": "sec" },
+            { "phase": "Défi 2 · Cycle 1", "exerciseId": "pelvic_lift_floor", "amount": 12, "unit": "répétitions" },
+            { "phase": "Défi 2 · Cycle 1", "exerciseId": "side_plank_knees", "amount": 40, "unit": "sec" },
+            { "phase": "Défi 2 · Cycle 2", "exerciseId": "swimming", "amount": 20, "unit": "sec" },
+            { "phase": "Défi 2 · Cycle 2", "exerciseId": "pelvic_lift_floor", "amount": 12, "unit": "répétitions" },
+            { "phase": "Défi 2 · Cycle 2", "exerciseId": "side_plank_knees", "amount": 40, "unit": "sec" },
+
+            { "phase": "Retour au calme", "exerciseId": "gentle_back_stretch", "amount": 2, "unit": "min" },
+            { "phase": "Retour au calme", "exerciseId": "hip_quad_stretch", "amount": 2, "unit": "min" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 1, "unit": "min" }
+          ]
+        }
+      ]
+    },
+
+    {
+      "week": 2,
+      "title": "Les Vents Invisibles",
+      "xp": 80,
+      "progression": "Contrôle plus précis du centre. Nouvel exercice : Toe Taps.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Contrôle",
+          "xp": 80,
+          "difficultyLabel": "≈ 25 à 30 min",
+          "instructions": "Stabilité abdominale et maintien.",
+          "exercises": [
+            { "phase": "Échauffement", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "march_on_spot", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "thoracic_rotation", "amount": 1, "unit": "min" },
+            { "phase": "Échauffement", "exerciseId": "arm_circles", "amount": 60, "unit": "sec" },
+
+            { "phase": "Défi 1 · Cycle 1", "exerciseId": "toe_taps", "amount": 20, "unit": "répétitions" },
+            { "phase": "Défi 1 · Cycle 1", "exerciseId": "hollow_hold_simplified", "amount": 25, "unit": "sec" },
+            { "phase": "Défi 1 · Cycle 1", "exerciseId": "pelvic_lift_floor", "amount": 15, "unit": "répétitions" },
+            { "phase": "Défi 1 · Cycle 2", "exerciseId": "toe_taps", "amount": 20, "unit": "répétitions" },
+            { "phase": "Défi 1 · Cycle 2", "exerciseId": "hollow_hold_simplified", "amount": 25, "unit": "sec" },
+            { "phase": "Défi 1 · Cycle 2", "exerciseId": "pelvic_lift_floor", "amount": 15, "unit": "répétitions" },
+
+            { "phase": "Défi 2 · Cycle 1", "exerciseId": "swimming", "amount": 25, "unit": "sec" },
+            { "phase": "Défi 2 · Cycle 1", "exerciseId": "bird_dog", "amount": 20, "unit": "répétitions" },
+            { "phase": "Défi 2 · Cycle 1", "exerciseId": "side_plank", "amount": 50, "unit": "sec" },
+            { "phase": "Défi 2 · Cycle 2", "exerciseId": "swimming", "amount": 25, "unit": "sec" },
+            { "phase": "Défi 2 · Cycle 2", "exerciseId": "bird_dog", "amount": 20, "unit": "répétitions" },
+            { "phase": "Défi 2 · Cycle 2", "exerciseId": "side_plank", "amount": 50, "unit": "sec" },
+
+            { "phase": "Retour au calme", "exerciseId": "gentle_back_stretch", "amount": 2, "unit": "min" },
+            { "phase": "Retour au calme", "exerciseId": "shoulder_arm_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 1, "unit": "min" }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "bosses": [
+    {
+      "week": 1,
+      "title": "L’Esprit du Lac",
+      "xp": 60,
+      "badgeId": "flux-courant-interieur",
+      "difficultyLabel": "Boss semaine 1 · 3 cycles",
+      "instructions": "Débloqué après les 3 séances de la semaine 1.",
+      "lockedMessage": "L’Esprit du Lac attend un corps stable et un souffle calme.",
+      "exercises": [
+        { "phase": "Cycle 1", "exerciseId": "swimming", "amount": 20, "unit": "sec" },
+        { "phase": "Cycle 1", "exerciseId": "hollow_hold_simplified", "amount": 20, "unit": "sec" },
+        { "phase": "Cycle 1", "exerciseId": "dead_bug", "amount": 20, "unit": "répétitions" },
+        { "phase": "Cycle 1", "exerciseId": "bird_dog", "amount": 20, "unit": "répétitions" },
+        { "phase": "Cycle 1", "exerciseId": "side_plank_knees", "amount": 40, "unit": "sec" }
+      ]
+    }
+  ],
+
+  "progression": [
+    "Semaine 1 : Le Courant Intérieur · ajout du Swimming.",
+    "Semaine 2 : Les Vents Invisibles · ajout des Toe Taps.",
+    "Semaine 3 : Les Arcanes du Mouvement · ajout du Side Leg Lift.",
+    "Semaine 4 : Maître du Flux · ajout du Roll Up simplifié.",
+    "Programme conçu comme la suite directe de Tour du Mage.",
+    "Récompense finale : badge Dragon Astral, coffre mystique et +150 XP."
+  ],
+
+  "notes": [
+    "Objectif : Pilates intermédiaire.",
+    "Tour du Mage devient le programme débutant de cette voie.",
+    "Maître du Flux ajoute davantage de stabilité, de contrôle et d’équilibre.",
+    "Les répétitions par côté sont converties en répétitions totales dans l’application.",
+    "Les temps par côté sont convertis en durée totale.",
+    "Swimming : nage au sol avec bras et jambes alternés.",
+    "Toe Taps : pointe de pied au sol depuis la position jambes levées.",
+    "Side Leg Lift : élévation latérale de jambe.",
+    "Roll Up simplifié : remontée contrôlée du buste."
+  ]
+},
     "rempart-heros": {
       "id": "rempart-heros",
       "subtitle": "Renforce ton centre, protège ton dos, tiens la ligne.",
@@ -9550,7 +9833,47 @@ window.FitnessRpgData = {
       "programId": "champion-arenes",
       "weekNumber": 4,
       "target": 1
-    }
+    },
+    {
+  "id": "flux-courant-interieur",
+  "icon": "🌊",
+  "title": "Courant Intérieur",
+  "description": "Vaincre le boss de la semaine 1 du programme Maître du Flux.",
+  "type": "program-boss",
+  "programId": "maitre-flux",
+  "weekNumber": 1,
+  "target": 1
+},
+{
+  "id": "flux-vents-invisibles",
+  "icon": "💨",
+  "title": "Vents Invisibles",
+  "description": "Vaincre le boss de la semaine 2 du programme Maître du Flux.",
+  "type": "program-boss",
+  "programId": "maitre-flux",
+  "weekNumber": 2,
+  "target": 1
+},
+{
+  "id": "flux-arcanes-mouvement",
+  "icon": "✨",
+  "title": "Arcanes du Mouvement",
+  "description": "Vaincre le boss de la semaine 3 du programme Maître du Flux.",
+  "type": "program-boss",
+  "programId": "maitre-flux",
+  "weekNumber": 3,
+  "target": 1
+},
+{
+  "id": "flux-dragon-astral",
+  "icon": "🐉",
+  "title": "Dragon Astral",
+  "description": "Vaincre le boss final du programme Maître du Flux.",
+  "type": "program-boss",
+  "programId": "maitre-flux",
+  "weekNumber": 4,
+  "target": 1
+}
   ]
 };
 
