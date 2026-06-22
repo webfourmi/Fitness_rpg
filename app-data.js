@@ -982,6 +982,87 @@ window.FitnessRpgData = {
       "shortDescription": "Fais tourner les chevilles.",
       "coachTip": "Mouvement lent, sans forcer."
     },
+
+    {
+      "id": "shoulder_rolls",
+      "categoryId": "mobility",
+      "title": "Enroulement des épaules",
+      "images": {
+        "male": "assets/exercices/homme_default.png",
+        "female": "assets/exercices/femme_default.png"
+      },
+      "unit": "sec",
+      "defaultValue": 60,
+      "min": 30,
+      "step": 30,
+      "xpPerUnit": 0.15,
+      "stat": "Mobilité épaules",
+      "pose": "stretch",
+      "hasTimer": true,
+      "description": "Fais rouler les épaules lentement vers l’arrière puis vers l’avant.",
+      "shortDescription": "Roulements lents des épaules.",
+      "coachTip": "Cherche l’amplitude douce, pas le craquement de donjon."
+    },
+    {
+      "id": "child_pose_stretch",
+      "categoryId": "stretch",
+      "title": "Étirement du chat",
+      "images": {
+        "male": "assets/exercices/homme_default.png",
+        "female": "assets/exercices/femme_default.png"
+      },
+      "unit": "min",
+      "defaultValue": 1,
+      "min": 1,
+      "step": 1,
+      "xpPerUnit": 1,
+      "stat": "Dos / récupération",
+      "pose": "stretch",
+      "hasTimer": true,
+      "description": "Position de l’enfant : assieds-toi vers les talons, bras devant, dos relâché.",
+      "shortDescription": "Position de l’enfant pour relâcher le dos.",
+      "coachTip": "Respire dans le dos, sans forcer les épaules."
+    },
+    {
+      "id": "gentle_neck_rotation",
+      "categoryId": "mobility",
+      "title": "Rotation cervicale douce",
+      "images": {
+        "male": "assets/exercices/homme_default.png",
+        "female": "assets/exercices/femme_default.png"
+      },
+      "unit": "sec",
+      "defaultValue": 60,
+      "min": 30,
+      "step": 30,
+      "xpPerUnit": 0.15,
+      "stat": "Nuque / mobilité",
+      "pose": "stretch",
+      "hasTimer": true,
+      "description": "Tourne lentement la tête à droite puis à gauche, sans aller en arrière.",
+      "shortDescription": "Rotation lente de la nuque.",
+      "coachTip": "Mouvement minuscule et confortable. La nuque n’aime pas les duels."
+    },
+    {
+      "id": "chest_stretch",
+      "categoryId": "stretch",
+      "title": "Étirement poitrine",
+      "images": {
+        "male": "assets/exercices/homme_default.png",
+        "female": "assets/exercices/femme_default.png"
+      },
+      "unit": "min",
+      "defaultValue": 1,
+      "min": 1,
+      "step": 1,
+      "xpPerUnit": 1,
+      "stat": "Poitrine / posture",
+      "pose": "stretch",
+      "hasTimer": true,
+      "description": "Ouvre doucement la poitrine, épaules basses, sans cambrer le bas du dos.",
+      "shortDescription": "Ouvre doucement la poitrine.",
+      "coachTip": "Grandis-toi sans pousser les côtes en avant."
+    },
     {
       "id": "single_leg_balance",
       "categoryId": "strength",
@@ -3066,6 +3147,322 @@ window.FitnessRpgData = {
         "Aucune séance punitive."
       ]
     },
+
+
+    "sanctuaire-voyageur": {
+  "id": "sanctuaire-voyageur",
+  "subtitle": "Détente du dos et mobilité douce pour les jours où le corps se sent rouillé.",
+  "unlockLevel": 1,
+  "duration": "5 à 10 min",
+  "frequency": "Libre · utilisable après le bureau, avant de dormir, après le sport ou en jour de repos",
+  "material": "Aucun matériel. Tapis conseillé.",
+  "reward": {
+    "badgeId": "sanctuaire-serenite-mage",
+    "badgeTitle": "Sérénité du Mage",
+    "chest": false,
+    "nextPrograms": []
+  },
+  "weeks": [
+    {
+      "week": 1,
+      "title": "Délier les Chaînes",
+      "xp": 30,
+      "progression": "Routine très douce pour relâcher le dos, la respiration et la mobilité thoracique.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Dos Délié",
+          "xp": 30,
+          "difficultyLabel": "≈ 6 min",
+          "instructions": "Routine douce, sans performance. Arrête si la douleur augmente.",
+          "exercises": [
+            { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+            { "phase": "Étirement", "exerciseId": "gentle_back_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 1, "unit": "min" }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Épaules Légères",
+          "xp": 30,
+          "difficultyLabel": "≈ 6 min",
+          "instructions": "Routine de relâchement des épaules et du haut du dos.",
+          "exercises": [
+            { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Mobilité épaules", "exerciseId": "arm_circles", "amount": 60, "unit": "sec" },
+            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+            { "phase": "Étirement", "exerciseId": "chest_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 1, "unit": "min" }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Hanches Calmes",
+          "xp": 30,
+          "difficultyLabel": "≈ 7 min",
+          "instructions": "Routine douce bassin, hanches et respiration.",
+          "exercises": [
+            { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Mobilité bassin", "exerciseId": "pelvic_tilt", "amount": 10, "unit": "répétitions" },
+            { "phase": "Activation douce", "exerciseId": "bridge", "amount": 10, "unit": "répétitions" },
+            { "phase": "Étirement", "exerciseId": "hip_quad_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 1, "unit": "min" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "title": "Les Chemins Oubliés",
+      "xp": 35,
+      "progression": "On ajoute l’enroulement des épaules pour délier le haut du corps.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Chemin du Dos",
+          "xp": 35,
+          "difficultyLabel": "≈ 7 min",
+          "instructions": "Nouveau mouvement : enroulement des épaules.",
+          "exercises": [
+            { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
+            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+            { "phase": "Étirement", "exerciseId": "gentle_back_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 1, "unit": "min" }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Bassin Paisible",
+          "xp": 35,
+          "difficultyLabel": "≈ 7 min",
+          "instructions": "Bassin, hanches et récupération.",
+          "exercises": [
+            { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Mobilité bassin", "exerciseId": "pelvic_tilt", "amount": 10, "unit": "répétitions" },
+            { "phase": "Activation douce", "exerciseId": "bridge", "amount": 10, "unit": "répétitions" },
+            { "phase": "Étirement", "exerciseId": "hip_quad_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Haut du Dos",
+          "xp": 35,
+          "difficultyLabel": "≈ 7 min",
+          "instructions": "Épaules, poitrine et mobilité thoracique.",
+          "exercises": [
+            { "phase": "Mobilité épaules", "exerciseId": "arm_circles", "amount": 60, "unit": "sec" },
+            { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
+            { "phase": "Étirement", "exerciseId": "chest_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "title": "Le Souffle des Anciens",
+      "xp": 40,
+      "progression": "On ajoute l’étirement du chat, position de l’enfant, pour relâcher le dos.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Souffle Long",
+          "xp": 40,
+          "difficultyLabel": "≈ 7 à 8 min",
+          "instructions": "Nouveau mouvement : étirement du chat.",
+          "exercises": [
+            { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+            { "phase": "Étirement", "exerciseId": "child_pose_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Chaînes Invisibles",
+          "xp": 40,
+          "difficultyLabel": "≈ 8 min",
+          "instructions": "Tous les mouvements doivent rester lents et contrôlés.",
+          "exercises": [
+            { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
+            { "phase": "Mobilité bassin", "exerciseId": "pelvic_tilt", "amount": 10, "unit": "répétitions" },
+            { "phase": "Étirement", "exerciseId": "child_pose_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Étirement", "exerciseId": "hip_quad_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Repos du Mage",
+          "xp": 40,
+          "difficultyLabel": "≈ 8 min",
+          "instructions": "Routine de récupération pour jour de fatigue.",
+          "exercises": [
+            { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+            { "phase": "Étirement", "exerciseId": "gentle_back_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Étirement", "exerciseId": "child_pose_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "title": "Le Sanctuaire",
+      "xp": 45,
+      "progression": "On ajoute la rotation cervicale douce pour compléter la routine de détente.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Nuque et Épaules",
+          "xp": 45,
+          "difficultyLabel": "≈ 8 à 10 min",
+          "instructions": "Nouveau mouvement : rotation cervicale douce.",
+          "exercises": [
+            { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Nuque", "exerciseId": "gentle_neck_rotation", "amount": 60, "unit": "sec" },
+            { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
+            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+            { "phase": "Étirement", "exerciseId": "chest_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Sanctuaire du Dos",
+          "xp": 45,
+          "difficultyLabel": "≈ 8 à 10 min",
+          "instructions": "Routine complète de relâchement.",
+          "exercises": [
+            { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Nuque", "exerciseId": "gentle_neck_rotation", "amount": 60, "unit": "sec" },
+            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+            { "phase": "Mobilité bassin", "exerciseId": "pelvic_tilt", "amount": 10, "unit": "répétitions" },
+            { "phase": "Étirement", "exerciseId": "child_pose_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Veillée du Mage",
+          "xp": 45,
+          "difficultyLabel": "≈ 10 min",
+          "instructions": "Routine finale douce, idéale avant de dormir.",
+          "exercises": [
+            { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+            { "phase": "Nuque", "exerciseId": "gentle_neck_rotation", "amount": 60, "unit": "sec" },
+            { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
+            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+            { "phase": "Étirement", "exerciseId": "gentle_back_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Étirement", "exerciseId": "child_pose_stretch", "amount": 1, "unit": "min" },
+            { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
+          ]
+        }
+      ]
+    }
+  ],
+  "bosses": [
+    {
+      "week": 1,
+      "title": "Le Nœud du Voyageur",
+      "xp": 30,
+      "badgeId": "sanctuaire-epaules-liberees",
+      "difficultyLabel": "Mission douce · routine complète",
+      "instructions": "Mission : réaliser la routine complète sans interruption.",
+      "lockedMessage": "Le nœud attend que tu aies pris le temps de délier ton corps cette semaine.",
+      "exercises": [
+        { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+        { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+        { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+        { "phase": "Étirement", "exerciseId": "gentle_back_stretch", "amount": 1, "unit": "min" },
+        { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 1, "unit": "min" }
+      ]
+    },
+    {
+      "week": 2,
+      "title": "Le Dos de Pierre",
+      "xp": 35,
+      "badgeId": "sanctuaire-colonne-assouplie",
+      "difficultyLabel": "Mission douce · 10 min",
+      "instructions": "Mission : 10 minutes complètes de mobilité douce.",
+      "lockedMessage": "Le Dos de Pierre ne se fissure pas sous la force. Il s’assouplit avec patience.",
+      "exercises": [
+        { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+        { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
+        { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+        { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+        { "phase": "Étirement", "exerciseId": "chest_stretch", "amount": 1, "unit": "min" },
+        { "phase": "Étirement", "exerciseId": "gentle_back_stretch", "amount": 2, "unit": "min" },
+        { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
+      ]
+    },
+    {
+      "week": 3,
+      "title": "Les Chaînes Invisibles",
+      "xp": 40,
+      "badgeId": "sanctuaire-souffle-retrouve",
+      "difficultyLabel": "Mission douce · contrôle lent",
+      "instructions": "Mission : effectuer chaque mouvement lentement et avec contrôle.",
+      "lockedMessage": "Les chaînes invisibles se défont lentement. Termine tes routines avant de revenir.",
+      "exercises": [
+        { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+        { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
+        { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+        { "phase": "Étirement", "exerciseId": "child_pose_stretch", "amount": 1, "unit": "min" },
+        { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+        { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
+      ]
+    },
+    {
+      "week": 4,
+      "title": "Le Sage du Repos",
+      "xp": 50,
+      "badgeId": "sanctuaire-serenite-mage",
+      "chest": false,
+      "difficultyLabel": "Mission finale · récupération complète",
+      "instructions": "Mission : routine complète de récupération.",
+      "lockedMessage": "Le Sage du Repos n’ouvre son sanctuaire qu’aux voyageurs patients.",
+      "exercises": [
+        { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
+        { "phase": "Nuque", "exerciseId": "gentle_neck_rotation", "amount": 60, "unit": "sec" },
+        { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
+        { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+        { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+        { "phase": "Étirement", "exerciseId": "child_pose_stretch", "amount": 1, "unit": "min" },
+        { "phase": "Étirement", "exerciseId": "gentle_back_stretch", "amount": 1, "unit": "min" },
+        { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
+      ]
+    }
+  ],
+  "progression": [
+    "Semaine 1 : Délier les Chaînes · respirer, mobiliser, relâcher.",
+    "Semaine 2 : Les Chemins Oubliés · ajout de l’enroulement des épaules.",
+    "Semaine 3 : Le Souffle des Anciens · ajout de l’étirement du chat.",
+    "Semaine 4 : Le Sanctuaire · ajout de la rotation cervicale douce.",
+    "Programme utilisable librement, surtout les jours de fatigue, de bureau ou de récupération."
+  ],
+  "notes": [
+    "Ce n’est pas un programme de renforcement.",
+    "Ce n’est pas du Pilates.",
+    "Ce n’est pas du cardio.",
+    "Objectif : diminuer les tensions légères, améliorer la mobilité et favoriser la récupération.",
+    "Les mouvements doivent rester doux, lents et confortables.",
+    "Arrêter la routine si une douleur augmente, descend dans la jambe, provoque des fourmillements ou une faiblesse.",
+    "En cas de douleur persistante, intense, nocturne ou inquiétante, demander un avis médical."
+  ]
+},
+    
     "coeur-dragon": {
       "id": "coeur-dragon",
       "subtitle": "Cardio progressif sans impact violent, avec plus de variété et une vraie sensation d’aventure.",
@@ -9843,6 +10240,47 @@ window.FitnessRpgData = {
       "description": "Vaincre le boss final du programme Champion des Arènes.",
       "type": "program-boss",
       "programId": "champion-arenes",
+      "weekNumber": 4,
+      "target": 1
+    },
+
+    {
+      "id": "sanctuaire-epaules-liberees",
+      "icon": "🌿",
+      "title": "Épaules Libérées",
+      "description": "Terminer la mission douce de la semaine 1 du Sanctuaire du Voyageur.",
+      "type": "program-boss",
+      "programId": "sanctuaire-voyageur",
+      "weekNumber": 1,
+      "target": 1
+    },
+    {
+      "id": "sanctuaire-colonne-assouplie",
+      "icon": "🪶",
+      "title": "Colonne Assouplie",
+      "description": "Terminer la mission douce de la semaine 2 du Sanctuaire du Voyageur.",
+      "type": "program-boss",
+      "programId": "sanctuaire-voyageur",
+      "weekNumber": 2,
+      "target": 1
+    },
+    {
+      "id": "sanctuaire-souffle-retrouve",
+      "icon": "🌬️",
+      "title": "Souffle Retrouvé",
+      "description": "Terminer la mission douce de la semaine 3 du Sanctuaire du Voyageur.",
+      "type": "program-boss",
+      "programId": "sanctuaire-voyageur",
+      "weekNumber": 3,
+      "target": 1
+    },
+    {
+      "id": "sanctuaire-serenite-mage",
+      "icon": "🌙",
+      "title": "Sérénité du Mage",
+      "description": "Terminer la mission finale du Sanctuaire du Voyageur.",
+      "type": "program-boss",
+      "programId": "sanctuaire-voyageur",
       "weekNumber": 4,
       "target": 1
     },
