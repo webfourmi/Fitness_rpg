@@ -1871,6 +1871,7 @@ textarea:focus {
 
 /* ============================================================
    Exécution guidée des programmes personnalisés
+   Affichage compact type séance de programme
 ============================================================ */
 
 .custom-program-run-page {
@@ -1887,15 +1888,20 @@ textarea:focus {
 
 .custom-program-step-progress small {
   color: var(--text-muted);
+  font-size: 0.78rem;
   font-weight: 800;
 }
 
 .custom-program-step-progress-bar {
-  height: 10px;
+  height: 9px;
   overflow: hidden;
 
   border-radius: 999px;
-  border: 1px solid rgba(240, 184, 79, 0.25);
+   font-weight: 800;
+}
+
+.custom-program-step-progress-bar {
+  height: 9px border: 1px solid rgba(240, 184, 79, 0.25);
 
   background: rgba(0, 0, 0, 0.28);
 }
@@ -1910,93 +1916,141 @@ textarea:focus {
   transition: width 250ms ease;
 }
 
+/* Carte principale */
+
 .custom-program-run-card {
   display: grid;
-  gap: 14px;
+  grid-template-columns: 82px minmax(0, 1fr);
+  grid-template-areas:
+    "phase phase"
+    "image body"
+    "timer timer"
+    "actions actions";
+  align-items: start;
+  gap: 10px;
+
+  padding: 10px;
 }
 
+.custom-program-run-card > .eyebrow {
+  grid-area: phase;
+  justify-self: start;
+  margin: 0;
+}
+
+/* Image vignette */
+
 .custom-program-run-image {
-  width: 100%;
+  grid-area: image;
+
+  width: 82px;
+  height: 82px;
+  padding: 0;
   overflow: hidden;
 
-  border: 0;
-  border-radius: 20px;
+  border: 1px solid rgba(240, 184, 79, 0.35);
+  border-radius: 16px;
 
-  background: rgba(0, 0, 0, 0.24);
-  cursor: pointer;
+  background: rgba(0, 0, 0, 0.22);
+  cursor: zoom-in;
 }
 
 .custom-program-run-image img {
   display: block;
   width: 100%;
-  max-height: 320px;
+  height: 100%;
+  max-height: none;
 
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
 }
 
+/* Texte de l'étape */
+
 .custom-program-run-body {
+  grid-area: body;
+
   display: grid;
-  gap: 8px;
-  text-align: center;
+  gap: 5px;
+  min-width: 0;
+
+  text-align: left;
 }
 
 .custom-program-run-body h3 {
   margin: 0;
 
   color: var(--accent-strong);
-  font-size: clamp(1.25rem, 5vw, 1.8rem);
+  font-size: 1rem;
+  line-height: 1.15;
 }
 
 .custom-program-run-amount {
   margin: 0;
 
   color: var(--text);
-  font-size: 1.15rem;
+  font-size: 0.92rem;
   font-weight: 900;
+}
+
+.custom-program-run-body .muted {
+  margin: 0;
+
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.25;
 }
 
 .custom-program-run-tip {
   margin: 0;
-  padding: 10px 12px;
+  padding: 7px 9px;
 
+  border-radius: 12px;
+  border: 1px solid rgba(240, 184, 79, 0.18);
+
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  font-size: 0.82rem;
+  line-height: 1.25;
+}
+
+/* Timer */
+
+.custom-step-timer-box {
+  grid-area: timer;
+
+  display: grid;
+  gap: 8px;
+
+  padding: 10px;
   border-radius: 16px;
   border: 1px solid rgba(240, 184, 79, 0.22);
 
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text);
-}
-
-.custom-step-timer-box {
-  display: grid;
-  gap: 10px;
-
-  margin-top: 8px;
-  padding: 12px;
-
-  border-radius: 18px;
-  border: 1px solid rgba(240, 184, 79, 0.25);
-
-  background: rgba(0, 0, 0, 0.22);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .custom-step-timer-box p {
   margin: 0;
 
   color: var(--accent-strong);
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 900;
   text-align: center;
 }
 
 .custom-step-timer-actions {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
 
+/* Actions */
+
 .custom-program-run-actions {
+  grid-area: actions;
+
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
 
@@ -2005,15 +2059,70 @@ textarea:focus {
   cursor: not-allowed;
 }
 
+/* Desktop */
+
 @media (min-width: 700px) {
   .custom-program-run-card {
-    max-width: 520px;
-    margin: 0 auto;
+    grid-template-columns: 96px minmax(0, 1fr) 160px;
+    grid-template-areas:
+      "phase phase phase"
+      "image body actions"
+      "timer timer timer";
+    gap: 12px;
+
+    max-width: none;
+    margin: 0;
+  }
+
+  .custom-program-run-image {
+    width: 96px;
+    height: 96px;
+  }
+
+  .custom-program-run-body h3 {
+    font-size: 1.08rem;
+  }
+
+  .custom-program-run-actions {
+    grid-template-columns: 1fr;
+    align-self: center;
+  }
+
+  .custom-step-timer-box {
+    max-width: 460px;
+  }
+}
+
+/* Très petits écrans */
+
+@media (max-width: 380px) {
+  .custom-program-run-card {
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .custom-program-run-image {
+    width: 68px;
+    height: 68px;
+    border-radius: 14px;
+  }
+
+  .custom-program-run-body h3 {
+    font-size: 0.95rem;
+  }
+
+  .custom-program-run-amount {
+    font-size: 0.86rem;
+  }
+
+  .custom-program-run-body .muted,
+  .custom-program-run-tip {
+    font-size: 0.76rem;
   }
 
   .custom-step-timer-actions,
   .custom-program-run-actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
   }
 }
 /* ============================================================
