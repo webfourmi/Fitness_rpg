@@ -197,12 +197,11 @@ window.FitnessRpgExercises.renderCategories = function renderCategories() {
 
   const categories = window.FitnessRpgExercises.getCategories();
 
-  window.FitnessRpgExercises.currentCategoryId = null;
-  window.FitnessRpgExercises.currentExercisePage = 0;
-
   container.innerHTML = `
     <section class="exercise-category-page">
-      <div class="exercise-category-grid v3-grid-3x3">
+      ${window.FitnessRpgExercises.customProgramsPanelHtml()}
+
+      <div class="exercise-category-grid">
         ${categories.map((category) => window.FitnessRpgExercises.categoryCardHtml(category)).join("")}
       </div>
     </section>
@@ -230,7 +229,376 @@ window.FitnessRpgExercises.categoryCardHtml = function categoryCardHtml(category
     </button>
   `;
 };
+// ============================================================
+// Programmes personnalisés
+// ============================================================
 
+window.FitnessRpgExercises.customProgramsPanelHtml = function customProgramsPanelHtml() {
+  const customPrograms = window.FitnessRpgState?.getCustomPrograms?.() || [];
+
+  const listHtml = customPrograms.length
+    ? `
+      <div class="custom-program-list">
+        ${customPrograms.map((program) => `
+          <article class="custom-program-mini-card">
+            <div>
+              <strong>${window.FitnessRpgExercises.escapeHtml(program.title)}</strong>
+              <small>${program.exercises.length} exercice${program.exercises.length > 1 ? "s" : ""}</small>
+            </div>
+
+            <div class="custom-program-mini-actions">
+              <button
+                class="secondary-btn open-custom-program-btn"
+                type="button"
+                data-program-id="${window.FitnessRpgExercises.escapeHtml(program.id)}"
+              >
+                Ouvrir
+              </button>
+
+              <button
+                class="ghost-btn edit-custom-program-btn"
+                type="button"
+                data-program-id="${window.FitnessRpgExercises.escapeHtml(program.id)}"
+              >
+                Modifier
+              </button>
+            </div>
+          </article>
+        `).join("")}
+      </div>
+    `
+    : `
+      <p class="muted">
+        Aucun programme personnalisé pour l’instant.
+      </p>
+    `;
+
+  return `
+    <section class="custom-program-panel card">
+      <div class="custom-program-panel-header">
+        <div>
+          <p class="eyebrow">🧩 Programme perso</p>
+          <h2>Crée ton propre programme</h2>
+          <p>Choisis tes exercices, règle les quantités, puis sauvegarde ta routine.</p>
+        </div>
+
+        <button id="openCustomProgramBuilderBtn" class="primary-btn" type="button">
+          Créer
+        </button>
+      </div>
+
+      ${listHtml}
+    </section>
+  `;
+};
+
+window.FitnessRpgExercises.renderCustomProgramBuilder = function renderCustomProgramBuilder(programId = null) {
+  const container = window.FitnessRpgExercises.getContainer();
+  if (!container) return;
+
+  const existingProgram = programId
+    ? window.FitnessRpgState?.getCustomProgramById?.(programId)
+    : null;
+
+  const selectedMap = new Map(
+    (existingProgram?.exercises || []).map((item) => [item.exerciseId, item])
+  );
+
+  const categories = window.FitnessRpgExercises.getCategories();
+  const exercises = window.FitnessRpgExercises.getExercises();
+
+  const categoriesHtml = categories.map((category) => {
+    const categoryExercises = exercises.filter((exercise) => exercise.categoryId === category.id);
+
+    if (!categoryExercises.length) return "";
+
+    return `
+      <details class="custom-program-category" open>
+        <summary>
+          ${category.icon || "⚔️"} ${window.FitnessRpgExercises.escapeHtml(category.title)}
+        </summary>
+
+        <div class="custom-program-exercise-list">
+          ${categoryExercises.map((exercise) => {
+            const selectedItem = selectedMap.get(exercise.id);
+            const checked = selectedItem ? "checked" : "";
+            const amount = selectedItem?.amount ?? exercise.defaultValue ?? exercise.min ?? 1;
+            const unit = selectedItem?.unit || exercise.unit || "répétitions";
+
+            return `
+              <label class="custom-program-exercise-row">
+                <input
+                  class="custom-program-exercise-check"
+                  type="checkbox"
+                  data-exercise-id="${window.FitnessRpgExercises.escapeHtml(exercise.id)}"
+                  ${checked}
+                >
+
+                <span>${window.FitnessRpgExercises.escapeHtml(exercise.title)}</span>
+
+                <input
+                  class="custom-program-amount-input"
+                  type="number"
+                  data-exercise-id="${window.FitnessRpgExercises.escapeHtml(exercise.id)}"
+                  min="${exercise.min || 1}"
+                  step="${exercise.step || 1}"
+                  value="${amount}"
+                >
+
+                <small>${window.FitnessRpgExercises.escapeHtml(unit)}</small>
+              </label>
+            `;
+          }).join("")}
+        </div>
+      </details>
+    `;
+  }).join("");
+
+  container.innerHTML = `
+    <section
+      id="customProgramBuilder"
+      class="custom-program-builder-page"
+      data-program-id="${existingProgram?.id || ""}"
+    >
+      <div class="subpage-header">
+        <div>
+          <p class="eyebrow">🧩 Programme perso</p>
+          <h2>${existingProgram ? "Modifier le programme" : "Créer ton programme"}</h2>
+          <p class="muted">Sélectionne les exercices de ta routine.</p>
+        </div>
+
+        <button id="backToExerciseCategoriesBtn" class="ghost-btn" type="button">
+          Retour
+        </button>
+      </div>
+
+      <section class="custom-program-form card">
+        <label class="custom-program-name-label">
+          <span>Nom du programme</span>
+          <input
+            id="customProgramNameInput"
+            type="text"
+            maxlength="40"
+            value="${window.FitnessRpgExercises.escapeHtml(existingProgram?.title || "")}"
+            placeholder="Ex : Routine du soir"
+          >
+        </label>
+
+        <p class="muted">
+          Les exercices seront enregistrés dans l’ordre d’affichage.
+        </p>
+      </section>
+
+      <section class="custom-program-picker">
+        ${categoriesHtml}
+      </section>
+
+      <div class="custom-program-save-bar card">
+        <button id="saveCustomProgramBtn" class="primary-btn" type="button">
+          Sauvegarder le programme
+        </button>
+      </div>
+    </section>
+  `;
+};
+
+window.FitnessRpgExercises.saveCustomProgramFromBuilder = function saveCustomProgramFromBuilder() {
+  if (!window.FitnessRpgState?.hasProfile?.()) {
+    alert("Crée d’abord ton héros.");
+    window.FitnessRpgNavigation?.openHeroSetup?.();
+    return;
+  }
+
+  const builder = document.querySelector("#customProgramBuilder");
+  const nameInput = document.querySelector("#customProgramNameInput");
+
+  const title = String(nameInput?.value || "").trim();
+
+  if (!title) {
+    alert("Donne un nom à ton programme.");
+    return;
+  }
+
+  const checkedInputs = Array.from(
+    document.querySelectorAll(".custom-program-exercise-check:checked")
+  );
+
+  if (!checkedInputs.length) {
+    alert("Choisis au moins un exercice.");
+    return;
+  }
+
+  const exercises = checkedInputs.map((check, index) => {
+    const exerciseId = check.dataset.exerciseId;
+    const exercise = window.FitnessRpgExercises.getExercise(exerciseId);
+    const amountInput = document.querySelector(`.custom-program-amount-input[data-exercise-id="${exerciseId}"]`);
+
+    const rawAmount = Number(amountInput?.value || exercise?.defaultValue || 1);
+    const minAmount = Number(exercise?.min || 1);
+    const amount = Math.max(minAmount, Number.isFinite(rawAmount) ? rawAmount : minAmount);
+
+    return {
+      phase: `Étape ${index + 1}`,
+      exerciseId,
+      amount,
+      unit: exercise?.unit || "répétitions"
+    };
+  });
+
+  const savedProgram = window.FitnessRpgState.saveCustomProgram({
+    id: builder?.dataset.programId || null,
+    title,
+    exercises
+  });
+
+  if (!savedProgram) {
+    alert("Impossible de sauvegarder ce programme.");
+    return;
+  }
+
+  window.FitnessRpgExercises.renderCategories();
+};
+
+window.FitnessRpgExercises.renderCustomProgramDetail = function renderCustomProgramDetail(programId) {
+  const container = window.FitnessRpgExercises.getContainer();
+  if (!container) return;
+
+  const program = window.FitnessRpgState?.getCustomProgramById?.(programId);
+
+  if (!program) {
+    alert("Programme personnalisé introuvable.");
+    window.FitnessRpgExercises.renderCategories();
+    return;
+  }
+
+  const exercisesHtml = program.exercises.map((item) => {
+    const exercise = window.FitnessRpgExercises.getExercise(item.exerciseId);
+
+    return `
+      <li>
+        <strong>${window.FitnessRpgExercises.escapeHtml(item.phase)}</strong>
+        <span>${window.FitnessRpgExercises.escapeHtml(exercise?.title || item.exerciseId)}</span>
+        <em>${window.FitnessRpgExercises.escapeHtml(item.amount)} ${window.FitnessRpgExercises.escapeHtml(item.unit)}</em>
+      </li>
+    `;
+  }).join("");
+
+  container.innerHTML = `
+    <section class="custom-program-detail-page">
+      <div class="subpage-header">
+        <div>
+          <p class="eyebrow">🧩 Programme perso</p>
+          <h2>${window.FitnessRpgExercises.escapeHtml(program.title)}</h2>
+          <p class="muted">${program.exercises.length} exercice${program.exercises.length > 1 ? "s" : ""}</p>
+        </div>
+
+        <button id="backToExerciseCategoriesBtn" class="ghost-btn" type="button">
+          Retour
+        </button>
+      </div>
+
+      <section class="custom-program-detail-card card">
+        <ul class="custom-program-exercise-summary">
+          ${exercisesHtml}
+        </ul>
+
+        <div class="custom-program-actions">
+          <button
+            class="primary-btn validate-custom-program-btn"
+            type="button"
+            data-program-id="${window.FitnessRpgExercises.escapeHtml(program.id)}"
+          >
+            Valider cette séance
+          </button>
+
+          <button
+            class="secondary-btn edit-custom-program-btn"
+            type="button"
+            data-program-id="${window.FitnessRpgExercises.escapeHtml(program.id)}"
+          >
+            Modifier
+          </button>
+
+          <button
+            class="ghost-btn delete-custom-program-btn"
+            type="button"
+            data-program-id="${window.FitnessRpgExercises.escapeHtml(program.id)}"
+          >
+            Supprimer
+          </button>
+        </div>
+      </section>
+    </section>
+  `;
+};
+
+window.FitnessRpgExercises.calculateCustomProgramXp = function calculateCustomProgramXp(program) {
+  if (!program || !Array.isArray(program.exercises)) return 10;
+
+  const total = program.exercises.reduce((sum, item) => {
+    const exercise = window.FitnessRpgExercises.getExercise(item.exerciseId);
+    const amount = Number(item.amount || 0);
+    const xpPerUnit = Number(exercise?.xpPerUnit || 1);
+
+    return sum + amount * xpPerUnit;
+  }, 0);
+
+  return Math.max(10, Math.round(total));
+};
+
+window.FitnessRpgExercises.validateCustomProgram = function validateCustomProgram(programId) {
+  if (!window.FitnessRpgState?.hasProfile?.()) {
+    alert("Crée d’abord ton héros.");
+    window.FitnessRpgNavigation?.openHeroSetup?.();
+    return;
+  }
+
+  const program = window.FitnessRpgState?.getCustomProgramById?.(programId);
+
+  if (!program) {
+    alert("Programme personnalisé introuvable.");
+    return;
+  }
+
+  const xp = window.FitnessRpgExercises.calculateCustomProgramXp(program);
+
+  const entry = window.FitnessRpgState.addTrainingEntry({
+    type: "custom-program",
+    sportId: "custom-program",
+    sportTitle: "Programme perso",
+    programId: program.id,
+    programTitle: program.title,
+    title: `${program.title} · Programme perso`,
+    amount: 1,
+    unit: "séance",
+    xp
+  });
+
+  if (!entry) return;
+
+  const details = program.exercises.map((item) => {
+    const exercise = window.FitnessRpgExercises.getExercise(item.exerciseId);
+    return `${exercise?.title || item.exerciseId} : ${item.amount} ${item.unit}`;
+  }).join(" · ");
+
+  window.FitnessRpgState.addJournalEntry({
+    type: "custom-program",
+    title: program.title,
+    text: `Programme personnalisé validé : ${details}.`,
+    xp
+  });
+
+  window.FitnessRpgState.setPose?.("victory");
+
+  const coachMessage = document.querySelector("#coachMessage");
+
+  if (coachMessage) {
+    coachMessage.textContent = `Programme perso terminé. +${xp} XP.`;
+  }
+
+  window.FitnessRpgProgress?.checkBadges?.();
+  window.FitnessRpgRender?.renderAll?.();
+};
 // ============================================================
 // V3 - Rendu : exercices en grille 3x3 avec pagination
 // ============================================================
@@ -1010,6 +1378,64 @@ if (event.target.id === "exerciseDetailOverlay") {
   }
 };
 
+  const openBuilderButton = event.target.closest("#openCustomProgramBuilderBtn");
+
+  if (openBuilderButton) {
+    event.preventDefault();
+    window.FitnessRpgExercises.renderCustomProgramBuilder();
+    return;
+  }
+
+  const saveCustomProgramButton = event.target.closest("#saveCustomProgramBtn");
+
+  if (saveCustomProgramButton) {
+    event.preventDefault();
+    window.FitnessRpgExercises.saveCustomProgramFromBuilder();
+    return;
+  }
+
+  const openCustomProgramButton = event.target.closest(".open-custom-program-btn");
+
+  if (openCustomProgramButton) {
+    event.preventDefault();
+    window.FitnessRpgExercises.renderCustomProgramDetail(openCustomProgramButton.dataset.programId);
+    return;
+  }
+
+  const editCustomProgramButton = event.target.closest(".edit-custom-program-btn");
+
+  if (editCustomProgramButton) {
+    event.preventDefault();
+    window.FitnessRpgExercises.renderCustomProgramBuilder(editCustomProgramButton.dataset.programId);
+    return;
+  }
+
+  const deleteCustomProgramButton = event.target.closest(".delete-custom-program-btn");
+
+  if (deleteCustomProgramButton) {
+    event.preventDefault();
+
+    const programId = deleteCustomProgramButton.dataset.programId;
+    const program = window.FitnessRpgState?.getCustomProgramById?.(programId);
+
+    if (!program) return;
+
+    const confirmed = confirm(`Supprimer le programme "${program.title}" ?`);
+
+    if (!confirmed) return;
+
+    window.FitnessRpgState.deleteCustomProgram(programId);
+    window.FitnessRpgExercises.renderCategories();
+    return;
+  }
+
+  const validateCustomProgramButton = event.target.closest(".validate-custom-program-btn");
+
+  if (validateCustomProgramButton) {
+    event.preventDefault();
+    window.FitnessRpgExercises.validateCustomProgram(validateCustomProgramButton.dataset.programId);
+    return;
+  }
 // ============================================================
 // Initialisation
 // ============================================================
