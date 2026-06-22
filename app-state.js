@@ -115,6 +115,7 @@ window.FitnessRpgState.createDefaultProfile = function createDefaultProfile(data
     completedByDate: {},
     journal: [],
     badges: [],
+    customPrograms: [],
     familiars: [],
     levelFamiliarRewards: {},
 
@@ -136,6 +137,7 @@ window.FitnessRpgState.loadProfile = function loadProfile() {
       completedByDate: loaded.completedByDate || {},
       journal: Array.isArray(loaded.journal) ? loaded.journal : [],
       badges: Array.isArray(loaded.badges) ? loaded.badges : [],
+      customPrograms: Array.isArray(loaded.customPrograms) ? loaded.customPrograms : [],
       familiars: Array.isArray(loaded.familiars) ? loaded.familiars : [],
       levelFamiliarRewards: loaded.levelFamiliarRewards || {}
     };
@@ -166,6 +168,86 @@ window.FitnessRpgState.hasProfile = function hasProfile() {
 
 window.FitnessRpgState.getProfile = function getProfile() {
   return window.FitnessRpgState.profile;
+};
+
+// ============================================================
+// Programmes personnalisés
+// ============================================================
+
+window.FitnessRpgState.getCustomPrograms = function getCustomPrograms() {
+  const profile = window.FitnessRpgState.getProfile?.();
+
+  return Array.isArray(profile?.customPrograms)
+    ? profile.customPrograms
+    : [];
+};
+
+window.FitnessRpgState.getCustomProgramById = function getCustomProgramById(programId) {
+  return window.FitnessRpgState
+    .getCustomPrograms()
+    .find((program) => program.id === programId) || null;
+};
+
+window.FitnessRpgState.saveCustomProgram = function saveCustomProgram(data = {}) {
+  const profile = window.FitnessRpgState.getProfile?.();
+
+  if (!profile) return null;
+
+  const cleanTitle = String(data.title || "").trim();
+
+  if (!cleanTitle) return null;
+
+  const cleanExercises = Array.isArray(data.exercises)
+    ? data.exercises
+        .filter((item) => item?.exerciseId)
+        .map((item, index) => ({
+          phase: item.phase || `Étape ${index + 1}`,
+          exerciseId: item.exerciseId,
+          amount: Number(item.amount || 1),
+          unit: item.unit || "répétitions"
+        }))
+    : [];
+
+  if (!cleanExercises.length) return null;
+
+  const currentPrograms = window.FitnessRpgState.getCustomPrograms();
+  const programId = data.id || window.FitnessRpgState.createId("custom-program");
+
+  const cleanProgram = {
+    id: programId,
+    title: cleanTitle,
+    subtitle: String(data.subtitle || "Programme personnalisé").trim(),
+    createdAt: data.createdAt || window.FitnessRpgState.nowIso(),
+    updatedAt: window.FitnessRpgState.nowIso(),
+    exercises: cleanExercises
+  };
+
+  const existingIndex = currentPrograms.findIndex((program) => program.id === programId);
+
+  if (existingIndex >= 0) {
+    currentPrograms[existingIndex] = cleanProgram;
+  } else {
+    currentPrograms.push(cleanProgram);
+  }
+
+  profile.customPrograms = currentPrograms;
+  window.FitnessRpgState.saveProfile();
+
+  return cleanProgram;
+};
+
+window.FitnessRpgState.deleteCustomProgram = function deleteCustomProgram(programId) {
+  const profile = window.FitnessRpgState.getProfile?.();
+
+  if (!profile) return false;
+
+  const currentPrograms = window.FitnessRpgState.getCustomPrograms();
+  const nextPrograms = currentPrograms.filter((program) => program.id !== programId);
+
+  profile.customPrograms = nextPrograms;
+  window.FitnessRpgState.saveProfile();
+
+  return nextPrograms.length !== currentPrograms.length;
 };
 
 window.FitnessRpgState.setProfile = function setProfile(profile) {
