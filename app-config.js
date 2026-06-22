@@ -264,6 +264,25 @@ window.FitnessRpgConfig = {
       xp: 35
     },
     {
+      id: "sanctuaire-voyageur",
+      icon: "🌿",
+      title: "Sanctuaire du Voyageur",
+      objective: "Détente du dos · mobilité douce · récupération",
+      level: "Débutant · Récupération",
+      tier: "beginner",
+      unlockLevel: 1,
+      duration: "5-10 min",
+      frequency: "Libre · 3 routines par semaine proposées",
+      coachAdvice: "Violette, Elmin ou Satyne",
+      xp: 40,
+      reward: {
+        badgeId: "sanctuaire-serenite-mage",
+        title: "Sérénité du Mage",
+        chest: false,
+        nextPrograms: []
+      }
+    },
+    {
    
       id: "tour-mage",
       icon: "🧘",
@@ -276,6 +295,7 @@ window.FitnessRpgConfig = {
       coachAdvice: "Elmin ou Satyne",
       xp: 60
     },
+  
     {
       id: "maitre-flux",
       icon: "✨",
