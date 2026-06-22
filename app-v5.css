@@ -2223,6 +2223,236 @@ button .btn-icon {
 }
 
 /* ============================================================
+   Programmes personnalisés depuis Exercices
+============================================================ */
+
+.custom-program-panel {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.custom-program-panel-header {
+  display: grid;
+  gap: 12px;
+}
+
+.custom-program-panel-header h2 {
+  margin: 4px 0;
+  color: var(--accent-strong);
+}
+
+.custom-program-list {
+  display: grid;
+  gap: 10px;
+}
+
+.custom-program-mini-card {
+  display: grid;
+  gap: 10px;
+
+  padding: 12px;
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(240, 184, 79, 0.22);
+}
+
+.custom-program-mini-card strong {
+  color: var(--accent-strong);
+}
+
+.custom-program-mini-card small {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-muted);
+}
+
+.custom-program-mini-actions,
+.custom-program-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.custom-program-builder-page,
+.custom-program-detail-page {
+  display: grid;
+  gap: 14px;
+}
+
+.custom-program-form {
+  display: grid;
+  gap: 10px;
+}
+
+.custom-program-name-label {
+  display: grid;
+  gap: 6px;
+}
+
+.custom-program-name-label span {
+  color: var(--accent-strong);
+  font-weight: 900;
+}
+
+.custom-program-name-label input {
+  width: 100%;
+  min-height: 44px;
+
+  padding: 10px 12px;
+  border-radius: 14px;
+
+  border: 1px solid rgba(240, 184, 79, 0.28);
+  background: rgba(0, 0, 0, 0.26);
+  color: var(--text);
+}
+
+.custom-program-picker {
+  display: grid;
+  gap: 10px;
+}
+
+.custom-program-category {
+  border-radius: 18px;
+  overflow: hidden;
+
+  border: 1px solid rgba(240, 184, 79, 0.22);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.custom-program-category summary {
+  cursor: pointer;
+  padding: 12px;
+
+  color: var(--accent-strong);
+  font-weight: 900;
+}
+
+.custom-program-exercise-list {
+  display: grid;
+  gap: 8px;
+  padding: 0 10px 10px;
+}
+
+.custom-program-exercise-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 76px auto;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px;
+  border-radius: 14px;
+
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.custom-program-exercise-row span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.custom-program-exercise-row input[type="number"] {
+  width: 76px;
+  min-height: 36px;
+
+  padding: 6px 8px;
+  border-radius: 10px;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.24);
+  color: var(--text);
+}
+
+.custom-program-exercise-row small {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
+.custom-program-save-bar {
+  position: sticky;
+  bottom: 10px;
+  z-index: 5;
+}
+
+.custom-program-detail-card {
+  display: grid;
+  gap: 14px;
+}
+
+.custom-program-exercise-summary {
+  display: grid;
+  gap: 8px;
+
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.custom-program-exercise-summary li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+
+  padding: 9px;
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.custom-program-exercise-summary strong {
+  color: var(--accent-strong);
+}
+
+.custom-program-exercise-summary span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.custom-program-exercise-summary em {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-style: normal;
+}
+
+@media (min-width: 700px) {
+  .custom-program-panel-header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .custom-program-mini-card {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .custom-program-mini-actions,
+  .custom-program-actions {
+    grid-template-columns: repeat(3, minmax(0, auto));
+    justify-content: start;
+  }
+}
+
+@media (max-width: 420px) {
+  .custom-program-exercise-row {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .custom-program-exercise-row input[type="number"],
+  .custom-program-exercise-row small {
+    grid-column: 2;
+  }
+
+  .custom-program-exercise-summary li {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
    09 - Objectif et planning
 ============================================================ */
 
