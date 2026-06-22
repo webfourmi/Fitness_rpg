@@ -20,9 +20,12 @@ window.FitnessRpgExercises = {
   currentCategoryId: null,
   activeTimer: null,
   remainingSeconds: 0,
-  timerExerciseId: null
-};
+  timerExerciseId: null,
 
+  customProgramRun: null,
+  customStepTimer: null,
+  customStepRemainingSeconds: 0
+};
 // ============================================================
 // Helpers données
 // ============================================================
@@ -495,32 +498,39 @@ window.FitnessRpgExercises.renderCustomProgramDetail = function renderCustomProg
         <ul class="custom-program-exercise-summary">
           ${exercisesHtml}
         </ul>
-
-        <div class="custom-program-actions">
-          <button
-            class="primary-btn validate-custom-program-btn"
-            type="button"
-            data-program-id="${window.FitnessRpgExercises.escapeHtml(program.id)}"
-          >
-            Valider cette séance
-          </button>
-
-          <button
-            class="secondary-btn edit-custom-program-btn"
-            type="button"
-            data-program-id="${window.FitnessRpgExercises.escapeHtml(program.id)}"
-          >
-            Modifier
-          </button>
-
-          <button
-            class="ghost-btn delete-custom-program-btn"
-            type="button"
-            data-program-id="${window.FitnessRpgExercises.escapeHtml(program.id)}"
-          >
-            Supprimer
-          </button>
-        </div>
+  <div class="custom-program-actions">
+    <button
+      class="primary-btn start-custom-program-guided-btn"
+      type="button"
+      data-program-id="${window.FitnessRpgExercises.escapeHtml(program.id)}"
+    >
+      Démarrer guidé
+    </button>
+  
+    <button
+      class="secondary-btn validate-custom-program-btn"
+      type="button"
+      data-program-id="${window.FitnessRpgExercises.escapeHtml(program.id)}"
+    >
+      Valider sans guidage
+    </button>
+  
+    <button
+      class="secondary-btn edit-custom-program-btn"
+      type="button"
+      data-program-id="${window.FitnessRpgExercises.escapeHtml(program.id)}"
+    >
+      Modifier
+    </button>
+  
+    <button
+      class="ghost-btn delete-custom-program-btn"
+      type="button"
+      data-program-id="${window.FitnessRpgExercises.escapeHtml(program.id)}"
+    >
+      Supprimer
+    </button>
+  </div>
       </section>
     </section>
   `;
@@ -592,6 +602,318 @@ window.FitnessRpgExercises.validateCustomProgram = function validateCustomProgra
 
   window.FitnessRpgProgress?.checkBadges?.();
   window.FitnessRpgRender?.renderAll?.();
+};
+
+
+// ============================================================
+// Exécution guidée des programmes personnalisés
+// ============================================================
+
+window.FitnessRpgExercises.startCustomProgramGuided = function startCustomProgramGuided(programId) {
+  const program = window.FitnessRpgState?.getCustomProgramById?.(programId);
+
+  if (!program) {
+    alert("Programme personnalisé introuvable.");
+    return;
+  }
+
+  if (!Array.isArray(program.exercises) || program.exercises.length === 0) {
+    alert("Ce programme ne contient aucun exercice.");
+    return;
+  }
+
+  window.FitnessRpgExercises.stopCustomStepTimer();
+
+  window.FitnessRpgExercises.customProgramRun = {
+    programId,
+    currentIndex: 0
+  };
+
+  window.FitnessRpgExercises.renderCustomProgramGuided();
+};
+
+window.FitnessRpgExercises.getCurrentCustomProgramRun = function getCurrentCustomProgramRun() {
+  const run = window.FitnessRpgExercises.customProgramRun;
+
+  if (!run) return null;
+
+  const program = window.FitnessRpgState?.getCustomProgramById?.(run.programId);
+
+  if (!program) return null;
+
+  const index = Math.max(0, Math.min(
+    Number(run.currentIndex || 0),
+    program.exercises.length - 1
+  ));
+
+  const item = program.exercises[index];
+  const exercise = window.FitnessRpgExercises.getExercise(item.exerciseId);
+
+  return {
+    run,
+    program,
+    item,
+    exercise,
+    index,
+    total: program.exercises.length
+  };
+};
+
+window.FitnessRpgExercises.renderCustomProgramGuided = function renderCustomProgramGuided() {
+  const container = window.FitnessRpgExercises.getContainer();
+  if (!container) return;
+
+  const context = window.FitnessRpgExercises.getCurrentCustomProgramRun();
+
+  if (!context || !context.exercise) {
+    alert("Impossible d’ouvrir cette étape.");
+    window.FitnessRpgExercises.renderCategories();
+    return;
+  }
+
+  const { program, item, exercise, index, total } = context;
+
+  const title = window.FitnessRpgExercises.escapeHtml(exercise.title);
+  const programTitle = window.FitnessRpgExercises.escapeHtml(program.title);
+  const image = window.FitnessRpgExercises.resolveImage(exercise);
+  const amount = window.FitnessRpgExercises.escapeHtml(item.amount);
+  const unit = window.FitnessRpgExercises.escapeHtml(item.unit);
+  const phase = window.FitnessRpgExercises.escapeHtml(item.phase || `Étape ${index + 1}`);
+  const description = window.FitnessRpgExercises.escapeHtml(
+    exercise.description || exercise.shortDescription || ""
+  );
+  const coachTip = window.FitnessRpgExercises.escapeHtml(exercise.coachTip || "");
+  const progress = Math.round(((index + 1) / total) * 100);
+  const isFirst = index === 0;
+  const isLast = index === total - 1;
+
+  const timerSeconds = window.FitnessRpgExercises.getCustomStepSeconds(item, exercise);
+  const timerHtml = timerSeconds > 0
+    ? `
+      <div class="custom-step-timer-box">
+        <p id="customStepTimerText">
+          ${window.FitnessRpgExercises.formatTime(timerSeconds)}
+        </p>
+
+        <div class="custom-step-timer-actions">
+          <button
+            class="secondary-btn start-custom-step-timer-btn"
+            type="button"
+          >
+            ▶️ Démarrer le timer
+          </button>
+
+          <button
+            class="ghost-btn stop-custom-step-timer-btn"
+            type="button"
+          >
+            Arrêter
+          </button>
+        </div>
+      </div>
+    `
+    : "";
+
+  container.innerHTML = `
+    <section class="custom-program-run-page">
+      <div class="subpage-header">
+        <div>
+          <p class="eyebrow">🧩 Séance guidée</p>
+          <h2>${programTitle}</h2>
+          <p class="muted">Étape ${index + 1} / ${total}</p>
+        </div>
+
+        <button
+          id="cancelCustomProgramRunBtn"
+          class="ghost-btn"
+          type="button"
+        >
+          Quitter
+        </button>
+      </div>
+
+      <div class="custom-program-step-progress">
+        <div class="custom-program-step-progress-bar">
+          <span style="width: ${progress}%"></span>
+        </div>
+        <small>${progress}%</small>
+      </div>
+
+      <article class="custom-program-run-card card">
+        <p class="eyebrow">${phase}</p>
+
+        <button
+          class="exercise-image-button custom-program-run-image"
+          type="button"
+          data-exercise-id="${window.FitnessRpgExercises.escapeHtml(exercise.id)}"
+          title="Voir l’explication"
+        >
+          <img
+            src="${image}"
+            alt="${title}"
+            onerror="this.src='assets/exercices/default.png'"
+          >
+        </button>
+
+        <div class="custom-program-run-body">
+          <h3>${title}</h3>
+
+          <p class="custom-program-run-amount">
+            ${amount} ${unit}
+          </p>
+
+          ${description ? `<p class="muted">${description}</p>` : ""}
+
+          ${coachTip ? `
+            <p class="custom-program-run-tip">
+              💬 ${coachTip}
+            </p>
+          ` : ""}
+
+          ${timerHtml}
+        </div>
+
+        <div class="custom-program-run-actions">
+          <button
+            class="ghost-btn custom-step-prev-btn"
+            type="button"
+            ${isFirst ? "disabled" : ""}
+          >
+            Précédent
+          </button>
+
+          <button
+            class="primary-btn validate-custom-step-btn"
+            type="button"
+          >
+            ${isLast ? "Terminer la séance" : "Valider l’étape"}
+          </button>
+        </div>
+      </article>
+    </section>
+  `;
+};
+
+window.FitnessRpgExercises.validateCustomProgramStep = function validateCustomProgramStep() {
+  const context = window.FitnessRpgExercises.getCurrentCustomProgramRun();
+
+  if (!context) return;
+
+  const { run, program, index, total } = context;
+
+  window.FitnessRpgExercises.stopCustomStepTimer();
+
+  if (index >= total - 1) {
+    window.FitnessRpgExercises.finishCustomProgramGuided(program.id);
+    return;
+  }
+
+  run.currentIndex = index + 1;
+  window.FitnessRpgExercises.renderCustomProgramGuided();
+};
+
+window.FitnessRpgExercises.previousCustomProgramStep = function previousCustomProgramStep() {
+  const context = window.FitnessRpgExercises.getCurrentCustomProgramRun();
+
+  if (!context) return;
+
+  const { run, index } = context;
+
+  window.FitnessRpgExercises.stopCustomStepTimer();
+
+  run.currentIndex = Math.max(0, index - 1);
+  window.FitnessRpgExercises.renderCustomProgramGuided();
+};
+
+window.FitnessRpgExercises.cancelCustomProgramGuided = function cancelCustomProgramGuided() {
+  const context = window.FitnessRpgExercises.getCurrentCustomProgramRun();
+
+  window.FitnessRpgExercises.stopCustomStepTimer();
+  window.FitnessRpgExercises.customProgramRun = null;
+
+  if (context?.program?.id) {
+    window.FitnessRpgExercises.renderCustomProgramDetail(context.program.id);
+    return;
+  }
+
+  window.FitnessRpgExercises.renderCategories();
+};
+
+window.FitnessRpgExercises.finishCustomProgramGuided = function finishCustomProgramGuided(programId) {
+  window.FitnessRpgExercises.stopCustomStepTimer();
+  window.FitnessRpgExercises.customProgramRun = null;
+
+  window.FitnessRpgExercises.validateCustomProgram(programId);
+
+  if (window.FitnessRpgState?.getCustomProgramById?.(programId)) {
+    window.FitnessRpgExercises.renderCustomProgramDetail(programId);
+  }
+};
+
+window.FitnessRpgExercises.getCustomStepSeconds = function getCustomStepSeconds(item, exercise) {
+  const amount = Number(item?.amount || 0);
+  const unit = item?.unit || exercise?.unit;
+
+  if (!Number.isFinite(amount) || amount <= 0) return 0;
+
+  if (unit === "sec") return Math.round(amount);
+  if (unit === "min") return Math.round(amount * 60);
+
+  return 0;
+};
+
+window.FitnessRpgExercises.startCustomStepTimer = function startCustomStepTimer() {
+  const context = window.FitnessRpgExercises.getCurrentCustomProgramRun();
+
+  if (!context) return;
+
+  const seconds = window.FitnessRpgExercises.getCustomStepSeconds(
+    context.item,
+    context.exercise
+  );
+
+  if (seconds <= 0) {
+    alert("Cette étape n’a pas de durée à chronométrer.");
+    return;
+  }
+
+  window.FitnessRpgExercises.stopCustomStepTimer();
+
+  window.FitnessRpgExercises.customStepRemainingSeconds = seconds;
+  window.FitnessRpgExercises.updateCustomStepTimerText();
+
+  window.FitnessRpgExercises.customStepTimer = window.setInterval(() => {
+    window.FitnessRpgExercises.customStepRemainingSeconds -= 1;
+    window.FitnessRpgExercises.updateCustomStepTimerText();
+
+    if (window.FitnessRpgExercises.customStepRemainingSeconds <= 0) {
+      window.FitnessRpgExercises.stopCustomStepTimer();
+      window.FitnessRpgMedia?.playTimerEndSound?.();
+
+      const button = document.querySelector(".start-custom-step-timer-btn");
+      if (button) {
+        button.textContent = "Temps terminé";
+      }
+    }
+  }, 1000);
+};
+
+window.FitnessRpgExercises.stopCustomStepTimer = function stopCustomStepTimer() {
+  if (window.FitnessRpgExercises.customStepTimer) {
+    window.clearInterval(window.FitnessRpgExercises.customStepTimer);
+  }
+
+  window.FitnessRpgExercises.customStepTimer = null;
+};
+
+window.FitnessRpgExercises.updateCustomStepTimerText = function updateCustomStepTimerText() {
+  const text = document.querySelector("#customStepTimerText");
+
+  if (!text) return;
+
+  text.textContent = window.FitnessRpgExercises.formatTime(
+    window.FitnessRpgExercises.customStepRemainingSeconds
+  );
 };
 // ============================================================
 // V3 - Rendu : exercices en grille 3x3 avec pagination
@@ -1371,6 +1693,56 @@ window.FitnessRpgExercises.handleDocumentClick = function handleDocumentClick(ev
     window.FitnessRpgExercises.validateCustomProgram(
       validateCustomProgramButton.dataset.programId
     );
+    return;
+  }
+
+    const startGuidedCustomProgramButton = target.closest(".start-custom-program-guided-btn");
+
+  if (startGuidedCustomProgramButton) {
+    event.preventDefault();
+    window.FitnessRpgExercises.startCustomProgramGuided(
+      startGuidedCustomProgramButton.dataset.programId
+    );
+    return;
+  }
+
+  const validateCustomStepButton = target.closest(".validate-custom-step-btn");
+
+  if (validateCustomStepButton) {
+    event.preventDefault();
+    window.FitnessRpgExercises.validateCustomProgramStep();
+    return;
+  }
+
+  const previousCustomStepButton = target.closest(".custom-step-prev-btn");
+
+  if (previousCustomStepButton) {
+    event.preventDefault();
+    window.FitnessRpgExercises.previousCustomProgramStep();
+    return;
+  }
+
+  const cancelCustomProgramRunButton = target.closest("#cancelCustomProgramRunBtn");
+
+  if (cancelCustomProgramRunButton) {
+    event.preventDefault();
+    window.FitnessRpgExercises.cancelCustomProgramGuided();
+    return;
+  }
+
+  const startCustomStepTimerButton = target.closest(".start-custom-step-timer-btn");
+
+  if (startCustomStepTimerButton) {
+    event.preventDefault();
+    window.FitnessRpgExercises.startCustomStepTimer();
+    return;
+  }
+
+  const stopCustomStepTimerButton = target.closest(".stop-custom-step-timer-btn");
+
+  if (stopCustomStepTimerButton) {
+    event.preventDefault();
+    window.FitnessRpgExercises.stopCustomStepTimer();
     return;
   }
 
