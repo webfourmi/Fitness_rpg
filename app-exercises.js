@@ -84,13 +84,7 @@ window.FitnessRpgExercises.imageOrDefault = function imageOrDefault(path) {
   return path || "assets/exercices/default.png";
 };
 
-window.FitnessRpgExercises.getCurrentGender = function getCurrentGender() {
-  const profile = window.FitnessRpgState?.getProfile?.();
 
-  if (profile?.gender === "femme") return "femme";
-
-  return "homme";
-};
 
 window.FitnessRpgExercises.getCurrentGender = function getCurrentGender() {
   const profile = window.FitnessRpgState?.getProfile?.();
@@ -1305,80 +1299,17 @@ window.FitnessRpgExercises.openExerciseImage = function openExerciseImage(exerci
 // ============================================================
 
 window.FitnessRpgExercises.handleDocumentClick = function handleDocumentClick(event) {
-  const categoryButton = event.target.closest(".exercise-category-card, .v3-category-card");
+  const target = event.target instanceof Element
+    ? event.target
+    : event.target?.parentElement;
 
-if (categoryButton) {
-  event.preventDefault();
+  if (!target) return;
 
-  const categoryId = categoryButton.dataset.categoryId;
+  // ============================================================
+  // Programmes personnalisés
+  // ============================================================
 
-  if (categoryId) {
-    window.FitnessRpgExercises.renderCategoryExercises(categoryId, 0);
-  }
-
-  return;
-}
-
-  const backButton = event.target.closest("#backToExerciseCategoriesBtn");
-
-  if (backButton) {
-    window.FitnessRpgExercises.currentCategoryId = null;
-    window.FitnessRpgExercises.renderCategories();
-    return;
-  }
-
-  const imageButton = event.target.closest(".exercise-image-button, .v3-exercise-image-button, .v3-program-exercise-image");
-
-if (imageButton) {
-  const exerciseId = imageButton.dataset.exerciseId;
-  window.FitnessRpgExercises.openExerciseDetails(exerciseId);
-  return;
-}
-
-const pageButton = event.target.closest(".exercise-page-btn");
-
-if (pageButton) {
-  const delta = Number(pageButton.dataset.delta || 0);
-  const categoryId = window.FitnessRpgExercises.currentCategoryId;
-  const page = Number(window.FitnessRpgExercises.currentExercisePage || 0) + delta;
-
-  if (categoryId) {
-    window.FitnessRpgExercises.renderCategoryExercises(categoryId, page);
-  }
-
-  return;
-}
-
-if (event.target.closest("#closeExerciseDetailButton")) {
-  window.FitnessRpgExercises.closeExerciseDetails();
-  return;
-}
-
-if (event.target.id === "exerciseDetailOverlay") {
-  window.FitnessRpgExercises.closeExerciseDetails();
-  return;
-}
-
-  const timerButton = event.target.closest(".start-timer-btn");
-
-  if (timerButton) {
-    const exerciseId = timerButton.dataset.exerciseId;
-    window.FitnessRpgExercises.openTimer(exerciseId);
-    return;
-  }
-
-  const exerciseCard = event.target.closest(".exercise-card");
-
-  if (exerciseCard && !event.target.closest("button, input, label")) {
-    const exerciseId = exerciseCard.dataset.exerciseId;
-
-    if (exerciseId) {
-      window.FitnessRpgExercises.explainExercise(exerciseId);
-    }
-  }
-};
-
-  const openBuilderButton = event.target.closest("#openCustomProgramBuilderBtn");
+  const openBuilderButton = target.closest("#openCustomProgramBuilderBtn");
 
   if (openBuilderButton) {
     event.preventDefault();
@@ -1386,7 +1317,7 @@ if (event.target.id === "exerciseDetailOverlay") {
     return;
   }
 
-  const saveCustomProgramButton = event.target.closest("#saveCustomProgramBtn");
+  const saveCustomProgramButton = target.closest("#saveCustomProgramBtn");
 
   if (saveCustomProgramButton) {
     event.preventDefault();
@@ -1394,23 +1325,27 @@ if (event.target.id === "exerciseDetailOverlay") {
     return;
   }
 
-  const openCustomProgramButton = event.target.closest(".open-custom-program-btn");
+  const openCustomProgramButton = target.closest(".open-custom-program-btn");
 
   if (openCustomProgramButton) {
     event.preventDefault();
-    window.FitnessRpgExercises.renderCustomProgramDetail(openCustomProgramButton.dataset.programId);
+    window.FitnessRpgExercises.renderCustomProgramDetail(
+      openCustomProgramButton.dataset.programId
+    );
     return;
   }
 
-  const editCustomProgramButton = event.target.closest(".edit-custom-program-btn");
+  const editCustomProgramButton = target.closest(".edit-custom-program-btn");
 
   if (editCustomProgramButton) {
     event.preventDefault();
-    window.FitnessRpgExercises.renderCustomProgramBuilder(editCustomProgramButton.dataset.programId);
+    window.FitnessRpgExercises.renderCustomProgramBuilder(
+      editCustomProgramButton.dataset.programId
+    );
     return;
   }
 
-  const deleteCustomProgramButton = event.target.closest(".delete-custom-program-btn");
+  const deleteCustomProgramButton = target.closest(".delete-custom-program-btn");
 
   if (deleteCustomProgramButton) {
     event.preventDefault();
@@ -1420,7 +1355,7 @@ if (event.target.id === "exerciseDetailOverlay") {
 
     if (!program) return;
 
-    const confirmed = confirm(`Supprimer le programme "${program.title}" ?`);
+    const confirmed = window.confirm(`Supprimer le programme "${program.title}" ?`);
 
     if (!confirmed) return;
 
@@ -1429,13 +1364,147 @@ if (event.target.id === "exerciseDetailOverlay") {
     return;
   }
 
-  const validateCustomProgramButton = event.target.closest(".validate-custom-program-btn");
+  const validateCustomProgramButton = target.closest(".validate-custom-program-btn");
 
   if (validateCustomProgramButton) {
     event.preventDefault();
-    window.FitnessRpgExercises.validateCustomProgram(validateCustomProgramButton.dataset.programId);
+    window.FitnessRpgExercises.validateCustomProgram(
+      validateCustomProgramButton.dataset.programId
+    );
     return;
   }
+
+  // ============================================================
+  // Catégories d'exercices
+  // ============================================================
+
+  const categoryButton = target.closest(".exercise-category-card, .v3-category-card");
+
+  if (categoryButton) {
+    event.preventDefault();
+
+    const categoryId = categoryButton.dataset.categoryId;
+
+    if (categoryId) {
+      window.FitnessRpgExercises.renderCategoryExercises(categoryId, 0);
+    }
+
+    return;
+  }
+
+  const backButton = target.closest("#backToExerciseCategoriesBtn");
+
+  if (backButton) {
+    event.preventDefault();
+    window.FitnessRpgExercises.currentCategoryId = null;
+    window.FitnessRpgExercises.renderCategories();
+    return;
+  }
+
+  // ============================================================
+  // Modale explication exercice
+  // ============================================================
+
+  const imageButton = target.closest(
+    ".exercise-image-button, .v3-exercise-image-button, .v3-program-exercise-image"
+  );
+
+  if (imageButton) {
+    event.preventDefault();
+
+    const exerciseId = imageButton.dataset.exerciseId;
+
+    if (exerciseId) {
+      window.FitnessRpgExercises.openExerciseDetails(exerciseId);
+    }
+
+    return;
+  }
+
+  if (target.closest("#closeExerciseDetailButton")) {
+    event.preventDefault();
+    window.FitnessRpgExercises.closeExerciseDetails();
+    return;
+  }
+
+  if (target.id === "exerciseDetailOverlay") {
+    event.preventDefault();
+    window.FitnessRpgExercises.closeExerciseDetails();
+    return;
+  }
+
+  // ============================================================
+  // Pagination exercices
+  // ============================================================
+
+  const pageButton = target.closest(".exercise-page-btn");
+
+  if (pageButton) {
+    event.preventDefault();
+
+    const delta = Number(pageButton.dataset.delta || 0);
+    const categoryId = window.FitnessRpgExercises.currentCategoryId;
+    const page = Number(window.FitnessRpgExercises.currentExercisePage || 0) + delta;
+
+    if (categoryId) {
+      window.FitnessRpgExercises.renderCategoryExercises(categoryId, page);
+    }
+
+    return;
+  }
+
+  // ============================================================
+  // Timer
+  // ============================================================
+
+  const timerButton = target.closest(".start-timer-btn");
+
+  if (timerButton) {
+    event.preventDefault();
+
+    const exerciseId = timerButton.dataset.exerciseId;
+
+    if (exerciseId) {
+      window.FitnessRpgExercises.openTimer(exerciseId);
+    }
+
+    return;
+  }
+
+  // ============================================================
+  // Validation exercice simple
+  // ============================================================
+
+  const validateButton = target.closest(".validate-exercise-btn");
+
+  if (validateButton) {
+    event.preventDefault();
+
+    const exerciseId = validateButton.dataset.exerciseId;
+
+    if (exerciseId) {
+      window.FitnessRpgExercises.validateExercise(exerciseId);
+    }
+
+    return;
+  }
+
+  // ============================================================
+  // Clic sur carte exercice
+  // ============================================================
+
+  const exerciseCard = target.closest(".exercise-card");
+
+  if (exerciseCard && !target.closest("button, input, label")) {
+    const exerciseId = exerciseCard.dataset.exerciseId;
+
+    if (exerciseId) {
+      window.FitnessRpgExercises.explainExercise(exerciseId);
+    }
+
+    return;
+  }
+};
 // ============================================================
 // Initialisation
 // ============================================================
