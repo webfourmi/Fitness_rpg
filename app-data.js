@@ -559,7 +559,7 @@ window.FitnessRpgData = {
       "title": "Cercles de bras",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_cercledebras.png"
+        "female": "assets/exercices/exercice_femme__cerclesdepaules.png"
       },
       "unit": "sec",
       "defaultValue": 60,
@@ -579,7 +579,7 @@ window.FitnessRpgData = {
       "title": "Ouverture / fermeture des bras",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_ouverturefermeturedesbras.png"
+        "female": "assets/exercices/exercice_femme_ouverturefermeturedesbras.png"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -753,7 +753,7 @@ window.FitnessRpgData = {
       "title": "Pas latéraux",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_paslateraux.png"
+        "female": "assets/exercices/exercice_femme_paslateraux.png"
       },
       "unit": "sec",
       "defaultValue": 30,
@@ -834,7 +834,7 @@ window.FitnessRpgData = {
       "title": "Jumping jack sans saut",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_jumpingjacksanssaut.png"
+        "female": "assets/exercices/exercice_femme_jumpingjacksanssaut.png"
       },
       "unit": "sec",
       "defaultValue": 30,
@@ -854,7 +854,7 @@ window.FitnessRpgData = {
       "title": "Marche lente",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_marchesurplace.png"
+        "female": "assets/exercices/exercice_femme_marchesurplace.png"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -874,7 +874,7 @@ window.FitnessRpgData = {
       "title": "Marche active",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_marchedynamique.png"
+        "female": "assets/exercices/exercice_femme_marchedynamique.png"
       },
       "unit": "min",
       "defaultValue": 30,
@@ -895,7 +895,7 @@ window.FitnessRpgData = {
       "title": "Course sur tapis",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_coursesurtapis.png"
+        "female": "assets/exercices/exercice_femme_coursesurtapis.png"
       },
       "unit": "min",
       "defaultValue": 15,
@@ -931,7 +931,7 @@ window.FitnessRpgData = {
       "title": "Vélo",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_velofacile.png"
+        "female": "assets/exercices/exercice_femme_velofacile.png"
       },
       "unit": "min",
       "defaultValue": 15,
@@ -968,7 +968,7 @@ window.FitnessRpgData = {
       "title": "Cercles de chevilles",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_cercledechevilles.png"
+        "female": "assets/exercices/exercice_femme_cercledechevilles.png"
       },
       "unit": "sec",
       "defaultValue": 30,
@@ -989,7 +989,7 @@ window.FitnessRpgData = {
       "title": "Enroulement des épaules",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_cerclesdepaules.png"
+        "female": "assets/exercices/exercice_femme_cerclesdepaules.png"
       },
       "unit": "sec",
       "defaultValue": 60,
@@ -1069,7 +1069,7 @@ window.FitnessRpgData = {
       "title": "Équilibre sur une jambe",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_equilibresurunejambe.png"
+        "female": "assets/exercices/exercice_femme_equilibresurunejambe.png"
       },
       "unit": "sec",
       "defaultValue": 40,
@@ -1089,7 +1089,7 @@ window.FitnessRpgData = {
       "title": "Montées sur pointes lentes",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_monteessurpointes.png"
+        "female": "assets/exercices/exercice_femme_monteessurpointes.png"
       },
       "unit": "répétitions",
       "defaultValue": 20,
@@ -1108,7 +1108,7 @@ window.FitnessRpgData = {
       "title": "Squat chaise",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_squatchaise.png"
+        "female": "assets/exercices/exercice_femme_squatchaise.png"
       },
       "unit": "répétitions",
       "defaultValue": 8,
@@ -1127,7 +1127,7 @@ window.FitnessRpgData = {
       "title": "Squats",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_squats.png"
+        "female": "assets/exercices/exercice_femme_squats.png"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -1166,7 +1166,7 @@ window.FitnessRpgData = {
       "title": "Fentes arrière assistées",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_fentesarrieresassistees.png"
+        "female": "assets/exercices/exercice_femme_fentesarrieresassistees.png"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -1185,7 +1185,7 @@ window.FitnessRpgData = {
       "title": "Fentes arrière",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_fentesarriere.png"
+        "female": "assets/exercices/exercice_femme_fentesarriere.png"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -1204,7 +1204,7 @@ window.FitnessRpgData = {
       "title": "Montées sur pointes",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_monteessurpointes.png"
+        "female": "assets/exercices/exercice_femme_monteessurpointes.png"
       },
       "unit": "répétitions",
       "defaultValue": 15,
@@ -1220,7 +1220,7 @@ window.FitnessRpgData = {
       "title": "Pont de hanches",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_pontdehanches.png"
+        "female": "assets/exercices/exercice_femme_pontdehanches.png"
       },
       "unit": "répétitions",
       "defaultValue": 12,
@@ -1236,7 +1236,7 @@ window.FitnessRpgData = {
       "title": "Pont de hanches une jambe alternée",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_pontdehanchesurunejambealternee.png"
+        "female": "assets/exercices/exercice_femme_pontdehanchesurunejambealternee.png"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -1252,7 +1252,7 @@ window.FitnessRpgData = {
       "title": "Superman",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_superman.png"
+        "female": "assets/exercices/exercice_femme_superman.png"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -1271,7 +1271,7 @@ window.FitnessRpgData = {
       "title": "Pompes murales",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_pompesmurales.png"
+        "female": "assets/exercices/exercice_femme_pompesmurales.png"
       },
       "unit": "répétitions",
       "defaultValue": 8,
@@ -1290,7 +1290,7 @@ window.FitnessRpgData = {
       "title": "Pompes inclinées",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_pompesinclinees.png"
+        "female": "assets/exercices/exercice_femme_pompesinclinees.png"
       },
       "unit": "répétitions",
       "defaultValue": 8,
@@ -1309,7 +1309,7 @@ window.FitnessRpgData = {
       "title": "Pompes",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_pompes.png"
+        "female": "assets/exercices/exercice_femme_pompes.png"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -1325,7 +1325,7 @@ window.FitnessRpgData = {
       "title": "Curl biceps",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_curlbiceps.png"
+        "female": "assets/exercices/exercice_femme_curlbiceps.png"
       },
       "unit": "répétitions",
       "defaultValue": 36,
@@ -1341,7 +1341,7 @@ window.FitnessRpgData = {
       "title": "Curl marteau",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_curlmarteau.png"
+        "female": "assets/exercices/exercice_femme_curlmarteau.png"
       },
       "unit": "répétitions",
       "defaultValue": 24,
@@ -1357,7 +1357,7 @@ window.FitnessRpgData = {
       "title": "Élévations latérales",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_elevationslaterales.png"
+        "female": "assets/exercices/exercice_femme_elevationslaterales.png"
       },
       "unit": "répétitions",
       "defaultValue": 20,
@@ -1373,7 +1373,7 @@ window.FitnessRpgData = {
       "title": "Élévations frontales",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_elevationsfrontales.png"
+        "female": "assets/exercices/exercice_femme_elevationsfrontales.png"
       },
       "unit": "répétitions",
       "defaultValue": 20,
@@ -1389,7 +1389,7 @@ window.FitnessRpgData = {
       "title": "Kickback triceps",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_kickbacktriceps.png"
+        "female": "assets/exercices/exercice_femme_kickbacktriceps.png"
       },
       "unit": "répétitions",
       "defaultValue": 20,
@@ -1405,7 +1405,7 @@ window.FitnessRpgData = {
       "title": "Développé épaules",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_developpeepaules.png"
+        "female": "assets/exercices/exercice_femme_developpeepaules.png"
       },
       "unit": "répétitions",
       "defaultValue": 20,
@@ -1421,7 +1421,7 @@ window.FitnessRpgData = {
       "title": "Extension triceps contre un mur",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_extensiontricepscontreunmur.png"
+        "female": "assets/exercices/exercice_femme_extensiontricepscontreunmur.png"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -1437,7 +1437,7 @@ window.FitnessRpgData = {
       "title": "Taps épaules en appui incliné",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_tapsepaulesenappuiincline.png"
+        "female": "assets/exercices/exercice_femme_tapsepaulesenappuiincline.png"
       },
       "unit": "répétitions",
       "defaultValue": 20,
@@ -1453,7 +1453,7 @@ window.FitnessRpgData = {
       "title": "Gainage",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_gainage.png"
+        "female": "assets/exercices/exercice_femme_gainage.png"
       },
       "unit": "sec",
       "defaultValue": 20,
@@ -1490,7 +1490,7 @@ window.FitnessRpgData = {
       "title": "Bird Dog",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_birddog.png"
+        "female": "assets/exercices/exercice_femme_birddog.png"
       },
       "unit": "répétitions",
       "defaultValue": 12,
@@ -1719,7 +1719,7 @@ window.FitnessRpgData = {
       "title": "Pilates",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_pilates.png"
+        "female": "assets/exercices/exercice_femme_pilates.png"
       },
       "unit": "min",
       "defaultValue": 10,
@@ -1736,7 +1736,7 @@ window.FitnessRpgData = {
       "title": "Chat-vache",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_chatvache.jpg"
+        "female": "assets/exercices/exercice_femme_femme_chatvache.png"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -1753,7 +1753,7 @@ window.FitnessRpgData = {
       "title": "Cercles de hanches",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_cerclesdehanches.jpg"
+        "female": "assets/exercices/exercice_femme_femme_cerclesdehanches.png"
       },
       "unit": "sec",
       "defaultValue": 60,
@@ -1773,7 +1773,7 @@ window.FitnessRpgData = {
       "title": "Rotation thoracique",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_rotationthoracique.jpg"
+        "female": "assets/exercices/exercice_femme_rotationthoracique.png"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -1807,7 +1807,7 @@ window.FitnessRpgData = {
       "title": "Respiration profonde",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_respirationfinale.png"
+        "female": "assets/exercices/exercice_femme_respirationfinale.png"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -1827,7 +1827,7 @@ window.FitnessRpgData = {
       "title": "Respiration lente",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_respirationfinale.png"
+        "female": "assets/exercices/exercice_femme_respirationfinale.png"
       },
       "unit": "min",
       "defaultValue": 2,
@@ -1844,7 +1844,7 @@ window.FitnessRpgData = {
       "title": "Étirement cuisses / mollets",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_etirementcuissesmollets.png"
+        "female": "assets/exercices/exercice_femme_etirementcuissesmollets.png"
       },
       "unit": "min",
       "defaultValue": 3,
@@ -1861,7 +1861,7 @@ window.FitnessRpgData = {
       "title": "Étirement hanches / quadriceps",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_etirementhanchesquadriceps.png"
+        "female": "assets/exercices/exercice_femme_etirementhanchesquadriceps.png"
       },
       "unit": "min",
       "defaultValue": 3,
@@ -1878,7 +1878,7 @@ window.FitnessRpgData = {
       "title": "Étirement doux du dos",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_etirementdouxdudos.png"
+        "female": "assets/exercices/exercice_femme_etirementdouxdudos.png"
       },
       "unit": "min",
       "defaultValue": 2,
@@ -1898,7 +1898,7 @@ window.FitnessRpgData = {
       "title": "Étirement épaules / bras",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_etirementepaulesbras.png"
+        "female": "assets/exercices/exercice_femme_etirementepaulesbras.png"
       },
       "unit": "min",
       "defaultValue": 2,
