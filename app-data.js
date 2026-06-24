@@ -971,7 +971,7 @@ window.FitnessRpgData = {
       "title": "Cercles de chevilles",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_cercledechevilles.png"
+        "female": "assets/exercices/exercice_femme_cerclesdechevilles.png"
       },
       "unit": "sec",
       "defaultValue": 30,
@@ -1456,7 +1456,7 @@ window.FitnessRpgData = {
       "title": "Gainage",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_gainage.png"
+        "female": "assets/exercices/exercice_femme_plancheclassique.png"
       },
       "unit": "sec",
       "defaultValue": 20,
@@ -1493,7 +1493,7 @@ window.FitnessRpgData = {
       "title": "Bird Dog",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_birddog.png"
+        "female": "assets/exercices/exercice_femme_birdog.png"
       },
       "unit": "répétitions",
       "defaultValue": 12,
@@ -1756,7 +1756,7 @@ window.FitnessRpgData = {
       "title": "Cercles de hanches",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_cerclehanches.png"
+        "female": "assets/exercices/exercice_femme_cerclesdehanches.png"
       },
       "unit": "sec",
       "defaultValue": 60,
