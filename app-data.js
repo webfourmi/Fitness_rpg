@@ -616,7 +616,7 @@ window.FitnessRpgData = {
       "title": "Montées de genoux lentes",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_monteegenouxlente.png"
+        "female": "assets/exercices/exercice_femme_monteegedeouxlentes.png"
       },
       "unit": "sec",
       "defaultValue": 60,
@@ -659,7 +659,7 @@ window.FitnessRpgData = {
       "title": "Mountain climber lent",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_mountainclimberlent.png"
+        "female": "assets/exercices/exercice_femme_moutainclimberlent.png"
       },
       "unit": "sec",
       "defaultValue": 90,
@@ -1188,7 +1188,7 @@ window.FitnessRpgData = {
       "title": "Fentes arrière",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_fentearriere.png"
+        "female": "assets/exercices/exercice_femme_fentesarriere.png"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -1207,7 +1207,7 @@ window.FitnessRpgData = {
       "title": "Montées sur pointes",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_monteesurpointes.png"
+        "female": "assets/exercices/exercice_femme_monteessurpointes.png"
       },
       "unit": "répétitions",
       "defaultValue": 15,
@@ -1793,7 +1793,7 @@ window.FitnessRpgData = {
       "title": "Respiration abdominale",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_default.png"
+        "female": "assets/exercices/exercice_femme_respirationabdominalecontrolee.png"
       },
       "unit": "min",
       "defaultValue": 1,
