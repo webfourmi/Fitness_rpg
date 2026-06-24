@@ -1580,7 +1580,7 @@ window.FitnessRpgData = {
       "title": "Bascule du bassin au sol",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercise_femme_basculedubassinausol.png"
+        "female": "assets/exercices/exercice_femme_basculedubassinausol.png"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -1596,7 +1596,7 @@ window.FitnessRpgData = {
       "title": "Relevé de bassin contrôlé",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercise_femme_relevedebassinausol.png"
+        "female": "assets/exercices/exercice_femme_relevedebassinausol.png"
       },
       "unit": "répétitions",
       "defaultValue": 12,
@@ -1612,7 +1612,7 @@ window.FitnessRpgData = {
       "title": "Crunch contrôlé",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercise_femme_crunchcontrole.png"
+        "female": "assets/exercices/exercice_femme_crunchcontrole.png"
       },
       "unit": "répétitions",
       "defaultValue": 15,
