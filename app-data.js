@@ -1958,7 +1958,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "goblet_squat",
-      "categoryId": "strength",
+      "categoryId": "muscle",
       "title": "Goblet Squat",
       "images": {
         "homme": "assets/exercices/homme_default.png",
@@ -2021,7 +2021,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "kettlebell_swing",
-      "categoryId": "strength",
+      "categoryId": "muscle",
       "title": "Swing kettlebell",
       "images": {
         "homme": "assets/exercices/homme_default.png",
@@ -2063,7 +2063,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "kettlebell_deadlift",
-      "categoryId": "strength",
+      "categoryId": "muscle",
       "title": "Soulevé de terre kettlebell",
       "images": {
         "homme": "assets/exercices/homme_default.png",
@@ -2084,7 +2084,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "turkish_get_up",
-      "categoryId": "strength",
+      "categoryId": "muscle",
       "title": "Turkish Get-Up",
       "images": {
         "homme": "assets/exercices/homme_default.png",
