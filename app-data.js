@@ -539,7 +539,7 @@ window.FitnessRpgData = {
       "title": "Marche sur place",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_marchesurplace.jpg"
+        "female": "assets/exercices/exercice_femme_marchesurplace.png"
       },
       "unit": "min",
       "defaultValue": 2,
@@ -559,7 +559,7 @@ window.FitnessRpgData = {
       "title": "Cercles de bras",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme__cerclesdepaules.png"
+        "female": "assets/exercices/exercice_femme__cercledebras.png"
       },
       "unit": "sec",
       "defaultValue": 60,
@@ -611,26 +611,6 @@ window.FitnessRpgData = {
       "coachTip": "Garde le regard devant et les épaules basses."
     },
     {
-      "id": "side_steps",
-      "categoryId": "cardio",
-      "title": "Pas chassés",
-      "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_paschasses.png"
-      },
-      "unit": "sec",
-      "defaultValue": 90,
-      "min": 30,
-      "step": 30,
-      "xpPerUnit": 0.25,
-      "stat": "Cardio doux",
-      "pose": "walk",
-      "hasTimer": true,
-      "description": "Déplace-toi latéralement en rapprochant les pieds à chaque pas.",
-      "shortDescription": "Pas chassés de côté.",
-      "coachTip": "Reste fluide, sans chercher la vitesse."
-    },
-    {
       "id": "slow_knee_raises",
       "categoryId": "warmup",
       "title": "Montées de genoux lentes",
@@ -650,13 +630,36 @@ window.FitnessRpgData = {
       "shortDescription": "Monte les genoux alternativement.",
       "coachTip": "Reste droit et garde une respiration régulière."
     },
+    
+    {
+      "id": "side_steps",
+      "categoryId": "cardio",
+      "title": "Pas chassés",
+      "images": {
+        "male": "assets/exercices/homme_default.png",
+        "female": "assets/exercices/exercice_femme_paschasses.png"
+      },
+      "unit": "sec",
+      "defaultValue": 90,
+      "min": 30,
+      "step": 30,
+      "xpPerUnit": 0.25,
+      "stat": "Cardio doux",
+      "pose": "walk",
+      "hasTimer": true,
+      "description": "Déplace-toi latéralement en rapprochant les pieds à chaque pas.",
+      "shortDescription": "Pas chassés de côté.",
+      "coachTip": "Reste fluide, sans chercher la vitesse."
+    },
+    
+    
     {
       "id": "mountain_climber_slow",
       "categoryId": "cardio",
       "title": "Mountain climber lent",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_montagneclimberlent.png"
+        "female": "assets/exercices/exercice_femme_mountainclimberlent.png"
       },
       "unit": "sec",
       "defaultValue": 90,
@@ -813,7 +816,7 @@ window.FitnessRpgData = {
       "title": "Accélération",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_default.png"
+        "female": "assets/exercices/exercice_femme_marcheactive.png"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -913,7 +916,7 @@ window.FitnessRpgData = {
       "title": "Course extérieure",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_courseext.jpg"
+        "female": "assets/exercices/exercice_femme_courseexterieure.png"
       },
       "unit": "min",
       "defaultValue": 20,
@@ -931,7 +934,7 @@ window.FitnessRpgData = {
       "title": "Vélo",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_velofacile.png"
+        "female": "assets/exercices/exercice_femme_velo.png"
       },
       "unit": "min",
       "defaultValue": 15,
@@ -1146,7 +1149,7 @@ window.FitnessRpgData = {
       "title": "Chaise contre un mur",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_default.png"
+        "female": "assets/exercices/exercice_femme_squatchaise.png"
       },
       "unit": "sec",
       "defaultValue": 20,
@@ -1166,7 +1169,7 @@ window.FitnessRpgData = {
       "title": "Fentes arrière assistées",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_fentesarrieresassistees.png"
+        "female": "assets/exercices/exercice_femme_fentesarriereassistees.png"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -1185,7 +1188,7 @@ window.FitnessRpgData = {
       "title": "Fentes arrière",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_fentesarriere.png"
+        "female": "assets/exercices/exercice_femme_fentearriere.png"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -1204,7 +1207,7 @@ window.FitnessRpgData = {
       "title": "Montées sur pointes",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_monteessurpointes.png"
+        "female": "assets/exercices/exercice_femme_monteesurpointes.png"
       },
       "unit": "répétitions",
       "defaultValue": 15,
@@ -1236,7 +1239,7 @@ window.FitnessRpgData = {
       "title": "Pont de hanches une jambe alternée",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_pontdehanchesurunejambealternee.png"
+        "female": "assets/exercices/exercice_femme_pontdehanchesunejambealternee.png"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -1473,7 +1476,7 @@ window.FitnessRpgData = {
       "title": "Planche genoux",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercise_femme_planchesurlesgenoux.png"
+        "female": "assets/exercices/exercice_femme_planchesurlesgenoux.png"
       },
       "unit": "sec",
       "defaultValue": 20,
@@ -1509,7 +1512,7 @@ window.FitnessRpgData = {
       "title": "Gainage latéral genoux",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercise_femme_gainagelateralgenoux.png"
+        "female": "assets/exercices/exercice_femme_gainagelateralgenoux.png"
       },
       "unit": "sec",
       "defaultValue": 60,
@@ -1545,7 +1548,7 @@ window.FitnessRpgData = {
       "title": "Dead bug",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercise_femme_deadbugcomplet.png"
+        "female": "assets/exercices/exercice_femme_deadbugcomplet.png"
       },
       "unit": "répétitions",
       "defaultValue": 20,
@@ -1561,7 +1564,7 @@ window.FitnessRpgData = {
       "title": "Dead bug simplifié",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercise_femme_deadbugsimplifie.png"
+        "female": "assets/exercices/exercice_femme_deadbugsimplifie.png"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -1577,7 +1580,7 @@ window.FitnessRpgData = {
       "title": "Bascule du bassin au sol",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercise_femme_basculebassinsol.png"
+        "female": "assets/exercices/exercise_femme_basculedubassinausol.png"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -1625,7 +1628,7 @@ window.FitnessRpgData = {
       "title": "Hollow hold simplifié",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercise_femme_hollowholssimplifie.png"
+        "female": "assets/exercices/exercice_femme_hollowholdsimplifie.png"
       },
       "unit": "sec",
       "defaultValue": 45,
@@ -1736,7 +1739,7 @@ window.FitnessRpgData = {
       "title": "Chat-vache",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_femme_chatvache.png"
+        "female": "assets/exercices/exercice_femme_chatvache.png"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -1753,7 +1756,7 @@ window.FitnessRpgData = {
       "title": "Cercles de hanches",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_femme_cerclesdehanches.png"
+        "female": "assets/exercices/exercice_femme_cerclehanches.png"
       },
       "unit": "sec",
       "defaultValue": 60,
