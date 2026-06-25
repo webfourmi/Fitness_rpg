@@ -8642,12 +8642,7 @@ window.FitnessRpgData = {
                   "amount": 10,
                   "unit": "répétitions"
                 },
-                {
-                  "phase": "Technique",
-                  "exerciseId": "turkish_get_up",
-                  "amount": 4,
-                  "unit": "répétitions"
-                },
+               
                 {
                   "phase": "Finisher · Sac 4 rounds",
                   "exerciseId": "heavy_bag_rounds",
@@ -9018,12 +9013,7 @@ window.FitnessRpgData = {
                   "amount": 5,
                   "unit": "min"
                 },
-                {
-                  "phase": "Technique",
-                  "exerciseId": "turkish_get_up",
-                  "amount": 8,
-                  "unit": "répétitions"
-                },
+               
                 {
                   "phase": "Force · 3 cycles",
                   "exerciseId": "goblet_squat",
@@ -9197,12 +9187,7 @@ window.FitnessRpgData = {
                   "amount": 45,
                   "unit": "répétitions"
                 },
-                {
-                  "phase": "Épreuve technique",
-                  "exerciseId": "turkish_get_up",
-                  "amount": 10,
-                  "unit": "répétitions"
-                },
+               
                 {
                   "phase": "Combat · Sac 8 rounds",
                   "exerciseId": "heavy_bag_rounds",
@@ -9632,12 +9617,7 @@ window.FitnessRpgData = {
                   "amount": 12,
                   "unit": "min"
                 },
-                {
-                  "phase": "Épreuve du maître",
-                  "exerciseId": "turkish_get_up",
-                  "amount": 10,
-                  "unit": "répétitions"
-                },
+               
                 {
                   "phase": "Retour au calme",
                   "exerciseId": "advanced_standard_cooldown",
