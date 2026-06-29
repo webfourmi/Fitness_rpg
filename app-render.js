@@ -701,29 +701,32 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
           : Number(workout.xp || 20)
       );
 
-const completedKeys = window.FitnessRpgPrograms.getCompletedExerciseKeys?.(session) || [];
-const totalCount = workout.exercises.length;
+  const completedKeys = window.FitnessRpgPrograms.getCompletedExerciseKeys?.(session) || [];
+  const totalCount = workout.exercises.length;
+  const doneCount = window.FitnessRpgState.getProgramSessionCompletedCount?.() || 0;
 
-const currentIndex = workout.exercises.findIndex((item, index) => {
-  const key = `${index}-${item.exerciseId}`;
-  return !completedKeys.includes(key) && !completedKeys.includes(item.exerciseId);
-});
+  const currentIndex = workout.exercises.findIndex((item, index) => {
+    const key = `${index}-${item.exerciseId}`;
+    return !completedKeys.includes(key) && !completedKeys.includes(item.exerciseId);
+  });
 
-const activeIndex = currentIndex >= 0 ? currentIndex : Math.max(0, totalCount - 1);
-const activeItem = workout.exercises[activeIndex];
-const activeExercise = window.FitnessRpgData.getExerciseById(activeItem.exerciseId);
-const activeExerciseKey = `${activeIndex}-${activeItem.exerciseId}`;
-const activeDone = window.FitnessRpgState.isProgramSessionExerciseDone(activeExerciseKey);
-const canUseTimer = activeItem.unit === "min" || activeItem.unit === "sec" || activeExercise?.hasTimer;
+  const activeIndex = currentIndex >= 0 ? currentIndex : Math.max(0, totalCount - 1);
+  const activeItem = workout.exercises[activeIndex];
+  const activeExercise = window.FitnessRpgData.getExerciseById(activeItem.exerciseId);
+  const activeExerciseKey = `${activeIndex}-${activeItem.exerciseId}`;
+  const activeDone = window.FitnessRpgState.isProgramSessionExerciseDone(activeExerciseKey);
+  const canUseTimer = activeItem.unit === "min" || activeItem.unit === "sec" || activeExercise?.hasTimer;
 
-const stepMeta = window.FitnessRpgPrograms.getProgramExerciseStepMeta?.(
-  workout.exercises,
-  activeIndex
-);
+  const stepMeta = window.FitnessRpgPrograms.getProgramExerciseStepMeta?.(
+    workout.exercises,
+    activeIndex
+  );
 
-const guidedProgress = totalCount > 0
-  ? Math.round((doneCount / totalCount) * 100)
-  : 0;
+  const guidedProgress = totalCount > 0
+    ? Math.round((doneCount / totalCount) * 100)
+    : 0;
+
+
 
 const actionsHtml = `
   ${
@@ -800,8 +803,7 @@ const exercisesHtml = `
   }
 `;
 
-  const doneCount = window.FitnessRpgState.getProgramSessionCompletedCount?.() || 0;
-  const totalCount = workout.exercises.length;
+
 
   const title = isBoss
     ? `${program.title} · ${workout.title}`
