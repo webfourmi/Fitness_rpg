@@ -1924,6 +1924,74 @@ window.FitnessRpgRender.closeLevelUpOverlay = function closeLevelUpOverlay() {
   document.body.classList.remove("level-up-active");
   window.FitnessRpgProgress.consumeLevelUpModal?.();
   window.FitnessRpgRender.renderHeroPanel?.();
+  window.FitnessRpgRender.renderBadgeRewardOverlay?.();
+};
+// ============================================================
+// Badge obtenu
+// ============================================================
+
+window.FitnessRpgRender.renderBadgeRewardOverlay = function renderBadgeRewardOverlay() {
+  const levelOverlay = document.querySelector("#levelUpOverlay");
+
+  if (levelOverlay && !levelOverlay.classList.contains("hidden")) {
+    return;
+  }
+
+  const badge = window.FitnessRpgProgress.peekBadgeRewardModal?.();
+  const overlay = document.querySelector("#badgeRewardOverlay");
+
+  if (!overlay || !badge) return;
+
+  const image = document.querySelector("#badgeRewardImage");
+  const title = document.querySelector("#badgeRewardTitle");
+  const text = document.querySelector("#badgeRewardText");
+  const fallbackIcon = document.querySelector("#badgeRewardFallbackIcon");
+
+  if (image) {
+    image.src = window.FitnessRpgProgress.getBadgeImagePath(badge);
+    image.alt = badge.title || "Badge obtenu";
+    image.classList.remove("hidden");
+
+    image.onerror = function handleBadgeImageError() {
+      image.classList.add("hidden");
+      if (fallbackIcon) fallbackIcon.classList.remove("hidden");
+    };
+
+    image.onload = function handleBadgeImageLoad() {
+      if (fallbackIcon) fallbackIcon.classList.add("hidden");
+    };
+  }
+
+  if (fallbackIcon) {
+    fallbackIcon.textContent = badge.icon || "🏅";
+  }
+
+  if (title) {
+    title.textContent = badge.title || "Badge obtenu !";
+  }
+
+  if (text) {
+    text.textContent = badge.description || "Une nouvelle récompense rejoint ta collection.";
+  }
+
+  overlay.classList.remove("hidden");
+  overlay.setAttribute("aria-hidden", "false");
+  document.body.classList.add("badge-reward-active");
+};
+
+window.FitnessRpgRender.closeBadgeRewardOverlay = function closeBadgeRewardOverlay() {
+  const overlay = document.querySelector("#badgeRewardOverlay");
+
+  if (overlay) {
+    overlay.classList.add("hidden");
+    overlay.setAttribute("aria-hidden", "true");
+  }
+
+  document.body.classList.remove("badge-reward-active");
+  window.FitnessRpgProgress.consumeBadgeRewardModal?.();
+
+  window.FitnessRpgRender.renderCurrentPage?.();
+  window.FitnessRpgRender.renderBadgeRewardOverlay?.();
 };
 // ============================================================
 // Carrousel évolution du héros
@@ -2514,4 +2582,5 @@ window.FitnessRpgRender.renderCurrentPage = function renderCurrentPage() {
 window.FitnessRpgRender.renderAll = function renderAll() {
   window.FitnessRpgRender.renderCurrentPage();
   window.FitnessRpgRender.renderLevelUpOverlay();
+  window.FitnessRpgRender.renderBadgeRewardOverlay();
 };
