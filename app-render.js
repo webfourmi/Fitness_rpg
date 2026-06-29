@@ -701,7 +701,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
           : Number(workout.xp || 20)
       );
 
-cconst completedKeys = window.FitnessRpgPrograms.getCompletedExerciseKeys?.(session) || [];
+const completedKeys = window.FitnessRpgPrograms.getCompletedExerciseKeys?.(session) || [];
 const totalCount = workout.exercises.length;
 
 const currentIndex = workout.exercises.findIndex((item, index) => {
