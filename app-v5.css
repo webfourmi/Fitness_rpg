@@ -3503,7 +3503,81 @@ audio {
     font-size: 0.72rem;
   }
 }
+/* ============================================================
+   Récompense badge
+============================================================ */
 
+.badge-reward-card {
+  max-width: 420px;
+  text-align: center;
+}
+
+.badge-reward-image {
+  display: block;
+  width: min(220px, 70vw);
+  height: min(220px, 70vw);
+  object-fit: contain;
+  margin: 0 auto 1rem;
+  border-radius: 22px;
+  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.35));
+  animation: badgeRewardPop 0.55s ease both;
+}
+
+.badge-reward-fallback {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 4rem;
+  background: radial-gradient(circle, rgba(255, 232, 158, 0.95), rgba(145, 100, 38, 0.75));
+  box-shadow: 0 0 30px rgba(255, 214, 102, 0.45);
+}
+
+.badge-reward-fallback.hidden {
+  display: none;
+}
+
+.badge-reward-card h1 {
+  margin-top: 0.4rem;
+}
+
+.badge-reward-card p {
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@keyframes badgeRewardPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.72) rotate(-4deg);
+  }
+
+  70% {
+    opacity: 1;
+    transform: scale(1.06) rotate(2deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@media (max-width: 520px) {
+  .badge-reward-card {
+    width: min(92vw, 420px);
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+
+  .badge-reward-image {
+    width: min(180px, 62vw);
+    height: min(180px, 62vw);
+  }
+}
 /* ============================================================
    11 - Overlays, timer, niveaux, coffre et familiers
 ============================================================ */
