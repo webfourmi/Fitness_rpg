@@ -437,6 +437,16 @@ window.FitnessRpgNavigation.handleOverlayClick = function handleOverlayClick(eve
     return true;
   }
 
+    if (target.closest("#closeBadgeRewardButton")) {
+    window.FitnessRpgRender.closeBadgeRewardOverlay();
+    return;
+  }
+
+  if (target.id === "badgeRewardOverlay") {
+    window.FitnessRpgRender.closeBadgeRewardOverlay();
+    return;
+  }
+
   if (target.id === "levelUpOverlay") {
     window.FitnessRpgRender?.closeLevelUpOverlay?.();
     return true;
