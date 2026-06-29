@@ -952,7 +952,7 @@ window.FitnessRpgData = {
       "title": "Demi-squat cycliste",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/femme_default.png"
+        "female": "assets/exercices/exercice_femme_squats.png"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -1239,7 +1239,7 @@ window.FitnessRpgData = {
       "title": "Pont de hanches une jambe alternée",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_pontdehanchesunejambealternee.png"
+        "female": "assets/exercices/exercice_femme_pontdehanchessurunejambealternee.png"
       },
       "unit": "répétitions",
       "defaultValue": 16,
