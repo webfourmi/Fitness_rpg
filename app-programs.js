@@ -288,6 +288,145 @@ window.FitnessRpgPrograms.formatDayExercises = function formatDayExercises(day) 
     return `${item.phase} : ${exercise?.title || item.exerciseId} (${item.amount} ${item.unit})`;
   }).join(" · ");
 };
+
+// ============================================================
+// Helpers affichage cycles / défis
+// ============================================================
+
+window.FitnessRpgPrograms.parseProgramPhase = function parseProgramPhase(rawPhase = "") {
+  const phase = String(rawPhase || "").trim();
+
+  const challengeMatch = phase.match(/défi\s*(\d+)(?:\s*·\s*cycle\s*(\d+))?/i);
+
+  if (challengeMatch) {
+    return {
+      type: "challenge",
+      icon: "⚔️",
+      key: `defi-${challengeMatch[1]}`,
+      title: `Défi ${challengeMatch[1]}`,
+      cycle: Number(challengeMatch[2] || 1)
+    };
+  }
+
+  const cycleMatch = phase.match(/^cycle\s*(\d+)/i);
+
+  if (cycleMatch) {
+    return {
+      type: "challenge",
+      icon: "⚔️",
+      key: "defi",
+      title: "Défi",
+      cycle: Number(cycleMatch[1] || 1)
+    };
+  }
+
+  if (/échauffement/i.test(phase)) {
+    return {
+      type: "warmup",
+      icon: "🔥",
+      key: "echauffement",
+      title: "Échauffement",
+      cycle: 1
+    };
+  }
+
+  if (/retour|calme|respiration|étirement|etirement|récup/i.test(phase)) {
+    return {
+      type: "cooldown",
+      icon: "🧘",
+      key: "retour-calme",
+      title: "Retour au calme",
+      cycle: 1
+    };
+  }
+
+  return {
+    type: "phase",
+    icon: "✨",
+    key: phase.toLowerCase().replace(/[^a-z0-9]+/gi, "-") || "phase",
+    title: phase || "Exercices",
+    cycle: 1
+  };
+};
+
+window.FitnessRpgPrograms.getProgramExerciseBlocks = function getProgramExerciseBlocks(exercises = []) {
+  const blocks = [];
+  const blockMap = new Map();
+
+  exercises.forEach((item, index) => {
+    const meta = window.FitnessRpgPrograms.parseProgramPhase(item.phase);
+    const blockKey = meta.key;
+
+    if (!blockMap.has(blockKey)) {
+      const block = {
+        key: blockKey,
+        type: meta.type,
+        icon: meta.icon,
+        title: meta.title,
+        cycles: [],
+        cycleMap: new Map()
+      };
+
+      blockMap.set(blockKey, block);
+      blocks.push(block);
+    }
+
+    const block = blockMap.get(blockKey);
+    const cycleNumber = meta.cycle || 1;
+
+    if (!block.cycleMap.has(cycleNumber)) {
+      const cycle = {
+        number: cycleNumber,
+        items: []
+      };
+
+      block.cycleMap.set(cycleNumber, cycle);
+      block.cycles.push(cycle);
+    }
+
+    block.cycleMap.get(cycleNumber).items.push({
+      ...item,
+      originalIndex: index
+    });
+  });
+
+  blocks.forEach((block) => {
+    block.cycles.sort((a, b) => a.number - b.number);
+    block.cycleCount = block.cycles.length;
+    delete block.cycleMap;
+  });
+
+  return blocks;
+};
+
+window.FitnessRpgPrograms.getProgramExerciseStepMeta = function getProgramExerciseStepMeta(exercises = [], index = 0) {
+  const blocks = window.FitnessRpgPrograms.getProgramExerciseBlocks(exercises);
+
+  for (const block of blocks) {
+    for (const cycle of block.cycles) {
+      const position = cycle.items.findIndex((item) => Number(item.originalIndex) === Number(index));
+
+      if (position >= 0) {
+        return {
+          block,
+          cycle,
+          position,
+          blockLabel: `${block.icon} ${block.title}`,
+          cycleLabel: block.cycleCount > 1
+            ? `Cycle ${cycle.number} / ${block.cycleCount}`
+            : "",
+          stepLabel: `Exercice ${position + 1} / ${cycle.items.length}`
+        };
+      }
+    }
+  }
+
+  return null;
+};
+
+window.FitnessRpgPrograms.formatExerciseAmount = function formatExerciseAmount(item) {
+  return `${item.amount} ${item.unit}`;
+};
 window.FitnessRpgPrograms.startProgramBossSession = function startProgramBossSession(programId, weekNumber = 1, variantId = "indoor") {
   if (!window.FitnessRpgState?.hasProfile?.()) {
     window.FitnessRpgPrograms.showMessage({
