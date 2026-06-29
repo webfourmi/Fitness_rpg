@@ -205,7 +205,58 @@ window.FitnessRpgProgress.consumeLevelUpModal = function consumeLevelUpModal() {
 window.FitnessRpgProgress.peekLevelUpModal = function peekLevelUpModal() {
   return window.FitnessRpgProgress.pendingLevelUp || null;
 };
+// ============================================================
+// Modal badge débloqué
+// ============================================================
 
+window.FitnessRpgProgress.pendingBadgeRewards = [];
+
+window.FitnessRpgProgress.getBadgeImagePath = function getBadgeImagePath(badge) {
+  if (!badge) return "assets/badges/badge_default.png";
+
+  if (badge.image) {
+    return badge.image;
+  }
+
+  const rawName = badge.title || badge.id || "badge";
+
+  const fileName = rawName
+    .toLowerCase()
+    .replace(/œ/g, "oe")
+    .replace(/æ/g, "ae")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\b(vaincu|vaincue|debloque|debloquee)\b/g, "")
+    .replace(/[^a-z0-9]/g, "");
+
+  return `assets/badges/badge_${fileName}.png`;
+};
+
+window.FitnessRpgProgress.queueBadgeRewardModal = function queueBadgeRewardModal(badge) {
+  if (!badge || !badge.id) return;
+
+  if (!Array.isArray(window.FitnessRpgProgress.pendingBadgeRewards)) {
+    window.FitnessRpgProgress.pendingBadgeRewards = [];
+  }
+
+  const alreadyQueued = window.FitnessRpgProgress.pendingBadgeRewards.some((item) => {
+    return item.id === badge.id;
+  });
+
+  if (alreadyQueued) return;
+
+  window.FitnessRpgProgress.pendingBadgeRewards.push(badge);
+};
+
+window.FitnessRpgProgress.peekBadgeRewardModal = function peekBadgeRewardModal() {
+  const list = window.FitnessRpgProgress.pendingBadgeRewards || [];
+  return list.length ? list[0] : null;
+};
+
+window.FitnessRpgProgress.consumeBadgeRewardModal = function consumeBadgeRewardModal() {
+  const list = window.FitnessRpgProgress.pendingBadgeRewards || [];
+  return list.shift() || null;
+};
 window.FitnessRpgProgress.hasChestReward = function hasChestReward(level) {
   return Number(level || 0) > 1;
 };
