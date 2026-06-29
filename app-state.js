@@ -673,6 +673,18 @@ window.FitnessRpgState.unlockBadge = function unlockBadge(badgeId) {
 
   window.FitnessRpgState.profile.badges.push(badgeId);
 
+    const badge = (window.FitnessRpgData?.badges || []).find((item) => {
+    return item.id === badgeId;
+  });
+
+  window.FitnessRpgProgress?.queueBadgeRewardModal?.(
+    badge || {
+      id: badgeId,
+      title: badgeId,
+      description: "Badge débloqué."
+    }
+  );
+
   window.FitnessRpgState.addJournalEntry({
     type: "badge",
     title: "Badge débloqué",
