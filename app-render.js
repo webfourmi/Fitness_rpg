@@ -2530,6 +2530,7 @@ grid.innerHTML = `
     Glisse horizontalement pour parcourir tes familiers. Touche une carte pour l’agrandir.
   </p>
 `;
+  };
 
 window.FitnessRpgRender.openFamiliarModal = function openFamiliarModal(familiarId) {
   const familiar = window.FitnessRpgRewards?.getFamiliarById?.(familiarId);
@@ -2585,7 +2586,7 @@ window.FitnessRpgRender.closeFamiliarModal = function closeFamiliarModal() {
   overlay.innerHTML = "";
   document.body.classList.remove("modal-open");
 };
-}  
+
 // ============================================================
 // Rendu global
 // ============================================================
