@@ -701,59 +701,104 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
           : Number(workout.xp || 20)
       );
 
-const exercisesHtml = workout.exercises.map((item, index) => {
-  const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
-  const exerciseKey = `${index}-${item.exerciseId}`;
-  const done = window.FitnessRpgState.isProgramSessionExerciseDone(exerciseKey);
-  const canUseTimer = item.unit === "min" || item.unit === "sec" || exercise?.hasTimer;
+cconst completedKeys = window.FitnessRpgPrograms.getCompletedExerciseKeys?.(session) || [];
+const totalCount = workout.exercises.length;
 
-  const actionsHtml = `
-    ${
-      canUseTimer
-        ? `<button
-            class="ghost-btn start-program-exercise-timer-btn"
-            type="button"
-            data-exercise-id="${item.exerciseId}"
-            data-exercise-key="${exerciseKey}"
-          >
-            ⏱️ Timer
-          </button>`
-        : ""
-    }
+const currentIndex = workout.exercises.findIndex((item, index) => {
+  const key = `${index}-${item.exerciseId}`;
+  return !completedKeys.includes(key) && !completedKeys.includes(item.exerciseId);
+});
 
-    <button
-      class="${done ? "ghost-btn" : "secondary-btn"} validate-program-exercise-btn"
-      type="button"
-      data-exercise-id="${item.exerciseId}"
-      data-exercise-key="${exerciseKey}"
-    >
-      ${done ? "Validé" : "Valider"}
-    </button>
-  `;
+const activeIndex = currentIndex >= 0 ? currentIndex : Math.max(0, totalCount - 1);
+const activeItem = workout.exercises[activeIndex];
+const activeExercise = window.FitnessRpgData.getExerciseById(activeItem.exerciseId);
+const activeExerciseKey = `${activeIndex}-${activeItem.exerciseId}`;
+const activeDone = window.FitnessRpgState.isProgramSessionExerciseDone(activeExerciseKey);
+const canUseTimer = activeItem.unit === "min" || activeItem.unit === "sec" || activeExercise?.hasTimer;
 
-  if (typeof window.FitnessRpgExercises?.programExerciseCardHtml === "function") {
-    return window.FitnessRpgExercises.programExerciseCardHtml(item, index, {
-      done,
-      actionsHtml
-    });
+const stepMeta = window.FitnessRpgPrograms.getProgramExerciseStepMeta?.(
+  workout.exercises,
+  activeIndex
+);
+
+const guidedProgress = totalCount > 0
+  ? Math.round((doneCount / totalCount) * 100)
+  : 0;
+
+const actionsHtml = `
+  ${
+    canUseTimer && !activeDone
+      ? `<button
+          class="ghost-btn start-program-exercise-timer-btn"
+          type="button"
+          data-exercise-id="${activeItem.exerciseId}"
+          data-exercise-key="${activeExerciseKey}"
+        >
+          ⏱️ Timer
+        </button>`
+      : ""
   }
 
-  return `
-    <article class="program-session-exercise${done ? " done" : ""}">
-      <div class="program-session-index">${index + 1}</div>
+  <button
+    class="${activeDone ? "ghost-btn" : "secondary-btn"} validate-program-exercise-btn"
+    type="button"
+    data-exercise-id="${activeItem.exerciseId}"
+    data-exercise-key="${activeExerciseKey}"
+    ${activeDone ? "disabled" : ""}
+  >
+    ${activeDone ? "Validé" : (activeIndex >= totalCount - 1 ? "Valider le dernier exercice" : "Valider et continuer")}
+  </button>
+`;
 
-      <div>
-        <strong>${item.phase}</strong>
-        <h3>${exercise?.title || item.exerciseId}</h3>
-        <p>${item.amount} ${item.unit}</p>
-      </div>
+const exercisesHtml = `
+  <div class="program-guided-progress">
+    <div class="program-guided-progress-bar">
+      <span style="width: ${guidedProgress}%"></span>
+    </div>
+    <small>${doneCount}/${totalCount}</small>
+  </div>
 
-      <div class="program-session-actions">
-        ${actionsHtml}
-      </div>
-    </article>
-  `;
-}).join("");
+  <div class="program-guided-step-header">
+    <p class="eyebrow">${stepMeta?.blockLabel || "⚔️ Étape"}</p>
+    ${
+      stepMeta?.cycleLabel
+        ? `<strong>${stepMeta.cycleLabel}</strong>`
+        : ""
+    }
+    <span>${stepMeta?.stepLabel || `Exercice ${activeIndex + 1} / ${totalCount}`}</span>
+  </div>
+
+  ${
+    typeof window.FitnessRpgExercises?.programExerciseCardHtml === "function"
+      ? window.FitnessRpgExercises.programExerciseCardHtml(activeItem, activeIndex, {
+          done: activeDone,
+          actionsHtml
+        })
+      : `
+        <article class="program-session-exercise${activeDone ? " done" : ""}">
+          <div class="program-session-index">${activeIndex + 1}</div>
+
+          <div>
+            <strong>${activeItem.phase}</strong>
+            <h3>${activeExercise?.title || activeItem.exerciseId}</h3>
+            <p>${activeItem.amount} ${activeItem.unit}</p>
+          </div>
+
+          <div class="program-session-actions">
+            ${actionsHtml}
+          </div>
+        </article>
+      `
+  }
+
+  ${
+    complete
+      ? `<p class="program-guided-complete-message">
+          Tous les exercices sont validés. Tu peux terminer la séance.
+        </p>`
+      : ""
+  }
+`;
 
   const doneCount = window.FitnessRpgState.getProgramSessionCompletedCount?.() || 0;
   const totalCount = workout.exercises.length;
@@ -1176,6 +1221,59 @@ window.FitnessRpgRender.renderProgramBossChoiceHtml = function renderProgramBoss
     </section>
   `;
 };
+window.FitnessRpgRender.renderProgramExerciseBlocksHtml = function renderProgramExerciseBlocksHtml(exercises = []) {
+  const blocks = window.FitnessRpgPrograms.getProgramExerciseBlocks?.(exercises) || [];
+
+  if (!blocks.length) return "<p>Aucun exercice dans cette séance.</p>";
+
+  return blocks.map((block) => {
+    const cycleText = block.cycleCount > 1
+      ? ` · ${block.cycleCount} cycles`
+      : "";
+
+    const cyclesHtml = block.cycles.map((cycle) => {
+      const titleHtml = block.cycleCount > 1
+        ? `<h4>🔁 Cycle ${cycle.number} / ${block.cycleCount}</h4>`
+        : "";
+
+      const itemsHtml = cycle.items.map((item) => {
+        const exercise = window.FitnessRpgData.getExerciseById?.(item.exerciseId);
+        const safeTitle = window.FitnessRpgRender.escapeHtml(exercise?.title || item.exerciseId);
+        const safeAmount = window.FitnessRpgRender.escapeHtml(
+          window.FitnessRpgPrograms.formatExerciseAmount?.(item) || `${item.amount} ${item.unit}`
+        );
+
+        return `
+          <li>
+            <span>${safeTitle}</span>
+            <strong>${safeAmount}</strong>
+          </li>
+        `;
+      }).join("");
+
+      return `
+        <div class="program-cycle-preview">
+          ${titleHtml}
+          <ul>${itemsHtml}</ul>
+        </div>
+      `;
+    }).join("");
+
+    return `
+      <details class="program-phase-block">
+        <summary>
+          <span>${block.icon}</span>
+          <strong>${window.FitnessRpgRender.escapeHtml(block.title)}${cycleText}</strong>
+          <small>Ouvrir</small>
+        </summary>
+
+        <div class="program-phase-block-body">
+          ${cyclesHtml}
+        </div>
+      </details>
+    `;
+  }).join("");
+};
 
 window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(programId) {
   const list = document.querySelector("#programList");
@@ -1252,25 +1350,9 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
   const previousDayDisabled = dayIndex <= 0 ? "disabled" : "";
   const nextDayDisabled = dayIndex >= days.length - 1 ? "disabled" : "";
 
-const exercisesHtml = day.exercises.map((item, index) => {
-  if (typeof window.FitnessRpgExercises?.programExerciseCardHtml === "function") {
-    return window.FitnessRpgExercises.programExerciseCardHtml(item, index);
-  }
-
-  const exercise = window.FitnessRpgData.getExerciseById(item.exerciseId);
-
-  return `
-    <article class="program-session-exercise">
-      <div class="program-session-index">${index + 1}</div>
-
-      <div>
-        <strong>${item.phase}</strong>
-        <h3>${exercise?.title || item.exerciseId}</h3>
-        <p>${item.amount} ${item.unit}</p>
-      </div>
-    </article>
-  `;
-}).join("");
+const exercisesHtml = window.FitnessRpgRender.renderProgramExerciseBlocksHtml
+  ? window.FitnessRpgRender.renderProgramExerciseBlocksHtml(day.exercises || [])
+  : "";
 
   const progressionHtml = (programDetail.progression || [])
     .map((line) => `<li>${line}</li>`)
@@ -1367,9 +1449,9 @@ const exercisesHtml = day.exercises.map((item, index) => {
       <article class="program-day-card selected-program-day">
         <h3>Semaine ${selection.weekNumber} · Jour ${day.day} · ${day.title}</h3>
 
-        <div class="program-preview-exercise-grid">
-        ${exercisesHtml}
-      </div>
+       <div class="program-phase-block-list">
+  ${exercisesHtml}
+</div>
         <button
           class="primary-btn start-program-day-btn"
           type="button"
