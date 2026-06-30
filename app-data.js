@@ -751,6 +751,26 @@ window.FitnessRpgData = {
       "coachTip": "Garde un rythme fluide comme une danse simple."
     },
     {
+      "id": "ranger_step",
+      "categoryId": "cardio",
+      "title": "Pas du Rôdeur",
+      "images": {
+        "male": "assets/exercices/homme_default.png",
+        "female": "assets/exercices/exercice_femme_pasdurodeur.png"
+      },
+      "unit": "sec",
+      "defaultValue": 45,
+      "min": 30,
+      "step": 15,
+      "xpPerUnit": 0.25,
+      "stat": "Cardio coordination",
+      "pose": "walk",
+      "hasTimer": true,
+      "description": "Déplace-toi latéralement en croisant le pied arrière derrière le pied d’appui. Garde le buste droit et les mouvements fluides. Alterne droite et gauche.",
+      "shortDescription": "Déplacement latéral avec pied croisé derrière.",
+      "coachTip": "Reste souple, buste droit, sans précipiter les pas."
+    },
+    {
       "id": "lateral_steps",
       "categoryId": "cardio",
       "title": "Pas latéraux",
