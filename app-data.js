@@ -4192,7 +4192,7 @@ window.FitnessRpgData = {
     "Les temps par côté sont convertis en durée totale dans l’application.",
     "Le mouvement doit rester confortable : pas de recherche d’amplitude extrême."
   ]
-}
+},
     
     "coeur-dragon": {
       "id": "coeur-dragon",
