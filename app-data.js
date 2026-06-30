@@ -1523,7 +1523,7 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Curl biceps",
       "images": {
-        "male": "assets/exercices/exercice_homme_curlbiceps.png,
+        "male": "assets/exercices/exercice_homme_curlbiceps.png",
         "female": "assets/exercices/exercice_femme_curlbiceps.png"
       },
       "unit": "répétitions",
