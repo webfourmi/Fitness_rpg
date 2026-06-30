@@ -1087,6 +1087,182 @@ window.FitnessRpgData = {
       "coachTip": "Grandis-toi sans pousser les côtes en avant."
     },
     {
+  id: "demi_plie",
+  categoryId: "strength",
+  title: "Demi-plié",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/exercice_femme_demiplie.png"
+  },
+  unit: "répétitions",
+  defaultValue: 10,
+  min: 6,
+  step: 1,
+  xpPerUnit: 0.8,
+  stat: "Jambes / posture",
+  pose: "squats",
+  description: "Place les pieds légèrement plus écartés que les hanches, pointes ouvertes naturellement. Fléchis lentement les genoux en gardant le dos droit et les talons au sol. Descends seulement jusqu’à une position confortable, puis remonte en poussant sur les jambes.",
+  shortDescription: "Petit plié contrôlé, dos droit et talons au sol.",
+  coachTip: "Genoux dans l’axe des pieds, épaules relâchées, mouvement lent."
+},
+{
+  id: "second_position_arms",
+  categoryId: "mobility",
+  title: "Bras en seconde",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/exercice_femme_brasenseconde.png"
+  },
+  unit: "sec",
+  defaultValue: 30,
+  min: 20,
+  step: 5,
+  xpPerUnit: 0.15,
+  stat: "Posture / épaules",
+  pose: "stretch",
+  hasTimer: true,
+  description: "Tiens-toi debout, le dos droit. Ouvre les bras de chaque côté à hauteur des épaules en gardant les coudes légèrement arrondis et les mains souples, comme si tu entourais un grand ballon invisible.",
+  shortDescription: "Bras ouverts, coudes doux, posture allongée.",
+  coachTip: "Épaules basses, nuque longue, respiration calme."
+},
+{
+  id: "swan_step",
+  categoryId: "cardio",
+  title: "Pas du cygne",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/exercice_femme_pasducygne.png"
+  },
+  unit: "sec",
+  defaultValue: 45,
+  min: 30,
+  step: 15,
+  xpPerUnit: 0.22,
+  stat: "Cardio doux / coordination",
+  pose: "walk",
+  hasTimer: true,
+  description: "Marche lentement en posant chaque pied avec précision, comme sur une ligne imaginaire. Accompagne chaque pas d’un mouvement fluide des bras, ouverts puis légèrement refermés devant toi.",
+  shortDescription: "Marche fluide avec mouvement doux des bras.",
+  coachTip: "Cherche la fluidité plutôt que la vitesse."
+},
+{
+  id: "arabesque_simplified",
+  categoryId: "strength",
+  title: "Arabesque simplifiée",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/exercice_femme_arabesquesimplifiee.png"
+  },
+  unit: "sec",
+  defaultValue: 40,
+  min: 20,
+  step: 10,
+  xpPerUnit: 0.3,
+  stat: "Équilibre / posture",
+  pose: "core",
+  hasTimer: true,
+  description: "Tiens-toi sur une jambe. Penche légèrement le buste vers l’avant tout en levant doucement l’autre jambe derrière toi. Les bras peuvent être ouverts sur les côtés pour t’aider à garder l’équilibre.",
+  shortDescription: "Équilibre sur une jambe, jambe arrière légèrement levée.",
+  coachTip: "Ne cherche pas la hauteur. Cherche la stabilité."
+},
+{
+  id: "front_developpe_simplified",
+  categoryId: "strength",
+  title: "Développé avant simplifié",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/exercice_femme_developpeavantsimplifie.png"
+  },
+  unit: "répétitions",
+  defaultValue: 16,
+  min: 8,
+  step: 2,
+  xpPerUnit: 1,
+  stat: "Jambes / contrôle",
+  pose: "squats",
+  description: "Monte un genou devant toi jusqu’à environ la hauteur de la hanche. Tends ensuite lentement la jambe vers l’avant avant de revenir doucement à la position de départ.",
+  shortDescription: "Genou levé puis jambe tendue vers l’avant.",
+  coachTip: "Pas d’élan. Le mouvement doit rester contrôlé."
+},
+{
+  id: "court_bow",
+  categoryId: "mobility",
+  title: "Révérence de la Cour",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/exercice_femme_reverencedelacour.png"
+  },
+  unit: "répétitions",
+  defaultValue: 8,
+  min: 4,
+  step: 1,
+  xpPerUnit: 0.8,
+  stat: "Mobilité / coordination",
+  pose: "stretch",
+  description: "Place un pied légèrement derrière l’autre. Fléchis doucement les deux genoux en inclinant légèrement le buste, puis ouvre élégamment les bras avant de revenir à la position de départ.",
+  shortDescription: "Petite révérence lente et fluide.",
+  coachTip: "Buste long, descente douce, bras souples."
+},
+{
+  id: "dancer_sway",
+  categoryId: "mobility",
+  title: "Balancé du danseur",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/exercice_femme_balancedudanseur.png"
+  },
+  unit: "sec",
+  defaultValue: 45,
+  min: 30,
+  step: 15,
+  xpPerUnit: 0.2,
+  stat: "Coordination / mobilité",
+  pose: "walk",
+  hasTimer: true,
+  description: "Transfère doucement le poids du corps d’une jambe à l’autre en accompagnant le mouvement avec les bras.",
+  shortDescription: "Transfert de poids fluide d’un côté à l’autre.",
+  coachTip: "Bouge comme une vague calme, pas comme une porte qui grince."
+},
+{
+  id: "passe_simplified",
+  categoryId: "strength",
+  title: "Passé simplifié",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/exercice_femme_passesimplifie.png"
+  },
+  unit: "sec",
+  defaultValue: 40,
+  min: 20,
+  step: 10,
+  xpPerUnit: 0.3,
+  stat: "Équilibre",
+  pose: "core",
+  hasTimer: true,
+  description: "Tiens-toi sur une jambe et place l’autre pied contre la cheville ou le mollet de la jambe d’appui. Garde le buste droit et fixe un point devant toi.",
+  shortDescription: "Équilibre debout, pied posé contre la jambe d’appui.",
+  coachTip: "Le pied reste bas. Le contrôle passe avant l’élégance."
+},
+{
+  id: "ballet_sequence",
+  categoryId: "cardio",
+  title: "Petit enchaînement de ballet",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/exercice_femme_petitenchainementballet.png"
+  },
+  unit: "tours",
+  defaultValue: 3,
+  min: 1,
+  step: 1,
+  xpPerUnit: 4,
+  stat: "Coordination / danse",
+  pose: "walk",
+  description: "Enchaîne lentement : demi-plié, montée sur pointes, pas du cygne, passé simplifié, arabesque simplifiée puis révérence.",
+  shortDescription: "Mini chorégraphie douce avec les mouvements appris.",
+  coachTip: "Garde le rythme lent. Ce n’est pas une course, c’est une variation."
+},
+    {
       "id": "single_leg_balance",
       "categoryId": "strength",
       "title": "Équilibre sur une jambe",
@@ -3485,6 +3661,538 @@ window.FitnessRpgData = {
     "En cas de douleur persistante, intense, nocturne ou inquiétante, demander un avis médical."
   ]
 },
+
+    "ballet-sylphes": {
+  id: "ballet-sylphes",
+  subtitle: "Danse classique débutante : posture, équilibre, jambes douces et coordination.",
+  unlockLevel: 1,
+  duration: "20 min",
+  frequency: "3 séances par semaine + boss le samedi",
+  material: "Aucun matériel. Une chaise ou un mur peut servir d’appui.",
+  reward: {
+    badgeId: "ballet-reine-sylphes",
+    badgeTitle: "Ballet des Sylphes",
+    chest: true,
+    nextPrograms: [
+      "tour-mage",
+      "maitre-flux",
+      "marche-aventurier"
+    ]
+  },
+  weeks: [
+    {
+      week: 1,
+      title: "Les Premiers Pas",
+      xp: 60,
+      progression: "Découverte de la posture, des bras et des premiers pas dansés.",
+      days: [
+        {
+          day: 1,
+          title: "Découverte de la barre",
+          xp: 60,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Première séance : posture, jambes douces et coordination.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "calf_raises", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "demi_plie", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "second_position_arms", amount: 30, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "swan_step", amount: 45, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "demi_plie", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "second_position_arms", amount: 30, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "swan_step", amount: 45, unit: "sec" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "single_leg_balance", amount: 40, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "single_leg_balance", amount: 40, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Les Fondations",
+          xp: 60,
+          difficultyLabel: "≈ 20 min",
+          instructions: "On répète les bases avec un peu plus de contrôle.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "calf_raises", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "demi_plie", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "calf_raises", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "second_position_arms", amount: 40, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "demi_plie", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "calf_raises", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "second_position_arms", amount: 40, unit: "sec" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "lateral_steps", amount: 45, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 10, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Danser avec équilibre",
+          xp: 60,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Coordination lente et équilibre débutant.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "calf_raises", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "swan_step", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "demi_plie", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "swan_step", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "demi_plie", amount: 12, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "single_leg_balance", amount: 50, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "second_position_arms", amount: 40, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "single_leg_balance", amount: 50, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "second_position_arms", amount: 40, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 12, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    },
+    {
+      week: 2,
+      title: "Le Cygne Prend son Envol",
+      xp: 70,
+      progression: "On ajoute l’arabesque simplifiée et le balancé du danseur.",
+      days: [
+        {
+          day: 1,
+          title: "Ligne du Cygne",
+          xp: 70,
+          difficultyLabel: "≈ 20 min",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "calf_raises", amount: 12, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "demi_plie", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "arabesque_simplified", amount: 40, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "swan_step", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "demi_plie", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "arabesque_simplified", amount: 40, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "swan_step", amount: 60, unit: "sec" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dancer_sway", amount: 45, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dancer_sway", amount: 45, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Bras et équilibre",
+          xp: 70,
+          difficultyLabel: "≈ 20 min",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "second_position_arms", amount: 45, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "arabesque_simplified", amount: 50, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "demi_plie", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "second_position_arms", amount: 45, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "arabesque_simplified", amount: 50, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "demi_plie", amount: 15, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "lateral_steps", amount: 60, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dancer_sway", amount: 45, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "lateral_steps", amount: 60, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dancer_sway", amount: 45, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Envol du Cygne",
+          xp: 70,
+          difficultyLabel: "≈ 20 min",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "calf_raises", amount: 12, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "swan_step", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "arabesque_simplified", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "demi_plie", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "swan_step", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "arabesque_simplified", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "demi_plie", amount: 15, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "single_leg_balance", amount: 60, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 18, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "single_leg_balance", amount: 60, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 18, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    },
+    {
+      week: 3,
+      title: "L’Élégance",
+      xp: 80,
+      progression: "On ajoute le passé simplifié et le développé avant simplifié.",
+      days: [
+        {
+          day: 1,
+          title: "Équilibre élégant",
+          xp: 80,
+          difficultyLabel: "≈ 20 min",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "calf_raises", amount: 12, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "demi_plie", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "passe_simplified", amount: 40, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "arabesque_simplified", amount: 50, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "demi_plie", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "passe_simplified", amount: 40, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "arabesque_simplified", amount: 50, unit: "sec" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "swan_step", amount: 60, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "front_developpe_simplified", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "swan_step", amount: 60, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "front_developpe_simplified", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Posture de scène",
+          xp: 80,
+          difficultyLabel: "≈ 20 min",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "second_position_arms", amount: 45, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "passe_simplified", amount: 50, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "second_position_arms", amount: 45, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "passe_simplified", amount: 50, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "front_developpe_simplified", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "demi_plie", amount: 18, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "front_developpe_simplified", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "demi_plie", amount: 18, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Ligne et grâce",
+          xp: 80,
+          difficultyLabel: "≈ 20 min",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "calf_raises", amount: 12, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "swan_step", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "passe_simplified", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "arabesque_simplified", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "swan_step", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "passe_simplified", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "arabesque_simplified", amount: 60, unit: "sec" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "single_leg_balance", amount: 70, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "demi_plie", amount: 18, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dancer_sway", amount: 60, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "single_leg_balance", amount: 70, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "demi_plie", amount: 18, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dancer_sway", amount: 60, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    },
+    {
+      week: 4,
+      title: "Le Ballet des Sylphes",
+      xp: 90,
+      progression: "On assemble les mouvements dans une petite variation débutante.",
+      days: [
+        {
+          day: 1,
+          title: "Révérence et contrôle",
+          xp: 90,
+          difficultyLabel: "≈ 20 min",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "calf_raises", amount: 12, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "demi_plie", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "court_bow", amount: 8, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "passe_simplified", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "demi_plie", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "court_bow", amount: 8, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "passe_simplified", amount: 60, unit: "sec" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "arabesque_simplified", amount: 60, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "swan_step", amount: 60, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "front_developpe_simplified", amount: 16, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "arabesque_simplified", amount: 60, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "swan_step", amount: 60, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "front_developpe_simplified", amount: 16, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Préparation du bal",
+          xp: 90,
+          difficultyLabel: "≈ 20 min",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "second_position_arms", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "demi_plie", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "court_bow", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "second_position_arms", amount: 60, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "demi_plie", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "court_bow", amount: 10, unit: "répétitions" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "dancer_sway", amount: 60, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "dancer_sway", amount: 60, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Petite variation",
+          xp: 90,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Petit enchaînement de ballet en 3 tours, lent et contrôlé.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "ballet_sequence", amount: 1, unit: "tour" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "ballet_sequence", amount: 1, unit: "tour" },
+            { phase: "Défi 1 · Cycle 3", exerciseId: "ballet_sequence", amount: 1, unit: "tour" },
+
+            { phase: "Défi 2 · Cycle 1", exerciseId: "second_position_arms", amount: 45, unit: "sec" },
+            { phase: "Défi 2 · Cycle 1", exerciseId: "court_bow", amount: 5, unit: "répétitions" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "second_position_arms", amount: 45, unit: "sec" },
+            { phase: "Défi 2 · Cycle 2", exerciseId: "court_bow", amount: 5, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    }
+  ],
+  bosses: [
+    {
+      week: 1,
+      title: "La Petite Sylphe",
+      xp: 50,
+      badgeId: "ballet-petite-sylphe",
+      difficultyLabel: "Boss semaine 1 · 2 tours",
+      instructions: "Débloqué après les 3 séances de la semaine 1.",
+      lockedMessage: "La Petite Sylphe attend une danseuse régulière. Termine les 3 séances de la semaine.",
+      exercises: [
+        { phase: "Cycle 1", exerciseId: "demi_plie", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "second_position_arms", amount: 30, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "swan_step", amount: 45, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "calf_raises", amount: 10, unit: "répétitions" },
+
+        { phase: "Cycle 2", exerciseId: "demi_plie", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "second_position_arms", amount: 30, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "swan_step", amount: 45, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "calf_raises", amount: 10, unit: "répétitions" }
+      ]
+    },
+    {
+      week: 2,
+      title: "Le Cygne Argenté",
+      xp: 60,
+      badgeId: "ballet-cygne-argente",
+      difficultyLabel: "Boss semaine 2 · 2 tours",
+      instructions: "Débloqué après les 3 séances de la semaine 2.",
+      lockedMessage: "Le Cygne Argenté ne prend son envol qu’après une semaine complète.",
+      exercises: [
+        { phase: "Cycle 1", exerciseId: "demi_plie", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "arabesque_simplified", amount: 40, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "swan_step", amount: 60, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "calf_raises", amount: 12, unit: "répétitions" },
+
+        { phase: "Cycle 2", exerciseId: "demi_plie", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "arabesque_simplified", amount: 40, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "swan_step", amount: 60, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "calf_raises", amount: 12, unit: "répétitions" }
+      ]
+    },
+    {
+      week: 3,
+      title: "L’Esprit du Théâtre",
+      xp: 70,
+      badgeId: "ballet-esprit-theatre",
+      difficultyLabel: "Boss semaine 3 · 2 tours",
+      instructions: "Débloqué après les 3 séances de la semaine 3.",
+      lockedMessage: "L’Esprit du Théâtre attend une variation maîtrisée.",
+      exercises: [
+        { phase: "Cycle 1", exerciseId: "demi_plie", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "passe_simplified", amount: 40, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "arabesque_simplified", amount: 40, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "swan_step", amount: 60, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
+
+        { phase: "Cycle 2", exerciseId: "demi_plie", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "passe_simplified", amount: 40, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "arabesque_simplified", amount: 40, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "swan_step", amount: 60, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "calf_raises", amount: 15, unit: "répétitions" }
+      ]
+    },
+    {
+      week: 4,
+      title: "La Reine des Sylphes",
+      xp: 100,
+      badgeId: "ballet-reine-sylphes",
+      chest: true,
+      nextPrograms: [
+        "tour-mage",
+        "maitre-flux",
+        "marche-aventurier"
+      ],
+      difficultyLabel: "Boss final · 25 à 30 min",
+      instructions: "Débloqué après les 3 séances de la semaine 4. Variation finale lente et contrôlée.",
+      lockedMessage: "La Reine des Sylphes n’apparaît qu’à la fin du ballet.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+        { phase: "Échauffement", exerciseId: "arm_circles", amount: 30, unit: "sec" },
+        { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+
+        { phase: "Cycle 1", exerciseId: "demi_plie", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "second_position_arms", amount: 45, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "swan_step", amount: 60, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "arabesque_simplified", amount: 60, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "passe_simplified", amount: 60, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "court_bow", amount: 8, unit: "répétitions" },
+
+        { phase: "Cycle 2", exerciseId: "demi_plie", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "second_position_arms", amount: 45, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "swan_step", amount: 60, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "arabesque_simplified", amount: 60, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "passe_simplified", amount: 60, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "court_bow", amount: 8, unit: "répétitions" },
+
+        { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+      ]
+    }
+  ],
+  progression: [
+    "Semaine 1 : Les Premiers Pas · demi-plié, bras en seconde et pas du cygne.",
+    "Semaine 2 : Le Cygne Prend son Envol · arabesque simplifiée et balancé du danseur.",
+    "Semaine 3 : L’Élégance · passé simplifié et développé avant simplifié.",
+    "Semaine 4 : Le Ballet des Sylphes · révérence et petite variation finale.",
+    "Chaque séance suit le format : échauffement, défi 1, défi 2, retour au calme.",
+    "Les mouvements restent lents, accessibles et non techniques.",
+    "Le boss final est une variation débutante reprenant les acquis."
+  ],
+  notes: [
+    "Programme débutant inspiré de la danse classique.",
+    "Objectif : posture, équilibre, coordination et renforcement doux des jambes.",
+    "Aucune compétence de danse n’est nécessaire.",
+    "Utiliser une chaise ou un mur pour l’équilibre si besoin.",
+    "Les temps par côté sont convertis en durée totale dans l’application.",
+    "Le mouvement doit rester confortable : pas de recherche d’amplitude extrême."
+  ]
+}
     
     "coeur-dragon": {
       "id": "coeur-dragon",
@@ -9927,6 +10635,50 @@ window.FitnessRpgData = {
       ],
       "target": 5
     },
+    {
+  id: "ballet-petite-sylphe",
+  icon: "🩰",
+  title: "Petite Sylphe",
+  description: "Vaincre le boss de la semaine 1 du programme Ballet des Sylphes.",
+  type: "program-boss",
+  programId: "ballet-sylphes",
+  weekNumber: 1,
+  target: 1,
+  image: "assets/badges/badge_petitesylphe.png"
+},
+{
+  id: "ballet-cygne-argente",
+  icon: "🦢",
+  title: "Cygne Argenté",
+  description: "Vaincre le boss de la semaine 2 du programme Ballet des Sylphes.",
+  type: "program-boss",
+  programId: "ballet-sylphes",
+  weekNumber: 2,
+  target: 1,
+  image: "assets/badges/badge_cygneargente.png"
+},
+{
+  id: "ballet-esprit-theatre",
+  icon: "🎭",
+  title: "Esprit du Théâtre",
+  description: "Vaincre le boss de la semaine 3 du programme Ballet des Sylphes.",
+  type: "program-boss",
+  programId: "ballet-sylphes",
+  weekNumber: 3,
+  target: 1,
+  image: "assets/badges/badge_espritdutheatre.png"
+},
+{
+  id: "ballet-reine-sylphes",
+  icon: "👑",
+  title: "Reine des Sylphes",
+  description: "Vaincre le boss final du programme Ballet des Sylphes.",
+  type: "program-boss",
+  programId: "ballet-sylphes",
+  weekNumber: 4,
+  target: 1,
+  image: "assets/badges/badge_reinedessylphes.png"
+},
     {
       "id": "strength",
       "icon": "💪",
