@@ -1571,7 +1571,7 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Élévations frontales",
       "images": {
-        "male": "assets/exercices/exercice_homme_elevationsfrontales.png,
+        "male": "assets/exercices/exercice_homme_elevationsfrontales.png",
         "female": "assets/exercices/exercice_femme_elevationsfrontales.png"
       },
       "unit": "répétitions",
