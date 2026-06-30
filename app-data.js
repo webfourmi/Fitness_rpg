@@ -1743,7 +1743,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Dead bug",
       "images": {
-        "male": "assets/exercices/exercice_homme_deadbugcomplet.png"",
+        "male": "assets/exercices/exercice_homme_deadbugcomplet.png",
         "female": "assets/exercices/exercice_femme_deadbugcomplet.png"
       },
       "unit": "répétitions",
