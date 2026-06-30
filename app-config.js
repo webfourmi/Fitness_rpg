@@ -202,7 +202,20 @@ window.FitnessRpgConfig = {
         chest: true,
         nextPrograms: ["messager-sentiers", "cavalier-route", "forge-guerrier"]
       }
-},
+      },
+          {
+        id: "ballet-sylphes",
+        icon: "🩰",
+        title: "Ballet des Sylphes",
+        objective: "Danse classique débutante, posture, équilibre et coordination",
+        level: "Débutant",
+        tier: "beginner",
+        unlockLevel: 1,
+        duration: "20 min",
+        frequency: "3 séances par semaine + boss",
+        coachAdvice: "Violette, Satyne ou Elmin",
+        xp: 30
+      },
     {
       id: "cavalier-route",
       icon: "🚴‍♂️",
