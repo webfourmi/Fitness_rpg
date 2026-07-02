@@ -5643,3 +5643,122 @@ img {
     width: min(100%, 190px);
   }
 }
+/* ============================================================
+   V5.4 - Programmes : blocs compacts repliables
+   Compatible avec renderProgramExerciseBlocksHtml()
+============================================================ */
+
+.program-phase-block-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.program-phase-block {
+  border: 1px solid rgba(244, 211, 94, 0.22);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.035);
+  overflow: hidden;
+}
+
+.program-phase-block summary {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.65rem;
+
+  padding: 0.85rem 0.95rem;
+  cursor: pointer;
+  list-style: none;
+
+  color: var(--gold, #f4d35e);
+}
+
+.program-phase-block summary::-webkit-details-marker {
+  display: none;
+}
+
+.program-phase-block summary small {
+  font-size: 0.72rem;
+  opacity: 0.7;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.program-phase-block[open] summary small {
+  color: #fff1a8;
+}
+
+.program-phase-block-body {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0 0.8rem 0.85rem;
+}
+
+.program-cycle-preview {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.program-cycle-preview h4 {
+  margin: 0.35rem 0 0.15rem;
+  font-size: 0.9rem;
+  color: #fff1a8;
+}
+
+.program-cycle-preview ul {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.program-cycle-preview li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+
+  padding: 0.6rem 0.7rem;
+  border-radius: 12px;
+
+  background: rgba(10, 12, 28, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.program-cycle-preview li span {
+  min-width: 0;
+  font-size: 0.92rem;
+  line-height: 1.2;
+}
+
+.program-cycle-preview li strong {
+  flex: 0 0 auto;
+  padding: 0.28rem 0.55rem;
+  border-radius: 999px;
+
+  background: rgba(244, 211, 94, 0.14);
+  border: 1px solid rgba(244, 211, 94, 0.18);
+
+  color: #fff1a8;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+  .program-phase-block summary {
+    grid-template-columns: auto 1fr;
+  }
+
+  .program-phase-block summary small {
+    display: none;
+  }
+
+  .program-cycle-preview li {
+    align-items: flex-start;
+  }
+
+  .program-cycle-preview li strong {
+    font-size: 0.74rem;
+  }
+}
