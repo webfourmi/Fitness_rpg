@@ -255,13 +255,13 @@ window.FitnessRpgConfig = {
     {
       id: "rempart-heros",
       icon: "🛡️",
-      title: "Rempart du héros",
-      objective: "Abdos, gainage, posture et stabilité",
-      level: "Débutant à intermédiaire",
+      title: "Rempart du Héros",
+      objective: "Abdos, gainage, posture et protection du dos",
+      level: "Intermédiaire",
       tier: "intermediate",
-      duration: "10-20 min",
-      frequency: "3 fois par semaine",
-      coachAdvice: "Xara, Bazul ou Satyne",
+      duration: "20 min",
+      frequency: "3 séances par semaine + boss",
+      coachAdvice: "Korvan, Xara ou Elmin",
       xp: 35
     },
     {
