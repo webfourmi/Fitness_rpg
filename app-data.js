@@ -11604,3 +11604,351 @@ window.FitnessRpgData.pickRandomFamiliar = function pickRandomFamiliar(alreadyOw
     allCollected: false
   };
 };
+// ============================================================
+// Vérification d’intégrité des données
+// ============================================================
+
+window.FitnessRpgData.checkIntegrity = async function checkIntegrity(options = {}) {
+  const data = window.FitnessRpgData || {};
+  const config = window.FitnessRpgConfig || {};
+  const checkImages = options.checkImages === true;
+
+  const report = {
+    errors: [],
+    warnings: [],
+    info: []
+  };
+
+  const addError = (message) => report.errors.push(message);
+  const addWarning = (message) => report.warnings.push(message);
+  const addInfo = (message) => report.info.push(message);
+
+  const exercises = Array.isArray(data.exercises) ? data.exercises : [];
+  const badges = Array.isArray(data.badges) ? data.badges : [];
+  const familiars = Array.isArray(data.rewardFamiliars) ? data.rewardFamiliars : [];
+  const categories = Array.isArray(data.exerciseCategories) ? data.exerciseCategories : [];
+  const programDetails = data.programDetails || {};
+  const configPrograms = Array.isArray(config.programs) ? config.programs : [];
+
+  const exerciseIds = new Set(exercises.map((exercise) => exercise.id).filter(Boolean));
+  const badgeIds = new Set(badges.map((badge) => badge.id).filter(Boolean));
+  const categoryIds = new Set(categories.map((category) => category.id).filter(Boolean));
+  const programDetailIds = new Set(Object.keys(programDetails));
+  const configProgramIds = new Set(configPrograms.map((program) => program.id).filter(Boolean));
+
+  const imagePaths = new Set();
+
+  function checkDuplicateIds(list, typeName) {
+    const seen = new Set();
+    const duplicates = new Set();
+
+    list.forEach((item) => {
+      if (!item || !item.id) return;
+
+      if (seen.has(item.id)) {
+        duplicates.add(item.id);
+      }
+
+      seen.add(item.id);
+    });
+
+    duplicates.forEach((id) => {
+      addError(`Doublon ${typeName} : "${id}"`);
+    });
+  }
+
+  function collectImage(path, context) {
+    if (!path || typeof path !== "string") return;
+
+    imagePaths.add(path);
+
+    if (!/\.(png|jpg|jpeg|webp|gif|svg)$/i.test(path)) {
+      addWarning(`Image avec extension suspecte : ${context} -> ${path}`);
+    }
+
+    if (path.includes(" ")) {
+      addWarning(`Image avec espace dans le chemin : ${context} -> ${path}`);
+    }
+
+    if (path.includes(".pn")) {
+      addWarning(`Image probablement tronquée .pn : ${context} -> ${path}`);
+    }
+
+    if (path.includes("holss") || path.includes("hols")) {
+      addWarning(`Image possiblement mal orthographiée : ${context} -> ${path}`);
+    }
+  }
+
+  function checkExerciseList(exerciseList, context) {
+    if (!Array.isArray(exerciseList)) {
+      addWarning(`${context} : liste d’exercices absente ou invalide`);
+      return;
+    }
+
+    exerciseList.forEach((item, index) => {
+      const location = `${context} · exercice ${index + 1}`;
+
+      if (!item.exerciseId) {
+        addError(`${location} : exerciseId manquant`);
+        return;
+      }
+
+      if (!exerciseIds.has(item.exerciseId)) {
+        addError(`${location} : exercice introuvable "${item.exerciseId}"`);
+      }
+
+      if (item.amount === undefined || item.amount === null) {
+        addWarning(`${location} : amount manquant pour "${item.exerciseId}"`);
+      }
+
+      if (!item.unit) {
+        addWarning(`${location} : unit manquante pour "${item.exerciseId}"`);
+      }
+    });
+  }
+
+  function checkNextPrograms(nextPrograms, context) {
+    if (!Array.isArray(nextPrograms)) return;
+
+    nextPrograms.forEach((programId) => {
+      if (!programDetailIds.has(programId) && !configProgramIds.has(programId)) {
+        addWarning(`${context} : programme débloqué introuvable "${programId}"`);
+      }
+    });
+  }
+
+  function checkProgram(program, programId) {
+    if (!program) {
+      addError(`Programme invalide : "${programId}"`);
+      return;
+    }
+
+    if (program.id && program.id !== programId) {
+      addWarning(`Programme "${programId}" : id interne différent "${program.id}"`);
+    }
+
+    if (program.reward?.badgeId && !badgeIds.has(program.reward.badgeId)) {
+      addWarning(`Programme "${programId}" : badge de récompense introuvable "${program.reward.badgeId}"`);
+    }
+
+    checkNextPrograms(program.reward?.nextPrograms, `Programme "${programId}" reward`);
+
+    if (Array.isArray(program.days)) {
+      program.days.forEach((day) => {
+        checkExerciseList(day.exercises, `Programme "${programId}" · Jour ${day.day || "?"} · ${day.title || "Sans titre"}`);
+      });
+    }
+
+    if (Array.isArray(program.weeks)) {
+      program.weeks.forEach((week) => {
+        if (!Array.isArray(week.days)) {
+          addWarning(`Programme "${programId}" · semaine ${week.week || "?"} : days manquant`);
+          return;
+        }
+
+        week.days.forEach((day) => {
+          checkExerciseList(
+            day.exercises,
+            `Programme "${programId}" · Semaine ${week.week || "?"} · Jour ${day.day || "?"} · ${day.title || "Sans titre"}`
+          );
+        });
+      });
+    }
+
+    if (Array.isArray(program.bosses)) {
+      program.bosses.forEach((boss) => {
+        const bossContext = `Programme "${programId}" · Boss semaine ${boss.week || "?"} · ${boss.title || "Sans titre"}`;
+
+        if (boss.badgeId && !badgeIds.has(boss.badgeId)) {
+          addWarning(`${bossContext} : badge introuvable "${boss.badgeId}"`);
+        }
+
+        checkNextPrograms(boss.nextPrograms, bossContext);
+
+        if (boss.variants) {
+          Object.values(boss.variants).forEach((variant) => {
+            checkExerciseList(variant.exercises, `${bossContext} · Variante ${variant.label || variant.id || "?"}`);
+          });
+        } else {
+          checkExerciseList(boss.exercises, bossContext);
+        }
+      });
+    }
+  }
+
+  // Doublons
+  checkDuplicateIds(exercises, "exercice");
+  checkDuplicateIds(badges, "badge");
+  checkDuplicateIds(familiars, "familier");
+  checkDuplicateIds(configPrograms, "programme app-config");
+
+  // Exercices
+  exercises.forEach((exercise) => {
+    if (!exercise.id) {
+      addError("Exercice sans id");
+      return;
+    }
+
+    if (!exercise.title) {
+      addWarning(`Exercice "${exercise.id}" : title manquant`);
+    }
+
+    if (!exercise.categoryId) {
+      addWarning(`Exercice "${exercise.id}" : categoryId manquant`);
+    } else if (!categoryIds.has(exercise.categoryId)) {
+      addWarning(`Exercice "${exercise.id}" : catégorie introuvable "${exercise.categoryId}"`);
+    }
+
+    if (exercise.images) {
+      Object.entries(exercise.images).forEach(([gender, path]) => {
+        collectImage(path, `Exercice "${exercise.id}" · ${gender}`);
+      });
+
+      const femaleImage = exercise.images.female || exercise.images.femme;
+      if (femaleImage && femaleImage.includes("femme_default")) {
+        addWarning(`Exercice "${exercise.id}" : image femme encore par défaut`);
+      }
+    } else {
+      addWarning(`Exercice "${exercise.id}" : images manquant`);
+    }
+  });
+
+  // Programmes app-config <-> programDetails
+  configProgramIds.forEach((programId) => {
+    if (!programDetailIds.has(programId)) {
+      addWarning(`app-config : programme sans détail "${programId}"`);
+    }
+  });
+
+  programDetailIds.forEach((programId) => {
+    if (!configProgramIds.has(programId)) {
+      addWarning(`programDetails : programme absent de app-config "${programId}"`);
+    }
+
+    checkProgram(programDetails[programId], programId);
+  });
+
+  // Badges
+  badges.forEach((badge) => {
+    if (!badge.id) {
+      addError("Badge sans id");
+      return;
+    }
+
+    if (!badge.title) {
+      addWarning(`Badge "${badge.id}" : title manquant`);
+    }
+
+    if (badge.programId && !programDetailIds.has(badge.programId) && !configProgramIds.has(badge.programId)) {
+      addWarning(`Badge "${badge.id}" : programme introuvable "${badge.programId}"`);
+    }
+
+    if (badge.type === "program-boss" && !badge.weekNumber) {
+      addWarning(`Badge "${badge.id}" : weekNumber manquant`);
+    }
+
+    if (badge.image) {
+      collectImage(badge.image, `Badge "${badge.id}"`);
+    } else {
+      addWarning(`Badge "${badge.id}" : image manquante`);
+    }
+  });
+
+  // Familiers
+  familiars.forEach((familiar) => {
+    if (!familiar.id) {
+      addError("Familier sans id");
+      return;
+    }
+
+    if (!familiar.name) {
+      addWarning(`Familier "${familiar.id}" : name manquant`);
+    }
+
+    collectImage(familiar.image, `Familier "${familiar.id}"`);
+  });
+
+  // Coachs
+  Object.values(data.coaches || {}).forEach((coach) => {
+    if (!coach.id) return;
+
+    collectImage(coach.image, `Coach "${coach.id}" image`);
+    collectImage(coach.fallbackImage, `Coach "${coach.id}" fallbackImage`);
+
+    Object.entries(coach.poses || {}).forEach(([pose, path]) => {
+      collectImage(path, `Coach "${coach.id}" pose "${pose}"`);
+    });
+  });
+
+  // Catégories
+  categories.forEach((category) => {
+    if (!category.id) {
+      addError("Catégorie sans id");
+      return;
+    }
+
+    Object.entries(category.images || {}).forEach(([gender, path]) => {
+      collectImage(path, `Catégorie "${category.id}" · ${gender}`);
+    });
+  });
+
+  // Vérification réelle des images, optionnelle
+  if (checkImages) {
+    const paths = Array.from(imagePaths);
+
+    for (const path of paths) {
+      try {
+        let response = await fetch(path, {
+          method: "HEAD",
+          cache: "no-store"
+        });
+
+        if (!response.ok || response.status === 405) {
+          response = await fetch(path, {
+            method: "GET",
+            cache: "no-store"
+          });
+        }
+
+        if (!response.ok) {
+          addWarning(`Image inaccessible : ${path} · HTTP ${response.status}`);
+        }
+      } catch (error) {
+        addWarning(`Image impossible à vérifier : ${path}`);
+      }
+    }
+  }
+
+  addInfo(`${exercises.length} exercices analysés`);
+  addInfo(`${Object.keys(programDetails).length} programmes détaillés analysés`);
+  addInfo(`${badges.length} badges analysés`);
+  addInfo(`${familiars.length} familiers analysés`);
+  addInfo(`${imagePaths.size} chemins d’images recensés`);
+
+  console.group("🛡️ Fitness RPG · Vérification d’intégrité");
+  console.log(`Erreurs : ${report.errors.length}`);
+  console.log(`Avertissements : ${report.warnings.length}`);
+  console.log(`Infos : ${report.info.length}`);
+
+  if (report.errors.length) {
+    console.group("❌ Erreurs");
+    console.table(report.errors.map((message) => ({ message })));
+    console.groupEnd();
+  }
+
+  if (report.warnings.length) {
+    console.group("⚠️ Avertissements");
+    console.table(report.warnings.map((message) => ({ message })));
+    console.groupEnd();
+  }
+
+  if (report.info.length) {
+    console.group("ℹ️ Infos");
+    console.table(report.info.map((message) => ({ message })));
+    console.groupEnd();
+  }
+
+  console.groupEnd();
+
+  return report;
+};
