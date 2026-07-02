@@ -1223,26 +1223,108 @@ window.FitnessRpgRender.renderProgramBossChoiceHtml = function renderProgramBoss
     </section>
   `;
 };
+window.FitnessRpgRender.getProgramBlockIcon = function getProgramBlockIcon(label) {
+  const text = String(label || "").toLowerCase();
+
+  if (text.includes("échauffement") || text.includes("echauffement")) return "🔥";
+  if (text.includes("défi") || text.includes("defi")) return "⚔️";
+  if (text.includes("retour")) return "🧘";
+  if (text.includes("respiration")) return "🌬️";
+  if (text.includes("boss")) return "🐉";
+  if (text.includes("cycle") || text.includes("circuit")) return "🔁";
+
+  return "✨";
+};
+
+window.FitnessRpgRender.getProgramBlockTitle = function getProgramBlockTitle(phase) {
+  const raw = String(phase || "Exercices").trim();
+
+  if (!raw) return "Exercices";
+
+  const cleaned = raw
+    .replace(/\s*·\s*Cycle\s+\d+\s*$/i, "")
+    .replace(/\s*-\s*Cycle\s+\d+\s*$/i, "")
+    .replace(/^\s*Cycle\s+\d+\s*$/i, "")
+    .trim();
+
+  if (cleaned) return cleaned;
+  if (/cycle/i.test(raw)) return "Circuit";
+
+  return "Exercices";
+};
+
+window.FitnessRpgRender.getProgramCycleNumber = function getProgramCycleNumber(phase) {
+  const match = String(phase || "").match(/cycle\s*(\d+)/i);
+  return match ? Number(match[1]) : 1;
+};
+
+window.FitnessRpgRender.buildProgramExerciseBlocksFallback = function buildProgramExerciseBlocksFallback(exercises = []) {
+  const blocks = [];
+
+  (exercises || []).forEach((item) => {
+    const title = window.FitnessRpgRender.getProgramBlockTitle(item.phase);
+    const cycleNumber = window.FitnessRpgRender.getProgramCycleNumber(item.phase);
+
+    let block = blocks.find((entry) => entry.title === title);
+
+    if (!block) {
+      block = {
+        title,
+        icon: window.FitnessRpgRender.getProgramBlockIcon(title),
+        cycles: []
+      };
+
+      blocks.push(block);
+    }
+
+    let cycle = block.cycles.find((entry) => Number(entry.number) === Number(cycleNumber));
+
+    if (!cycle) {
+      cycle = {
+        number: cycleNumber,
+        items: []
+      };
+
+      block.cycles.push(cycle);
+    }
+
+    cycle.items.push(item);
+  });
+
+  blocks.forEach((block) => {
+    block.cycles.sort((a, b) => Number(a.number || 1) - Number(b.number || 1));
+    block.cycleCount = block.cycles.length;
+  });
+
+  return blocks;
+};
+
 window.FitnessRpgRender.renderProgramExerciseBlocksHtml = function renderProgramExerciseBlocksHtml(exercises = []) {
-  const blocks = window.FitnessRpgPrograms.getProgramExerciseBlocks?.(exercises) || [];
+  const externalBlocks = window.FitnessRpgPrograms.getProgramExerciseBlocks?.(exercises);
+  const blocks = Array.isArray(externalBlocks) && externalBlocks.length
+    ? externalBlocks
+    : window.FitnessRpgRender.buildProgramExerciseBlocksFallback(exercises);
 
-  if (!blocks.length) return "<p>Aucun exercice dans cette séance.</p>";
+  if (!blocks.length) {
+    return `<p class="muted">Aucun exercice dans cette séance.</p>`;
+  }
 
-  return blocks.map((block) => {
-    const cycleText = block.cycleCount > 1
-      ? ` · ${block.cycleCount} cycles`
+  return blocks.map((block, blockIndex) => {
+    const cycleCount = Number(block.cycleCount || block.cycles?.length || 1);
+    const cycleText = cycleCount > 1
+      ? ` · ${cycleCount} cycles`
       : "";
 
-    const cyclesHtml = block.cycles.map((cycle) => {
-      const titleHtml = block.cycleCount > 1
-        ? `<h4>🔁 Cycle ${cycle.number} / ${block.cycleCount}</h4>`
+    const cyclesHtml = (block.cycles || []).map((cycle) => {
+      const titleHtml = cycleCount > 1
+        ? `<h4>🔁 Cycle ${cycle.number} / ${cycleCount}</h4>`
         : "";
 
-      const itemsHtml = cycle.items.map((item) => {
+      const itemsHtml = (cycle.items || []).map((item) => {
         const exercise = window.FitnessRpgData.getExerciseById?.(item.exerciseId);
-        const safeTitle = window.FitnessRpgRender.escapeHtml(exercise?.title || item.exerciseId);
+        const safeTitle = window.FitnessRpgRender.escapeHtml(exercise?.title || item.exerciseId || "Exercice");
         const safeAmount = window.FitnessRpgRender.escapeHtml(
-          window.FitnessRpgPrograms.formatExerciseAmount?.(item) || `${item.amount} ${item.unit}`
+          window.FitnessRpgPrograms.formatExerciseAmount?.(item) || `${item.amount ?? ""} ${item.unit || ""}`.trim()
         );
 
         return `
@@ -1262,124 +1344,15 @@ window.FitnessRpgRender.renderProgramExerciseBlocksHtml = function renderProgram
     }).join("");
 
     return `
-      <details class="program-phase-block">
+      <details class="program-phase-block" ${blockIndex === 0 ? "open" : ""}>
         <summary>
-          <span>${block.icon}</span>
-          <strong>${window.FitnessRpgRender.escapeHtml(block.title)}${cycleText}</strong>
+          <span>${block.icon || window.FitnessRpgRender.getProgramBlockIcon(block.title)}</span>
+          <strong>${window.FitnessRpgRender.escapeHtml(block.title || "Exercices")}${cycleText}</strong>
           <small>Ouvrir</small>
         </summary>
 
         <div class="program-phase-block-body">
           ${cyclesHtml}
-        </div>
-      </details>
-    `;
-  }).join("");
-};
-
-// ============================================================
-// Programmes : affichage compact des blocs de séance
-// ============================================================
-
-window.FitnessRpgRender.getProgramPhaseBase = function getProgramPhaseBase(phase) {
-  const raw = String(phase || "Exercices").trim();
-
-  if (!raw) return "Exercices";
-
-  return raw
-    .replace(/\s*·\s*Cycle\s+\d+\s*$/i, "")
-    .replace(/\s*-\s*Cycle\s+\d+\s*$/i, "")
-    .trim();
-};
-
-window.FitnessRpgRender.getProgramPhaseCycle = function getProgramPhaseCycle(phase) {
-  const match = String(phase || "").match(/cycle\s*(\d+)/i);
-  return match ? Number(match[1]) : null;
-};
-
-window.FitnessRpgRender.getProgramPhaseIcon = function getProgramPhaseIcon(label) {
-  const text = String(label || "").toLowerCase();
-
-  if (text.includes("échauffement") || text.includes("echauffement")) return "🔥";
-  if (text.includes("défi") || text.includes("defi")) return "⚔️";
-  if (text.includes("retour")) return "🧘";
-  if (text.includes("respiration")) return "🌬️";
-  if (text.includes("cycle")) return "🔁";
-
-  return "✨";
-};
-
-window.FitnessRpgRender.groupProgramExercisesByPhase = function groupProgramExercisesByPhase(exercises) {
-  const groups = [];
-
-  (exercises || []).forEach((item) => {
-    const baseLabel = window.FitnessRpgRender.getProgramPhaseBase(item.phase);
-    const cycleNumber = window.FitnessRpgRender.getProgramPhaseCycle(item.phase);
-
-    let group = groups.find((entry) => entry.baseLabel === baseLabel);
-
-    if (!group) {
-      group = {
-        baseLabel,
-        cycles: new Set(),
-        items: []
-      };
-
-      groups.push(group);
-    }
-
-    if (cycleNumber) {
-      group.cycles.add(cycleNumber);
-    }
-
-    group.items.push(item);
-  });
-
-  return groups;
-};
-
-window.FitnessRpgRender.renderProgramExerciseBlocks = function renderProgramExerciseBlocks(exercises) {
-  const groups = window.FitnessRpgRender.groupProgramExercisesByPhase(exercises);
-
-  if (!groups.length) {
-    return `<p class="muted">Aucun exercice renseigné pour cette séance.</p>`;
-  }
-
-  return groups.map((group, index) => {
-    const icon = window.FitnessRpgRender.getProgramPhaseIcon(group.baseLabel);
-    const cycleCount = group.cycles.size;
-    const title = cycleCount > 1
-      ? `${group.baseLabel} · ${cycleCount} cycles`
-      : group.baseLabel;
-
-    const rows = group.items.map((item) => {
-      const exercise = window.FitnessRpgData.getExerciseById?.(item.exerciseId);
-      const exerciseTitle = exercise?.title || item.exerciseId || "Exercice";
-      const amount = item.amount !== undefined && item.amount !== null ? item.amount : "";
-      const unit = item.unit || "";
-
-      return `
-        <div class="program-exercise-line">
-          <div class="program-exercise-name">
-            <strong>${exerciseTitle}</strong>
-            ${item.phase && item.phase !== group.baseLabel ? `<small>${item.phase}</small>` : ""}
-          </div>
-          <span class="program-exercise-dose">${amount} ${unit}</span>
-        </div>
-      `;
-    }).join("");
-
-    const openAttribute = index === 0 ? "open" : "";
-
-    return `
-      <details class="program-phase-block" ${openAttribute}>
-        <summary>
-          <span class="program-phase-title">${icon} ${title}</span>
-          <span class="program-phase-count">${group.items.length}</span>
-        </summary>
-
-        <div class="program-phase-content">
-          ${rows}
         </div>
       </details>
     `;
@@ -1472,8 +1445,6 @@ const exercisesHtml = window.FitnessRpgRender.renderProgramExerciseBlocksHtml
   const weekNote = week?.progression
     ? `<p class="program-week-note">${week.progression}</p>`
     : "";
-
-  const suggestedText = `Séance conseillée : semaine ${suggested.weekNumber}, jour ${suggested.dayNumber}`;
 
   detail.innerHTML = `
     <button id="backToProgramListBtn" class="ghost-btn" type="button">
