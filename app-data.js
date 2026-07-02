@@ -1752,7 +1752,10 @@ window.FitnessRpgData = {
       "step": 2,
       "xpPerUnit": 1,
       "stat": "Gainage",
-      "pose": "core"
+      "pose": "core",
+      "description": "Allonge-toi sur le dos, bras tendus vers le plafond et genoux fléchis à 90°. Tends lentement une jambe devant toi tout en abaissant le bras opposé derrière la tête. Reviens à la position de départ puis alterne de l'autre côté.",
+      
+      "coachTip": "Garde les lombaires plaquées au sol."
     },
     {
       "id": "dead_bug_simplified",
@@ -1833,7 +1836,10 @@ window.FitnessRpgData = {
       "xpPerUnit": 0.4,
       "stat": "Finisher abdos",
       "pose": "core",
-      "hasTimer": true
+      "hasTimer": true,
+      "description": "Allongé sur le dos, Contracte les abdominaux pour plaquer les lombaires au sol. Décolle légèrement les épaules et les jambes en gardant les bras le long du corps ou tendus devant toi. Maintiens la position pendant toute la durée.",
+      "shortDescription": "Sur le dos, décolle bras et jambes.",
+      "coachTip": "Les lombaires restent toujours en contact avec le sol."
     },
     {
   "id": "swimming",
