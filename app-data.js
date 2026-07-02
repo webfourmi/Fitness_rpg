@@ -1913,6 +1913,63 @@ window.FitnessRpgData = {
   "coachTip": "Monte vertèbre après vertèbre. Pas d’élan, pas de lutte héroïque inutile."
 },
     {
+  id: "bicycle_crunch",
+  categoryId: "strength",
+  title: "Crunch vélo",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/exercice_femme_crunchvelo.png"
+  },
+  unit: "répétitions",
+  defaultValue: 20,
+  min: 8,
+  step: 2,
+  xpPerUnit: 1,
+  stat: "Abdominaux / obliques",
+  pose: "core",
+  description: "Allongé sur le dos, ramène un genou vers la poitrine pendant que le coude opposé s’en approche. Alterne les côtés lentement, sans tirer sur la nuque.",
+  shortDescription: "Genou et coude opposés en alternance.",
+  coachTip: "Contrôle le mouvement. Les obliques travaillent, la nuque reste tranquille."
+},
+{
+  id: "plank_shoulder_taps",
+  categoryId: "strength",
+  title: "Planche avec toucher d’épaule",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/exercice_femme_planchetoucherepaule.png"
+  },
+  unit: "répétitions",
+  defaultValue: 20,
+  min: 8,
+  step: 2,
+  xpPerUnit: 1.1,
+  stat: "Gainage / anti-rotation",
+  pose: "core",
+  description: "Place-toi en position de planche sur les mains. Sans laisser les hanches bouger, décolle une main pour toucher l’épaule opposée puis repose-la au sol. Alterne les côtés.",
+  shortDescription: "En planche haute, touche l’épaule opposée.",
+  coachTip: "Écarte légèrement les pieds et garde le bassin stable."
+},
+{
+  id: "dynamic_plank",
+  categoryId: "strength",
+  title: "Planche dynamique",
+  images: {
+    male: "assets/exercices/homme_default.png",
+    female: "assets/exercices/exercice_femme_planchedynamique.png"
+  },
+  unit: "répétitions",
+  defaultValue: 10,
+  min: 4,
+  step: 1,
+  xpPerUnit: 1.4,
+  stat: "Gainage dynamique",
+  pose: "core",
+  description: "Commence en planche sur les avant-bras. Monte lentement sur une main puis sur l’autre jusqu’à être en planche haute. Redescends ensuite un avant-bras puis l’autre pour revenir à la position de départ. Alterne le bras qui commence le mouvement.",
+  shortDescription: "Avant-bras vers mains, puis retour en planche.",
+  coachTip: "Monte et descends lentement. Les hanches ne doivent pas danser la gigue."
+},
+    {
       "id": "pilates",
       "categoryId": "mobility",
       "title": "Pilates",
@@ -8260,171 +8317,490 @@ window.FitnessRpgData = {
     "Roll Up simplifié : remontée contrôlée du buste."
   ]
 },
-    "rempart-heros": {
-      "id": "rempart-heros",
-      "subtitle": "Renforce ton centre, protège ton dos, tiens la ligne.",
-      "material": "Poids du corps. Tapis conseillé.",
-      "days": [
+   "rempart-heros": {
+  id: "rempart-heros",
+  subtitle: "Ceinture abdominale intermédiaire : posture, gainage, obliques et protection du dos.",
+  unlockLevel: 2,
+  duration: "20 min",
+  frequency: "3 séances par semaine + boss le samedi",
+  material: "Aucun matériel. Tapis conseillé.",
+  reward: {
+    badgeId: "rempart-heros-vaincu",
+    badgeTitle: "Rempart du Héros",
+    chest: true,
+    nextPrograms: [
+      "forge-guerrier",
+      "tour-mage",
+      "maitre-flux"
+    ]
+  },
+  weeks: [
+    {
+      week: 1,
+      title: "Les Fondations",
+      xp: 60,
+      progression: "Installation du contrôle abdominal avec le Dead Bug.",
+      days: [
         {
-          "day": 1,
-          "title": "Séance débutant",
-          "xp": 20,
-          "difficultyLabel": "Séance abdos courte",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "abdominal_breathing",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Activation",
-              "exerciseId": "pelvic_tilt",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Abdos doux",
-              "exerciseId": "dead_bug_simplified",
-              "amount": 32,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Gainage",
-              "exerciseId": "knee_plank",
-              "amount": 60,
-              "unit": "sec"
-            },
-            {
-              "phase": "Obliques",
-              "exerciseId": "side_plank_knees",
-              "amount": 60,
-              "unit": "sec"
-            },
-            {
-              "phase": "Bas du corps / centre",
-              "exerciseId": "bridge",
-              "amount": 24,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "gentle_back_stretch",
-              "amount": 2,
-              "unit": "min"
-            }
+          day: 1,
+          title: "Le Bouclier",
+          xp: 60,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Nouvel exercice : Dead Bug. Garde les lombaires proches du sol.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+
+            { phase: "Défi 1", exerciseId: "crunch_controlled", amount: 15, unit: "répétitions" },
+            { phase: "Défi 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1", exerciseId: "core", amount: 30, unit: "sec" },
+
+            { phase: "Défi 2", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "side_plank", amount: 40, unit: "sec" },
+            { phase: "Défi 2", exerciseId: "superman", amount: 12, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
           ]
         },
         {
-          "day": 2,
-          "title": "Séance intermédiaire",
-          "xp": 35,
-          "difficultyLabel": "Séance abdos normale",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "cat_cow",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Abdos",
-              "exerciseId": "dead_bug",
-              "amount": 60,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Gainage",
-              "exerciseId": "core",
-              "amount": 90,
-              "unit": "sec"
-            },
-            {
-              "phase": "Obliques",
-              "exerciseId": "side_plank",
-              "amount": 80,
-              "unit": "sec"
-            },
-            {
-              "phase": "Dynamique",
-              "exerciseId": "mountain_climber_slow",
-              "amount": 90,
-              "unit": "sec"
-            },
-            {
-              "phase": "Contrôle",
-              "exerciseId": "pelvic_lift_floor",
-              "amount": 24,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "gentle_back_stretch",
-              "amount": 2,
-              "unit": "min"
-            }
+          day: 2,
+          title: "Les Murailles",
+          xp: 60,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Travail des obliques et du contrôle du bassin.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+
+            { phase: "Défi 1", exerciseId: "bicycle_crunch", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1", exerciseId: "dead_bug", amount: 24, unit: "répétitions" },
+            { phase: "Défi 1", exerciseId: "core", amount: 35, unit: "sec" },
+
+            { phase: "Défi 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "side_plank", amount: 50, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
           ]
         },
         {
-          "day": 3,
-          "title": "Séance avancée",
-          "xp": 50,
-          "difficultyLabel": "Séance abdos avancée",
-          "exercises": [
-            {
-              "phase": "Gainage",
-              "exerciseId": "core",
-              "amount": 135,
-              "unit": "sec"
-            },
-            {
-              "phase": "Obliques",
-              "exerciseId": "side_plank",
-              "amount": 180,
-              "unit": "sec"
-            },
-            {
-              "phase": "Dynamique",
-              "exerciseId": "mountain_climber_slow",
-              "amount": 120,
-              "unit": "sec"
-            },
-            {
-              "phase": "Abdos",
-              "exerciseId": "crunch_controlled",
-              "amount": 45,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Contrôle",
-              "exerciseId": "dead_bug",
-              "amount": 60,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Finisher",
-              "exerciseId": "hollow_hold_simplified",
-              "amount": 45,
-              "unit": "sec"
-            }
+          day: 3,
+          title: "Le Bastion",
+          xp: 60,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Séance plus dynamique, mais toujours contrôlée.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+
+            { phase: "Défi 1", exerciseId: "crunch_controlled", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1", exerciseId: "mountain_climber_slow", amount: 30, unit: "sec" },
+            { phase: "Défi 1", exerciseId: "dead_bug", amount: 24, unit: "répétitions" },
+
+            { phase: "Défi 2", exerciseId: "core", amount: 40, unit: "sec" },
+            { phase: "Défi 2", exerciseId: "superman", amount: 15, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "bridge", amount: 15, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
           ]
         }
-      ],
-      "progression": [
-        "Semaine 1 : apprendre les mouvements en version douce.",
-        "Semaine 2 : ajouter 5 à 10 secondes de gainage.",
-        "Semaine 3 : ajouter une série sur dead bug ou planche.",
-        "Semaine 4 : passer à la version intermédiaire.",
-        "Objectif : renforcer le centre sans brutaliser le dos."
-      ],
-      "notes": [
-        "Dead bug : garde le bas du dos proche du sol et alterne sans cambrer.",
-        "Bascule du bassin : contracte doucement les abdos pour rapprocher le bas du dos du sol.",
-        "Planche genoux : corps aligné des épaules aux genoux, abdos serrés.",
-        "Gainage latéral genoux : appui avant-bras et genoux, hanches levées.",
-        "Mountain climber lent : dos stable, genou ramené lentement vers la poitrine."
       ]
     },
+    {
+      week: 2,
+      title: "Le Rempart",
+      xp: 70,
+      progression: "Ajout de la planche avec toucher d’épaule pour travailler l’anti-rotation.",
+      days: [
+        {
+          day: 1,
+          title: "Pierres Stables",
+          xp: 70,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Nouvel exercice : planche avec toucher d’épaule.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+
+            { phase: "Défi 1", exerciseId: "bicycle_crunch", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1", exerciseId: "plank_shoulder_taps", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1", exerciseId: "dead_bug", amount: 24, unit: "répétitions" },
+
+            { phase: "Défi 2", exerciseId: "core", amount: 40, unit: "sec" },
+            { phase: "Défi 2", exerciseId: "bridge", amount: 18, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "side_plank", amount: 50, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Anti-rotation",
+          xp: 70,
+          difficultyLabel: "≈ 20 min",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+
+            { phase: "Défi 1", exerciseId: "mountain_climber_slow", amount: 40, unit: "sec" },
+            { phase: "Défi 1", exerciseId: "plank_shoulder_taps", amount: 24, unit: "répétitions" },
+            { phase: "Défi 1", exerciseId: "superman", amount: 15, unit: "répétitions" },
+
+            { phase: "Défi 2", exerciseId: "side_plank", amount: 60, unit: "sec" },
+            { phase: "Défi 2", exerciseId: "crunch_controlled", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "dead_bug", amount: 24, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Muraille Active",
+          xp: 70,
+          difficultyLabel: "≈ 20 min",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+
+            { phase: "Défi 1", exerciseId: "dead_bug", amount: 30, unit: "répétitions" },
+            { phase: "Défi 1", exerciseId: "core", amount: 45, unit: "sec" },
+            { phase: "Défi 1", exerciseId: "plank_shoulder_taps", amount: 24, unit: "répétitions" },
+
+            { phase: "Défi 2", exerciseId: "bicycle_crunch", amount: 24, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "superman", amount: 15, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+          ]
+        }
+      ]
+    },
+    {
+      week: 3,
+      title: "La Forteresse",
+      xp: 80,
+      progression: "Ajout du Hollow Hold simplifié pour renforcer le centre du corps.",
+      days: [
+        {
+          day: 1,
+          title: "Noyau de Pierre",
+          xp: 80,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Nouvel exercice : Hollow Hold simplifié.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+
+            { phase: "Défi 1", exerciseId: "hollow_hold_simplified", amount: 20, unit: "sec" },
+            { phase: "Défi 1", exerciseId: "dead_bug", amount: 30, unit: "répétitions" },
+            { phase: "Défi 1", exerciseId: "crunch_controlled", amount: 20, unit: "répétitions" },
+
+            { phase: "Défi 2", exerciseId: "core", amount: 45, unit: "sec" },
+            { phase: "Défi 2", exerciseId: "bridge", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "side_plank", amount: 60, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Forteresse Active",
+          xp: 80,
+          difficultyLabel: "≈ 20 min",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+
+            { phase: "Défi 1", exerciseId: "hollow_hold_simplified", amount: 25, unit: "sec" },
+            { phase: "Défi 1", exerciseId: "mountain_climber_slow", amount: 45, unit: "sec" },
+            { phase: "Défi 1", exerciseId: "plank_shoulder_taps", amount: 28, unit: "répétitions" },
+
+            { phase: "Défi 2", exerciseId: "superman", amount: 18, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "side_plank", amount: 60, unit: "sec" },
+            { phase: "Défi 2", exerciseId: "dead_bug", amount: 30, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Rempart Intérieur",
+          xp: 80,
+          difficultyLabel: "≈ 20 min",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+
+            { phase: "Défi 1", exerciseId: "hollow_hold_simplified", amount: 30, unit: "sec" },
+            { phase: "Défi 1", exerciseId: "bicycle_crunch", amount: 24, unit: "répétitions" },
+            { phase: "Défi 1", exerciseId: "core", amount: 50, unit: "sec" },
+
+            { phase: "Défi 2", exerciseId: "bird_dog", amount: 24, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "dead_bug", amount: 30, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "bridge", amount: 20, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+          ]
+        }
+      ]
+    },
+    {
+      week: 4,
+      title: "Le Bouclier du Héros",
+      xp: 90,
+      progression: "Ajout de la planche dynamique. Dernière étape avant le boss final.",
+      days: [
+        {
+          day: 1,
+          title: "Bouclier Mobile",
+          xp: 90,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Nouvel exercice : planche dynamique.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+
+            { phase: "Défi 1", exerciseId: "dynamic_plank", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1", exerciseId: "hollow_hold_simplified", amount: 30, unit: "sec" },
+            { phase: "Défi 1", exerciseId: "crunch_controlled", amount: 25, unit: "répétitions" },
+
+            { phase: "Défi 2", exerciseId: "dead_bug", amount: 30, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "superman", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "side_plank", amount: 60, unit: "sec" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Assaut du Rempart",
+          xp: 90,
+          difficultyLabel: "≈ 20 min",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+
+            { phase: "Défi 1", exerciseId: "mountain_climber_slow", amount: 60, unit: "sec" },
+            { phase: "Défi 1", exerciseId: "core", amount: 60, unit: "sec" },
+            { phase: "Défi 1", exerciseId: "dynamic_plank", amount: 12, unit: "répétitions" },
+
+            { phase: "Défi 2", exerciseId: "bicycle_crunch", amount: 30, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "bridge", amount: 20, unit: "répétitions" },
+            { phase: "Défi 2", exerciseId: "plank_shoulder_taps", amount: 24, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Circuit du Héros",
+          xp: 90,
+          difficultyLabel: "≈ 20 min",
+          instructions: "Circuit en 2 cycles.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+
+            { phase: "Défi 1 · Cycle 1", exerciseId: "dynamic_plank", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "hollow_hold_simplified", amount: 30, unit: "sec" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "dead_bug", amount: 24, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "crunch_controlled", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 1", exerciseId: "superman", amount: 15, unit: "répétitions" },
+
+            { phase: "Défi 1 · Cycle 2", exerciseId: "dynamic_plank", amount: 10, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "hollow_hold_simplified", amount: 30, unit: "sec" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "dead_bug", amount: 24, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "crunch_controlled", amount: 20, unit: "répétitions" },
+            { phase: "Défi 1 · Cycle 2", exerciseId: "superman", amount: 15, unit: "répétitions" },
+
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+          ]
+        }
+      ]
+    }
+  ],
+  bosses: [
+    {
+      week: 1,
+      title: "Le Gardien de Pierre",
+      xp: 50,
+      badgeId: "rempart-gardien-pierre",
+      difficultyLabel: "Boss semaine 1 · 2 tours",
+      instructions: "Débloqué après les 3 séances de la semaine 1.",
+      lockedMessage: "Le Gardien de Pierre attend un socle solide. Termine les 3 séances de la semaine.",
+      exercises: [
+        { phase: "Cycle 1", exerciseId: "crunch_controlled", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "core", amount: 30, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "side_plank", amount: 40, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "superman", amount: 10, unit: "répétitions" },
+
+        { phase: "Cycle 2", exerciseId: "crunch_controlled", amount: 15, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "core", amount: 30, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "side_plank", amount: 40, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "superman", amount: 10, unit: "répétitions" }
+      ]
+    },
+    {
+      week: 2,
+      title: "Le Chevalier du Rempart",
+      xp: 60,
+      badgeId: "rempart-chevalier",
+      difficultyLabel: "Boss semaine 2 · 2 tours",
+      instructions: "Débloqué après les 3 séances de la semaine 2.",
+      lockedMessage: "Le Chevalier du Rempart n’affronte que les héros réguliers.",
+      exercises: [
+        { phase: "Cycle 1", exerciseId: "core", amount: 40, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "plank_shoulder_taps", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "dead_bug", amount: 24, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "crunch_controlled", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "superman", amount: 12, unit: "répétitions" },
+
+        { phase: "Cycle 2", exerciseId: "core", amount: 40, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "plank_shoulder_taps", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "dead_bug", amount: 24, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "crunch_controlled", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "superman", amount: 12, unit: "répétitions" }
+      ]
+    },
+    {
+      week: 3,
+      title: "La Forteresse Vivante",
+      xp: 70,
+      badgeId: "rempart-forteresse-vivante",
+      difficultyLabel: "Boss semaine 3 · 2 tours",
+      instructions: "Débloqué après les 3 séances de la semaine 3.",
+      lockedMessage: "La Forteresse Vivante attend un centre du corps solide.",
+      exercises: [
+        { phase: "Cycle 1", exerciseId: "hollow_hold_simplified", amount: 20, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "core", amount: 45, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "crunch_controlled", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "side_plank", amount: 60, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "superman", amount: 15, unit: "répétitions" },
+
+        { phase: "Cycle 2", exerciseId: "hollow_hold_simplified", amount: 20, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "core", amount: 45, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "crunch_controlled", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "side_plank", amount: 60, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "superman", amount: 15, unit: "répétitions" }
+      ]
+    },
+    {
+      week: 4,
+      title: "Le Rempart du Héros",
+      xp: 100,
+      badgeId: "rempart-heros-vaincu",
+      chest: true,
+      difficultyLabel: "Boss final · 25 à 30 min",
+      instructions: "Débloqué après les 3 séances de la semaine 4. Boss final du programme.",
+      lockedMessage: "Le Rempart du Héros ne se dresse qu’après une préparation complète.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "walk", amount: 2, unit: "min" },
+        { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
+        { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+
+        { phase: "Cycle 1", exerciseId: "dead_bug", amount: 30, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "core", amount: 60, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "plank_shoulder_taps", amount: 24, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "hollow_hold_simplified", amount: 30, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "bicycle_crunch", amount: 25, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "superman", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "dynamic_plank", amount: 10, unit: "répétitions" },
+
+        { phase: "Cycle 2", exerciseId: "dead_bug", amount: 30, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "core", amount: 60, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "plank_shoulder_taps", amount: 24, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "hollow_hold_simplified", amount: 30, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "bicycle_crunch", amount: 25, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "superman", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "dynamic_plank", amount: 10, unit: "répétitions" },
+
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+      ]
+    }
+  ],
+  progression: [
+    "Semaine 1 : Les Fondations · ajout du Dead Bug.",
+    "Semaine 2 : Le Rempart · ajout de la planche avec toucher d’épaule.",
+    "Semaine 3 : La Forteresse · ajout du Hollow Hold simplifié.",
+    "Semaine 4 : Le Bouclier du Héros · ajout de la planche dynamique.",
+    "Chaque séance dure environ 20 minutes avec échauffement et retour au calme.",
+    "Les boss sont réalisés en 2 cycles.",
+    "Aucun temps de gainage frontal ne dépasse 60 secondes."
+  ],
+  notes: [
+    "Programme intermédiaire centré sur la ceinture abdominale.",
+    "Objectif : renforcer le transverse, les obliques, le grand droit, les lombaires et les stabilisateurs du bassin.",
+    "Les répétitions par côté sont converties en répétitions totales dans l’application.",
+    "Pour le gainage latéral, la durée affichée correspond au total gauche + droite.",
+    "Si les lombaires se creusent pendant le Dead Bug ou le Hollow Hold, réduire l’amplitude.",
+    "La priorité est la qualité du mouvement, pas la vitesse."
+  ]
+},
    "marche-aventurier": {
   id: "marche-aventurier",
   subtitle: "Programme débutant de marche progressive, avec renforcement doux des jambes, équilibre et endurance.",
@@ -10678,6 +11054,50 @@ window.FitnessRpgData = {
   weekNumber: 4,
   target: 1,
   image: "assets/badges/badge_reinedessylphes.png"
+},
+    {
+  id: "rempart-gardien-pierre",
+  icon: "🪨",
+  title: "Gardien de Pierre",
+  description: "Vaincre le boss de la semaine 1 du programme Rempart du Héros.",
+  type: "program-boss",
+  programId: "rempart-heros",
+  weekNumber: 1,
+  target: 1,
+  image: "assets/badges/badge_gardiendepierre.png"
+},
+{
+  id: "rempart-chevalier",
+  icon: "🛡️",
+  title: "Chevalier du Rempart",
+  description: "Vaincre le boss de la semaine 2 du programme Rempart du Héros.",
+  type: "program-boss",
+  programId: "rempart-heros",
+  weekNumber: 2,
+  target: 1,
+  image: "assets/badges/badge_chevalierdurempart.png"
+},
+{
+  id: "rempart-forteresse-vivante",
+  icon: "🏰",
+  title: "Forteresse Vivante",
+  description: "Vaincre le boss de la semaine 3 du programme Rempart du Héros.",
+  type: "program-boss",
+  programId: "rempart-heros",
+  weekNumber: 3,
+  target: 1,
+  image: "assets/badges/badge_forteressevivante.png"
+},
+{
+  id: "rempart-heros-vaincu",
+  icon: "👑",
+  title: "Rempart du Héros",
+  description: "Vaincre le boss final du programme Rempart du Héros.",
+  type: "program-boss",
+  programId: "rempart-heros",
+  weekNumber: 4,
+  target: 1,
+  image: "assets/badges/badge_rempartduheros.png"
 },
     {
       "id": "strength",
