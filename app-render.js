@@ -1538,8 +1538,23 @@ window.FitnessRpgRender.renderBadges = function renderBadges() {
 
   if (!list) return;
 
-  const badges = window.FitnessRpgProgress.getBadgeStatusList();
-  const unlockedBadges = badges.filter((badge) => badge.unlocked);
+ const rawBadges = window.FitnessRpgProgress.getBadgeStatusList();
+
+const badges = rawBadges
+  .map((badge, index) => {
+    return {
+      ...badge,
+      originalIndex: index
+    };
+  })
+  .sort((a, b) => {
+    if (a.unlocked && !b.unlocked) return -1;
+    if (!a.unlocked && b.unlocked) return 1;
+
+    return a.originalIndex - b.originalIndex;
+  });
+
+const unlockedBadges = badges.filter((badge) => badge.unlocked);
   const unlockedCount = unlockedBadges.length;
   const totalCount = badges.length;
 
