@@ -5441,3 +5441,205 @@ body.modal-open {
   color: var(--text);
   font-weight: 800;
 }
+/* ============================================================
+   V5.4 - Uniformisation images + sécurité mobile
+   À placer tout en bas du fichier CSS
+============================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* ------------------------------------------------------------
+   Images d’exercices : même logique partout
+------------------------------------------------------------ */
+
+#exercisesContent .exercise-image-button,
+.exercise-image-button,
+.program-session-image,
+.guided-exercise-image,
+.custom-program-exercise-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-height: 220px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+  overflow: hidden;
+
+  border-radius: 16px;
+  border: 1px solid rgba(244, 211, 94, 0.28);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+#exercisesContent .exercise-image-button img,
+.exercise-image-button img,
+.program-session-image img,
+.guided-exercise-image img,
+.custom-program-exercise-image img {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+
+  object-fit: contain;
+  object-position: center;
+
+  display: block;
+  border-radius: 14px;
+  background: transparent;
+}
+
+/* ------------------------------------------------------------
+   Images dans les séances guidées
+------------------------------------------------------------ */
+
+.active-program-session img,
+.program-session-exercise img,
+.custom-program-session img {
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.active-program-session .exercise-image-button,
+.custom-program-session .exercise-image-button {
+  max-width: min(100%, 260px);
+  margin: 0 auto;
+}
+
+/* ------------------------------------------------------------
+   Images de badges et familiers
+------------------------------------------------------------ */
+
+.badge-card img,
+.familiar-card img,
+.familiar-carousel-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  object-position: center;
+
+  display: block;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ------------------------------------------------------------
+   Modales : jamais plus hautes que l’écran
+------------------------------------------------------------ */
+
+.modal-overlay,
+.image-overlay,
+.timer-overlay,
+.level-up-overlay,
+.badge-reward-overlay,
+.familiar-detail-overlay {
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.modal-card,
+.level-up-card,
+.badge-reward-card,
+.familiar-detail-card,
+.timer-card {
+  width: min(94vw, 420px);
+  max-height: 90vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* ------------------------------------------------------------
+   Image de passage de niveau
+------------------------------------------------------------ */
+
+.level-up-hero-frame,
+.level-up-hero-image-frame,
+.hero-level-transition-frame {
+  width: min(100%, 260px);
+  aspect-ratio: 1 / 1;
+  margin: 10px auto;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(244, 211, 94, 0.45);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.level-up-hero-frame img,
+.level-up-hero-image-frame img,
+.hero-level-transition-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+/* ------------------------------------------------------------
+   Mobile : images plus compactes
+------------------------------------------------------------ */
+
+@media (max-width: 640px) {
+  #exercisesContent .exercise-image-button,
+  .exercise-image-button,
+  .program-session-image,
+  .guided-exercise-image,
+  .custom-program-exercise-image {
+    max-height: 170px;
+  }
+
+  .active-program-session .exercise-image-button,
+  .custom-program-session .exercise-image-button {
+    max-width: min(100%, 210px);
+  }
+
+  .modal-card,
+  .level-up-card,
+  .badge-reward-card,
+  .familiar-detail-card,
+  .timer-card {
+    width: min(94vw, 380px);
+    max-height: 88vh;
+  }
+
+  .level-up-hero-frame,
+  .level-up-hero-image-frame,
+  .hero-level-transition-frame {
+    width: min(100%, 220px);
+  }
+}
+
+/* ------------------------------------------------------------
+   Très petit écran
+------------------------------------------------------------ */
+
+@media (max-width: 420px) {
+  #exercisesContent .exercise-image-button,
+  .exercise-image-button,
+  .program-session-image,
+  .guided-exercise-image,
+  .custom-program-exercise-image {
+    max-height: 150px;
+  }
+
+  .active-program-session .exercise-image-button,
+  .custom-program-session .exercise-image-button {
+    max-width: min(100%, 190px);
+  }
+
+  .level-up-hero-frame,
+  .level-up-hero-image-frame,
+  .hero-level-transition-frame {
+    width: min(100%, 190px);
+  }
+}
