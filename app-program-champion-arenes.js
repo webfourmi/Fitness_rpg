@@ -69,6 +69,152 @@
     }
   }
 
+  function imageSet() {
+    return {
+      homme: "assets/exercices/homme_default.png",
+      femme: "assets/exercices/femme_default.png",
+      male: "assets/exercices/homme_default.png",
+      female: "assets/exercices/femme_default.png"
+    };
+  }
+
+  function challenge(number, cycles, items) {
+    const list = [];
+
+    for (let cycle = 1; cycle <= cycles; cycle += 1) {
+      items.forEach((item) => {
+        list.push({
+          phase: `Défi ${number} · Cycle ${cycle}`,
+          exerciseId: item.exerciseId,
+          amount: item.amount,
+          unit: item.unit
+        });
+      });
+    }
+
+    return list;
+  }
+
+  function workout(items = {}) {
+    const cycles = Number(items.cycles || 3);
+
+    return [
+      { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
+      ...challenge(1, cycles, items.defi1 || []),
+      ...challenge(2, cycles, items.defi2 || []),
+      ...(items.finisher || []).map((item) => ({
+        phase: "Finisher",
+        exerciseId: item.exerciseId,
+        amount: item.amount,
+        unit: item.unit,
+        distanceOptional: item.distanceOptional || false
+      })),
+      { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
+    ];
+  }
+
+  function reps(week) {
+    return ({
+      1: 10,
+      2: 14,
+      3: 16,
+      4: 20
+    })[Number(week)] || 10;
+  }
+
+  function coreSeconds(week) {
+    return ({
+      1: 30,
+      2: 40,
+      3: 50,
+      4: 60
+    })[Number(week)] || 30;
+  }
+
+  function pullups(week) {
+    return ({
+      1: 5,
+      2: 6,
+      3: 8,
+      4: 10
+    })[Number(week)] || 5;
+  }
+
+  function tgu(week) {
+    return ({
+      1: 5,
+      2: 6,
+      3: 8,
+      4: 10
+    })[Number(week)] || 5;
+  }
+
+  function bagMinutes(week) {
+    return ({
+      1: 5,
+      2: 7,
+      3: 9,
+      4: 12
+    })[Number(week)] || 5;
+  }
+
+  function e(exerciseId, amount, unit = "répétitions", extra = {}) {
+    return {
+      exerciseId,
+      amount,
+      unit,
+      ...extra
+    };
+  }
+
+  function day(week, dayNumber, title, xp, difficultyLabel, instructions, defi1, defi2, finisher = null) {
+    return {
+      day: dayNumber,
+      title,
+      xp,
+      difficultyLabel,
+      instructions,
+      exercises: workout({
+        cycles: 3,
+        defi1,
+        defi2,
+        finisher: finisher || [e("heavy_bag_rounds", bagMinutes(week), "min")]
+      })
+    };
+  }
+
+  function indoorBoss(week, title, mission, defi1, defi2) {
+    return {
+      id: "indoor",
+      label: "🏠 Boss Intérieur",
+      title,
+      mission,
+      difficultyLabel: week === 4 ? "≈ 60 à 75 min" : "≈ 45 à 70 min",
+      exercises: workout({
+        cycles: 3,
+        defi1,
+        defi2,
+        finisher: [e("heavy_bag_rounds", bagMinutes(week), "min")]
+      })
+    };
+  }
+
+  function outdoorBoss(week, title, mission, bikeMinutes, accelerationMinutes) {
+    return {
+      id: "outdoor",
+      label: "🌲 Boss Extérieur",
+      title,
+      mission,
+      difficultyLabel: `≈ ${bikeMinutes + accelerationMinutes + 10} min`,
+      exercises: workout({
+        cycles: 1,
+        defi1: [e("bike", bikeMinutes, "min", { distanceOptional: true })],
+        defi2: [e("bike_acceleration", accelerationMinutes, "min")],
+        finisher: [e("bike", 5, "min", { distanceOptional: true })]
+      })
+    };
+  }
+
   // ------------------------------------------------------------
   // Exercices avancés
   // ------------------------------------------------------------
@@ -77,12 +223,7 @@
     id: "advanced_standard_warmup",
     categoryId: "warmup",
     title: "Échauffement standard avancé",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "min",
     defaultValue: 5,
     min: 5,
@@ -100,12 +241,7 @@
     id: "advanced_standard_cooldown",
     categoryId: "stretch",
     title: "Retour au calme standard avancé",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "min",
     defaultValue: 5,
     min: 5,
@@ -123,12 +259,7 @@
     id: "goblet_squat",
     categoryId: "strength",
     title: "Goblet Squat",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "répétitions",
     defaultValue: 12,
     min: 1,
@@ -145,12 +276,7 @@
     id: "bench_press",
     categoryId: "muscle",
     title: "Développé couché",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "répétitions",
     defaultValue: 10,
     min: 1,
@@ -167,12 +293,7 @@
     id: "resistance_band_row",
     categoryId: "muscle",
     title: "Rowing élastique",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "répétitions",
     defaultValue: 15,
     min: 1,
@@ -189,12 +310,7 @@
     id: "kettlebell_swing",
     categoryId: "strength",
     title: "Swing kettlebell",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "répétitions",
     defaultValue: 15,
     min: 1,
@@ -211,12 +327,7 @@
     id: "kettlebell_military_press",
     categoryId: "muscle",
     title: "Développé militaire",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "répétitions",
     defaultValue: 10,
     min: 1,
@@ -233,12 +344,7 @@
     id: "kettlebell_deadlift",
     categoryId: "strength",
     title: "Soulevé de terre kettlebell",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "répétitions",
     defaultValue: 12,
     min: 1,
@@ -255,12 +361,7 @@
     id: "turkish_get_up",
     categoryId: "strength",
     title: "Turkish Get-Up",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "répétitions",
     defaultValue: 10,
     min: 1,
@@ -277,12 +378,7 @@
     id: "heavy_bag_rounds",
     categoryId: "cardio",
     title: "Sac de frappe",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "min",
     defaultValue: 5,
     min: 1,
@@ -300,12 +396,7 @@
     id: "walking_lunges",
     categoryId: "strength",
     title: "Fentes marchées",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "répétitions",
     defaultValue: 20,
     min: 2,
@@ -322,12 +413,7 @@
     id: "assisted_pullups",
     categoryId: "muscle",
     title: "Tractions assistées",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "répétitions",
     defaultValue: 5,
     min: 1,
@@ -344,12 +430,7 @@
     id: "pullups_clean_max",
     categoryId: "muscle",
     title: "Tractions propres",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "répétitions",
     defaultValue: 5,
     min: 1,
@@ -366,12 +447,7 @@
     id: "face_pull",
     categoryId: "muscle",
     title: "Face Pull",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "répétitions",
     defaultValue: 15,
     min: 1,
@@ -388,12 +464,7 @@
     id: "bike_acceleration",
     categoryId: "bike",
     title: "Accélérations vélo",
-    images: {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
-    },
+    images: imageSet(),
     unit: "min",
     defaultValue: 3,
     min: 1,
@@ -433,269 +504,80 @@
         week: 1,
         title: "Entrée dans l’Arène",
         xp: 100,
-        progression: "On installe les bases avancées : force contrôlée, tirage, poussée et premier finisher au sac.",
+        progression: "Structure fixe : échauffement, défi 1, défi 2, finisher, retour au calme. Les répétitions démarrent à 10 par passage.",
         days: [
-          {
-            day: 1,
-            title: "Force du Champion",
-            xp: 100,
-            difficultyLabel: "≈ 45 à 60 min",
-            instructions: "Échauffement standard, deux défis en 3 cycles, sac de frappe, puis retour au calme standard.",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "goblet_squat", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "bench_press", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "resistance_band_row", amount: 10, unit: "répétitions" },
-              { phase: "Repos", exerciseId: "slow_breathing", amount: 1, unit: "min" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "goblet_squat", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "bench_press", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "resistance_band_row", amount: 10, unit: "répétitions" },
-              { phase: "Repos", exerciseId: "slow_breathing", amount: 1, unit: "min" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "goblet_squat", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "bench_press", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "resistance_band_row", amount: 10, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 1", exerciseId: "walking_lunges", amount: 10, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 30, unit: "sec" },
-              { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 10, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 2", exerciseId: "walking_lunges", amount: 10, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 30, unit: "sec" },
-              { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 10, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 3", exerciseId: "walking_lunges", amount: 10, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 3", exerciseId: "core", amount: 30, unit: "sec" },
-              { phase: "Défi 2 · Cycle 3", exerciseId: "calf_raises", amount: 10, unit: "répétitions" },
-              { phase: "Finisher · Sac 3 rounds", exerciseId: "heavy_bag_rounds", amount: 5, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          },
-          {
-            day: 2,
-            title: "Marteau et Bouclier",
-            xp: 100,
-            difficultyLabel: "≈ 45 à 60 min",
-            instructions: "Travail épaules, dos et charnière de hanches.",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "kettlebell_deadlift", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "kettlebell_military_press", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "face_pull", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "kettlebell_deadlift", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "kettlebell_military_press", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "face_pull", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "kettlebell_deadlift", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "kettlebell_military_press", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "face_pull", amount: 10, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 1", exerciseId: "kettlebell_swing", amount: 10, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 1", exerciseId: "side_plank", amount: 30, unit: "sec" },
-              { phase: "Défi 2 · Cycle 2", exerciseId: "kettlebell_swing", amount: 10, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 2", exerciseId: "side_plank", amount: 30, unit: "sec" },
-              { phase: "Finisher · Sac 4 rounds", exerciseId: "heavy_bag_rounds", amount: 6, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          },
-          {
-            day: 3,
-            title: "Chaîne de l’Arène",
-            xp: 100,
-            difficultyLabel: "≈ 45 à 60 min",
-            instructions: "Séance complète avec traction assistée et technique kettlebell.",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "assisted_pullups", amount: 5, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "goblet_squat", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "bench_press", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "assisted_pullups", amount: 5, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "goblet_squat", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "bench_press", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "assisted_pullups", amount: 5, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "goblet_squat", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "bench_press", amount: 10, unit: "répétitions" },
-              { phase: "Technique", exerciseId: "turkish_get_up", amount: 5, unit: "répétitions" },
-              { phase: "Finisher · Sac 4 rounds", exerciseId: "heavy_bag_rounds", amount: 6, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          }
+          day(1, 1, "Force du Champion", 100, "≈ 45 à 60 min", "Force de base, tirage, poussée et premier finisher au sac.",
+            [e("goblet_squat", 10), e("bench_press", 10), e("resistance_band_row", 10)],
+            [e("walking_lunges", 10), e("core", 30, "sec"), e("calf_raises", 10)]
+          ),
+          day(1, 2, "Marteau et Bouclier", 100, "≈ 45 à 60 min", "Épaules, dos, charnière de hanches et stabilité.",
+            [e("kettlebell_deadlift", 10), e("kettlebell_military_press", 10), e("face_pull", 10)],
+            [e("kettlebell_swing", 10), e("bird_dog", 10), e("side_plank", 30, "sec")]
+          ),
+          day(1, 3, "Chaîne de l’Arène", 100, "≈ 45 à 60 min", "Tractions assistées, squat, poussée et technique contrôlée.",
+            [e("assisted_pullups", 5), e("goblet_squat", 10), e("bench_press", 10)],
+            [e("turkish_get_up", 5), e("resistance_band_row", 10), e("core", 30, "sec")]
+          )
         ]
       },
       {
         week: 2,
         title: "La Corne du Minotaure",
         xp: 115,
-        progression: "On augmente progressivement les répétitions affichées par exercice : 14 répétitions max, sans afficher les totaux de cycles.",
+        progression: "Progression à 14 répétitions maximum par passage. Développé militaire et Face Pull passent à 14.",
         days: [
-          {
-            day: 1,
-            title: "Épaules du Minotaure",
-            xp: 115,
-            difficultyLabel: "≈ 50 à 65 min",
-            instructions: "Poussée verticale, tirage assisté, posture et sac de frappe.",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "kettlebell_military_press", amount: 14, unit: "répétitions" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "assisted_pullups", amount: 6, unit: "répétitions" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "face_pull", amount: 14, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "kettlebell_swing", amount: 14, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "bird_dog", amount: 14, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "side_plank", amount: 40, unit: "sec" },
-              { phase: "Combat final · Sac 5 rounds", exerciseId: "heavy_bag_rounds", amount: 7, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          },
-          {
-            day: 2,
-            title: "Hanches de Bronze",
-            xp: 115,
-            difficultyLabel: "≈ 50 à 60 min",
-            instructions: "Charnière de hanches, jambes et force de poussée.",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "kettlebell_deadlift", amount: 14, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "goblet_squat", amount: 14, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "walking_lunges", amount: 14, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "kettlebell_deadlift", amount: 14, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "goblet_squat", amount: 14, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "walking_lunges", amount: 14, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "kettlebell_deadlift", amount: 14, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "goblet_squat", amount: 14, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "walking_lunges", amount: 14, unit: "répétitions" },
-              { phase: "Défi 2 · 3 cycles", exerciseId: "bench_press", amount: 14, unit: "répétitions" },
-              { phase: "Défi 2 · 3 cycles", exerciseId: "resistance_band_row", amount: 14, unit: "répétitions" },
-              { phase: "Défi 2 · 3 cycles", exerciseId: "core", amount: 40, unit: "sec" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          },
-          {
-            day: 3,
-            title: "Combat du Cercle",
-            xp: 115,
-            difficultyLabel: "≈ 45 à 60 min",
-            instructions: "Séance orientée conditionnement : swings, gainage et sac.",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Puissance · 4 cycles", exerciseId: "kettlebell_swing", amount: 14, unit: "répétitions" },
-              { phase: "Puissance · 4 cycles", exerciseId: "goblet_squat", amount: 14, unit: "répétitions" },
-              { phase: "Posture · 4 cycles", exerciseId: "face_pull", amount: 14, unit: "répétitions" },
-              { phase: "Noyau · 4 cycles", exerciseId: "core", amount: 40, unit: "sec" },
-              { phase: "Combat final · Sac 5 rounds", exerciseId: "heavy_bag_rounds", amount: 7, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          }
+          day(2, 1, "Épaules du Minotaure", 115, "≈ 50 à 65 min", "Poussée verticale, tirage assisté, posture et sac de frappe.",
+            [e("kettlebell_military_press", 14), e("assisted_pullups", 6), e("face_pull", 14)],
+            [e("kettlebell_swing", 14), e("bird_dog", 14), e("side_plank", 40, "sec")]
+          ),
+          day(2, 2, "Hanches de Bronze", 115, "≈ 50 à 60 min", "Charnière de hanches, jambes et force de poussée.",
+            [e("kettlebell_deadlift", 14), e("goblet_squat", 14), e("walking_lunges", 14)],
+            [e("bench_press", 14), e("resistance_band_row", 14), e("core", 40, "sec")]
+          ),
+          day(2, 3, "Combat du Cercle", 115, "≈ 45 à 60 min", "Conditionnement, posture et noyau solide.",
+            [e("kettlebell_swing", 14), e("goblet_squat", 14), e("face_pull", 14)],
+            [e("core", 40, "sec"), e("side_plank", 40, "sec"), e("bird_dog", 14)]
+          )
         ]
       },
       {
         week: 3,
         title: "Le Fer et la Cendre",
         xp: 130,
-        progression: "Le programme devient plus dense : 16 répétitions max par exercice, tractions propres et sac de frappe plus présent.",
+        progression: "Progression à 16 répétitions maximum par passage. Les tractions propres restent limitées à 8.",
         days: [
-          {
-            day: 1,
-            title: "Force du Seigneur de Fer",
-            xp: 130,
-            difficultyLabel: "≈ 55 à 70 min",
-            instructions: "Gros bloc jambes, puis haut du corps et sac de frappe.",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "kettlebell_deadlift", amount: 16, unit: "répétitions" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "goblet_squat", amount: 16, unit: "répétitions" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "calf_raises", amount: 16, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "bench_press", amount: 16, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "pullups_clean_max", amount: 8, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "core", amount: 50, unit: "sec" },
-              { phase: "Combat final · Sac 6 rounds", exerciseId: "heavy_bag_rounds", amount: 9, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          },
-          {
-            day: 2,
-            title: "Forge du Corps Entier",
-            xp: 130,
-            difficultyLabel: "≈ 50 à 65 min",
-            instructions: "Puissance de hanches, épaules et stabilité.",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "kettlebell_swing", amount: 16, unit: "répétitions" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "kettlebell_military_press", amount: 16, unit: "répétitions" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "walking_lunges", amount: 16, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "resistance_band_row", amount: 16, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "face_pull", amount: 16, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "side_plank", amount: 50, unit: "sec" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          },
-          {
-            day: 3,
-            title: "Technique du Maître",
-            xp: 130,
-            difficultyLabel: "≈ 50 à 65 min",
-            instructions: "Technique kettlebell, traction et sac de frappe.",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Technique", exerciseId: "turkish_get_up", amount: 8, unit: "répétitions" },
-              { phase: "Force · 3 cycles", exerciseId: "goblet_squat", amount: 16, unit: "répétitions" },
-              { phase: "Force · 3 cycles", exerciseId: "bench_press", amount: 16, unit: "répétitions" },
-              { phase: "Force · 3 cycles", exerciseId: "pullups_clean_max", amount: 8, unit: "répétitions" },
-              { phase: "Combat final · Sac 6 rounds", exerciseId: "heavy_bag_rounds", amount: 9, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          }
+          day(3, 1, "Force du Seigneur de Fer", 130, "≈ 55 à 70 min", "Jambes, poussée, traction et sac de frappe plus long.",
+            [e("kettlebell_deadlift", 16), e("goblet_squat", 16), e("calf_raises", 16)],
+            [e("bench_press", 16), e("pullups_clean_max", 8), e("core", 50, "sec")]
+          ),
+          day(3, 2, "Forge du Corps Entier", 130, "≈ 50 à 65 min", "Puissance de hanches, épaules et stabilité.",
+            [e("kettlebell_swing", 16), e("kettlebell_military_press", 16), e("walking_lunges", 16)],
+            [e("resistance_band_row", 16), e("face_pull", 16), e("side_plank", 50, "sec")]
+          ),
+          day(3, 3, "Technique du Maître", 130, "≈ 50 à 65 min", "Technique kettlebell, traction et posture.",
+            [e("turkish_get_up", 8), e("goblet_squat", 16), e("bench_press", 16)],
+            [e("pullups_clean_max", 8), e("face_pull", 16), e("core", 50, "sec")]
+          )
         ]
       },
       {
         week: 4,
         title: "Champion des Arènes",
         xp: 150,
-        progression: "Dernière semaine : 20 répétitions maximum par exercice, puis technique et combat.",
+        progression: "Semaine finale : 20 répétitions maximum par passage. Gainage plafonné à 60 secondes.",
         days: [
-          {
-            day: 1,
-            title: "Jambes du Champion",
-            xp: 150,
-            difficultyLabel: "≈ 55 à 70 min",
-            instructions: "Séance dense pour les jambes et la chaîne postérieure.",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Épreuve jambes · 3 cycles", exerciseId: "goblet_squat", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve jambes · 3 cycles", exerciseId: "kettlebell_deadlift", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve jambes · 3 cycles", exerciseId: "walking_lunges", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve jambes · 3 cycles", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
-              { phase: "Noyau", exerciseId: "core", amount: 60, unit: "sec" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          },
-          {
-            day: 2,
-            title: "Armes du Champion",
-            xp: 150,
-            difficultyLabel: "≈ 55 à 70 min",
-            instructions: "Poussée, tirage, épaules et posture.",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Épreuve haut du corps · 3 cycles", exerciseId: "bench_press", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve haut du corps · 3 cycles", exerciseId: "kettlebell_military_press", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve haut du corps · 3 cycles", exerciseId: "resistance_band_row", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve haut du corps · 3 cycles", exerciseId: "pullups_clean_max", amount: 10, unit: "répétitions" },
-              { phase: "Posture", exerciseId: "face_pull", amount: 20, unit: "répétitions" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          },
-          {
-            day: 3,
-            title: "Raid des Arènes",
-            xp: 150,
-            difficultyLabel: "≈ 60 à 75 min",
-            instructions: "Séance complète avant le boss final.",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Épreuve force · 3 cycles", exerciseId: "goblet_squat", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve force · 3 cycles", exerciseId: "bench_press", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve force · 3 cycles", exerciseId: "resistance_band_row", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve technique", exerciseId: "turkish_get_up", amount: 10, unit: "répétitions" },
-              { phase: "Combat · Sac 8 rounds", exerciseId: "heavy_bag_rounds", amount: 12, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          }
+          day(4, 1, "Jambes du Champion", 150, "≈ 55 à 70 min", "Jambes, chaîne postérieure, noyau et finisher.",
+            [e("goblet_squat", 20), e("kettlebell_deadlift", 20), e("walking_lunges", 20)],
+            [e("calf_raises", 20), e("core", 60, "sec"), e("side_plank", 60, "sec")]
+          ),
+          day(4, 2, "Armes du Champion", 150, "≈ 55 à 70 min", "Poussée, tirage, épaules et posture.",
+            [e("bench_press", 20), e("kettlebell_military_press", 20), e("resistance_band_row", 20)],
+            [e("pullups_clean_max", 10), e("face_pull", 20), e("core", 60, "sec")]
+          ),
+          day(4, 3, "Raid des Arènes", 150, "≈ 60 à 75 min", "Séance complète avant le boss final.",
+            [e("goblet_squat", 20), e("bench_press", 20), e("resistance_band_row", 20)],
+            [e("kettlebell_military_press", 20), e("face_pull", 20), e("turkish_get_up", 10)]
+          )
         ]
       }
     ],
@@ -711,36 +593,11 @@
         instructions: "Débloqué après les 3 séances de la semaine 1.",
         lockedMessage: "L’Ogre des Fosses attend un adversaire préparé. Termine tes 3 séances avant d’entrer dans l’arène.",
         variants: {
-          indoor: {
-            id: "indoor",
-            label: "🏠 Boss Intérieur",
-            title: "Fosse d’entraînement",
-            mission: "Routine standard, deux épreuves de force, puis sac de frappe.",
-            difficultyLabel: "≈ 45 à 60 min",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Épreuve 1 · 3 cycles", exerciseId: "goblet_squat", amount: 10, unit: "répétitions" },
-              { phase: "Épreuve 1 · 3 cycles", exerciseId: "bench_press", amount: 10, unit: "répétitions" },
-              { phase: "Épreuve 1 · 3 cycles", exerciseId: "resistance_band_row", amount: 10, unit: "répétitions" },
-              { phase: "Épreuve 2 · 3 cycles", exerciseId: "walking_lunges", amount: 10, unit: "répétitions" },
-              { phase: "Épreuve 2 · 3 cycles", exerciseId: "core", amount: 30, unit: "sec" },
-              { phase: "Épreuve 2 · 3 cycles", exerciseId: "calf_raises", amount: 10, unit: "répétitions" },
-              { phase: "Combat final · Sac 4 rounds", exerciseId: "heavy_bag_rounds", amount: 6, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          },
-          outdoor: {
-            id: "outdoor",
-            label: "🌲 Boss Extérieur",
-            title: "Charge hors des fosses",
-            mission: "Vélo 45 min avec 5 accélérations de 30 sec, puis récupération complète.",
-            difficultyLabel: "≈ 50 min",
-            exercises: [
-              { phase: "Sortie vélo", exerciseId: "bike", amount: 45, unit: "min", distanceOptional: true },
-              { phase: "5 accélérations de 30 sec", exerciseId: "bike_acceleration", amount: 3, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          }
+          indoor: indoorBoss(1, "Fosse d’entraînement", "Même structure que les séances : échauffement, deux défis, finisher et retour au calme.",
+            [e("goblet_squat", 10), e("bench_press", 10), e("resistance_band_row", 10)],
+            [e("walking_lunges", 10), e("core", 30, "sec"), e("calf_raises", 10)]
+          ),
+          outdoor: outdoorBoss(1, "Charge hors des fosses", "Vélo 45 min, accélérations, finisher court et récupération complète.", 45, 3)
         }
       },
       {
@@ -751,38 +608,13 @@
         badgeId: "minotaure-vaincu",
         difficultyLabel: "Boss semaine 2 · 50 à 65 min",
         instructions: "Débloqué après les 3 séances de la semaine 2.",
-        lockedMessage: "Le Minotaure ne charge que les héros réguliers. Termine tes 3 séances de la semaine.",
+        lockedMessage: "Le Minotaure attend au centre du labyrinthe. Termine les 3 séances de la semaine 2.",
         variants: {
-          indoor: {
-            id: "indoor",
-            label: "🏠 Boss Intérieur",
-            title: "Labyrinthe d’acier",
-            mission: "Routine standard, épaules, tractions, swings, gainage latéral et sac.",
-            difficultyLabel: "≈ 50 à 65 min",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Épreuve 1 · 4 cycles", exerciseId: "kettlebell_military_press", amount: 14, unit: "répétitions" },
-              { phase: "Épreuve 1 · 4 cycles", exerciseId: "assisted_pullups", amount: 6, unit: "répétitions" },
-              { phase: "Épreuve 1 · 4 cycles", exerciseId: "face_pull", amount: 14, unit: "répétitions" },
-              { phase: "Épreuve 2 · 4 cycles", exerciseId: "kettlebell_swing", amount: 14, unit: "répétitions" },
-              { phase: "Épreuve 2 · 4 cycles", exerciseId: "bird_dog", amount: 14, unit: "répétitions" },
-              { phase: "Épreuve 2 · 4 cycles", exerciseId: "side_plank", amount: 40, unit: "sec" },
-              { phase: "Combat final · Sac 5 rounds", exerciseId: "heavy_bag_rounds", amount: 7, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          },
-          outdoor: {
-            id: "outdoor",
-            label: "🌲 Boss Extérieur",
-            title: "Charge du Minotaure",
-            mission: "Vélo 60 min avec 6 accélérations de 45 sec.",
-            difficultyLabel: "≈ 65 min",
-            exercises: [
-              { phase: "Sortie vélo", exerciseId: "bike", amount: 60, unit: "min", distanceOptional: true },
-              { phase: "6 accélérations de 45 sec", exerciseId: "bike_acceleration", amount: 5, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          }
+          indoor: indoorBoss(2, "Labyrinthe de force", "Développé militaire et Face Pull à 14 répétitions, puis finisher au sac.",
+            [e("kettlebell_military_press", 14), e("assisted_pullups", 6), e("face_pull", 14)],
+            [e("kettlebell_swing", 14), e("bird_dog", 14), e("side_plank", 40, "sec")]
+          ),
+          outdoor: outdoorBoss(2, "Charge du Minotaure", "Vélo 60 min avec accélérations, finisher court et récupération complète.", 60, 5)
         }
       },
       {
@@ -795,36 +627,11 @@
         instructions: "Débloqué après les 3 séances de la semaine 3.",
         lockedMessage: "Le Seigneur de Fer ne s’incline pas devant les entraînements incomplets.",
         variants: {
-          indoor: {
-            id: "indoor",
-            label: "🏠 Boss Intérieur",
-            title: "Forge de l’arène",
-            mission: "Deadlift, squat, tirage, gainage et combat final.",
-            difficultyLabel: "≈ 55 à 70 min",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Épreuve 1 · 4 cycles", exerciseId: "kettlebell_deadlift", amount: 16, unit: "répétitions" },
-              { phase: "Épreuve 1 · 4 cycles", exerciseId: "goblet_squat", amount: 16, unit: "répétitions" },
-              { phase: "Épreuve 1 · 4 cycles", exerciseId: "calf_raises", amount: 16, unit: "répétitions" },
-              { phase: "Épreuve 2 · 4 cycles", exerciseId: "bench_press", amount: 16, unit: "répétitions" },
-              { phase: "Épreuve 2 · 4 cycles", exerciseId: "pullups_clean_max", amount: 8, unit: "répétitions" },
-              { phase: "Épreuve 2 · 4 cycles", exerciseId: "core", amount: 50, unit: "sec" },
-              { phase: "Combat final · Sac 6 rounds", exerciseId: "heavy_bag_rounds", amount: 9, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          },
-          outdoor: {
-            id: "outdoor",
-            label: "🌲 Boss Extérieur",
-            title: "Route du Fer",
-            mission: "Vélo 75 min avec 8 accélérations de 45 sec.",
-            difficultyLabel: "≈ 80 min",
-            exercises: [
-              { phase: "Sortie vélo", exerciseId: "bike", amount: 75, unit: "min", distanceOptional: true },
-              { phase: "8 accélérations de 45 sec", exerciseId: "bike_acceleration", amount: 6, unit: "min" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          }
+          indoor: indoorBoss(3, "Forge de l’arène", "Défis à 16 répétitions, tractions propres limitées à 8 et finisher au sac.",
+            [e("kettlebell_deadlift", 16), e("goblet_squat", 16), e("calf_raises", 16)],
+            [e("bench_press", 16), e("pullups_clean_max", 8), e("core", 50, "sec")]
+          ),
+          outdoor: outdoorBoss(3, "Route du Fer", "Vélo 75 min avec accélérations, finisher court et récupération complète.", 75, 6)
         }
       },
       {
@@ -838,55 +645,22 @@
         instructions: "Débloqué après les 3 séances de la semaine 4.",
         lockedMessage: "La foule attend un champion, pas un héros à moitié préparé. Termine ta semaine.",
         variants: {
-          indoor: {
-            id: "indoor",
-            label: "🏠 Boss Intérieur",
-            title: "Raid final des Arènes",
-            mission: "Épreuves jambes, haut du corps, noyau, sac de frappe et Turkish Get-Up.",
-            difficultyLabel: "≈ 60 à 75 min",
-            exercises: [
-              { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Épreuve des jambes · 3 cycles", exerciseId: "goblet_squat", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve des jambes · 3 cycles", exerciseId: "kettlebell_deadlift", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve des jambes · 3 cycles", exerciseId: "walking_lunges", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve des jambes · 3 cycles", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve du haut du corps · 3 cycles", exerciseId: "bench_press", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve du haut du corps · 3 cycles", exerciseId: "kettlebell_military_press", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve du haut du corps · 3 cycles", exerciseId: "resistance_band_row", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve du haut du corps · 3 cycles", exerciseId: "pullups_clean_max", amount: 10, unit: "répétitions" },
-              { phase: "Épreuve du noyau · 3 cycles", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve du noyau · 3 cycles", exerciseId: "superman", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve du noyau · 3 cycles", exerciseId: "core", amount: 60, unit: "sec" },
-              { phase: "Épreuve du noyau · 3 cycles", exerciseId: "side_plank", amount: 60, unit: "sec" },
-              { phase: "Épreuve du guerrier · Sac 8 rounds", exerciseId: "heavy_bag_rounds", amount: 12, unit: "min" },
-              { phase: "Épreuve du maître", exerciseId: "turkish_get_up", amount: 10, unit: "répétitions" },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          },
-          outdoor: {
-            id: "outdoor",
-            label: "🌲 Boss Extérieur",
-            title: "La Route des Héros",
-            mission: "Mission au choix : vélo 90 min, ou 25 km, ou 1 000 m de dénivelé cumulé sur vélo d’appartement. Valide dès qu’un objectif est atteint.",
-            difficultyLabel: "≈ 90 min ou objectif atteint",
-            instructions: "Choisis l’un des trois objectifs et termine par la récupération complète.",
-            exercises: [
-              { phase: "Route des Héros", exerciseId: "bike", amount: 90, unit: "min", distanceOptional: true },
-              { phase: "Option distance", exerciseId: "bike", amount: 25, unit: "km", distanceOptional: true },
-              { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
-            ]
-          }
+          indoor: indoorBoss(4, "Raid final des Arènes", "Défis à 20 répétitions maximum, gainage à 60 secondes maximum et finisher final.",
+            [e("goblet_squat", 20), e("bench_press", 20), e("resistance_band_row", 20)],
+            [e("kettlebell_military_press", 20), e("face_pull", 20), e("turkish_get_up", 10)]
+          ),
+          outdoor: outdoorBoss(4, "La Route des Héros", "Mission vélo finale : 90 min ou objectif personnel équivalent, avec accélérations et récupération.", 90, 8)
         }
       }
     ],
 
     progression: [
-      "Semaine 1 : Entrée dans l’Arène · bases avancées et premier finisher au sac.",
-      "Semaine 2 : La Corne du Minotaure · 14 répétitions max par exercice, sans total de cycles.",
-      "Semaine 3 : Le Fer et la Cendre · 16 répétitions max par exercice, tractions propres et sac plus long.",
-      "Semaine 4 : Champion des Arènes · 20 répétitions maximum par exercice, technique et combat.",
-      "Chaque séance utilise l’échauffement standard de 5 min et le retour au calme standard de 5 min.",
-      "Chaque semaine propose un boss intérieur et une version extérieure à vélo.",
+      "Semaine 1 : Entrée dans l’Arène · 10 répétitions par passage, sauf tractions et Turkish Get-Up.",
+      "Semaine 2 : La Corne du Minotaure · 14 répétitions par passage, développé militaire et Face Pull inclus.",
+      "Semaine 3 : Le Fer et la Cendre · 16 répétitions par passage, tractions propres limitées à 8.",
+      "Semaine 4 : Champion des Arènes · 20 répétitions maximum par passage, gainage limité à 60 sec.",
+      "Chaque séance suit toujours le même schéma : échauffement, défi 1, défi 2, finisher, retour au calme.",
+      "Chaque exercice est référencé dans les données, afin d’afficher son image cliquable et son explication.",
       "Récompense finale : badge légendaire Champion des Arènes, coffre épique et +250 XP."
     ],
 
