@@ -443,26 +443,26 @@
             instructions: "Échauffement standard, deux défis en 3 cycles, sac de frappe, puis retour au calme standard.",
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "goblet_squat", amount: 12, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 1", exerciseId: "goblet_squat", amount: 10, unit: "répétitions" },
               { phase: "Défi 1 · Cycle 1", exerciseId: "bench_press", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "resistance_band_row", amount: 15, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 1", exerciseId: "resistance_band_row", amount: 10, unit: "répétitions" },
               { phase: "Repos", exerciseId: "slow_breathing", amount: 1, unit: "min" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "goblet_squat", amount: 12, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 2", exerciseId: "goblet_squat", amount: 10, unit: "répétitions" },
               { phase: "Défi 1 · Cycle 2", exerciseId: "bench_press", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "resistance_band_row", amount: 15, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 2", exerciseId: "resistance_band_row", amount: 10, unit: "répétitions" },
               { phase: "Repos", exerciseId: "slow_breathing", amount: 1, unit: "min" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "goblet_squat", amount: 12, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 3", exerciseId: "goblet_squat", amount: 10, unit: "répétitions" },
               { phase: "Défi 1 · Cycle 3", exerciseId: "bench_press", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "resistance_band_row", amount: 15, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 1", exerciseId: "walking_lunges", amount: 20, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 3", exerciseId: "resistance_band_row", amount: 10, unit: "répétitions" },
+              { phase: "Défi 2 · Cycle 1", exerciseId: "walking_lunges", amount: 10, unit: "répétitions" },
               { phase: "Défi 2 · Cycle 1", exerciseId: "core", amount: 30, unit: "sec" },
-              { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 2", exerciseId: "walking_lunges", amount: 20, unit: "répétitions" },
+              { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 10, unit: "répétitions" },
+              { phase: "Défi 2 · Cycle 2", exerciseId: "walking_lunges", amount: 10, unit: "répétitions" },
               { phase: "Défi 2 · Cycle 2", exerciseId: "core", amount: 30, unit: "sec" },
-              { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 3", exerciseId: "walking_lunges", amount: 20, unit: "répétitions" },
+              { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 10, unit: "répétitions" },
+              { phase: "Défi 2 · Cycle 3", exerciseId: "walking_lunges", amount: 10, unit: "répétitions" },
               { phase: "Défi 2 · Cycle 3", exerciseId: "core", amount: 30, unit: "sec" },
-              { phase: "Défi 2 · Cycle 3", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
+              { phase: "Défi 2 · Cycle 3", exerciseId: "calf_raises", amount: 10, unit: "répétitions" },
               { phase: "Finisher · Sac 3 rounds", exerciseId: "heavy_bag_rounds", amount: 5, unit: "min" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
             ]
@@ -475,21 +475,21 @@
             instructions: "Travail épaules, dos et charnière de hanches.",
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "kettlebell_deadlift", amount: 12, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 1", exerciseId: "kettlebell_deadlift", amount: 10, unit: "répétitions" },
               { phase: "Défi 1 · Cycle 1", exerciseId: "kettlebell_military_press", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "face_pull", amount: 15, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "kettlebell_deadlift", amount: 12, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 1", exerciseId: "face_pull", amount: 10, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 2", exerciseId: "kettlebell_deadlift", amount: 10, unit: "répétitions" },
               { phase: "Défi 1 · Cycle 2", exerciseId: "kettlebell_military_press", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "face_pull", amount: 15, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "kettlebell_deadlift", amount: 12, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 2", exerciseId: "face_pull", amount: 10, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 3", exerciseId: "kettlebell_deadlift", amount: 10, unit: "répétitions" },
               { phase: "Défi 1 · Cycle 3", exerciseId: "kettlebell_military_press", amount: 10, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "face_pull", amount: 15, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 1", exerciseId: "kettlebell_swing", amount: 15, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 1", exerciseId: "side_plank", amount: 40, unit: "sec" },
-              { phase: "Défi 2 · Cycle 2", exerciseId: "kettlebell_swing", amount: 15, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
-              { phase: "Défi 2 · Cycle 2", exerciseId: "side_plank", amount: 40, unit: "sec" },
+              { phase: "Défi 1 · Cycle 3", exerciseId: "face_pull", amount: 10, unit: "répétitions" },
+              { phase: "Défi 2 · Cycle 1", exerciseId: "kettlebell_swing", amount: 10, unit: "répétitions" },
+              { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+              { phase: "Défi 2 · Cycle 1", exerciseId: "side_plank", amount: 30, unit: "sec" },
+              { phase: "Défi 2 · Cycle 2", exerciseId: "kettlebell_swing", amount: 10, unit: "répétitions" },
+              { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 10, unit: "répétitions" },
+              { phase: "Défi 2 · Cycle 2", exerciseId: "side_plank", amount: 30, unit: "sec" },
               { phase: "Finisher · Sac 4 rounds", exerciseId: "heavy_bag_rounds", amount: 6, unit: "min" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
             ]
@@ -503,15 +503,15 @@
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
               { phase: "Défi 1 · Cycle 1", exerciseId: "assisted_pullups", amount: 5, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "goblet_squat", amount: 12, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 1", exerciseId: "goblet_squat", amount: 10, unit: "répétitions" },
               { phase: "Défi 1 · Cycle 1", exerciseId: "bench_press", amount: 10, unit: "répétitions" },
               { phase: "Défi 1 · Cycle 2", exerciseId: "assisted_pullups", amount: 5, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "goblet_squat", amount: 12, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 2", exerciseId: "goblet_squat", amount: 10, unit: "répétitions" },
               { phase: "Défi 1 · Cycle 2", exerciseId: "bench_press", amount: 10, unit: "répétitions" },
               { phase: "Défi 1 · Cycle 3", exerciseId: "assisted_pullups", amount: 5, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "goblet_squat", amount: 12, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 3", exerciseId: "goblet_squat", amount: 10, unit: "répétitions" },
               { phase: "Défi 1 · Cycle 3", exerciseId: "bench_press", amount: 10, unit: "répétitions" },
-              { phase: "Technique", exerciseId: "turkish_get_up", amount: 4, unit: "répétitions" },
+              { phase: "Technique", exerciseId: "turkish_get_up", amount: 5, unit: "répétitions" },
               { phase: "Finisher · Sac 4 rounds", exerciseId: "heavy_bag_rounds", amount: 6, unit: "min" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
             ]
@@ -522,7 +522,7 @@
         week: 2,
         title: "La Corne du Minotaure",
         xp: 115,
-        progression: "On augmente les cycles et on introduit plus d’épaules, de tractions et de gainage latéral.",
+        progression: "On augmente progressivement les répétitions affichées par exercice : 14 répétitions max, sans afficher les totaux de cycles.",
         days: [
           {
             day: 1,
@@ -532,12 +532,12 @@
             instructions: "Poussée verticale, tirage assisté, posture et sac de frappe.",
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "kettlebell_military_press", amount: 48, unit: "répétitions" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "assisted_pullups", amount: 20, unit: "répétitions" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "face_pull", amount: 60, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "kettlebell_swing", amount: 60, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "bird_dog", amount: 40, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "side_plank", amount: 160, unit: "sec" },
+              { phase: "Défi 1 · 4 cycles", exerciseId: "kettlebell_military_press", amount: 14, unit: "répétitions" },
+              { phase: "Défi 1 · 4 cycles", exerciseId: "assisted_pullups", amount: 6, unit: "répétitions" },
+              { phase: "Défi 1 · 4 cycles", exerciseId: "face_pull", amount: 14, unit: "répétitions" },
+              { phase: "Défi 2 · 4 cycles", exerciseId: "kettlebell_swing", amount: 14, unit: "répétitions" },
+              { phase: "Défi 2 · 4 cycles", exerciseId: "bird_dog", amount: 14, unit: "répétitions" },
+              { phase: "Défi 2 · 4 cycles", exerciseId: "side_plank", amount: 40, unit: "sec" },
               { phase: "Combat final · Sac 5 rounds", exerciseId: "heavy_bag_rounds", amount: 7, unit: "min" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
             ]
@@ -550,18 +550,18 @@
             instructions: "Charnière de hanches, jambes et force de poussée.",
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "kettlebell_deadlift", amount: 12, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "goblet_squat", amount: 12, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 1", exerciseId: "walking_lunges", amount: 20, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "kettlebell_deadlift", amount: 12, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "goblet_squat", amount: 12, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 2", exerciseId: "walking_lunges", amount: 20, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "kettlebell_deadlift", amount: 12, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "goblet_squat", amount: 12, unit: "répétitions" },
-              { phase: "Défi 1 · Cycle 3", exerciseId: "walking_lunges", amount: 20, unit: "répétitions" },
-              { phase: "Défi 2 · 3 cycles", exerciseId: "bench_press", amount: 30, unit: "répétitions" },
-              { phase: "Défi 2 · 3 cycles", exerciseId: "resistance_band_row", amount: 45, unit: "répétitions" },
-              { phase: "Défi 2 · 3 cycles", exerciseId: "core", amount: 120, unit: "sec" },
+              { phase: "Défi 1 · Cycle 1", exerciseId: "kettlebell_deadlift", amount: 14, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 1", exerciseId: "goblet_squat", amount: 14, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 1", exerciseId: "walking_lunges", amount: 14, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 2", exerciseId: "kettlebell_deadlift", amount: 14, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 2", exerciseId: "goblet_squat", amount: 14, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 2", exerciseId: "walking_lunges", amount: 14, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 3", exerciseId: "kettlebell_deadlift", amount: 14, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 3", exerciseId: "goblet_squat", amount: 14, unit: "répétitions" },
+              { phase: "Défi 1 · Cycle 3", exerciseId: "walking_lunges", amount: 14, unit: "répétitions" },
+              { phase: "Défi 2 · 3 cycles", exerciseId: "bench_press", amount: 14, unit: "répétitions" },
+              { phase: "Défi 2 · 3 cycles", exerciseId: "resistance_band_row", amount: 14, unit: "répétitions" },
+              { phase: "Défi 2 · 3 cycles", exerciseId: "core", amount: 40, unit: "sec" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
             ]
           },
@@ -573,10 +573,10 @@
             instructions: "Séance orientée conditionnement : swings, gainage et sac.",
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Puissance · 4 cycles", exerciseId: "kettlebell_swing", amount: 60, unit: "répétitions" },
-              { phase: "Puissance · 4 cycles", exerciseId: "goblet_squat", amount: 48, unit: "répétitions" },
-              { phase: "Posture · 4 cycles", exerciseId: "face_pull", amount: 60, unit: "répétitions" },
-              { phase: "Noyau · 4 cycles", exerciseId: "core", amount: 120, unit: "sec" },
+              { phase: "Puissance · 4 cycles", exerciseId: "kettlebell_swing", amount: 14, unit: "répétitions" },
+              { phase: "Puissance · 4 cycles", exerciseId: "goblet_squat", amount: 14, unit: "répétitions" },
+              { phase: "Posture · 4 cycles", exerciseId: "face_pull", amount: 14, unit: "répétitions" },
+              { phase: "Noyau · 4 cycles", exerciseId: "core", amount: 40, unit: "sec" },
               { phase: "Combat final · Sac 5 rounds", exerciseId: "heavy_bag_rounds", amount: 7, unit: "min" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
             ]
@@ -587,7 +587,7 @@
         week: 3,
         title: "Le Fer et la Cendre",
         xp: 130,
-        progression: "Le programme devient plus dense : tractions propres, deadlift, gainage long et sac de frappe plus présent.",
+        progression: "Le programme devient plus dense : 16 répétitions max par exercice, tractions propres et sac de frappe plus présent.",
         days: [
           {
             day: 1,
@@ -597,12 +597,12 @@
             instructions: "Gros bloc jambes, puis haut du corps et sac de frappe.",
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "kettlebell_deadlift", amount: 48, unit: "répétitions" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "goblet_squat", amount: 60, unit: "répétitions" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "calf_raises", amount: 100, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "bench_press", amount: 40, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "pullups_clean_max", amount: 20, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "core", amount: 160, unit: "sec" },
+              { phase: "Défi 1 · 4 cycles", exerciseId: "kettlebell_deadlift", amount: 16, unit: "répétitions" },
+              { phase: "Défi 1 · 4 cycles", exerciseId: "goblet_squat", amount: 16, unit: "répétitions" },
+              { phase: "Défi 1 · 4 cycles", exerciseId: "calf_raises", amount: 16, unit: "répétitions" },
+              { phase: "Défi 2 · 4 cycles", exerciseId: "bench_press", amount: 16, unit: "répétitions" },
+              { phase: "Défi 2 · 4 cycles", exerciseId: "pullups_clean_max", amount: 8, unit: "répétitions" },
+              { phase: "Défi 2 · 4 cycles", exerciseId: "core", amount: 50, unit: "sec" },
               { phase: "Combat final · Sac 6 rounds", exerciseId: "heavy_bag_rounds", amount: 9, unit: "min" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
             ]
@@ -615,12 +615,12 @@
             instructions: "Puissance de hanches, épaules et stabilité.",
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "kettlebell_swing", amount: 60, unit: "répétitions" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "kettlebell_military_press", amount: 40, unit: "répétitions" },
-              { phase: "Défi 1 · 4 cycles", exerciseId: "walking_lunges", amount: 80, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "resistance_band_row", amount: 60, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "face_pull", amount: 60, unit: "répétitions" },
-              { phase: "Défi 2 · 4 cycles", exerciseId: "side_plank", amount: 160, unit: "sec" },
+              { phase: "Défi 1 · 4 cycles", exerciseId: "kettlebell_swing", amount: 16, unit: "répétitions" },
+              { phase: "Défi 1 · 4 cycles", exerciseId: "kettlebell_military_press", amount: 16, unit: "répétitions" },
+              { phase: "Défi 1 · 4 cycles", exerciseId: "walking_lunges", amount: 16, unit: "répétitions" },
+              { phase: "Défi 2 · 4 cycles", exerciseId: "resistance_band_row", amount: 16, unit: "répétitions" },
+              { phase: "Défi 2 · 4 cycles", exerciseId: "face_pull", amount: 16, unit: "répétitions" },
+              { phase: "Défi 2 · 4 cycles", exerciseId: "side_plank", amount: 50, unit: "sec" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
             ]
           },
@@ -633,9 +633,9 @@
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
               { phase: "Technique", exerciseId: "turkish_get_up", amount: 8, unit: "répétitions" },
-              { phase: "Force · 3 cycles", exerciseId: "goblet_squat", amount: 45, unit: "répétitions" },
-              { phase: "Force · 3 cycles", exerciseId: "bench_press", amount: 30, unit: "répétitions" },
-              { phase: "Force · 3 cycles", exerciseId: "pullups_clean_max", amount: 15, unit: "répétitions" },
+              { phase: "Force · 3 cycles", exerciseId: "goblet_squat", amount: 16, unit: "répétitions" },
+              { phase: "Force · 3 cycles", exerciseId: "bench_press", amount: 16, unit: "répétitions" },
+              { phase: "Force · 3 cycles", exerciseId: "pullups_clean_max", amount: 8, unit: "répétitions" },
               { phase: "Combat final · Sac 6 rounds", exerciseId: "heavy_bag_rounds", amount: 9, unit: "min" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
             ]
@@ -646,7 +646,7 @@
         week: 4,
         title: "Champion des Arènes",
         xp: 150,
-        progression: "Dernière semaine : le joueur assemble force, endurance, technique et combat.",
+        progression: "Dernière semaine : 20 répétitions maximum par exercice, puis technique et combat.",
         days: [
           {
             day: 1,
@@ -656,11 +656,11 @@
             instructions: "Séance dense pour les jambes et la chaîne postérieure.",
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Épreuve jambes · 3 cycles", exerciseId: "goblet_squat", amount: 45, unit: "répétitions" },
-              { phase: "Épreuve jambes · 3 cycles", exerciseId: "kettlebell_deadlift", amount: 36, unit: "répétitions" },
-              { phase: "Épreuve jambes · 3 cycles", exerciseId: "walking_lunges", amount: 72, unit: "répétitions" },
-              { phase: "Épreuve jambes · 3 cycles", exerciseId: "calf_raises", amount: 75, unit: "répétitions" },
-              { phase: "Noyau", exerciseId: "core", amount: 180, unit: "sec" },
+              { phase: "Épreuve jambes · 3 cycles", exerciseId: "goblet_squat", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve jambes · 3 cycles", exerciseId: "kettlebell_deadlift", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve jambes · 3 cycles", exerciseId: "walking_lunges", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve jambes · 3 cycles", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+              { phase: "Noyau", exerciseId: "core", amount: 60, unit: "sec" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
             ]
           },
@@ -672,11 +672,11 @@
             instructions: "Poussée, tirage, épaules et posture.",
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Épreuve haut du corps · 3 cycles", exerciseId: "bench_press", amount: 30, unit: "répétitions" },
-              { phase: "Épreuve haut du corps · 3 cycles", exerciseId: "kettlebell_military_press", amount: 30, unit: "répétitions" },
-              { phase: "Épreuve haut du corps · 3 cycles", exerciseId: "resistance_band_row", amount: 45, unit: "répétitions" },
-              { phase: "Épreuve haut du corps · 3 cycles", exerciseId: "pullups_clean_max", amount: 15, unit: "répétitions" },
-              { phase: "Posture", exerciseId: "face_pull", amount: 45, unit: "répétitions" },
+              { phase: "Épreuve haut du corps · 3 cycles", exerciseId: "bench_press", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve haut du corps · 3 cycles", exerciseId: "kettlebell_military_press", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve haut du corps · 3 cycles", exerciseId: "resistance_band_row", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve haut du corps · 3 cycles", exerciseId: "pullups_clean_max", amount: 10, unit: "répétitions" },
+              { phase: "Posture", exerciseId: "face_pull", amount: 20, unit: "répétitions" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
             ]
           },
@@ -688,9 +688,9 @@
             instructions: "Séance complète avant le boss final.",
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Épreuve force · 3 cycles", exerciseId: "goblet_squat", amount: 45, unit: "répétitions" },
-              { phase: "Épreuve force · 3 cycles", exerciseId: "bench_press", amount: 30, unit: "répétitions" },
-              { phase: "Épreuve force · 3 cycles", exerciseId: "resistance_band_row", amount: 45, unit: "répétitions" },
+              { phase: "Épreuve force · 3 cycles", exerciseId: "goblet_squat", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve force · 3 cycles", exerciseId: "bench_press", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve force · 3 cycles", exerciseId: "resistance_band_row", amount: 20, unit: "répétitions" },
               { phase: "Épreuve technique", exerciseId: "turkish_get_up", amount: 10, unit: "répétitions" },
               { phase: "Combat · Sac 8 rounds", exerciseId: "heavy_bag_rounds", amount: 12, unit: "min" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
@@ -719,12 +719,12 @@
             difficultyLabel: "≈ 45 à 60 min",
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Épreuve 1 · 3 cycles", exerciseId: "goblet_squat", amount: 36, unit: "répétitions" },
-              { phase: "Épreuve 1 · 3 cycles", exerciseId: "bench_press", amount: 30, unit: "répétitions" },
-              { phase: "Épreuve 1 · 3 cycles", exerciseId: "resistance_band_row", amount: 45, unit: "répétitions" },
-              { phase: "Épreuve 2 · 3 cycles", exerciseId: "walking_lunges", amount: 60, unit: "répétitions" },
-              { phase: "Épreuve 2 · 3 cycles", exerciseId: "core", amount: 90, unit: "sec" },
-              { phase: "Épreuve 2 · 3 cycles", exerciseId: "calf_raises", amount: 75, unit: "répétitions" },
+              { phase: "Épreuve 1 · 3 cycles", exerciseId: "goblet_squat", amount: 10, unit: "répétitions" },
+              { phase: "Épreuve 1 · 3 cycles", exerciseId: "bench_press", amount: 10, unit: "répétitions" },
+              { phase: "Épreuve 1 · 3 cycles", exerciseId: "resistance_band_row", amount: 10, unit: "répétitions" },
+              { phase: "Épreuve 2 · 3 cycles", exerciseId: "walking_lunges", amount: 10, unit: "répétitions" },
+              { phase: "Épreuve 2 · 3 cycles", exerciseId: "core", amount: 30, unit: "sec" },
+              { phase: "Épreuve 2 · 3 cycles", exerciseId: "calf_raises", amount: 10, unit: "répétitions" },
               { phase: "Combat final · Sac 4 rounds", exerciseId: "heavy_bag_rounds", amount: 6, unit: "min" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
             ]
@@ -761,12 +761,12 @@
             difficultyLabel: "≈ 50 à 65 min",
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Épreuve 1 · 4 cycles", exerciseId: "kettlebell_military_press", amount: 48, unit: "répétitions" },
-              { phase: "Épreuve 1 · 4 cycles", exerciseId: "assisted_pullups", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve 1 · 4 cycles", exerciseId: "face_pull", amount: 60, unit: "répétitions" },
-              { phase: "Épreuve 2 · 4 cycles", exerciseId: "kettlebell_swing", amount: 60, unit: "répétitions" },
-              { phase: "Épreuve 2 · 4 cycles", exerciseId: "bird_dog", amount: 40, unit: "répétitions" },
-              { phase: "Épreuve 2 · 4 cycles", exerciseId: "side_plank", amount: 160, unit: "sec" },
+              { phase: "Épreuve 1 · 4 cycles", exerciseId: "kettlebell_military_press", amount: 14, unit: "répétitions" },
+              { phase: "Épreuve 1 · 4 cycles", exerciseId: "assisted_pullups", amount: 6, unit: "répétitions" },
+              { phase: "Épreuve 1 · 4 cycles", exerciseId: "face_pull", amount: 14, unit: "répétitions" },
+              { phase: "Épreuve 2 · 4 cycles", exerciseId: "kettlebell_swing", amount: 14, unit: "répétitions" },
+              { phase: "Épreuve 2 · 4 cycles", exerciseId: "bird_dog", amount: 14, unit: "répétitions" },
+              { phase: "Épreuve 2 · 4 cycles", exerciseId: "side_plank", amount: 40, unit: "sec" },
               { phase: "Combat final · Sac 5 rounds", exerciseId: "heavy_bag_rounds", amount: 7, unit: "min" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
             ]
@@ -803,12 +803,12 @@
             difficultyLabel: "≈ 55 à 70 min",
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Épreuve 1 · 4 cycles", exerciseId: "kettlebell_deadlift", amount: 48, unit: "répétitions" },
-              { phase: "Épreuve 1 · 4 cycles", exerciseId: "goblet_squat", amount: 60, unit: "répétitions" },
-              { phase: "Épreuve 1 · 4 cycles", exerciseId: "calf_raises", amount: 100, unit: "répétitions" },
-              { phase: "Épreuve 2 · 4 cycles", exerciseId: "bench_press", amount: 40, unit: "répétitions" },
-              { phase: "Épreuve 2 · 4 cycles", exerciseId: "pullups_clean_max", amount: 20, unit: "répétitions" },
-              { phase: "Épreuve 2 · 4 cycles", exerciseId: "core", amount: 160, unit: "sec" },
+              { phase: "Épreuve 1 · 4 cycles", exerciseId: "kettlebell_deadlift", amount: 16, unit: "répétitions" },
+              { phase: "Épreuve 1 · 4 cycles", exerciseId: "goblet_squat", amount: 16, unit: "répétitions" },
+              { phase: "Épreuve 1 · 4 cycles", exerciseId: "calf_raises", amount: 16, unit: "répétitions" },
+              { phase: "Épreuve 2 · 4 cycles", exerciseId: "bench_press", amount: 16, unit: "répétitions" },
+              { phase: "Épreuve 2 · 4 cycles", exerciseId: "pullups_clean_max", amount: 8, unit: "répétitions" },
+              { phase: "Épreuve 2 · 4 cycles", exerciseId: "core", amount: 50, unit: "sec" },
               { phase: "Combat final · Sac 6 rounds", exerciseId: "heavy_bag_rounds", amount: 9, unit: "min" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
             ]
@@ -846,18 +846,18 @@
             difficultyLabel: "≈ 60 à 75 min",
             exercises: [
               { phase: "Échauffement", exerciseId: "advanced_standard_warmup", amount: 5, unit: "min" },
-              { phase: "Épreuve des jambes · 3 cycles", exerciseId: "goblet_squat", amount: 45, unit: "répétitions" },
-              { phase: "Épreuve des jambes · 3 cycles", exerciseId: "kettlebell_deadlift", amount: 36, unit: "répétitions" },
-              { phase: "Épreuve des jambes · 3 cycles", exerciseId: "walking_lunges", amount: 72, unit: "répétitions" },
-              { phase: "Épreuve des jambes · 3 cycles", exerciseId: "calf_raises", amount: 75, unit: "répétitions" },
-              { phase: "Épreuve du haut du corps · 3 cycles", exerciseId: "bench_press", amount: 30, unit: "répétitions" },
-              { phase: "Épreuve du haut du corps · 3 cycles", exerciseId: "kettlebell_military_press", amount: 30, unit: "répétitions" },
-              { phase: "Épreuve du haut du corps · 3 cycles", exerciseId: "resistance_band_row", amount: 45, unit: "répétitions" },
-              { phase: "Épreuve du haut du corps · 3 cycles", exerciseId: "pullups_clean_max", amount: 15, unit: "répétitions" },
-              { phase: "Épreuve du noyau · 3 cycles", exerciseId: "bird_dog", amount: 36, unit: "répétitions" },
-              { phase: "Épreuve du noyau · 3 cycles", exerciseId: "superman", amount: 45, unit: "répétitions" },
-              { phase: "Épreuve du noyau · 3 cycles", exerciseId: "core", amount: 135, unit: "sec" },
-              { phase: "Épreuve du noyau · 3 cycles", exerciseId: "side_plank", amount: 180, unit: "sec" },
+              { phase: "Épreuve des jambes · 3 cycles", exerciseId: "goblet_squat", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve des jambes · 3 cycles", exerciseId: "kettlebell_deadlift", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve des jambes · 3 cycles", exerciseId: "walking_lunges", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve des jambes · 3 cycles", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve du haut du corps · 3 cycles", exerciseId: "bench_press", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve du haut du corps · 3 cycles", exerciseId: "kettlebell_military_press", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve du haut du corps · 3 cycles", exerciseId: "resistance_band_row", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve du haut du corps · 3 cycles", exerciseId: "pullups_clean_max", amount: 10, unit: "répétitions" },
+              { phase: "Épreuve du noyau · 3 cycles", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve du noyau · 3 cycles", exerciseId: "superman", amount: 20, unit: "répétitions" },
+              { phase: "Épreuve du noyau · 3 cycles", exerciseId: "core", amount: 60, unit: "sec" },
+              { phase: "Épreuve du noyau · 3 cycles", exerciseId: "side_plank", amount: 60, unit: "sec" },
               { phase: "Épreuve du guerrier · Sac 8 rounds", exerciseId: "heavy_bag_rounds", amount: 12, unit: "min" },
               { phase: "Épreuve du maître", exerciseId: "turkish_get_up", amount: 10, unit: "répétitions" },
               { phase: "Retour au calme", exerciseId: "advanced_standard_cooldown", amount: 5, unit: "min" }
@@ -882,9 +882,9 @@
 
     progression: [
       "Semaine 1 : Entrée dans l’Arène · bases avancées et premier finisher au sac.",
-      "Semaine 2 : La Corne du Minotaure · plus de cycles, épaules, tractions et swings.",
-      "Semaine 3 : Le Fer et la Cendre · densité, tractions propres et sac plus long.",
-      "Semaine 4 : Champion des Arènes · raid complet de force, technique et combat.",
+      "Semaine 2 : La Corne du Minotaure · 14 répétitions max par exercice, sans total de cycles.",
+      "Semaine 3 : Le Fer et la Cendre · 16 répétitions max par exercice, tractions propres et sac plus long.",
+      "Semaine 4 : Champion des Arènes · 20 répétitions maximum par exercice, technique et combat.",
       "Chaque séance utilise l’échauffement standard de 5 min et le retour au calme standard de 5 min.",
       "Chaque semaine propose un boss intérieur et une version extérieure à vélo.",
       "Récompense finale : badge légendaire Champion des Arènes, coffre épique et +250 XP."
@@ -893,7 +893,9 @@
     notes: [
       "Programme avancé : réservé aux joueurs déjà à l’aise avec les mouvements de base.",
       "Choisir des charges permettant de garder une technique propre.",
-      "Les quantités par côté sont converties en répétitions totales.",
+      "Progression des répétitions : 10 en semaine 1, 14 en semaine 2, 16 en semaine 3, 20 maximum en semaine 4.",
+      "Les valeurs affichées sont les répétitions d’un exercice sur un passage, pas le total cumulé des cycles.",
+      "Tractions et Turkish Get-Up restent volontairement plus bas : 5, 6, 8 puis 10 répétitions maximum.",
       "Pour les tractions max propre : arrêter dès que la posture se dégrade.",
       "Pour le Turkish Get-Up : privilégier une charge légère et un mouvement lent."
     ]
@@ -909,11 +911,18 @@
     title: "Champion des Arènes",
     objective: "Musculation avancée + combat",
     level: "Avancé",
+    tier: "advanced",
+    unlockLevel: 8,
     duration: "45-75 min",
-    frequency: "3 séances par semaine",
-    weeklySlots: [0, 2, 4],
+    frequency: "3 séances par semaine + boss hebdomadaire",
     coachAdvice: "Korvan, Xara ou Bazul",
-    xp: 90
+    xp: 90,
+    reward: {
+      badgeId: "champion-arenes-vaincu",
+      title: "Champion des Arènes",
+      chest: true,
+      nextPrograms: []
+    }
   });
 
   // ------------------------------------------------------------
@@ -923,7 +932,7 @@
   addBadge({
     id: "ogre-fosses-vaincu",
     icon: "👹",
-    title: "Ogre des Fosses vaincu",
+    title: "Ogre des Fosses",
     description: "Vaincre le boss de la semaine 1 du programme Champion des Arènes.",
     type: "program-boss",
     programId: "champion-arenes",
@@ -934,7 +943,7 @@
   addBadge({
     id: "minotaure-vaincu",
     icon: "🐂",
-    title: "Minotaure vaincu",
+    title: "Minotaure",
     description: "Vaincre le boss de la semaine 2 du programme Champion des Arènes.",
     type: "program-boss",
     programId: "champion-arenes",
@@ -945,7 +954,7 @@
   addBadge({
     id: "seigneur-fer-vaincu",
     icon: "⚒️",
-    title: "Seigneur de Fer vaincu",
+    title: "Seigneur de Fer",
     description: "Vaincre le boss de la semaine 3 du programme Champion des Arènes.",
     type: "program-boss",
     programId: "champion-arenes",
@@ -955,7 +964,7 @@
 
   addBadge({
     id: "champion-arenes-vaincu",
-    icon: "👑",
+    icon: "🏟️",
     title: "Champion des Arènes",
     description: "Vaincre le boss final du programme Champion des Arènes.",
     type: "program-boss",
@@ -964,10 +973,5 @@
     target: 1
   });
 
-  // Déblocage conseillé depuis les programmes de préparation.
-  addNextProgram("coeur-dragon", "champion-arenes");
-  addNextProgram("cavalier-route", "champion-arenes");
-  addNextProgram("forge-guerrier", "champion-arenes");
-
-  console.log("Programme ajouté : Champion des Arènes");
+  addNextProgram("maitre-flux", "champion-arenes");
 })();
