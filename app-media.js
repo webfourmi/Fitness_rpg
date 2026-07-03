@@ -395,3 +395,138 @@ window.FitnessRpgMedia.init = function initMedia() {
   document.addEventListener("click", window.FitnessRpgMedia.handleDocumentClick);
   document.addEventListener("keydown", window.FitnessRpgMedia.handleDocumentKeydown);
 };
+
+// ============================================================
+// Patch programme : Champion des Arènes
+// ------------------------------------------------------------
+// Objectif : afficher les répétitions par exercice, pas les totaux
+// cumulés des cycles. Progression : 10 / 14 / 16 / 20 max.
+// ============================================================
+
+(function patchChampionArenesRepetitions() {
+  const detail = window.FitnessRpgData?.programDetails?.["champion-arenes"];
+
+  if (!detail) return;
+
+  const normalRepExercises = new Set([
+    "goblet_squat",
+    "bench_press",
+    "resistance_band_row",
+    "kettlebell_swing",
+    "kettlebell_military_press",
+    "kettlebell_deadlift",
+    "walking_lunges",
+    "face_pull",
+    "calf_raises",
+    "bird_dog",
+    "superman"
+  ]);
+
+  const lowRepExercises = new Set([
+    "assisted_pullups",
+    "pullups_clean_max",
+    "turkish_get_up"
+  ]);
+
+  const timedExercises = new Set([
+    "core",
+    "side_plank"
+  ]);
+
+  const repsByWeek = {
+    1: 10,
+    2: 14,
+    3: 16,
+    4: 20
+  };
+
+  const lowRepsByWeek = {
+    1: 5,
+    2: 6,
+    3: 8,
+    4: 10
+  };
+
+  const secondsByWeek = {
+    1: 30,
+    2: 40,
+    3: 50,
+    4: 60
+  };
+
+  function patchExercise(item, weekNumber) {
+    if (!item || !item.exerciseId) return;
+
+    const week = Number(weekNumber || 1);
+
+    if (item.unit === "répétitions" && normalRepExercises.has(item.exerciseId)) {
+      item.amount = repsByWeek[week] || item.amount;
+      return;
+    }
+
+    if (item.unit === "répétitions" && lowRepExercises.has(item.exerciseId)) {
+      item.amount = lowRepsByWeek[week] || item.amount;
+      return;
+    }
+
+    if (item.unit === "sec" && timedExercises.has(item.exerciseId)) {
+      item.amount = secondsByWeek[week] || item.amount;
+    }
+  }
+
+  function patchExerciseList(exercises, weekNumber) {
+    if (!Array.isArray(exercises)) return;
+
+    exercises.forEach((item) => patchExercise(item, weekNumber));
+  }
+
+  (detail.weeks || []).forEach((week) => {
+    const weekNumber = Number(week.week || 1);
+
+    if (weekNumber === 2) {
+      week.progression = "On augmente progressivement les répétitions affichées par exercice : 14 répétitions max, sans afficher les totaux de cycles.";
+    }
+
+    if (weekNumber === 3) {
+      week.progression = "Le programme devient plus dense : 16 répétitions max par exercice, tractions propres et sac de frappe plus présent.";
+    }
+
+    if (weekNumber === 4) {
+      week.progression = "Dernière semaine : 20 répétitions maximum par exercice, puis technique et combat.";
+    }
+
+    (week.days || []).forEach((day) => {
+      patchExerciseList(day.exercises, weekNumber);
+    });
+  });
+
+  (detail.bosses || []).forEach((boss) => {
+    const weekNumber = Number(boss.week || 1);
+
+    patchExerciseList(boss.exercises, weekNumber);
+
+    Object.values(boss.variants || {}).forEach((variant) => {
+      patchExerciseList(variant.exercises, weekNumber);
+    });
+  });
+
+  detail.progression = [
+    "Semaine 1 : Entrée dans l’Arène · 10 répétitions par exercice pour installer la technique.",
+    "Semaine 2 : La Corne du Minotaure · 14 répétitions max par exercice, sans total de cycles.",
+    "Semaine 3 : Le Fer et la Cendre · 16 répétitions max par exercice, tractions propres et sac plus long.",
+    "Semaine 4 : Champion des Arènes · 20 répétitions maximum par exercice, technique et combat.",
+    "Chaque séance utilise l’échauffement standard de 5 min et le retour au calme standard de 5 min.",
+    "Chaque semaine propose un boss intérieur et une version extérieure à vélo.",
+    "Récompense finale : badge légendaire Champion des Arènes, coffre épique et +250 XP."
+  ];
+
+  detail.notes = [
+    "Programme avancé : réservé aux joueurs déjà à l’aise avec les mouvements de base.",
+    "Choisir des charges permettant de garder une technique propre.",
+    "Progression des répétitions : 10 en semaine 1, 14 en semaine 2, 16 en semaine 3, 20 maximum en semaine 4.",
+    "Les valeurs affichées sont les répétitions d’un exercice sur un passage, pas le total cumulé des cycles.",
+    "Tractions et Turkish Get-Up restent volontairement plus bas : 5, 6, 8 puis 10 répétitions maximum.",
+    "Pour les tractions max propre : arrêter dès que la posture se dégrade.",
+    "Pour le Turkish Get-Up : privilégier une charge légère et un mouvement lent."
+  ];
+})();
