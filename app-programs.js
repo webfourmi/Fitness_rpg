@@ -126,12 +126,6 @@ window.FitnessRpgPrograms.getProgramBosses = function getProgramBosses(programId
   return Array.isArray(detail?.bosses) ? detail.bosses : [];
 };
 
-window.FitnessRpgPrograms.getProgramBoss = function getProgramBoss(programId, weekNumber = 1) {
-  const bosses = window.FitnessRpgPrograms.getProgramBosses(programId);
-  const safeWeekNumber = Math.max(1, Number(weekNumber) || 1);
-
-  return bosses.find((boss) => Number(boss.week) === safeWeekNumber) || null;
-};
 window.FitnessRpgPrograms.getProgramBossVariant = function getProgramBossVariant(programId, weekNumber = 1, variantId = "indoor") {
   const boss = window.FitnessRpgPrograms.getProgramBoss(programId, weekNumber);
 
