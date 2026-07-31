@@ -1,0 +1,574 @@
+name: V5.4 Active Session Resume
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/v54-active-session-resume.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply-active-session-resume:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Add active session resume UX
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+
+          def replace_once(path, old, new, label):
+              file_path = Path(path)
+              content = file_path.read_text(encoding="utf-8")
+              if old not in content:
+                  raise SystemExit(f"Bloc introuvable pour {label} dans {path}")
+              content = content.replace(old, new, 1)
+              file_path.write_text(content, encoding="utf-8")
+
+          # --------------------------------------------------
+          # index.html : emplacement de la carte + cache assets
+          # --------------------------------------------------
+          replace_once(
+              "index.html",
+              '''      <section id="todayCard" class="today-card card" role="button" tabindex="0">''',
+              '''      <section
+        id="activeSessionResumeCard"
+        class="active-session-resume-card card hidden"
+        aria-live="polite"
+      ></section>
+
+      <section id="todayCard" class="today-card card" role="button" tabindex="0">''',
+              "emplacement carte séance active"
+          )
+
+          index_path = Path("index.html")
+          index = index_path.read_text(encoding="utf-8")
+          index = index.replace(
+              'href="app-v5.css?v=5.4-home-actions"',
+              'href="app-v5.css?v=5.4-session-resume"',
+              1
+          )
+          index = index.replace(
+              'src="app-render.js?v=5.4"',
+              'src="app-render.js?v=5.4-session-resume"',
+              1
+          )
+          index = index.replace(
+              'src="./app-navigation.js?v=5.4"',
+              'src="./app-navigation.js?v=5.4-session-resume"',
+              1
+          )
+          index = index.replace(
+              'src="app-programs.js?v=5.4"',
+              'src="app-programs.js?v=5.4-session-resume"',
+              1
+          )
+          index_path.write_text(index, encoding="utf-8")
+
+          # --------------------------------------------------
+          # app-render.js : carte compacte dans Entraînement
+          # --------------------------------------------------
+          replace_once(
+              "app-render.js",
+              '''  window.FitnessRpgRender.renderHeroPanel();
+  window.FitnessRpgRender.renderCoachPanel();
+  window.FitnessRpgRender.renderTodayCard();''',
+              '''  window.FitnessRpgRender.renderHeroPanel();
+  window.FitnessRpgRender.renderCoachPanel();
+  window.FitnessRpgRender.renderActiveSessionResumeCard();
+  window.FitnessRpgRender.renderTodayCard();''',
+              "appel rendu carte séance active"
+          )
+
+          resume_card_function = r'''window.FitnessRpgRender.renderActiveSessionResumeCard = function renderActiveSessionResumeCard() {
+  const card = document.querySelector("#activeSessionResumeCard");
+  if (!card) return;
+
+  const session = window.FitnessRpgState.getActiveProgramSession?.();
+
+  if (!session) {
+    card.classList.add("hidden");
+    card.innerHTML = "";
+    return;
+  }
+
+  const program = window.FitnessRpgPrograms.getProgram?.(session.programId)
+    || window.FitnessRpgConfig.getProgramById?.(session.programId);
+  const workout = window.FitnessRpgPrograms.getActiveProgramWorkout?.(session);
+  const exercises = Array.isArray(workout?.exercises) ? workout.exercises : [];
+  const totalCount = exercises.length;
+  const doneCount = Math.min(
+    totalCount,
+    window.FitnessRpgState.getProgramSessionCompletedCount?.() || 0
+  );
+  const progress = totalCount > 0
+    ? Math.round((doneCount / totalCount) * 100)
+    : 0;
+
+  const isBoss = session.type === "program-boss";
+  const safeProgramTitle = window.FitnessRpgRender.escapeHtml(
+    program?.title || "Programme"
+  );
+  const safeWorkoutTitle = window.FitnessRpgRender.escapeHtml(
+    workout?.title || workout?.subtitle || (isBoss ? "Mission de boss" : "Séance en cours")
+  );
+
+  const positionLabel = isBoss
+    ? `Boss · Semaine ${Number(session.weekNumber || 1)}`
+    : `Semaine ${Number(session.weekNumber || 1)} · Jour ${Number(session.dayNumber || 1)}`;
+
+  card.innerHTML = `
+    <div class="active-session-resume-header">
+      <div>
+        <p class="eyebrow">${isBoss ? "🐉 Boss en cours" : "⚔️ Séance en cours"}</p>
+        <h2>${safeProgramTitle}</h2>
+      </div>
+      <strong>${doneCount}/${totalCount}</strong>
+    </div>
+
+    <p class="active-session-resume-position">${positionLabel}</p>
+    <p class="active-session-resume-title">${safeWorkoutTitle}</p>
+
+    <div
+      class="active-session-resume-progress"
+      role="progressbar"
+      aria-label="Progression de la séance"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="${progress}"
+    >
+      <span style="width: ${progress}%"></span>
+    </div>
+
+    <div class="active-session-resume-meta">
+      <span>${doneCount} exercice${doneCount > 1 ? "s" : ""} validé${doneCount > 1 ? "s" : ""}</span>
+      <span>${Math.max(0, totalCount - doneCount)} restant${Math.max(0, totalCount - doneCount) > 1 ? "s" : ""}</span>
+    </div>
+
+    <div class="active-session-resume-actions">
+      <button id="resumeActiveProgramSessionButton" class="primary-btn" type="button">
+        Reprendre la séance
+      </button>
+
+      <button id="abandonActiveProgramSessionButton" class="ghost-btn" type="button">
+        Abandonner
+      </button>
+    </div>
+  `;
+
+  card.classList.remove("hidden");
+};'''
+
+          replace_once(
+              "app-render.js",
+              '''window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {''',
+              resume_card_function + '''\n\nwindow.FitnessRpgRender.renderTodayCard = function renderTodayCard() {''',
+              "fonction rendu carte séance active"
+          )
+
+          # --------------------------------------------------
+          # app-navigation.js : boutons reprendre / abandonner
+          # --------------------------------------------------
+          navigation_handlers = r'''  if (target.closest("#resumeActiveProgramSessionButton")) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgPrograms?.resumeActiveProgramSession?.();
+    return;
+  }
+
+  if (target.closest("#abandonActiveProgramSessionButton")) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgPrograms?.abandonActiveProgramSession?.();
+    return;
+  }
+
+'''
+
+          replace_once(
+              "app-navigation.js",
+              '''  // Entraînement
+  if (target.closest("#newCoachMessageButton")) {''',
+              '''  // Entraînement
+''' + navigation_handlers + '''  if (target.closest("#newCoachMessageButton")) {''',
+              "gestion boutons séance active"
+          )
+
+          # --------------------------------------------------
+          # app-programs.js : garde anti-écrasement et reprise
+          # --------------------------------------------------
+          session_helpers = r'''window.FitnessRpgPrograms.isSameActiveProgramSession = function isSameActiveProgramSession(
+  activeSession,
+  nextSession = {}
+) {
+  if (!activeSession || !nextSession.programId) return false;
+
+  const activeType = activeSession.type === "program-boss"
+    ? "program-boss"
+    : "program";
+  const nextType = nextSession.type === "program-boss"
+    ? "program-boss"
+    : "program";
+
+  if (activeType !== nextType) return false;
+  if (activeSession.programId !== nextSession.programId) return false;
+  if (Number(activeSession.weekNumber || 1) !== Number(nextSession.weekNumber || 1)) {
+    return false;
+  }
+
+  if (activeType === "program-boss") {
+    return String(activeSession.bossVariant || "indoor")
+      === String(nextSession.bossVariant || "indoor");
+  }
+
+  return Number(activeSession.dayNumber || 1) === Number(nextSession.dayNumber || 1);
+};
+
+window.FitnessRpgPrograms.getProgramSessionLabel = function getProgramSessionLabel(session = null) {
+  if (!session) return "Séance de programme";
+
+  const program = window.FitnessRpgPrograms.getProgram(session.programId);
+  const programTitle = program?.title || "Programme";
+  const weekNumber = Number(session.weekNumber || 1);
+
+  if (session.type === "program-boss") {
+    const boss = window.FitnessRpgPrograms.getProgramBoss(
+      session.programId,
+      weekNumber
+    );
+    const variant = window.FitnessRpgPrograms.getProgramBossVariant(
+      session.programId,
+      weekNumber,
+      session.bossVariant || "indoor"
+    );
+
+    return `${programTitle} · Boss semaine ${weekNumber} · ${variant?.title || boss?.title || "Mission"}`;
+  }
+
+  const dayNumber = Number(session.dayNumber || 1);
+  const day = window.FitnessRpgPrograms.getProgramDay(
+    session.programId,
+    dayNumber,
+    weekNumber
+  );
+
+  return `${programTitle} · Semaine ${weekNumber} · Jour ${dayNumber} · ${day?.title || "Séance"}`;
+};
+
+window.FitnessRpgPrograms.prepareProgramSessionStart = function prepareProgramSessionStart(
+  nextSession = {}
+) {
+  const activeSession = window.FitnessRpgState.getActiveProgramSession?.();
+
+  if (!activeSession) {
+    return { allowed: true, resume: false, session: null };
+  }
+
+  if (window.FitnessRpgPrograms.isSameActiveProgramSession(activeSession, nextSession)) {
+    return { allowed: true, resume: true, session: activeSession };
+  }
+
+  const currentLabel = window.FitnessRpgPrograms.getProgramSessionLabel(activeSession);
+  const nextLabel = window.FitnessRpgPrograms.getProgramSessionLabel(nextSession);
+  const confirmed = window.confirm(
+    "Une séance est déjà en cours.\n\n" +
+    `Séance actuelle : ${currentLabel}\n` +
+    `Nouvelle séance : ${nextLabel}\n\n` +
+    "Remplacer la séance actuelle ? Sa progression non terminée sera supprimée."
+  );
+
+  if (!confirmed) {
+    return { allowed: false, resume: false, session: activeSession };
+  }
+
+  window.FitnessRpgState.clearActiveProgramSession?.();
+  return { allowed: true, resume: false, session: null };
+};
+
+window.FitnessRpgPrograms.resumeActiveProgramSession = function resumeActiveProgramSession() {
+  const session = window.FitnessRpgState.getActiveProgramSession?.();
+
+  if (!session) {
+    window.FitnessRpgPrograms.showMessage({
+      icon: "⚠️",
+      title: "Aucune séance en cours",
+      message: "Il n’y a aucune séance à reprendre.",
+      okText: "Compris"
+    });
+    return;
+  }
+
+  const program = window.FitnessRpgPrograms.getProgram(session.programId);
+
+  if (!program) {
+    window.FitnessRpgPrograms.showMessage({
+      icon: "⚠️",
+      title: "Programme introuvable",
+      message: "La séance est enregistrée, mais son programme est introuvable.",
+      okText: "Compris"
+    });
+    return;
+  }
+
+  const weekNumber = Number(session.weekNumber || 1);
+  const firstDay = window.FitnessRpgPrograms.getProgramDaysForWeek(
+    session.programId,
+    weekNumber
+  )[0];
+  const dayNumber = session.type === "program-boss"
+    ? Number(firstDay?.day || 1)
+    : Number(session.dayNumber || 1);
+
+  window.FitnessRpgPrograms.setProgramBrowserSelection(
+    session.programId,
+    weekNumber,
+    dayNumber,
+    session
+  );
+
+  window.FitnessRpgNavigation?.setPage?.("programs");
+  window.FitnessRpgRender?.renderProgramDetail?.(session.programId);
+  window.FitnessRpgPrograms.scrollToProgramDetail();
+};
+
+window.FitnessRpgPrograms.abandonActiveProgramSession = function abandonActiveProgramSession() {
+  const session = window.FitnessRpgState.getActiveProgramSession?.();
+  if (!session) return;
+
+  const label = window.FitnessRpgPrograms.getProgramSessionLabel(session);
+  const confirmed = window.confirm(
+    `Abandonner « ${label} » ?\n\n` +
+    "La progression de cette séance en cours sera supprimée. " +
+    "Les séances déjà terminées, l’XP et le journal seront conservés."
+  );
+
+  if (!confirmed) return;
+
+  window.FitnessRpgState.clearActiveProgramSession?.();
+  window.FitnessRpgState.setPose?.("idle");
+  window.FitnessRpgRender?.renderAll?.();
+
+  window.FitnessRpgPrograms.showMessage({
+    icon: "🛡️",
+    title: "Séance abandonnée",
+    message: "La séance en cours a été supprimée. Ton historique et tes XP sont intacts.",
+    okText: "Compris"
+  });
+};'''
+
+          replace_once(
+              "app-programs.js",
+              '''window.FitnessRpgPrograms.setCoachMessage = function setCoachMessage(message) {
+  const coachMessage = document.querySelector("#coachMessage");
+  if (coachMessage) coachMessage.textContent = message || "";
+};''',
+              '''window.FitnessRpgPrograms.setCoachMessage = function setCoachMessage(message) {
+  const coachMessage = document.querySelector("#coachMessage");
+  if (coachMessage) coachMessage.textContent = message || "";
+};
+
+''' + session_helpers,
+              "helpers reprise séance"
+          )
+
+          boss_guard = r'''  const startDecision = window.FitnessRpgPrograms.prepareProgramSessionStart({
+    type: "program-boss",
+    programId,
+    weekNumber: Number(weekNumber || 1),
+    dayNumber: 0,
+    bossVariant: variant.id || variantId || "indoor"
+  });
+
+  if (!startDecision.allowed) return;
+
+  if (startDecision.resume) {
+    window.FitnessRpgPrograms.resumeActiveProgramSession();
+    return;
+  }
+
+'''
+
+          replace_once(
+              "app-programs.js",
+              '''  if (typeof window.FitnessRpgState.startProgramBossSession === "function") {''',
+              boss_guard + '''  if (typeof window.FitnessRpgState.startProgramBossSession === "function") {''',
+              "protection démarrage boss"
+          )
+
+          normal_guard = r'''  const startDecision = window.FitnessRpgPrograms.prepareProgramSessionStart({
+    type: "program",
+    programId,
+    weekNumber: Number(weekNumber || 1),
+    dayNumber: Number(dayNumber || 1)
+  });
+
+  if (!startDecision.allowed) return;
+
+  if (startDecision.resume) {
+    window.FitnessRpgPrograms.setProgramBrowserSelection(
+      programId,
+      weekNumber,
+      dayNumber,
+      startDecision.session || planningContext
+    );
+    window.FitnessRpgRender?.renderProgramDetail?.(programId);
+    window.FitnessRpgPrograms.scrollToProgramDetail();
+    return;
+  }
+
+'''
+
+          replace_once(
+              "app-programs.js",
+              '''  const activeSession = window.FitnessRpgState.startProgramSession?.(
+    programId,
+    dayNumber,
+    weekNumber,
+    planningContext
+  );''',
+              normal_guard + '''  const activeSession = window.FitnessRpgState.startProgramSession?.(
+    programId,
+    dayNumber,
+    weekNumber,
+    planningContext
+  );''',
+              "protection démarrage séance normale"
+          )
+
+          # --------------------------------------------------
+          # app-v5.css : styles intégrés à la section Entraînement
+          # --------------------------------------------------
+          resume_css = r'''
+.active-session-resume-card {
+  display: grid;
+  gap: 11px;
+  overflow: hidden;
+  border-color: rgba(125, 183, 255, 0.42);
+  background:
+    radial-gradient(circle at top right, rgba(125, 183, 255, 0.18), transparent 46%),
+    linear-gradient(180deg, rgba(36, 49, 78, 0.96), rgba(18, 24, 42, 0.96));
+}
+
+.active-session-resume-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.active-session-resume-header h2 {
+  margin: 7px 0 0;
+  color: #ffffff;
+  font-size: clamp(1.05rem, 4.5vw, 1.35rem);
+}
+
+.active-session-resume-header > strong {
+  flex: 0 0 auto;
+  min-width: 58px;
+  padding: 8px 10px;
+  border: 1px solid rgba(125, 183, 255, 0.44);
+  border-radius: 14px;
+  background: rgba(8, 16, 31, 0.5);
+  color: #d8eaff;
+  text-align: center;
+}
+
+.active-session-resume-position {
+  color: #a9d0ff !important;
+  font-weight: 900;
+}
+
+.active-session-resume-title {
+  color: var(--text) !important;
+  font-weight: 800;
+}
+
+.active-session-resume-progress {
+  width: 100%;
+  height: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(125, 183, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.34);
+}
+
+.active-session-resume-progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #6aaeff, #8fe7ff);
+  box-shadow: 0 0 16px rgba(125, 183, 255, 0.52);
+  transition: width 180ms ease;
+}
+
+.active-session-resume-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.active-session-resume-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+}
+
+.active-session-resume-actions .primary-btn {
+  width: 100%;
+}
+
+@media (max-width: 430px) {
+  .active-session-resume-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .active-session-resume-actions .ghost-btn {
+    width: 100%;
+  }
+}
+'''
+
+          replace_once(
+              "app-v5.css",
+              '''.page-training {
+  gap: var(--space-md);
+}
+''',
+              '''.page-training {
+  gap: var(--space-md);
+}
+''' + resume_css,
+              "styles carte séance active"
+          )
+          PY
+
+      - name: Validate implementation
+        shell: bash
+        run: |
+          node --check app-render.js
+          node --check app-navigation.js
+          node --check app-programs.js
+          grep -q 'id="activeSessionResumeCard"' index.html
+          grep -q 'resumeActiveProgramSessionButton' app-render.js
+          grep -q 'abandonActiveProgramSessionButton' app-navigation.js
+          grep -q 'prepareProgramSessionStart' app-programs.js
+          grep -q 'active-session-resume-card' app-v5.css
+
+      - name: Commit changes and remove temporary workflow
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/v54-active-session-resume.yml
+          git add index.html app-render.js app-navigation.js app-programs.js app-v5.css .github/workflows/v54-active-session-resume.yml
+          git commit -m "V5.4: permettre de reprendre une séance active"
+          git push origin main
