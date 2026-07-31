@@ -746,6 +746,7 @@ window.FitnessRpgState.activeProgramSession = {
   completedExerciseKeys: []
 };
 
+  window.FitnessRpgState.saveActiveProgramSession();
   return window.FitnessRpgState.activeProgramSession;
 };
 
@@ -775,6 +776,7 @@ window.FitnessRpgState.startProgramBossSession = function startProgramBossSessio
     completedExerciseKeys: []
   };
 
+  window.FitnessRpgState.saveActiveProgramSession();
   return window.FitnessRpgState.activeProgramSession;
 };
 
@@ -782,8 +784,51 @@ window.FitnessRpgState.getActiveProgramSession = function getActiveProgramSessio
   return window.FitnessRpgState.activeProgramSession;
 };
 
+window.FitnessRpgState.saveActiveProgramSession = function saveActiveProgramSession() {
+  const keys = window.FitnessRpgState.getKeys();
+  const sessionKey = keys.activeProgramSession || "fitnessRpgV54ActiveProgramSession";
+  const session = window.FitnessRpgState.activeProgramSession;
+
+  if (!session) {
+    window.FitnessRpgState.removeKey(sessionKey);
+    return null;
+  }
+
+  window.FitnessRpgState.writeJson(sessionKey, session);
+  return session;
+};
+
+window.FitnessRpgState.loadActiveProgramSession = function loadActiveProgramSession() {
+  const keys = window.FitnessRpgState.getKeys();
+  const sessionKey = keys.activeProgramSession || "fitnessRpgV54ActiveProgramSession";
+  const loaded = window.FitnessRpgState.readJson(sessionKey, null);
+
+  if (!loaded || typeof loaded !== "object" || !loaded.programId) {
+    window.FitnessRpgState.activeProgramSession = null;
+    return null;
+  }
+
+  window.FitnessRpgState.activeProgramSession = {
+    ...loaded,
+    weekNumber: Math.max(1, Number(loaded.weekNumber) || 1),
+    dayNumber: Number(loaded.dayNumber || 0),
+    completedExerciseIds: Array.isArray(loaded.completedExerciseIds)
+      ? loaded.completedExerciseIds
+      : [],
+    completedExerciseKeys: Array.isArray(loaded.completedExerciseKeys)
+      ? loaded.completedExerciseKeys
+      : []
+  };
+
+  return window.FitnessRpgState.activeProgramSession;
+};
+
 window.FitnessRpgState.clearActiveProgramSession = function clearActiveProgramSession() {
+  const keys = window.FitnessRpgState.getKeys();
+  const sessionKey = keys.activeProgramSession || "fitnessRpgV54ActiveProgramSession";
+
   window.FitnessRpgState.activeProgramSession = null;
+  window.FitnessRpgState.removeKey(sessionKey);
 };
 
 window.FitnessRpgState.completeProgramSessionExercise = function completeProgramSessionExercise(exerciseKey) {
@@ -801,6 +846,7 @@ window.FitnessRpgState.completeProgramSessionExercise = function completeProgram
     session.completedExerciseKeys.push(exerciseKey);
   }
 
+  window.FitnessRpgState.saveActiveProgramSession();
   return session;
 };
 
@@ -971,6 +1017,7 @@ window.FitnessRpgState.getPose = function getPose() {
 
 window.FitnessRpgState.init = function initState() {
   window.FitnessRpgState.loadProfile();
+  window.FitnessRpgState.loadActiveProgramSession();
 
   if (window.FitnessRpgState.profile) {
     window.FitnessRpgState.currentPage = "home";
