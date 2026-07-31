@@ -1,0 +1,159 @@
+name: V5.4 Fix Home Buttons
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/v54-fix-home-buttons.yml
+
+permissions:
+  contents: write
+
+jobs:
+  fix-home-buttons:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore home actions
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+
+          index_path = Path("index.html")
+          index = index_path.read_text(encoding="utf-8")
+
+          old_home = '''        <div class="home-image-frame">
+          <img id="homeSplashImage" src="assets/ecran/ecran_accueil.png" alt="Fitness RPG">
+        </div>
+      </section>
+
+      <section class="home-summary card">'''
+
+          new_home = '''        <div class="home-image-frame">
+          <img id="homeSplashImage" src="assets/ecran/ecran_accueil.png" alt="Fitness RPG">
+        </div>
+
+        <div class="home-actions" aria-label="Actions de l’accueil">
+          <button id="startTrainingButton" class="primary-btn" type="button">
+            Entrer dans l’entraînement
+          </button>
+
+          <button id="chooseCoachButton" class="secondary-btn" type="button">
+            Changer de coach
+          </button>
+
+          <button id="newHeroButton" class="ghost-btn" type="button">
+            Créer un nouveau héros
+          </button>
+        </div>
+      </section>
+
+      <section class="home-summary card">'''
+
+          if old_home not in index:
+              raise SystemExit("Bloc accueil attendu introuvable dans index.html")
+
+          index = index.replace(old_home, new_home, 1)
+          index = index.replace(
+              'href="app-v5.css?v=5.3-program-guided1"',
+              'href="app-v5.css?v=5.4-home-actions"',
+              1
+          )
+          index_path.write_text(index, encoding="utf-8")
+
+          render_path = Path("app-render.js")
+          render = render_path.read_text(encoding="utf-8")
+
+          old_render = '''  window.FitnessRpgRender.prepareHomeImageInfoToggle();
+
+  if (!profile) {
+    window.FitnessRpgRender.setText("#homeHeroSummary", "Aucun héros créé.");
+    window.FitnessRpgRender.setText("#homeCoachSummary", "Aucun coach choisi.");
+    return;
+  }
+
+  const info = window.FitnessRpgConfig.levelInfo(profile.totalXp || 0);'''
+
+          new_render = '''  window.FitnessRpgRender.prepareHomeImageInfoToggle();
+
+  const startTrainingButton = document.querySelector("#startTrainingButton");
+  const chooseCoachButton = document.querySelector("#chooseCoachButton");
+  const newHeroButton = document.querySelector("#newHeroButton");
+
+  if (!profile) {
+    window.FitnessRpgRender.setText("#homeHeroSummary", "Aucun héros créé.");
+    window.FitnessRpgRender.setText("#homeCoachSummary", "Aucun coach choisi.");
+
+    window.FitnessRpgRender.setText(startTrainingButton, "Créer mon héros");
+    chooseCoachButton?.classList.add("hidden");
+    newHeroButton?.classList.add("hidden");
+    return;
+  }
+
+  window.FitnessRpgRender.setText(startTrainingButton, "Entrer dans l’entraînement");
+  window.FitnessRpgRender.setText(chooseCoachButton, "Changer de coach");
+  window.FitnessRpgRender.setText(newHeroButton, "Créer un nouveau héros");
+  chooseCoachButton?.classList.remove("hidden");
+  newHeroButton?.classList.remove("hidden");
+
+  const info = window.FitnessRpgConfig.levelInfo(profile.totalXp || 0);'''
+
+          if old_render not in render:
+              raise SystemExit("Bloc renderHome attendu introuvable dans app-render.js")
+
+          render = render.replace(old_render, new_render, 1)
+          render_path.write_text(render, encoding="utf-8")
+
+          navigation_path = Path("app-navigation.js")
+          navigation = navigation_path.read_text(encoding="utf-8")
+
+          old_navigation = '''  if (target.closest("#chooseCoachButton")) {
+    event.preventDefault();
+    window.FitnessRpgNavigation.openHeroSetup();
+    return;
+  }'''
+
+          new_navigation = '''  if (target.closest("#chooseCoachButton")) {
+    event.preventDefault();
+
+    if (window.FitnessRpgState.hasProfile()) {
+      window.FitnessRpgNavigation.openCoach();
+    } else {
+      window.FitnessRpgNavigation.openHeroSetup("create");
+    }
+
+    return;
+  }'''
+
+          if old_navigation not in navigation:
+              raise SystemExit("Gestionnaire chooseCoachButton introuvable dans app-navigation.js")
+
+          navigation = navigation.replace(old_navigation, new_navigation, 1)
+          navigation_path.write_text(navigation, encoding="utf-8")
+          PY
+
+      - name: Validate files
+        shell: bash
+        run: |
+          node --check app-render.js
+          node --check app-navigation.js
+          grep -q 'id="startTrainingButton"' index.html
+          grep -q 'id="chooseCoachButton"' index.html
+          grep -q 'id="newHeroButton"' index.html
+          grep -q 'app-v5.css?v=5.4-home-actions' index.html
+
+      - name: Commit fix and remove temporary workflow
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/v54-fix-home-buttons.yml
+          git add index.html app-render.js app-navigation.js .github/workflows/v54-fix-home-buttons.yml
+          git commit -m "V5.4: restaurer les boutons de l’accueil"
+          git push origin main
