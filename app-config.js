@@ -33,6 +33,7 @@ window.FitnessRpgConfig = {
     today: "fitnessRpgV5Today",
     badges: "fitnessRpgV5Badges",
     settings: "fitnessRpgV5Settings",
+    activeProgramSession: "fitnessRpgV54ActiveProgramSession",
     familiars: "fitness_rpg_familiars",
     lastChestReward: "fitness_rpg_last_chest_reward",
   },
