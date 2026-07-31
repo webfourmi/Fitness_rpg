@@ -17,6 +17,7 @@
   <title>Fitness RPG</title>
 
   <link rel="stylesheet" href="app-v5.css?v=5.4-home-actions">
+  <link rel="stylesheet" href="app-session-resume.css?v=5.4-session-resume">
 </head>
 
 <body>
@@ -148,6 +149,12 @@
         </div>
         <button id="newCoachMessageButton" class="ghost-btn" type="button">Nouvelle phrase</button>
       </section>
+
+      <section
+        id="activeSessionResumeCard"
+        class="active-session-resume-card card hidden"
+        aria-live="polite"
+      ></section>
 
       <section id="todayCard" class="today-card card" role="button" tabindex="0">
         <p class="eyebrow">Quête du jour</p>
@@ -331,6 +338,7 @@
   <script src="./app-navigation.js?v=5.4"></script>
   <script src="./app-exercises.js?v=5.4"></script>
   <script src="app-programs.js?v=5.4"></script>
+  <script src="app-session-resume.js?v=5.4-session-resume"></script>
   <script src="./app-media.js?v=5.4"></script>
   <script src="./app.js?v=5.4"></script>
 </body>
