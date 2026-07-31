@@ -83,11 +83,10 @@ window.FitnessRpgExercises.escapeHtml = function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 };
 
-window.FitnessRpgExercises.imageOrDefault = function imageOrDefault(path) {
-  return path || "assets/exercices/default.png";
-};
-
-
+window.FitnessRpgExercises.defaultExerciseImages = Object.freeze({
+  homme: "assets/exercices/homme_default.png",
+  femme: "assets/exercices/femme_default.png"
+});
 
 window.FitnessRpgExercises.getCurrentGender = function getCurrentGender() {
   const profile = window.FitnessRpgState?.getProfile?.();
@@ -96,6 +95,20 @@ window.FitnessRpgExercises.getCurrentGender = function getCurrentGender() {
   if (gender === "femme" || gender === "female") return "femme";
 
   return "homme";
+};
+
+window.FitnessRpgExercises.getDefaultExerciseImage = function getDefaultExerciseImage(gender = null) {
+  const safeGender = String(
+    gender || window.FitnessRpgExercises.getCurrentGender()
+  ).toLowerCase();
+
+  return safeGender === "femme" || safeGender === "female"
+    ? window.FitnessRpgExercises.defaultExerciseImages.femme
+    : window.FitnessRpgExercises.defaultExerciseImages.homme;
+};
+
+window.FitnessRpgExercises.imageOrDefault = function imageOrDefault(path) {
+  return path || window.FitnessRpgExercises.getDefaultExerciseImage();
 };
 
 window.FitnessRpgExercises.resolveImage = function resolveImage(item) {
@@ -114,9 +127,7 @@ window.FitnessRpgExercises.resolveImage = function resolveImage(item) {
 
   if (item?.image) return item.image;
 
-  return gender === "femme"
-    ? "assets/exercices/femme_default.png"
-    : "assets/exercices/homme_default.png";
+  return window.FitnessRpgExercises.getDefaultExerciseImage(gender);
 };
 // ============================================================
 // Helpers inputs
@@ -175,14 +186,8 @@ window.FitnessRpgExercises.getCategoryIcon = function getCategoryIcon(categoryId
 };
 
 window.FitnessRpgExercises.getSafeExerciseImage = function getSafeExerciseImage(exercise) {
-  const gender = window.FitnessRpgExercises.getCurrentGender();
   const image = window.FitnessRpgExercises.resolveImage(exercise);
-
-  if (image) return image;
-
-  return gender === "femme"
-    ? "assets/exercices/femme_default.png"
-    : "assets/exercices/homme_default.png";
+  return image || window.FitnessRpgExercises.getDefaultExerciseImage();
 };
 // ============================================================
 // V3 - Rendu : catégories 3x3
@@ -220,7 +225,7 @@ window.FitnessRpgExercises.categoryCardHtml = function categoryCardHtml(category
       style="--category-color:${color}"
     >
       <span class="v3-category-icon">${icon}</span>
-      <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/homme_default.png'">
+      <img src="${image}" alt="${title}" onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()">
       <strong>${title}</strong>
       <small>${description}</small>
     </button>
@@ -751,7 +756,7 @@ window.FitnessRpgExercises.renderCustomProgramGuided = function renderCustomProg
           <img
             src="${image}"
             alt="${title}"
-            onerror="this.src='assets/exercices/default.png'"
+            onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()"
           >
         </button>
 
@@ -1066,7 +1071,7 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
         data-exercise-id="${exercise.id}"
         title="Voir l’explication"
       >
-        <img src="${image}" alt="${title}" onerror="this.src='assets/exercices/homme_default.png'">
+        <img src="${image}" alt="${title}" onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()">
       </button>
 
      <div class="exercise-card-body">
@@ -1180,7 +1185,7 @@ window.FitnessRpgExercises.programExerciseCardHtml = function programExerciseCar
         <img
           src="${image}"
           alt="${title}"
-          onerror="this.src='assets/exercices/homme_default.png'"
+          onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()"
         >
       </button>
 
