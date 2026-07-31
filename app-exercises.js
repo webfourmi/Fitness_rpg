@@ -115,8 +115,8 @@ window.FitnessRpgExercises.resolveImage = function resolveImage(item) {
   if (item?.image) return item.image;
 
   return gender === "femme"
-    ? "assets/exercices/default_femme.png"
-    : "assets/exercices/default_homme.png";
+    ? "assets/exercices/femme_default.png"
+    : "assets/exercices/homme_default.png";
 };
 // ============================================================
 // Helpers inputs
