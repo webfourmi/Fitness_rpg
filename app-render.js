@@ -683,8 +683,9 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
 
   const program = window.FitnessRpgConfig.getProgramById(session.programId);
   const workout = window.FitnessRpgPrograms.getActiveProgramWorkout?.(session);
+  const exercises = Array.isArray(workout?.exercises) ? workout.exercises : [];
 
-  if (!program || !workout) return;
+  if (!program || !workout || !exercises.length) return;
 
   const isBoss = session.type === "program-boss";
   const complete = window.FitnessRpgState.isProgramSessionComplete();
@@ -702,108 +703,104 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
       );
 
   const completedKeys = window.FitnessRpgPrograms.getCompletedExerciseKeys?.(session) || [];
-  const totalCount = workout.exercises.length;
-  const doneCount = window.FitnessRpgState.getProgramSessionCompletedCount?.() || 0;
+  const totalCount = exercises.length;
+  const doneCount = Math.min(
+    totalCount,
+    window.FitnessRpgState.getProgramSessionCompletedCount?.() || 0
+  );
 
-  const currentIndex = workout.exercises.findIndex((item, index) => {
+  const currentIndex = exercises.findIndex((item, index) => {
     const key = `${index}-${item.exerciseId}`;
     return !completedKeys.includes(key) && !completedKeys.includes(item.exerciseId);
   });
 
-  const activeIndex = currentIndex >= 0 ? currentIndex : Math.max(0, totalCount - 1);
-  const activeItem = workout.exercises[activeIndex];
-  const activeExercise = window.FitnessRpgData.getExerciseById(activeItem.exerciseId);
+  const activeIndex = currentIndex >= 0 ? currentIndex : totalCount - 1;
+  const activeItem = exercises[activeIndex];
+  const activeExercise = window.FitnessRpgExercises.getExercise?.(activeItem.exerciseId);
   const activeExerciseKey = `${activeIndex}-${activeItem.exerciseId}`;
   const activeDone = window.FitnessRpgState.isProgramSessionExerciseDone(activeExerciseKey);
-  const canUseTimer = activeItem.unit === "min" || activeItem.unit === "sec" || activeExercise?.hasTimer;
+  const normalizedUnit = String(activeItem.unit || "").toLowerCase();
+  const canUseTimer = [
+    "min",
+    "minute",
+    "minutes",
+    "sec",
+    "seconde",
+    "secondes"
+  ].includes(normalizedUnit) || activeExercise?.hasTimer;
 
   const stepMeta = window.FitnessRpgPrograms.getProgramExerciseStepMeta?.(
-    workout.exercises,
+    exercises,
     activeIndex
   );
 
-  const guidedProgress = totalCount > 0
-    ? Math.round((doneCount / totalCount) * 100)
-    : 0;
+  const guidedProgress = Math.round((doneCount / totalCount) * 100);
 
-
-
-const actionsHtml = `
-  ${
-    canUseTimer && !activeDone
-      ? `<button
-          class="ghost-btn start-program-exercise-timer-btn"
-          type="button"
-          data-exercise-id="${activeItem.exerciseId}"
-          data-exercise-key="${activeExerciseKey}"
-        >
-          ⏱️ Timer
-        </button>`
-      : ""
-  }
-
-  <button
-    class="${activeDone ? "ghost-btn" : "secondary-btn"} validate-program-exercise-btn"
-    type="button"
-    data-exercise-id="${activeItem.exerciseId}"
-    data-exercise-key="${activeExerciseKey}"
-    ${activeDone ? "disabled" : ""}
-  >
-    ${activeDone ? "Validé" : (activeIndex >= totalCount - 1 ? "Valider le dernier exercice" : "Valider et continuer")}
-  </button>
-`;
-
-const exercisesHtml = `
-  <div class="program-guided-progress">
-    <div class="program-guided-progress-bar">
-      <span style="width: ${guidedProgress}%"></span>
-    </div>
-    <small>${doneCount}/${totalCount}</small>
-  </div>
-
-  <div class="program-guided-step-header">
-    <p class="eyebrow">${stepMeta?.blockLabel || "⚔️ Étape"}</p>
+  const actionsHtml = `
     ${
-      stepMeta?.cycleLabel
-        ? `<strong>${stepMeta.cycleLabel}</strong>`
+      canUseTimer && !activeDone
+        ? `<button
+            class="ghost-btn start-program-exercise-timer-btn"
+            type="button"
+            data-exercise-id="${activeItem.exerciseId}"
+            data-exercise-key="${activeExerciseKey}"
+          >
+            ⏱️ Timer
+          </button>`
         : ""
     }
-    <span>${stepMeta?.stepLabel || `Exercice ${activeIndex + 1} / ${totalCount}`}</span>
-  </div>
 
-  ${
-    typeof window.FitnessRpgExercises?.programExerciseCardHtml === "function"
-      ? window.FitnessRpgExercises.programExerciseCardHtml(activeItem, activeIndex, {
-          done: activeDone,
-          actionsHtml
-        })
-      : `
-        <article class="program-session-exercise${activeDone ? " done" : ""}">
-          <div class="program-session-index">${activeIndex + 1}</div>
+    <button
+      class="${activeDone ? "ghost-btn" : "secondary-btn"} validate-program-exercise-btn"
+      type="button"
+      data-exercise-id="${activeItem.exerciseId}"
+      data-exercise-key="${activeExerciseKey}"
+      ${activeDone ? "disabled" : ""}
+    >
+      ${
+        activeDone
+          ? "Validé"
+          : activeIndex >= totalCount - 1
+            ? "Valider le dernier exercice"
+            : "Valider et continuer"
+      }
+    </button>
+  `;
 
-          <div>
-            <strong>${activeItem.phase}</strong>
-            <h3>${activeExercise?.title || activeItem.exerciseId}</h3>
-            <p>${activeItem.amount} ${activeItem.unit}</p>
-          </div>
+  const exerciseCardHtml = window.FitnessRpgExercises.programExerciseCardHtml?.(
+    activeItem,
+    activeIndex,
+    {
+      done: activeDone,
+      actionsHtml,
+      exerciseKey: activeExerciseKey
+    }
+  ) || `<p class="muted">Impossible d’afficher cet exercice.</p>`;
 
-          <div class="program-session-actions">
-            ${actionsHtml}
-          </div>
-        </article>
-      `
-  }
+  const exercisesHtml = `
+    <div class="program-guided-progress">
+      <div class="program-guided-progress-bar">
+        <span style="width: ${guidedProgress}%"></span>
+      </div>
+      <small>${doneCount}/${totalCount}</small>
+    </div>
 
-  ${
-    complete
-      ? `<p class="program-guided-complete-message">
-          Tous les exercices sont validés. Tu peux terminer la séance.
-        </p>`
-      : ""
-  }
-`;
+    <div class="program-guided-step-header">
+      <p class="eyebrow">${stepMeta?.blockLabel || "⚔️ Étape"}</p>
+      ${stepMeta?.cycleLabel ? `<strong>${stepMeta.cycleLabel}</strong>` : ""}
+      <span>${stepMeta?.stepLabel || `Exercice ${activeIndex + 1} / ${totalCount}`}</span>
+    </div>
 
+    ${exerciseCardHtml}
 
+    ${
+      complete
+        ? `<p class="program-guided-complete-message">
+            Tous les exercices sont validés. Tu peux terminer la séance.
+          </p>`
+        : ""
+    }
+  `;
 
   const title = isBoss
     ? `${program.title} · ${workout.title}`
@@ -840,9 +837,7 @@ const exercisesHtml = `
     </section>
   `;
 
-  const oldSession = detail.querySelector("#activeProgramSession");
-  if (oldSession) oldSession.remove();
-
+  detail.querySelector("#activeProgramSession")?.remove();
   detail.insertAdjacentHTML("afterbegin", sessionHtml);
 };
 
