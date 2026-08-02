@@ -580,6 +580,51 @@ window.FitnessRpgPrograms.formatExerciseAmount = function formatExerciseAmount(i
   return `${item.amount ?? ""} ${item.unit || ""}`.trim();
 };
 
+window.FitnessRpgPrograms.getProgramCompletionProgress = function getProgramCompletionProgress(programId) {
+  const weeks = window.FitnessRpgPrograms.getProgramWeeks(programId);
+  const plannedKeys = new Set();
+
+  weeks.forEach((week, weekIndex) => {
+    const weekNumber = Number(week.week || week.weekNumber || weekIndex + 1);
+    const days = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, weekNumber);
+
+    days.forEach((day) => {
+      plannedKeys.add(`${weekNumber}-${Number(day.day || 1)}`);
+    });
+  });
+
+  const completedKeys = new Set(
+    (window.FitnessRpgState?.getAllEntries?.() || [])
+      .filter((entry) => entry.type === "program" && entry.programId === programId)
+      .map((entry) => `${Number(entry.weekNumber || 1)}-${Number(entry.dayNumber || 1)}`)
+      .filter((key) => plannedKeys.has(key))
+  );
+
+  const total = plannedKeys.size;
+  const completed = completedKeys.size;
+
+  return {
+    completed,
+    total,
+    percent: total > 0 ? Math.round((completed / total) * 100) : 0,
+    complete: total > 0 && completed >= total
+  };
+};
+
+window.FitnessRpgPrograms.buildWorkoutSummaryItems = function buildWorkoutSummaryItems(items = []) {
+  return (Array.isArray(items) ? items : []).map((item) => {
+    const exercise = window.FitnessRpgData?.getExerciseById?.(item.exerciseId);
+    return {
+      icon: "✓",
+      phase: item.phase || "Exercice",
+      title: exercise?.title || item.exerciseId || "Exercice",
+      amount: item.amount,
+      unit: item.unit,
+      distanceKm: item.distanceKm
+    };
+  });
+};
+
 // ============================================================
 // Boss de programme
 // ============================================================
@@ -1880,6 +1925,14 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     return;
   }
 
+  const badgeIdsBefore = window.FitnessRpgRender?.captureBadgeIds?.() || [];
+  const levelBefore = window.FitnessRpgRender?.getLevelSnapshot?.();
+  const bossWasUnlocked = window.FitnessRpgPrograms.isProgramBossUnlocked(
+    session.programId,
+    session.weekNumber || 1
+  );
+  const durationSeconds = window.FitnessRpgRender?.getElapsedSeconds?.(session.startedAt);
+
   const xp = window.FitnessRpgProgress?.calculateProgramSessionXp
     ? window.FitnessRpgProgress.calculateProgramSessionXp(
         session.programId,
@@ -1938,8 +1991,59 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     `${message || "Séance terminée !"} +${xp} XP.`
   );
 
+  const weeklyBonusStatus = window.FitnessRpgProgress?.getWeeklyPlanningBonusStatus?.();
+  const weeklyBonusEarned = window.FitnessRpgProgress?.checkWeeklyPlanningBonus?.() === true;
+  const bonusXp = weeklyBonusEarned ? Number(weeklyBonusStatus?.xp || 0) : 0;
+
   window.FitnessRpgProgress?.checkBadges?.();
-  window.FitnessRpgProgress?.checkWeeklyPlanningBonus?.();
+
+  const newBadges = window.FitnessRpgRender?.getNewBadgeRewards?.(badgeIdsBefore) || [];
+  const rewards = newBadges.map((badge) => ({
+    icon: badge.icon || "🏅",
+    text: `Badge débloqué : ${badge.title}`
+  }));
+  const bossNowUnlocked = window.FitnessRpgPrograms.isProgramBossUnlocked(program.id, weekNumber);
+
+  if (!bossWasUnlocked && bossNowUnlocked) {
+    rewards.push({
+      icon: "🐉",
+      text: `Boss de la semaine ${weekNumber} débloqué`
+    });
+  }
+
+  if (weeklyBonusEarned) {
+    rewards.push({
+      icon: "📅",
+      text: `Bonus planning hebdomadaire : +${bonusXp} XP`
+    });
+  }
+
+  const programProgress = window.FitnessRpgPrograms.getProgramCompletionProgress(program.id);
+
+  window.FitnessRpgRender?.queueWorkoutSummary?.({
+    type: "program",
+    icon: "⚔️",
+    eyebrow: "Séance de programme accomplie",
+    title: day.title,
+    subtitle: `${program.title} · Semaine ${weekNumber} · Jour ${dayNumber}`,
+    durationSeconds,
+    xp: xp + bonusXp,
+    baseXp: xp,
+    bonusXp,
+    items: window.FitnessRpgPrograms.buildWorkoutSummaryItems(day.exercises),
+    progress: {
+      label: program.title,
+      value: programProgress.completed,
+      max: programProgress.total,
+      percent: programProgress.percent,
+      text: `${programProgress.completed} / ${programProgress.total} séances principales terminées`
+    },
+    rewards,
+    coachMessage: `${message || "Séance terminée !"} +${xp} XP.`,
+    levelBefore,
+    levelAfter: window.FitnessRpgRender?.getLevelSnapshot?.()
+  });
+
   window.FitnessRpgRender?.renderAll?.();
 
   window.setTimeout(() => {
@@ -1994,6 +2098,9 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
     return;
   }
 
+  const badgeIdsBefore = window.FitnessRpgRender?.captureBadgeIds?.() || [];
+  const levelBefore = window.FitnessRpgRender?.getLevelSnapshot?.();
+  const durationSeconds = window.FitnessRpgRender?.getElapsedSeconds?.(session.startedAt);
   const xp = Number(boss.xp || 50);
   const weekNumber = Number(session.weekNumber || 1);
   const title = `${program.title} · Semaine ${weekNumber} · ${boss.title} · ${safeVariant.label || safeVariant.title}`;
@@ -2043,13 +2150,50 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
   );
 
   window.FitnessRpgProgress?.checkBadges?.();
-  window.FitnessRpgRender?.renderAll?.();
+
+  const newBadges = window.FitnessRpgRender?.getNewBadgeRewards?.(badgeIdsBefore) || [];
+  const rewards = newBadges.map((badge) => ({
+    icon: badge.icon || "🏅",
+    text: `Badge débloqué : ${badge.title}`
+  }));
 
   if (chestReward?.success) {
-    window.setTimeout(() => {
-      window.FitnessRpgRender?.showChestRewardModal?.(chestReward);
-    }, 150);
+    rewards.push({
+      icon: "🎁",
+      text: chestReward.familiar?.name
+        ? `Familier obtenu : ${chestReward.familiar.name}`
+        : "Coffre de familier obtenu"
+    });
   }
+
+  const programProgress = window.FitnessRpgPrograms.getProgramCompletionProgress(program.id);
+
+  window.FitnessRpgRender?.queueWorkoutSummary?.({
+    type: "program-boss",
+    icon: "🐉",
+    eyebrow: "Boss vaincu",
+    title: boss.title,
+    subtitle: `${program.title} · Semaine ${weekNumber} · ${safeVariant.label || safeVariant.title}`,
+    durationSeconds,
+    xp,
+    items: window.FitnessRpgPrograms.buildWorkoutSummaryItems(safeVariant.exercises),
+    progress: {
+      label: program.title,
+      value: programProgress.completed,
+      max: programProgress.total,
+      percent: programProgress.percent,
+      text: programProgress.complete
+        ? "Toutes les séances principales sont terminées"
+        : `${programProgress.completed} / ${programProgress.total} séances principales terminées`
+    },
+    rewards,
+    coachMessage: [victoryMessage, badgeMessage].filter(Boolean).join(" "),
+    chestReward,
+    levelBefore,
+    levelAfter: window.FitnessRpgRender?.getLevelSnapshot?.()
+  });
+
+  window.FitnessRpgRender?.renderAll?.();
 
   window.setTimeout(() => {
     window.FitnessRpgRender?.renderProgramDetail?.(program.id);
