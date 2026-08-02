@@ -828,7 +828,9 @@ window.FitnessRpgNavigation.handleExerciseClick = function handleExerciseClick(e
     const exerciseId = timerButton.dataset.exerciseId;
 
     if (exerciseId) {
-      window.FitnessRpgExercises?.openTimer?.(exerciseId);
+      window.FitnessRpgExercises?.openTimer?.(exerciseId, {
+        sourceElement: timerButton
+      });
     }
 
     return true;
@@ -843,7 +845,9 @@ window.FitnessRpgNavigation.handleExerciseClick = function handleExerciseClick(e
     const exerciseId = validateButton.dataset.exerciseId;
 
     if (exerciseId) {
-      window.FitnessRpgExercises?.validateExercise?.(exerciseId);
+      window.FitnessRpgExercises?.validateExercise?.(exerciseId, {
+        sourceElement: validateButton
+      });
     }
 
     return true;
