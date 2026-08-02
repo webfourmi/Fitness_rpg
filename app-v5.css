@@ -1633,6 +1633,266 @@ textarea:focus {
   font-size: 0.84rem;
 }
 
+
+/* Progression détaillée des programmes */
+.program-progress-compact {
+  display: grid;
+  gap: 7px;
+  margin-top: var(--space-sm);
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.program-progress-compact-line,
+.program-progress-compact-meta,
+.program-progress-heading,
+.program-progress-week > header,
+.selected-program-day-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.program-progress-compact-line span,
+.program-progress-heading > strong {
+  color: var(--accent-strong);
+  font-weight: 950;
+}
+
+.program-progress-compact-meta {
+  flex-wrap: wrap;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.program-progress-bar {
+  width: 100%;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.program-progress-bar.large {
+  height: 14px;
+}
+
+.program-progress-bar > span {
+  display: block;
+  height: 100%;
+  min-width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+  transition: width 0.25s ease;
+}
+
+.program-card-actions {
+  display: grid;
+  gap: 8px;
+  margin-top: var(--space-sm);
+}
+
+.program-progress-dashboard {
+  display: grid;
+  gap: var(--space-md);
+  border-color: var(--border-strong);
+}
+
+.program-progress-heading h3 {
+  margin: 6px 0 0;
+}
+
+.program-progress-heading > strong {
+  font-size: 1.6rem;
+}
+
+.program-progress-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.program-progress-stats > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.program-progress-stats strong {
+  color: var(--accent-strong);
+  overflow-wrap: anywhere;
+}
+
+.program-progress-stats span {
+  color: var(--text-muted);
+  font-size: 0.76rem;
+}
+
+.program-progress-weeks,
+.program-progress-session-list {
+  display: grid;
+  gap: 8px;
+}
+
+.program-progress-week {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.program-progress-week.status-current,
+.program-progress-week.status-active {
+  border-color: var(--border-strong);
+  background: var(--accent-soft);
+}
+
+.program-progress-week.status-completed {
+  border-color: rgba(118, 214, 114, 0.42);
+  background: rgba(118, 214, 114, 0.08);
+}
+
+.program-progress-week > header > div {
+  display: grid;
+  gap: 2px;
+}
+
+.program-progress-week > header span,
+.program-progress-week-state {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.program-progress-session-btn,
+.program-progress-boss-btn {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 54px;
+  padding: 8px;
+  text-align: left;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.program-progress-session-btn span:nth-child(2),
+.program-progress-boss-btn span:nth-child(2) {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.program-progress-session-btn small,
+.program-progress-boss-btn small {
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.program-progress-session-btn em {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 850;
+}
+
+.program-progress-status-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 950;
+}
+
+.program-progress-session-btn.status-completed,
+.program-progress-boss-btn.status-defeated {
+  border-color: rgba(118, 214, 114, 0.38);
+  background: rgba(118, 214, 114, 0.09);
+}
+
+.program-progress-session-btn.status-active,
+.program-progress-session-btn.status-next,
+.program-progress-boss-btn.status-active,
+.program-progress-boss-btn.status-unlocked {
+  border-color: var(--border-strong);
+  background: var(--accent-soft);
+}
+
+.program-progress-boss-btn.status-locked {
+  opacity: 0.58;
+  cursor: not-allowed;
+}
+
+.program-day-status {
+  flex-shrink: 0;
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+
+.program-day-status.status-completed {
+  color: var(--green);
+  background: rgba(118, 214, 114, 0.12);
+}
+
+.program-day-status.status-active,
+.program-day-status.status-next {
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+}
+
+@media (min-width: 700px) {
+  .program-card-actions {
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+  }
+
+  .program-progress-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .program-progress-weeks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .program-progress-heading,
+  .selected-program-day-heading {
+    align-items: flex-start;
+  }
+
+  .program-progress-session-btn,
+  .program-progress-boss-btn {
+    grid-template-columns: 30px minmax(0, 1fr);
+  }
+
+  .program-progress-session-btn em {
+    grid-column: 2;
+  }
+}
+
 .program-card li,
 .program-day-card li {
   margin-bottom: 3px;
@@ -5677,7 +5937,7 @@ body.modal-open {
   }
    
    .program-card-actions {
-     grid-template-columns: repeat(2, minmax(0, 1fr));
+     grid-template-columns: minmax(0, 1fr) auto auto;
    }
 
   .timer-actions {
