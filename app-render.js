@@ -490,6 +490,7 @@ window.FitnessRpgRender.renderTraining = function renderTraining() {
 
   window.FitnessRpgRender.renderHeroPanel();
   window.FitnessRpgRender.renderCoachPanel();
+  window.FitnessRpgRender.renderActiveSessionResumeCard();
   window.FitnessRpgRender.renderTodayCard();
 };
 
@@ -585,6 +586,79 @@ window.FitnessRpgRender.renderCoachPanel = function renderCoachPanel() {
   if (messageNode && !messageNode.textContent.trim()) {
     messageNode.textContent = window.FitnessRpgData.getCoachMessage(coachId, "start");
   }
+};
+
+window.FitnessRpgRender.renderActiveSessionResumeCard = function renderActiveSessionResumeCard() {
+  const card = document.querySelector("#activeSessionResumeCard");
+  if (!card) return;
+
+  const session = window.FitnessRpgState.getActiveProgramSession?.();
+
+  if (!session) {
+    card.classList.add("hidden");
+    card.innerHTML = "";
+    return;
+  }
+
+  const program = window.FitnessRpgPrograms.getProgram?.(session.programId)
+    || window.FitnessRpgConfig.getProgramById?.(session.programId);
+  const workout = window.FitnessRpgPrograms.getActiveProgramWorkout?.(session);
+  const exercises = Array.isArray(workout?.exercises) ? workout.exercises : [];
+  const total = exercises.length;
+  const done = Math.min(
+    total,
+    window.FitnessRpgState.getProgramSessionCompletedCount?.() || 0
+  );
+  const remaining = Math.max(0, total - done);
+  const progress = total ? Math.round((done / total) * 100) : 0;
+  const isBoss = session.type === "program-boss";
+  const position = isBoss
+    ? `Boss · Semaine ${Number(session.weekNumber || 1)}`
+    : `Semaine ${Number(session.weekNumber || 1)} · Jour ${Number(session.dayNumber || 1)}`;
+
+  card.innerHTML = `
+    <div class="active-session-resume-header">
+      <div>
+        <p class="eyebrow">${isBoss ? "🐉 Boss en cours" : "⚔️ Séance en cours"}</p>
+        <h2>${window.FitnessRpgRender.escapeHtml(program?.title || "Programme")}</h2>
+      </div>
+      <strong>${done}/${total}</strong>
+    </div>
+
+    <p class="active-session-resume-position">${position}</p>
+    <p class="active-session-resume-title">
+      ${window.FitnessRpgRender.escapeHtml(
+        workout?.title || workout?.subtitle || "Séance en cours"
+      )}
+    </p>
+
+    <div
+      class="active-session-resume-progress"
+      role="progressbar"
+      aria-label="Progression de la séance"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="${progress}"
+    >
+      <span style="width: ${progress}%"></span>
+    </div>
+
+    <div class="active-session-resume-meta">
+      <span>${done} validé${done > 1 ? "s" : ""}</span>
+      <span>${remaining} restant${remaining > 1 ? "s" : ""}</span>
+    </div>
+
+    <div class="active-session-resume-actions">
+      <button id="resumeActiveProgramSessionButton" class="primary-btn" type="button">
+        Reprendre la séance
+      </button>
+      <button id="abandonActiveProgramSessionButton" class="ghost-btn" type="button">
+        Abandonner
+      </button>
+    </div>
+  `;
+
+  card.classList.remove("hidden");
 };
 
 window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
