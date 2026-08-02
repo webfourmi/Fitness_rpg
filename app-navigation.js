@@ -506,6 +506,48 @@ window.FitnessRpgNavigation.handleProgramClick = function handleProgramClick(eve
     return true;
   }
 
+  const programPrimaryActionButton = target.closest(".program-primary-action-btn");
+
+  if (programPrimaryActionButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    const programId = programPrimaryActionButton.dataset.programId;
+    if (programId) {
+      window.FitnessRpgPrograms?.runProgramPrimaryAction?.(programId);
+    }
+
+    return true;
+  }
+
+  const progressSessionButton = target.closest(".program-progress-session-btn");
+
+  if (progressSessionButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    window.FitnessRpgPrograms?.openProgramProgressSession?.(
+      progressSessionButton.dataset.programId,
+      Number(progressSessionButton.dataset.weekNumber || 1),
+      Number(progressSessionButton.dataset.dayNumber || 1)
+    );
+
+    return true;
+  }
+
+  const progressBossButton = target.closest(".program-progress-boss-btn");
+
+  if (progressBossButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    if (!progressBossButton.disabled) {
+      window.FitnessRpgPrograms?.openProgramProgressBoss?.(
+        progressBossButton.dataset.programId,
+        Number(progressBossButton.dataset.weekNumber || 1)
+      );
+    }
+
+    return true;
+  }
+
   const openProgramDetailButton = target.closest(".open-program-detail-btn");
 
   if (openProgramDetailButton) {
