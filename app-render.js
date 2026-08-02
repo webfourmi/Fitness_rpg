@@ -1970,6 +1970,318 @@ window.FitnessRpgRender.renderWeight = function renderWeight() {
 };
 
 // ============================================================
+// Bilan de séance
+// ============================================================
+
+window.FitnessRpgRender.pendingWorkoutSummary = null;
+window.FitnessRpgRender.pendingSummaryChestReward = null;
+
+window.FitnessRpgRender.captureBadgeIds = function captureBadgeIds() {
+  const profile = window.FitnessRpgState?.getProfile?.();
+  return Array.isArray(profile?.badges) ? [...profile.badges] : [];
+};
+
+window.FitnessRpgRender.getNewBadgeRewards = function getNewBadgeRewards(beforeIds = []) {
+  const before = new Set(Array.isArray(beforeIds) ? beforeIds : []);
+  const profile = window.FitnessRpgState?.getProfile?.();
+  const current = Array.isArray(profile?.badges) ? profile.badges : [];
+  const badges = Array.isArray(window.FitnessRpgData?.badges)
+    ? window.FitnessRpgData.badges
+    : [];
+
+  return current
+    .filter((badgeId) => !before.has(badgeId))
+    .map((badgeId) => {
+      const badge = badges.find((item) => item.id === badgeId);
+      return {
+        id: badgeId,
+        title: badge?.title || badgeId,
+        icon: badge?.icon || "🏅"
+      };
+    });
+};
+
+window.FitnessRpgRender.getLevelSnapshot = function getLevelSnapshot() {
+  const info = window.FitnessRpgProgress?.getProfileLevelInfo?.()
+    || window.FitnessRpgConfig?.levelInfo?.(
+      window.FitnessRpgState?.getProfile?.()?.totalXp || 0
+    )
+    || {};
+
+  return {
+    level: Number(info.level || 1),
+    rank: info.rank || window.FitnessRpgConfig?.getRankTitle?.(info.level || 1) || "Novice",
+    currentXp: Number(info.currentXp || 0),
+    nextXp: Number(info.nextXp || 0),
+    totalXp: Number(info.totalXp || 0)
+  };
+};
+
+window.FitnessRpgRender.getElapsedSeconds = function getElapsedSeconds(startedAt, endedAt = Date.now()) {
+  const startedMs = typeof startedAt === "number"
+    ? startedAt
+    : Date.parse(startedAt || "");
+  const endedMs = typeof endedAt === "number"
+    ? endedAt
+    : Date.parse(endedAt || "");
+
+  if (!Number.isFinite(startedMs) || !Number.isFinite(endedMs) || endedMs < startedMs) {
+    return null;
+  }
+
+  return Math.max(0, Math.round((endedMs - startedMs) / 1000));
+};
+
+window.FitnessRpgRender.formatWorkoutDuration = function formatWorkoutDuration(seconds) {
+  if (seconds === null || seconds === undefined || seconds === "") {
+    return "Non chronométrée";
+  }
+
+  const value = Number(seconds);
+  if (!Number.isFinite(value) || value < 0) return "Non chronométrée";
+
+  const rounded = Math.max(0, Math.round(value));
+  const hours = Math.floor(rounded / 3600);
+  const minutes = Math.floor((rounded % 3600) / 60);
+  const rest = rounded % 60;
+
+  if (hours > 0) return `${hours} h ${String(minutes).padStart(2, "0")} min`;
+  if (minutes > 0) return `${minutes} min ${String(rest).padStart(2, "0")} s`;
+  return `${rest} s`;
+};
+
+window.FitnessRpgRender.formatWorkoutItemAmount = function formatWorkoutItemAmount(item = {}) {
+  const amount = item.amount ?? "";
+  const unit = item.unit || "";
+  const distance = Number(item.distanceKm);
+  const base = `${amount} ${unit}`.trim();
+
+  if (Number.isFinite(distance) && distance > 0) {
+    return `${base}${base ? " · " : ""}${distance.toFixed(1)} km`;
+  }
+
+  return base || "Réalisé";
+};
+
+window.FitnessRpgRender.queueWorkoutSummary = function queueWorkoutSummary(summary = {}) {
+  const items = Array.isArray(summary.items) ? summary.items.filter(Boolean) : [];
+  const rewards = Array.isArray(summary.rewards) ? summary.rewards.filter(Boolean) : [];
+
+  window.FitnessRpgRender.pendingWorkoutSummary = {
+    type: summary.type || "workout",
+    icon: summary.icon || "✅",
+    eyebrow: summary.eyebrow || "Quête accomplie",
+    title: summary.title || "Séance terminée",
+    subtitle: summary.subtitle || "",
+    durationSeconds: summary.durationSeconds !== null
+      && summary.durationSeconds !== undefined
+      && summary.durationSeconds !== ""
+      && Number.isFinite(Number(summary.durationSeconds))
+        ? Math.max(0, Number(summary.durationSeconds))
+        : null,
+    xp: Math.max(0, Number(summary.xp || 0)),
+    baseXp: Math.max(0, Number(summary.baseXp ?? summary.xp ?? 0)),
+    bonusXp: Math.max(0, Number(summary.bonusXp || 0)),
+    items,
+    rewards,
+    progress: summary.progress || null,
+    coachMessage: summary.coachMessage || "Belle séance. La progression est en marche.",
+    levelBefore: summary.levelBefore || null,
+    levelAfter: summary.levelAfter || window.FitnessRpgRender.getLevelSnapshot(),
+    createdAt: new Date().toISOString()
+  };
+
+  if (summary.chestReward?.success) {
+    window.FitnessRpgRender.pendingSummaryChestReward = summary.chestReward;
+  }
+
+  return window.FitnessRpgRender.pendingWorkoutSummary;
+};
+
+window.FitnessRpgRender.peekWorkoutSummary = function peekWorkoutSummary() {
+  return window.FitnessRpgRender.pendingWorkoutSummary || null;
+};
+
+window.FitnessRpgRender.consumeWorkoutSummary = function consumeWorkoutSummary() {
+  const summary = window.FitnessRpgRender.pendingWorkoutSummary || null;
+  window.FitnessRpgRender.pendingWorkoutSummary = null;
+  return summary;
+};
+
+window.FitnessRpgRender.isWorkoutSummaryVisible = function isWorkoutSummaryVisible() {
+  const overlay = document.querySelector("#workoutSummaryOverlay");
+  return Boolean(overlay && !overlay.classList.contains("hidden"));
+};
+
+window.FitnessRpgRender.renderWorkoutSummaryOverlay = function renderWorkoutSummaryOverlay() {
+  const summary = window.FitnessRpgRender.peekWorkoutSummary();
+  const overlay = document.querySelector("#workoutSummaryOverlay");
+  const card = document.querySelector("#workoutSummaryCard");
+
+  if (!overlay || !card || !summary) return false;
+
+  const escape = window.FitnessRpgRender.escapeHtml;
+  const levelAfter = summary.levelAfter || window.FitnessRpgRender.getLevelSnapshot();
+  const levelBefore = summary.levelBefore || levelAfter;
+  const levelChanged = Number(levelAfter.level) > Number(levelBefore.level);
+  const durationText = window.FitnessRpgRender.formatWorkoutDuration(summary.durationSeconds);
+  const progress = summary.progress;
+  const progressPercent = progress
+    ? Math.max(0, Math.min(100, Number(progress.percent || 0)))
+    : 0;
+
+  const itemsHtml = summary.items.length
+    ? summary.items.map((item) => `
+        <li class="workout-summary-exercise">
+          <span class="workout-summary-exercise-icon">${escape(item.icon || "✓")}</span>
+          <span class="workout-summary-exercise-copy">
+            <small>${escape(item.phase || "Exercice")}</small>
+            <strong>${escape(item.title || "Exercice")}</strong>
+          </span>
+          <em>${escape(window.FitnessRpgRender.formatWorkoutItemAmount(item))}</em>
+        </li>
+      `).join("")
+    : `<li class="workout-summary-empty">Séance enregistrée dans le journal.</li>`;
+
+  const rewardsHtml = summary.rewards.length
+    ? `
+      <section class="workout-summary-rewards">
+        <h2>Récompenses et déblocages</h2>
+        <ul>
+          ${summary.rewards.map((reward) => {
+            const icon = typeof reward === "string" ? "✨" : reward.icon || "✨";
+            const text = typeof reward === "string" ? reward : reward.text || reward.title || "Récompense";
+            return `<li><span>${escape(icon)}</span><strong>${escape(text)}</strong></li>`;
+          }).join("")}
+        </ul>
+      </section>
+    `
+    : "";
+
+  const progressHtml = progress
+    ? `
+      <section class="workout-summary-progress">
+        <div>
+          <span>${escape(progress.label || "Progression")}</span>
+          <strong>${escape(progress.text || `${progress.value || 0} / ${progress.max || 0}`)}</strong>
+        </div>
+        <div class="workout-summary-progress-track" aria-label="Progression ${Math.round(progressPercent)} %">
+          <span style="width:${progressPercent}%"></span>
+        </div>
+      </section>
+    `
+    : "";
+
+  const xpDetail = summary.bonusXp > 0
+    ? `<small>${summary.baseXp} XP de séance + ${summary.bonusXp} XP bonus</small>`
+    : "";
+
+  card.innerHTML = `
+    <header class="workout-summary-header">
+      <div class="workout-summary-sigil" aria-hidden="true">${escape(summary.icon)}</div>
+      <p class="eyebrow">${escape(summary.eyebrow)}</p>
+      <h1 id="workoutSummaryTitle">${escape(summary.title)}</h1>
+      ${summary.subtitle ? `<p>${escape(summary.subtitle)}</p>` : ""}
+    </header>
+
+    <section class="workout-summary-stats" aria-label="Résumé de la séance">
+      <article>
+        <span>⏱️</span>
+        <small>Durée</small>
+        <strong>${escape(durationText)}</strong>
+      </article>
+      <article>
+        <span>✨</span>
+        <small>XP gagnée</small>
+        <strong>+${summary.xp} XP</strong>
+        ${xpDetail}
+      </article>
+      <article>
+        <span>⚔️</span>
+        <small>Exercices</small>
+        <strong>${summary.items.length}</strong>
+      </article>
+      <article>
+        <span>${levelChanged ? "🌟" : "🛡️"}</span>
+        <small>${levelChanged ? "Nouveau niveau" : "Niveau"}</small>
+        <strong>${escape(`Niv. ${levelAfter.level} · ${levelAfter.rank}`)}</strong>
+      </article>
+    </section>
+
+    ${progressHtml}
+
+    <section class="workout-summary-list-section">
+      <h2>Exercices réalisés</h2>
+      <ul class="workout-summary-exercises">${itemsHtml}</ul>
+    </section>
+
+    ${rewardsHtml}
+
+    <blockquote class="workout-summary-coach">
+      <span>💬</span>
+      <p>${escape(summary.coachMessage)}</p>
+    </blockquote>
+
+    <footer class="workout-summary-actions">
+      <button id="sessionSummaryHomeButton" class="ghost-btn" type="button">Accueil</button>
+      <button id="sessionSummaryProgressButton" class="secondary-btn" type="button">Voir ma progression</button>
+      <button id="sessionSummaryContinueButton" class="primary-btn" type="button">Continuer</button>
+    </footer>
+  `;
+
+  overlay.classList.remove("hidden");
+  overlay.setAttribute("aria-hidden", "false");
+  document.body.classList.add("workout-summary-active");
+  card.scrollTop = 0;
+  return true;
+};
+
+window.FitnessRpgRender.renderPostCompletionRewards = function renderPostCompletionRewards() {
+  if (window.FitnessRpgRender.isWorkoutSummaryVisible()) return;
+
+  const levelPending = window.FitnessRpgProgress?.peekLevelUpModal?.();
+  if (levelPending) {
+    window.FitnessRpgRender.renderLevelUpOverlay?.();
+    return;
+  }
+
+  const badgePending = window.FitnessRpgProgress?.peekBadgeRewardModal?.();
+  if (badgePending) {
+    window.FitnessRpgRender.renderBadgeRewardOverlay?.();
+    return;
+  }
+
+  const chestReward = window.FitnessRpgRender.pendingSummaryChestReward;
+  if (chestReward?.success) {
+    window.FitnessRpgRender.pendingSummaryChestReward = null;
+    window.FitnessRpgRender.showChestRewardModal?.(chestReward);
+  }
+};
+
+window.FitnessRpgRender.closeWorkoutSummaryOverlay = function closeWorkoutSummaryOverlay(destination = null) {
+  const overlay = document.querySelector("#workoutSummaryOverlay");
+
+  if (overlay) {
+    overlay.classList.add("hidden");
+    overlay.setAttribute("aria-hidden", "true");
+  }
+
+  document.body.classList.remove("workout-summary-active");
+  window.FitnessRpgRender.consumeWorkoutSummary();
+
+  if (destination === "home") {
+    window.FitnessRpgState?.setPose?.("idle");
+    window.FitnessRpgState?.setPage?.("home");
+    window.FitnessRpgRender.renderCurrentPage?.();
+  } else if (destination === "progression") {
+    window.FitnessRpgState?.setPage?.("progression");
+    window.FitnessRpgRender.renderCurrentPage?.();
+  }
+
+  window.FitnessRpgRender.renderPostCompletionRewards();
+};
+
+// ============================================================
 // Niveau supérieur
 // ============================================================
 
@@ -2065,6 +2377,8 @@ window.FitnessRpgRender.openLevelUpChestReward = function openLevelUpChestReward
   }, 950);
 };
 window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
+  if (window.FitnessRpgRender.isWorkoutSummaryVisible?.()) return;
+
   const pending = window.FitnessRpgProgress.peekLevelUpModal?.();
   const overlay = document.querySelector("#levelUpOverlay");
 
@@ -2172,13 +2486,15 @@ window.FitnessRpgRender.closeLevelUpOverlay = function closeLevelUpOverlay() {
   document.body.classList.remove("level-up-active");
   window.FitnessRpgProgress.consumeLevelUpModal?.();
   window.FitnessRpgRender.renderHeroPanel?.();
-  window.FitnessRpgRender.renderBadgeRewardOverlay?.();
+  window.FitnessRpgRender.renderPostCompletionRewards?.();
 };
 // ============================================================
 // Badge obtenu
 // ============================================================
 
 window.FitnessRpgRender.renderBadgeRewardOverlay = function renderBadgeRewardOverlay() {
+  if (window.FitnessRpgRender.isWorkoutSummaryVisible?.()) return;
+
   const levelOverlay = document.querySelector("#levelUpOverlay");
 
   if (levelOverlay && !levelOverlay.classList.contains("hidden")) {
@@ -2239,7 +2555,7 @@ window.FitnessRpgRender.closeBadgeRewardOverlay = function closeBadgeRewardOverl
   window.FitnessRpgProgress.consumeBadgeRewardModal?.();
 
   window.FitnessRpgRender.renderCurrentPage?.();
-  window.FitnessRpgRender.renderBadgeRewardOverlay?.();
+  window.FitnessRpgRender.renderPostCompletionRewards?.();
 };
 // ============================================================
 // Carrousel évolution du héros
@@ -2830,6 +3146,6 @@ window.FitnessRpgRender.renderCurrentPage = function renderCurrentPage() {
 
 window.FitnessRpgRender.renderAll = function renderAll() {
   window.FitnessRpgRender.renderCurrentPage();
-  window.FitnessRpgRender.renderLevelUpOverlay();
-  window.FitnessRpgRender.renderBadgeRewardOverlay();
+  window.FitnessRpgRender.renderWorkoutSummaryOverlay?.();
+  window.FitnessRpgRender.renderPostCompletionRewards?.();
 };
