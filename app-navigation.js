@@ -422,6 +422,24 @@ window.FitnessRpgNavigation.saveWeight = function saveWeight() {
 // ============================================================
 
 window.FitnessRpgNavigation.handleOverlayClick = function handleOverlayClick(event, target) {
+  if (target.closest("#sessionSummaryContinueButton")) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgRender?.closeWorkoutSummaryOverlay?.();
+    return true;
+  }
+
+  if (target.closest("#sessionSummaryHomeButton")) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgRender?.closeWorkoutSummaryOverlay?.("home");
+    return true;
+  }
+
+  if (target.closest("#sessionSummaryProgressButton")) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgRender?.closeWorkoutSummaryOverlay?.("progression");
+    return true;
+  }
+
   if (target.closest("#rpgModalOkButton")) {
     window.FitnessRpgRender?.closeModal?.();
     return true;
