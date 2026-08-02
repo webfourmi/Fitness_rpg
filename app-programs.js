@@ -45,6 +45,170 @@ window.FitnessRpgPrograms.setCoachMessage = function setCoachMessage(message) {
 };
 
 // ============================================================
+// Reprise et remplacement sécurisé d’une séance active
+// ============================================================
+
+window.FitnessRpgPrograms.isSameActiveProgramSession = function isSameActiveProgramSession(
+  activeSession,
+  nextSession = {}
+) {
+  if (!activeSession || !nextSession.programId) return false;
+
+  const activeType = activeSession.type === "program-boss"
+    ? "program-boss"
+    : "program";
+  const nextType = nextSession.type === "program-boss"
+    ? "program-boss"
+    : "program";
+
+  if (activeType !== nextType) return false;
+  if (activeSession.programId !== nextSession.programId) return false;
+  if (Number(activeSession.weekNumber || 1) !== Number(nextSession.weekNumber || 1)) {
+    return false;
+  }
+
+  if (activeType === "program-boss") {
+    return String(activeSession.bossVariant || "indoor")
+      === String(nextSession.bossVariant || "indoor");
+  }
+
+  return Number(activeSession.dayNumber || 1) === Number(nextSession.dayNumber || 1);
+};
+
+window.FitnessRpgPrograms.getProgramSessionLabel = function getProgramSessionLabel(session = null) {
+  if (!session) return "Séance de programme";
+
+  const program = window.FitnessRpgPrograms.getProgram(session.programId);
+  const programTitle = program?.title || "Programme";
+  const weekNumber = Number(session.weekNumber || 1);
+
+  if (session.type === "program-boss") {
+    const boss = window.FitnessRpgPrograms.getProgramBoss(
+      session.programId,
+      weekNumber
+    );
+    const variant = window.FitnessRpgPrograms.getProgramBossVariant(
+      session.programId,
+      weekNumber,
+      session.bossVariant || "indoor"
+    );
+
+    return `${programTitle} · Boss semaine ${weekNumber} · ${variant?.title || boss?.title || "Mission"}`;
+  }
+
+  const dayNumber = Number(session.dayNumber || 1);
+  const day = window.FitnessRpgPrograms.getProgramDay(
+    session.programId,
+    dayNumber,
+    weekNumber
+  );
+
+  return `${programTitle} · Semaine ${weekNumber} · Jour ${dayNumber} · ${day?.title || "Séance"}`;
+};
+
+window.FitnessRpgPrograms.prepareProgramSessionStart = function prepareProgramSessionStart(
+  nextSession = {}
+) {
+  const activeSession = window.FitnessRpgState.getActiveProgramSession?.();
+
+  if (!activeSession) {
+    return { allowed: true, resume: false, session: null };
+  }
+
+  if (window.FitnessRpgPrograms.isSameActiveProgramSession(activeSession, nextSession)) {
+    return { allowed: true, resume: true, session: activeSession };
+  }
+
+  const currentLabel = window.FitnessRpgPrograms.getProgramSessionLabel(activeSession);
+  const nextLabel = window.FitnessRpgPrograms.getProgramSessionLabel(nextSession);
+  const confirmed = window.confirm(
+    "Une séance est déjà en cours.\n\n" +
+    `Séance actuelle : ${currentLabel}\n` +
+    `Nouvelle séance : ${nextLabel}\n\n` +
+    "Remplacer la séance actuelle ? Sa progression non terminée sera supprimée."
+  );
+
+  if (!confirmed) {
+    return { allowed: false, resume: false, session: activeSession };
+  }
+
+  window.FitnessRpgState.clearActiveProgramSession?.();
+  return { allowed: true, resume: false, session: null };
+};
+
+window.FitnessRpgPrograms.resumeActiveProgramSession = function resumeActiveProgramSession() {
+  const session = window.FitnessRpgState.getActiveProgramSession?.();
+
+  if (!session) {
+    window.FitnessRpgPrograms.showMessage({
+      icon: "⚠️",
+      title: "Aucune séance en cours",
+      message: "Il n’y a aucune séance à reprendre.",
+      okText: "Compris"
+    });
+    return;
+  }
+
+  const program = window.FitnessRpgPrograms.getProgram(session.programId);
+
+  if (!program) {
+    window.FitnessRpgPrograms.showMessage({
+      icon: "⚠️",
+      title: "Programme introuvable",
+      message: "La séance est enregistrée, mais son programme est introuvable.",
+      okText: "Compris"
+    });
+    return;
+  }
+
+  const weekNumber = Number(session.weekNumber || 1);
+  const firstDay = window.FitnessRpgPrograms.getProgramDaysForWeek(
+    session.programId,
+    weekNumber
+  )[0];
+  const dayNumber = session.type === "program-boss"
+    ? Number(firstDay?.day || 1)
+    : Number(session.dayNumber || 1);
+
+  window.FitnessRpgPrograms.setProgramBrowserSelection(
+    session.programId,
+    weekNumber,
+    dayNumber,
+    session
+  );
+
+  window.FitnessRpgNavigation?.setPage?.("programs");
+  window.FitnessRpgRender?.renderProgramDetail?.(session.programId);
+  window.FitnessRpgPrograms.scrollToProgramDetail();
+};
+
+window.FitnessRpgPrograms.abandonActiveProgramSession = function abandonActiveProgramSession() {
+  const session = window.FitnessRpgState.getActiveProgramSession?.();
+  if (!session) return;
+
+  const label = window.FitnessRpgPrograms.getProgramSessionLabel(session);
+  const confirmed = window.confirm(
+    `Abandonner « ${label} » ?\n\n` +
+    "La progression de cette séance en cours sera supprimée. " +
+    "Les séances déjà terminées, l’XP et le journal seront conservés."
+  );
+
+  if (!confirmed) return;
+
+  window.FitnessRpgState.clearActiveProgramSession?.();
+  window.FitnessRpgState.setPose?.("idle");
+  window.FitnessRpgRender?.renderAll?.();
+
+  window.FitnessRpgPrograms.showMessage({
+    icon: "🛡️",
+    title: "Séance abandonnée",
+    message: "La séance en cours a été supprimée. Ton historique et tes XP sont intacts.",
+    okText: "Compris"
+  });
+};
+
+
+// ============================================================
 // Helpers programmes
 // ============================================================
 
@@ -459,6 +623,21 @@ window.FitnessRpgPrograms.startProgramBossSession = function startProgramBossSes
       message: boss.lockedMessage || "Termine les séances de la semaine pour débloquer ce boss.",
       okText: "Compris"
     });
+    return;
+  }
+
+  const startDecision = window.FitnessRpgPrograms.prepareProgramSessionStart({
+    type: "program-boss",
+    programId,
+    weekNumber: Number(weekNumber || 1),
+    dayNumber: 0,
+    bossVariant: variant.id || variantId || "indoor"
+  });
+
+  if (!startDecision.allowed) return;
+
+  if (startDecision.resume) {
+    window.FitnessRpgPrograms.resumeActiveProgramSession();
     return;
   }
 
@@ -1514,6 +1693,27 @@ window.FitnessRpgPrograms.validateProgramDay = function validateProgramDay(
     planningTitle: options.planningTitle || (browserMatches ? browser.planningTitle : null),
     planningSource: options.planningSource || (browserMatches ? browser.planningSource : null)
   };
+
+  const startDecision = window.FitnessRpgPrograms.prepareProgramSessionStart({
+    type: "program",
+    programId,
+    weekNumber: Number(weekNumber || 1),
+    dayNumber: Number(dayNumber || 1)
+  });
+
+  if (!startDecision.allowed) return;
+
+  if (startDecision.resume) {
+    window.FitnessRpgPrograms.setProgramBrowserSelection(
+      programId,
+      weekNumber,
+      dayNumber,
+      startDecision.session || planningContext
+    );
+    window.FitnessRpgRender?.renderProgramDetail?.(programId);
+    window.FitnessRpgPrograms.scrollToProgramDetail();
+    return;
+  }
 
   const activeSession = window.FitnessRpgState.startProgramSession?.(
     programId,
