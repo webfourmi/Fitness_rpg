@@ -1112,6 +1112,148 @@ plan.forEach(([dayLabel, title, programId, source, bossWeekNumber], index) => {
 
 window.FitnessRpgRender.selectedProgramTier = window.FitnessRpgRender.selectedProgramTier || "beginner";
 
+window.FitnessRpgRender.getProgramProgressStatusLabel = function getProgramProgressStatusLabel(status) {
+  const labels = {
+    completed: "Terminée",
+    active: "En cours",
+    next: "Prochaine",
+    upcoming: "À venir",
+    defeated: "Vaincu",
+    unlocked: "Débloqué",
+    locked: "Verrouillé",
+    current: "En cours"
+  };
+
+  return labels[status] || "À venir";
+};
+
+window.FitnessRpgRender.renderProgramProgressOverviewHtml = function renderProgramProgressOverviewHtml(
+  progress,
+  options = {}
+) {
+  if (!progress) return "";
+
+  const compact = options.compact === true;
+  const bossText = progress.bossTotal
+    ? `${progress.bossesDefeated}/${progress.bossTotal} boss`
+    : "Sans boss";
+  const lastText = progress.lastEntry
+    ? progress.lastSessionLabel
+    : "Pas encore commencée";
+
+  if (compact) {
+    return `
+      <section class="program-progress-compact" aria-label="Progression ${progress.program?.title || "programme"}">
+        <div class="program-progress-compact-line">
+          <strong>${progress.completed}/${progress.total} séances</strong>
+          <span>${progress.percent}%</span>
+        </div>
+        <div class="program-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress.percent}">
+          <span style="width: ${progress.percent}%"></span>
+        </div>
+        <div class="program-progress-compact-meta">
+          <span>🐉 ${bossText}</span>
+          <span>✨ ${progress.totalXp} XP</span>
+        </div>
+      </section>
+    `;
+  }
+
+  const weeksHtml = progress.weeks.map((week) => {
+    const daysHtml = week.days.map((day) => {
+      const label = window.FitnessRpgRender.getProgramProgressStatusLabel(day.status);
+      const icon = day.status === "completed"
+        ? "✓"
+        : day.status === "active"
+          ? "▶"
+          : day.status === "next"
+            ? "➜"
+            : "○";
+
+      return `
+        <button
+          class="program-progress-session-btn status-${day.status}"
+          type="button"
+          data-program-id="${progress.programId}"
+          data-week-number="${day.weekNumber}"
+          data-day-number="${day.dayNumber}"
+          aria-label="Semaine ${day.weekNumber}, jour ${day.dayNumber}, ${label}"
+        >
+          <span class="program-progress-status-icon">${icon}</span>
+          <span>
+            <strong>Jour ${day.dayNumber}</strong>
+            <small>${day.day?.title || "Séance"}</small>
+          </span>
+          <em>${label}</em>
+        </button>
+      `;
+    }).join("");
+
+    const bossHtml = week.boss
+      ? `
+        <button
+          class="program-progress-boss-btn status-${week.boss.status}"
+          type="button"
+          data-program-id="${progress.programId}"
+          data-week-number="${week.weekNumber}"
+          ${week.boss.status === "locked" ? "disabled" : ""}
+        >
+          <span class="program-progress-status-icon">🐉</span>
+          <span>
+            <strong>${week.boss.data?.title || `Boss semaine ${week.weekNumber}`}</strong>
+            <small>${window.FitnessRpgRender.getProgramProgressStatusLabel(week.boss.status)}</small>
+          </span>
+        </button>
+      `
+      : "";
+
+    return `
+      <article class="program-progress-week status-${week.status}">
+        <header>
+          <div>
+            <strong>Semaine ${week.weekNumber}</strong>
+            <span>${week.completedDays}/${week.totalDays} séances</span>
+          </div>
+          <span class="program-progress-week-state">
+            ${week.status === "completed" ? "✓ Complète" : week.status === "active" ? "▶ En cours" : week.status === "current" ? "➜ Actuelle" : "À venir"}
+          </span>
+        </header>
+        <div class="program-progress-session-list">
+          ${daysHtml}
+          ${bossHtml}
+        </div>
+      </article>
+    `;
+  }).join("");
+
+  return `
+    <section class="program-progress-dashboard card">
+      <div class="program-progress-heading">
+        <div>
+          <p class="eyebrow">🗺️ Campagne du programme</p>
+          <h3>${progress.completed}/${progress.total} séances terminées</h3>
+        </div>
+        <strong>${progress.percent}%</strong>
+      </div>
+
+      <div class="program-progress-bar large" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress.percent}">
+        <span style="width: ${progress.percent}%"></span>
+      </div>
+
+      <div class="program-progress-stats">
+        <div><strong>${progress.completed}</strong><span>Séances</span></div>
+        <div><strong>${bossText}</strong><span>Boss</span></div>
+        <div><strong>${progress.totalXp}</strong><span>XP gagnée</span></div>
+        <div><strong>${lastText}</strong><span>Dernière séance</span></div>
+      </div>
+
+      <div class="program-progress-weeks">
+        ${weeksHtml}
+      </div>
+    </section>
+  `;
+};
+
 window.FitnessRpgRender.renderProgramList = function renderProgramList() {
   const list = document.querySelector("#programList");
   const detail = document.querySelector("#programDetail");
@@ -1183,6 +1325,7 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
 
   filteredPrograms.forEach((program) => {
     const selected = program.id === activeProgramId;
+    const progress = window.FitnessRpgPrograms.getProgramProgressDetails(program.id);
 
     const card = document.createElement("article");
     card.className = `program-card card${selected ? " selected" : ""}`;
@@ -1202,17 +1345,27 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
           <li><strong>Coach conseillé :</strong> ${program.coachAdvice || "Libre"}</li>
         </ul>
 
+        ${window.FitnessRpgRender.renderProgramProgressOverviewHtml(progress, { compact: true })}
+
         <div class="program-card-actions">
+          <button
+            class="primary-btn program-primary-action-btn"
+            type="button"
+            data-program-id="${program.id}"
+          >
+            ${progress.action.label}
+          </button>
+
           <button
             class="secondary-btn open-program-detail-btn"
             type="button"
             data-program-id="${program.id}"
           >
-            Voir le programme
+            Voir le détail
           </button>
 
           <button
-            class="${selected ? "secondary-btn" : "primary-btn"} choose-program-btn"
+            class="${selected ? "secondary-btn" : "ghost-btn"} choose-program-btn"
             type="button"
             data-program-id="${program.id}"
           >
@@ -1231,7 +1384,13 @@ window.FitnessRpgRender.renderProgramBossChoiceHtml = function renderProgramBoss
 
   if (!boss) return "";
 
-  const unlocked = window.FitnessRpgPrograms.isProgramBossUnlocked?.(programId, weekNumber);
+  const progress = window.FitnessRpgPrograms.getProgramProgressDetails?.(programId);
+  const weekProgress = progress?.weeks?.find((item) => {
+    return Number(item.weekNumber) === Number(weekNumber);
+  });
+  const bossProgress = weekProgress?.boss || null;
+  const defeated = Boolean(bossProgress?.defeated);
+  const unlocked = defeated || window.FitnessRpgPrograms.isProgramBossUnlocked?.(programId, weekNumber);
   const variants = boss.variants || {};
   const variantList = Object.values(variants);
 
@@ -1270,7 +1429,7 @@ window.FitnessRpgRender.renderProgramBossChoiceHtml = function renderProgramBoss
           data-variant-id="${variant.id || "single"}"
           ${unlocked ? "" : "disabled"}
         >
-          ${unlocked ? "Démarrer cette mission" : "Boss verrouillé"}
+          ${defeated ? "Rejouer cette mission" : unlocked ? "Démarrer cette mission" : "Boss verrouillé"}
         </button>
       </article>
     `;
@@ -1282,9 +1441,11 @@ window.FitnessRpgRender.renderProgramBossChoiceHtml = function renderProgramBoss
       <h3>${boss.title}</h3>
       <p>${boss.subtitle || boss.instructions || ""}</p>
       ${
-        unlocked
-          ? `<p class="success-text">Boss débloqué. Choisis ta mission.</p>`
-          : `<p class="planning-coach-warning">${boss.lockedMessage || "Termine les 3 séances de la semaine pour débloquer le boss."}</p>`
+        defeated
+          ? `<p class="success-text">Boss déjà vaincu. Tu peux rejouer la mission.</p>`
+          : unlocked
+            ? `<p class="success-text">Boss débloqué. Choisis ta mission.</p>`
+            : `<p class="planning-coach-warning">${boss.lockedMessage || "Termine les 3 séances de la semaine pour débloquer le boss."}</p>`
       }
       <div class="program-boss-variants">
         ${variantsHtml}
@@ -1474,6 +1635,21 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
   const isActiveProgram = activeProgramId === programId;
 
   const suggested = window.FitnessRpgPrograms.getSuggestedProgramPosition(programId);
+  const progress = window.FitnessRpgPrograms.getProgramProgressDetails(programId);
+  const selectedWeekProgress = progress.weeks.find((item) => {
+    return Number(item.weekNumber) === Number(selection.weekNumber);
+  });
+  const selectedDayProgress = selectedWeekProgress?.days.find((item) => {
+    return Number(item.dayNumber) === Number(day?.day || selection.dayNumber);
+  });
+  const selectedDayButtonLabel = selectedDayProgress?.active
+    ? "Reprendre cette séance"
+    : selectedDayProgress?.completed
+      ? "Refaire cette séance"
+      : "Démarrer cette séance";
+  const selectedDayButtonClass = selectedDayProgress?.completed
+    ? "secondary-btn"
+    : "primary-btn";
 
   if (!day) {
     detail.innerHTML = `
@@ -1527,6 +1703,14 @@ const exercisesHtml = window.FitnessRpgRender.renderProgramExerciseBlocksHtml
   
     <div class="program-detail-actions">
       <button
+        class="primary-btn program-primary-action-btn"
+        type="button"
+        data-program-id="${programId}"
+      >
+        ${progress.action.label}
+      </button>
+
+      <button
         class="ghost-btn reset-program-progress-btn"
         type="button"
         data-program-id="${programId}"
@@ -1535,6 +1719,8 @@ const exercisesHtml = window.FitnessRpgRender.renderProgramExerciseBlocksHtml
       </button>
     </div>
   </header>
+
+    ${window.FitnessRpgRender.renderProgramProgressOverviewHtml(progress)}
 
     <section class="program-carousel card">
       <p class="eyebrow">Progression</p>
@@ -1597,20 +1783,25 @@ const exercisesHtml = window.FitnessRpgRender.renderProgramExerciseBlocksHtml
     </section>
 
     <section class="program-days">
-      <article class="program-day-card selected-program-day">
-        <h3>Semaine ${selection.weekNumber} · Jour ${day.day} · ${day.title}</h3>
+      <article class="program-day-card selected-program-day status-${selectedDayProgress?.status || "upcoming"}">
+        <div class="selected-program-day-heading">
+          <h3>Semaine ${selection.weekNumber} · Jour ${day.day} · ${day.title}</h3>
+          <span class="program-day-status status-${selectedDayProgress?.status || "upcoming"}">
+            ${window.FitnessRpgRender.getProgramProgressStatusLabel(selectedDayProgress?.status)}
+          </span>
+        </div>
 
        <div class="program-phase-block-list">
   ${exercisesHtml}
 </div>
         <button
-          class="primary-btn start-program-day-btn"
+          class="${selectedDayButtonClass} start-program-day-btn"
           type="button"
           data-program-id="${programId}"
           data-week="${selection.weekNumber}"
           data-day="${day.day}"
         >
-          Démarrer cette séance
+          ${selectedDayButtonLabel}
         </button>
       </article>
     </section>
