@@ -580,35 +580,370 @@ window.FitnessRpgPrograms.formatExerciseAmount = function formatExerciseAmount(i
   return `${item.amount ?? ""} ${item.unit || ""}`.trim();
 };
 
-window.FitnessRpgPrograms.getProgramCompletionProgress = function getProgramCompletionProgress(programId) {
-  const weeks = window.FitnessRpgPrograms.getProgramWeeks(programId);
-  const plannedKeys = new Set();
-
-  weeks.forEach((week, weekIndex) => {
-    const weekNumber = Number(week.week || week.weekNumber || weekIndex + 1);
-    const days = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, weekNumber);
-
-    days.forEach((day) => {
-      plannedKeys.add(`${weekNumber}-${Number(day.day || 1)}`);
-    });
-  });
-
-  const completedKeys = new Set(
-    (window.FitnessRpgState?.getAllEntries?.() || [])
-      .filter((entry) => entry.type === "program" && entry.programId === programId)
-      .map((entry) => `${Number(entry.weekNumber || 1)}-${Number(entry.dayNumber || 1)}`)
-      .filter((key) => plannedKeys.has(key))
-  );
-
-  const total = plannedKeys.size;
-  const completed = completedKeys.size;
+window.FitnessRpgPrograms.getProgramEntryPosition = function getProgramEntryPosition(entry = {}) {
+  const title = String(entry.title || "");
+  const weekMatch = title.match(/Semaine\s+(\d+)/i);
+  const dayMatch = title.match(/Jour\s+(\d+)/i);
 
   return {
+    weekNumber: Math.max(
+      1,
+      Number(entry.weekNumber || weekMatch?.[1] || 1) || 1
+    ),
+    dayNumber: Math.max(
+      0,
+      Number(entry.dayNumber || dayMatch?.[1] || 0) || 0
+    )
+  };
+};
+
+window.FitnessRpgPrograms.getProgramEntryTime = function getProgramEntryTime(entry = {}) {
+  const atTime = Date.parse(entry.at || "");
+  if (Number.isFinite(atTime)) return atTime;
+
+  const dateTime = Date.parse(`${entry.date || ""}T12:00:00`);
+  return Number.isFinite(dateTime) ? dateTime : 0;
+};
+
+window.FitnessRpgPrograms.formatProgramProgressDate = function formatProgramProgressDate(entry = null) {
+  if (!entry) return "Aucune séance";
+
+  const time = window.FitnessRpgPrograms.getProgramEntryTime(entry);
+  if (!time) return entry.date || "Date inconnue";
+
+  return new Date(time).toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  });
+};
+
+window.FitnessRpgPrograms.getProgramProgressDetails = function getProgramProgressDetails(programId) {
+  const program = window.FitnessRpgPrograms.getProgram(programId);
+  const weeks = window.FitnessRpgPrograms.getProgramWeeks(programId);
+  const entries = (window.FitnessRpgState?.getAllEntries?.() || [])
+    .filter((entry) => {
+      return entry?.programId === programId
+        && (entry.type === "program" || entry.type === "program-boss");
+    })
+    .sort((a, b) => {
+      return window.FitnessRpgPrograms.getProgramEntryTime(b)
+        - window.FitnessRpgPrograms.getProgramEntryTime(a);
+    });
+
+  const mainEntryMap = new Map();
+  const bossEntryMap = new Map();
+
+  entries.forEach((entry) => {
+    const position = window.FitnessRpgPrograms.getProgramEntryPosition(entry);
+
+    if (entry.type === "program" && position.dayNumber > 0) {
+      const key = `${position.weekNumber}-${position.dayNumber}`;
+      if (!mainEntryMap.has(key)) mainEntryMap.set(key, entry);
+    }
+
+    if (entry.type === "program-boss") {
+      const key = String(position.weekNumber);
+      if (!bossEntryMap.has(key)) bossEntryMap.set(key, entry);
+    }
+  });
+
+  const activeSession = window.FitnessRpgState?.getActiveProgramSession?.();
+  const activeForProgram = activeSession?.programId === programId
+    ? activeSession
+    : null;
+
+  const weekDetails = weeks.map((week, weekIndex) => {
+    const weekNumber = Number(week.week || week.weekNumber || weekIndex + 1);
+    const days = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, weekNumber);
+    const boss = window.FitnessRpgPrograms.getProgramBoss(programId, weekNumber);
+
+    const dayDetails = days.map((day, dayIndex) => {
+      const dayNumber = Number(day.day || dayIndex + 1);
+      const key = `${weekNumber}-${dayNumber}`;
+      const completedEntry = mainEntryMap.get(key) || null;
+      const active = Boolean(
+        activeForProgram
+        && activeForProgram.type !== "program-boss"
+        && Number(activeForProgram.weekNumber || 1) === weekNumber
+        && Number(activeForProgram.dayNumber || 1) === dayNumber
+      );
+
+      return {
+        key,
+        weekNumber,
+        dayNumber,
+        day,
+        completed: Boolean(completedEntry),
+        completedEntry,
+        active,
+        status: completedEntry ? "completed" : active ? "active" : "upcoming"
+      };
+    });
+
+    const completedDays = dayDetails.filter((item) => item.completed).length;
+    const allDaysCompleted = dayDetails.length > 0 && completedDays >= dayDetails.length;
+    const bossEntry = bossEntryMap.get(String(weekNumber)) || null;
+    const bossActive = Boolean(
+      activeForProgram
+      && activeForProgram.type === "program-boss"
+      && Number(activeForProgram.weekNumber || 1) === weekNumber
+    );
+
+    return {
+      weekNumber,
+      week,
+      days: dayDetails,
+      completedDays,
+      totalDays: dayDetails.length,
+      allDaysCompleted,
+      boss: boss
+        ? {
+            data: boss,
+            weekNumber,
+            defeated: Boolean(bossEntry),
+            defeatedEntry: bossEntry,
+            active: bossActive,
+            unlocked: allDaysCompleted,
+            status: bossEntry
+              ? "defeated"
+              : bossActive
+                ? "active"
+                : allDaysCompleted
+                  ? "unlocked"
+                  : "locked"
+          }
+        : null,
+      status: "upcoming"
+    };
+  });
+
+  let nextItem = null;
+
+  for (const week of weekDetails) {
+    const nextDay = week.days.find((day) => !day.completed);
+
+    if (nextDay) {
+      nextItem = {
+        type: "day",
+        programId,
+        weekNumber: week.weekNumber,
+        dayNumber: nextDay.dayNumber,
+        day: nextDay.day
+      };
+      break;
+    }
+
+    if (week.boss && !week.boss.defeated) {
+      nextItem = {
+        type: "boss",
+        programId,
+        weekNumber: week.weekNumber,
+        boss: week.boss.data
+      };
+      break;
+    }
+  }
+
+  weekDetails.forEach((week) => {
+    week.days.forEach((day) => {
+      if (day.completed) {
+        day.status = "completed";
+      } else if (day.active) {
+        day.status = "active";
+      } else if (
+        nextItem?.type === "day"
+        && nextItem.weekNumber === day.weekNumber
+        && nextItem.dayNumber === day.dayNumber
+      ) {
+        day.status = "next";
+      } else {
+        day.status = "upcoming";
+      }
+    });
+
+    if (week.boss) {
+      if (week.boss.defeated) {
+        week.boss.status = "defeated";
+      } else if (week.boss.active) {
+        week.boss.status = "active";
+      } else if (week.boss.unlocked) {
+        week.boss.status = "unlocked";
+      } else {
+        week.boss.status = "locked";
+      }
+    }
+
+    const campaignWeekComplete = week.allDaysCompleted
+      && (!week.boss || week.boss.defeated);
+    const hasActive = week.days.some((day) => day.active) || week.boss?.active;
+    const hasNext = nextItem?.weekNumber === week.weekNumber;
+
+    week.status = campaignWeekComplete
+      ? "completed"
+      : hasActive
+        ? "active"
+        : hasNext
+          ? "current"
+          : "upcoming";
+  });
+
+  const total = weekDetails.reduce((sum, week) => sum + week.totalDays, 0);
+  const completed = weekDetails.reduce((sum, week) => sum + week.completedDays, 0);
+  const bossTotal = weekDetails.filter((week) => Boolean(week.boss)).length;
+  const bossesDefeated = weekDetails.filter((week) => week.boss?.defeated).length;
+  const mainComplete = total > 0 && completed >= total;
+  const campaignComplete = mainComplete && bossesDefeated >= bossTotal;
+  const totalXp = entries.reduce((sum, entry) => sum + Number(entry.xp || 0), 0);
+  const lastEntry = entries[0] || null;
+
+  let action;
+
+  if (activeForProgram) {
+    action = {
+      type: "resume",
+      label: activeForProgram.type === "program-boss"
+        ? "Reprendre le combat contre le boss"
+        : "Reprendre la séance en cours",
+      weekNumber: Number(activeForProgram.weekNumber || 1),
+      dayNumber: Number(activeForProgram.dayNumber || 1)
+    };
+  } else if (nextItem?.type === "day") {
+    action = {
+      type: "start-day",
+      label: completed > 0
+        ? `Continuer · S${nextItem.weekNumber} J${nextItem.dayNumber}`
+        : "Commencer le programme",
+      weekNumber: nextItem.weekNumber,
+      dayNumber: nextItem.dayNumber
+    };
+  } else if (nextItem?.type === "boss") {
+    action = {
+      type: "open-boss",
+      label: `Affronter le boss · semaine ${nextItem.weekNumber}`,
+      weekNumber: nextItem.weekNumber,
+      dayNumber: 1
+    };
+  } else {
+    action = {
+      type: "complete",
+      label: "Programme terminé ✓",
+      weekNumber: weekDetails.at(-1)?.weekNumber || 1,
+      dayNumber: weekDetails.at(-1)?.days.at(-1)?.dayNumber || 1
+    };
+  }
+
+  return {
+    programId,
+    program,
+    weeks: weekDetails,
     completed,
     total,
     percent: total > 0 ? Math.round((completed / total) * 100) : 0,
-    complete: total > 0 && completed >= total
+    complete: mainComplete,
+    campaignComplete,
+    bossTotal,
+    bossesDefeated,
+    totalXp,
+    lastEntry,
+    lastSessionLabel: window.FitnessRpgPrograms.formatProgramProgressDate(lastEntry),
+    activeSession: activeForProgram,
+    nextItem,
+    action,
+    entries
   };
+};
+
+window.FitnessRpgPrograms.getProgramCompletionProgress = function getProgramCompletionProgress(programId) {
+  const details = window.FitnessRpgPrograms.getProgramProgressDetails(programId);
+
+  return {
+    completed: details.completed,
+    total: details.total,
+    percent: details.percent,
+    complete: details.complete,
+    campaignComplete: details.campaignComplete,
+    bossTotal: details.bossTotal,
+    bossesDefeated: details.bossesDefeated
+  };
+};
+
+window.FitnessRpgPrograms.getProgramProgressAction = function getProgramProgressAction(programId) {
+  return window.FitnessRpgPrograms.getProgramProgressDetails(programId).action;
+};
+
+window.FitnessRpgPrograms.openProgramProgressSession = function openProgramProgressSession(
+  programId,
+  weekNumber,
+  dayNumber
+) {
+  window.FitnessRpgPrograms.openProgramDetail(programId, {
+    weekNumber: Number(weekNumber || 1),
+    dayNumber: Number(dayNumber || 1)
+  });
+};
+
+window.FitnessRpgPrograms.openProgramProgressBoss = function openProgramProgressBoss(
+  programId,
+  weekNumber
+) {
+  const firstDay = window.FitnessRpgPrograms.getProgramDaysForWeek(
+    programId,
+    weekNumber
+  )[0];
+
+  window.FitnessRpgPrograms.openProgramDetail(programId, {
+    weekNumber: Number(weekNumber || 1),
+    dayNumber: Number(firstDay?.day || 1)
+  });
+
+  window.setTimeout(() => {
+    document.querySelector(".program-boss-choice")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }, 120);
+};
+
+window.FitnessRpgPrograms.runProgramPrimaryAction = function runProgramPrimaryAction(programId) {
+  const progress = window.FitnessRpgPrograms.getProgramProgressDetails(programId);
+  const action = progress.action;
+
+  if (!action) return;
+
+  if (action.type === "resume") {
+    window.FitnessRpgPrograms.resumeActiveProgramSession();
+    return;
+  }
+
+  if (action.type === "start-day") {
+    window.FitnessRpgPrograms.openProgramDetail(programId, {
+      weekNumber: action.weekNumber,
+      dayNumber: action.dayNumber
+    });
+
+    window.setTimeout(() => {
+      window.FitnessRpgPrograms.validateProgramDay(
+        programId,
+        action.dayNumber,
+        action.weekNumber
+      );
+    }, 100);
+    return;
+  }
+
+  if (action.type === "open-boss") {
+    window.FitnessRpgPrograms.openProgramProgressBoss(
+      programId,
+      action.weekNumber
+    );
+    return;
+  }
+
+  window.FitnessRpgPrograms.openProgramDetail(programId, {
+    weekNumber: action.weekNumber,
+    dayNumber: action.dayNumber
+  });
 };
 
 window.FitnessRpgPrograms.buildWorkoutSummaryItems = function buildWorkoutSummaryItems(items = []) {
@@ -785,32 +1120,67 @@ window.FitnessRpgPrograms.programBrowser = {
 };
 
 window.FitnessRpgPrograms.getCompletedProgramSessionCount = function getCompletedProgramSessionCount(programId) {
-  const entries = window.FitnessRpgState?.getAllEntries?.() || [];
-
-  return entries.filter((entry) => {
-    return entry.type === "program" && entry.programId === programId;
-  }).length;
+  return window.FitnessRpgPrograms.getProgramCompletionProgress(programId).completed;
 };
 
 window.FitnessRpgPrograms.getSuggestedProgramPosition = function getSuggestedProgramPosition(programId) {
-  const weeks = window.FitnessRpgPrograms.getProgramWeeks(programId);
-  const weekCount = Math.max(1, weeks.length || 1);
-  const firstWeekDays = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, 1);
-  const daysPerWeek = Math.max(1, firstWeekDays.length || 1);
-  const completedCount = window.FitnessRpgPrograms.getCompletedProgramSessionCount(programId);
-  const totalSlots = Math.max(1, weekCount * daysPerWeek);
-  const slotIndex = Math.min(completedCount, totalSlots - 1);
-  const weekNumber = Math.floor(slotIndex / daysPerWeek) + 1;
-  const dayIndex = slotIndex % daysPerWeek;
-  const weekDays = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, weekNumber);
-  const day = weekDays[dayIndex] || weekDays[0] || { day: 1 };
+  const progress = window.FitnessRpgPrograms.getProgramProgressDetails(programId);
+  const active = progress.activeSession;
+
+  if (active) {
+    const activeWeek = Number(active.weekNumber || 1);
+    const activeDays = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, activeWeek);
+
+    return {
+      weekNumber: activeWeek,
+      dayNumber: active.type === "program-boss"
+        ? Number(activeDays[0]?.day || 1)
+        : Number(active.dayNumber || activeDays[0]?.day || 1),
+      completedCount: progress.completed,
+      weekCount: progress.weeks.length,
+      daysPerWeek: activeDays.length || 1
+    };
+  }
+
+  if (progress.nextItem?.type === "day") {
+    const days = window.FitnessRpgPrograms.getProgramDaysForWeek(
+      programId,
+      progress.nextItem.weekNumber
+    );
+
+    return {
+      weekNumber: progress.nextItem.weekNumber,
+      dayNumber: progress.nextItem.dayNumber,
+      completedCount: progress.completed,
+      weekCount: progress.weeks.length,
+      daysPerWeek: days.length || 1
+    };
+  }
+
+  if (progress.nextItem?.type === "boss") {
+    const days = window.FitnessRpgPrograms.getProgramDaysForWeek(
+      programId,
+      progress.nextItem.weekNumber
+    );
+
+    return {
+      weekNumber: progress.nextItem.weekNumber,
+      dayNumber: Number(days[0]?.day || 1),
+      completedCount: progress.completed,
+      weekCount: progress.weeks.length,
+      daysPerWeek: days.length || 1
+    };
+  }
+
+  const lastWeek = progress.weeks.at(-1);
+  const lastDay = lastWeek?.days.at(-1);
 
   return {
-    weekNumber,
-    dayNumber: Number(day.day) || 1,
-    completedCount,
-    weekCount,
-    daysPerWeek
+    weekNumber: Number(lastWeek?.weekNumber || 1),
+    dayNumber: Number(lastDay?.dayNumber || 1),
+    completedCount: progress.completed,
+    weekCount: progress.weeks.length || 1,
+    daysPerWeek: lastWeek?.days.length || 1
   };
 };
 
