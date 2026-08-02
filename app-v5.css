@@ -1864,8 +1864,18 @@ textarea:focus {
 
 @media (min-width: 700px) {
   .program-card-actions {
-    grid-template-columns: 1fr auto auto;
-    align-items: center;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+  }
+
+  .program-card-actions > button {
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+  }
+
+  .program-card-actions .program-primary-action-btn {
+    grid-column: 1 / -1;
   }
 
   .program-progress-stats {
@@ -5936,10 +5946,6 @@ body.modal-open {
     grid-template-columns: repeat(4, 1fr);
   }
    
-   .program-card-actions {
-     grid-template-columns: minmax(0, 1fr) auto auto;
-   }
-
   .timer-actions {
     grid-template-columns: 1fr 1fr;
   }
