@@ -558,7 +558,7 @@ window.FitnessRpgExercises.calculateCustomProgramXp = function calculateCustomPr
   return Math.max(10, Math.round(total));
 };
 
-window.FitnessRpgExercises.validateCustomProgram = function validateCustomProgram(programId) {
+window.FitnessRpgExercises.validateCustomProgram = function validateCustomProgram(programId, options = {}) {
   if (!window.FitnessRpgState?.hasProfile?.()) {
     alert("Crée d’abord ton héros.");
     window.FitnessRpgNavigation?.openHeroSetup?.();
@@ -573,6 +573,8 @@ window.FitnessRpgExercises.validateCustomProgram = function validateCustomProgra
   }
 
   const xp = window.FitnessRpgExercises.calculateCustomProgramXp(program);
+  const badgeIdsBefore = window.FitnessRpgRender?.captureBadgeIds?.() || [];
+  const levelBefore = window.FitnessRpgRender?.getLevelSnapshot?.();
 
   const entry = window.FitnessRpgState.addTrainingEntry({
     type: "custom-program",
@@ -609,6 +611,44 @@ window.FitnessRpgExercises.validateCustomProgram = function validateCustomProgra
   }
 
   window.FitnessRpgProgress?.checkBadges?.();
+
+  const newBadges = window.FitnessRpgRender?.getNewBadgeRewards?.(badgeIdsBefore) || [];
+  const rewards = newBadges.map((badge) => ({
+    icon: badge.icon || "🏅",
+    text: `Badge débloqué : ${badge.title}`
+  }));
+
+  window.FitnessRpgRender?.queueWorkoutSummary?.({
+    type: "custom-program",
+    icon: "🧩",
+    eyebrow: "Programme personnalisé accompli",
+    title: program.title,
+    subtitle: `${program.exercises.length} étape${program.exercises.length > 1 ? "s" : ""} validée${program.exercises.length > 1 ? "s" : ""}`,
+    durationSeconds: options.durationSeconds,
+    xp,
+    items: program.exercises.map((item) => {
+      const exercise = window.FitnessRpgExercises.getExercise(item.exerciseId);
+      return {
+        icon: "✓",
+        phase: item.phase || "Exercice",
+        title: exercise?.title || item.exerciseId,
+        amount: item.amount,
+        unit: item.unit
+      };
+    }),
+    progress: {
+      label: "Programme personnalisé",
+      value: program.exercises.length,
+      max: program.exercises.length,
+      percent: 100,
+      text: "Toutes les étapes terminées"
+    },
+    rewards,
+    coachMessage: `Programme perso terminé. +${xp} XP.`,
+    levelBefore,
+    levelAfter: window.FitnessRpgRender?.getLevelSnapshot?.()
+  });
+
   window.FitnessRpgRender?.renderAll?.();
 };
 
@@ -634,7 +674,8 @@ window.FitnessRpgExercises.startCustomProgramGuided = function startCustomProgra
 
   window.FitnessRpgExercises.customProgramRun = {
     programId,
-    currentIndex: 0
+    currentIndex: 0,
+    startedAt: new Date().toISOString()
   };
 
   window.FitnessRpgExercises.renderCustomProgramGuided();
@@ -848,10 +889,16 @@ window.FitnessRpgExercises.cancelCustomProgramGuided = function cancelCustomProg
 };
 
 window.FitnessRpgExercises.finishCustomProgramGuided = function finishCustomProgramGuided(programId) {
+  const run = window.FitnessRpgExercises.customProgramRun;
+  const durationSeconds = window.FitnessRpgRender?.getElapsedSeconds?.(run?.startedAt);
+
   window.FitnessRpgExercises.stopCustomStepTimer();
   window.FitnessRpgExercises.customProgramRun = null;
 
-  window.FitnessRpgExercises.validateCustomProgram(programId);
+  window.FitnessRpgExercises.validateCustomProgram(programId, {
+    durationSeconds,
+    guided: true
+  });
 
   if (window.FitnessRpgState?.getCustomProgramById?.(programId)) {
     window.FitnessRpgExercises.renderCustomProgramDetail(programId);
@@ -892,7 +939,8 @@ window.FitnessRpgExercises.startCustomStepTimer = function startCustomStepTimer(
     context: {
       kind: "custom",
       programId: context.program.id,
-      stepIndex: context.index
+      stepIndex: context.index,
+      runStartedAt: context.run.startedAt || new Date().toISOString()
     }
   });
 };
@@ -1298,6 +1346,8 @@ window.FitnessRpgExercises.validateExercise = function validateExercise(exercise
     : Math.max(1, Math.round(amount * Number(exercise.xpPerUnit || 1)));
 
   const category = window.FitnessRpgExercises.getExerciseCategory(exercise);
+  const badgeIdsBefore = window.FitnessRpgRender?.captureBadgeIds?.() || [];
+  const levelBefore = window.FitnessRpgRender?.getLevelSnapshot?.();
 
   const entry = window.FitnessRpgState?.addTrainingEntry?.({
     type: "exercise",
@@ -1335,6 +1385,35 @@ window.FitnessRpgExercises.validateExercise = function validateExercise(exercise
   });
 
   window.FitnessRpgProgress?.checkBadges?.();
+
+  const newBadges = window.FitnessRpgRender?.getNewBadgeRewards?.(badgeIdsBefore) || [];
+  const rewards = newBadges.map((badge) => ({
+    icon: badge.icon || "🏅",
+    text: `Badge débloqué : ${badge.title}`
+  }));
+
+  window.FitnessRpgRender?.queueWorkoutSummary?.({
+    type: "exercise",
+    icon: category?.icon || "⚔️",
+    eyebrow: "Exercice accompli",
+    title: exercise.title,
+    subtitle: category?.title || "Exercice libre",
+    durationSeconds: options.durationSeconds,
+    xp,
+    items: [{
+      icon: category?.icon || "✓",
+      phase: category?.title || "Exercice",
+      title: exercise.title,
+      amount,
+      unit: exercise.unit,
+      distanceKm
+    }],
+    rewards,
+    coachMessage: `${message} +${xp} XP.`,
+    levelBefore,
+    levelAfter: window.FitnessRpgRender?.getLevelSnapshot?.()
+  });
+
   window.FitnessRpgRender?.renderAll?.();
 };
 
@@ -1817,12 +1896,25 @@ window.FitnessRpgExercises.toggleTimerPause = function toggleTimerPause() {
   }
 };
 
+window.FitnessRpgExercises.getTimerElapsedSeconds = function getTimerElapsedSeconds(timerSession) {
+  if (!timerSession) return null;
+
+  const duration = Math.max(0, Number(timerSession.durationSeconds || 0));
+  if (!duration) return null;
+  if (timerSession.phase === "countdown") return 0;
+  if (timerSession.phase === "finished") return duration;
+
+  const remaining = window.FitnessRpgExercises.getTimerRemainingSeconds(timerSession);
+  return Math.max(0, Math.min(duration, duration - remaining));
+};
+
 window.FitnessRpgExercises.validateActiveTimer = function validateActiveTimer() {
   const timerSession = window.FitnessRpgState?.getActiveTimerSession?.();
   if (!timerSession) return;
 
   const context = timerSession.context || { kind: "free" };
   const exerciseId = timerSession.exerciseId;
+  const timerElapsedSeconds = window.FitnessRpgExercises.getTimerElapsedSeconds(timerSession);
 
   window.FitnessRpgExercises.stopTimer();
 
@@ -1837,7 +1929,8 @@ window.FitnessRpgExercises.validateActiveTimer = function validateActiveTimer() 
   if (context.kind === "custom") {
     window.FitnessRpgExercises.customProgramRun = {
       programId: context.programId,
-      currentIndex: Number(context.stepIndex || 0)
+      currentIndex: Number(context.stepIndex || 0),
+      startedAt: context.runStartedAt || new Date().toISOString()
     };
     window.FitnessRpgExercises.validateCustomProgramStep();
     return;
@@ -1845,7 +1938,8 @@ window.FitnessRpgExercises.validateActiveTimer = function validateActiveTimer() 
 
   window.FitnessRpgExercises.validateExercise(exerciseId, {
     amount: context.amount,
-    distanceKm: context.distanceKm
+    distanceKm: context.distanceKm,
+    durationSeconds: timerElapsedSeconds
   });
 };
 
@@ -1874,7 +1968,8 @@ window.FitnessRpgExercises.prepareTimerRestoreView = function prepareTimerRestor
 
     window.FitnessRpgExercises.customProgramRun = {
       programId: context.programId,
-      currentIndex: stepIndex
+      currentIndex: stepIndex,
+      startedAt: context.runStartedAt || new Date().toISOString()
     };
     window.FitnessRpgState?.setPage?.("exercises");
     window.FitnessRpgRender?.renderAll?.();
