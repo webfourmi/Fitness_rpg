@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "0.5.4",
+  version: "0.5.5",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V5.4",
+  displayVersion: "V5.5",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "5.4",
+  assetVersion: "5.5",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
@@ -34,6 +34,7 @@ window.FitnessRpgConfig = {
     badges: "fitnessRpgV5Badges",
     settings: "fitnessRpgV5Settings",
     activeProgramSession: "fitnessRpgV54ActiveProgramSession",
+    activeTimer: "fitnessRpgV55ActiveTimer",
     familiars: "fitness_rpg_familiars",
     lastChestReward: "fitness_rpg_last_chest_reward",
   },
