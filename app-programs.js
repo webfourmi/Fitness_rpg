@@ -2147,12 +2147,19 @@ window.FitnessRpgPrograms.openProgramExerciseTimer = function openProgramExercis
     return;
   }
 
+  const activeSession = window.FitnessRpgState?.getActiveProgramSession?.();
+
   window.FitnessRpgExercises.runTimer({
     exercise,
     seconds,
     title: `${exercise.title} · ${window.FitnessRpgPrograms.formatExerciseAmount(item)}`,
-    onValidate: () => {
-      window.FitnessRpgPrograms.validateProgramExercise(exerciseId, exerciseKey);
+    context: {
+      kind: "program",
+      programId: activeSession?.programId || null,
+      sessionId: activeSession?.id || null,
+      weekNumber: Number(activeSession?.weekNumber || 1),
+      dayNumber: Number(activeSession?.dayNumber || 0),
+      exerciseKey
     }
   });
 };
