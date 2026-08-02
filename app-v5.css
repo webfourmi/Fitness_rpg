@@ -3762,6 +3762,23 @@ audio {
   letter-spacing: 0.03em;
 }
 
+.timer-context-text {
+  min-height: 1.2em;
+  margin: -2px 0 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.timer-status-text {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 /* Sécurité si ton timer actuel utilise encore une version avec coach */
 .timer-card-with-coach {
   width: min(100%, 360px);
@@ -3839,6 +3856,10 @@ audio {
 @media (min-width: 520px) {
   .timer-actions {
     grid-template-columns: 1fr 1fr;
+  }
+
+  #timerValidateButton {
+    grid-column: 1 / -1;
   }
 }
 
