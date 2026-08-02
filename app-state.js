@@ -24,7 +24,8 @@ window.FitnessRpgState = {
   selectedGoalId: "reprise-douce",
   currentPose: "idle",
   musicStatus: "Aucune musique choisie.",
-  activeProgramSession: null
+  activeProgramSession: null,
+  activeTimerSession: null
 };
 
 // ============================================================
@@ -245,6 +246,15 @@ window.FitnessRpgState.deleteCustomProgram = function deleteCustomProgram(progra
   const nextPrograms = currentPrograms.filter((program) => program.id !== programId);
 
   profile.customPrograms = nextPrograms;
+
+  const activeTimer = window.FitnessRpgState.getActiveTimerSession?.();
+  if (
+    activeTimer?.context?.kind === "custom"
+    && activeTimer.context.programId === programId
+  ) {
+    window.FitnessRpgState.clearActiveTimerSession?.();
+  }
+
   window.FitnessRpgState.saveProfile();
 
   return nextPrograms.length !== currentPrograms.length;
@@ -826,9 +836,14 @@ window.FitnessRpgState.loadActiveProgramSession = function loadActiveProgramSess
 window.FitnessRpgState.clearActiveProgramSession = function clearActiveProgramSession() {
   const keys = window.FitnessRpgState.getKeys();
   const sessionKey = keys.activeProgramSession || "fitnessRpgV54ActiveProgramSession";
+  const activeTimer = window.FitnessRpgState.getActiveTimerSession?.();
 
   window.FitnessRpgState.activeProgramSession = null;
   window.FitnessRpgState.removeKey(sessionKey);
+
+  if (activeTimer?.context?.kind === "program") {
+    window.FitnessRpgState.clearActiveTimerSession?.();
+  }
 };
 
 window.FitnessRpgState.completeProgramSessionExercise = function completeProgramSessionExercise(exerciseKey) {
@@ -885,6 +900,87 @@ window.FitnessRpgState.isProgramSessionComplete = function isProgramSessionCompl
   return workout.exercises.every((item, index) => {
     return completed.includes(`${index}-${item.exerciseId}`);
   });
+};
+
+// ============================================================
+// Timer persistant
+// ============================================================
+
+window.FitnessRpgState.getActiveTimerSession = function getActiveTimerSession() {
+  return window.FitnessRpgState.activeTimerSession;
+};
+
+window.FitnessRpgState.setActiveTimerSession = function setActiveTimerSession(timerSession) {
+  window.FitnessRpgState.activeTimerSession = timerSession || null;
+  return window.FitnessRpgState.saveActiveTimerSession();
+};
+
+window.FitnessRpgState.saveActiveTimerSession = function saveActiveTimerSession() {
+  const keys = window.FitnessRpgState.getKeys();
+  const timerKey = keys.activeTimer || "fitnessRpgV55ActiveTimer";
+  const timerSession = window.FitnessRpgState.activeTimerSession;
+
+  if (!timerSession) {
+    window.FitnessRpgState.removeKey(timerKey);
+    return null;
+  }
+
+  timerSession.updatedAt = window.FitnessRpgState.nowIso();
+  window.FitnessRpgState.writeJson(timerKey, timerSession);
+  return timerSession;
+};
+
+window.FitnessRpgState.loadActiveTimerSession = function loadActiveTimerSession() {
+  const keys = window.FitnessRpgState.getKeys();
+  const timerKey = keys.activeTimer || "fitnessRpgV55ActiveTimer";
+  const loaded = window.FitnessRpgState.readJson(timerKey, null);
+  const allowedPhases = ["countdown", "running", "paused", "finished"];
+  const profileId = window.FitnessRpgState.getProfile?.()?.id || null;
+
+  const phaseTimingIsValid = Boolean(
+    loaded?.phase === "finished"
+    || (loaded?.phase === "paused" && Number(loaded.remainingSeconds) >= 0)
+    || (loaded?.phase === "running" && Number(loaded.endsAt) > 0)
+    || (loaded?.phase === "countdown" && Number(loaded.countdownEndsAt) > 0)
+  );
+
+  const isValid = Boolean(
+    loaded
+    && typeof loaded === "object"
+    && profileId
+    && loaded.exerciseId
+    && Number(loaded.durationSeconds) > 0
+    && allowedPhases.includes(loaded.phase)
+    && phaseTimingIsValid
+    && (!loaded.profileId || loaded.profileId === profileId)
+  );
+
+  if (!isValid) {
+    window.FitnessRpgState.activeTimerSession = null;
+    window.FitnessRpgState.removeKey(timerKey);
+    return null;
+  }
+
+  window.FitnessRpgState.activeTimerSession = {
+    ...loaded,
+    durationSeconds: Math.max(1, Math.round(Number(loaded.durationSeconds) || 1)),
+    remainingSeconds: Math.max(0, Math.round(Number(loaded.remainingSeconds) || 0)),
+    countdownEndsAt: Number(loaded.countdownEndsAt || 0) || null,
+    endsAt: Number(loaded.endsAt || 0) || null,
+    context: loaded.context && typeof loaded.context === "object"
+      ? loaded.context
+      : { kind: "free" }
+  };
+
+  return window.FitnessRpgState.activeTimerSession;
+};
+
+window.FitnessRpgState.clearActiveTimerSession = function clearActiveTimerSession() {
+  const keys = window.FitnessRpgState.getKeys();
+  const timerKey = keys.activeTimer || "fitnessRpgV55ActiveTimer";
+
+  window.FitnessRpgState.activeTimerSession = null;
+  window.FitnessRpgState.removeKey(timerKey);
 };
 
 // ============================================================
@@ -1018,6 +1114,7 @@ window.FitnessRpgState.getPose = function getPose() {
 window.FitnessRpgState.init = function initState() {
   window.FitnessRpgState.loadProfile();
   window.FitnessRpgState.loadActiveProgramSession();
+  window.FitnessRpgState.loadActiveTimerSession();
 
   if (window.FitnessRpgState.profile) {
     window.FitnessRpgState.currentPage = "home";
