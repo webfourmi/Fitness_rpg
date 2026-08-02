@@ -1060,6 +1060,18 @@ if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;
   }
 
   // Entraînement
+  if (target.closest("#resumeActiveProgramSessionButton")) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgPrograms?.resumeActiveProgramSession?.();
+    return;
+  }
+
+  if (target.closest("#abandonActiveProgramSessionButton")) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgPrograms?.abandonActiveProgramSession?.();
+    return;
+  }
+
   if (target.closest("#newCoachMessageButton")) {
     event.preventDefault();
     window.FitnessRpgNavigation.newCoachMessage();
