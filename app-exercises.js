@@ -136,25 +136,63 @@ window.FitnessRpgExercises.resolveImage = function resolveImage(item) {
 // Helpers inputs
 // ============================================================
 
-window.FitnessRpgExercises.getExerciseAmountInput = function getExerciseAmountInput(exerciseId) {
-  return document.querySelector(`.exercise-amount-input[data-exercise-id="${exerciseId}"]`);
+window.FitnessRpgExercises.parseInputNumber = function parseInputNumber(value) {
+  const normalized = String(value ?? "")
+    .trim()
+    .replace(",", ".");
+
+  if (!normalized) return Number.NaN;
+
+  return Number(normalized);
 };
 
-window.FitnessRpgExercises.getExerciseDistanceInput = function getExerciseDistanceInput(exerciseId) {
-  return document.querySelector(`.exercise-distance-input[data-exercise-id="${exerciseId}"]`);
+window.FitnessRpgExercises.findExerciseInput = function findExerciseInput(
+  selector,
+  exerciseId,
+  root = document
+) {
+  const safeRoot = root && typeof root.querySelectorAll === "function"
+    ? root
+    : document;
+
+  return Array.from(safeRoot.querySelectorAll(selector)).find(
+    (input) => String(input?.dataset?.exerciseId || "") === String(exerciseId || "")
+  ) || null;
 };
 
-window.FitnessRpgExercises.getAmountValue = function getAmountValue(exerciseId) {
-  const input = window.FitnessRpgExercises.getExerciseAmountInput(exerciseId);
-  return Number(input?.value || 0);
+window.FitnessRpgExercises.getExerciseAmountInput = function getExerciseAmountInput(
+  exerciseId,
+  root = document
+) {
+  return window.FitnessRpgExercises.findExerciseInput(
+    ".exercise-amount-input",
+    exerciseId,
+    root
+  );
 };
 
-window.FitnessRpgExercises.getDistanceValue = function getDistanceValue(exerciseId) {
-  const input = window.FitnessRpgExercises.getExerciseDistanceInput(exerciseId);
+window.FitnessRpgExercises.getExerciseDistanceInput = function getExerciseDistanceInput(
+  exerciseId,
+  root = document
+) {
+  return window.FitnessRpgExercises.findExerciseInput(
+    ".exercise-distance-input",
+    exerciseId,
+    root
+  );
+};
+
+window.FitnessRpgExercises.getAmountValue = function getAmountValue(exerciseId, root = document) {
+  const input = window.FitnessRpgExercises.getExerciseAmountInput(exerciseId, root);
+  return window.FitnessRpgExercises.parseInputNumber(input?.value);
+};
+
+window.FitnessRpgExercises.getDistanceValue = function getDistanceValue(exerciseId, root = document) {
+  const input = window.FitnessRpgExercises.getExerciseDistanceInput(exerciseId, root);
 
   if (!input) return null;
 
-  const value = Number(String(input.value || "0").replace(",", "."));
+  const value = window.FitnessRpgExercises.parseInputNumber(input.value);
 
   if (!Number.isFinite(value) || value <= 0) return null;
 
@@ -1318,12 +1356,14 @@ window.FitnessRpgExercises.validateExercise = function validateExercise(exercise
     return;
   }
 
-  const storedAmount = Number(options.amount);
-  const amount = Number.isFinite(storedAmount) && storedAmount > 0
+  const sourceCard = options.sourceElement?.closest?.(".exercise-card") || null;
+  const hasStoredAmount = Object.prototype.hasOwnProperty.call(options, "amount");
+  const storedAmount = window.FitnessRpgExercises.parseInputNumber(options.amount);
+  const amount = hasStoredAmount
     ? storedAmount
-    : window.FitnessRpgExercises.getAmountValue(exerciseId);
+    : window.FitnessRpgExercises.getAmountValue(exerciseId, sourceCard || document);
 
-  if (!Number.isFinite(amount) || amount < exercise.min) {
+  if (!Number.isFinite(amount) || amount < Number(exercise.min || 1)) {
    window.FitnessRpgRender?.showModal?.({
       icon: "📏",
       title: "Valeur trop basse",
@@ -1332,12 +1372,13 @@ window.FitnessRpgExercises.validateExercise = function validateExercise(exercise
     return;
   }
 
-  const storedDistance = Number(options.distanceKm);
+  const hasStoredDistance = Object.prototype.hasOwnProperty.call(options, "distanceKm");
+  const storedDistance = window.FitnessRpgExercises.parseInputNumber(options.distanceKm);
   const distanceKm = exercise.hasDistance
     ? (
-        Number.isFinite(storedDistance) && storedDistance >= 0
-          ? storedDistance
-          : window.FitnessRpgExercises.getDistanceValue(exerciseId)
+        hasStoredDistance
+          ? (Number.isFinite(storedDistance) && storedDistance >= 0 ? storedDistance : null)
+          : window.FitnessRpgExercises.getDistanceValue(exerciseId, sourceCard || document)
       )
     : null;
 
@@ -1838,14 +1879,15 @@ window.FitnessRpgExercises.runTimer = function runTimer(options = {}) {
   window.FitnessRpgExercises.showTimerSession(timerSession);
 };
 
-window.FitnessRpgExercises.openTimer = function openTimer(exerciseId) {
+window.FitnessRpgExercises.openTimer = function openTimer(exerciseId, options = {}) {
   const exercise = window.FitnessRpgExercises.getExercise(exerciseId);
 
   if (!exercise) return;
 
-  const amount = window.FitnessRpgExercises.getAmountValue(exerciseId);
+  const sourceCard = options.sourceElement?.closest?.(".exercise-card") || null;
+  const amount = window.FitnessRpgExercises.getAmountValue(exerciseId, sourceCard || document);
   const distanceKm = exercise.hasDistance
-    ? window.FitnessRpgExercises.getDistanceValue(exerciseId)
+    ? window.FitnessRpgExercises.getDistanceValue(exerciseId, sourceCard || document)
     : null;
   const seconds = window.FitnessRpgExercises.amountToSeconds(exercise, amount);
 
@@ -2288,14 +2330,8 @@ window.FitnessRpgExercises.handleDocumentClick = function handleDocumentClick(ev
   const timerButton = target.closest(".start-timer-btn");
 
   if (timerButton) {
-    event.preventDefault();
-
-    const exerciseId = timerButton.dataset.exerciseId;
-
-    if (exerciseId) {
-      window.FitnessRpgExercises.openTimer(exerciseId);
-    }
-
+    // Géré par app-navigation.js afin de ne déclencher le timer qu’une fois
+    // et de conserver la carte exacte ayant fourni la valeur.
     return;
   }
 
@@ -2306,14 +2342,8 @@ window.FitnessRpgExercises.handleDocumentClick = function handleDocumentClick(ev
   const validateButton = target.closest(".validate-exercise-btn");
 
   if (validateButton) {
-    event.preventDefault();
-
-    const exerciseId = validateButton.dataset.exerciseId;
-
-    if (exerciseId) {
-      window.FitnessRpgExercises.validateExercise(exerciseId);
-    }
-
+    // Géré par app-navigation.js. L’ancien double gestionnaire pouvait lire
+    // un champ homonyme d’une autre carte et valider deux fois le même effort.
     return;
   }
 
