@@ -16,7 +16,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fitness RPG</title>
 
-  <link rel="stylesheet" href="app-v5.css?v=5.8.0">
+  <link rel="stylesheet" href="app-v5.css?v=5.9.0">
 </head>
 
 <body>
@@ -171,6 +171,7 @@
         <button id="openGoalButton" type="button">🎯<span>Objectif</span></button>
         <button id="openPlanningButton" type="button">📅<span>Planning</span></button>
         <button id="openProgressionButton" type="button">🏆<span>Progression</span></button>
+        <button id="openStatisticsButton" type="button">📊<span>Statistiques</span></button>
         <button id="openMusicButton" type="button">🎵<span>Musique</span></button>
         <button id="openBadgesButton" type="button">🏅<span>Badges</span></button>
         <button id="openJournalButton" type="button">📖<span>Journal</span></button>
@@ -300,6 +301,26 @@
       </section>
     </main>
 
+    <main id="pageStatistics" class="app-page page-statistics hidden" data-page="statistics">
+      <section class="page-header card statistics-header-card">
+        <div>
+          <p class="eyebrow">📊 Chroniques du héros</p>
+          <h1>Tableau de statistiques</h1>
+          <p>Observe ton activité, ta régularité et les chemins où ton héros gagne le plus d’XP.</p>
+        </div>
+
+        <nav id="statisticsPeriodTabs" class="statistics-period-tabs" aria-label="Période des statistiques">
+          <button class="stats-period-btn" type="button" data-period="7">7 jours</button>
+          <button class="stats-period-btn" type="button" data-period="30">30 jours</button>
+          <button class="stats-period-btn" type="button" data-period="90">90 jours</button>
+          <button class="stats-period-btn" type="button" data-period="365">1 an</button>
+          <button class="stats-period-btn" type="button" data-period="all">Tout</button>
+        </nav>
+      </section>
+
+      <section id="statisticsContent" class="statistics-content" aria-live="polite"></section>
+    </main>
+
     <main id="pageBackup" class="app-page page-backup hidden" data-page="backup">
       <section class="page-header card">
         <p class="eyebrow">💾 Coffre de sauvegarde</p>
@@ -387,18 +408,19 @@
     </section>
   </div>
 
-  <script src="./app-config.js?v=5.8.0"></script>
-  <script src="./app-data.js?v=5.8.0"></script>
-  <script src="./app-program-champion-arenes.js?v=5.8.0"></script>
-  <script src="./app-rewards.js?v=5.8.0"></script>
-  <script src="./app-state.js?v=5.8.0"></script>
-  <script src="./app-progress.js?v=5.8.0"></script>
-  <script src="app-render.js?v=5.8.0"></script>
-  <script src="./app-navigation.js?v=5.8.0"></script>
-  <script src="./app-exercises.js?v=5.8.0"></script>
-  <script src="app-programs.js?v=5.8.0"></script>
-  <script src="./app-media.js?v=5.8.0"></script>
-  <script src="./app-backup.js?v=5.8.0"></script>
-  <script src="./app.js?v=5.8.0"></script>
+  <script src="./app-config.js?v=5.9.0"></script>
+  <script src="./app-data.js?v=5.9.0"></script>
+  <script src="./app-program-champion-arenes.js?v=5.9.0"></script>
+  <script src="./app-rewards.js?v=5.9.0"></script>
+  <script src="./app-state.js?v=5.9.0"></script>
+  <script src="./app-progress.js?v=5.9.0"></script>
+  <script src="app-render.js?v=5.9.0"></script>
+  <script src="./app-navigation.js?v=5.9.0"></script>
+  <script src="./app-exercises.js?v=5.9.0"></script>
+  <script src="app-programs.js?v=5.9.0"></script>
+  <script src="./app-media.js?v=5.9.0"></script>
+  <script src="./app-backup.js?v=5.9.0"></script>
+  <script src="./app-stats.js?v=5.9.0"></script>
+  <script src="./app.js?v=5.9.0"></script>
 </body>
 </html>
