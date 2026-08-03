@@ -189,6 +189,10 @@ window.FitnessRpgNavigation.openProgression = function openProgression() {
   window.FitnessRpgNavigation.setPage("progression");
 };
 
+window.FitnessRpgNavigation.openStatistics = function openStatistics() {
+  window.FitnessRpgNavigation.setPage("statistics");
+};
+
 window.FitnessRpgNavigation.openBackup = function openBackup() {
   window.FitnessRpgNavigation.setPage("backup");
 };
@@ -1258,6 +1262,20 @@ if (target.closest("#openBackupFromHeroMenuButton")) {
   if (target.closest("#openProgressionButton")) {
     event.preventDefault();
     window.FitnessRpgNavigation.openProgression();
+    return;
+  }
+
+  if (target.closest("#openStatisticsButton")) {
+    event.preventDefault();
+    window.FitnessRpgNavigation.openStatistics();
+    return;
+  }
+
+  const statisticsPeriodButton = target.closest(".stats-period-btn");
+
+  if (statisticsPeriodButton) {
+    event.preventDefault();
+    window.FitnessRpgStats?.setPeriod?.(statisticsPeriodButton.dataset.period);
     return;
   }
 
