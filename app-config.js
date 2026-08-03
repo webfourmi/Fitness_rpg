@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "0.5.9.0",
+  version: "0.6.0-a",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V5.9.0",
+  displayVersion: "V6.0A",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "5.9.0",
+  assetVersion: "6.0a",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
@@ -462,6 +462,6 @@ window.FitnessRpgConfig.setVersionLabels = function setVersionLabels() {
   const versionLabel = document.querySelector("#appVersionLabel");
   if (versionLabel) versionLabel.textContent = version;
 
- const versionBadge = document.querySelector("#appVersionBadge");
- if (versionBadge) versionBadge.textContent = "Fitness RPG";
+  const versionBadge = document.querySelector("#appVersionBadge");
+  if (versionBadge) versionBadge.textContent = `Fitness · ${displayVersion}`;
 };
