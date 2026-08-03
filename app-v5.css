@@ -1497,6 +1497,211 @@ textarea:focus {
   line-height: 1.35;
 }
 /* ============================================================
+   V5.8 - Sauvegarde et restauration
+============================================================ */
+
+.page-backup {
+  width: 100%;
+}
+
+.backup-current-card,
+.backup-import-card {
+  display: grid;
+  gap: 14px;
+}
+
+.backup-current-card > .primary-btn,
+.backup-restore-actions button {
+  width: 100%;
+}
+
+.backup-summary-heading,
+.backup-empty-state {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.backup-summary-heading h2,
+.backup-empty-state h2,
+.backup-import-card h2 {
+  margin: 0 0 4px;
+  color: var(--accent-strong);
+}
+
+.backup-summary-heading p,
+.backup-empty-state p {
+  margin: 0;
+}
+
+.backup-summary-icon,
+.backup-empty-state > span {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--border-strong);
+  border-radius: 16px;
+  background: var(--accent-soft);
+  font-size: 1.55rem;
+}
+
+.backup-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.backup-summary-grid li {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.backup-summary-grid span {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+.backup-summary-grid strong {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.backup-help-text,
+.backup-warning {
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.backup-file-picker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  cursor: pointer;
+  text-align: center;
+}
+
+.backup-file-picker input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.backup-file-picker:focus-within {
+  outline: 3px solid rgba(94, 200, 255, 0.9);
+  outline-offset: 3px;
+}
+
+.backup-import-status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--text-muted);
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.backup-import-status.loading {
+  border-color: rgba(94, 200, 255, 0.52);
+  background: rgba(94, 200, 255, 0.1);
+  color: #d8f3ff;
+}
+
+.backup-import-status.success {
+  border-color: rgba(91, 255, 147, 0.5);
+  background: rgba(91, 255, 147, 0.1);
+  color: #d9ffe6;
+}
+
+.backup-import-status.error {
+  border-color: rgba(255, 90, 111, 0.58);
+  background: rgba(255, 90, 111, 0.11);
+  color: #ffd5dc;
+}
+
+.backup-preview {
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid rgba(91, 255, 147, 0.44);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(91, 255, 147, 0.08), rgba(255, 255, 255, 0.035));
+}
+
+.backup-file-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.backup-file-meta span {
+  display: inline-flex;
+  min-width: 0;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.backup-restore-actions {
+  display: grid;
+  gap: 9px;
+}
+
+.backup-warning {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 90, 111, 0.42);
+  border-radius: 13px;
+  background: rgba(255, 90, 111, 0.08);
+  color: #ffd5dc;
+}
+
+@media (min-width: 700px) {
+  .page-backup {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: start;
+  }
+
+  .page-backup > .page-header {
+    grid-column: 1 / -1;
+  }
+
+  .backup-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .backup-restore-actions {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  }
+}
+
+/* ============================================================
    06 - Entraînement
 ============================================================ */
 
