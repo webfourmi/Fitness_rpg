@@ -189,6 +189,10 @@ window.FitnessRpgNavigation.openProgression = function openProgression() {
   window.FitnessRpgNavigation.setPage("progression");
 };
 
+window.FitnessRpgNavigation.openBackup = function openBackup() {
+  window.FitnessRpgNavigation.setPage("backup");
+};
+
 window.FitnessRpgNavigation.openCoach = function openCoach() {
   const coachId = window.FitnessRpgState.getCoachId?.() || "korvan";
 
@@ -1095,6 +1099,12 @@ if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;
     return;
   }
 
+  if (target.closest("#openBackupFromSetupButton")) {
+    event.preventDefault();
+    window.FitnessRpgNavigation.openBackup();
+    return;
+  }
+
   const coachCarouselButton = target.closest(".coach-carousel-btn");
 
   if (coachCarouselButton) {
@@ -1171,11 +1181,23 @@ if (target.closest("#createNewHeroFromMenuButton")) {
   event.preventDefault();
   window.FitnessRpgNavigation.startNewHero();
   return;
+}
+
+if (target.closest("#openBackupFromHeroMenuButton")) {
+  event.preventDefault();
+  window.FitnessRpgNavigation.openBackup();
+  return;
 }  
 
   if (target.closest("#openFamiliarsButton")) {
     event.preventDefault();
     window.FitnessRpgNavigation.openFamiliars();
+    return;
+  }
+
+  if (target.closest("#openBackupButton")) {
+    event.preventDefault();
+    window.FitnessRpgNavigation.openBackup();
     return;
   }
   if (target.closest(".open-progression-from-levelup-btn")) {
@@ -1236,6 +1258,24 @@ if (target.closest("#createNewHeroFromMenuButton")) {
   if (target.closest("#openProgressionButton")) {
     event.preventDefault();
     window.FitnessRpgNavigation.openProgression();
+    return;
+  }
+
+  if (target.closest("#exportBackupButton")) {
+    event.preventDefault();
+    window.FitnessRpgBackup?.exportCurrentBackup?.();
+    return;
+  }
+
+  if (target.closest("#clearBackupSelectionButton")) {
+    event.preventDefault();
+    window.FitnessRpgBackup?.clearPendingImport?.();
+    return;
+  }
+
+  if (target.closest("#restoreBackupButton")) {
+    event.preventDefault();
+    window.FitnessRpgBackup?.restorePendingImport?.();
     return;
   }
 
