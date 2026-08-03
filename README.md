@@ -1,4 +1,4 @@
-# Fitness RPG - V3
+# Fitness RPG - V5
 
 Web app locale de motivation sportive : quêtes quotidiennes, XP, niveaux, héros évolutif, et coachs.
 
