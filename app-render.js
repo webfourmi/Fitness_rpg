@@ -3328,6 +3328,10 @@ window.FitnessRpgRender.renderCurrentPage = function renderCurrentPage() {
       window.FitnessRpgRender.renderProgressionPage();
       break;
 
+    case "statistics":
+      window.FitnessRpgStats?.renderPage?.();
+      break;
+
     case "backup":
       window.FitnessRpgBackup?.renderPage?.();
       break;
