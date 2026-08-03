@@ -16,7 +16,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fitness RPG</title>
 
-  <link rel="stylesheet" href="app-v5.css?v=5.7.1">
+  <link rel="stylesheet" href="app-v5.css?v=5.8.0">
 </head>
 
 <body>
@@ -109,6 +109,7 @@
         <div class="form-actions">
           <button id="saveHeroButton" class="primary-btn" type="button">Commencer l’aventure</button>
           <button id="cancelHeroSetupButton" class="ghost-btn" type="button">Annuler</button>
+          <button id="openBackupFromSetupButton" class="secondary-btn" type="button">Restaurer une sauvegarde</button>
         </div>
       </section>
     </main>
@@ -175,6 +176,7 @@
         <button id="openJournalButton" type="button">📖<span>Journal</span></button>
         <button id="openWeightButton" type="button">⚖️<span>Poids</span></button>
         <button id="openFamiliarsButton" class="ghost-btn" type="button">🐾<span>Familiers</span></button>
+        <button id="openBackupButton" type="button">💾<span>Sauvegarde</span></button>
       </nav>
     </main>
 
@@ -186,6 +188,7 @@
 
         <div class="hero-menu-actions">
           <button id="editHeroProfileButton" class="primary-btn" type="button">Modifier le héros</button>
+          <button id="openBackupFromHeroMenuButton" class="secondary-btn" type="button">Sauvegarde et restauration</button>
           <button id="createNewHeroFromMenuButton" class="danger-btn" type="button">Créer un nouveau héros</button>
         </div>
 
@@ -297,6 +300,49 @@
       </section>
     </main>
 
+    <main id="pageBackup" class="app-page page-backup hidden" data-page="backup">
+      <section class="page-header card">
+        <p class="eyebrow">💾 Coffre de sauvegarde</p>
+        <h1>Sauvegarde et restauration</h1>
+        <p>Protège ton héros avant un changement de téléphone, un nettoyage du navigateur ou une nouvelle installation.</p>
+      </section>
+
+      <section class="backup-current-card card">
+        <div id="backupCurrentSummary"></div>
+        <button id="exportBackupButton" class="primary-btn" type="button">Télécharger une sauvegarde complète</button>
+        <p class="backup-help-text">Le fichier contient le héros, l’XP, les entraînements, les programmes, les boss, les badges, les familiers, le poids, la séance active et le timer.</p>
+      </section>
+
+      <section class="backup-import-card card">
+        <div>
+          <p class="eyebrow">Restaurer une aventure</p>
+          <h2>Importer un fichier JSON</h2>
+          <p>Le fichier est contrôlé avant toute modification. Un aperçu du héros apparaîtra ici avant la restauration.</p>
+        </div>
+
+        <label class="backup-file-picker secondary-btn" for="backupFileInput">
+          <span aria-hidden="true">📂</span>
+          <span>Choisir une sauvegarde</span>
+          <input id="backupFileInput" type="file" accept=".json,application/json" />
+        </label>
+
+        <p id="backupImportStatus" class="backup-import-status idle" aria-live="polite">
+          Choisis un fichier de sauvegarde Fitness RPG au format JSON.
+        </p>
+
+        <section id="backupPreview" class="backup-preview hidden" aria-live="polite"></section>
+
+        <div class="backup-restore-actions">
+          <button id="clearBackupSelectionButton" class="ghost-btn" type="button" disabled>Annuler la sélection</button>
+          <button id="restoreBackupButton" class="danger-btn" type="button" disabled>Restaurer et remplacer les données</button>
+        </div>
+
+        <p class="backup-warning">
+          ⚠️ La restauration remplace les données Fitness RPG de cet appareil uniquement après confirmation. Une copie de sécurité des données actuelles est téléchargée automatiquement juste avant le remplacement.
+        </p>
+      </section>
+    </main>
+
     <div id="imageOverlay" class="image-overlay hidden" aria-hidden="true">
       <button id="closeImageOverlayButton" class="ghost-btn" type="button">← Retour</button>
       <img id="imageOverlayImg" alt="Image agrandie" />
@@ -341,17 +387,18 @@
     </section>
   </div>
 
-  <script src="./app-config.js?v=5.7.1"></script>
-  <script src="./app-data.js?v=5.6"></script>
-  <script src="./app-program-champion-arenes.js?v=5.6"></script>
-  <script src="./app-rewards.js?v=5.6"></script>
-  <script src="./app-state.js?v=5.6"></script>
-  <script src="./app-progress.js?v=5.6"></script>
-  <script src="app-render.js?v=5.7.0"></script>
-  <script src="./app-navigation.js?v=5.7.0"></script>
-  <script src="./app-exercises.js?v=5.6.1"></script>
-  <script src="app-programs.js?v=5.7.0"></script>
-  <script src="./app-media.js?v=5.6"></script>
-  <script src="./app.js?v=5.6"></script>
+  <script src="./app-config.js?v=5.8.0"></script>
+  <script src="./app-data.js?v=5.8.0"></script>
+  <script src="./app-program-champion-arenes.js?v=5.8.0"></script>
+  <script src="./app-rewards.js?v=5.8.0"></script>
+  <script src="./app-state.js?v=5.8.0"></script>
+  <script src="./app-progress.js?v=5.8.0"></script>
+  <script src="app-render.js?v=5.8.0"></script>
+  <script src="./app-navigation.js?v=5.8.0"></script>
+  <script src="./app-exercises.js?v=5.8.0"></script>
+  <script src="app-programs.js?v=5.8.0"></script>
+  <script src="./app-media.js?v=5.8.0"></script>
+  <script src="./app-backup.js?v=5.8.0"></script>
+  <script src="./app.js?v=5.8.0"></script>
 </body>
 </html>
