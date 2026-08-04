@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fitness RPG</title>
 
-  <link rel="stylesheet" href="app-v5.css?v=6.0b">
+  <link rel="stylesheet" href="app-v5.css?v=6.0c">
 </head>
 
 <body>
@@ -304,10 +304,13 @@
     </main>
 
     <main id="pagePrograms" class="app-page page-programs hidden" data-page="programs">
-      <section class="page-header card">
-        <h1>Programmes</h1>
+      <section class="page-header card program-library-header">
+        <div>
+          <p class="eyebrow">📜 Campagnes d’entraînement</p>
+          <h1>Programmes</h1>
+          <p>Choisis une campagne, suis ses semaines et affronte ses boss.</p>
+        </div>
         <nav id="programLevelTabs" class="program-level-tabs" aria-label="Filtrer les programmes par niveau"></nav>
-        <p>Choisis un parcours complet pour guider tes séances.</p>
       </section>
 
       <section id="programList" class="program-list"></section>
@@ -339,9 +342,13 @@
     </main>
 
     <main id="pageExercises" class="app-page page-exercises hidden" data-page="exercises">
-      <section class="page-header card">
-        <h1>Exercices</h1>
-        <p>Choisis une catégorie, indique ton temps ou tes répétitions, puis valide.</p>
+      <section class="page-header card exercise-library-header">
+        <div>
+          <p class="eyebrow">⚔️ Entraînement libre</p>
+          <h1>Exercices</h1>
+          <p>Choisis une catégorie, règle ton objectif et valide ton effort.</p>
+        </div>
+        <span class="status-chip status-info">Bibliothèque complète</span>
       </section>
       <section id="exerciseList" class="exercise-list"></section>
     </main>
@@ -512,19 +519,19 @@
     </section>
   </div>
 
-  <script src="./app-config.js?v=6.0b"></script>
-  <script src="./app-data.js?v=6.0b"></script>
-  <script src="./app-program-champion-arenes.js?v=6.0b"></script>
-  <script src="./app-rewards.js?v=6.0b"></script>
-  <script src="./app-state.js?v=6.0b"></script>
-  <script src="./app-progress.js?v=6.0b"></script>
-  <script src="app-render.js?v=6.0b"></script>
-  <script src="./app-navigation.js?v=6.0b"></script>
-  <script src="./app-exercises.js?v=6.0b"></script>
-  <script src="app-programs.js?v=6.0b"></script>
-  <script src="./app-media.js?v=6.0b"></script>
-  <script src="./app-backup.js?v=6.0b"></script>
-  <script src="./app-stats.js?v=6.0b"></script>
-  <script src="./app.js?v=6.0b"></script>
+  <script src="./app-config.js?v=6.0c"></script>
+  <script src="./app-data.js?v=6.0c"></script>
+  <script src="./app-program-champion-arenes.js?v=6.0c"></script>
+  <script src="./app-rewards.js?v=6.0c"></script>
+  <script src="./app-state.js?v=6.0c"></script>
+  <script src="./app-progress.js?v=6.0c"></script>
+  <script src="app-render.js?v=6.0c"></script>
+  <script src="./app-navigation.js?v=6.0c"></script>
+  <script src="./app-exercises.js?v=6.0c"></script>
+  <script src="app-programs.js?v=6.0c"></script>
+  <script src="./app-media.js?v=6.0c"></script>
+  <script src="./app-backup.js?v=6.0c"></script>
+  <script src="./app-stats.js?v=6.0c"></script>
+  <script src="./app.js?v=6.0c"></script>
 </body>
 </html>
