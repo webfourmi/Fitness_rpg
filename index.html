@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <!--
-    Fitness RPG - V6.0B
+    Fitness RPG - V6.1A
     ------------------------------------------------------------
     Charte graphique commune et harmonisation responsive.
     La version officielle reste centralisée dans app-config.js.
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fitness RPG</title>
 
-  <link rel="stylesheet" href="app-v5.css?v=6.0d">
+  <link rel="stylesheet" href="app-v5.css?v=6.1a">
 </head>
 
 <body>
@@ -578,6 +578,69 @@
       </section>
     </main>
 
+    <button
+    id="mobileMoreBackdrop"
+    class="mobile-more-backdrop hidden"
+    type="button"
+    aria-label="Fermer le menu Plus"
+  ></button>
+
+  <section
+    id="mobileMorePanel"
+    class="mobile-more-panel hidden"
+    aria-hidden="true"
+    aria-label="Autres destinations"
+  >
+    <header class="mobile-more-heading">
+      <div>
+        <p class="eyebrow">Navigation</p>
+        <h2>Plus d’options</h2>
+      </div>
+      <button id="closeMobileMoreButton" class="icon-button" type="button" aria-label="Fermer">×</button>
+    </header>
+
+    <div class="mobile-more-grid">
+      <button type="button" data-mobile-destination="goal">🎯<span>Objectif</span></button>
+      <button type="button" data-mobile-destination="progression">🏆<span>Progression</span></button>
+      <button type="button" data-mobile-destination="statistics">📊<span>Statistiques</span></button>
+      <button type="button" data-mobile-destination="badges">🏅<span>Badges</span></button>
+      <button type="button" data-mobile-destination="familiars">🐾<span>Familiers</span></button>
+      <button type="button" data-mobile-destination="journal">📖<span>Journal</span></button>
+      <button type="button" data-mobile-destination="hero-menu">🧬<span>Héros</span></button>
+      <button type="button" data-mobile-destination="coach">🧙<span>Coach</span></button>
+      <button type="button" data-mobile-destination="weight">⚖️<span>Poids</span></button>
+      <button type="button" data-mobile-destination="music">🎵<span>Musique</span></button>
+      <button type="button" data-mobile-destination="backup">💾<span>Sauvegarde</span></button>
+    </div>
+  </section>
+
+  <nav
+    id="mobilePrimaryNav"
+    class="mobile-primary-nav hidden"
+    aria-label="Navigation principale mobile"
+  >
+    <button id="mobileNavTrainingButton" type="button" data-mobile-destination="training">
+      <span aria-hidden="true">🛡️</span><small>Quête</small>
+    </button>
+    <button id="mobileNavExercisesButton" type="button" data-mobile-destination="exercises">
+      <span aria-hidden="true">⚔️</span><small>Exercices</small>
+    </button>
+    <button id="mobileNavProgramsButton" type="button" data-mobile-destination="programs">
+      <span aria-hidden="true">📜</span><small>Programmes</small>
+    </button>
+    <button id="mobileNavPlanningButton" type="button" data-mobile-destination="planning">
+      <span aria-hidden="true">📅</span><small>Planning</small>
+    </button>
+    <button
+      id="mobileNavMoreButton"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobileMorePanel"
+    >
+      <span aria-hidden="true">☰</span><small>Plus</small>
+    </button>
+  </nav>
+
     <div id="imageOverlay" class="image-overlay hidden" aria-hidden="true">
       <button id="closeImageOverlayButton" class="ghost-btn" type="button">← Retour</button>
       <img id="imageOverlayImg" alt="Image agrandie" />
@@ -622,19 +685,19 @@
     </section>
   </div>
 
-  <script src="./app-config.js?v=6.0d"></script>
-  <script src="./app-data.js?v=6.0d"></script>
-  <script src="./app-program-champion-arenes.js?v=6.0d"></script>
-  <script src="./app-rewards.js?v=6.0d"></script>
-  <script src="./app-state.js?v=6.0d"></script>
-  <script src="./app-progress.js?v=6.0d"></script>
-  <script src="app-render.js?v=6.0d"></script>
-  <script src="./app-navigation.js?v=6.0d"></script>
-  <script src="./app-exercises.js?v=6.0d"></script>
-  <script src="app-programs.js?v=6.0d"></script>
-  <script src="./app-media.js?v=6.0d"></script>
-  <script src="./app-backup.js?v=6.0d"></script>
-  <script src="./app-stats.js?v=6.0d"></script>
-  <script src="./app.js?v=6.0d"></script>
+  <script src="./app-config.js?v=6.1a"></script>
+  <script src="./app-data.js?v=6.1a"></script>
+  <script src="./app-program-champion-arenes.js?v=6.1a"></script>
+  <script src="./app-rewards.js?v=6.1a"></script>
+  <script src="./app-state.js?v=6.1a"></script>
+  <script src="./app-progress.js?v=6.1a"></script>
+  <script src="app-render.js?v=6.1a"></script>
+  <script src="./app-navigation.js?v=6.1a"></script>
+  <script src="./app-exercises.js?v=6.1a"></script>
+  <script src="app-programs.js?v=6.1a"></script>
+  <script src="./app-media.js?v=6.1a"></script>
+  <script src="./app-backup.js?v=6.1a"></script>
+  <script src="./app-stats.js?v=6.1a"></script>
+  <script src="./app.js?v=6.1a"></script>
 </body>
 </html>
