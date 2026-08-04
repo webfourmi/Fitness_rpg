@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fitness RPG</title>
 
-  <link rel="stylesheet" href="app-v5.css?v=6.0c">
+  <link rel="stylesheet" href="app-v5.css?v=6.0d">
 </head>
 
 <body>
@@ -368,56 +368,133 @@
     </main>
 
     <main id="pageBadges" class="app-page page-badges hidden" data-page="badges">
-      <section class="page-header card">
-        <h1>Badges</h1>
-        <p>Récompenses, trophées et petits feux d’artifice de régularité.</p>
+      <section class="page-header card archive-page-header">
+        <div>
+          <p class="eyebrow">🏅 Salle des trophées</p>
+          <h1>Badges</h1>
+          <p>Récompenses, exploits et jalons de ton aventure sportive.</p>
+        </div>
+        <span class="status-chip status-next">Collection</span>
       </section>
       <section id="badgeCollectionSummary" class="badge-collection-summary card"></section>
       <section id="badgeList" class="badge-collection-grid"></section>
     </main>
 
     <main id="pageFamiliars" class="app-page page-familiars hidden" data-page="familiars">
-      <section class="page-header card">
-        <h1>Familiers</h1>
-        <p>Retrouve ici les compagnons débloqués dans les coffres de récompense.</p>
+      <section class="page-header card archive-page-header">
+        <div>
+          <p class="eyebrow">🐾 Ménagerie</p>
+          <h1>Familiers</h1>
+          <p>Retrouve les compagnons débloqués dans les coffres de récompense.</p>
+        </div>
+        <span class="status-chip status-active">Compagnons</span>
       </section>
       <section id="familiarCollectionSummary" class="familiar-collection-summary card"></section>
       <section id="familiarCollectionGrid" class="familiar-collection-grid"></section>
     </main>
 
     <main id="pageJournal" class="app-page page-journal hidden" data-page="journal">
-      <section class="page-header card">
-        <h1>Journal</h1>
-        <p>Les derniers exploits du héros.</p>
+      <section class="page-header card archive-page-header">
+        <div>
+          <p class="eyebrow">📖 Chroniques</p>
+          <h1>Journal du héros</h1>
+          <p>Retrouve les entraînements, récompenses et décisions importantes de l’aventure.</p>
+        </div>
+        <span class="status-chip status-info">Historique local</span>
       </section>
-      <ul id="journalList" class="journal-list"></ul>
-      <button id="clearJournalButton" class="ghost-btn" type="button">Vider le journal</button>
+
+      <section id="journalSummary" class="journal-summary-grid" aria-label="Résumé du journal"></section>
+
+      <section class="journal-command-bar card">
+        <label class="journal-search-field" for="journalSearchInput">
+          <span>Rechercher dans les chroniques</span>
+          <input id="journalSearchInput" type="search" placeholder="Exercice, programme, récompense…" autocomplete="off" />
+        </label>
+
+        <nav id="journalFilterTabs" class="journal-filter-tabs" aria-label="Filtrer le journal">
+          <button class="journal-filter-btn active" type="button" data-journal-filter="all" aria-pressed="true">Tout</button>
+          <button class="journal-filter-btn" type="button" data-journal-filter="training" aria-pressed="false">Entraînements</button>
+          <button class="journal-filter-btn" type="button" data-journal-filter="rewards" aria-pressed="false">Récompenses</button>
+          <button class="journal-filter-btn" type="button" data-journal-filter="life" aria-pressed="false">Aventure</button>
+        </nav>
+      </section>
+
+      <section class="journal-timeline-card card">
+        <div class="journal-results-heading">
+          <div>
+            <p class="eyebrow">Dernières traces</p>
+            <h2 id="journalResultsTitle">Toutes les chroniques</h2>
+          </div>
+          <span id="journalResultCount" class="status-chip status-info">0 entrée</span>
+        </div>
+        <ul id="journalList" class="journal-list"></ul>
+      </section>
+
+      <section class="journal-danger-zone card">
+        <div>
+          <strong>Nettoyer les chroniques</strong>
+          <p>Cette action vide seulement le journal narratif. Les séances, l’XP et la progression restent conservés.</p>
+        </div>
+        <button id="clearJournalButton" class="danger-btn" type="button">Vider le journal</button>
+      </section>
     </main>
 
     <main id="pageWeight" class="app-page page-weight hidden" data-page="weight">
-      <section class="page-header card">
-        <h1>Poids</h1>
-        <p>Note ton poids et suis l’évolution dans le temps.</p>
+      <section class="page-header card archive-page-header">
+        <div>
+          <p class="eyebrow">⚖️ Suivi personnel</p>
+          <h1>Évolution du poids</h1>
+          <p>Enregistre une mesure et observe la tendance sans jugement ni objectif imposé.</p>
+        </div>
+        <span class="status-chip status-active">Données privées</span>
       </section>
-      <section class="card">
-        <label>
-          Poids du jour en kg
-          <input id="weightInput" type="number" min="20" max="300" step="0.1" placeholder="Ex : 82.5" />
-        </label>
-        <button id="saveWeightButton" class="primary-btn" type="button">Enregistrer</button>
-      </section>
-      <section class="card">
-        <h2>Courbe</h2>
-        <canvas id="weightChart" width="320" height="180"></canvas>
+
+      <section id="weightSummary" class="weight-summary-grid" aria-label="Résumé du poids"></section>
+
+      <div class="weight-dashboard-layout">
+        <section class="weight-entry-card card">
+          <p class="eyebrow">Nouvelle mesure</p>
+          <h2>Poids du jour</h2>
+          <label for="weightInput">
+            Kilogrammes
+            <input id="weightInput" type="number" min="20" max="300" step="0.1" inputmode="decimal" placeholder="Ex : 82,5" />
+          </label>
+          <button id="saveWeightButton" class="primary-btn" type="button">Enregistrer la mesure</button>
+          <p class="weight-privacy-note">🔒 Cette information reste enregistrée uniquement dans ton navigateur et dans tes sauvegardes JSON.</p>
+        </section>
+
+        <section class="weight-chart-card card">
+          <div class="weight-section-heading">
+            <div>
+              <p class="eyebrow">Tendance</p>
+              <h2>Courbe d’évolution</h2>
+            </div>
+            <span id="weightChartRange" class="status-chip status-info">Aucune mesure</span>
+          </div>
+          <div class="weight-chart-wrap">
+            <canvas id="weightChart" width="760" height="300" aria-label="Courbe d’évolution du poids"></canvas>
+          </div>
+        </section>
+      </div>
+
+      <section class="weight-history-card card">
+        <div class="weight-section-heading">
+          <div>
+            <p class="eyebrow">Historique récent</p>
+            <h2>Dernières mesures</h2>
+          </div>
+          <span id="weightHistoryCount" class="status-chip status-info">0 mesure</span>
+        </div>
+        <div id="weightHistory" class="weight-history-list"></div>
       </section>
     </main>
 
     <main id="pageStatistics" class="app-page page-statistics hidden" data-page="statistics">
       <section class="page-header card statistics-header-card">
         <div>
-          <p class="eyebrow">📊 Chroniques du héros</p>
+          <p class="eyebrow">📊 Chroniques chiffrées</p>
           <h1>Tableau de statistiques</h1>
-          <p>Observe ton activité, ta régularité et les chemins où ton héros gagne le plus d’XP.</p>
+          <p>Observe ton rythme, tes volumes et la progression de tes campagnes sans modifier ton historique.</p>
         </div>
 
         <nav id="statisticsPeriodTabs" class="statistics-period-tabs" aria-label="Période des statistiques">
@@ -425,7 +502,7 @@
           <button class="stats-period-btn" type="button" data-period="30">30 jours</button>
           <button class="stats-period-btn" type="button" data-period="90">90 jours</button>
           <button class="stats-period-btn" type="button" data-period="365">1 an</button>
-          <button class="stats-period-btn" type="button" data-period="all">Tout</button>
+          <button class="stats-period-btn" type="button" data-period="all">Toute l’aventure</button>
         </nav>
       </section>
 
@@ -433,23 +510,36 @@
     </main>
 
     <main id="pageBackup" class="app-page page-backup hidden" data-page="backup">
-      <section class="page-header card">
-        <p class="eyebrow">💾 Coffre de sauvegarde</p>
-        <h1>Sauvegarde et restauration</h1>
-        <p>Protège ton héros avant un changement de téléphone, un nettoyage du navigateur ou une nouvelle installation.</p>
+      <section class="page-header card archive-page-header backup-page-header">
+        <div>
+          <p class="eyebrow">💾 Coffre de sauvegarde</p>
+          <h1>Sauvegarde et restauration</h1>
+          <p>Protège ton héros avant un changement de téléphone, un nettoyage du navigateur ou une nouvelle installation.</p>
+        </div>
+        <span class="status-chip status-complete">Protection locale</span>
       </section>
 
       <section class="backup-current-card card">
+        <div class="backup-card-heading">
+          <span class="backup-card-icon" aria-hidden="true">🛡️</span>
+          <div>
+            <p class="eyebrow">Données de cet appareil</p>
+            <h2>Créer une copie de sécurité</h2>
+          </div>
+        </div>
         <div id="backupCurrentSummary"></div>
-        <button id="exportBackupButton" class="primary-btn" type="button">Télécharger une sauvegarde complète</button>
+        <button id="exportBackupButton" class="primary-btn" type="button">Télécharger la sauvegarde complète</button>
         <p class="backup-help-text">Le fichier contient le héros, l’XP, les entraînements, les programmes, les boss, les badges, les familiers, le poids, la séance active et le timer.</p>
       </section>
 
       <section class="backup-import-card card">
-        <div>
-          <p class="eyebrow">Restaurer une aventure</p>
-          <h2>Importer un fichier JSON</h2>
-          <p>Le fichier est contrôlé avant toute modification. Un aperçu du héros apparaîtra ici avant la restauration.</p>
+        <div class="backup-card-heading">
+          <span class="backup-card-icon" aria-hidden="true">📦</span>
+          <div>
+            <p class="eyebrow">Restaurer une aventure</p>
+            <h2>Importer un fichier JSON</h2>
+            <p>Le fichier est contrôlé avant toute modification. Un aperçu du héros apparaît avant la restauration.</p>
+          </div>
         </div>
 
         <label class="backup-file-picker secondary-btn" for="backupFileInput">
@@ -472,6 +562,19 @@
         <p class="backup-warning">
           ⚠️ La restauration remplace les données Fitness RPG de cet appareil uniquement après confirmation. Une copie de sécurité des données actuelles est téléchargée automatiquement juste avant le remplacement.
         </p>
+      </section>
+
+      <section class="backup-safety-card card">
+        <div>
+          <p class="eyebrow">Protocole de sécurité</p>
+          <h2>Ce qui se passe avant un remplacement</h2>
+        </div>
+        <ol class="backup-safety-steps">
+          <li><span>1</span><div><strong>Analyse du fichier</strong><small>Le format, le profil et les données JSON sont vérifiés.</small></div></li>
+          <li><span>2</span><div><strong>Aperçu obligatoire</strong><small>Le héros, le niveau et les collections sont affichés avant validation.</small></div></li>
+          <li><span>3</span><div><strong>Confirmation explicite</strong><small>Aucune donnée n’est remplacée sans ton accord.</small></div></li>
+          <li><span>4</span><div><strong>Parachute automatique</strong><small>Une copie des données actuelles est téléchargée juste avant l’import.</small></div></li>
+        </ol>
       </section>
     </main>
 
@@ -519,19 +622,19 @@
     </section>
   </div>
 
-  <script src="./app-config.js?v=6.0c"></script>
-  <script src="./app-data.js?v=6.0c"></script>
-  <script src="./app-program-champion-arenes.js?v=6.0c"></script>
-  <script src="./app-rewards.js?v=6.0c"></script>
-  <script src="./app-state.js?v=6.0c"></script>
-  <script src="./app-progress.js?v=6.0c"></script>
-  <script src="app-render.js?v=6.0c"></script>
-  <script src="./app-navigation.js?v=6.0c"></script>
-  <script src="./app-exercises.js?v=6.0c"></script>
-  <script src="app-programs.js?v=6.0c"></script>
-  <script src="./app-media.js?v=6.0c"></script>
-  <script src="./app-backup.js?v=6.0c"></script>
-  <script src="./app-stats.js?v=6.0c"></script>
-  <script src="./app.js?v=6.0c"></script>
+  <script src="./app-config.js?v=6.0d"></script>
+  <script src="./app-data.js?v=6.0d"></script>
+  <script src="./app-program-champion-arenes.js?v=6.0d"></script>
+  <script src="./app-rewards.js?v=6.0d"></script>
+  <script src="./app-state.js?v=6.0d"></script>
+  <script src="./app-progress.js?v=6.0d"></script>
+  <script src="app-render.js?v=6.0d"></script>
+  <script src="./app-navigation.js?v=6.0d"></script>
+  <script src="./app-exercises.js?v=6.0d"></script>
+  <script src="app-programs.js?v=6.0d"></script>
+  <script src="./app-media.js?v=6.0d"></script>
+  <script src="./app-backup.js?v=6.0d"></script>
+  <script src="./app-stats.js?v=6.0d"></script>
+  <script src="./app.js?v=6.0d"></script>
 </body>
 </html>
