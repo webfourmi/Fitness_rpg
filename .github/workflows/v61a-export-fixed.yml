@@ -1,0 +1,56 @@
+name: Export V6.1A replacement files fixed
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - .v61a-export-trigger
+
+permissions:
+  contents: read
+
+jobs:
+  build-replacement-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Run corrected exporter
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import re
+          import textwrap
+
+          workflow = Path('.github/workflows/v61a-export.yml').read_text(encoding='utf-8')
+          match = re.search(r"python3 <<'PY'\n(.*?)\n          PY", workflow, re.S)
+          if not match:
+              raise SystemExit('Export script not found')
+
+          script = textwrap.dedent(match.group(1))
+          old = 'css = replace_once(css, "@media (min-width: 760px) {", base_mobile + "@media (min-width: 760px) {", "base mobile styles")'
+          new = 'css = css.replace("@media (min-width: 760px) {", base_mobile + "@media (min-width: 760px) {", 1)'
+          if script.count(old) != 1:
+              raise SystemExit('CSS insertion line not found exactly once')
+          script = script.replace(old, new, 1)
+          exec(compile(script, 'v61a-export-script', 'exec'), {})
+          PY
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check v61a-replacement-files/app-config.js
+          node --check v61a-replacement-files/app-render.js
+          node --check v61a-replacement-files/app-navigation.js
+
+      - name: Upload replacement ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fitness_RPG_V6.1A_fichiers_a_remplacer
+          path: v61a-replacement-files/*
+          if-no-files-found: error
+          retention-days: 1
