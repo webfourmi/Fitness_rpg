@@ -133,6 +133,46 @@ window.FitnessRpgStats.getPeriod = function getPeriod(periodId = null) {
   return { id, label: labels[id] || `${days} jours`, start, end: today, dayCount: days };
 };
 
+window.FitnessRpgStats.getPreviousPeriod = function getPreviousPeriod(period) {
+  if (!period || period.id === "all") return null;
+
+  const end = window.FitnessRpgStats.addDays(period.start, -1);
+  const start = window.FitnessRpgStats.addDays(end, -(period.dayCount - 1));
+
+  return {
+    id: `previous-${period.id}`,
+    label: "Période précédente",
+    start,
+    end,
+    dayCount: period.dayCount
+  };
+};
+
+window.FitnessRpgStats.comparison = function comparison(current, previous) {
+  const currentValue = Number(current || 0);
+  const previousValue = Number(previous || 0);
+
+  if (previousValue === 0) {
+    return currentValue === 0
+      ? { className: "neutral", label: "Stable" }
+      : { className: "positive", label: "Nouvelle activité" };
+  }
+
+  const percent = Math.round(((currentValue - previousValue) / Math.abs(previousValue)) * 100);
+  if (percent === 0) return { className: "neutral", label: "Stable" };
+
+  return {
+    className: percent > 0 ? "positive" : "negative",
+    label: `${percent > 0 ? "+" : ""}${percent}% vs période précédente`
+  };
+};
+
+window.FitnessRpgStats.comparisonHtml = function comparisonHtml(current, previous, available = true) {
+  if (!available) return '<span class="statistics-trend neutral">Toute l’aventure</span>';
+  const trend = window.FitnessRpgStats.comparison(current, previous);
+  return `<span class="statistics-trend ${trend.className}">${window.FitnessRpgStats.escapeHtml(trend.label)}</span>`;
+};
+
 window.FitnessRpgStats.isInPeriod = function isInPeriod(dateKey, period) {
   const date = window.FitnessRpgStats.dateFromKey(dateKey);
   if (!date) return false;
@@ -446,9 +486,19 @@ window.FitnessRpgStats.buildModel = function buildModel() {
   });
   const regularity = Math.round((activeDays.length / Math.max(1, period.dayCount)) * 100);
   const weightDelta = weights.length >= 2 ? weights.at(-1).value - weights[0].value : null;
+  const previousPeriod = window.FitnessRpgStats.getPreviousPeriod(period);
+  const previousEntries = previousPeriod
+    ? allEntries.filter((entry) => window.FitnessRpgStats.isInPeriod(entry.dateKey, previousPeriod))
+    : [];
+  const previousActiveDays = [...new Set(previousEntries.map((entry) => entry.dateKey))];
+  const previousXp = previousEntries.reduce((sum, entry) => sum + Number(entry.xp || 0), 0);
 
   return {
     period,
+    previousPeriod,
+    previousEntries,
+    previousActiveDays,
+    previousXp,
     allEntries,
     entries,
     weights,
@@ -477,8 +527,9 @@ window.FitnessRpgStats.renderPage = function renderPage() {
 
   const profile = window.FitnessRpgState?.getProfile?.();
   document.querySelectorAll(".stats-period-btn").forEach((button) => {
-    button.classList.toggle("active", button.dataset.period === window.FitnessRpgStats.currentPeriod);
-    button.setAttribute("aria-pressed", button.dataset.period === window.FitnessRpgStats.currentPeriod ? "true" : "false");
+    const active = button.dataset.period === window.FitnessRpgStats.currentPeriod;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", active ? "true" : "false");
   });
 
   if (!profile) {
@@ -494,46 +545,44 @@ window.FitnessRpgStats.renderPage = function renderPage() {
   const deltaLabel = model.weightDelta === null
     ? "Pas assez de mesures"
     : `${model.weightDelta > 0 ? "+" : ""}${window.FitnessRpgStats.formatNumber(model.weightDelta, 1)} kg`;
+  const comparisonAvailable = Boolean(model.previousPeriod);
+  const levelInfo = window.FitnessRpgConfig?.levelInfo?.(profile.totalXp || 0) || { level: 1, rank: "Novice" };
+  const activeProgram = profile.activeProgramId
+    ? window.FitnessRpgConfig?.getProgramById?.(profile.activeProgramId)
+    : null;
 
   container.innerHTML = `
-    <p class="statistics-period-label">${window.FitnessRpgStats.escapeHtml(model.period.label)} · du ${model.period.start.toLocaleDateString("fr-FR")} au ${model.period.end.toLocaleDateString("fr-FR")}</p>
+    <section class="statistics-hero-strip card">
+      <div class="statistics-hero-copy">
+        <span class="statistics-hero-icon" aria-hidden="true">📈</span>
+        <div>
+          <p class="eyebrow">${window.FitnessRpgStats.escapeHtml(model.period.label)}</p>
+          <h2>${window.FitnessRpgStats.escapeHtml(profile.name || "Héros")} · Niv. ${levelInfo.level} · ${window.FitnessRpgStats.escapeHtml(levelInfo.rank)}</h2>
+          <p>${activeProgram ? `Campagne active : ${window.FitnessRpgStats.escapeHtml(activeProgram.title)}` : "Aucune campagne principale sélectionnée."}</p>
+        </div>
+      </div>
+      <p class="statistics-period-range">Du ${model.period.start.toLocaleDateString("fr-FR")} au ${model.period.end.toLocaleDateString("fr-FR")}</p>
+    </section>
 
     <section class="statistics-summary-grid" aria-label="Résumé statistique">
-      <article class="statistics-kpi-card"><span class="statistics-kpi-icon">🏃</span><strong>${model.entries.length}</strong><span>activités enregistrées</span><small>${model.programSessions} séance${model.programSessions > 1 ? "s" : ""} de programme · ${model.bosses} boss</small></article>
-      <article class="statistics-kpi-card"><span class="statistics-kpi-icon">📅</span><strong>${model.activeDays.length}</strong><span>jours actifs</span><small>${model.regularity}% des jours de la période</small></article>
-      <article class="statistics-kpi-card"><span class="statistics-kpi-icon">✨</span><strong>${window.FitnessRpgStats.formatNumber(model.xp)}</strong><span>XP d’entraînement</span><small>${window.FitnessRpgStats.formatNumber(profile.totalXp || 0)} XP au total</small></article>
-      <article class="statistics-kpi-card"><span class="statistics-kpi-icon">🔥</span><strong>${profile.streak || 0}</strong><span>série actuelle</span><small>record observé : ${model.bestStreak} jour${model.bestStreak > 1 ? "s" : ""}</small></article>
+      <article class="statistics-kpi-card"><span class="statistics-kpi-icon">🏃</span><strong>${model.entries.length}</strong><span>activités enregistrées</span><small>${model.programSessions} séance${model.programSessions > 1 ? "s" : ""} de programme · ${model.bosses} boss</small>${window.FitnessRpgStats.comparisonHtml(model.entries.length, model.previousEntries.length, comparisonAvailable)}</article>
+      <article class="statistics-kpi-card"><span class="statistics-kpi-icon">📅</span><strong>${model.activeDays.length}</strong><span>jours actifs</span><small>${model.regularity}% des jours de la période</small>${window.FitnessRpgStats.comparisonHtml(model.activeDays.length, model.previousActiveDays.length, comparisonAvailable)}</article>
+      <article class="statistics-kpi-card"><span class="statistics-kpi-icon">✨</span><strong>${window.FitnessRpgStats.formatNumber(model.xp)}</strong><span>XP d’entraînement</span><small>${window.FitnessRpgStats.formatNumber(profile.totalXp || 0)} XP au total</small>${window.FitnessRpgStats.comparisonHtml(model.xp, model.previousXp, comparisonAvailable)}</article>
+      <article class="statistics-kpi-card"><span class="statistics-kpi-icon">🔥</span><strong>${profile.streak || 0}</strong><span>série actuelle</span><small>record observé : ${model.bestStreak} jour${model.bestStreak > 1 ? "s" : ""}</small><span class="statistics-trend neutral">Record de l’aventure</span></article>
       <article class="statistics-kpi-card"><span class="statistics-kpi-icon">⏱️</span><strong>${window.FitnessRpgStats.formatDuration(model.measuredSeconds)}</strong><span>temps chronométré</span><small>exercices enregistrés en minutes ou secondes</small></article>
       <article class="statistics-kpi-card"><span class="statistics-kpi-icon">🔁</span><strong>${window.FitnessRpgStats.formatNumber(model.repetitions)}</strong><span>répétitions</span><small>volume de renforcement enregistré</small></article>
       <article class="statistics-kpi-card"><span class="statistics-kpi-icon">🛣️</span><strong>${window.FitnessRpgStats.formatNumber(model.distance, 1)}</strong><span>kilomètres</span><small>distance renseignée manuellement</small></article>
       <article class="statistics-kpi-card"><span class="statistics-kpi-icon">⚖️</span><strong>${latestWeight ? `${window.FitnessRpgStats.formatNumber(latestWeight.value, 1)} kg` : "—"}</strong><span>dernier poids</span><small>${window.FitnessRpgStats.escapeHtml(deltaLabel)} sur la période</small></article>
     </section>
 
-    <section class="statistics-panel card">
-      <div class="statistics-panel-header"><div><h2>Rythme d’activité</h2><p>Nombre d’activités enregistrées par ${window.FitnessRpgStats.getBucketMode(model.period) === "day" ? "jour" : window.FitnessRpgStats.getBucketMode(model.period) === "week" ? "semaine" : "mois"}.</p></div><strong>${model.entries.length}</strong></div>
-      <div class="statistics-chart-wrap">${window.FitnessRpgStats.buildBarChart(model.buckets)}</div>
-    </section>
-
-    <section class="statistics-grid two-columns">
-      <article class="statistics-panel card">
-        <div class="statistics-panel-header"><div><h2>Activités favorites</h2><p>Catégories et programmes les plus fréquents.</p></div></div>
-        ${window.FitnessRpgStats.rankingHtml(model.categories.slice(0, 6), "Aucune activité sur cette période.")}
+    <section class="statistics-primary-grid">
+      <article class="statistics-panel statistics-activity-panel card">
+        <div class="statistics-panel-header"><div><p class="eyebrow">Activité</p><h2>Rythme d’entraînement</h2><p>Nombre d’activités enregistrées par ${window.FitnessRpgStats.getBucketMode(model.period) === "day" ? "jour" : window.FitnessRpgStats.getBucketMode(model.period) === "week" ? "semaine" : "mois"}.</p></div><strong>${model.entries.length}</strong></div>
+        <div class="statistics-chart-wrap">${window.FitnessRpgStats.buildBarChart(model.buckets)}</div>
       </article>
 
-      <article class="statistics-panel card">
-        <div class="statistics-panel-header"><div><h2>Exercices les plus pratiqués</h2><p>Exercices libres enregistrés individuellement.</p></div></div>
-        ${window.FitnessRpgStats.rankingHtml(model.exercises.slice(0, 6), "Aucun exercice libre sur cette période.")}
-      </article>
-    </section>
-
-    <section class="statistics-grid two-columns">
-      <article class="statistics-panel card">
-        <div class="statistics-panel-header"><div><h2>Progression des campagnes</h2><p>Programmes commencés ou actuellement sélectionnés.</p></div></div>
-        ${window.FitnessRpgStats.programsHtml(model.programs)}
-      </article>
-
-      <article class="statistics-panel card">
-        <div class="statistics-panel-header"><div><h2>Portrait de régularité</h2><p>Quelques repères tirés de l’historique.</p></div></div>
+      <article class="statistics-panel statistics-portrait-panel card">
+        <div class="statistics-panel-header"><div><p class="eyebrow">Portrait</p><h2>Repères de régularité</h2></div></div>
         <div class="statistics-insights-grid">
           <div class="statistics-insight"><span>🏅</span><div><strong>${window.FitnessRpgStats.escapeHtml(topCategory?.label || "Pas encore de favori")}</strong><small>${topCategory ? `${topCategory.count} activité${topCategory.count > 1 ? "s" : ""}` : "Commence une séance pour révéler ta spécialité."}</small></div></div>
           <div class="statistics-insight"><span>⚔️</span><div><strong>${window.FitnessRpgStats.escapeHtml(topExercise?.label || "Aucun exercice dominant")}</strong><small>${topExercise ? `${topExercise.count} validation${topExercise.count > 1 ? "s" : ""}` : "Les programmes complets sont comptés séparément."}</small></div></div>
@@ -543,11 +592,30 @@ window.FitnessRpgStats.renderPage = function renderPage() {
       </article>
     </section>
 
-    <section class="statistics-panel card">
-      <div class="statistics-panel-header"><div><h2>Évolution du poids</h2><p>Mesures enregistrées pendant la période sélectionnée.</p></div>${latestWeight ? `<strong>${window.FitnessRpgStats.formatNumber(latestWeight.value, 1)} kg</strong>` : ""}</div>
-      ${model.weights.length
-        ? `<div class="statistics-weight-summary"><span>${model.weights.length} mesure${model.weights.length > 1 ? "s" : ""}</span><strong>${window.FitnessRpgStats.escapeHtml(deltaLabel)}</strong></div><div class="statistics-chart-wrap">${window.FitnessRpgStats.buildWeightChart(model.weights)}</div>`
-        : '<p class="statistics-empty">Aucune mesure de poids sur cette période.</p>'}
+    <section class="statistics-grid two-columns">
+      <article class="statistics-panel card">
+        <div class="statistics-panel-header"><div><p class="eyebrow">Spécialités</p><h2>Activités favorites</h2><p>Catégories et programmes les plus fréquents.</p></div></div>
+        ${window.FitnessRpgStats.rankingHtml(model.categories.slice(0, 6), "Aucune activité sur cette période.")}
+      </article>
+
+      <article class="statistics-panel card">
+        <div class="statistics-panel-header"><div><p class="eyebrow">Mouvements</p><h2>Exercices les plus pratiqués</h2><p>Exercices libres enregistrés individuellement.</p></div></div>
+        ${window.FitnessRpgStats.rankingHtml(model.exercises.slice(0, 6), "Aucun exercice libre sur cette période.")}
+      </article>
+    </section>
+
+    <section class="statistics-grid two-columns statistics-lower-grid">
+      <article class="statistics-panel card">
+        <div class="statistics-panel-header"><div><p class="eyebrow">Campagnes</p><h2>Progression des programmes</h2><p>Programmes commencés ou actuellement sélectionnés.</p></div></div>
+        ${window.FitnessRpgStats.programsHtml(model.programs)}
+      </article>
+
+      <article class="statistics-panel card">
+        <div class="statistics-panel-header"><div><p class="eyebrow">Mesures</p><h2>Évolution du poids</h2><p>Mesures enregistrées pendant la période sélectionnée.</p></div>${latestWeight ? `<strong>${window.FitnessRpgStats.formatNumber(latestWeight.value, 1)} kg</strong>` : ""}</div>
+        ${model.weights.length
+          ? `<div class="statistics-weight-summary"><span>${model.weights.length} mesure${model.weights.length > 1 ? "s" : ""}</span><strong>${window.FitnessRpgStats.escapeHtml(deltaLabel)}</strong></div><div class="statistics-chart-wrap">${window.FitnessRpgStats.buildWeightChart(model.weights)}</div>`
+          : '<p class="statistics-empty">Aucune mesure de poids sur cette période.</p>'}
+      </article>
     </section>
 
     <p class="statistics-note">Les durées de séances guidées terminées avant la V5.9 ne sont pas stockées dans l’historique. Le temps affiché correspond donc uniquement aux activités enregistrées en minutes ou secondes.</p>
