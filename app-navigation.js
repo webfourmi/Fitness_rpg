@@ -1158,6 +1158,14 @@ if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;
 
   if (target.closest("#todayCard") || target.closest("#openTodayProgramButton")) {
     event.preventDefault();
+
+    const card = document.querySelector("#todayCard");
+    const button = target.closest("#openTodayProgramButton");
+
+    if (button?.disabled || card?.dataset.questAction === "none") {
+      return;
+    }
+
     window.FitnessRpgNavigation.openRecommendedProgram();
     return;
   }
@@ -1361,6 +1369,10 @@ window.FitnessRpgNavigation.handleDocumentKeydown = function handleDocumentKeydo
 
   if (target.closest("#todayCard") && (event.key === "Enter" || event.key === " ")) {
     event.preventDefault();
+
+    const card = target.closest("#todayCard");
+    if (card?.dataset.questAction === "none") return;
+
     window.FitnessRpgNavigation.openRecommendedProgram();
   }
 };
