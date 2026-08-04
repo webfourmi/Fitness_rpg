@@ -60,6 +60,68 @@ window.FitnessRpgNavigation.stopEvent = function stopEvent(event) {
   }
 };
 
+window.FitnessRpgNavigation.closeMobileMorePanel = function closeMobileMorePanel(options = {}) {
+  const panel = document.querySelector("#mobileMorePanel");
+  const backdrop = document.querySelector("#mobileMoreBackdrop");
+  const moreButton = document.querySelector("#mobileNavMoreButton");
+  const wasOpen = Boolean(panel && !panel.classList.contains("hidden"));
+
+  panel?.classList.add("hidden");
+  panel?.setAttribute("aria-hidden", "true");
+  backdrop?.classList.add("hidden");
+  moreButton?.setAttribute("aria-expanded", "false");
+
+  if (wasOpen && options.restoreFocus !== false) {
+    moreButton?.focus?.();
+  }
+};
+
+window.FitnessRpgNavigation.toggleMobileMorePanel = function toggleMobileMorePanel() {
+  const panel = document.querySelector("#mobileMorePanel");
+  const backdrop = document.querySelector("#mobileMoreBackdrop");
+  const moreButton = document.querySelector("#mobileNavMoreButton");
+
+  if (!panel || !backdrop || !moreButton) return;
+
+  const willOpen = panel.classList.contains("hidden");
+  panel.classList.toggle("hidden", !willOpen);
+  panel.setAttribute("aria-hidden", String(!willOpen));
+  backdrop.classList.toggle("hidden", !willOpen);
+  moreButton.setAttribute("aria-expanded", String(willOpen));
+
+  if (willOpen) {
+    panel.querySelector("button")?.focus?.();
+  }
+};
+
+window.FitnessRpgNavigation.openMobileDestination = function openMobileDestination(destination) {
+  const routes = {
+    training: () => window.FitnessRpgNavigation.goTraining(),
+    exercises: () => window.FitnessRpgNavigation.openExercises(),
+    programs: () => window.FitnessRpgNavigation.openPrograms(),
+    planning: () => window.FitnessRpgNavigation.openPlanning(),
+    goal: () => window.FitnessRpgNavigation.openGoal(),
+    progression: () => window.FitnessRpgNavigation.openProgression(),
+    statistics: () => window.FitnessRpgNavigation.openStatistics(),
+    badges: () => window.FitnessRpgNavigation.openBadges(),
+    familiars: () => window.FitnessRpgNavigation.openFamiliars(),
+    journal: () => window.FitnessRpgNavigation.openJournal(),
+    "hero-menu": () => window.FitnessRpgNavigation.openHeroMenu(),
+    coach: () => window.FitnessRpgNavigation.openCoach(),
+    weight: () => window.FitnessRpgNavigation.openWeight(),
+    music: () => window.FitnessRpgNavigation.openMusic(),
+    backup: () => window.FitnessRpgNavigation.openBackup()
+  };
+
+  const route = routes[destination];
+  if (!route) return;
+
+  window.FitnessRpgNavigation.closeMobileMorePanel({
+    restoreFocus: false
+  });
+  route();
+};
+
 // ============================================================
 // Navigation principale
 // ============================================================
@@ -1046,6 +1108,32 @@ if (
 if (window.FitnessRpgNavigation.handleExerciseClick(event, target)) return;
 if (window.FitnessRpgNavigation.handleProgramClick(event, target)) return;
 if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;
+
+  const mobileDestinationButton = target.closest("[data-mobile-destination]");
+
+  if (mobileDestinationButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgNavigation.openMobileDestination(
+      mobileDestinationButton.dataset.mobileDestination
+    );
+    return;
+  }
+
+  if (target.closest("#mobileNavMoreButton")) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgNavigation.toggleMobileMorePanel();
+    return;
+  }
+
+  if (
+    target.closest("#mobileMoreBackdrop")
+    || target.closest("#closeMobileMoreButton")
+  ) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgNavigation.closeMobileMorePanel();
+    return;
+  }
+
   // Header
   if (target.closest("#headerProgramsButton")) {
     event.preventDefault();
@@ -1389,9 +1477,12 @@ window.FitnessRpgNavigation.handleDocumentKeydown = function handleDocumentKeydo
     : event.target?.parentElement;
 
   if (event.key === "Escape") {
-    window.FitnessRpgRender?.closeModal?.();
-    return;
-  }
+  window.FitnessRpgNavigation.closeMobileMorePanel({
+    restoreFocus: false
+  });
+  window.FitnessRpgRender?.closeModal?.();
+  return;
+}
 
   if (!target) return;
 
