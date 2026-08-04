@@ -166,7 +166,8 @@ window.FitnessRpgRender.closeModal = function closeModal() {
 
 window.FitnessRpgRender.renderPages = function renderPages() {
   const currentPage = window.FitnessRpgState.getPage?.() || "home";
-  
+  const hasProfile = Boolean(window.FitnessRpgState.hasProfile?.());
+
   document.body.dataset.page = currentPage;
 
   document.querySelectorAll(".app-page").forEach((page) => {
@@ -174,33 +175,56 @@ window.FitnessRpgRender.renderPages = function renderPages() {
   });
 
   const header = document.querySelector("#appHeader");
+  if (header) header.classList.remove("hidden");
 
-  if (header) {
-    header.classList.remove("hidden");
-  }
   const homeButton = document.querySelector("#homeButton");
   const backButton = document.querySelector("#backButton");
   const headerProgramsButton = document.querySelector("#headerProgramsButton");
   const headerGoalButton = document.querySelector("#headerGoalButton");
   const headerPlanningButton = document.querySelector("#headerPlanningButton");
+  const hideHeaderActions = currentPage === "home";
 
-  if (homeButton) {
-    homeButton.classList.toggle("hidden", currentPage === "home");
-  }
+  homeButton?.classList.toggle("hidden", hideHeaderActions);
+  backButton?.classList.toggle("hidden", hideHeaderActions);
+  headerProgramsButton?.classList.toggle("hidden", hideHeaderActions);
+  headerGoalButton?.classList.toggle("hidden", hideHeaderActions);
+  headerPlanningButton?.classList.toggle("hidden", hideHeaderActions);
 
-  if (backButton) {
-    backButton.classList.toggle("hidden", currentPage === "home");
-  }
-  if (headerProgramsButton) {
-    headerProgramsButton.classList.toggle("hidden", currentPage === "home");
-  }
-  
-  if (headerGoalButton) {
-    headerGoalButton.classList.toggle("hidden", currentPage === "home");
-  }
-  if (headerPlanningButton) {
-    headerPlanningButton.classList.toggle("hidden", currentPage === "home");
-  }
+  window.FitnessRpgNavigation?.closeMobileMorePanel?.({
+    restoreFocus: false
+  });
+
+  const mobileNav = document.querySelector("#mobilePrimaryNav");
+  const showMobileNav = hasProfile && !["home", "hero-setup"].includes(currentPage);
+  mobileNav?.classList.toggle("hidden", !showMobileNav);
+
+  const activeDestination = {
+    training: "training",
+    exercises: "exercises",
+    programs: "programs",
+    planning: "planning"
+  }[currentPage] || "more";
+
+  const mobileButtons = {
+    training: document.querySelector("#mobileNavTrainingButton"),
+    exercises: document.querySelector("#mobileNavExercisesButton"),
+    programs: document.querySelector("#mobileNavProgramsButton"),
+    planning: document.querySelector("#mobileNavPlanningButton"),
+    more: document.querySelector("#mobileNavMoreButton")
+  };
+
+  Object.entries(mobileButtons).forEach(([destination, button]) => {
+    if (!button) return;
+
+    const isActive = showMobileNav && destination === activeDestination;
+    button.classList.toggle("active", isActive);
+
+    if (isActive) {
+      button.setAttribute("aria-current", "page");
+    } else {
+      button.removeAttribute("aria-current");
+    }
+  });
 };
 
 window.FitnessRpgRender.renderVersion = function renderVersion() {
