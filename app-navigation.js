@@ -1150,6 +1150,12 @@ if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;
     return;
   }
 
+  if (target.closest("#abandonGuidedProgramSessionButton")) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgPrograms?.abandonActiveProgramSession?.();
+    return;
+  }
+
   if (target.closest("#newCoachMessageButton")) {
     event.preventDefault();
     window.FitnessRpgNavigation.newCoachMessage();
