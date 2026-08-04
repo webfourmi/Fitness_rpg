@@ -2273,36 +2273,172 @@ window.FitnessRpgRender.closeBadgeModal = function closeBadgeModal() {
 // Journal
 // ============================================================
 
+window.FitnessRpgRender.journalFilter = window.FitnessRpgRender.journalFilter || "all";
+window.FitnessRpgRender.journalQuery = window.FitnessRpgRender.journalQuery || "";
+
+window.FitnessRpgRender.getJournalGroup = function getJournalGroup(type) {
+  const safeType = String(type || "note").toLowerCase();
+
+  if (["exercise", "program", "program-boss", "custom-program", "workout"].includes(safeType)) {
+    return "training";
+  }
+
+  if (["xp", "levelup", "badge", "bonus", "chest", "familiar", "reward"].includes(safeType)) {
+    return "rewards";
+  }
+
+  return "life";
+};
+
+window.FitnessRpgRender.getJournalTypeMeta = function getJournalTypeMeta(entry) {
+  const group = window.FitnessRpgRender.getJournalGroup(entry?.type);
+  const type = String(entry?.type || "note").toLowerCase();
+
+  const map = {
+    exercise: ["⚔️", "Exercice"],
+    program: ["📜", "Programme"],
+    "program-boss": ["🐉", "Boss"],
+    "custom-program": ["🧩", "Programme personnalisé"],
+    xp: ["✨", "XP"],
+    levelup: ["🏆", "Niveau"],
+    badge: ["🏅", "Badge"],
+    bonus: ["🎁", "Bonus"],
+    familiar: ["🐾", "Familier"],
+    weight: ["⚖️", "Poids"],
+    goal: ["🎯", "Objectif"],
+    profile: ["🧙", "Héros"],
+    system: ["⚙️", "Système"]
+  };
+
+  const [icon, label] = map[type] || (group === "training"
+    ? ["⚔️", "Entraînement"]
+    : group === "rewards"
+      ? ["✨", "Récompense"]
+      : ["📖", "Aventure"]);
+
+  return { group, icon, label };
+};
+
+window.FitnessRpgRender.setJournalFilter = function setJournalFilter(filter) {
+  const allowed = ["all", "training", "rewards", "life"];
+  window.FitnessRpgRender.journalFilter = allowed.includes(filter) ? filter : "all";
+  window.FitnessRpgRender.renderJournal();
+};
+
+window.FitnessRpgRender.setJournalQuery = function setJournalQuery(query) {
+  window.FitnessRpgRender.journalQuery = String(query || "").trim().toLowerCase();
+  window.FitnessRpgRender.renderJournal();
+};
+
 window.FitnessRpgRender.renderJournal = function renderJournal() {
   const list = document.querySelector("#journalList");
+  const summary = document.querySelector("#journalSummary");
+  const title = document.querySelector("#journalResultsTitle");
+  const countNode = document.querySelector("#journalResultCount");
+  const searchInput = document.querySelector("#journalSearchInput");
   if (!list) return;
 
-  const journal = window.FitnessRpgState.getJournal();
+  const journal = window.FitnessRpgState.getJournal() || [];
+  const filter = window.FitnessRpgRender.journalFilter || "all";
+  const query = window.FitnessRpgRender.journalQuery || "";
+
+  const counts = journal.reduce((acc, entry) => {
+    const group = window.FitnessRpgRender.getJournalGroup(entry?.type);
+    acc[group] += 1;
+    return acc;
+  }, { training: 0, rewards: 0, life: 0 });
+
+  const filtered = journal.filter((entry) => {
+    const group = window.FitnessRpgRender.getJournalGroup(entry?.type);
+    if (filter !== "all" && group !== filter) return false;
+    if (!query) return true;
+    return `${entry?.title || ""} ${entry?.text || ""} ${entry?.type || ""}`
+      .toLowerCase()
+      .includes(query);
+  });
+
+  document.querySelectorAll(".journal-filter-btn").forEach((button) => {
+    const active = button.dataset.journalFilter === filter;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+  });
+
+  if (searchInput && document.activeElement !== searchInput && searchInput.value !== window.FitnessRpgRender.journalQuery) {
+    searchInput.value = window.FitnessRpgRender.journalQuery;
+  }
+
+  const lastDate = journal[0]?.at
+    ? new Date(journal[0].at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })
+    : "Aucune chronique";
+
+  if (summary) {
+    summary.innerHTML = `
+      <article class="journal-summary-card"><span>📚</span><div><strong>${journal.length}</strong><small>chroniques conservées</small></div></article>
+      <article class="journal-summary-card"><span>⚔️</span><div><strong>${counts.training}</strong><small>traces d’entraînement</small></div></article>
+      <article class="journal-summary-card"><span>✨</span><div><strong>${counts.rewards}</strong><small>récompenses et niveaux</small></div></article>
+      <article class="journal-summary-card journal-summary-date"><span>🕯️</span><div><strong>${window.FitnessRpgRender.escapeHtml(lastDate)}</strong><small>dernière chronique</small></div></article>
+    `;
+  }
+
+  const labels = {
+    all: "Toutes les chroniques",
+    training: "Entraînements",
+    rewards: "Récompenses",
+    life: "Vie du héros"
+  };
+  if (title) title.textContent = labels[filter] || labels.all;
+  if (countNode) countNode.textContent = `${filtered.length} entrée${filtered.length > 1 ? "s" : ""}`;
 
   list.innerHTML = "";
 
-  if (!journal.length) {
-    const empty = document.createElement("li");
-    empty.textContent = "Aucun exploit enregistré pour l’instant.";
-    list.appendChild(empty);
+  if (!filtered.length) {
+    list.innerHTML = `
+      <li class="journal-empty-state">
+        <span aria-hidden="true">📭</span>
+        <div>
+          <strong>Aucune chronique trouvée</strong>
+          <p>${journal.length ? "Modifie le filtre ou la recherche pour retrouver une trace." : "Les exploits du héros apparaîtront ici après les premières actions."}</p>
+        </div>
+      </li>
+    `;
     return;
   }
 
-  journal.forEach((entry) => {
-    const item = document.createElement("li");
-    item.className = "journal-entry";
+  let previousDay = "";
 
-    const date = new Date(entry.at).toLocaleString("fr-FR", {
-      day: "2-digit",
-      month: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit"
-    });
+  filtered.forEach((entry) => {
+    const date = new Date(entry.at);
+    const validDate = Number.isFinite(date.getTime());
+    const dayKey = validDate ? date.toISOString().slice(0, 10) : "unknown";
+
+    if (dayKey !== previousDay) {
+      const divider = document.createElement("li");
+      divider.className = "journal-date-divider";
+      divider.textContent = validDate
+        ? date.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })
+        : "Date inconnue";
+      list.appendChild(divider);
+      previousDay = dayKey;
+    }
+
+    const meta = window.FitnessRpgRender.getJournalTypeMeta(entry);
+    const item = document.createElement("li");
+    item.className = `journal-entry journal-entry-${meta.group}`;
+
+    const dateLabel = validDate
+      ? date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
+      : "Heure inconnue";
 
     item.innerHTML = `
-      <strong>${entry.title}</strong>
-      <span>${date}</span>
-      <p>${entry.text}</p>
+      <span class="journal-entry-icon" aria-hidden="true">${meta.icon}</span>
+      <div class="journal-entry-content">
+        <div class="journal-entry-heading">
+          <strong>${window.FitnessRpgRender.escapeHtml(entry.title || "Chronique")}</strong>
+          <time>${window.FitnessRpgRender.escapeHtml(dateLabel)}</time>
+        </div>
+        <p>${window.FitnessRpgRender.escapeHtml(entry.text || "")}</p>
+        <span class="journal-entry-type">${window.FitnessRpgRender.escapeHtml(meta.label)}${Number(entry.xp || 0) > 0 ? ` · +${Number(entry.xp)} XP` : ""}</span>
+      </div>
     `;
 
     list.appendChild(item);
@@ -2311,46 +2447,206 @@ window.FitnessRpgRender.renderJournal = function renderJournal() {
 
 // ============================================================
 // Poids
+
+// ============================================================
+// Poids
 // ============================================================
 
-window.FitnessRpgRender.renderWeight = function renderWeight() {
-  const canvas = document.querySelector("#weightChart");
-  if (!canvas) return;
+window.FitnessRpgRender.formatWeightDate = function formatWeightDate(value, options = {}) {
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return "Date inconnue";
+  return date.toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: options.short ? "short" : "long",
+    year: "numeric"
+  });
+};
 
-  const weights = window.FitnessRpgState.getWeights();
+window.FitnessRpgRender.drawWeightChart = function drawWeightChart(canvas, weights) {
+  const ctx = canvas?.getContext?.("2d");
+  if (!ctx) return;
 
-  const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const parentWidth = Math.max(320, canvas.parentElement?.clientWidth || 760);
+  const cssHeight = parentWidth < 520 ? 240 : 300;
+  const ratio = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+
+  canvas.width = Math.round(parentWidth * ratio);
+  canvas.height = Math.round(cssHeight * ratio);
+  canvas.style.width = `${parentWidth}px`;
+  canvas.style.height = `${cssHeight}px`;
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  ctx.clearRect(0, 0, parentWidth, cssHeight);
+
+  const styles = getComputedStyle(document.documentElement);
+  const textColor = styles.getPropertyValue("--text-muted").trim() || "#b8c0d0";
+  const lineColor = styles.getPropertyValue("--accent").trim() || "#f1c968";
+  const blue = styles.getPropertyValue("--blue").trim() || "#7cc8ff";
 
   if (!weights.length) {
-    ctx.font = "14px sans-serif";
-    ctx.fillText("Aucune donnée de poids pour l’instant.", 20, 90);
+    ctx.fillStyle = textColor;
+    ctx.font = "600 14px system-ui";
+    ctx.textAlign = "center";
+    ctx.fillText("Aucune mesure enregistrée pour l’instant.", parentWidth / 2, cssHeight / 2);
     return;
   }
 
-  const values = weights.map((entry) => Number(entry.value));
-  const min = Math.min(...values);
-  const max = Math.max(...values);
+  const values = weights.map((entry) => Number(entry.value)).filter(Number.isFinite);
+  const rawMin = Math.min(...values);
+  const rawMax = Math.max(...values);
+  const paddingValue = Math.max(0.5, (rawMax - rawMin) * 0.18);
+  const min = rawMin - paddingValue;
+  const max = rawMax + paddingValue;
   const range = Math.max(1, max - min);
 
-  ctx.beginPath();
+  const margin = { left: 52, right: 22, top: 24, bottom: 44 };
+  const chartWidth = parentWidth - margin.left - margin.right;
+  const chartHeight = cssHeight - margin.top - margin.bottom;
 
-  weights.forEach((entry, index) => {
-    const x = 20 + (index / Math.max(1, weights.length - 1)) * (canvas.width - 40);
-    const y = canvas.height - 20 - ((Number(entry.value) - min) / range) * (canvas.height - 50);
+  ctx.lineWidth = 1;
+  ctx.font = "600 11px system-ui";
+  ctx.fillStyle = textColor;
+  ctx.strokeStyle = "rgba(210,221,244,0.11)";
 
-    if (index === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
+  for (let i = 0; i <= 4; i += 1) {
+    const ratioY = i / 4;
+    const y = margin.top + chartHeight * ratioY;
+    const value = max - range * ratioY;
+    ctx.beginPath();
+    ctx.moveTo(margin.left, y);
+    ctx.lineTo(parentWidth - margin.right, y);
+    ctx.stroke();
+    ctx.textAlign = "right";
+    ctx.textBaseline = "middle";
+    ctx.fillText(`${value.toFixed(1)}`, margin.left - 8, y);
+  }
 
-    ctx.fillRect(x - 2, y - 2, 4, 4);
+  const points = weights.map((entry, index) => {
+    const x = margin.left + (index / Math.max(1, weights.length - 1)) * chartWidth;
+    const y = margin.top + chartHeight - ((Number(entry.value) - min) / range) * chartHeight;
+    return { x, y, entry };
   });
 
+  const gradient = ctx.createLinearGradient(0, margin.top, 0, margin.top + chartHeight);
+  gradient.addColorStop(0, "rgba(124,200,255,0.24)");
+  gradient.addColorStop(1, "rgba(124,200,255,0.015)");
+  ctx.beginPath();
+  ctx.moveTo(points[0].x, margin.top + chartHeight);
+  points.forEach((point) => ctx.lineTo(point.x, point.y));
+  ctx.lineTo(points.at(-1).x, margin.top + chartHeight);
+  ctx.closePath();
+  ctx.fillStyle = gradient;
+  ctx.fill();
+
+  ctx.beginPath();
+  points.forEach((point, index) => index === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y));
+  ctx.strokeStyle = lineColor;
+  ctx.lineWidth = 3;
+  ctx.lineJoin = "round";
+  ctx.lineCap = "round";
   ctx.stroke();
 
-  ctx.font = "12px sans-serif";
-  ctx.fillText(`${min.toFixed(1)} kg`, 10, canvas.height - 10);
-  ctx.fillText(`${max.toFixed(1)} kg`, 10, 20);
+  points.forEach((point, index) => {
+    ctx.beginPath();
+    ctx.arc(point.x, point.y, index === points.length - 1 ? 5 : 3.5, 0, Math.PI * 2);
+    ctx.fillStyle = index === points.length - 1 ? lineColor : blue;
+    ctx.fill();
+    ctx.strokeStyle = "rgba(11,15,24,0.9)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+
+  const labelIndexes = [...new Set([0, Math.floor((weights.length - 1) / 2), weights.length - 1])];
+  ctx.fillStyle = textColor;
+  ctx.font = "600 11px system-ui";
+  ctx.textBaseline = "top";
+  labelIndexes.forEach((index) => {
+    const point = points[index];
+    ctx.textAlign = index === 0 ? "left" : index === weights.length - 1 ? "right" : "center";
+    ctx.fillText(
+      window.FitnessRpgRender.formatWeightDate(point.entry.date || point.entry.at, { short: true }),
+      point.x,
+      margin.top + chartHeight + 13
+    );
+  });
 };
+
+window.FitnessRpgRender.renderWeight = function renderWeight() {
+  const canvas = document.querySelector("#weightChart");
+  const summary = document.querySelector("#weightSummary");
+  const history = document.querySelector("#weightHistory");
+  const countNode = document.querySelector("#weightHistoryCount");
+  const rangeNode = document.querySelector("#weightChartRange");
+  if (!canvas) return;
+
+  const weights = (window.FitnessRpgState.getWeights() || [])
+    .filter((entry) => Number.isFinite(Number(entry?.value)))
+    .map((entry) => ({ ...entry, value: Number(entry.value) }))
+    .sort((a, b) => String(a.date || a.at).localeCompare(String(b.date || b.at)));
+
+  const latest = weights.at(-1) || null;
+  const first = weights[0] || null;
+  const values = weights.map((entry) => entry.value);
+  const min = values.length ? Math.min(...values) : null;
+  const max = values.length ? Math.max(...values) : null;
+  const delta = latest && first ? latest.value - first.value : null;
+  const deltaText = delta === null
+    ? "Pas encore de tendance"
+    : `${delta > 0 ? "+" : ""}${delta.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} kg`;
+
+  if (summary) {
+    summary.innerHTML = `
+      <article class="weight-summary-card"><span>⚖️</span><div><strong>${latest ? `${latest.value.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} kg` : "—"}</strong><small>dernière mesure</small></div></article>
+      <article class="weight-summary-card"><span>📈</span><div><strong>${window.FitnessRpgRender.escapeHtml(deltaText)}</strong><small>évolution depuis la première mesure</small></div></article>
+      <article class="weight-summary-card"><span>↕️</span><div><strong>${min === null ? "—" : `${min.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} à ${max.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} kg`}</strong><small>amplitude observée</small></div></article>
+      <article class="weight-summary-card"><span>🗓️</span><div><strong>${weights.length}</strong><small>mesure${weights.length > 1 ? "s" : ""} enregistrée${weights.length > 1 ? "s" : ""}</small></div></article>
+    `;
+  }
+
+  if (rangeNode) {
+    rangeNode.textContent = weights.length > 1
+      ? `${window.FitnessRpgRender.formatWeightDate(first.date || first.at, { short: true })} → ${window.FitnessRpgRender.formatWeightDate(latest.date || latest.at, { short: true })}`
+      : weights.length === 1
+        ? "Première mesure"
+        : "Aucune mesure";
+  }
+
+  if (countNode) countNode.textContent = `${weights.length} mesure${weights.length > 1 ? "s" : ""}`;
+
+  window.FitnessRpgRender.drawWeightChart(canvas, weights);
+
+  if (history) {
+    if (!weights.length) {
+      history.innerHTML = `
+        <div class="weight-empty-state">
+          <span aria-hidden="true">⚖️</span>
+          <div><strong>Aucune mesure enregistrée</strong><p>La première mesure créera la courbe d’évolution.</p></div>
+        </div>
+      `;
+    } else {
+      history.innerHTML = weights.slice(-8).reverse().map((entry, index) => {
+        const previous = weights[weights.length - 2 - index];
+        const change = previous ? entry.value - previous.value : null;
+        const changeText = change === null
+          ? "Point de départ"
+          : `${change > 0 ? "+" : ""}${change.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} kg`;
+        const changeClass = change === null || Math.abs(change) < 0.05
+          ? "neutral"
+          : change > 0 ? "up" : "down";
+
+        return `
+          <article class="weight-history-item">
+            <time>${window.FitnessRpgRender.escapeHtml(window.FitnessRpgRender.formatWeightDate(entry.date || entry.at))}</time>
+            <strong>${entry.value.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} kg</strong>
+            <span class="weight-change ${changeClass}">${window.FitnessRpgRender.escapeHtml(changeText)}</span>
+          </article>
+        `;
+      }).join("");
+    }
+  }
+};
+
+// ============================================================
+// Bilan de séance
 
 // ============================================================
 // Bilan de séance
