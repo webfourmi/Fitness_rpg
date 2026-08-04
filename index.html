@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <!--
-    Fitness RPG - V6.0A
+    Fitness RPG - V6.0B
     ------------------------------------------------------------
     Charte graphique commune et harmonisation responsive.
     La version officielle reste centralisée dans app-config.js.
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fitness RPG</title>
 
-  <link rel="stylesheet" href="app-v5.css?v=6.0a1">
+  <link rel="stylesheet" href="app-v5.css?v=6.0b">
 </head>
 
 <body>
@@ -29,35 +29,74 @@
     </header>
 
     <main id="pageHome" class="app-page page-home" data-page="home">
-      <section class="home-card card">
-        <div class="home-text">
-          <p id="homeImageInfoText" class="home-image-info hidden">
-            Choisis ton coach, gagne de l’XP, débloque des niveaux et regarde ton héros évoluer séance après séance.
+      <section class="home-card home-portal card">
+        <div class="home-copy">
+          <p class="eyebrow">⚔️ Fitness RPG</p>
+          <h1>Ton entraînement devient une aventure</h1>
+          <p class="home-lead">
+            Retrouve ton héros, ta prochaine quête et toute ta progression en un seul regard.
           </p>
+
+          <p id="homeImageInfoText" class="home-image-info hidden">
+            Choisis ton coach, gagne de l’XP et fais évoluer ton héros séance après séance.
+          </p>
+
+          <section id="homeHeroOverview" class="home-hero-overview" aria-label="Résumé du héros">
+            <div class="home-hero-avatar">
+              <img id="homeHeroImage" src="assets/joueur/joueur_niveau_01.png" alt="Héros actuel" />
+            </div>
+
+            <div class="home-hero-copy">
+              <span class="home-overview-label">Héros actuel</span>
+              <strong id="homeHeroName">Héros</strong>
+              <p id="homeHeroSummary">Niveau 1 · Novice</p>
+
+              <div class="home-mini-progress" aria-label="Progression vers le niveau suivant">
+                <span id="homeXpBar"></span>
+              </div>
+              <small id="homeXpText">0 / 100 XP</small>
+            </div>
+          </section>
+
+          <div class="home-actions" aria-label="Actions de l’accueil">
+            <button id="startTrainingButton" class="primary-btn" type="button">
+              Entrer dans l’entraînement
+            </button>
+
+            <button id="chooseCoachButton" class="secondary-btn" type="button">
+              Modifier le héros
+            </button>
+
+            <button id="newHeroButton" class="ghost-btn" type="button">
+              Créer un nouveau héros
+            </button>
+          </div>
         </div>
 
         <div class="home-image-frame">
-          <img id="homeSplashImage" src="assets/ecran/ecran_accueil.png" alt="Fitness RPG">
-        </div>
-
-        <div class="home-actions" aria-label="Actions de l’accueil">
-          <button id="startTrainingButton" class="primary-btn" type="button">
-            Entrer dans l’entraînement
-          </button>
-
-          <button id="chooseCoachButton" class="secondary-btn" type="button">
-            Modifier le héros
-          </button>
-
-          <button id="newHeroButton" class="ghost-btn" type="button">
-            Créer un nouveau héros
-          </button>
+          <img id="homeSplashImage" src="assets/ecran/ecran_accueil.png" alt="Entrer dans Fitness RPG">
+          <div class="home-splash-caption">
+            <span>Prochaine quête</span>
+            <strong id="homeNextQuestTitle">Prépare ton aventure</strong>
+          </div>
         </div>
       </section>
 
-      <section class="home-summary card">
-        <p id="homeHeroSummary">Aucun héros créé.</p>
-        <p id="homeCoachSummary">Aucun coach choisi.</p>
+      <section class="home-summary home-journey-strip card" aria-label="Résumé de l’aventure">
+        <article>
+          <span>Coach</span>
+          <strong id="homeCoachSummary">Aucun coach choisi.</strong>
+        </article>
+
+        <article>
+          <span>Cette semaine</span>
+          <strong id="homeWeeklySummary">0 jour actif</strong>
+        </article>
+
+        <article>
+          <span>Prochaine quête</span>
+          <strong id="homeNextQuestSummary">Aucune quête proposée</strong>
+        </article>
       </section>
     </main>
 
@@ -112,19 +151,28 @@
 
     <main id="pageTraining" class="app-page page-training hidden" data-page="training">
       <section class="hero-panel card">
+        <div class="hero-panel-heading">
+          <p class="eyebrow">🛡️ Héros actif</p>
+          <span id="heroWeeklyBadge" class="hero-weekly-badge">0/7 jours</span>
+        </div>
+
         <div id="heroImageFrame" class="hero-image-frame" title="Cliquer pour agrandir"></div>
 
         <p id="heroIdentityLine" class="hero-identity-line">Héros · Niv. 1 · Novice</p>
 
         <div class="xp-panel">
-          <p id="xpTitle">Niv. 1 · Novice</p>
+          <div class="xp-panel-heading">
+            <p id="xpTitle">Niv. 1 · Novice</p>
+            <span id="xpNextText">100 XP avant le niveau suivant</span>
+          </div>
+
           <div class="progress-bar" aria-label="Progression XP">
             <div id="xpBar" class="progress-fill"></div>
           </div>
           <p id="xpText">0 / 100 XP</p>
         </div>
 
-        <div class="stats-grid">
+        <div class="stats-grid hero-quick-stats">
           <article class="stat-card">
             <strong id="streakLabel">0</strong>
             <span>Série</span>
@@ -132,49 +180,109 @@
 
           <article class="stat-card">
             <strong id="todayEntriesLabel">0</strong>
-            <span>Entrées du jour</span>
+            <span>Aujourd’hui</span>
+          </article>
+
+          <article class="stat-card">
+            <strong id="weeklyActiveDaysLabel">0</strong>
+            <span>Cette semaine</span>
           </article>
         </div>
       </section>
 
-      <section class="coach-panel card">
-        <img id="coachImage" src="assets/coach/korvan/idle.jpg" alt="Coach sélectionné" title="Cliquer pour agrandir" />
-        <div>
-          <p id="coachName" class="eyebrow">Coach</p>
-          <p id="coachMessage">Prêt pour la première quête.</p>
-        </div>
-        <button id="newCoachMessageButton" class="ghost-btn" type="button">Nouvelle phrase</button>
+      <section class="training-command-center">
+        <section class="coach-panel card">
+          <img id="coachImage" src="assets/coach/korvan/idle.jpg" alt="Coach sélectionné" title="Cliquer pour agrandir" />
+          <div class="coach-panel-copy">
+            <p id="coachName" class="eyebrow">Coach</p>
+            <p id="coachMessage">Prêt pour la première quête.</p>
+          </div>
+          <button id="newCoachMessageButton" class="ghost-btn" type="button">Nouvelle phrase</button>
+        </section>
+
+        <section
+          id="activeSessionResumeCard"
+          class="active-session-resume-card card hidden"
+          aria-live="polite"
+        ></section>
+
+        <section id="todayCard" class="today-card card" role="button" tabindex="0">
+          <div class="today-card-heading">
+            <div>
+              <p class="eyebrow">⚔️ Prochaine quête</p>
+              <h2 id="todayProgramTitle">Éveil du héros</h2>
+            </div>
+            <span id="todayQuestStatus" class="status-chip status-next">À venir</span>
+          </div>
+
+          <p id="todayProgramDescription">
+            Une proposition simple pour lancer ta séance sans fouiller tout le grimoire.
+          </p>
+
+          <div class="today-quest-meta" aria-label="Informations sur la quête">
+            <span id="todayQuestPosition">Semaine 1 · Jour 1</span>
+            <span id="todayQuestDuration">10 à 15 min</span>
+            <span id="todayQuestXp">20 XP</span>
+          </div>
+
+          <div id="todayQuestProgressBlock" class="today-quest-progress-block">
+            <div class="today-quest-progress-copy">
+              <span>Progression du programme</span>
+              <strong id="todayQuestProgressText">0/12</strong>
+            </div>
+            <div class="today-quest-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <span id="todayQuestProgressBar"></span>
+            </div>
+          </div>
+
+          <button id="openTodayProgramButton" class="primary-btn" type="button">
+            Voir la séance du jour
+          </button>
+        </section>
+
+        <nav class="training-toolbar card" aria-label="Commandes de l’entraînement">
+          <section class="training-tool-group training-tool-group-primary">
+            <div class="training-tool-group-heading">
+              <span>Partir à l’aventure</span>
+              <small>S’entraîner et planifier</small>
+            </div>
+            <div class="training-tool-grid">
+              <button id="openExercisesButton" type="button">⚔️<span>Exercices</span></button>
+              <button id="openProgramsButton" type="button">📜<span>Programmes</span></button>
+              <button id="openPlanningButton" type="button">📅<span>Planning</span></button>
+              <button id="openGoalButton" type="button">🎯<span>Objectif</span></button>
+            </div>
+          </section>
+
+          <section class="training-tool-group">
+            <div class="training-tool-group-heading">
+              <span>Suivre la progression</span>
+              <small>Lire les traces de l’aventure</small>
+            </div>
+            <div class="training-tool-grid">
+              <button id="openProgressionButton" type="button">🏆<span>Progression</span></button>
+              <button id="openStatisticsButton" type="button">📊<span>Statistiques</span></button>
+              <button id="openBadgesButton" type="button">🏅<span>Badges</span></button>
+              <button id="openFamiliarsButton" type="button">🐾<span>Familiers</span></button>
+            </div>
+          </section>
+
+          <section class="training-tool-group">
+            <div class="training-tool-group-heading">
+              <span>Gérer l’aventure</span>
+              <small>Héros, journal et outils</small>
+            </div>
+            <div class="training-tool-grid training-tool-grid-secondary">
+              <button id="openHeroMenuButton" type="button">🧬<span>Héros</span></button>
+              <button id="openCoachButton" type="button">🧙<span>Coach</span></button>
+              <button id="openJournalButton" type="button">📖<span>Journal</span></button>
+              <button id="openWeightButton" type="button">⚖️<span>Poids</span></button>
+              <button id="openMusicButton" type="button">🎵<span>Musique</span></button>
+              <button id="openBackupButton" type="button">💾<span>Sauvegarde</span></button>
+            </div>
+          </section>
+        </nav>
       </section>
-
-      <section
-        id="activeSessionResumeCard"
-        class="active-session-resume-card card hidden"
-        aria-live="polite"
-      ></section>
-
-      <section id="todayCard" class="today-card card" role="button" tabindex="0">
-        <p class="eyebrow">Quête du jour</p>
-        <h2 id="todayProgramTitle">Éveil du héros</h2>
-        <p id="todayProgramDescription">Une proposition simple pour lancer ta séance sans fouiller tout le grimoire.</p>
-        <button id="openTodayProgramButton" class="primary-btn" type="button">Ouvrir le programme</button>
-      </section>
-
-      <nav class="training-toolbar card">
-        <button id="openHeroMenuButton" type="button">🧬<span>Héros</span></button>
-        <button id="openCoachButton" type="button">🧙<span>Coach</span></button>
-        <button id="openExercisesButton" type="button">⚔️<span>Exercices</span></button>
-        <button id="openProgramsButton" type="button">📜<span>Programmes</span></button>
-        <button id="openGoalButton" type="button">🎯<span>Objectif</span></button>
-        <button id="openPlanningButton" type="button">📅<span>Planning</span></button>
-        <button id="openProgressionButton" type="button">🏆<span>Progression</span></button>
-        <button id="openStatisticsButton" type="button">📊<span>Statistiques</span></button>
-        <button id="openMusicButton" type="button">🎵<span>Musique</span></button>
-        <button id="openBadgesButton" type="button">🏅<span>Badges</span></button>
-        <button id="openJournalButton" type="button">📖<span>Journal</span></button>
-        <button id="openWeightButton" type="button">⚖️<span>Poids</span></button>
-        <button id="openFamiliarsButton" class="ghost-btn" type="button">🐾<span>Familiers</span></button>
-        <button id="openBackupButton" type="button">💾<span>Sauvegarde</span></button>
-      </nav>
     </main>
 
     <main id="pageHeroMenu" class="app-page page-hero-menu hidden" data-page="hero-menu">
@@ -404,19 +512,19 @@
     </section>
   </div>
 
-  <script src="./app-config.js?v=6.0a1"></script>
-  <script src="./app-data.js?v=6.0a1"></script>
-  <script src="./app-program-champion-arenes.js?v=6.0a1"></script>
-  <script src="./app-rewards.js?v=6.0a1"></script>
-  <script src="./app-state.js?v=6.0a1"></script>
-  <script src="./app-progress.js?v=6.0a1"></script>
-  <script src="app-render.js?v=6.0a1"></script>
-  <script src="./app-navigation.js?v=6.0a1"></script>
-  <script src="./app-exercises.js?v=6.0a1"></script>
-  <script src="app-programs.js?v=6.0a1"></script>
-  <script src="./app-media.js?v=6.0a1"></script>
-  <script src="./app-backup.js?v=6.0a1"></script>
-  <script src="./app-stats.js?v=6.0a1"></script>
-  <script src="./app.js?v=6.0a1"></script>
+  <script src="./app-config.js?v=6.0b"></script>
+  <script src="./app-data.js?v=6.0b"></script>
+  <script src="./app-program-champion-arenes.js?v=6.0b"></script>
+  <script src="./app-rewards.js?v=6.0b"></script>
+  <script src="./app-state.js?v=6.0b"></script>
+  <script src="./app-progress.js?v=6.0b"></script>
+  <script src="app-render.js?v=6.0b"></script>
+  <script src="./app-navigation.js?v=6.0b"></script>
+  <script src="./app-exercises.js?v=6.0b"></script>
+  <script src="app-programs.js?v=6.0b"></script>
+  <script src="./app-media.js?v=6.0b"></script>
+  <script src="./app-backup.js?v=6.0b"></script>
+  <script src="./app-stats.js?v=6.0b"></script>
+  <script src="./app.js?v=6.0b"></script>
 </body>
 </html>
