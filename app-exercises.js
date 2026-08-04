@@ -239,9 +239,22 @@ window.FitnessRpgExercises.renderCategories = function renderCategories() {
   if (!container) return;
 
   const categories = window.FitnessRpgExercises.getCategories();
+  const exerciseCount = window.FitnessRpgExercises.getExercises().length;
 
   container.innerHTML = `
     <section class="exercise-category-page">
+      <div class="exercise-library-summary card">
+        <div>
+          <p class="eyebrow">🗡️ Arsenal du héros</p>
+          <h2>Choisis ton type d’effort</h2>
+          <p>Chaque carte ouvre une sélection d’exercices adaptés à la catégorie.</p>
+        </div>
+        <div class="exercise-library-counts">
+          <span><strong>${categories.length}</strong> catégories</span>
+          <span><strong>${exerciseCount}</strong> exercices</span>
+        </div>
+      </div>
+
       ${window.FitnessRpgExercises.customProgramsPanelHtml()}
 
       <div class="exercise-category-grid">
@@ -257,6 +270,10 @@ window.FitnessRpgExercises.categoryCardHtml = function categoryCardHtml(category
   const image = window.FitnessRpgExercises.resolveImage(category);
   const color = category.color || "#f0b84f";
   const icon = category.icon || "⚔️";
+  const count = window.FitnessRpgExercises
+    .getExercises()
+    .filter((exercise) => exercise.categoryId === category.id)
+    .length;
 
   return `
     <button
@@ -267,11 +284,15 @@ window.FitnessRpgExercises.categoryCardHtml = function categoryCardHtml(category
     >
       <span class="v3-category-icon">${icon}</span>
       <img src="${image}" alt="${title}" onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()">
-      <strong>${title}</strong>
-      <small>${description}</small>
+      <span class="exercise-category-copy">
+        <strong>${title}</strong>
+        <small>${description}</small>
+      </span>
+      <span class="exercise-category-count">${count}</span>
     </button>
   `;
 };
+
 // ============================================================
 // Programmes personnalisés
 // ============================================================
@@ -1014,7 +1035,6 @@ window.FitnessRpgExercises.renderCategoryExercises = function renderCategoryExer
   if (!container) return;
 
   const category = window.FitnessRpgExercises.getCategory(categoryId);
-
   const allExercises = window.FitnessRpgExercises
     .getExercises()
     .filter((exercise) => exercise.categoryId === categoryId);
@@ -1022,7 +1042,6 @@ window.FitnessRpgExercises.renderCategoryExercises = function renderCategoryExer
   const pageSize = window.FitnessRpgExercises.exercisePageSize || 9;
   const maxPage = Math.max(0, Math.ceil(allExercises.length / pageSize) - 1);
   const safePage = Math.max(0, Math.min(Number(page) || 0, maxPage));
-
   const start = safePage * pageSize;
   const exercises = allExercises.slice(start, start + pageSize);
 
@@ -1033,17 +1052,23 @@ window.FitnessRpgExercises.renderCategoryExercises = function renderCategoryExer
 
   container.innerHTML = `
     <section class="exercise-category-detail-page" style="--category-color:${color}">
-      <div class="subpage-header v3-exercise-header">
-        <div>
-          <p class="eyebrow">${category?.icon || "⚔️"} Exercices</p>
-          <h2>${window.FitnessRpgExercises.escapeHtml(category?.title || "Catégorie")}</h2>
-          <p class="muted">${window.FitnessRpgExercises.escapeHtml(category?.description || "")}</p>
+      <header class="subpage-header v3-exercise-header exercise-category-hero">
+        <div class="exercise-category-hero-copy">
+          <span class="exercise-category-hero-icon">${category?.icon || "⚔️"}</span>
+          <div>
+            <p class="eyebrow">Entraînement libre</p>
+            <h2>${window.FitnessRpgExercises.escapeHtml(category?.title || "Catégorie")}</h2>
+            <p class="muted">${window.FitnessRpgExercises.escapeHtml(category?.description || "")}</p>
+          </div>
         </div>
 
-        <button id="backToExerciseCategoriesBtn" class="ghost-btn" type="button">
-          Retour
-        </button>
-      </div>
+        <div class="exercise-category-hero-actions">
+          <span>${allExercises.length} exercice${allExercises.length > 1 ? "s" : ""}</span>
+          <button id="backToExerciseCategoriesBtn" class="ghost-btn" type="button">
+            ← Catégories
+          </button>
+        </div>
+      </header>
 
       <div class="exercise-card-grid v3-grid-3x3">
         ${exercises.map((exercise) => window.FitnessRpgExercises.exerciseCardHtml(exercise)).join("")}
@@ -1052,26 +1077,10 @@ window.FitnessRpgExercises.renderCategoryExercises = function renderCategoryExer
       ${
         maxPage > 0
           ? `
-            <div class="exercise-carousel-controls">
-              <button
-                class="ghost-btn exercise-page-btn"
-                type="button"
-                data-delta="-1"
-                ${safePage <= 0 ? "disabled" : ""}
-              >
-                ←
-              </button>
-
-              <span>Page ${safePage + 1}/${maxPage + 1}</span>
-
-              <button
-                class="ghost-btn exercise-page-btn"
-                type="button"
-                data-delta="1"
-                ${safePage >= maxPage ? "disabled" : ""}
-              >
-                →
-              </button>
+            <div class="exercise-carousel-controls card">
+              <button class="ghost-btn exercise-page-btn" type="button" data-delta="-1" ${safePage <= 0 ? "disabled" : ""}>←</button>
+              <span>Page ${safePage + 1} sur ${maxPage + 1}</span>
+              <button class="ghost-btn exercise-page-btn" type="button" data-delta="1" ${safePage >= maxPage ? "disabled" : ""}>→</button>
             </div>
           `
           : ""
@@ -1093,6 +1102,7 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
   );
   const phase = window.FitnessRpgExercises.escapeHtml(item.phase || "");
   const stat = window.FitnessRpgExercises.escapeHtml(exercise.stat || "");
+  const description = window.FitnessRpgExercises.escapeHtml(exercise.description || "");
   const amount = isProgramCard ? item.amount : exercise.defaultValue;
   const unit = isProgramCard ? item.unit : exercise.unit;
   const safeAmount = window.FitnessRpgExercises.escapeHtml(amount ?? "");
@@ -1119,135 +1129,86 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
     isProgramCard ? "v3-program-exercise-image" : ""
   ].filter(Boolean).join(" ");
 
-  const indexHtml = isProgramCard
-    ? `<div class="program-session-index">${Number(options.index || 0) + 1}</div>`
-    : "";
-
-  const standaloneTitleHtml = isProgramCard
-    ? ""
-    : `<h3 class="v3-exercise-title">${title}</h3>`;
-
   const distanceField = !isProgramCard && exercise.hasDistance
     ? `
       <label class="distance-inline-label exercise-top-input">
-        <span>km</span>
-        <input
-          class="exercise-distance-input"
-          data-exercise-id="${safeExerciseId}"
-          type="number"
-          min="0"
-          step="0.1"
-          value="0"
-        >
+        <span>Distance</span>
+        <div><input class="exercise-distance-input" data-exercise-id="${safeExerciseId}" type="number" min="0" step="0.1" value="0"><small>km</small></div>
       </label>
     `
     : "";
 
-  const topControlsHtml = isProgramCard
-    ? ""
-    : `
-      <div class="exercise-top-controls">
-        <label class="amount-inline-label exercise-top-input">
-          <span>${window.FitnessRpgExercises.shortUnit(exercise.unit)}</span>
-          <input
-            class="exercise-amount-input"
-            data-exercise-id="${safeExerciseId}"
-            type="number"
-            min="${Number(exercise.min || 1)}"
-            step="${Number(exercise.step || 1)}"
-            value="${Number(exercise.defaultValue || exercise.min || 1)}"
-          >
-        </label>
-        ${distanceField}
-      </div>
-    `;
-
-  const timerButton = !isProgramCard && exercise.hasTimer
+  const amountControl = !isProgramCard
     ? `
-      <button
-        class="secondary-btn start-timer-btn"
-        type="button"
-        data-exercise-id="${safeExerciseId}"
-        aria-label="Démarrer le timer"
-        title="Démarrer"
-      >
-        <span class="exercise-action-icon" aria-hidden="true">▶️</span>
-      </button>
+      <label class="amount-inline-label exercise-top-input">
+        <span>Objectif</span>
+        <div><input class="exercise-amount-input" data-exercise-id="${safeExerciseId}" type="number" min="${Number(exercise.min || 1)}" step="${Number(exercise.step || 1)}" value="${Number(exercise.defaultValue || exercise.min || 1)}"><small>${window.FitnessRpgExercises.shortUnit(exercise.unit)}</small></div>
+      </label>
     `
     : "";
 
-  const standaloneActionsHtml = isProgramCard
-    ? ""
-    : `
-      <div class="exercise-control-row">
-        ${timerButton}
-        <button
-          class="primary-btn validate-exercise-btn"
-          type="button"
-          data-exercise-id="${safeExerciseId}"
-          aria-label="Valider l’exercice"
-          title="Valider"
-        >
-          <span class="exercise-action-icon" aria-hidden="true">✅</span>
-        </button>
-      </div>
-    `;
-
-  const programBodyHtml = isProgramCard
+  const timerButton = !isProgramCard && exercise.hasTimer
     ? `
-      <strong>${phase}</strong>
-      <h3>${title}</h3>
-      <p>
-        ${icon} ${window.FitnessRpgExercises.escapeHtml(category?.title || "Exercice")}
-        · ${safeAmount} ${safeUnit}
-      </p>
+      <button class="secondary-btn start-timer-btn" type="button" data-exercise-id="${safeExerciseId}" aria-label="Démarrer le timer" title="Démarrer le timer">
+        <span class="exercise-action-icon" aria-hidden="true">⏱️</span>
+        <span class="exercise-action-label">Timer</span>
+      </button>
     `
-    : `<p class="exercise-stat">${icon} ${stat}</p>`;
-
-  const actionWrapperHtml = isProgramCard
-    ? (
-        options.actionsHtml
-          ? `<div class="program-session-actions">${options.actionsHtml}</div>`
-          : ""
-      )
-    : standaloneActionsHtml;
-
-  const bodyClass = isProgramCard
-    ? "exercise-card-body v3-program-exercise-body"
-    : "exercise-card-body";
+    : "";
 
   const keyAttribute = safeExerciseKey
     ? ` data-exercise-key="${safeExerciseKey}"`
     : "";
 
-  return `
-    <article
-      class="${articleClasses}"
-      data-exercise-id="${safeExerciseId}"
-      ${keyAttribute}
-      style="--category-color:${color}"
-    >
-      ${indexHtml}
-      ${standaloneTitleHtml}
-      ${topControlsHtml}
+  if (isProgramCard) {
+    const instructionHtml = description
+      ? `<p class="program-exercise-instruction">${description}</p>`
+      : "";
 
-      <button
-        class="${imageClasses}"
-        type="button"
-        data-exercise-id="${safeExerciseId}"
-        ${keyAttribute}
-        title="Voir l’explication"
-      >
-        <img
-          src="${image}"
-          alt="${title}"
-          onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()"
-        >
+    return `
+      <article class="${articleClasses}" data-exercise-id="${safeExerciseId}" ${keyAttribute} style="--category-color:${color}">
+        <div class="program-session-index">${Number(options.index || 0) + 1}</div>
+
+        <button class="${imageClasses}" type="button" data-exercise-id="${safeExerciseId}" ${keyAttribute} title="Voir l’explication">
+          <img src="${image}" alt="${title}" onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()">
+        </button>
+
+        <div class="exercise-card-body v3-program-exercise-body">
+          <span class="program-exercise-phase">${phase || `${icon} Exercice`}</span>
+          <h3>${title}</h3>
+          <div class="program-exercise-target">
+            <strong>${safeAmount}</strong>
+            <span>${safeUnit}</span>
+          </div>
+          <p class="program-exercise-category">${icon} ${window.FitnessRpgExercises.escapeHtml(category?.title || "Exercice")}</p>
+          ${instructionHtml}
+          ${options.actionsHtml ? `<div class="program-session-actions">${options.actionsHtml}</div>` : ""}
+        </div>
+      </article>
+    `;
+  }
+
+  return `
+    <article class="${articleClasses}" data-exercise-id="${safeExerciseId}" style="--category-color:${color}">
+      <header class="exercise-card-heading">
+        <span class="exercise-card-category">${icon} ${window.FitnessRpgExercises.escapeHtml(category?.title || "Exercice")}</span>
+        <h3 class="v3-exercise-title">${title}</h3>
+      </header>
+
+      <button class="${imageClasses}" type="button" data-exercise-id="${safeExerciseId}" title="Voir l’explication">
+        <img src="${image}" alt="${title}" onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()">
       </button>
 
-      <div class="${bodyClass}">
-        ${programBodyHtml}
-        ${actionWrapperHtml}
+      <div class="exercise-card-body">
+        <p class="exercise-stat">${stat || "Entraînement"}</p>
+        <div class="exercise-top-controls">${amountControl}${distanceField}</div>
+        <div class="exercise-control-row">
+          ${timerButton}
+          <button class="primary-btn validate-exercise-btn" type="button" data-exercise-id="${safeExerciseId}" aria-label="Valider l’exercice" title="Valider l’exercice">
+            <span class="exercise-action-icon" aria-hidden="true">✅</span>
+            <span class="exercise-action-label">Valider</span>
+          </button>
+        </div>
       </div>
     </article>
   `;
