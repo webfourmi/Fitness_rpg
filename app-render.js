@@ -232,47 +232,85 @@ window.FitnessRpgRender.setSafeImage = function setSafeImage(img, src, fallback 
 window.FitnessRpgRender.renderHome = function renderHome() {
   const profile = window.FitnessRpgState.getProfile?.();
 
-  const duplicateBadge = document.querySelector("#homeGameVersionBadge");
-  if (duplicateBadge) duplicateBadge.classList.add("hidden");
-
-  const homeEyebrow = document.querySelector("#homePanel .eyebrow");
-  if (homeEyebrow && homeEyebrow.textContent.trim().toLowerCase().includes("fitness")) {
-    homeEyebrow.classList.add("hidden");
-  }
-
-  const homeVersion = document.querySelector("#homeVersionText");
-  if (homeVersion) homeVersion.classList.add("hidden");
-
-  const homeTitle = document.querySelector("#homeTitle");
-  if (homeTitle) {
-    homeTitle.textContent = "Ton entraînement devient une aventure";
-  }
-
-  const homeIntro = document.querySelector("#homeIntroText");
-  if (homeIntro) {
-    homeIntro.classList.add("hidden");
-  }
-
   window.FitnessRpgRender.prepareHomeImageInfoToggle();
 
+  const overview = document.querySelector("#homeHeroOverview");
+  const startButton = document.querySelector("#startTrainingButton");
+
   if (!profile) {
-    window.FitnessRpgRender.setText("#homeHeroSummary", "Aucun héros créé.");
-    window.FitnessRpgRender.setText("#homeCoachSummary", "Aucun coach choisi.");
+    overview?.classList.add("is-empty");
+    window.FitnessRpgRender.setText("#homeHeroName", "Aucun héros");
+    window.FitnessRpgRender.setText("#homeHeroSummary", "Crée ton héros pour commencer l’aventure.");
+    window.FitnessRpgRender.setText("#homeCoachSummary", "Aucun coach choisi");
+    window.FitnessRpgRender.setText("#homeWeeklySummary", "0 jour actif");
+    window.FitnessRpgRender.setText("#homeNextQuestSummary", "Aucune quête proposée");
+    window.FitnessRpgRender.setText("#homeNextQuestTitle", "Prépare ton aventure");
+    window.FitnessRpgRender.setText("#homeXpText", "0 / 100 XP");
+
+    const xpBar = document.querySelector("#homeXpBar");
+    if (xpBar) xpBar.style.width = "0%";
+
+    if (startButton) startButton.textContent = "Créer mon héros";
     return;
   }
 
-  const info = window.FitnessRpgConfig.levelInfo(profile.totalXp || 0);
-  const coach = window.FitnessRpgData.getCoach(profile.coachId);
+  overview?.classList.remove("is-empty");
 
+  const info = window.FitnessRpgProgress.getProfileLevelInfo?.()
+    || window.FitnessRpgConfig.levelInfo(profile.totalXp || 0);
+  const coach = window.FitnessRpgData.getCoach(profile.coachId);
+  const weekly = window.FitnessRpgState.getWeeklyActivityStats?.() || {
+    activeDays: 0,
+    totalEntries: 0
+  };
+  const quest = window.FitnessRpgPrograms.getTodayPlanningQuest?.()
+    || window.FitnessRpgPrograms.getTodayQuest?.();
+  const heroPath = window.FitnessRpgProgress.getHeroImagePath?.();
+  const activeSession = window.FitnessRpgState.getActiveProgramSession?.();
+
+  const heroImage = document.querySelector("#homeHeroImage");
+  window.FitnessRpgRender.setSafeImage(heroImage, heroPath, "");
+  if (heroImage) heroImage.alt = profile.name || "Héros";
+
+  window.FitnessRpgRender.setText("#homeHeroName", profile.name || "Héros");
   window.FitnessRpgRender.setText(
     "#homeHeroSummary",
-    `${profile.name} · Niv. ${info.level} · ${info.rank} · ${profile.totalXp || 0} XP`
+    `Niveau ${info.level} · ${info.rank}`
   );
-
   window.FitnessRpgRender.setText(
     "#homeCoachSummary",
-    `Coach actuel : ${coach.fullName}`
+    coach?.fullName || "Coach non défini"
   );
+  window.FitnessRpgRender.setText(
+    "#homeWeeklySummary",
+    `${weekly.activeDays}/7 jour${weekly.activeDays === 1 ? "" : "s"} actif${weekly.activeDays === 1 ? "" : "s"} · ${weekly.totalEntries} activité${weekly.totalEntries === 1 ? "" : "s"}`
+  );
+  window.FitnessRpgRender.setText(
+    "#homeNextQuestSummary",
+    quest?.title || "Repos et récupération"
+  );
+  window.FitnessRpgRender.setText(
+    "#homeNextQuestTitle",
+    activeSession ? "Une séance t’attend" : (quest?.title || "Repos et récupération")
+  );
+  window.FitnessRpgRender.setText(
+    "#homeXpText",
+    `${info.currentXp} / ${info.nextXp} XP`
+  );
+
+  const xpBar = document.querySelector("#homeXpBar");
+  if (xpBar) {
+    const percent = info.nextXp > 0
+      ? Math.max(0, Math.min(100, Math.round((info.currentXp / info.nextXp) * 100)))
+      : 0;
+    xpBar.style.width = `${percent}%`;
+  }
+
+  if (startButton) {
+    startButton.textContent = activeSession
+      ? "Reprendre l’entraînement"
+      : "Entrer dans l’entraînement";
+  }
 };
 
 window.FitnessRpgRender.prepareHomeImageInfoToggle = function prepareHomeImageInfoToggle() {
@@ -559,8 +597,19 @@ window.FitnessRpgRender.setText("#heroIdentityLine", "");
     xpBar.style.width = `${window.FitnessRpgProgress.getXpPercent()}%`;
   }
 
+  const weekly = window.FitnessRpgState.getWeeklyActivityStats?.() || { activeDays: 0 };
+  const remainingXp = Math.max(0, Number(info.nextXp || 0) - Number(info.currentXp || 0));
+
   window.FitnessRpgRender.setText("#streakLabel", profile.streak || 0);
   window.FitnessRpgRender.setText("#todayEntriesLabel", window.FitnessRpgState.getTodayEntries().length);
+  window.FitnessRpgRender.setText("#weeklyActiveDaysLabel", weekly.activeDays || 0);
+  window.FitnessRpgRender.setText("#heroWeeklyBadge", `${weekly.activeDays || 0}/7 jours`);
+  window.FitnessRpgRender.setText(
+    "#xpNextText",
+    remainingXp > 0
+      ? `${remainingXp} XP avant le niveau suivant`
+      : "Niveau suivant atteint"
+  );
 };
 
  
@@ -664,6 +713,12 @@ window.FitnessRpgRender.renderActiveSessionResumeCard = function renderActiveSes
 window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
   const quest = window.FitnessRpgPrograms.getTodayPlanningQuest?.()
     || window.FitnessRpgPrograms.getTodayQuest?.();
+  const todayCard = document.querySelector("#todayCard");
+  const openButton = document.querySelector("#openTodayProgramButton");
+  const status = document.querySelector("#todayQuestStatus");
+  const progressBlock = document.querySelector("#todayQuestProgressBlock");
+  const progressBar = document.querySelector("#todayQuestProgressBar");
+  const progressTrack = progressBar?.closest(".today-quest-progress");
 
   if (!quest) {
     window.FitnessRpgRender.setText("#todayProgramTitle", "Éveil du héros");
@@ -671,35 +726,122 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
       "#todayProgramDescription",
       "Séance douce pour reprendre l’aventure."
     );
+    window.FitnessRpgRender.setText("#todayQuestPosition", "Semaine 1 · Jour 1");
+    window.FitnessRpgRender.setText("#todayQuestDuration", "10 à 15 min");
+    window.FitnessRpgRender.setText("#todayQuestXp", "20 XP");
     return;
   }
 
-  window.FitnessRpgRender.setText("#todayProgramTitle", quest.title);
+  const program = quest.program
+    || window.FitnessRpgPrograms.getProgram?.(quest.programId)
+    || window.FitnessRpgConfig.getProgramById?.(quest.programId);
+  const activeSession = window.FitnessRpgState.getActiveProgramSession?.();
+  const activeForQuest = Boolean(
+    activeSession
+    && activeSession.programId === quest.programId
+    && Number(activeSession.weekNumber || 1) === Number(quest.weekNumber || 1)
+    && (
+      activeSession.type === "program-boss"
+      || Number(activeSession.dayNumber || 1) === Number(quest.dayNumber || 1)
+    )
+  );
+  const isRest = quest.type === "rest" || (!quest.programId && quest.source !== "boss-locked");
+  const isLocked = quest.source === "boss-locked" || quest.type === "boss-locked";
+  const isBoss = quest.type === "program-boss" || quest.source === "program-boss";
 
+  window.FitnessRpgRender.setText("#todayProgramTitle", quest.title);
   window.FitnessRpgRender.setText(
     "#todayProgramDescription",
-    `${quest.subtitle} · ${quest.description}`
+    quest.description || program?.objective || "Prépare ta prochaine séance."
   );
 
-  const todayCard = document.querySelector("#todayCard");
+  const position = isBoss
+    ? `Boss · Semaine ${Number(quest.weekNumber || 1)}`
+    : isRest
+      ? (quest.subtitle || "Récupération")
+      : `Semaine ${Number(quest.weekNumber || 1)} · Jour ${Number(quest.dayNumber || 1)}`;
+  const duration = isRest
+    ? "Récupération"
+    : program?.duration || quest.day?.duration || "Séance guidée";
+  const xp = !isRest && quest.programId
+    ? Number(
+        window.FitnessRpgProgress.calculateProgramSessionXp?.(
+          quest.programId,
+          quest.dayNumber || 1,
+          quest.weekNumber || 1
+        ) || program?.xp || 0
+      )
+    : 0;
+
+  window.FitnessRpgRender.setText("#todayQuestPosition", position);
+  window.FitnessRpgRender.setText("#todayQuestDuration", duration);
+  window.FitnessRpgRender.setText("#todayQuestXp", xp > 0 ? `${xp} XP` : "Sans XP");
+
+  if (status) {
+    status.className = "status-chip";
+
+    if (activeForQuest) {
+      status.textContent = "En cours";
+      status.classList.add("status-active");
+    } else if (isLocked) {
+      status.textContent = "Verrouillé";
+      status.classList.add("status-locked");
+    } else if (isBoss) {
+      status.textContent = "Boss";
+      status.classList.add("status-boss");
+    } else if (isRest) {
+      status.textContent = "Repos";
+      status.classList.add("status-neutral");
+    } else {
+      status.textContent = "À venir";
+      status.classList.add("status-next");
+    }
+  }
+
+  let progress = null;
+  if (quest.programId) {
+    progress = window.FitnessRpgPrograms.getProgramProgressDetails?.(quest.programId) || null;
+  }
+
+  if (progress && progress.total > 0) {
+    progressBlock?.classList.remove("hidden");
+    window.FitnessRpgRender.setText(
+      "#todayQuestProgressText",
+      `${progress.completed}/${progress.total} · ${progress.percent}%`
+    );
+    if (progressBar) progressBar.style.width = `${progress.percent}%`;
+    if (progressTrack) progressTrack.setAttribute("aria-valuenow", String(progress.percent));
+  } else {
+    progressBlock?.classList.add("hidden");
+    if (progressBar) progressBar.style.width = "0%";
+    if (progressTrack) progressTrack.setAttribute("aria-valuenow", "0");
+  }
 
   if (todayCard) {
     todayCard.dataset.programId = quest.programId || "";
     todayCard.dataset.weekNumber = quest.weekNumber || 1;
     todayCard.dataset.dayNumber = quest.dayNumber || 1;
     todayCard.dataset.source = quest.source || "planning";
+    todayCard.dataset.questAction = isRest ? "none" : "open";
+    todayCard.classList.toggle("is-rest", isRest);
+    todayCard.classList.toggle("is-boss", isBoss);
+    todayCard.setAttribute("aria-disabled", isRest ? "true" : "false");
+    todayCard.tabIndex = isRest ? -1 : 0;
   }
-
-  const openButton = document.querySelector("#openTodayProgramButton");
 
   if (openButton) {
     openButton.dataset.programId = quest.programId || "";
     openButton.dataset.weekNumber = quest.weekNumber || 1;
     openButton.dataset.dayNumber = quest.dayNumber || 1;
+    openButton.disabled = isRest;
 
-    if (quest.source === "boss-locked") {
+    if (activeForQuest) {
+      openButton.textContent = "Reprendre cette séance";
+    } else if (isLocked) {
       openButton.textContent = "Rattraper une séance";
-    } else if (!quest.programId) {
+    } else if (isBoss) {
+      openButton.textContent = "Préparer le combat";
+    } else if (isRest) {
       openButton.textContent = "Jour de repos";
     } else {
       openButton.textContent = "Voir la séance du jour";
