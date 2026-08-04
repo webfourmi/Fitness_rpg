@@ -1,0 +1,30 @@
+name: Export V6.1B exercise source
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - .v61b-export-trigger
+
+permissions:
+  contents: read
+
+jobs:
+  export-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Prepare source
+        run: |
+          mkdir -p v61b-source
+          cp app-exercises.js v61b-source/app-exercises.js
+      - name: Upload source
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fitness_RPG_V61B_source_exercices
+          path: v61b-source/app-exercises.js
+          if-no-files-found: error
+          retention-days: 1
