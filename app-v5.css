@@ -6792,6 +6792,49 @@ body.modal-open {
     height: 70px;
   }
 
+  /* Séance guidée sur ordinateur : l’exercice actif devient la pièce maîtresse. */
+  .active-program-session .v3-program-exercise-card {
+    grid-template-columns: 42px minmax(240px, 320px) minmax(0, 1fr);
+    gap: 18px;
+    align-items: center;
+    padding: 18px;
+  }
+
+  .active-program-session .program-session-index {
+    width: 38px;
+    height: 38px;
+    align-self: start;
+    margin-top: 4px;
+    font-size: 0.92rem;
+  }
+
+  .active-program-session .v3-program-exercise-image {
+    width: clamp(240px, 28vw, 320px);
+    max-width: 100%;
+    max-height: none;
+    aspect-ratio: 1 / 1;
+    justify-self: center;
+  }
+
+  .active-program-session .v3-program-exercise-image img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .active-program-session .v3-program-exercise-body {
+    align-items: start;
+    text-align: left;
+  }
+
+  .active-program-session .program-session-actions {
+    width: min(100%, 340px);
+    margin-top: 14px;
+  }
+
   .planning-day-card {
     min-height: 170px;
   }
