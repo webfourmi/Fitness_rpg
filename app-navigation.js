@@ -371,11 +371,17 @@ window.FitnessRpgNavigation.newCoachMessage = function newCoachMessage() {
 // ============================================================
 
 window.FitnessRpgNavigation.clearJournal = function clearJournal() {
-  const ok = window.confirm("Vider le journal du héros ?");
+  const ok = window.confirm(
+    "⚠️ Vider définitivement le journal narratif du héros ?\n\n" +
+    "Les séances, l’XP, les badges et la progression ne seront pas supprimés. " +
+    "Seules les chroniques affichées dans le journal seront effacées."
+  );
 
   if (!ok) return;
 
   window.FitnessRpgState.clearJournal();
+  window.FitnessRpgRender.journalQuery = "";
+  window.FitnessRpgRender.journalFilter = "all";
   window.FitnessRpgRender.renderJournal();
 };
 
@@ -1343,6 +1349,13 @@ if (target.closest("#openBackupFromHeroMenuButton")) {
   }
 
   // Journal
+  const journalFilterButton = target.closest(".journal-filter-btn");
+  if (journalFilterButton) {
+    event.preventDefault();
+    window.FitnessRpgRender?.setJournalFilter?.(journalFilterButton.dataset.journalFilter);
+    return;
+  }
+
   if (target.closest("#clearJournalButton")) {
     event.preventDefault();
     window.FitnessRpgNavigation.clearJournal();
@@ -1354,6 +1367,15 @@ if (target.closest("#openBackupFromHeroMenuButton")) {
     event.preventDefault();
     window.FitnessRpgNavigation.saveWeight();
     return;
+  }
+};
+
+window.FitnessRpgNavigation.handleDocumentInput = function handleDocumentInput(event) {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+
+  if (target.matches("#journalSearchInput")) {
+    window.FitnessRpgRender?.setJournalQuery?.(target.value);
   }
 };
 
@@ -1391,6 +1413,7 @@ window.FitnessRpgNavigation.init = function initNavigation() {
   if (window.FitnessRpgNavigation.isInitialized) return;
 
   document.addEventListener("click", window.FitnessRpgNavigation.handleDocumentClick);
+  document.addEventListener("input", window.FitnessRpgNavigation.handleDocumentInput);
   document.addEventListener("keydown", window.FitnessRpgNavigation.handleDocumentKeydown);
 
   window.FitnessRpgNavigation.isInitialized = true;
