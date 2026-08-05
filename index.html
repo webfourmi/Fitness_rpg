@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fitness RPG</title>
 
-  <link rel="stylesheet" href="app-v5.css?v=6.1b">
+  <link rel="stylesheet" href="app-v5.css?v=6.1b1">
 </head>
 
 <body>
@@ -29,74 +29,20 @@
     </header>
 
     <main id="pageHome" class="app-page page-home" data-page="home">
-      <section class="home-card home-portal card">
-        <div class="home-copy">
-          <p class="eyebrow">⚔️ Fitness RPG</p>
-          <h1>Ton entraînement devient une aventure</h1>
-          <p class="home-lead">
-            Retrouve ton héros, ta prochaine quête et toute ta progression en un seul regard.
-          </p>
-
-          <p id="homeImageInfoText" class="home-image-info hidden">
-            Choisis ton coach, gagne de l’XP et fais évoluer ton héros séance après séance.
-          </p>
-
-          <section id="homeHeroOverview" class="home-hero-overview" aria-label="Résumé du héros">
-            <div class="home-hero-avatar">
-              <img id="homeHeroImage" src="assets/joueur/joueur_niveau_01.png" alt="Héros actuel" />
-            </div>
-
-            <div class="home-hero-copy">
-              <span class="home-overview-label">Héros actuel</span>
-              <strong id="homeHeroName">Héros</strong>
-              <p id="homeHeroSummary">Niveau 1 · Novice</p>
-
-              <div class="home-mini-progress" aria-label="Progression vers le niveau suivant">
-                <span id="homeXpBar"></span>
-              </div>
-              <small id="homeXpText">0 / 100 XP</small>
-            </div>
-          </section>
-
-          <div class="home-actions" aria-label="Actions de l’accueil">
-            <button id="startTrainingButton" class="primary-btn" type="button">
-              Entrer dans l’entraînement
-            </button>
-
-            <button id="chooseCoachButton" class="secondary-btn" type="button">
-              Modifier le héros
-            </button>
-
-            <button id="newHeroButton" class="ghost-btn" type="button">
-              Créer un nouveau héros
-            </button>
-          </div>
-        </div>
-
-        <div class="home-image-frame">
-          <img id="homeSplashImage" src="assets/ecran/ecran_accueil.png" alt="Entrer dans Fitness RPG">
-          <div class="home-splash-caption">
-            <span>Prochaine quête</span>
-            <strong id="homeNextQuestTitle">Prépare ton aventure</strong>
-          </div>
-        </div>
-      </section>
-
-      <section class="home-summary home-journey-strip card" aria-label="Résumé de l’aventure">
-        <article>
-          <span>Coach</span>
-          <strong id="homeCoachSummary">Aucun coach choisi.</strong>
-        </article>
-
-        <article>
-          <span>Cette semaine</span>
-          <strong id="homeWeeklySummary">0 jour actif</strong>
-        </article>
-
-        <article>
-          <span>Prochaine quête</span>
-          <strong id="homeNextQuestSummary">Aucune quête proposée</strong>
-        </article>
+      <section class="home-card home-splash-only card">
+        <button
+          id="homeSplashButton"
+          class="home-splash-button"
+          type="button"
+          aria-label="Entrer dans l’écran d’entraînement"
+          title="Entrer dans l’entraînement"
+        >
+          <img
+            id="homeSplashImage"
+            src="assets/ecran/ecran_accueil.png"
+            alt="Entrer dans Fitness RPG"
+          >
+        </button>
       </section>
     </main>
 
@@ -685,19 +631,19 @@
     </section>
   </div>
 
-  <script src="./app-config.js?v=6.1b"></script>
-  <script src="./app-data.js?v=6.1b"></script>
-  <script src="./app-program-champion-arenes.js?v=6.1b"></script>
-  <script src="./app-rewards.js?v=6.1b"></script>
-  <script src="./app-state.js?v=6.1b"></script>
-  <script src="./app-progress.js?v=6.1b"></script>
-  <script src="app-render.js?v=6.1b"></script>
-  <script src="./app-navigation.js?v=6.1b"></script>
-  <script src="./app-exercises.js?v=6.1b"></script>
-  <script src="app-programs.js?v=6.1b"></script>
-  <script src="./app-media.js?v=6.1b"></script>
-  <script src="./app-backup.js?v=6.1b"></script>
-  <script src="./app-stats.js?v=6.1b"></script>
-  <script src="./app.js?v=6.1b"></script>
+  <script src="./app-config.js?v=6.1b1"></script>
+  <script src="./app-data.js?v=6.1b1"></script>
+  <script src="./app-program-champion-arenes.js?v=6.1b1"></script>
+  <script src="./app-rewards.js?v=6.1b1"></script>
+  <script src="./app-state.js?v=6.1b1"></script>
+  <script src="./app-progress.js?v=6.1b1"></script>
+  <script src="app-render.js?v=6.1b1"></script>
+  <script src="./app-navigation.js?v=6.1b1"></script>
+  <script src="./app-exercises.js?v=6.1b1"></script>
+  <script src="app-programs.js?v=6.1b1"></script>
+  <script src="./app-media.js?v=6.1b1"></script>
+  <script src="./app-backup.js?v=6.1b1"></script>
+  <script src="./app-stats.js?v=6.1b1"></script>
+  <script src="./app.js?v=6.1b1"></script>
 </body>
 </html>
