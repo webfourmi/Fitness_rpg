@@ -216,6 +216,10 @@ window.FitnessRpgExercises.formatDistance = function formatDistance(distanceKm) 
 window.FitnessRpgExercises.exercisePageSize = 9;
 window.FitnessRpgExercises.currentExercisePage = 0;
 
+window.FitnessRpgExercises.getExercisePageSize = function getExercisePageSize() {
+  return window.matchMedia?.("(max-width: 699px)")?.matches ? 6 : 9;
+};
+
 window.FitnessRpgExercises.getCategoryColor = function getCategoryColor(categoryId) {
   const category = window.FitnessRpgExercises.getCategory(categoryId);
   return category?.color || "#f0b84f";
@@ -283,7 +287,7 @@ window.FitnessRpgExercises.categoryCardHtml = function categoryCardHtml(category
       style="--category-color:${color}"
     >
       <span class="v3-category-icon">${icon}</span>
-      <img src="${image}" alt="${title}" onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()">
+      <img src="${image}" alt="${title}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()">
       <span class="exercise-category-copy">
         <strong>${title}</strong>
         <small>${description}</small>
@@ -859,6 +863,8 @@ window.FitnessRpgExercises.renderCustomProgramGuided = function renderCustomProg
           <img
             src="${image}"
             alt="${title}"
+            loading="lazy"
+            decoding="async"
             onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()"
           >
         </button>
@@ -1039,7 +1045,7 @@ window.FitnessRpgExercises.renderCategoryExercises = function renderCategoryExer
     .getExercises()
     .filter((exercise) => exercise.categoryId === categoryId);
 
-  const pageSize = window.FitnessRpgExercises.exercisePageSize || 9;
+  const pageSize = window.FitnessRpgExercises.getExercisePageSize?.() || window.FitnessRpgExercises.exercisePageSize || 9;
   const maxPage = Math.max(0, Math.ceil(allExercises.length / pageSize) - 1);
   const safePage = Math.max(0, Math.min(Number(page) || 0, maxPage));
   const start = safePage * pageSize;
@@ -1170,7 +1176,7 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
         <div class="program-session-index">${Number(options.index || 0) + 1}</div>
 
         <button class="${imageClasses}" type="button" data-exercise-id="${safeExerciseId}" ${keyAttribute} title="Voir l’explication">
-          <img src="${image}" alt="${title}" onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()">
+          <img src="${image}" alt="${title}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()">
         </button>
 
         <div class="exercise-card-body v3-program-exercise-body">
@@ -1196,7 +1202,7 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
       </header>
 
       <button class="${imageClasses}" type="button" data-exercise-id="${safeExerciseId}" title="Voir l’explication">
-        <img src="${image}" alt="${title}" onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()">
+        <img src="${image}" alt="${title}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()">
       </button>
 
       <div class="exercise-card-body">
