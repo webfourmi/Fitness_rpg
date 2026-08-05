@@ -832,13 +832,22 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
   const detail = document.querySelector("#programDetail");
   const session = window.FitnessRpgState.getActiveProgramSession?.();
 
-  if (!detail || !session) return;
+  document.body.classList.toggle("guided-session-active", Boolean(detail && session));
+
+  if (!detail || !session) {
+    detail?.querySelector("#activeProgramSession")?.remove();
+    return;
+  }
 
   const program = window.FitnessRpgConfig.getProgramById(session.programId);
   const workout = window.FitnessRpgPrograms.getActiveProgramWorkout?.(session);
   const exercises = Array.isArray(workout?.exercises) ? workout.exercises : [];
 
-  if (!program || !workout || !exercises.length) return;
+  if (!program || !workout || !exercises.length) {
+    document.body.classList.remove("guided-session-active");
+    detail.querySelector("#activeProgramSession")?.remove();
+    return;
+  }
 
   const isBoss = session.type === "program-boss";
   const complete = window.FitnessRpgState.isProgramSessionComplete();
@@ -888,154 +897,105 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
   );
 
   const guidedProgress = Math.round((doneCount / totalCount) * 100);
-  const remainingCount = Math.max(0, totalCount - doneCount);
   const nextIndex = complete ? -1 : Math.min(totalCount - 1, activeIndex + 1);
   const nextItem = nextIndex > activeIndex ? exercises[nextIndex] : null;
   const nextExercise = nextItem
     ? window.FitnessRpgExercises.getExercise?.(nextItem.exerciseId)
     : null;
 
-  const actionsHtml = `
-    ${
-      canUseTimer && !activeDone
-        ? `<button
-            class="secondary-btn start-program-exercise-timer-btn"
-            type="button"
-            data-exercise-id="${activeItem.exerciseId}"
-            data-exercise-key="${activeExerciseKey}"
-          >
-            <span aria-hidden="true">⏱️</span>
-            <span>Timer</span>
-          </button>`
-        : ""
-    }
-
-    <button
-      class="${activeDone ? "ghost-btn" : "primary-btn"} validate-program-exercise-btn"
-      type="button"
-      data-exercise-id="${activeItem.exerciseId}"
-      data-exercise-key="${activeExerciseKey}"
-      ${activeDone ? "disabled" : ""}
-    >
+  const actionsHtml = complete
+    ? `
+      <button id="finishProgramSessionButton" class="primary-btn guided-finish-btn" type="button">
+        Terminer · +${xp} XP
+      </button>
+    `
+    : `
       ${
-        activeDone
-          ? "Exercice validé"
-          : activeIndex >= totalCount - 1
-            ? "Valider le dernier exercice"
-            : "Valider et continuer"
+        canUseTimer && !activeDone
+          ? `<button
+              class="secondary-btn start-program-exercise-timer-btn"
+              type="button"
+              data-exercise-id="${activeItem.exerciseId}"
+              data-exercise-key="${activeExerciseKey}"
+            >
+              <span aria-hidden="true">⏱️</span>
+              <span>Timer</span>
+            </button>`
+          : ""
       }
-    </button>
-  `;
+      <button
+        class="primary-btn validate-program-exercise-btn"
+        type="button"
+        data-exercise-id="${activeItem.exerciseId}"
+        data-exercise-key="${activeExerciseKey}"
+        ${activeDone ? "disabled" : ""}
+      >
+        ${activeIndex >= totalCount - 1 ? "Valider" : "Valider et continuer"}
+      </button>
+    `;
 
   const exerciseCardHtml = window.FitnessRpgExercises.programExerciseCardHtml?.(
     activeItem,
     activeIndex,
     {
       done: activeDone,
-      actionsHtml,
+      actionsHtml: "",
       exerciseKey: activeExerciseKey
     }
   ) || `<p class="muted">Impossible d’afficher cet exercice.</p>`;
 
-  const title = isBoss
-    ? `${program.title} · ${workout.title}`
-    : `${program.title} · Semaine ${session.weekNumber || 1} · Jour ${workout.day}`;
-
-  const subtitle = isBoss
-    ? `${workout.subtitle || ""} · ${workout.label || ""}`.replace(/^ · | · $/g, "")
-    : workout.title;
+  const shortSessionTitle = isBoss
+    ? workout.title
+    : workout.title || `Jour ${workout.day}`;
 
   const nextHtml = nextItem
-    ? `
-      <article class="session-focus-next">
-        <p class="eyebrow">Ensuite</p>
-        <div class="session-focus-next-line">
-          <span>${nextIndex + 1}</span>
-          <div>
-            <strong>${window.FitnessRpgRender.escapeHtml(nextExercise?.title || nextItem.exerciseId)}</strong>
-            <small>${window.FitnessRpgRender.escapeHtml(`${nextItem.amount} ${nextItem.unit}`)}</small>
-          </div>
-        </div>
-      </article>
-    `
-    : `
-      <article class="session-focus-next session-focus-next-finish">
-        <p class="eyebrow">Dernière étape</p>
-        <strong>${complete ? "La séance est prête à être terminée." : "Valide cet exercice pour achever la séance."}</strong>
-      </article>
-    `;
+    ? `<p class="guided-next-line">
+        Ensuite : <strong>${window.FitnessRpgRender.escapeHtml(nextExercise?.title || nextItem.exerciseId)}</strong>
+      </p>`
+    : `<p class="guided-next-line guided-next-finish">Dernier exercice de la séance</p>`;
 
   const sessionHtml = `
     <section id="activeProgramSession" class="active-program-session card session-focus-shell">
-      <header class="session-focus-header">
+      <header class="guided-session-header">
         <div>
-          <p class="eyebrow">${isBoss ? "🐉 Boss en cours" : `${program.icon} Séance guidée`}</p>
-          <h2>${window.FitnessRpgRender.escapeHtml(title)}</h2>
-          <p>${window.FitnessRpgRender.escapeHtml(subtitle || "Séance en cours")}</p>
+          <p class="eyebrow">${isBoss ? "🐉 Boss" : `${program.icon} Séance guidée`}</p>
+          <h2>${window.FitnessRpgRender.escapeHtml(shortSessionTitle)}</h2>
         </div>
 
-        <button id="abandonGuidedProgramSessionButton" class="danger-link-btn" type="button">
-          Abandonner
+        <button id="abandonGuidedProgramSessionButton" class="danger-link-btn guided-quit-btn" type="button" aria-label="Quitter la séance">
+          Quitter
         </button>
       </header>
 
-      <div class="session-focus-progress-copy">
-        <span>Exercice ${Math.min(activeIndex + 1, totalCount)} sur ${totalCount}</span>
-        <strong>${guidedProgress}%</strong>
-      </div>
-      <div
-        class="program-guided-progress-bar session-focus-progress-bar"
-        role="progressbar"
-        aria-valuemin="0"
-        aria-valuemax="100"
-        aria-valuenow="${guidedProgress}"
-      >
-        <span style="width: ${guidedProgress}%"></span>
-      </div>
-
-      <div class="session-focus-layout">
-        <main class="session-focus-main">
-          <div class="program-guided-step-header">
-            <p class="eyebrow">${stepMeta?.blockLabel || "⚔️ Étape"}</p>
-            ${stepMeta?.cycleLabel ? `<strong>${stepMeta.cycleLabel}</strong>` : ""}
-            <span>${stepMeta?.stepLabel || `Exercice ${activeIndex + 1} / ${totalCount}`}</span>
-          </div>
-
-          <div class="program-session-list session-focus-card-wrap">
-            ${exerciseCardHtml}
-          </div>
-
-          ${
-            complete
-              ? `<p class="program-guided-complete-message">
-                  Tous les exercices sont validés. Tu peux terminer la séance.
-                </p>`
-              : ""
-          }
-        </main>
-
-        <aside class="session-focus-sidebar">
-          <article class="session-focus-summary">
-            <p class="eyebrow">Progression</p>
-            <div class="session-focus-summary-grid">
-              <div><strong>${doneCount}</strong><span>validé${doneCount > 1 ? "s" : ""}</span></div>
-              <div><strong>${remainingCount}</strong><span>restant${remainingCount > 1 ? "s" : ""}</span></div>
-              <div><strong>${xp}</strong><span>XP final</span></div>
-            </div>
-          </article>
-          ${nextHtml}
-        </aside>
-      </div>
-
-      <footer class="session-focus-footer">
-        <button
-          id="finishProgramSessionButton"
-          class="primary-btn"
-          type="button"
-          ${complete ? "" : "disabled"}
+      <section class="guided-progress-panel" aria-label="Progression de la séance">
+        <div class="guided-progress-numbers">
+          <strong>${Math.min(activeIndex + 1, totalCount)} / ${totalCount}</strong>
+          <span>${guidedProgress}%</span>
+        </div>
+        <div
+          class="program-guided-progress-bar session-focus-progress-bar"
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="${guidedProgress}"
         >
-          ${complete ? `Terminer la séance · +${xp} XP` : "Termine les exercices pour valider la quête"}
-        </button>
+          <span style="width: ${guidedProgress}%"></span>
+        </div>
+        <div class="guided-step-strip">
+          <strong>${stepMeta?.blockLabel || "⚔️ Étape"}</strong>
+          ${stepMeta?.cycleLabel ? `<span>${stepMeta.cycleLabel}</span>` : ""}
+        </div>
+      </section>
+
+      <main class="guided-exercise-stage">
+        <div class="program-session-list session-focus-card-wrap">
+          ${exerciseCardHtml}
+        </div>
+        ${nextHtml}
+      </main>
+
+      <footer class="guided-action-dock" aria-label="Actions de la séance">
+        ${actionsHtml}
       </footer>
     </section>
   `;
