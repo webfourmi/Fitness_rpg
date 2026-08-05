@@ -1,6 +1,6 @@
 /* ============================================================
    Fitness RPG - app-v5.css
-   Version V6.1C
+   Version V6.1D
    ------------------------------------------------------------
    Charte graphique commune :
    - fantasy moderne, sombre et lisible ;
@@ -9213,4 +9213,39 @@ body[data-page="hero-setup"] .app-page {
     height: 88px;
     min-height: 88px;
   }
+}
+
+/* V6.1D — lecture mobile rapide */
+.journal-last-date { grid-column: 1 / -1; margin: 0; color: var(--text-muted); font-size: .72rem; text-align: right; }
+.statistics-quick-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.statistics-quick-heading h2 { margin:4px 0 0; }
+.statistics-quick-heading > span { color:var(--text-muted); font-size:.72rem; font-weight:850; }
+.statistics-insights-quick { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.statistics-details summary,.backup-safety-details summary { cursor:pointer; color:var(--accent-strong); font-weight:900; list-style:none; }
+.statistics-details summary::after,.backup-safety-details summary::after { content:"＋"; float:right; }
+.statistics-details[open] summary::after,.backup-safety-details[open] summary::after { content:"−"; }
+.statistics-details-content { display:grid; gap:14px; margin-top:14px; }
+.statistics-compact-metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+.statistics-compact-metrics span { padding:10px; border:1px solid var(--border-soft); border-radius:14px; background:rgba(255,255,255,.035); color:var(--text-muted); font-size:.72rem; }
+.statistics-compact-metrics strong { display:block; color:#fff; font-size:.95rem; }
+.backup-live-status,.backup-export-date { margin:8px 0 0; color:var(--text-muted); font-size:.74rem; }
+.backup-safety-details { display:block; }
+.backup-safety-details[open] .backup-safety-steps { margin-top:12px; }
+
+@media (max-width:699px) {
+  .journal-summary-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+  .journal-summary-card { min-height:72px; padding:8px; }
+  .journal-command-bar { position:sticky; top:58px; z-index:20; padding:8px; }
+  .journal-entry { grid-template-columns:34px minmax(0,1fr); gap:8px; padding:9px; border-radius:14px; }
+  .journal-entry-icon { width:34px; height:34px; border-radius:11px; font-size:.95rem; }
+  .journal-entry p { display:-webkit-box; margin:3px 0 5px; overflow:hidden; -webkit-box-orient:vertical; -webkit-line-clamp:2; font-size:.76rem; }
+  .statistics-summary-essential .statistics-kpi-card { min-height:98px; padding:10px; }
+  .statistics-insights-quick { grid-template-columns:1fr; }
+  .statistics-chart { min-width:520px; }
+  .statistics-compact-metrics { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .backup-summary-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; }
+  .backup-summary-grid li { padding:7px 4px; text-align:center; }
+  .backup-summary-grid span { font-size:.58rem; }
+  .backup-summary-grid strong { font-size:.82rem; }
+  .backup-current-card .primary-btn,.backup-file-picker,.backup-restore-actions button { min-height:50px; }
 }
