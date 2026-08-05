@@ -254,106 +254,19 @@ window.FitnessRpgRender.setSafeImage = function setSafeImage(img, src, fallback 
 // ============================================================
 
 window.FitnessRpgRender.renderHome = function renderHome() {
-  const profile = window.FitnessRpgState.getProfile?.();
-
   window.FitnessRpgRender.prepareHomeImageInfoToggle();
-
-  const overview = document.querySelector("#homeHeroOverview");
-  const startButton = document.querySelector("#startTrainingButton");
-
-  if (!profile) {
-    overview?.classList.add("is-empty");
-    window.FitnessRpgRender.setText("#homeHeroName", "Aucun héros");
-    window.FitnessRpgRender.setText("#homeHeroSummary", "Crée ton héros pour commencer l’aventure.");
-    window.FitnessRpgRender.setText("#homeCoachSummary", "Aucun coach choisi");
-    window.FitnessRpgRender.setText("#homeWeeklySummary", "0 jour actif");
-    window.FitnessRpgRender.setText("#homeNextQuestSummary", "Aucune quête proposée");
-    window.FitnessRpgRender.setText("#homeNextQuestTitle", "Prépare ton aventure");
-    window.FitnessRpgRender.setText("#homeXpText", "0 / 100 XP");
-
-    const xpBar = document.querySelector("#homeXpBar");
-    if (xpBar) xpBar.style.width = "0%";
-
-    if (startButton) startButton.textContent = "Créer mon héros";
-    return;
-  }
-
-  overview?.classList.remove("is-empty");
-
-  const info = window.FitnessRpgProgress.getProfileLevelInfo?.()
-    || window.FitnessRpgConfig.levelInfo(profile.totalXp || 0);
-  const coach = window.FitnessRpgData.getCoach(profile.coachId);
-  const weekly = window.FitnessRpgState.getWeeklyActivityStats?.() || {
-    activeDays: 0,
-    totalEntries: 0
-  };
-  const quest = window.FitnessRpgPrograms.getTodayPlanningQuest?.()
-    || window.FitnessRpgPrograms.getTodayQuest?.();
-  const heroPath = window.FitnessRpgProgress.getHeroImagePath?.();
-  const activeSession = window.FitnessRpgState.getActiveProgramSession?.();
-
-  const heroImage = document.querySelector("#homeHeroImage");
-  window.FitnessRpgRender.setSafeImage(heroImage, heroPath, "");
-  if (heroImage) heroImage.alt = profile.name || "Héros";
-
-  window.FitnessRpgRender.setText("#homeHeroName", profile.name || "Héros");
-  window.FitnessRpgRender.setText(
-    "#homeHeroSummary",
-    `Niveau ${info.level} · ${info.rank}`
-  );
-  window.FitnessRpgRender.setText(
-    "#homeCoachSummary",
-    coach?.fullName || "Coach non défini"
-  );
-  window.FitnessRpgRender.setText(
-    "#homeWeeklySummary",
-    `${weekly.activeDays}/7 jour${weekly.activeDays === 1 ? "" : "s"} actif${weekly.activeDays === 1 ? "" : "s"} · ${weekly.totalEntries} activité${weekly.totalEntries === 1 ? "" : "s"}`
-  );
-  window.FitnessRpgRender.setText(
-    "#homeNextQuestSummary",
-    quest?.title || "Repos et récupération"
-  );
-  window.FitnessRpgRender.setText(
-    "#homeNextQuestTitle",
-    activeSession ? "Une séance t’attend" : (quest?.title || "Repos et récupération")
-  );
-  window.FitnessRpgRender.setText(
-    "#homeXpText",
-    `${info.currentXp} / ${info.nextXp} XP`
-  );
-
-  const xpBar = document.querySelector("#homeXpBar");
-  if (xpBar) {
-    const percent = info.nextXp > 0
-      ? Math.max(0, Math.min(100, Math.round((info.currentXp / info.nextXp) * 100)))
-      : 0;
-    xpBar.style.width = `${percent}%`;
-  }
-
-  if (startButton) {
-    startButton.textContent = activeSession
-      ? "Reprendre l’entraînement"
-      : "Entrer dans l’entraînement";
-  }
 };
 
 window.FitnessRpgRender.prepareHomeImageInfoToggle = function prepareHomeImageInfoToggle() {
   const image = document.querySelector("#homeSplashImage");
-  const infoBox = document.querySelector("#homeImageInfoText");
+  const button = document.querySelector("#homeSplashButton");
 
-  if (!image) return;
+  if (!image || !button) return;
+  if (button.dataset.trainingLinkReady === "true") return;
 
-  if (infoBox) {
-    infoBox.classList.add("hidden");
-  }
+  button.dataset.trainingLinkReady = "true";
 
-  if (image.dataset.trainingLinkReady === "true") return;
-
-  image.dataset.trainingLinkReady = "true";
-  image.style.cursor = "pointer";
-  image.setAttribute("title", "Entrer dans l’entraînement");
-
-  image.addEventListener("click", () => {
+  button.addEventListener("click", () => {
     window.FitnessRpgNavigation.goTraining();
   });
 };
