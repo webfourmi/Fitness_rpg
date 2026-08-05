@@ -663,29 +663,20 @@ window.FitnessRpgBackup.restorePendingImport = function restorePendingImport() {
 window.FitnessRpgBackup.summaryHtml = function summaryHtml(summary, options = {}) {
   const title = options.title || summary.heroName;
   const exportedAt = options.showExportDate && summary.exportedAt
-    ? `<li><span>Date du fichier</span><strong>${window.FitnessRpgBackup.escapeHtml(window.FitnessRpgBackup.formatDateTime(summary.exportedAt))}</strong></li>`
+    ? `<p class="backup-export-date">Fichier du ${window.FitnessRpgBackup.escapeHtml(window.FitnessRpgBackup.formatDateTime(summary.exportedAt))}</p>`
     : "";
-
   return `
     <div class="backup-summary-heading">
       <div class="backup-summary-icon" aria-hidden="true">${options.icon || "🛡️"}</div>
-      <div>
-        <h2>${window.FitnessRpgBackup.escapeHtml(title)}</h2>
-        <p>Niveau ${summary.level} · ${window.FitnessRpgBackup.escapeHtml(summary.rank)} · ${summary.totalXp} XP</p>
-      </div>
+      <div><h2>${window.FitnessRpgBackup.escapeHtml(title)}</h2><p>Niv. ${summary.level} · ${window.FitnessRpgBackup.escapeHtml(summary.rank)} · ${summary.totalXp} XP</p>${exportedAt}</div>
     </div>
-
-    <ul class="backup-summary-grid">
-      ${exportedAt}
+    <ul class="backup-summary-grid backup-summary-quick">
       <li><span>Entraînements</span><strong>${summary.entries}</strong></li>
       <li><span>Badges</span><strong>${summary.badges}</strong></li>
       <li><span>Familiers</span><strong>${summary.familiars}</strong></li>
       <li><span>Pesées</span><strong>${summary.weights}</strong></li>
-      <li><span>Série actuelle</span><strong>${summary.streak} jour${summary.streak > 1 ? "s" : ""}</strong></li>
-      <li><span>Séance en cours</span><strong>${summary.activeProgramSession ? "Oui" : "Non"}</strong></li>
-      <li><span>Timer actif</span><strong>${summary.activeTimer ? "Oui" : "Non"}</strong></li>
-      <li><span>Données sauvegardées</span><strong>${summary.storageRecordCount}</strong></li>
     </ul>
+    <p class="backup-live-status">${summary.activeProgramSession ? "🟢 Séance en cours sauvegardée" : "⚪ Aucune séance en cours"}${summary.activeTimer ? " · timer inclus" : ""}</p>
   `;
 };
 
