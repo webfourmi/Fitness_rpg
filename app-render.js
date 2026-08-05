@@ -2270,18 +2270,18 @@ window.FitnessRpgRender.renderJournal = function renderJournal() {
 
   if (summary) {
     summary.innerHTML = `
-      <article class="journal-summary-card"><span>📚</span><div><strong>${journal.length}</strong><small>chroniques conservées</small></div></article>
-      <article class="journal-summary-card"><span>⚔️</span><div><strong>${counts.training}</strong><small>traces d’entraînement</small></div></article>
-      <article class="journal-summary-card"><span>✨</span><div><strong>${counts.rewards}</strong><small>récompenses et niveaux</small></div></article>
-      <article class="journal-summary-card journal-summary-date"><span>🕯️</span><div><strong>${window.FitnessRpgRender.escapeHtml(lastDate)}</strong><small>dernière chronique</small></div></article>
+      <article class="journal-summary-card"><span>📚</span><div><strong>${journal.length}</strong><small>entrées</small></div></article>
+      <article class="journal-summary-card"><span>⚔️</span><div><strong>${counts.training}</strong><small>entraînements</small></div></article>
+      <article class="journal-summary-card"><span>✨</span><div><strong>${counts.rewards}</strong><small>récompenses</small></div></article>
+      <p class="journal-last-date">Dernière trace : ${window.FitnessRpgRender.escapeHtml(lastDate)}</p>
     `;
   }
 
   const labels = {
-    all: "Toutes les chroniques",
+    all: "Toutes",
     training: "Entraînements",
     rewards: "Récompenses",
-    life: "Vie du héros"
+    life: "Aventure"
   };
   if (title) title.textContent = labels[filter] || labels.all;
   if (countNode) countNode.textContent = `${filtered.length} entrée${filtered.length > 1 ? "s" : ""}`;
