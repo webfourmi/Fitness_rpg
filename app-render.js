@@ -1597,7 +1597,7 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
           type="button"
           data-program-id="${program.id}"
         >
-          Explorer la campagne
+          Voir les détails
         </button>
 
         <button
@@ -1605,7 +1605,7 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
           type="button"
           data-program-id="${program.id}"
         >
-          ${selected ? "Programme sélectionné" : "Choisir ce programme"}
+          ${selected ? "Sélectionné" : "Sélectionner"}
         </button>
       </div>
     `;
@@ -1921,7 +1921,7 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
   detail.innerHTML = `
     <div class="program-detail-topbar">
       <button id="backToProgramListBtn" class="ghost-btn" type="button">
-        ← Tous les programmes
+        ← Programmes
       </button>
       <span class="status-chip ${isActiveProgram ? "status-active" : "status-info"}">
         ${isActiveProgram ? "Programme actuel" : program.level}
@@ -2024,11 +2024,11 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
             type="button"
             data-program-id="${programId}"
           >
-            ${isActiveProgram ? "Programme actuel" : "Choisir ce programme"}
+            ${isActiveProgram ? "Programme actuel" : "Sélectionner"}
           </button>
 
           <button id="startProgramPlanningButton" class="secondary-btn" type="button">
-            Voir le planning
+            Planning
           </button>
 
           <button
