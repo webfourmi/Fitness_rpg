@@ -1,6 +1,6 @@
 /* ============================================================
    Fitness RPG - app-v5.css
-   Version V6.1B1
+   Version V6.1C
    ------------------------------------------------------------
    Charte graphique commune :
    - fantasy moderne, sombre et lisible ;
@@ -3188,63 +3188,86 @@ border: 1px solid rgba(240, 184, 79, 0.25);
   font-weight: 900;
 }
 
-/* Mode guidé centré sur l’exercice actuel */
+/* Mode guidé V6.1C : image dominante, progression immédiate, actions persistantes */
 .session-focus-shell {
   display: grid;
-  gap: 14px;
-  padding: 16px;
+  gap: 12px;
+  padding: 14px;
   border-color: rgba(94, 200, 255, 0.65);
   background:
     radial-gradient(circle at top right, rgba(94, 200, 255, 0.12), transparent 35%),
     linear-gradient(180deg, rgba(28, 35, 55, 0.98), rgba(13, 17, 29, 0.98));
 }
 
-.session-focus-header {
+.guided-session-header {
   display: flex;
   align-items: start;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
 }
 
-.session-focus-header h2 {
-  margin: 6px 0 4px;
+.guided-session-header h2 {
+  margin: 4px 0 0;
+  font-size: clamp(1.05rem, 4vw, 1.35rem);
+  line-height: 1.15;
 }
 
-.danger-link-btn {
-  min-height: 38px;
-  padding: 7px 10px;
+.danger-link-btn,
+.guided-quit-btn {
+  min-height: 36px;
+  padding: 6px 9px;
   border: 1px solid rgba(255, 111, 111, 0.32);
-  border-radius: 12px;
+  border-radius: 11px;
   background: rgba(255, 111, 111, 0.08);
   color: #ffb3b3;
+  font-size: 0.76rem;
   font-weight: 850;
 }
 
-.session-focus-progress-copy {
-  color: var(--text-muted);
-  font-size: 0.84rem;
-  font-weight: 850;
+.guided-progress-panel {
+  display: grid;
+  gap: 7px;
 }
 
-.session-focus-progress-copy strong {
+.guided-progress-numbers {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.guided-progress-numbers strong {
   color: var(--accent-strong);
+  font-size: clamp(1.55rem, 7vw, 2.15rem);
+  line-height: 1;
+}
+
+.guided-progress-numbers span {
+  color: var(--blue);
+  font-size: 0.9rem;
+  font-weight: 950;
 }
 
 .session-focus-progress-bar {
-  height: 12px;
+  height: 14px;
 }
 
-.session-focus-layout {
-  display: grid;
-  gap: 13px;
-  min-width: 0;
+.guided-step-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 0.76rem;
 }
 
-.session-focus-main,
-.session-focus-sidebar {
+.guided-step-strip strong {
+  color: var(--blue);
+}
+
+.guided-exercise-stage {
   display: grid;
-  gap: 12px;
-  align-content: start;
+  gap: 8px;
   min-width: 0;
 }
 
@@ -3252,99 +3275,52 @@ border: 1px solid rgba(240, 184, 79, 0.25);
   margin: 0;
 }
 
-.session-focus-summary,
-.session-focus-next {
+.active-program-session .v3-program-exercise-card {
   display: grid;
-  gap: 10px;
-  padding: 13px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-small);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.session-focus-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 7px;
-}
-
-.session-focus-summary-grid > div {
-  display: grid;
-  gap: 2px;
-  min-width: 0;
-  padding: 8px;
-  border-radius: 11px;
-  background: rgba(0, 0, 0, 0.18);
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 10px;
   text-align: center;
 }
 
-.session-focus-summary-grid strong {
-  color: var(--accent-strong);
-  font-size: 1.15rem;
+.active-program-session .program-session-index,
+.active-program-session .program-exercise-phase,
+.active-program-session .program-exercise-category,
+.active-program-session .program-exercise-instruction {
+  display: none;
 }
 
-.session-focus-summary-grid span {
-  color: var(--text-muted);
-  font-size: 0.7rem;
+.active-program-session .v3-program-exercise-image {
+  width: min(100%, 560px);
+  max-height: none;
+  aspect-ratio: 1 / 1;
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.2);
 }
 
-.session-focus-next-line {
-  display: grid;
-  grid-template-columns: 34px minmax(0, 1fr);
-  gap: 9px;
-  align-items: center;
-}
-
-.session-focus-next-line > span {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
-  background: rgba(94, 200, 255, 0.12);
-  color: var(--blue);
-  font-weight: 950;
-}
-
-.session-focus-next-line div {
-  display: grid;
-  gap: 2px;
-  min-width: 0;
-}
-
-.session-focus-next-line small {
-  color: var(--text-muted);
-}
-
-.session-focus-next-finish {
-  border-color: rgba(53, 226, 122, 0.28);
-  background: rgba(53, 226, 122, 0.08);
-}
-
-.session-focus-footer {
-  display: grid;
-}
-
-.session-focus-footer button {
+.active-program-session .v3-program-exercise-image img {
   width: 100%;
-  min-height: 50px;
-}
-
-.active-program-session .v3-program-exercise-card {
-  width: 100%;
-  padding: 13px;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
 }
 
 .active-program-session .v3-program-exercise-body {
+  display: grid;
+  justify-items: center;
   gap: 7px;
+  width: 100%;
+  text-align: center;
 }
 
-.program-exercise-phase {
-  color: var(--blue);
-  font-size: 0.78rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.active-program-session .v3-program-exercise-body h3 {
+  margin: 0;
+  font-size: clamp(1.3rem, 6vw, 1.85rem);
+  line-height: 1.08;
 }
 
 .program-exercise-target {
@@ -3352,15 +3328,15 @@ border: 1px solid rgba(240, 184, 79, 0.25);
   align-items: baseline;
   gap: 7px;
   width: fit-content;
-  padding: 8px 12px;
+  padding: 7px 13px;
   border: 1px solid var(--border-strong);
-  border-radius: 13px;
+  border-radius: 999px;
   background: var(--accent-soft);
 }
 
 .program-exercise-target strong {
   color: var(--accent-strong);
-  font-size: 1.5rem;
+  font-size: clamp(1.55rem, 7vw, 2rem);
 }
 
 .program-exercise-target span {
@@ -3368,27 +3344,40 @@ border: 1px solid rgba(240, 184, 79, 0.25);
   font-weight: 850;
 }
 
-.program-exercise-category,
-.program-exercise-instruction {
+.guided-next-line {
   margin: 0;
-}
-
-.program-exercise-instruction {
-  max-width: 60ch;
   color: var(--text-muted);
-  font-size: 0.86rem;
+  font-size: 0.76rem;
+  text-align: center;
 }
 
-.active-program-session .program-session-actions {
+.guided-next-line strong {
+  color: var(--text);
+}
+
+.guided-next-finish {
+  color: var(--green);
+  font-weight: 850;
+}
+
+.guided-action-dock {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
   width: 100%;
-  margin-top: 8px;
 }
 
-.active-program-session .program-session-actions > button:only-child {
+.guided-action-dock > button {
+  min-height: 54px;
+  font-size: 0.94rem;
+}
+
+.guided-action-dock > button:only-child {
   grid-column: 1 / -1;
+}
+
+.guided-finish-btn {
+  min-height: 58px;
 }
 
 @media (min-width: 760px) {
@@ -8360,47 +8349,28 @@ body[data-page="hero-setup"] .app-page {
     height: 70px;
   }
 
-  /* Séance guidée sur ordinateur : l’exercice actif devient la pièce maîtresse. */
+  /* Séance guidée sur ordinateur */
   .active-program-session .v3-program-exercise-card {
-    grid-template-columns: 42px minmax(240px, 320px) minmax(0, 1fr);
-    gap: 18px;
-    align-items: center;
-    padding: 18px;
-  }
-
-  .active-program-session .program-session-index {
-    width: 38px;
-    height: 38px;
-    align-self: start;
-    margin-top: 4px;
-    font-size: 0.92rem;
+    max-width: 760px;
+    margin-inline: auto;
+    padding: 16px;
   }
 
   .active-program-session .v3-program-exercise-image {
-    width: clamp(240px, 28vw, 320px);
-    max-width: 100%;
-    max-height: none;
-    aspect-ratio: 1 / 1;
-    justify-self: center;
+    width: min(58vh, 560px);
   }
 
-  .active-program-session .v3-program-exercise-image img {
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    max-height: none;
-    object-fit: contain;
-    object-position: center;
-  }
-
-  .active-program-session .v3-program-exercise-body {
-    align-items: start;
-    text-align: left;
-  }
-
-  .active-program-session .program-session-actions {
-    width: min(100%, 340px);
-    margin-top: 14px;
+  .guided-action-dock {
+    position: sticky;
+    bottom: 12px;
+    z-index: 35;
+    max-width: 760px;
+    margin-inline: auto;
+    padding: 9px;
+    border: 1px solid rgba(241, 201, 104, 0.24);
+    border-radius: 16px;
+    background: rgba(10, 14, 24, 0.94);
+    backdrop-filter: blur(14px);
   }
 
   .planning-day-card {
@@ -9192,30 +9162,40 @@ body[data-page="hero-setup"] .app-page {
     backdrop-filter: blur(12px);
   }
 
-  .program-session-exercise {
-    grid-template-columns: 34px 96px minmax(0, 1fr);
-    gap: 7px;
+  .guided-session-active .mobile-primary-nav {
+    display: none !important;
+  }
+
+  .guided-session-active .app-page {
+    padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .guided-session-active #programDetail {
+    padding-bottom: 0;
+  }
+
+  .active-program-session {
+    margin-inline: -3px;
+    padding: 10px;
+    border-radius: 16px;
+  }
+
+  .active-program-session .v3-program-exercise-image {
+    width: min(100%, calc(100vw - 42px));
+  }
+
+  .guided-action-dock {
+    position: fixed;
+    left: max(8px, env(safe-area-inset-left, 0px));
+    right: max(8px, env(safe-area-inset-right, 0px));
+    bottom: max(8px, env(safe-area-inset-bottom, 0px));
+    z-index: 96;
     padding: 8px;
-  }
-
-  .program-session-exercise .v3-program-exercise-image {
-    width: 96px;
-    height: 96px;
-  }
-
-  .program-session-exercise .v3-program-exercise-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-  }
-
-  .program-exercise-instruction {
-    display: none;
-  }
-
-  .program-exercise-target strong {
-    font-size: 1.35rem;
+    border: 1px solid rgba(241, 201, 104, 0.26);
+    border-radius: 18px;
+    background: rgba(10, 14, 24, 0.96);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.48);
   }
 }
 
