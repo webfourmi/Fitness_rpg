@@ -19,394 +19,6 @@ hier 22:33
 Fitness_rpg-main.zip
 Archive zip
 
-État actuel de Fitness RPG
-Version cible
-
-V6.1E, construite progressivement à partir de la V5.4 puis de la série V6.1.
-
-L’application est désormais dans une phase de consolidation mobile-first, pas de refonte du moteur. La logique des programmes, les structures days, les répétitions, l’XP et les sauvegardes ont été préservées.
-Ce qui a été fait
-1. Consolidation du moteur
-app-programs.js
-
-    restauration de getProgramBoss() ;
-
-    suppression du doublon de getProgramBossVariant() ;
-
-    sécurisation des boss, variantes et semaines ;
-
-    meilleure reconnaissance des unités de temps ;
-
-    conservation du contexte planning ;
-
-    protections si certaines données sont absentes.
-
-app-config.js
-
-Ajout de :
-
-activeProgramSession: "fitnessRpgV54ActiveProgramSession",
-
-app-state.js
-
-Ajout de la persistance de la séance active :
-
-    saveActiveProgramSession()
-
-    loadActiveProgramSession()
-
-    clearActiveProgramSession()
-
-Une séance peut donc être reprise après un rechargement ou une fermeture accidentelle.
-2. Images d’exercices
-
-Les fallbacks sont désormais uniformisés :
-
-assets/exercices/homme_default.png
-assets/exercices/femme_default.png
-
-La V6.1E doit garantir que toutes les images carrées 1024 × 1024 soient :
-
-    affichées entièrement ;
-
-    jamais déformées ;
-
-    jamais recadrées ;
-
-    centrées ;
-
-    placées dans un cadre carré ;
-
-    affichées avec object-fit: contain.
-
-Cela concerne :
-
-    la bibliothèque d’exercices ;
-
-    les exercices dans les programmes ;
-
-    les séances guidées ;
-
-    les programmes personnalisés ;
-
-    les catégories d’exercices.
-
-3. Carte d’exercice unifiée
-
-L’affichage repose désormais sur une carte centrale dans app-exercises.js.
-
-Elle sert à la fois pour :
-
-    les exercices libres ;
-
-    les exercices de programmes ;
-
-    les séances guidées.
-
-Cela réduit les écarts entre les écrans, notamment pour :
-
-    l’image ;
-
-    le timer ;
-
-    la validation ;
-
-    les explications accessibles au clic.
-
-Évolution mobile-first
-V6.1A : navigation et cartes
-
-Ajout d’une navigation basse mobile :
-
-    Quête
-
-    Exercices
-
-    Programmes
-
-    Planning
-
-    Plus
-
-Le menu Plus regroupe les fonctions secondaires :
-
-    objectif ;
-
-    progression ;
-
-    statistiques ;
-
-    badges ;
-
-    familiers ;
-
-    journal ;
-
-    héros ;
-
-    coach ;
-
-    poids ;
-
-    musique ;
-
-    sauvegarde.
-
-Les cartes et espacements ont été compactés pour téléphone.
-V6.1B : programmes et exercices
-
-Les pages Programmes et Exercices ont été adaptées :
-
-    cartes de programmes plus compactes ;
-
-    actions mieux hiérarchisées ;
-
-    navigation semaine/jour plus lisible ;
-
-    catégories d’exercices mieux organisées ;
-
-    cartes d’exercices plus rapides à parcourir ;
-
-    pagination mobile réduite ;
-
-    chargement différé des images.
-
-Une correction V6.1B1 a ensuite remis les images au format carré et simplifié l’accueil.
-Accueil actuel
-
-L’accueil doit maintenant contenir uniquement :
-
-    l’image d’accueil ;
-
-    cette image est cliquable ;
-
-    le clic mène à l’écran Entraînement.
-
-Ont été retirés :
-
-    l’image du héros sur l’accueil ;
-
-    le résumé du héros ;
-
-    le résumé du coach ;
-
-    « Ton entraînement devient une aventure » ;
-
-    « Retrouve ton héros… ».
-
-C’est plus propre et plus proche d’un écran de lancement.
-V6.1C : séance guidée
-
-La séance guidée est devenue l’écran principal d’action :
-
-    très grande image carrée ;
-
-    image affichée entièrement ;
-
-    progression X / total ;
-
-    pourcentage visible ;
-
-    quantité ou durée très lisible ;
-
-    très peu de texte ;
-
-    explications accessibles en touchant l’image ;
-
-    boutons Timer et Valider fixes ;
-
-    bouton Terminer visible à la fin ;
-
-    navigation générale masquée pendant la séance.
-
-C’est actuellement l’évolution UX la plus importante.
-V6.1D : écrans secondaires
-Statistiques
-
-    quatre chiffres essentiels ;
-
-    graphique principal ;
-
-    trois repères rapides ;
-
-    détails avancés repliables.
-
-Journal
-
-    résumé compact ;
-
-    recherche ;
-
-    filtres horizontaux ;
-
-    entrées plus courtes sur mobile.
-
-Sauvegarde
-
-    séparation claire entre exporter et restaurer ;
-
-    résumé des données sauvegardées ;
-
-    séance active et timer inclus ;
-
-    protocole de sécurité repliable ;
-
-    confirmation obligatoire avant restauration.
-
-Ce qui fonctionne déjà bien
-
-    identité RPG forte ;
-
-    vraie progression sur quatre semaines ;
-
-    programmes variés ;
-
-    séances guidées ;
-
-    boss hebdomadaires ;
-
-    badges et familiers ;
-
-    planning ;
-
-    journal ;
-
-    poids et statistiques ;
-
-    programmes personnalisés ;
-
-    sauvegarde locale ;
-
-    reprise d’une séance interrompue ;
-
-    interface de plus en plus adaptée au téléphone.
-
-L’application n’est plus un simple prototype. Elle possède maintenant un socle fonctionnel assez riche.
-Points à vérifier après installation de la V6.1E
-Test mobile prioritaire
-
-Sur un vrai téléphone, vérifier :
-
-    l’image d’accueil ouvre bien Entraînement ;
-
-    la barre inférieure ne masque aucun bouton ;
-
-    le menu Plus s’ouvre et se ferme correctement ;
-
-    les images d’exercices sont visibles en entier ;
-
-    les images restent carrées ;
-
-    le clic sur l’image ouvre les explications ;
-
-    le timer est accessible en séance guidée ;
-
-    le bouton Valider reste visible ;
-
-    la séance reprend après actualisation ;
-
-    la fin de séance enregistre bien XP et journal.
-
-Programmes à tester en priorité
-
-    Éveil du héros ;
-
-    Tour du Mage ;
-
-    Champion des Arènes ;
-
-    un programme avec exercices minutés ;
-
-    un boss intérieur ;
-
-    un boss extérieur ;
-
-    un programme personnalisé.
-
-Champion des Arènes est particulièrement important, car son fichier additionnel injecte ses exercices et ses données après app-data.js.
-Fragilités restantes
-1. Données encore dispersées
-
-Les programmes et exercices sont encore répartis entre :
-
-    app-config.js
-
-    app-data.js
-
-    app.js
-
-    app-program-champion-arenes.js
-
-C’est encore la principale source potentielle de doublons ou d’écrasements.
-2. Pas encore de validateur global
-
-Il serait utile de détecter automatiquement :
-
-    exercices dupliqués ;
-
-    exerciseId inexistants ;
-
-    images absentes ;
-
-    programmes en double ;
-
-    badges manquants ;
-
-    unités invalides ;
-
-    séances sans exercices.
-
-3. Cache navigateur
-
-Après chaque remplacement de fichiers, il faut vérifier que index.html utilise bien la même valeur de cache que assetVersion.
-
-Pour V6.1E :
-
-assetVersion: "6.1e"
-
-et dans index.html :
-
-?v=6.1e
-
-Sinon le téléphone peut conserver un ancien CSS ou un ancien script, créant des bugs fantômes particulièrement agaçants 👻
-Étape suivante recommandée
-
-Je ne passerais pas encore à la V6.2.
-
-Je ferais d’abord une V6.1F de validation et nettoyage, sans évolution visuelle majeure :
-
-    vérifier tous les écrans sur téléphone ;
-
-    corriger uniquement les bugs observés ;
-
-    ajouter un validateur de données ;
-
-    contrôler les doublons ;
-
-    contrôler les images absentes ;
-
-    vérifier le cache ;
-
-    stabiliser définitivement la série V6.1.
-
-Ensuite seulement, la V6.2 pourrait apporter une vraie nouveauté, par exemple :
-
-    historique de performance par exercice ;
-
-    charges et répétitions réellement réalisées ;
-
-    difficulté ressentie ;
-
-    progression adaptative ;
-
-    installation PWA hors connexion.
-
-La V6.1 est devenue une belle armure. Avant d’y accrocher de nouvelles plumes, il faut maintenant vérifier toutes les attaches. 🛡️
-
-
-c est ok sur la page exercice mais les images sont minuscules
-est ok sur la page exercice mais les images sont minusculespar contre les images , une fois la categorie ouverte , n apparaissent pas en entier.c 
-
 Le problème vient de deux règles CSS :
 
     la grille des exercices reste forcée à 3 colonnes, même sur petit téléphone ;
@@ -500,6 +112,46 @@ Corrections intégrées directement dans les règles existantes :
     catégories toujours compactes sur la page principale.
 
 Le fichier CSS complet a été contrôlé, avec accolades équilibrées. Le fichier fourni correspond bien à la version V6.1E envoyée.
+
+on passe a V6.1F de validation et nettoyage
+
+D’accord. Pour la V6.1F, je te propose une passe sans nouveauté visible, centrée sur la fiabilité.
+Contrôles prévus
+
+    cohérence V6.1F entre app-config.js, index.html et les paramètres ?v=... ;
+
+    syntaxe de tous les fichiers JavaScript ;
+
+    identifiants dupliqués dans index.html ;
+
+    programmes, exercices, badges et catégories ayant le même id ;
+
+    références exerciseId vers des exercices inexistants ;
+
+    chemins d’images absents ou anciens fallbacks ;
+
+    vérification de activeProgramSession et de sa persistance ;
+
+    anciennes règles CSS contradictoires, notamment les object-fit, hauteurs forcées et blocs responsive concurrents ;
+
+    détection des déclarations de fonctions en double ;
+
+    repérage des fichiers temporaires ou tests accidentels.
+
+J’ai déjà relevé un point à examiner : le dernier commit GitHub sur app-v5.css porte le message inattendu « Update print statement from 'Hello' to 'Goodbye' », alors qu’il modifie le CSS. Ce n’est pas forcément une erreur dans le contenu, mais cela mérite vérification dans cette passe de nettoyage.
+Livraison prévue
+
+Je respecterai ta règle :
+
+    moins de 5 lignes modifiées dans un fichier : remplacement manuel exact ;
+
+    plus de 10 lignes : fichier complet dans un ZIP ;
+
+    aucune suppression ou modification destructive sans te prévenir ;
+
+    aucune modification de days, des répétitions ou du contenu des programmes pendant cette passe.
+
+Pour que l’audit porte exactement sur la version que tu utilises actuellement, le meilleur socle est un ZIP complet de ton dossier après installation de la V6.1E et du dernier app-v5.css corrigé. GitHub contient plusieurs mises à jour manuelles successives, et je ne veux pas valider une branche légèrement différente de celle réellement testée sur ton téléphone.
 
 
 Bibliothèque
