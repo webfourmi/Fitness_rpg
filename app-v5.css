@@ -1,6 +1,6 @@
 /* ============================================================
    Fitness RPG - app-v5.css
-   Version V6.1B
+   Version V6.1B1
    ------------------------------------------------------------
    Charte graphique commune :
    - fantasy moderne, sombre et lisible ;
@@ -281,6 +281,52 @@ body[data-page="home"] #homeButton {
 .mobile-more-panel,
 .mobile-more-backdrop {
   display: none;
+}
+
+
+/* ============================================================
+   V6.1B1 - Accueil simplifié et images carrées non recadrées
+   ============================================================ */
+
+.home-splash-only {
+  width: min(100%, 820px);
+  margin-inline: auto;
+  padding: 0;
+  overflow: hidden;
+}
+
+.home-splash-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.home-splash-button img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.home-splash-button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.v3-exercise-image-button img,
+.v3-program-exercise-image img,
+.exercise-category-card img {
+  object-fit: contain;
+  object-position: center;
 }
 
 @media (min-width: 760px) {
@@ -2488,7 +2534,7 @@ small {
 .v3-program-exercise-image img {
   width: 56px;
   height: 56px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 12px;
   border: 1px solid var(--category-color, var(--accent));
 }
@@ -3466,7 +3512,7 @@ border: 1px solid rgba(240, 184, 79, 0.25);
 #exercisesContent .exercise-category-card img {
   width: 100%;
   aspect-ratio: 1 / 1;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   border-radius: 10px;
 }
@@ -3616,7 +3662,7 @@ border: 1px solid rgba(240, 184, 79, 0.25);
 #exercisesContent .exercise-image-button img {
   width: 100%;
   aspect-ratio: 1 / 1;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   border-radius: 10px;
   border: 1px solid var(--category-color, var(--accent));
@@ -9057,7 +9103,7 @@ body[data-page="hero-setup"] .app-page {
 
   .v3-exercise-card:not(.program-session-exercise) {
     display: grid;
-    grid-template-columns: 98px minmax(0, 1fr);
+    grid-template-columns: 104px minmax(0, 1fr);
     grid-template-areas:
       "image heading"
       "image body";
@@ -9073,16 +9119,17 @@ body[data-page="hero-setup"] .app-page {
 
   .v3-exercise-card:not(.program-session-exercise) .v3-exercise-image-button {
     grid-area: image;
-    width: 98px;
-    height: 132px;
-    min-height: 132px;
+    width: 104px;
+    height: 104px;
+    min-height: 104px;
     margin: 0;
   }
 
   .v3-exercise-card:not(.program-session-exercise) .v3-exercise-image-button img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
   }
 
   .v3-exercise-card:not(.program-session-exercise) .exercise-card-body {
@@ -9153,7 +9200,14 @@ body[data-page="hero-setup"] .app-page {
 
   .program-session-exercise .v3-program-exercise-image {
     width: 96px;
-    height: 120px;
+    height: 96px;
+  }
+
+  .program-session-exercise .v3-program-exercise-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
   }
 
   .program-exercise-instruction {
@@ -9176,7 +9230,7 @@ body[data-page="hero-setup"] .app-page {
 
   .v3-exercise-card:not(.program-session-exercise) .v3-exercise-image-button {
     width: 88px;
-    height: 124px;
-    min-height: 124px;
+    height: 88px;
+    min-height: 88px;
   }
 }
