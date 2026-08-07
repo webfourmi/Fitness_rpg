@@ -287,7 +287,7 @@ window.FitnessRpgExercises.categoryCardHtml = function categoryCardHtml(category
       style="--category-color:${color}"
     >
       <span class="v3-category-icon">${icon}</span>
-      <img src="${image}" alt="${title}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=window.FitnessRpgExercises.getDefaultExerciseImage()">
+      <img src="${image}" alt="${title}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/categories/default.png'">
       <span class="exercise-category-copy">
         <strong>${title}</strong>
         <small>${description}</small>
