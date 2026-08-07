@@ -212,7 +212,7 @@ window.FitnessRpgProgress.peekLevelUpModal = function peekLevelUpModal() {
 window.FitnessRpgProgress.pendingBadgeRewards = [];
 
 window.FitnessRpgProgress.getBadgeImagePath = function getBadgeImagePath(badge) {
-  if (!badge) return "assets/badges/badge_default.png";
+  if (!badge) return "assets/badges/badge_premierpas.png";
 
   if (badge.image) {
     return badge.image;
