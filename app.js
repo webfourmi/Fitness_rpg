@@ -126,11 +126,11 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
 
   [
     ["arm_circles", "assets/exercices/exercice_femme_cercledebras.png"],
-    ["slow_knee_raises", "assets/exercices/exercice_femme_monteegenouxlente.png"],
-    ["mountain_climber_slow", "assets/exercices/exercice_femme_mountainclimberlent.png"],
-    ["single_leg_bridge_alternate", "assets/exercices/exercice_femme_pontdehanchesunejambealternee.png"],
-    ["knee_plank", "assets/exercices/exercice_femme_planchesurlesgenoux.png"],
-    ["incline_shoulder_taps", "assets/exercices/exercice_femme_tapsepaulesenappuiincline.png"],
+    ["slow_knee_raises", "assets/exercices/exercice_femme_monteegenouxlente.jpg"],
+    ["mountain_climber_slow", "assets/exercices/exercice_femme_moutainclimberlent.png"],
+    ["single_leg_bridge_alternate", "assets/exercices/exercice_femme_pontdehanchessurunejambealternee.png"],
+    ["knee_plank", "assets/exercices/exercice_femme_planchesurlesgenoux.jpg"],
+    ["incline_shoulder_taps", "assets/exercices/exercice_femme_tapsepaulesappuiincline.jpg"],
     ["hollow_hold_simplified", "assets/exercices/exercice_femme_hollowholdsimplifie.png"]
   ].forEach(([exerciseId, femalePath]) => setExerciseImage(exerciseId, femalePath));
 
@@ -141,9 +141,9 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       title: "Swimming",
       images: {
         homme: "assets/exercices/homme_default.png",
-        femme: "assets/exercices/exercice_femme_swimming.png",
+        femme: "assets/exercices/femme_default.png",
         male: "assets/exercices/homme_default.png",
-        female: "assets/exercices/exercice_femme_swimming.png"
+        female: "assets/exercices/femme_default.png"
       },
       unit: "sec",
       defaultValue: 20,
@@ -163,9 +163,9 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       title: "Toe Taps",
       images: {
         homme: "assets/exercices/homme_default.png",
-        femme: "assets/exercices/exercice_femme_toetaps.png",
+        femme: "assets/exercices/femme_default.png",
         male: "assets/exercices/homme_default.png",
-        female: "assets/exercices/exercice_femme_toetaps.png"
+        female: "assets/exercices/femme_default.png"
       },
       unit: "répétitions",
       defaultValue: 20,
@@ -184,9 +184,9 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       title: "Side Leg Lift",
       images: {
         homme: "assets/exercices/homme_default.png",
-        femme: "assets/exercices/exercice_femme_sideleglift.png",
+        femme: "assets/exercices/femme_default.png",
         male: "assets/exercices/homme_default.png",
-        female: "assets/exercices/exercice_femme_sideleglift.png"
+        female: "assets/exercices/femme_default.png"
       },
       unit: "répétitions",
       defaultValue: 24,
@@ -205,9 +205,9 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       title: "Roll Up simplifié",
       images: {
         homme: "assets/exercices/homme_default.png",
-        femme: "assets/exercices/exercice_femme_rollupsimplifie.png",
+        femme: "assets/exercices/femme_default.png",
         male: "assets/exercices/homme_default.png",
-        female: "assets/exercices/exercice_femme_rollupsimplifie.png"
+        female: "assets/exercices/femme_default.png"
       },
       unit: "répétitions",
       defaultValue: 10,
