@@ -26,7 +26,7 @@ window.FitnessRpgData = {
       "name": "Korvan",
       "fullName": "Coach Korvan le Barbare",
       "image": "assets/coach/korvan/idle.jpg",
-      "fallbackImage": "assets/coach/korvan/image.jpg",
+      "fallbackImage": "assets/coach/korvan/idle.jpg",
       "poses": {
         "idle": "assets/coach/korvan/idle.jpg",
         "welcome": "assets/coach/korvan/welcome.jpg",
@@ -99,7 +99,7 @@ window.FitnessRpgData = {
       "name": "Xara",
       "fullName": "Coach Xara la Guerrière",
       "image": "assets/coach/xara/xara_idle.jpg",
-      "fallbackImage": "assets/coach/xara/image.jpg",
+      "fallbackImage": "assets/coach/xara/xara_idle.jpg",
       "poses": {
         "idle": "assets/coach/xara/xara_idle.jpg",
         "welcome": "assets/coach/xara/xara_welcome.jpg",
@@ -170,7 +170,7 @@ window.FitnessRpgData = {
       "name": "Violette",
       "fullName": "Coach Violette la Halfeline",
       "image": "assets/coach/violette/violette_idle.jpg",
-      "fallbackImage": "assets/coach/violette/image.jpg",
+      "fallbackImage": "assets/coach/violette/violette_idle.jpg",
       "poses": {
         "idle": "assets/coach/violette/violette_idle.jpg",
         "welcome": "assets/coach/violette/violette_welcome.jpg",
@@ -226,7 +226,7 @@ window.FitnessRpgData = {
       "name": "Elmin",
       "fullName": "Coach Elmin le Mage",
       "image": "assets/coach/elmin/elmin_idle.jpg",
-      "fallbackImage": "assets/coach/elmin/image.jpg",
+      "fallbackImage": "assets/coach/elmin/elmin_idle.jpg",
       "poses": {
         "idle": "assets/coach/elmin/elmin_idle.jpg",
         "welcome": "assets/coach/elmin/elmin_welcome.jpg",
@@ -559,7 +559,7 @@ window.FitnessRpgData = {
       "title": "Cercles de bras",
       "images": {
         "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme__cercledebras.png"
+        "female": "assets/exercices/exercice_femme_cercledebras.png"
       },
       "unit": "sec",
       "defaultValue": 60,
@@ -1724,8 +1724,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Gainage latéral",
       "images": {
-        "male": "assets/exercices/exercise_homme_gainagelateral.png",
-        "female": "assets/exercices/exercise_femme_gainagelateral.png"
+        "male": "assets/exercices/exercice_homme_gainagelateral.png",
+        "female": "assets/exercices/exercice_femme_gainagelateral.png"
       },
       "unit": "sec",
       "defaultValue": 40,
