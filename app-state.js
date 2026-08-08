@@ -815,22 +815,26 @@ window.FitnessRpgState.loadActiveProgramSession = function loadActiveProgramSess
 
   if (!loaded || typeof loaded !== "object" || !loaded.programId) {
     window.FitnessRpgState.activeProgramSession = null;
+    window.FitnessRpgState.removeKey(sessionKey);
     return null;
   }
 
-  window.FitnessRpgState.activeProgramSession = {
+  const normalizedSession = {
     ...loaded,
     weekNumber: Math.max(1, Number(loaded.weekNumber) || 1),
-    dayNumber: Number(loaded.dayNumber || 0),
+    dayNumber: Math.max(0, Number(loaded.dayNumber) || 0),
     completedExerciseIds: Array.isArray(loaded.completedExerciseIds)
-      ? loaded.completedExerciseIds
+      ? loaded.completedExerciseIds.filter(Boolean)
       : [],
     completedExerciseKeys: Array.isArray(loaded.completedExerciseKeys)
-      ? loaded.completedExerciseKeys
+      ? loaded.completedExerciseKeys.filter(Boolean)
       : []
   };
 
-  return window.FitnessRpgState.activeProgramSession;
+  window.FitnessRpgState.activeProgramSession = normalizedSession;
+  window.FitnessRpgState.writeJson(sessionKey, normalizedSession);
+
+  return normalizedSession;
 };
 
 window.FitnessRpgState.clearActiveProgramSession = function clearActiveProgramSession() {
@@ -851,17 +855,24 @@ window.FitnessRpgState.completeProgramSessionExercise = function completeProgram
 
   if (!session || !exerciseKey) return null;
 
+  let changed = false;
+
   if (!Array.isArray(session.completedExerciseKeys)) {
     session.completedExerciseKeys = [];
+    changed = true;
   }
 
   // Une ligne de séance = une clé unique, par exemple "3-walk".
   // Cela permet d'avoir plusieurs fois le même exercice dans une séance.
   if (!session.completedExerciseKeys.includes(exerciseKey)) {
     session.completedExerciseKeys.push(exerciseKey);
+    changed = true;
   }
 
-  window.FitnessRpgState.saveActiveProgramSession();
+  if (changed) {
+    window.FitnessRpgState.saveActiveProgramSession();
+  }
+
   return session;
 };
 
