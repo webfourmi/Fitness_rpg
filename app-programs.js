@@ -2193,7 +2193,7 @@ window.FitnessRpgPrograms.validateProgramExercise = function validateProgramExer
 
   const key = exerciseKey || exerciseId;
   window.FitnessRpgState.completeProgramSessionExercise?.(key);
-  window.FitnessRpgState.saveActiveProgramSession?.();
+  
 
   const exercise = window.FitnessRpgData?.getExerciseById?.(exerciseId);
   const coachId = window.FitnessRpgState?.getCoachId?.();
