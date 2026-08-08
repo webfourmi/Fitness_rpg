@@ -1,16 +1,19 @@
-# V6.1F.2 — Correction des chemins d’images
+# V6.1F.4 + V6.1F.5
 
-Fichiers modifiés : app-data.js, app.js, app-rewards.js, app-progress.js
-Références statiques cassées restantes après correction : 0
+## V6.1F.4
+- définition redondante de `getHeroImagePathForLevel` supprimée de `app-render.js` ;
+- une seule définition reste présente ;
+- syntaxe JavaScript contrôlée.
 
-## Contrôles JavaScript
-- app-data.js: OK
-- app.js: OK
-- app-rewards.js: OK
-- app-progress.js: OK
+## V6.1F.5
+- `app-config.js` : `0.6.1-f`, `V6.1F`, `6.1f` ;
+- `index.html` : version et cache `?v=6.1f` ;
+- `app-v5.css` : en-tête V6.1F ;
+- `README.md` entièrement actualisé pour la V6.1F.
 
-## Références encore absentes
-- Aucune.
+## Contrôles
+- app-render.js : OK
+- app-config.js : OK
+- cohérence cache index/config : OK
 
-## Note
-Le fallback technique des badges utilise temporairement `badge_premierpas.png` car `badge_default.png` n’existe pas encore.
+Aucune donnée sportive, structure `days`, répétition, XP ou clé de sauvegarde historique n'a été modifiée.
