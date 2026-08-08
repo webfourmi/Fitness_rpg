@@ -3139,17 +3139,7 @@ window.FitnessRpgRender.closeBadgeRewardOverlay = function closeBadgeRewardOverl
 
 window.FitnessRpgRender.heroEvolutionLevel = null;
 
-window.FitnessRpgRender.getHeroImagePathForLevel = window.FitnessRpgRender.getHeroImagePathForLevel || function getHeroImagePathForLevel(level) {
-  const profile = window.FitnessRpgState.getProfile?.();
-  const safeLevel = Math.max(1, Math.min(20, Number(level) || 1));
-  const padded = String(safeLevel).padStart(2, "0");
 
-  if (profile?.gender === "femme") {
-    return `assets/joueuse/joueuse_niveau_${padded}.png`;
-  }
-
-  return `assets/joueur/joueur_niveau_${padded}.png`;
-};
 
 window.FitnessRpgRender.renderHeroEvolutionCarousel = function renderHeroEvolutionCarousel() {
   const container = document.querySelector("#heroEvolutionCarousel");
