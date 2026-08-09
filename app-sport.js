@@ -43,16 +43,16 @@
   });
 
   Sport.equipmentOptions = Object.freeze([
-    ["mat", "Tapis"],
-    ["resistance-band", "Élastique"],
-    ["dumbbells", "Haltères"],
-    ["kettlebell", "Kettlebell"],
-    ["barbell", "Barre"],
-    ["pull-up-bar", "Barre de traction"],
-    ["bench", "Banc"],
-    ["punching-bag", "Sac de frappe"],
-    ["bicycle", "Vélo"],
-    ["treadmill", "Tapis de marche/course"]
+    ["mat", "Tapis", "assets/equipements/tapis.png"],
+    ["resistance-band", "Élastique", "assets/equipements/elastique.png"],
+    ["dumbbells", "Haltères", "assets/equipements/halteres.png"],
+    ["kettlebell", "Kettlebell", "assets/equipements/kettlebell.png"],
+    ["barbell", "Barre", "assets/equipements/barre.png"],
+    ["pull-up-bar", "Barre de traction", "assets/equipements/barre_traction.png"],
+    ["bench", "Banc", "assets/equipements/banc.png"],
+    ["punching-bag", "Sac de frappe", "assets/equipements/sac_frappe.png"],
+    ["bicycle", "Vélo", "assets/equipements/velo.png"],
+    ["treadmill", "Tapis de marche/course", "assets/equipements/tapis_marche_course.png"]
   ]);
 
   Sport.defaultSportProfile = function defaultSportProfile() {
@@ -385,6 +385,13 @@
       return;
     }
 
+    const equipmentInput = target.closest('input[name="sportEquipment"]');
+    if (equipmentInput) {
+      const card = equipmentInput.closest(".sport-equipment-card");
+      card?.classList.toggle("selected", equipmentInput.checked);
+      return;
+    }
+
     if (target.closest("#saveSportProfileButton")) {
       const panel = document.querySelector("#sportProfilePanel");
       if (!panel) return;
@@ -540,10 +547,19 @@
       <details class="sport-equipment-details">
         <summary>Matériel disponible <span>${equipment.size || "Aucun"}</span></summary>
         <div class="sport-equipment-grid">
-          ${Sport.equipmentOptions.map(([id, label]) => `
-            <label>
-              <input type="checkbox" name="sportEquipment" value="${id}" ${equipment.has(id) ? "checked" : ""}>
-              <span>${label}</span>
+          ${Sport.equipmentOptions.map(([id, label, image]) => `
+            <label class="sport-equipment-card ${equipment.has(id) ? "selected" : ""}">
+              <input
+                type="checkbox"
+                name="sportEquipment"
+                value="${id}"
+                ${equipment.has(id) ? "checked" : ""}
+              >
+              <span class="sport-equipment-visual">
+                <img src="${image}" alt="${label}" loading="lazy">
+                <span class="sport-equipment-check" aria-hidden="true">✓</span>
+              </span>
+              <span class="sport-equipment-name">${label}</span>
             </label>
           `).join("")}
         </div>
