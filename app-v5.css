@@ -9096,7 +9096,7 @@ body[data-page="hero-setup"] .app-page {
     align-self: end;
   }
 
-  .v3-exercise-card:not(.program-session-exercise) .v3-exercise-image-button {
+  #exercisesContent .v3-exercise-card:not(.program-session-exercise) .v3-exercise-image-button {
     grid-area: image;
     width: 104px;
     height: 104px;
@@ -9104,7 +9104,7 @@ body[data-page="hero-setup"] .app-page {
     margin: 0;
   }
 
-  .v3-exercise-card:not(.program-session-exercise) .v3-exercise-image-button img {
+  #exercisesContent .v3-exercise-card:not(.program-session-exercise) .v3-exercise-image-button img {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
@@ -9220,7 +9220,7 @@ body[data-page="hero-setup"] .app-page {
     grid-template-columns: 88px minmax(0, 1fr);
   }
 
-  .v3-exercise-card:not(.program-session-exercise) .v3-exercise-image-button {
+  #exercisesContent .v3-exercise-card:not(.program-session-exercise) .v3-exercise-image-button {
     width: 88px;
     height: 88px;
     min-height: 88px;
