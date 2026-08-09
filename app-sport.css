@@ -89,17 +89,25 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 7px;
   padding: 0 10px 10px;
+  min-width: 0;
 }
 
 .sport-equipment-grid label {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 7px;
   min-width: 0;
   padding: 8px;
   border-radius: 11px;
   background: rgba(0, 0, 0, .16);
   font-size: .76rem;
+  overflow: hidden;
+}
+
+.sport-equipment-grid label span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.2;
 }
 
 .sport-equipment-grid input {
@@ -260,6 +268,10 @@
   .sport-equipment-grid,
   .sport-rpe-grid {
     grid-template-columns: 1fr;
+  }
+
+  .sport-equipment-grid label {
+    width: 100%;
   }
 
   .sport-performance-row {
