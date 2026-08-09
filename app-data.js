@@ -1489,7 +1489,7 @@ window.FitnessRpgData = {
       "title": "Pompes inclinées",
       "images": {
         "male": "assets/exercices/exercice_homme_pompesinclinees.png",
-        "female": "assets/exercices/exercice_femme_pompesinclinées.png"
+        "female": "assets/exercices/exercice_femme_pompesinclinees.png"
       },
       "unit": "répétitions",
       "defaultValue": 8,
