@@ -58,6 +58,54 @@
   font-weight: 850;
 }
 
+
+.sport-training-preferences {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.sport-preference-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 4px 9px;
+  min-height: 76px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.035);
+  cursor: pointer;
+}
+
+.sport-preference-card input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sport-preference-card > span {
+  grid-row: 1 / span 2;
+  font-size: 1.35rem;
+}
+
+.sport-preference-card strong {
+  color: var(--text);
+  font-size: 0.82rem;
+}
+
+.sport-preference-card small {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  line-height: 1.3;
+}
+
+.sport-preference-card.selected {
+  border-color: rgba(240, 184, 79, 0.55);
+  background: rgba(240, 184, 79, 0.10);
+}
+
 .sport-equipment-details {
   border: 1px solid var(--border-soft);
   border-radius: 14px;
@@ -502,3 +550,9 @@
   }
 }
 
+
+@media (max-width: 640px) {
+  .sport-training-preferences {
+    grid-template-columns: 1fr;
+  }
+}
