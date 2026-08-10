@@ -1,5 +1,5 @@
 // ============================================================
-// Fitness RPG - V6.2D - Progression adaptative par exercice, performances réelles et RPE
+// Fitness RPG - V6.2E - Variantes intelligentes, progression adaptative et performances réelles
 // ------------------------------------------------------------
 // Module additionnel, volontairement séparé du moteur historique.
 // - enrichit le profil existant sans nouvelle clé localStorage ;
@@ -17,13 +17,13 @@
   const Programs = window.FitnessRpgPrograms;
 
   if (!State || !Render || !Programs) {
-    console.warn("Fitness RPG Sport V6.2D : dépendances indisponibles.");
+    console.warn("Fitness RPG Sport V6.2E : dépendances indisponibles.");
     return;
   }
 
   const Sport = window.FitnessRpgSport = window.FitnessRpgSport || {};
 
-  Sport.version = "6.2d";
+  Sport.version = "6.2e";
   Sport.pendingPerformanceDraft = null;
   Sport.pendingExercisePerformance = null;
   Sport.summaryObserver = null;
@@ -58,26 +58,80 @@
 
 
   // ------------------------------------------------------------
-  // V6.2D - Adaptation prudente + progression ciblée par exercice
+  // V6.2E - Variantes intelligentes + progression ciblée par exercice
   // ------------------------------------------------------------
 
-  Sport.adaptationVersion = "6.2d";
+  Sport.adaptationVersion = "6.2e";
 
-  // Les substitutions sont volontairement explicites et rares.
-  // Aucune substitution n'est inventée à partir du nom d'un exercice.
+  // Les substitutions sont une liste blanche : chaque paire est validée
+  // explicitement. Le moteur ne déduit jamais une variante depuis le nom.
+  // L'ordre des règles compte : les préférences de confort passent avant
+  // l'enrichissement par matériel.
   Sport.exerciseSubstitutions = Object.freeze({
-    squats: Object.freeze({
-      exerciseId: "goblet_squat",
-      requires: ["kettlebell"],
-      minLevel: "intermediate",
-      label: "Goblet squat"
-    }),
-    shoulder_press_1kg: Object.freeze({
-      exerciseId: "kettlebell_military_press",
-      requires: ["kettlebell"],
-      minLevel: "intermediate",
-      label: "Développé militaire kettlebell"
-    })
+    squats: Object.freeze([
+      Object.freeze({
+        exerciseId: "chair_squat",
+        whenPreference: "kneeFriendly",
+        label: "Squat chaise",
+        reason: "genoux sensibles"
+      }),
+      Object.freeze({
+        exerciseId: "goblet_squat",
+        requires: ["kettlebell"],
+        minLevel: "intermediate",
+        label: "Goblet squat",
+        reason: "kettlebell disponible"
+      })
+    ]),
+    goblet_squat: Object.freeze([
+      Object.freeze({
+        exerciseId: "chair_squat",
+        whenPreference: "kneeFriendly",
+        label: "Squat chaise",
+        reason: "genoux sensibles"
+      }),
+      Object.freeze({
+        exerciseId: "squats",
+        missingEquipment: ["kettlebell"],
+        label: "Squats poids du corps",
+        reason: "sans kettlebell"
+      })
+    ]),
+    reverse_lunges: Object.freeze([
+      Object.freeze({
+        exerciseId: "assisted_reverse_lunges",
+        whenPreference: "kneeFriendly",
+        label: "Fentes arrière assistées",
+        reason: "genoux sensibles"
+      })
+    ]),
+    walking_lunges: Object.freeze([
+      Object.freeze({
+        exerciseId: "assisted_reverse_lunges",
+        whenPreferences: ["kneeFriendly", "smallSpace"],
+        preferenceMode: "any",
+        label: "Fentes arrière assistées",
+        reason: "confort ou espace réduit"
+      })
+    ]),
+    shoulder_press_1kg: Object.freeze([
+      Object.freeze({
+        exerciseId: "kettlebell_military_press",
+        requires: ["kettlebell"],
+        minLevel: "intermediate",
+        label: "Développé militaire kettlebell",
+        reason: "kettlebell disponible"
+      })
+    ]),
+    kettlebell_military_press: Object.freeze([
+      Object.freeze({
+        exerciseId: "shoulder_press_1kg",
+        missingEquipment: ["kettlebell"],
+        requires: ["dumbbells"],
+        label: "Développé épaules haltères",
+        reason: "haltères disponibles, sans kettlebell"
+      })
+    ])
   });
 
   Sport.levelRank = Object.freeze({
@@ -355,24 +409,47 @@
     return Math.max(1, Math.round(safeAmount));
   };
 
-  Sport.getDeclaredSubstitution = function getDeclaredSubstitution(item, context) {
-    const rule = Sport.exerciseSubstitutions[item?.exerciseId];
-    if (!rule) return null;
+  Sport.matchesSubstitutionRule = function matchesSubstitutionRule(rule, context) {
+    if (!rule || !context) return false;
 
     const heroRank = Sport.levelRank[context.level] ?? 0;
     const minRank = Sport.levelRank[rule.minLevel] ?? 0;
-    if (heroRank < minRank) return null;
+    if (heroRank < minRank) return false;
 
     const equipment = new Set(context.equipment || []);
-    if (!(rule.requires || []).every((id) => equipment.has(id))) return null;
+    if (!(rule.requires || []).every((id) => equipment.has(id))) return false;
+    if ((rule.missingEquipment || []).some((id) => equipment.has(id))) return false;
 
-    const definition = Sport.getExerciseDefinition(rule.exerciseId);
-    if (!definition) return null;
+    const preferences = context.preferences || {};
+    if (rule.whenPreference && !preferences[rule.whenPreference]) return false;
 
-    return {
-      ...rule,
-      definition
-    };
+    if (Array.isArray(rule.whenPreferences) && rule.whenPreferences.length) {
+      const matches = rule.whenPreferences.map((id) => Boolean(preferences[id]));
+      const preferenceMode = rule.preferenceMode === "all" ? "all" : "any";
+      if (preferenceMode === "all" && !matches.every(Boolean)) return false;
+      if (preferenceMode === "any" && !matches.some(Boolean)) return false;
+    }
+
+    return true;
+  };
+
+  Sport.getDeclaredSubstitution = function getDeclaredSubstitution(item, context) {
+    const rules = Sport.exerciseSubstitutions[item?.exerciseId];
+    if (!Array.isArray(rules) || !rules.length) return null;
+
+    for (const rule of rules) {
+      if (!Sport.matchesSubstitutionRule(rule, context)) continue;
+
+      const definition = Sport.getExerciseDefinition(rule.exerciseId);
+      if (!definition) continue;
+
+      return {
+        ...rule,
+        definition
+      };
+    }
+
+    return null;
   };
 
   Sport.getHeroTrainingContext = function getHeroTrainingContext(session, workout) {
@@ -392,6 +469,10 @@
       preferredDuration: sportProfile.preferredDuration,
       sessionsPerWeek: sportProfile.sessionsPerWeek,
       equipment: [...(sportProfile.equipment || [])],
+      preferences: {
+        kneeFriendly: Boolean(sportProfile.kneeFriendly),
+        smallSpace: Boolean(sportProfile.smallSpace)
+      },
       nominalDuration,
       durationFactor: Sport.getDurationFactor(sportProfile.preferredDuration, nominalDuration),
       levelFactor: Sport.getLevelFactor(sportProfile.level, program),
@@ -419,7 +500,10 @@
           index,
           fromExerciseId: item.exerciseId,
           toExerciseId: substitution.exerciseId,
-          requires: [...(substitution.requires || [])]
+          label: substitution.label || substitution.definition?.title || substitution.exerciseId,
+          reason: substitution.reason || "variante déclarée",
+          requires: [...(substitution.requires || [])],
+          missingEquipment: [...(substitution.missingEquipment || [])]
         });
         item.exerciseId = substitution.exerciseId;
       }
@@ -514,7 +598,13 @@
     }
 
     if (adapted.substitutions.length) {
-      notes.push(`${adapted.substitutions.length} variante${adapted.substitutions.length > 1 ? "s" : ""} matériel`);
+      const variantLabels = adapted.substitutions
+        .slice(0, 2)
+        .map((item) => `${item.label} · ${item.reason}`);
+      notes.push(...variantLabels);
+      if (adapted.substitutions.length > 2) {
+        notes.push(`+${adapted.substitutions.length - 2} autre${adapted.substitutions.length > 3 ? "s" : ""} variante${adapted.substitutions.length > 3 ? "s" : ""}`);
+      }
     }
 
     const progressions = (adapted.exerciseProgressions || []).filter((item) => item.direction === "progress");
@@ -583,6 +673,8 @@
       sessionsPerWeek: 3,
       preferredDuration: 20,
       equipment: [],
+      kneeFriendly: false,
+      smallSpace: false,
       lastUpdatedAt: null
     };
   };
@@ -606,6 +698,8 @@
       sessionsPerWeek,
       preferredDuration,
       equipment,
+      kneeFriendly: Boolean(value?.kneeFriendly),
+      smallSpace: Boolean(value?.smallSpace),
       lastUpdatedAt: value?.lastUpdatedAt || null
     };
   };
@@ -1310,6 +1404,13 @@
       return;
     }
 
+    const preferenceInput = target.closest("#sportKneeFriendlyInput, #sportSmallSpaceInput");
+    if (preferenceInput) {
+      const card = preferenceInput.closest(".sport-preference-card");
+      card?.classList.toggle("selected", preferenceInput.checked);
+      return;
+    }
+
     if (target.closest("#saveSportProfileButton")) {
       const panel = document.querySelector("#sportProfilePanel");
       if (!panel) return;
@@ -1323,7 +1424,9 @@
         mainGoal: panel.querySelector("#sportGoalSelect")?.value,
         sessionsPerWeek: Number(panel.querySelector("#sportSessionsInput")?.value || 3),
         preferredDuration: Number(panel.querySelector("#sportDurationInput")?.value || 20),
-        equipment
+        equipment,
+        kneeFriendly: Boolean(panel.querySelector("#sportKneeFriendlyInput")?.checked),
+        smallSpace: Boolean(panel.querySelector("#sportSmallSpaceInput")?.checked)
       });
 
       Sport.renderSportProfilePanel();
@@ -1459,6 +1562,22 @@
             <input id="sportDurationInput" type="number" min="5" max="180" step="5" value="${sport.preferredDuration}">
             <span>min</span>
           </div>
+        </label>
+      </div>
+
+      <div class="sport-training-preferences" aria-label="Préférences d’entraînement">
+        <label class="sport-preference-card ${sport.kneeFriendly ? "selected" : ""}">
+          <input id="sportKneeFriendlyInput" type="checkbox" ${sport.kneeFriendly ? "checked" : ""}>
+          <span aria-hidden="true">🦵</span>
+          <strong>Genoux sensibles</strong>
+          <small>Privilégier les variantes assistées déjà validées.</small>
+        </label>
+
+        <label class="sport-preference-card ${sport.smallSpace ? "selected" : ""}">
+          <input id="sportSmallSpaceInput" type="checkbox" ${sport.smallSpace ? "checked" : ""}>
+          <span aria-hidden="true">↔️</span>
+          <strong>Espace réduit</strong>
+          <small>Éviter les déplacements quand une variante existe.</small>
         </label>
       </div>
 
