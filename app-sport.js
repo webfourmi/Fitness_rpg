@@ -1,5 +1,5 @@
 // ============================================================
-// Fitness RPG - V6.2C - Performances réelles, séances adaptatives, profil sportif et RPE
+// Fitness RPG - V6.2D - Progression adaptative par exercice, performances réelles et RPE
 // ------------------------------------------------------------
 // Module additionnel, volontairement séparé du moteur historique.
 // - enrichit le profil existant sans nouvelle clé localStorage ;
@@ -17,13 +17,13 @@
   const Programs = window.FitnessRpgPrograms;
 
   if (!State || !Render || !Programs) {
-    console.warn("Fitness RPG Sport V6.2B : dépendances indisponibles.");
+    console.warn("Fitness RPG Sport V6.2D : dépendances indisponibles.");
     return;
   }
 
   const Sport = window.FitnessRpgSport = window.FitnessRpgSport || {};
 
-  Sport.version = "6.2c";
+  Sport.version = "6.2d";
   Sport.pendingPerformanceDraft = null;
   Sport.pendingExercisePerformance = null;
   Sport.summaryObserver = null;
@@ -58,10 +58,10 @@
 
 
   // ------------------------------------------------------------
-  // V6.2B - Adaptation prudente des séances
+  // V6.2D - Adaptation prudente + progression ciblée par exercice
   // ------------------------------------------------------------
 
-  Sport.adaptationVersion = "6.2b";
+  Sport.adaptationVersion = "6.2d";
 
   // Les substitutions sont volontairement explicites et rares.
   // Aucune substitution n'est inventée à partir du nom d'un exercice.
@@ -138,6 +138,160 @@
       factor,
       label
     };
+  };
+
+  // ------------------------------------------------------------
+  // V6.2D - Historique ciblé par exercice
+  // ------------------------------------------------------------
+
+  Sport.exerciseProgressionRules = Object.freeze({
+    historyDepth: 3,
+    minimumSamples: 2,
+    successRatio: 0.98,
+    struggleRatio: 0.90,
+    moderateRpeMin: 4,
+    moderateRpeMax: 6.5,
+    highRpeMin: 8,
+    progressFactor: 1.03,
+    reduceFactor: 0.97
+  });
+
+  Sport.getRecentExercisePerformances = function getRecentExercisePerformances(
+    exerciseId,
+    limit = Sport.exerciseProgressionRules.historyDepth
+  ) {
+    const wantedId = String(exerciseId || "");
+    if (!wantedId) return [];
+
+    const history = State.getPerformanceHistory?.() || [];
+    const samples = [];
+
+    // Une séance compte pour une occurrence, même si l'exercice apparaît
+    // plusieurs fois dans différents cycles. On agrège alors prévu/réalisé.
+    for (const record of history) {
+      const exercises = Array.isArray(record?.exercises) ? record.exercises : [];
+      const matching = exercises.filter((item) => item?.exerciseId === wantedId);
+
+      if (!matching.length) continue;
+
+      let plannedTotal = 0;
+      let actualTotal = 0;
+      let validAmounts = 0;
+      const loads = [];
+
+      matching.forEach((item) => {
+        const planned = Number(item?.plannedAmount);
+        const actual = Number(item?.actualAmount);
+
+        if (Number.isFinite(planned) && planned > 0 && Number.isFinite(actual) && actual >= 0) {
+          plannedTotal += planned;
+          actualTotal += actual;
+          validAmounts += 1;
+        }
+
+        const load = Number(item?.loadKg);
+        if (Number.isFinite(load) && load > 0) {
+          loads.push(load);
+        }
+      });
+
+      if (!validAmounts || plannedTotal <= 0) continue;
+
+      samples.push({
+        date: record?.date || record?.completedAt || null,
+        sourceSessionId: record?.sourceSessionId || null,
+        programId: record?.programId || null,
+        rpe: Number.isFinite(Number(record?.rpe)) ? Number(record.rpe) : null,
+        plannedAmount: plannedTotal,
+        actualAmount: actualTotal,
+        completionRatio: actualTotal / plannedTotal,
+        loadKg: loads.length
+          ? Number((loads.reduce((sum, value) => sum + value, 0) / loads.length).toFixed(1))
+          : null
+      });
+
+      if (samples.length >= Math.max(1, Number(limit) || 1)) break;
+    }
+
+    return samples;
+  };
+
+  Sport.getExerciseProgressionSignal = function getExerciseProgressionSignal(exerciseId) {
+    const rules = Sport.exerciseProgressionRules;
+    const samples = Sport.getRecentExercisePerformances(exerciseId, rules.historyDepth);
+
+    const neutral = {
+      exerciseId,
+      sampleCount: samples.length,
+      direction: "hold",
+      factor: 1,
+      averageCompletion: null,
+      averageRpe: null,
+      label: samples.length < rules.minimumSamples
+        ? "Historique insuffisant : maintien"
+        : "Progression stable : maintien",
+      samples
+    };
+
+    if (samples.length < rules.minimumSamples) return neutral;
+
+    const ratios = samples
+      .map((sample) => Number(sample.completionRatio))
+      .filter(Number.isFinite);
+    const rpes = samples
+      .map((sample) => Number(sample.rpe))
+      .filter(Number.isFinite);
+
+    if (!ratios.length) return neutral;
+
+    const averageCompletion = ratios.reduce((sum, value) => sum + value, 0) / ratios.length;
+    const averageRpe = rpes.length
+      ? rpes.reduce((sum, value) => sum + value, 0) / rpes.length
+      : null;
+
+    const result = {
+      ...neutral,
+      averageCompletion: Number(averageCompletion.toFixed(3)),
+      averageRpe: averageRpe == null ? null : Number(averageRpe.toFixed(1))
+    };
+
+    // Progression seulement si les dernières occurrences sont toutes réussies
+    // et que le RPE est modéré. Une seule bonne séance ne suffit jamais.
+    const allSuccessful = ratios.every((ratio) => ratio >= rules.successRatio);
+    const allRpeUsable = rpes.length === samples.length;
+    const moderateRpe = allRpeUsable
+      && averageRpe >= rules.moderateRpeMin
+      && averageRpe <= rules.moderateRpeMax
+      && rpes.every((value) => value <= 7);
+
+    if (allSuccessful && moderateRpe) {
+      return {
+        ...result,
+        direction: "progress",
+        factor: rules.progressFactor,
+        label: `Objectif atteint ${samples.length} fois : légère progression`
+      };
+    }
+
+    // Réduction seulement si au moins deux occurrences récentes sont nettement
+    // sous l'objectif ET que l'effort global est élevé. Sinon on maintient.
+    const recentTwo = samples.slice(0, 2);
+    const recentTwoStruggled = recentTwo.length >= 2
+      && recentTwo.every((sample) => Number(sample.completionRatio) < rules.struggleRatio);
+    const highRpe = rpes.length >= 2
+      && averageRpe >= rules.highRpeMin
+      && rpes.slice(0, 2).every((value) => value >= 7);
+
+    if (recentTwoStruggled && highRpe) {
+      return {
+        ...result,
+        direction: "reduce",
+        factor: rules.reduceFactor,
+        label: "Objectif non atteint avec effort élevé : légère réduction"
+      };
+    }
+
+    return result;
   };
 
   Sport.getDurationFactor = function getDurationFactor(preferredDuration, nominalDuration) {
@@ -251,6 +405,7 @@
     const sourceExercises = Array.isArray(workout?.exercises) ? workout.exercises : [];
     const substitutions = [];
     const changes = [];
+    const exerciseProgressions = [];
 
     const adaptedExercises = sourceExercises.map((sourceItem, index) => {
       const item = { ...sourceItem };
@@ -277,14 +432,43 @@
         return item;
       }
 
-      let factor = context.durationFactor * context.levelFactor * context.rpe.factor;
+      const exerciseProgression = Sport.isProtectedPhase(item)
+        ? {
+            exerciseId: item.exerciseId,
+            sampleCount: 0,
+            direction: "hold",
+            factor: 1,
+            averageCompletion: null,
+            averageRpe: null,
+            label: "Phase protégée : maintien",
+            samples: []
+          }
+        : Sport.getExerciseProgressionSignal(item.exerciseId);
+
+      exerciseProgressions.push({
+        index,
+        exerciseId: item.exerciseId,
+        direction: exerciseProgression.direction,
+        factor: exerciseProgression.factor,
+        sampleCount: exerciseProgression.sampleCount,
+        averageCompletion: exerciseProgression.averageCompletion,
+        averageRpe: exerciseProgression.averageRpe,
+        label: exerciseProgression.label
+      });
+
+      let factor = (
+        context.durationFactor
+        * context.levelFactor
+        * context.rpe.factor
+        * exerciseProgression.factor
+      );
 
       // Échauffement et retour au calme changent très peu.
       if (Sport.isProtectedPhase(item)) {
         factor = 1 + ((factor - 1) * 0.30);
       }
 
-      // Plafond prudent de variation par exercice.
+      // Plafond prudent de variation globale par exercice.
       factor = Math.min(1.10, Math.max(0.78, factor));
 
       const adaptedAmount = Sport.roundAdaptedAmount(Number(amount) * factor, unit, item, definition);
@@ -309,7 +493,8 @@
     return {
       exercises: adaptedExercises,
       substitutions,
-      changes
+      changes,
+      exerciseProgressions
     };
   };
 
@@ -332,6 +517,17 @@
       notes.push(`${adapted.substitutions.length} variante${adapted.substitutions.length > 1 ? "s" : ""} matériel`);
     }
 
+    const progressions = (adapted.exerciseProgressions || []).filter((item) => item.direction === "progress");
+    const reductions = (adapted.exerciseProgressions || []).filter((item) => item.direction === "reduce");
+
+    if (progressions.length) {
+      notes.push(`${progressions.length} exercice${progressions.length > 1 ? "s" : ""} en légère progression`);
+    }
+
+    if (reductions.length) {
+      notes.push(`${reductions.length} exercice${reductions.length > 1 ? "s" : ""} légèrement allégé${reductions.length > 1 ? "s" : ""}`);
+    }
+
     if (!notes.length) {
       notes.push("Profil compatible avec la séance prévue");
     }
@@ -340,7 +536,9 @@
   };
 
   Sport.applyAdaptationToSession = function applyAdaptationToSession(session) {
-    if (!session || session.adaptation?.version === Sport.adaptationVersion) {
+    // Une séance déjà adaptée reste figée, même si elle a été créée par
+    // V6.2B/C. On ne recalcule jamais une séance en cours après mise à jour.
+    if (!session || (session.adaptation && Array.isArray(session.adaptedExercises))) {
       return session;
     }
 
@@ -369,6 +567,7 @@
         rpe: Number(context.rpe.factor.toFixed(3))
       },
       substitutions: adapted.substitutions,
+      exerciseProgressions: adapted.exerciseProgressions,
       changedExerciseCount: adapted.changes.length,
       summary
     };
@@ -535,7 +734,7 @@
       if (!sourceWorkout || !activeSession) return sourceWorkout;
 
       if (
-        activeSession.adaptation?.version === Sport.adaptationVersion
+        activeSession.adaptation
         && Array.isArray(activeSession.adaptedExercises)
       ) {
         return {
@@ -574,13 +773,22 @@
 
     shell.querySelector(".sport-adaptation-chip")?.remove();
 
-    if (!session?.adaptation || session.adaptation.version !== Sport.adaptationVersion) {
+    if (!session?.adaptation || !Array.isArray(session.adaptedExercises)) {
       return;
     }
 
     const summary = Array.isArray(session.adaptation.summary)
       ? session.adaptation.summary
       : [];
+    const progressionItems = Array.isArray(session.adaptation.exerciseProgressions)
+      ? session.adaptation.exerciseProgressions
+      : [];
+    const progressionCount = progressionItems.filter((item) => item.direction === "progress").length;
+    const reductionCount = progressionItems.filter((item) => item.direction === "reduce").length;
+    const adaptiveMarks = [
+      progressionCount ? `↗${progressionCount}` : "",
+      reductionCount ? `↘${reductionCount}` : ""
+    ].filter(Boolean).join(" · ");
     const chip = document.createElement("div");
     chip.className = "sport-adaptation-chip";
     chip.setAttribute("role", "status");
@@ -588,7 +796,7 @@
     chip.innerHTML = `
       <span aria-hidden="true">⚙️</span>
       <strong>Séance adaptée</strong>
-      <small>${Number(session.adaptation.preferredDuration) || 20} min</small>
+      <small>${Number(session.adaptation.preferredDuration) || 20} min${adaptiveMarks ? ` · ${adaptiveMarks}` : ""}</small>
     `;
 
     shell.querySelector(".guided-session-header")?.insertAdjacentElement("afterend", chip);
