@@ -1,5 +1,5 @@
 /* ============================================================
-   Fitness RPG V6.2A — Profil sportif, RPE, performances
+   Fitness RPG V6.2B — Séances adaptatives, profil sportif, RPE, performances
    ============================================================ */
 
 .sport-profile-card,
@@ -337,4 +337,40 @@
   .sport-rpe-btn {
     min-height: 54px;
   }
+}
+
+
+/* Séance adaptative V6.2B */
+.sport-adaptation-chip {
+  display: inline-grid;
+  grid-template-columns: auto auto auto;
+  align-items: center;
+  justify-content: start;
+  gap: 6px;
+  width: fit-content;
+  max-width: 100%;
+  margin: -2px 0 8px;
+  padding: 6px 9px;
+  border: 1px solid rgba(124, 200, 255, .28);
+  border-radius: 999px;
+  background: rgba(124, 200, 255, .08);
+  color: var(--text);
+  font-size: .7rem;
+  line-height: 1;
+}
+
+.sport-adaptation-chip > span {
+  font-size: .84rem;
+}
+
+.sport-adaptation-chip strong {
+  font-size: .7rem;
+  white-space: nowrap;
+}
+
+.sport-adaptation-chip small {
+  color: var(--accent-strong);
+  font-size: .64rem;
+  font-weight: 900;
+  white-space: nowrap;
 }
