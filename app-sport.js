@@ -1,5 +1,5 @@
 // ============================================================
-// Fitness RPG - V6.2B - Séances adaptatives, profil sportif, RPE et performances
+// Fitness RPG - V6.2C - Performances réelles, séances adaptatives, profil sportif et RPE
 // ------------------------------------------------------------
 // Module additionnel, volontairement séparé du moteur historique.
 // - enrichit le profil existant sans nouvelle clé localStorage ;
@@ -23,8 +23,9 @@
 
   const Sport = window.FitnessRpgSport = window.FitnessRpgSport || {};
 
-  Sport.version = "6.2b";
+  Sport.version = "6.2c";
   Sport.pendingPerformanceDraft = null;
+  Sport.pendingExercisePerformance = null;
   Sport.summaryObserver = null;
 
   Sport.levels = Object.freeze({
@@ -638,6 +639,269 @@
     return "";
   };
 
+  Sport.getExercisePerformanceKey = function getExercisePerformanceKey(exerciseId, exerciseKey = null) {
+    return String(exerciseKey || exerciseId || "");
+  };
+
+  Sport.getSessionExercisePerformance = function getSessionExercisePerformance(session) {
+    if (!session || typeof session !== "object") return {};
+
+    if (!session.exercisePerformance || typeof session.exercisePerformance !== "object") {
+      session.exercisePerformance = {};
+    }
+
+    return session.exercisePerformance;
+  };
+
+  Sport.getExerciseItemFromSession = function getExerciseItemFromSession(
+    session,
+    exerciseId,
+    exerciseKey = null
+  ) {
+    const workout = Programs.getActiveProgramWorkout?.(session);
+    const exercises = Array.isArray(workout?.exercises) ? workout.exercises : [];
+    const key = Sport.getExercisePerformanceKey(exerciseId, exerciseKey);
+    const indexMatch = key.match(/^(\d+)-/);
+    const index = indexMatch ? Number(indexMatch[1]) : -1;
+
+    if (Number.isInteger(index) && index >= 0 && exercises[index]) {
+      return {
+        item: exercises[index],
+        index,
+        workout
+      };
+    }
+
+    const fallbackIndex = exercises.findIndex((item) => item?.exerciseId === exerciseId);
+
+    return {
+      item: fallbackIndex >= 0 ? exercises[fallbackIndex] : null,
+      index: fallbackIndex,
+      workout
+    };
+  };
+
+  Sport.exerciseSupportsLoad = function exerciseSupportsLoad(definition, item = {}) {
+    const category = String(definition?.categoryId || "").toLowerCase();
+    const text = `${definition?.title || ""} ${item.exerciseId || ""}`.toLowerCase();
+
+    if (["strength", "arms", "renforcement", "musculation"].includes(category)) {
+      return true;
+    }
+
+    return [
+      "squat",
+      "goblet",
+      "kettlebell",
+      "haltère",
+      "haltere",
+      "curl",
+      "rowing",
+      "tirage",
+      "développ",
+      "developp",
+      "press",
+      "fente",
+      "deadlift",
+      "soulevé",
+      "souleve"
+    ].some((token) => text.includes(token));
+  };
+
+  Sport.getActualAmountStep = function getActualAmountStep(unit) {
+    const normalized = String(unit || "").toLowerCase();
+    if (["sec", "seconde", "secondes"].includes(normalized)) return 5;
+    if (["min", "minute", "minutes"].includes(normalized)) return 1;
+    return 1;
+  };
+
+  Sport.formatExerciseAmount = function formatExerciseAmount(amount, unit) {
+    const value = Number(amount);
+    if (!Number.isFinite(value)) return "—";
+    return `${value} ${unit || ""}`.trim();
+  };
+
+  Sport.closeExercisePerformancePanel = function closeExercisePerformancePanel() {
+    document.querySelector("#sportExercisePerformanceOverlay")?.remove();
+    Sport.pendingExercisePerformance = null;
+  };
+
+  Sport.recordExercisePerformance = function recordExercisePerformance(options = {}) {
+    const pending = Sport.pendingExercisePerformance;
+    const session = State.getActiveProgramSession?.();
+
+    if (!pending || !session) {
+      Sport.closeExercisePerformancePanel();
+      return null;
+    }
+
+    const actualValue = Number(options.actualAmount);
+    const plannedValue = Number(pending.plannedAmount);
+    const actualAmount = Number.isFinite(actualValue) && actualValue >= 0
+      ? actualValue
+      : plannedValue;
+    const loadValue = Number(options.loadKg);
+    const loadKg = Number.isFinite(loadValue) && loadValue > 0
+      ? Math.round(loadValue * 10) / 10
+      : null;
+
+    const performance = Sport.getSessionExercisePerformance(session);
+    performance[pending.exerciseKey] = {
+      exerciseKey: pending.exerciseKey,
+      exerciseId: pending.exerciseId,
+      title: pending.title,
+      order: pending.index + 1,
+      phase: pending.phase || null,
+      plannedAmount: plannedValue,
+      actualAmount,
+      unit: pending.unit || "",
+      loadKg,
+      recordedAt: State.nowIso?.() || new Date().toISOString()
+    };
+
+    State.saveActiveProgramSession?.();
+
+    const originalValidate = Sport.originalValidateProgramExercise;
+    const exerciseId = pending.exerciseId;
+    const exerciseKey = pending.exerciseKey;
+
+    Sport.closeExercisePerformancePanel();
+
+    if (typeof originalValidate === "function") {
+      return originalValidate.call(Programs, exerciseId, exerciseKey);
+    }
+
+    return null;
+  };
+
+  Sport.openExercisePerformancePanel = function openExercisePerformancePanel(
+    exerciseId,
+    exerciseKey = null
+  ) {
+    const session = State.getActiveProgramSession?.();
+    if (!session) return false;
+
+    const resolved = Sport.getExerciseItemFromSession(session, exerciseId, exerciseKey);
+    const item = resolved.item;
+    if (!item) return false;
+
+    const definition = Sport.getExerciseDefinition(item.exerciseId);
+    const plannedAmount = Sport.getExerciseAmount(item);
+    const unit = Sport.getExerciseUnit(item, definition);
+    const key = Sport.getExercisePerformanceKey(item.exerciseId, exerciseKey || `${resolved.index}-${item.exerciseId}`);
+    const performance = Sport.getSessionExercisePerformance(session);
+    const existing = performance[key] || null;
+    const actualAmount = Number.isFinite(Number(existing?.actualAmount))
+      ? Number(existing.actualAmount)
+      : Number(plannedAmount);
+    const loadKg = Number.isFinite(Number(existing?.loadKg))
+      ? Number(existing.loadKg)
+      : "";
+    const title = definition?.title || item.title || item.exerciseId || "Exercice";
+    const supportsLoad = Sport.exerciseSupportsLoad(definition, item);
+    const step = Sport.getActualAmountStep(unit);
+
+    Sport.pendingExercisePerformance = {
+      exerciseKey: key,
+      exerciseId: item.exerciseId,
+      title,
+      index: resolved.index,
+      phase: item.phase || null,
+      plannedAmount: Number(plannedAmount),
+      unit
+    };
+
+    document.querySelector("#sportExercisePerformanceOverlay")?.remove();
+
+    const overlay = document.createElement("div");
+    overlay.id = "sportExercisePerformanceOverlay";
+    overlay.className = "sport-exercise-performance-overlay";
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    overlay.setAttribute("aria-label", `Performance réelle : ${title}`);
+    overlay.innerHTML = `
+      <section class="sport-exercise-performance-card">
+        <header class="sport-exercise-performance-heading">
+          <div>
+            <p class="eyebrow">Performance réelle</p>
+            <h3>${Render.escapeHtml?.(title) || title}</h3>
+          </div>
+          <button
+            class="sport-exercise-performance-close icon-button"
+            type="button"
+            aria-label="Fermer sans valider"
+          >×</button>
+        </header>
+
+        <div class="sport-performance-planned">
+          <span>Prévu</span>
+          <strong>${Sport.formatExerciseAmount(plannedAmount, unit)}</strong>
+        </div>
+
+        <label class="sport-performance-field">
+          <span>Réalisé</span>
+          <div class="sport-performance-number-input">
+            <input
+              id="sportActualAmountInput"
+              type="number"
+              min="0"
+              step="${step}"
+              value="${Number.isFinite(actualAmount) ? actualAmount : ""}"
+              inputmode="decimal"
+            >
+            <small>${Render.escapeHtml?.(unit) || unit}</small>
+          </div>
+        </label>
+
+        ${supportsLoad ? `
+          <label class="sport-performance-field">
+            <span>Charge <small>optionnelle</small></span>
+            <div class="sport-performance-number-input">
+              <input
+                id="sportLoadKgInput"
+                type="number"
+                min="0"
+                step="0.5"
+                value="${loadKg}"
+                placeholder="0"
+                inputmode="decimal"
+              >
+              <small>kg</small>
+            </div>
+          </label>
+        ` : ""}
+
+        <div class="sport-exercise-performance-actions">
+          <button class="sport-performance-as-planned secondary-btn" type="button">
+            ✓ Comme prévu
+          </button>
+          <button class="sport-performance-save primary-btn" type="button">
+            Enregistrer et continuer
+          </button>
+        </div>
+      </section>
+    `;
+
+    document.body.appendChild(overlay);
+    window.setTimeout(() => overlay.querySelector("#sportActualAmountInput")?.select?.(), 0);
+    return true;
+  };
+
+  // Intercepte uniquement la validation d'une séance guidée.
+  // Le moteur historique reste la source de vérité pour marquer l'étape comme terminée.
+  Sport.originalValidateProgramExercise = Programs.validateProgramExercise;
+  if (typeof Sport.originalValidateProgramExercise === "function") {
+    Programs.validateProgramExercise = function validateProgramExerciseWithActualPerformance(
+      exerciseId,
+      exerciseKey = null
+    ) {
+      const opened = Sport.openExercisePerformancePanel(exerciseId, exerciseKey);
+      if (opened) return null;
+
+      return Sport.originalValidateProgramExercise.call(Programs, exerciseId, exerciseKey);
+    };
+  }
+
   Sport.captureSessionDraft = function captureSessionDraft(session) {
     if (!session) return null;
 
@@ -663,16 +927,25 @@
       exercises: exercises.map((item, index) => {
         const definition = Sport.getExerciseDefinition(item.exerciseId);
         const plannedAmount = Sport.getExerciseAmount(item);
+        const exerciseKey = `${index}-${item.exerciseId}`;
+        const recorded = session.exercisePerformance?.[exerciseKey] || null;
+        const actualAmount = Number.isFinite(Number(recorded?.actualAmount))
+          ? Number(recorded.actualAmount)
+          : plannedAmount;
+        const loadKg = Number.isFinite(Number(recorded?.loadKg)) && Number(recorded.loadKg) > 0
+          ? Number(recorded.loadKg)
+          : null;
 
         return {
           order: index + 1,
+          exerciseKey,
           exerciseId: item.exerciseId || null,
           title: definition?.title || item.title || item.exerciseId || `Exercice ${index + 1}`,
           phase: item.phase || null,
           plannedAmount,
-          actualAmount: plannedAmount,
+          actualAmount,
           unit: Sport.getExerciseUnit(item, definition),
-          loadKg: null
+          loadKg
         };
       })
     };
@@ -760,6 +1033,40 @@
       : event.target?.parentElement;
 
     if (!target) return;
+
+    if (target.closest(".sport-exercise-performance-close")) {
+      Sport.closeExercisePerformancePanel();
+      return;
+    }
+
+    if (target.closest(".sport-performance-as-planned")) {
+      const pending = Sport.pendingExercisePerformance;
+      if (!pending) return;
+
+      Sport.recordExercisePerformance({
+        actualAmount: pending.plannedAmount,
+        loadKg: null
+      });
+      return;
+    }
+
+    if (target.closest(".sport-performance-save")) {
+      const overlay = target.closest("#sportExercisePerformanceOverlay")
+        || document.querySelector("#sportExercisePerformanceOverlay");
+      const actualAmount = Number(overlay?.querySelector("#sportActualAmountInput")?.value);
+      const loadValue = overlay?.querySelector("#sportLoadKgInput")?.value;
+
+      Sport.recordExercisePerformance({
+        actualAmount,
+        loadKg: loadValue === "" || loadValue == null ? null : Number(loadValue)
+      });
+      return;
+    }
+
+    if (target.id === "sportExercisePerformanceOverlay") {
+      Sport.closeExercisePerformancePanel();
+      return;
+    }
 
     const rpeButton = target.closest(".sport-rpe-btn");
     if (rpeButton) {
