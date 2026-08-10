@@ -1,5 +1,5 @@
 // ============================================================
-// Fitness RPG - V6.2E - Variantes intelligentes, progression adaptative et performances réelles
+// Fitness RPG - V6.3 - Coach adaptatif : résumé clair et explications au clic
 // ------------------------------------------------------------
 // Module additionnel, volontairement séparé du moteur historique.
 // - enrichit le profil existant sans nouvelle clé localStorage ;
@@ -17,13 +17,13 @@
   const Programs = window.FitnessRpgPrograms;
 
   if (!State || !Render || !Programs) {
-    console.warn("Fitness RPG Sport V6.2E : dépendances indisponibles.");
+    console.warn("Fitness RPG Sport V6.2F : dépendances indisponibles.");
     return;
   }
 
   const Sport = window.FitnessRpgSport = window.FitnessRpgSport || {};
 
-  Sport.version = "6.2e";
+  Sport.version = "6.2f";
   Sport.pendingPerformanceDraft = null;
   Sport.pendingExercisePerformance = null;
   Sport.summaryObserver = null;
@@ -58,10 +58,10 @@
 
 
   // ------------------------------------------------------------
-  // V6.2E - Variantes intelligentes + progression ciblée par exercice
+  // V6.2F - Durée prédictive + variantes intelligentes + progression ciblée
   // ------------------------------------------------------------
 
-  Sport.adaptationVersion = "6.2e";
+  Sport.adaptationVersion = "6.3";
 
   // Les substitutions sont une liste blanche : chaque paire est validée
   // explicitement. Le moteur ne déduit jamais une variante depuis le nom.
@@ -138,6 +138,17 @@
     beginner: 0,
     intermediate: 1,
     advanced: 2
+  });
+
+  // La durée prédite informe l’utilisateur mais ne modifie pas encore le volume.
+  // Cela évite une boucle : prédiction courte -> volume réduit -> prédiction encore plus courte.
+  Sport.durationPredictionRules = Object.freeze({
+    maxSamples: 5,
+    minimumPersonalizedSamples: 2,
+    minValidMinutes: 5,
+    maxValidMinutes: 180,
+    outlierRatioLow: 0.55,
+    outlierRatioHigh: 1.65
   });
 
   Sport.getProgramNominalMinutes = function getProgramNominalMinutes(program) {
@@ -348,6 +359,167 @@
     return result;
   };
 
+  Sport.getDurationSessionKey = function getDurationSessionKey(record = {}) {
+    const programId = String(record.programId || "");
+    const type = record.type === "program-boss" ? "program-boss" : "program";
+
+    if (!programId) return "";
+
+    if (type === "program-boss") {
+      return `${programId}|program-boss`;
+    }
+
+    const dayNumber = Math.max(0, Number(record.dayNumber) || 0);
+    return `${programId}|program|day-${dayNumber || "any"}`;
+  };
+
+  Sport.getValidDurationHistory = function getValidDurationHistory() {
+    const rules = Sport.durationPredictionRules;
+    return (State.getPerformanceHistory?.() || [])
+      .filter((record) => {
+        const minutes = Number(record?.durationMinutes);
+        return Number.isFinite(minutes)
+          && minutes >= rules.minValidMinutes
+          && minutes <= rules.maxValidMinutes;
+      });
+  };
+
+  Sport.filterDurationOutliers = function filterDurationOutliers(records = []) {
+    if (!Array.isArray(records) || records.length < 3) return records.slice();
+
+    const sorted = records
+      .map((record) => Number(record.durationMinutes))
+      .filter(Number.isFinite)
+      .sort((a, b) => a - b);
+
+    if (!sorted.length) return [];
+
+    const middle = Math.floor(sorted.length / 2);
+    const median = sorted.length % 2
+      ? sorted[middle]
+      : (sorted[middle - 1] + sorted[middle]) / 2;
+
+    const low = median * Sport.durationPredictionRules.outlierRatioLow;
+    const high = median * Sport.durationPredictionRules.outlierRatioHigh;
+
+    return records.filter((record) => {
+      const minutes = Number(record.durationMinutes);
+      return minutes >= low && minutes <= high;
+    });
+  };
+
+  Sport.weightedDurationAverage = function weightedDurationAverage(records = []) {
+    if (!records.length) return null;
+
+    let weightedTotal = 0;
+    let totalWeight = 0;
+    const size = records.length;
+
+    records.forEach((record, index) => {
+      // Les séances les plus récentes comptent davantage.
+      const weight = Math.max(1, size - index);
+      weightedTotal += Number(record.durationMinutes) * weight;
+      totalWeight += weight;
+    });
+
+    if (!totalWeight) return null;
+    return weightedTotal / totalWeight;
+  };
+
+  Sport.predictSessionDuration = function predictSessionDuration(session, workout, context = {}) {
+    const rules = Sport.durationPredictionRules;
+    const baseline = Math.max(
+      rules.minValidMinutes,
+      Number(context.preferredDuration)
+        || Number(context.nominalDuration)
+        || 20
+    );
+    const history = Sport.getValidDurationHistory();
+    const currentKey = Sport.getDurationSessionKey(session);
+    const type = session?.type === "program-boss" ? "program-boss" : "program";
+    const programId = String(session?.programId || "");
+
+    const exact = history.filter((record) => {
+      return currentKey && Sport.getDurationSessionKey(record) === currentKey;
+    });
+
+    const sameProgram = history.filter((record) => {
+      return String(record?.programId || "") === programId
+        && (record?.type === "program-boss" ? "program-boss" : "program") === type;
+    });
+
+    let source = "baseline";
+    let candidates = [];
+
+    if (exact.length >= rules.minimumPersonalizedSamples) {
+      source = "same-session-type";
+      candidates = exact;
+    } else if (sameProgram.length >= rules.minimumPersonalizedSamples) {
+      source = "same-program";
+      candidates = sameProgram;
+    } else if (exact.length) {
+      source = "learning";
+      candidates = exact;
+    } else if (sameProgram.length) {
+      source = "learning";
+      candidates = sameProgram;
+    }
+
+    candidates = Sport.filterDurationOutliers(candidates)
+      .slice(0, rules.maxSamples);
+
+    if (!candidates.length) {
+      return {
+        minutes: Math.round(baseline),
+        source: "baseline",
+        sampleCount: 0,
+        confidence: "baseline",
+        label: `Durée cible ${Math.round(baseline)} min`,
+        samples: []
+      };
+    }
+
+    const learnedAverage = Sport.weightedDurationAverage(candidates);
+    const sampleCount = candidates.length;
+    let learnedWeight = 0.45;
+
+    if (sampleCount >= 2) learnedWeight = 0.72;
+    if (sampleCount >= 3) learnedWeight = 0.86;
+    if (sampleCount >= 5) learnedWeight = 0.92;
+
+    const rawPrediction = (learnedAverage * learnedWeight) + (baseline * (1 - learnedWeight));
+    const prediction = Math.round(Math.min(
+      rules.maxValidMinutes,
+      Math.max(rules.minValidMinutes, rawPrediction)
+    ));
+
+    const confidence = sampleCount >= 3 && source === "same-session-type"
+      ? "high"
+      : sampleCount >= 2
+        ? "medium"
+        : "learning";
+
+    const sourceLabel = source === "same-session-type"
+      ? `${sampleCount} séance${sampleCount > 1 ? "s" : ""} similaire${sampleCount > 1 ? "s" : ""}`
+      : source === "same-program"
+        ? `${sampleCount} séance${sampleCount > 1 ? "s" : ""} du programme`
+        : "première donnée personnelle";
+
+    return {
+      minutes: prediction,
+      source,
+      sampleCount,
+      confidence,
+      learnedAverage: Number(learnedAverage.toFixed(1)),
+      label: `Durée estimée ≈ ${prediction} min · ${sourceLabel}`,
+      samples: candidates.map((record) => ({
+        id: record.id || null,
+        date: record.date || null,
+        durationMinutes: Number(record.durationMinutes)
+      }))
+    };
+  };
+
   Sport.getDurationFactor = function getDurationFactor(preferredDuration, nominalDuration) {
     const preferred = Math.max(5, Number(preferredDuration) || 20);
     const nominal = Math.max(5, Number(nominalDuration) || 20);
@@ -463,7 +635,7 @@
       session?.type === "program-boss" ? "program-boss" : "program"
     );
 
-    return {
+    const context = {
       level: sportProfile.level,
       goal: sportProfile.mainGoal,
       preferredDuration: sportProfile.preferredDuration,
@@ -478,8 +650,12 @@
       levelFactor: Sport.getLevelFactor(sportProfile.level, program),
       rpe,
       programTier: window.FitnessRpgConfig?.getProgramTier?.(program) || "beginner",
-      workoutTitle: workout?.title || workout?.subtitle || "Séance"
+      workoutTitle: workout?.title || workout?.subtitle || "Séance",
+      durationPrediction: null
     };
+
+    context.durationPrediction = Sport.predictSessionDuration(session, workout, context);
+    return context;
   };
 
   Sport.adaptWorkoutForHero = function adaptWorkoutForHero(workout, context) {
@@ -585,7 +761,9 @@
   Sport.getAdaptationSummary = function getAdaptationSummary(context, adapted) {
     const notes = [];
 
-    if (Math.abs(context.durationFactor - 1) >= 0.03) {
+    if (context.durationPrediction?.sampleCount > 0) {
+      notes.push(context.durationPrediction.label);
+    } else if (Math.abs(context.durationFactor - 1) >= 0.03) {
       notes.push(`Durée cible ${context.preferredDuration} min`);
     }
 
@@ -625,6 +803,140 @@
     return notes;
   };
 
+  Sport.getEquipmentLabel = function getEquipmentLabel(equipmentId) {
+    const option = Sport.equipmentOptions.find(([id]) => id === equipmentId);
+    return option?.[1] || equipmentId;
+  };
+
+  Sport.getAverageVolumeChangePercent = function getAverageVolumeChangePercent(sourceWorkout, adaptedExercises) {
+    const sourceExercises = Array.isArray(sourceWorkout?.exercises) ? sourceWorkout.exercises : [];
+    const targetExercises = Array.isArray(adaptedExercises) ? adaptedExercises : [];
+    const ratios = [];
+
+    sourceExercises.forEach((sourceItem, index) => {
+      const targetItem = targetExercises[index];
+      if (!targetItem) return;
+
+      const sourceDefinition = Sport.getExerciseDefinition(sourceItem.exerciseId);
+      const targetDefinition = Sport.getExerciseDefinition(targetItem.exerciseId) || sourceDefinition;
+      const sourceAmount = Number(Sport.getExerciseAmount(sourceItem));
+      const targetAmount = Number(Sport.getExerciseAmount(targetItem));
+      const sourceUnit = Sport.getExerciseUnit(sourceItem, sourceDefinition);
+      const targetUnit = Sport.getExerciseUnit(targetItem, targetDefinition);
+
+      if (!Number.isFinite(sourceAmount) || sourceAmount <= 0) return;
+      if (!Number.isFinite(targetAmount) || targetAmount <= 0) return;
+      if (sourceUnit && targetUnit && sourceUnit !== targetUnit) return;
+
+      ratios.push(targetAmount / sourceAmount);
+    });
+
+    if (!ratios.length) return 0;
+
+    const averageRatio = ratios.reduce((sum, value) => sum + value, 0) / ratios.length;
+    const percent = Math.round((averageRatio - 1) * 100);
+
+    return Math.abs(percent) < 2 ? 0 : percent;
+  };
+
+  Sport.getAdaptiveEquipmentUsed = function getAdaptiveEquipmentUsed(adapted) {
+    const ids = new Set();
+
+    (adapted?.substitutions || []).forEach((item) => {
+      (item.requires || []).forEach((id) => ids.add(id));
+    });
+
+    return [...ids];
+  };
+
+  Sport.buildAdaptiveCoachHeadline = function buildAdaptiveCoachHeadline(adaptation) {
+    if (!adaptation) return "";
+
+    const parts = [];
+    const minutes = Number(adaptation.estimatedDurationMinutes) || Number(adaptation.preferredDuration) || 20;
+    const approximate = adaptation.durationPrediction?.sampleCount > 0 ? "≈ " : "";
+    parts.push(`${approximate}${minutes} min`);
+
+    const volume = Number(adaptation.volumeChangePercent || 0);
+    if (volume >= 2) {
+      parts.push(`volume +${volume} %`);
+    } else if (volume <= -2) {
+      parts.push(`volume ${volume} %`);
+    } else {
+      parts.push("volume stable");
+    }
+
+    const equipmentUsed = Array.isArray(adaptation.equipmentUsed)
+      ? adaptation.equipmentUsed
+      : [];
+
+    if (equipmentUsed.length === 1) {
+      parts.push(`${Sport.getEquipmentLabel(equipmentUsed[0]).toLowerCase()} dispo`);
+    } else if (equipmentUsed.length > 1) {
+      parts.push(`${equipmentUsed.length} matériels utilisés`);
+    }
+
+    return parts.join(" · ");
+  };
+
+  Sport.getAdaptiveCoachDetails = function getAdaptiveCoachDetails(session) {
+    const adaptation = session?.adaptation;
+    if (!adaptation) return [];
+
+    const details = [];
+    const minutes = Number(adaptation.estimatedDurationMinutes) || Number(adaptation.preferredDuration) || 20;
+    const predictionCount = Number(adaptation.durationPrediction?.sampleCount || 0);
+
+    if (predictionCount > 0) {
+      details.push(`Durée probable : environ ${minutes} min, estimée à partir de ${predictionCount} séance${predictionCount > 1 ? "s" : ""} comparable${predictionCount > 1 ? "s" : ""}.`);
+    } else {
+      details.push(`Durée cible : ${minutes} min selon ton profil sportif.`);
+    }
+
+    const volume = Number(adaptation.volumeChangePercent || 0);
+    if (volume >= 2) {
+      details.push(`Volume prévu légèrement augmenté : +${volume} % en moyenne.`);
+    } else if (volume <= -2) {
+      details.push(`Volume prévu légèrement réduit : ${volume} % en moyenne.`);
+    } else {
+      details.push("Volume prévu globalement stable.");
+    }
+
+    const summary = Array.isArray(adaptation.summary) ? adaptation.summary : [];
+    summary.forEach((line) => {
+      if (line && !details.some((existing) => existing.includes(line))) {
+        details.push(line);
+      }
+    });
+
+    const equipmentUsed = Array.isArray(adaptation.equipmentUsed)
+      ? adaptation.equipmentUsed
+      : [];
+    if (equipmentUsed.length) {
+      const labels = equipmentUsed.map((id) => Sport.getEquipmentLabel(id));
+      details.push(`Matériel utilisé pour une variante : ${labels.join(", ")}.`);
+    }
+
+    details.push("Les programmes sources restent inchangés : cette adaptation ne vaut que pour cette séance.");
+    return details;
+  };
+
+  Sport.openAdaptiveCoachDetails = function openAdaptiveCoachDetails() {
+    const session = State.getActiveProgramSession?.();
+    if (!session?.adaptation) return;
+
+    const coachId = State.getCoachId?.();
+    const coach = window.FitnessRpgData?.getCoach?.(coachId);
+    const coachName = coach?.fullName || coach?.name || "Coach";
+
+    Render.showModal?.({
+      icon: "⚙️",
+      title: `${coachName} · Pourquoi cette séance ?`,
+      message: Sport.getAdaptiveCoachDetails(session),
+      okText: "Compris"
+    });
+  };
+
   Sport.applyAdaptationToSession = function applyAdaptationToSession(session) {
     // Une séance déjà adaptée reste figée, même si elle a été créée par
     // V6.2B/C. On ne recalcule jamais une séance en cours après mise à jour.
@@ -640,6 +952,8 @@
     const context = Sport.getHeroTrainingContext(session, sourceWorkout);
     const adapted = Sport.adaptWorkoutForHero(sourceWorkout, context);
     const summary = Sport.getAdaptationSummary(context, adapted);
+    const volumeChangePercent = Sport.getAverageVolumeChangePercent(sourceWorkout, adapted.exercises);
+    const equipmentUsed = Sport.getAdaptiveEquipmentUsed(adapted);
 
     session.adaptedExercises = adapted.exercises;
     session.adaptation = {
@@ -651,6 +965,8 @@
       programTier: context.programTier,
       recentRpeAverage: context.rpe.average,
       recentRpeCount: context.rpe.count,
+      estimatedDurationMinutes: context.durationPrediction?.minutes || context.preferredDuration,
+      durationPrediction: context.durationPrediction || null,
       factors: {
         duration: Number(context.durationFactor.toFixed(3)),
         level: Number(context.levelFactor.toFixed(3)),
@@ -659,6 +975,8 @@
       substitutions: adapted.substitutions,
       exerciseProgressions: adapted.exerciseProgressions,
       changedExerciseCount: adapted.changes.length,
+      volumeChangePercent,
+      equipmentUsed,
       summary
     };
 
@@ -798,6 +1116,11 @@
       dayNumber: Math.max(0, Number(record.dayNumber) || 0),
       sessionTitle: record.sessionTitle || "Séance",
       durationMinutes: Math.max(0, Number(record.durationMinutes) || 0),
+      predictedDurationMinutes: Number.isFinite(Number(record.predictedDurationMinutes))
+        ? Math.max(0, Number(record.predictedDurationMinutes))
+        : null,
+      durationPredictionSource: record.durationPredictionSource || null,
+      durationPredictionSampleCount: Math.max(0, Number(record.durationPredictionSampleCount) || 0),
       rpe: Number.isFinite(Number(record.rpe)) ? Math.min(10, Math.max(1, Number(record.rpe))) : null,
       rpeLabel: record.rpeLabel || null,
       exercises: Array.isArray(record.exercises) ? record.exercises : []
@@ -871,28 +1194,20 @@
       return;
     }
 
-    const summary = Array.isArray(session.adaptation.summary)
-      ? session.adaptation.summary
-      : [];
-    const progressionItems = Array.isArray(session.adaptation.exerciseProgressions)
-      ? session.adaptation.exerciseProgressions
-      : [];
-    const progressionCount = progressionItems.filter((item) => item.direction === "progress").length;
-    const reductionCount = progressionItems.filter((item) => item.direction === "reduce").length;
-    const adaptiveMarks = [
-      progressionCount ? `↗${progressionCount}` : "",
-      reductionCount ? `↘${reductionCount}` : ""
-    ].filter(Boolean).join(" · ");
-    const chip = document.createElement("div");
+    const headline = Sport.buildAdaptiveCoachHeadline(session.adaptation);
+    const chip = document.createElement("button");
     chip.className = "sport-adaptation-chip";
-    chip.setAttribute("role", "status");
-    chip.title = summary.join(" · ");
+    chip.type = "button";
+    chip.setAttribute("aria-label", `Séance adaptée. ${headline}. Voir pourquoi.`);
+    chip.title = "Voir pourquoi cette séance a été adaptée";
     chip.innerHTML = `
       <span aria-hidden="true">⚙️</span>
       <strong>Séance adaptée</strong>
-      <small>${Number(session.adaptation.preferredDuration) || 20} min${adaptiveMarks ? ` · ${adaptiveMarks}` : ""}</small>
+      <small>${headline}</small>
+      <span class="sport-adaptation-chip-more" aria-hidden="true">›</span>
     `;
 
+    chip.addEventListener("click", Sport.openAdaptiveCoachDetails);
     shell.querySelector(".guided-session-header")?.insertAdjacentElement("afterend", chip);
   };
 
@@ -1226,6 +1541,9 @@
       dayNumber: Math.max(0, Number(session.dayNumber) || 0),
       sessionTitle: workout?.title || session.bossTitle || "Séance",
       durationMinutes,
+      predictedDurationMinutes: Number(session.adaptation?.estimatedDurationMinutes) || null,
+      durationPredictionSource: session.adaptation?.durationPrediction?.source || null,
+      durationPredictionSampleCount: Number(session.adaptation?.durationPrediction?.sampleCount) || 0,
       exercises: exercises.map((item, index) => {
         const definition = Sport.getExerciseDefinition(item.exerciseId);
         const plannedAmount = Sport.getExerciseAmount(item);
@@ -1622,6 +1940,9 @@
 
   Sport.performanceRowHtml = function performanceRowHtml(item) {
     const duration = item.durationMinutes > 0 ? `${item.durationMinutes} min` : "Durée non mesurée";
+    const predicted = Number(item.predictedDurationMinutes) > 0
+      ? ` · prévu ≈ ${Number(item.predictedDurationMinutes)} min`
+      : "";
     const rpe = item.rpe ? `RPE ${item.rpe}/10` : "RPE non renseigné";
     const context = item.type === "program-boss"
       ? `Boss · Semaine ${item.weekNumber}`
@@ -1633,7 +1954,7 @@
           <strong>${Render.escapeHtml?.(item.sessionTitle) || item.sessionTitle}</strong>
           <small>${Render.escapeHtml?.(item.programTitle) || item.programTitle} · ${context}</small>
         </div>
-        <span>${duration}<br>${rpe}</span>
+        <span>${duration}${predicted}<br>${rpe}</span>
       </article>
     `;
   };
