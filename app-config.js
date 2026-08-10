@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "0.6.2-f",
+  version: "0.6.3",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V6.2F",
+  displayVersion: "V6.3",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "6.2f",
+  assetVersion: "6.3",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
