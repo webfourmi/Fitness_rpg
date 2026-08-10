@@ -1,5 +1,5 @@
 /* ============================================================
-   Fitness RPG V6.2B — Séances adaptatives, profil sportif, RPE, performances
+   Fitness RPG V6.2C — Performances réelles, séances adaptatives, profil sportif, RPE
    ============================================================ */
 
 .sport-profile-card,
@@ -374,3 +374,131 @@
   font-weight: 900;
   white-space: nowrap;
 }
+
+/* ============================================================
+   V6.2C — Saisie rapide de la performance réelle
+   ============================================================ */
+
+.sport-exercise-performance-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 180;
+  display: grid;
+  place-items: end center;
+  padding: 14px;
+  padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  background: rgba(3, 6, 12, .72);
+  backdrop-filter: blur(8px);
+}
+
+.sport-exercise-performance-card {
+  width: min(100%, 520px);
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid rgba(124, 200, 255, .28);
+  border-radius: 20px;
+  background: rgba(18, 24, 40, .99);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .58);
+}
+
+.sport-exercise-performance-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sport-exercise-performance-heading h3 {
+  margin: 3px 0 0;
+  font-size: 1.08rem;
+}
+
+.sport-performance-planned {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 44px;
+  padding: 9px 11px;
+  border: 1px solid var(--border-soft);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, .035);
+}
+
+.sport-performance-planned span {
+  color: var(--text-muted);
+  font-size: .75rem;
+  font-weight: 850;
+}
+
+.sport-performance-planned strong {
+  color: var(--accent-strong);
+  font-size: 1rem;
+}
+
+.sport-performance-field {
+  display: grid;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: .76rem;
+  font-weight: 900;
+}
+
+.sport-performance-field > span small {
+  color: var(--text-soft);
+  font-size: .65rem;
+  font-weight: 700;
+}
+
+.sport-performance-number-input {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.sport-performance-number-input input {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.sport-performance-number-input small {
+  min-width: 52px;
+  color: var(--text-muted);
+  font-size: .76rem;
+  font-weight: 900;
+  text-align: left;
+}
+
+.sport-exercise-performance-actions {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  gap: 8px;
+}
+
+.sport-exercise-performance-actions button {
+  min-height: 52px;
+  padding-inline: 10px;
+}
+
+@media (max-width: 420px) {
+  .sport-exercise-performance-overlay {
+    padding: 8px;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .sport-exercise-performance-card {
+    gap: 10px;
+    padding: 11px;
+    border-radius: 17px;
+  }
+
+  .sport-exercise-performance-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
