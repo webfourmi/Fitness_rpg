@@ -1,5 +1,5 @@
 // ============================================================
-// Fitness RPG - V6.2A - Profil sportif, RPE et performances
+// Fitness RPG - V6.2B - Séances adaptatives, profil sportif, RPE et performances
 // ------------------------------------------------------------
 // Module additionnel, volontairement séparé du moteur historique.
 // - enrichit le profil existant sans nouvelle clé localStorage ;
@@ -17,13 +17,13 @@
   const Programs = window.FitnessRpgPrograms;
 
   if (!State || !Render || !Programs) {
-    console.warn("Fitness RPG Sport V6.2A : dépendances indisponibles.");
+    console.warn("Fitness RPG Sport V6.2B : dépendances indisponibles.");
     return;
   }
 
   const Sport = window.FitnessRpgSport = window.FitnessRpgSport || {};
 
-  Sport.version = "6.2a";
+  Sport.version = "6.2b";
   Sport.pendingPerformanceDraft = null;
   Sport.summaryObserver = null;
 
@@ -54,6 +54,327 @@
     ["bicycle", "Vélo", "assets/equipements/velo.png"],
     ["treadmill", "Tapis de marche/course", "assets/equipements/tapis_marche_course.png"]
   ]);
+
+
+  // ------------------------------------------------------------
+  // V6.2B - Adaptation prudente des séances
+  // ------------------------------------------------------------
+
+  Sport.adaptationVersion = "6.2b";
+
+  // Les substitutions sont volontairement explicites et rares.
+  // Aucune substitution n'est inventée à partir du nom d'un exercice.
+  Sport.exerciseSubstitutions = Object.freeze({
+    squats: Object.freeze({
+      exerciseId: "goblet_squat",
+      requires: ["kettlebell"],
+      minLevel: "intermediate",
+      label: "Goblet squat"
+    }),
+    shoulder_press_1kg: Object.freeze({
+      exerciseId: "kettlebell_military_press",
+      requires: ["kettlebell"],
+      minLevel: "intermediate",
+      label: "Développé militaire kettlebell"
+    })
+  });
+
+  Sport.levelRank = Object.freeze({
+    beginner: 0,
+    intermediate: 1,
+    advanced: 2
+  });
+
+  Sport.getProgramNominalMinutes = function getProgramNominalMinutes(program) {
+    const duration = String(program?.duration || "");
+    const values = [...duration.matchAll(/(\d+(?:[.,]\d+)?)/g)]
+      .map((match) => Number(String(match[1]).replace(",", ".")))
+      .filter((value) => Number.isFinite(value) && value > 0);
+
+    if (!values.length) return 20;
+    if (values.length === 1) return values[0];
+
+    return (values[0] + values[1]) / 2;
+  };
+
+  Sport.getRecentComparableRpe = function getRecentComparableRpe(programId, type = "program") {
+    const history = State.getPerformanceHistory?.() || [];
+    const comparable = history
+      .filter((item) => {
+        if (!Number.isFinite(Number(item?.rpe))) return false;
+        if (programId && item.programId !== programId) return false;
+        return (item.type || "program") === type;
+      })
+      .slice(0, 3);
+
+    if (!comparable.length) {
+      return {
+        count: 0,
+        average: null,
+        factor: 1,
+        label: "Pas encore assez de RPE comparables"
+      };
+    }
+
+    const average = comparable.reduce((sum, item) => sum + Number(item.rpe), 0) / comparable.length;
+    let factor = 1;
+    let label = "RPE récent stable";
+
+    if (average >= 8) {
+      factor = 0.90;
+      label = "RPE récent élevé : volume légèrement réduit";
+    } else if (average >= 7.2) {
+      factor = 0.95;
+      label = "RPE récent soutenu : progression suspendue";
+    } else if (comparable.length >= 2 && average <= 4) {
+      factor = 1.05;
+      label = "RPE récent facile : légère progression";
+    }
+
+    return {
+      count: comparable.length,
+      average: Number(average.toFixed(1)),
+      factor,
+      label
+    };
+  };
+
+  Sport.getDurationFactor = function getDurationFactor(preferredDuration, nominalDuration) {
+    const preferred = Math.max(5, Number(preferredDuration) || 20);
+    const nominal = Math.max(5, Number(nominalDuration) || 20);
+    const raw = preferred / nominal;
+
+    // Une préférence de durée ne doit jamais transformer brutalement la séance.
+    return Math.min(1.08, Math.max(0.80, raw));
+  };
+
+  Sport.getLevelFactor = function getLevelFactor(heroLevel, program) {
+    const heroRank = Sport.levelRank[heroLevel] ?? 0;
+    const tier = window.FitnessRpgConfig?.getProgramTier?.(program) || "beginner";
+    const programRank = Sport.levelRank[tier] ?? 0;
+    const delta = heroRank - programRank;
+
+    if (delta <= -2) return 0.88;
+    if (delta === -1) return 0.94;
+    if (delta === 1) return 1.04;
+    if (delta >= 2) return 1.07;
+    return 1;
+  };
+
+  Sport.isProtectedPhase = function isProtectedPhase(item = {}) {
+    const phase = String(item.phase || "").toLowerCase();
+    return [
+      "échauff",
+      "echauff",
+      "warmup",
+      "warm-up",
+      "retour au calme",
+      "récup",
+      "recup",
+      "cooldown",
+      "cool-down"
+    ].some((token) => phase.includes(token));
+  };
+
+  Sport.isCoreTimedExercise = function isCoreTimedExercise(item = {}, definition = null) {
+    const text = `${item.exerciseId || ""} ${definition?.title || ""}`.toLowerCase();
+    return ["plank", "gainage", "hollow", "core"].some((token) => text.includes(token));
+  };
+
+  Sport.roundAdaptedAmount = function roundAdaptedAmount(amount, unit, item, definition) {
+    const safeAmount = Math.max(0, Number(amount) || 0);
+    const normalizedUnit = String(unit || "").toLowerCase();
+
+    if (["sec", "seconde", "secondes"].includes(normalizedUnit)) {
+      let value = Math.max(5, Math.round(safeAmount / 5) * 5);
+      if (Sport.isCoreTimedExercise(item, definition)) {
+        value = Math.min(60, value);
+      }
+      return value;
+    }
+
+    if (["min", "minute", "minutes"].includes(normalizedUnit)) {
+      return Math.max(1, Math.round(safeAmount));
+    }
+
+    return Math.max(1, Math.round(safeAmount));
+  };
+
+  Sport.getDeclaredSubstitution = function getDeclaredSubstitution(item, context) {
+    const rule = Sport.exerciseSubstitutions[item?.exerciseId];
+    if (!rule) return null;
+
+    const heroRank = Sport.levelRank[context.level] ?? 0;
+    const minRank = Sport.levelRank[rule.minLevel] ?? 0;
+    if (heroRank < minRank) return null;
+
+    const equipment = new Set(context.equipment || []);
+    if (!(rule.requires || []).every((id) => equipment.has(id))) return null;
+
+    const definition = Sport.getExerciseDefinition(rule.exerciseId);
+    if (!definition) return null;
+
+    return {
+      ...rule,
+      definition
+    };
+  };
+
+  Sport.getHeroTrainingContext = function getHeroTrainingContext(session, workout) {
+    const sportProfile = State.getSportProfile?.() || Sport.defaultSportProfile();
+    const program = Programs.getProgram?.(session?.programId)
+      || window.FitnessRpgConfig?.getProgramById?.(session?.programId)
+      || null;
+    const nominalDuration = Sport.getProgramNominalMinutes(program);
+    const rpe = Sport.getRecentComparableRpe(
+      session?.programId,
+      session?.type === "program-boss" ? "program-boss" : "program"
+    );
+
+    return {
+      level: sportProfile.level,
+      goal: sportProfile.mainGoal,
+      preferredDuration: sportProfile.preferredDuration,
+      sessionsPerWeek: sportProfile.sessionsPerWeek,
+      equipment: [...(sportProfile.equipment || [])],
+      nominalDuration,
+      durationFactor: Sport.getDurationFactor(sportProfile.preferredDuration, nominalDuration),
+      levelFactor: Sport.getLevelFactor(sportProfile.level, program),
+      rpe,
+      programTier: window.FitnessRpgConfig?.getProgramTier?.(program) || "beginner",
+      workoutTitle: workout?.title || workout?.subtitle || "Séance"
+    };
+  };
+
+  Sport.adaptWorkoutForHero = function adaptWorkoutForHero(workout, context) {
+    const sourceExercises = Array.isArray(workout?.exercises) ? workout.exercises : [];
+    const substitutions = [];
+    const changes = [];
+
+    const adaptedExercises = sourceExercises.map((sourceItem, index) => {
+      const item = { ...sourceItem };
+      const sourceDefinition = Sport.getExerciseDefinition(item.exerciseId);
+      const substitution = Sport.isProtectedPhase(item)
+        ? null
+        : Sport.getDeclaredSubstitution(item, context);
+
+      if (substitution) {
+        substitutions.push({
+          index,
+          fromExerciseId: item.exerciseId,
+          toExerciseId: substitution.exerciseId,
+          requires: [...(substitution.requires || [])]
+        });
+        item.exerciseId = substitution.exerciseId;
+      }
+
+      const definition = Sport.getExerciseDefinition(item.exerciseId) || substitution?.definition || sourceDefinition;
+      const amount = Sport.getExerciseAmount(item);
+      const unit = Sport.getExerciseUnit(item, definition);
+
+      if (!Number.isFinite(Number(amount)) || Number(amount) <= 0) {
+        return item;
+      }
+
+      let factor = context.durationFactor * context.levelFactor * context.rpe.factor;
+
+      // Échauffement et retour au calme changent très peu.
+      if (Sport.isProtectedPhase(item)) {
+        factor = 1 + ((factor - 1) * 0.30);
+      }
+
+      // Plafond prudent de variation par exercice.
+      factor = Math.min(1.10, Math.max(0.78, factor));
+
+      const adaptedAmount = Sport.roundAdaptedAmount(Number(amount) * factor, unit, item, definition);
+
+      if (adaptedAmount !== Number(amount)) {
+        changes.push({
+          index,
+          exerciseId: item.exerciseId,
+          from: Number(amount),
+          to: adaptedAmount,
+          unit
+        });
+      }
+
+      // Le moteur historique consomme principalement amount + unit.
+      item.amount = adaptedAmount;
+      if (unit) item.unit = unit;
+
+      return item;
+    });
+
+    return {
+      exercises: adaptedExercises,
+      substitutions,
+      changes
+    };
+  };
+
+  Sport.getAdaptationSummary = function getAdaptationSummary(context, adapted) {
+    const notes = [];
+
+    if (Math.abs(context.durationFactor - 1) >= 0.03) {
+      notes.push(`Durée cible ${context.preferredDuration} min`);
+    }
+
+    if (Math.abs(context.levelFactor - 1) >= 0.03) {
+      notes.push(`Niveau ${Sport.levels[context.level] || context.level}`);
+    }
+
+    if (Math.abs(context.rpe.factor - 1) >= 0.03) {
+      notes.push(context.rpe.label);
+    }
+
+    if (adapted.substitutions.length) {
+      notes.push(`${adapted.substitutions.length} variante${adapted.substitutions.length > 1 ? "s" : ""} matériel`);
+    }
+
+    if (!notes.length) {
+      notes.push("Profil compatible avec la séance prévue");
+    }
+
+    return notes;
+  };
+
+  Sport.applyAdaptationToSession = function applyAdaptationToSession(session) {
+    if (!session || session.adaptation?.version === Sport.adaptationVersion) {
+      return session;
+    }
+
+    const sourceWorkout = Sport.originalGetActiveProgramWorkout?.(session);
+    if (!sourceWorkout || !Array.isArray(sourceWorkout.exercises) || !sourceWorkout.exercises.length) {
+      return session;
+    }
+
+    const context = Sport.getHeroTrainingContext(session, sourceWorkout);
+    const adapted = Sport.adaptWorkoutForHero(sourceWorkout, context);
+    const summary = Sport.getAdaptationSummary(context, adapted);
+
+    session.adaptedExercises = adapted.exercises;
+    session.adaptation = {
+      version: Sport.adaptationVersion,
+      appliedAt: State.nowIso?.() || new Date().toISOString(),
+      preferredDuration: context.preferredDuration,
+      nominalDuration: context.nominalDuration,
+      level: context.level,
+      programTier: context.programTier,
+      recentRpeAverage: context.rpe.average,
+      recentRpeCount: context.rpe.count,
+      factors: {
+        duration: Number(context.durationFactor.toFixed(3)),
+        level: Number(context.levelFactor.toFixed(3)),
+        rpe: Number(context.rpe.factor.toFixed(3))
+      },
+      substitutions: adapted.substitutions,
+      changedExerciseCount: adapted.changes.length,
+      summary
+    };
+
+    State.saveActiveProgramSession?.();
+    return session;
+  };
 
   Sport.defaultSportProfile = function defaultSportProfile() {
     return {
@@ -198,6 +519,88 @@
     State.saveProfile?.();
     return cleanRecord;
   };
+
+
+  // ------------------------------------------------------------
+  // Branchement V6.2B au moteur historique
+  // ------------------------------------------------------------
+
+  Sport.originalGetActiveProgramWorkout = Programs.getActiveProgramWorkout;
+  if (typeof Sport.originalGetActiveProgramWorkout === "function") {
+    Programs.getActiveProgramWorkout = function getAdaptiveProgramWorkout(session = null) {
+      const activeSession = session || State.getActiveProgramSession?.();
+      const sourceWorkout = Sport.originalGetActiveProgramWorkout.call(Programs, activeSession);
+
+      if (!sourceWorkout || !activeSession) return sourceWorkout;
+
+      if (
+        activeSession.adaptation?.version === Sport.adaptationVersion
+        && Array.isArray(activeSession.adaptedExercises)
+      ) {
+        return {
+          ...sourceWorkout,
+          exercises: activeSession.adaptedExercises.map((item) => ({ ...item }))
+        };
+      }
+
+      return sourceWorkout;
+    };
+  }
+
+  const originalStartProgramSession = State.startProgramSession;
+  if (typeof originalStartProgramSession === "function") {
+    State.startProgramSession = function startAdaptiveProgramSession() {
+      const session = originalStartProgramSession.apply(State, arguments);
+      Sport.applyAdaptationToSession(session);
+      return session;
+    };
+  }
+
+  const originalStartProgramBossSession = State.startProgramBossSession;
+  if (typeof originalStartProgramBossSession === "function") {
+    State.startProgramBossSession = function startAdaptiveProgramBossSession() {
+      const session = originalStartProgramBossSession.apply(State, arguments);
+      Sport.applyAdaptationToSession(session);
+      return session;
+    };
+  }
+
+  Sport.renderAdaptationBadge = function renderAdaptationBadge() {
+    const session = State.getActiveProgramSession?.();
+    const shell = document.querySelector("#activeProgramSession");
+
+    if (!shell) return;
+
+    shell.querySelector(".sport-adaptation-chip")?.remove();
+
+    if (!session?.adaptation || session.adaptation.version !== Sport.adaptationVersion) {
+      return;
+    }
+
+    const summary = Array.isArray(session.adaptation.summary)
+      ? session.adaptation.summary
+      : [];
+    const chip = document.createElement("div");
+    chip.className = "sport-adaptation-chip";
+    chip.setAttribute("role", "status");
+    chip.title = summary.join(" · ");
+    chip.innerHTML = `
+      <span aria-hidden="true">⚙️</span>
+      <strong>Séance adaptée</strong>
+      <small>${Number(session.adaptation.preferredDuration) || 20} min</small>
+    `;
+
+    shell.querySelector(".guided-session-header")?.insertAdjacentElement("afterend", chip);
+  };
+
+  const originalRenderActiveProgramSession = Render.renderActiveProgramSession;
+  if (typeof originalRenderActiveProgramSession === "function") {
+    Render.renderActiveProgramSession = function renderAdaptiveProgramSession() {
+      const result = originalRenderActiveProgramSession.apply(Render, arguments);
+      Sport.renderAdaptationBadge();
+      return result;
+    };
+  }
 
   // ------------------------------------------------------------
   // Helpers performance
