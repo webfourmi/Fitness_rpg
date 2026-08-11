@@ -118,6 +118,9 @@ window.FitnessRpgState.createDefaultProfile = function createDefaultProfile(data
     badges: [],
     customPrograms: [],
     familiars: [],
+    activeFamiliarId: null,
+    familiarAffinity: {},
+    familiarAffinityHistory: [],
     levelFamiliarRewards: {},
 
     createdAt: window.FitnessRpgState.nowIso(),
@@ -140,6 +143,13 @@ window.FitnessRpgState.loadProfile = function loadProfile() {
       badges: Array.isArray(loaded.badges) ? loaded.badges : [],
       customPrograms: Array.isArray(loaded.customPrograms) ? loaded.customPrograms : [],
       familiars: Array.isArray(loaded.familiars) ? loaded.familiars : [],
+      activeFamiliarId: loaded.activeFamiliarId || null,
+      familiarAffinity: loaded.familiarAffinity && typeof loaded.familiarAffinity === "object"
+        ? loaded.familiarAffinity
+        : {},
+      familiarAffinityHistory: Array.isArray(loaded.familiarAffinityHistory)
+        ? loaded.familiarAffinityHistory
+        : [],
       levelFamiliarRewards: loaded.levelFamiliarRewards || {}
     };
 
