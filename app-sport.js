@@ -1216,6 +1216,7 @@
     Render.renderActiveProgramSession = function renderAdaptiveProgramSession() {
       const result = originalRenderActiveProgramSession.apply(Render, arguments);
       Sport.renderAdaptationBadge();
+      Sport.installGuidedPerformanceButton?.();
       return result;
     };
   }
@@ -1373,7 +1374,8 @@
       actualAmount,
       unit: pending.unit || "",
       loadKg,
-      recordedAt: State.nowIso?.() || new Date().toISOString()
+      recordedAt: State.nowIso?.() || new Date().toISOString(),
+      recordingMode: "modified"
     };
 
     State.saveActiveProgramSession?.();
@@ -1504,6 +1506,44 @@
     return true;
   };
 
+  // V6.3.1 - Validation rapide : par défaut, on enregistre "comme prévu".
+  // Le panneau de performance réelle ne s'ouvre que via le bouton Modifier.
+  Sport.recordExerciseAsPlanned = function recordExerciseAsPlanned(exerciseId, exerciseKey = null) {
+    const session = State.getActiveProgramSession?.();
+    if (!session) return null;
+
+    const resolved = Sport.getExerciseItemFromSession(session, exerciseId, exerciseKey);
+    const item = resolved.item;
+    if (!item) return null;
+
+    const definition = Sport.getExerciseDefinition(item.exerciseId);
+    const plannedAmount = Sport.getExerciseAmount(item);
+    const unit = Sport.getExerciseUnit(item, definition);
+    const key = Sport.getExercisePerformanceKey(
+      item.exerciseId,
+      exerciseKey || `${resolved.index}-${item.exerciseId}`
+    );
+    const title = definition?.title || item.title || item.exerciseId || "Exercice";
+    const performance = Sport.getSessionExercisePerformance(session);
+
+    performance[key] = {
+      exerciseKey: key,
+      exerciseId: item.exerciseId,
+      title,
+      order: resolved.index + 1,
+      phase: item.phase || null,
+      plannedAmount: Number(plannedAmount),
+      actualAmount: Number(plannedAmount),
+      unit: unit || "",
+      loadKg: null,
+      recordedAt: State.nowIso?.() || new Date().toISOString(),
+      recordingMode: "as-planned"
+    };
+
+    State.saveActiveProgramSession?.();
+    return performance[key];
+  };
+
   // Intercepte uniquement la validation d'une séance guidée.
   // Le moteur historique reste la source de vérité pour marquer l'étape comme terminée.
   Sport.originalValidateProgramExercise = Programs.validateProgramExercise;
@@ -1512,12 +1552,44 @@
       exerciseId,
       exerciseKey = null
     ) {
-      const opened = Sport.openExercisePerformancePanel(exerciseId, exerciseKey);
-      if (opened) return null;
-
+      Sport.recordExerciseAsPlanned(exerciseId, exerciseKey);
       return Sport.originalValidateProgramExercise.call(Programs, exerciseId, exerciseKey);
     };
   }
+
+  // Ajoute le bouton Modifier entre Timer et Valider, sans toucher à app-render.js.
+  Sport.installGuidedPerformanceButton = function installGuidedPerformanceButton() {
+    const session = State.getActiveProgramSession?.();
+    if (!session) return;
+
+    const actions = document.querySelector(
+      ".active-program-session .guided-action-dock, .active-program-session .program-session-actions"
+    );
+    if (!actions) return;
+
+    const validateButton = actions.querySelector(".validate-program-exercise-btn");
+    if (!validateButton || validateButton.disabled) return;
+
+    const exerciseId = validateButton.dataset.exerciseId;
+    const exerciseKey = validateButton.dataset.exerciseKey || "";
+    if (!exerciseId) return;
+
+    actions.classList.add("sport-performance-actions-enabled");
+
+    let modifyButton = actions.querySelector(".sport-modify-performance-btn");
+    if (!modifyButton) {
+      modifyButton = document.createElement("button");
+      modifyButton.type = "button";
+      modifyButton.className = "ghost-btn sport-modify-performance-btn";
+      modifyButton.innerHTML = `<span aria-hidden="true">✏️</span><span>Modifier</span>`;
+      modifyButton.setAttribute("aria-label", "Modifier la performance réelle");
+      modifyButton.setAttribute("title", "Modifier la quantité réalisée ou la charge");
+      actions.insertBefore(modifyButton, validateButton);
+    }
+
+    modifyButton.dataset.exerciseId = exerciseId;
+    modifyButton.dataset.exerciseKey = exerciseKey;
+  };
 
   Sport.captureSessionDraft = function captureSessionDraft(session) {
     if (!session) return null;
@@ -1653,6 +1725,16 @@
       : event.target?.parentElement;
 
     if (!target) return;
+
+    const modifyPerformanceButton = target.closest(".sport-modify-performance-btn");
+    if (modifyPerformanceButton) {
+      const exerciseId = modifyPerformanceButton.dataset.exerciseId;
+      const exerciseKey = modifyPerformanceButton.dataset.exerciseKey || null;
+      if (exerciseId) {
+        Sport.openExercisePerformancePanel(exerciseId, exerciseKey);
+      }
+      return;
+    }
 
     if (target.closest(".sport-exercise-performance-close")) {
       Sport.closeExercisePerformancePanel();
@@ -2018,6 +2100,7 @@
       const result = originalRenderAll.apply(Render, arguments);
       Sport.renderSportProfilePanel();
       Sport.renderPerformanceStatsCard();
+      Sport.installGuidedPerformanceButton();
       Sport.installSummaryObserver();
       return result;
     };
@@ -2035,5 +2118,6 @@
     Sport.installSummaryObserver();
     Sport.renderSportProfilePanel();
     Sport.renderPerformanceStatsCard();
+    Sport.installGuidedPerformanceButton();
   }, 0);
 })();
