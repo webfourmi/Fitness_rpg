@@ -1070,6 +1070,22 @@ if (familiarCarouselButton) {
 
   return true;
 }
+const setActiveFamiliarButton = target.closest(".set-active-familiar-btn[data-familiar-id]");
+
+if (setActiveFamiliarButton && !setActiveFamiliarButton.disabled) {
+  window.FitnessRpgNavigation.stopEvent(event);
+
+  const familiarId = setActiveFamiliarButton.dataset.familiarId;
+  const familiar = window.FitnessRpgRewards?.setActiveFamiliar?.(familiarId);
+
+  if (familiar) {
+    window.FitnessRpgRender?.renderFamiliarsPage?.();
+    window.FitnessRpgRender?.openFamiliarModal?.(familiarId);
+  }
+
+  return true;
+}
+
 const familiarCard = target.closest(".familiar-card[data-familiar-id]");
 
 if (familiarCard) {
