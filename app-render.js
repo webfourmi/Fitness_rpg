@@ -2662,6 +2662,7 @@ window.FitnessRpgRender.queueWorkoutSummary = function queueWorkoutSummary(summa
     rewards,
     progress: summary.progress || null,
     coachMessage: summary.coachMessage || "Belle séance. La progression est en marche.",
+    familiarReward: summary.familiarReward || null,
     levelBefore: summary.levelBefore || null,
     levelAfter: summary.levelAfter || window.FitnessRpgRender.getLevelSnapshot(),
     createdAt: new Date().toISOString()
@@ -2752,6 +2753,27 @@ window.FitnessRpgRender.renderWorkoutSummaryOverlay = function renderWorkoutSumm
     ? `<small>${summary.baseXp} XP de séance + ${summary.bonusXp} XP bonus</small>`
     : "";
 
+  const familiarReward = summary.familiarReward;
+  const familiarRewardHtml = familiarReward?.familiar
+    ? (() => {
+        const familiar = familiarReward.familiar;
+        const after = familiarReward.after || {};
+        const levelUpText = familiarReward.leveledUp
+          ? ` · Niveau d’Affinité ${after.level} atteint !`
+          : "";
+        return `
+          <section class="workout-summary-familiar familiar-state-victory">
+            <img src="${escape(familiar.image || "")}" alt="${escape(familiar.name || "Familier")}">
+            <div>
+              <p class="eyebrow">🐾 Ton compagnon fête la victoire</p>
+              <strong>${escape(familiar.name || "Familier")} gagne +${Number(familiarReward.gain || 0)} Affinité</strong>
+              <small>Affinité ${Number(after.points || 0)} · Niv. ${Number(after.level || 1)}${escape(levelUpText)}</small>
+            </div>
+          </section>
+        `;
+      })()
+    : "";
+
   card.innerHTML = `
     <header class="workout-summary-header">
       <div class="workout-summary-sigil" aria-hidden="true">${escape(summary.icon)}</div>
@@ -2792,6 +2814,8 @@ window.FitnessRpgRender.renderWorkoutSummaryOverlay = function renderWorkoutSumm
     </section>
 
     ${rewardsHtml}
+
+    ${familiarRewardHtml}
 
     <blockquote class="workout-summary-coach">
       <span>💬</span>
@@ -3491,100 +3515,83 @@ window.FitnessRpgRender.renderFamiliarsPage = function renderFamiliarsPage() {
 
   if (!summary || !grid) return;
 
+  window.FitnessRpgRewards?.ensureFamiliarProfileData?.();
+
   const unlockedFamiliars = window.FitnessRpgRewards?.getUnlockedFamiliars?.() || [];
   const unlockedCount = unlockedFamiliars.length;
+  const activeFamiliar = window.FitnessRpgRewards?.getActiveFamiliar?.() || null;
+  const activeInfo = activeFamiliar
+    ? window.FitnessRpgRewards?.getFamiliarLevelInfo?.(activeFamiliar.id)
+    : null;
 
   summary.innerHTML = `
     <p class="eyebrow">🐾 Ménagerie du héros</p>
     <h2>${unlockedCount} familier${unlockedCount > 1 ? "s" : ""} débloqué${unlockedCount > 1 ? "s" : ""}</h2>
-    <p>
-      Les compagnons gagnés dans les coffres rejoignent ici ton aventure.
-      Clique sur un familier pour le voir en grand.
-    </p>
+    ${activeFamiliar ? `
+      <div class="familiar-active-summary">
+        <img src="${window.FitnessRpgRender.escapeHtml(activeFamiliar.image)}" alt="${window.FitnessRpgRender.escapeHtml(activeFamiliar.name)}">
+        <div>
+          <small>Compagnon actif</small>
+          <strong>${window.FitnessRpgRender.escapeHtml(activeFamiliar.name)}</strong>
+          <span>Affinité ${activeInfo?.points || 0} · Niv. ${activeInfo?.level || 1} ${window.FitnessRpgRender.escapeHtml(activeInfo?.title || "Compagnon")}</span>
+        </div>
+      </div>
+    ` : `<p>Choisis un compagnon : il t’accompagnera ensuite pendant les séances.</p>`}
   `;
 
   if (!unlockedFamiliars.length) {
     grid.innerHTML = `
       <article class="card familiar-empty-card">
         <h2>Aucun familier pour l’instant</h2>
-        <p>
-          Gagne un niveau, ouvre un coffre, et ton premier compagnon apparaîtra ici.
-        </p>
+        <p>Gagne un niveau, ouvre un coffre, et ton premier compagnon apparaîtra ici.</p>
       </article>
     `;
     return;
   }
 
- const familiarCardsHtml = unlockedFamiliars.map((familiar) => {
-  const safeId = window.FitnessRpgRender.escapeHtml(familiar.id);
-  const safeName = window.FitnessRpgRender.escapeHtml(familiar.name);
-  const safeImage = window.FitnessRpgRender.escapeHtml(familiar.image);
+  const familiarCardsHtml = unlockedFamiliars.map((familiar) => {
+    const safeId = window.FitnessRpgRender.escapeHtml(familiar.id);
+    const safeName = window.FitnessRpgRender.escapeHtml(familiar.name);
+    const safeImage = window.FitnessRpgRender.escapeHtml(familiar.image);
+    const info = window.FitnessRpgRewards?.getFamiliarLevelInfo?.(familiar.id) || {};
+    const isActive = activeFamiliar?.id === familiar.id;
 
-  return `
-    <button
-      class="familiar-card unlocked"
-      type="button"
-      data-familiar-id="${safeId}"
-      aria-label="Voir ${safeName} en grand"
-    >
-      <div class="familiar-image-frame">
-        <img
-          src="${safeImage}"
-          alt="${safeName}"
-          class="familiar-image"
-        />
+    return `
+      <button
+        class="familiar-card unlocked ${isActive ? "active familiar-state-idle" : "familiar-state-sleep"}"
+        type="button"
+        data-familiar-id="${safeId}"
+        aria-label="Voir ${safeName} en détail"
+      >
+        ${isActive ? `<span class="familiar-active-badge">À tes côtés</span>` : `<span class="familiar-sleep-badge" aria-hidden="true">💤</span>`}
+        <div class="familiar-image-frame">
+          <img src="${safeImage}" alt="${safeName}" class="familiar-image" />
+        </div>
+        <strong>${safeName}</strong>
+        <span class="familiar-level-line">Niv. ${info.level || 1} · ${window.FitnessRpgRender.escapeHtml(info.title || "Compagnon")}</span>
+        <span class="familiar-affinity-mini-track"><i style="width:${Number(info.progress || 0)}%"></i></span>
+        <small>${Number(info.points || 0)} Affinité</small>
+      </button>
+    `;
+  }).join("");
+
+  grid.innerHTML = `
+    <div class="familiar-carousel-shell">
+      <button class="familiar-carousel-btn" type="button" data-direction="-1" aria-label="Familier précédent" ${unlockedFamiliars.length <= 1 ? "disabled" : ""}>‹</button>
+      <div id="familiarCarouselTrack" class="familiar-carousel-track" tabindex="0" aria-label="Carrousel des familiers débloqués">
+        ${familiarCardsHtml}
       </div>
-
-      <strong>${safeName}</strong>
-    </button>
-  `;
-}).join("");
-
-grid.innerHTML = `
-  <div class="familiar-carousel-shell">
-    <button
-      class="familiar-carousel-btn"
-      type="button"
-      data-direction="-1"
-      aria-label="Familier précédent"
-      ${unlockedFamiliars.length <= 1 ? "disabled" : ""}
-    >
-      ‹
-    </button>
-
-    <div
-      id="familiarCarouselTrack"
-      class="familiar-carousel-track"
-      tabindex="0"
-      aria-label="Carrousel des familiers débloqués"
-    >
-      ${familiarCardsHtml}
+      <button class="familiar-carousel-btn" type="button" data-direction="1" aria-label="Familier suivant" ${unlockedFamiliars.length <= 1 ? "disabled" : ""}>›</button>
     </div>
-
-    <button
-      class="familiar-carousel-btn"
-      type="button"
-      data-direction="1"
-      aria-label="Familier suivant"
-      ${unlockedFamiliars.length <= 1 ? "disabled" : ""}
-    >
-      ›
-    </button>
-  </div>
-
-  <p class="familiar-carousel-help">
-    Glisse horizontalement pour parcourir tes familiers. Touche une carte pour l’agrandir.
-  </p>
-`;
-  };
+    <p class="familiar-carousel-help">Touche un familier pour voir son Affinité et le choisir comme compagnon actif.</p>
+  `;
+};
 
 window.FitnessRpgRender.openFamiliarModal = function openFamiliarModal(familiarId) {
   const familiar = window.FitnessRpgRewards?.getFamiliarById?.(familiarId);
-
-  if (!familiar) return;
+  if (!familiar || !window.FitnessRpgRewards?.hasFamiliar?.(familiarId)) return;
 
   let overlay = document.querySelector("#familiarDetailOverlay");
-
   if (!overlay) {
     overlay = document.createElement("div");
     overlay.id = "familiarDetailOverlay";
@@ -3595,25 +3602,42 @@ window.FitnessRpgRender.openFamiliarModal = function openFamiliarModal(familiarI
 
   const safeName = window.FitnessRpgRender.escapeHtml(familiar.name);
   const safeImage = window.FitnessRpgRender.escapeHtml(familiar.image);
+  const description = window.FitnessRpgRewards?.getFamiliarDescription?.(familiar) || "Compagnon de route du héros.";
+  const info = window.FitnessRpgRewards?.getFamiliarLevelInfo?.(familiar.id) || {};
+  const isActive = window.FitnessRpgRewards?.getActiveFamiliarId?.() === familiar.id;
+  const nextText = info.nextThreshold == null
+    ? "Affinité maximale atteinte"
+    : `Encore ${info.remaining} point${info.remaining > 1 ? "s" : ""} avant le niveau ${Number(info.level || 1) + 1}`;
 
   overlay.innerHTML = `
-    <section class="familiar-detail-modal" role="dialog" aria-modal="true">
-      <button
-        class="familiar-detail-close"
-        type="button"
-        aria-label="Fermer"
-      >
-        ×
-      </button>
-
-      <img
-        src="${safeImage}"
-        alt="${safeName}"
-        class="familiar-detail-image"
-      />
-
+    <section class="familiar-detail-modal ${isActive ? "familiar-state-idle" : "familiar-state-sleep"}" role="dialog" aria-modal="true">
+      <button class="familiar-detail-close" type="button" aria-label="Fermer">×</button>
+      ${isActive ? `<span class="familiar-detail-active-chip">🐾 Compagnon actif</span>` : ""}
+      <img src="${safeImage}" alt="${safeName}" class="familiar-detail-image" />
       <h2>${safeName}</h2>
-      <p>Familier débloqué</p>
+      <p class="familiar-detail-description">${window.FitnessRpgRender.escapeHtml(description)}</p>
+
+      <section class="familiar-affinity-card" aria-label="Progression d’Affinité">
+        <div>
+          <span>Affinité</span>
+          <strong>${Number(info.points || 0)} points</strong>
+        </div>
+        <div>
+          <span>Niveau</span>
+          <strong>${Number(info.level || 1)} · ${window.FitnessRpgRender.escapeHtml(info.title || "Compagnon")}</strong>
+        </div>
+        <div class="familiar-affinity-track"><i style="width:${Number(info.progress || 0)}%"></i></div>
+        <small>${window.FitnessRpgRender.escapeHtml(nextText)}</small>
+      </section>
+
+      <button
+        class="${isActive ? "secondary-btn" : "primary-btn"} set-active-familiar-btn"
+        type="button"
+        data-familiar-id="${window.FitnessRpgRender.escapeHtml(familiar.id)}"
+        ${isActive ? "disabled" : ""}
+      >
+        ${isActive ? "✓ À tes côtés" : "Choisir comme compagnon"}
+      </button>
     </section>
   `;
 
@@ -3624,7 +3648,6 @@ window.FitnessRpgRender.openFamiliarModal = function openFamiliarModal(familiarI
 
 window.FitnessRpgRender.closeFamiliarModal = function closeFamiliarModal() {
   const overlay = document.querySelector("#familiarDetailOverlay");
-
   if (!overlay) return;
 
   overlay.classList.add("hidden");
