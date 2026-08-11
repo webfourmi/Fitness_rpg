@@ -231,6 +231,186 @@ window.FitnessRpgRewards.getCollectionProgress = function getCollectionProgress(
 };
 
 // ============================================================
+// V6.5 - Familier actif et Affinité
+// ============================================================
+
+window.FitnessRpgRewards.familiarAffinityThresholds = Object.freeze([0, 20, 50, 100]);
+
+window.FitnessRpgRewards.ensureFamiliarProfileData = function ensureFamiliarProfileData() {
+  const profile = window.FitnessRpgState?.getProfile?.();
+  if (!profile) return null;
+
+  let changed = false;
+
+  if (!profile.familiarAffinity || typeof profile.familiarAffinity !== "object") {
+    profile.familiarAffinity = {};
+    changed = true;
+  }
+
+  if (!Array.isArray(profile.familiarAffinityHistory)) {
+    profile.familiarAffinityHistory = [];
+    changed = true;
+  }
+
+  const unlockedIds = window.FitnessRpgRewards.getUnlockedFamiliarIds();
+  if (profile.activeFamiliarId && !unlockedIds.includes(profile.activeFamiliarId)) {
+    profile.activeFamiliarId = null;
+    changed = true;
+  }
+
+  // À la migration, le premier familier déjà obtenu devient le compagnon actif.
+  if (!profile.activeFamiliarId && unlockedIds.length) {
+    profile.activeFamiliarId = unlockedIds[0];
+    changed = true;
+  }
+
+  if (changed) window.FitnessRpgState?.saveProfile?.();
+  return profile;
+};
+
+window.FitnessRpgRewards.getActiveFamiliarId = function getActiveFamiliarId() {
+  const profile = window.FitnessRpgRewards.ensureFamiliarProfileData();
+  return profile?.activeFamiliarId || null;
+};
+
+window.FitnessRpgRewards.getActiveFamiliar = function getActiveFamiliar() {
+  const familiarId = window.FitnessRpgRewards.getActiveFamiliarId();
+  return familiarId ? window.FitnessRpgRewards.getFamiliarById(familiarId) : null;
+};
+
+window.FitnessRpgRewards.setActiveFamiliar = function setActiveFamiliar(familiarId) {
+  if (!window.FitnessRpgRewards.hasFamiliar(familiarId)) return null;
+
+  const profile = window.FitnessRpgRewards.ensureFamiliarProfileData();
+  if (!profile) return null;
+
+  profile.activeFamiliarId = familiarId;
+  window.FitnessRpgState?.saveProfile?.();
+  return window.FitnessRpgRewards.getFamiliarById(familiarId);
+};
+
+window.FitnessRpgRewards.getFamiliarAffinity = function getFamiliarAffinity(familiarId) {
+  const profile = window.FitnessRpgRewards.ensureFamiliarProfileData();
+  if (!profile || !familiarId) return 0;
+
+  const raw = profile.familiarAffinity?.[familiarId];
+  const value = typeof raw === "object" ? Number(raw.points) : Number(raw);
+  return Number.isFinite(value) && value > 0 ? Math.round(value) : 0;
+};
+
+window.FitnessRpgRewards.getFamiliarLevelInfo = function getFamiliarLevelInfo(familiarId) {
+  const points = window.FitnessRpgRewards.getFamiliarAffinity(familiarId);
+  const thresholds = window.FitnessRpgRewards.familiarAffinityThresholds;
+  let level = 1;
+
+  thresholds.forEach((threshold, index) => {
+    if (points >= threshold) level = index + 1;
+  });
+
+  const maxLevel = thresholds.length;
+  const currentThreshold = thresholds[level - 1] || 0;
+  const nextThreshold = level < maxLevel ? thresholds[level] : null;
+  const span = nextThreshold === null ? 1 : Math.max(1, nextThreshold - currentThreshold);
+  const progress = nextThreshold === null
+    ? 100
+    : Math.max(0, Math.min(100, Math.round(((points - currentThreshold) / span) * 100)));
+
+  const titles = ["Compagnon", "Complice", "Fidèle", "Inséparable"];
+
+  return {
+    level,
+    maxLevel,
+    title: titles[level - 1] || titles[0],
+    points,
+    currentThreshold,
+    nextThreshold,
+    progress,
+    remaining: nextThreshold === null ? 0 : Math.max(0, nextThreshold - points)
+  };
+};
+
+window.FitnessRpgRewards.getFamiliarDescription = function getFamiliarDescription(familiar) {
+  if (!familiar) return "Compagnon de route du héros.";
+
+  const species = {
+    "familier-01": "grenouille runique",
+    "familier-02": "hibou des veilles",
+    "familier-03": "renard de braise",
+    "familier-04": "corbeau nocturne",
+    "familier-05": "chien gardien",
+    "familier-06": "chat des ombres",
+    "familier-07": "diablotin",
+    "familier-08": "dragonnet",
+    "familier-09": "axolotl lunaire",
+    "familier-10": "capybara placide",
+    "familier-11": "cerf sylvestre",
+    "familier-12": "chauve-souris crépusculaire",
+    "familier-13": "chèvre des sommets",
+    "familier-14": "chien des grands vents",
+    "familier-15": "crocodile cuirassé",
+    "familier-16": "écureuil vif",
+    "familier-17": "hérisson de lune",
+    "familier-18": "hippogriffe",
+    "familier-19": "koala rêveur",
+    "familier-20": "lapin bondissant",
+    "familier-21": "licorne astrale",
+    "familier-22": "loutre argentée",
+    "familier-23": "mouton des nuages",
+    "familier-24": "panda tranquille",
+    "familier-25": "panda roux agile",
+    "familier-26": "pégase",
+    "familier-27": "phénix",
+    "familier-28": "phoque des eaux claires",
+    "familier-29": "raton laveur masqué",
+    "familier-30": "souris d'alchimiste",
+    "familier-31": "tortue azurée"
+  };
+
+  const kind = species[familiar.id] || "compagnon fantastique";
+  return `${familiar.name} est un ${kind}. Son Affinité grandit en t’accompagnant pendant les séances et les Boss.`;
+};
+
+window.FitnessRpgRewards.addFamiliarAffinity = function addFamiliarAffinity(amount, reason = "session", sourceSessionId = null) {
+  const profile = window.FitnessRpgRewards.ensureFamiliarProfileData();
+  const familiar = window.FitnessRpgRewards.getActiveFamiliar();
+  const gain = Math.max(0, Math.round(Number(amount) || 0));
+
+  if (!profile || !familiar || !gain) return null;
+
+  if (!Array.isArray(profile.familiarAffinityHistory)) {
+    profile.familiarAffinityHistory = [];
+  }
+
+  if (sourceSessionId && profile.familiarAffinityHistory.some((item) => item?.sourceSessionId === sourceSessionId)) {
+    return null;
+  }
+
+  const before = window.FitnessRpgRewards.getFamiliarLevelInfo(familiar.id);
+  const previous = window.FitnessRpgRewards.getFamiliarAffinity(familiar.id);
+  profile.familiarAffinity[familiar.id] = previous + gain;
+
+  const after = window.FitnessRpgRewards.getFamiliarLevelInfo(familiar.id);
+  profile.familiarAffinityHistory.push({
+    familiarId: familiar.id,
+    amount: gain,
+    reason,
+    sourceSessionId: sourceSessionId || null,
+    at: window.FitnessRpgState?.nowIso?.() || new Date().toISOString()
+  });
+  profile.familiarAffinityHistory = profile.familiarAffinityHistory.slice(-80);
+  window.FitnessRpgState?.saveProfile?.();
+
+  return {
+    familiar,
+    gain,
+    reason,
+    before,
+    after,
+    leveledUp: after.level > before.level
+  };
+};
+
+// ============================================================
 // Tirage de coffre
 // ============================================================
 
