@@ -1,5 +1,5 @@
 // ============================================================
-// Fitness RPG - V6.3 - Coach adaptatif : résumé clair et explications au clic
+// Fitness RPG - V6.4 - Coach vivant : accompagnement contextuel en séance
 // ------------------------------------------------------------
 // Module additionnel, volontairement séparé du moteur historique.
 // - enrichit le profil existant sans nouvelle clé localStorage ;
@@ -17,13 +17,13 @@
   const Programs = window.FitnessRpgPrograms;
 
   if (!State || !Render || !Programs) {
-    console.warn("Fitness RPG Sport V6.2F : dépendances indisponibles.");
+    console.warn("Fitness RPG Sport V6.4 : dépendances indisponibles.");
     return;
   }
 
   const Sport = window.FitnessRpgSport = window.FitnessRpgSport || {};
 
-  Sport.version = "6.2f";
+  Sport.version = window.FitnessRpgConfig?.assetVersion || "6.4";
   Sport.pendingPerformanceDraft = null;
   Sport.pendingExercisePerformance = null;
   Sport.summaryObserver = null;
@@ -1217,6 +1217,7 @@
       const result = originalRenderActiveProgramSession.apply(Render, arguments);
       Sport.renderAdaptationBadge();
       Sport.installGuidedPerformanceButton?.();
+      Sport.renderLivingCoachCard?.();
       return result;
     };
   }
@@ -1591,6 +1592,277 @@
     modifyButton.dataset.exerciseKey = exerciseKey;
   };
 
+
+  // ------------------------------------------------------------
+  // V6.4 - Coach vivant pendant la séance guidée
+  // ------------------------------------------------------------
+
+  Sport.coachVoices = Object.freeze({
+    korvan: Object.freeze({
+      halfway: "La moitié du champ de bataille est derrière toi. Garde une exécution propre.",
+      above: "Tu as dépassé le plan. Bien. La maîtrise avant l'orgueil.",
+      below: "Tu as réduit aujourd'hui. Bon choix si la technique commençait à céder.",
+      changed: "Modification enregistrée. On s'entraîne avec le corps du jour, pas avec celui d'hier.",
+      adaptive: "J'ai ajusté la bataille du jour.",
+      rpe3: "Tu avais encore de la réserve. Si cela se confirme, on pourra monter légèrement le défi.",
+      rpe5: "Dosage juste. C'est ainsi qu'on bâtit de la force sans brûler les réserves.",
+      rpe7: "Séance dure mais tenue. On consolide avant de charger davantage.",
+      rpe9: "Très rude. Je le note : la prochaine séance comparable sera légèrement allégée."
+    }),
+    xara: Object.freeze({
+      halfway: "Mi-séance. Posture propre, respiration stable, et on continue.",
+      above: "Plus que prévu, c'est noté. Garde surtout la qualité du mouvement.",
+      below: "Moins que prévu aujourd'hui, c'est noté. La bonne quantité est celle que tu peux faire proprement.",
+      changed: "Modification enregistrée. On ajuste sans perdre le fil de la séance.",
+      adaptive: "J'ai ajusté la séance à tes données récentes.",
+      rpe3: "Tu avais beaucoup de marge. Si cela se répète, on pourra progresser doucement.",
+      rpe5: "Parfaitement dosée. C'est exactement la zone recherchée.",
+      rpe7: "Exigeante, mais acceptable. On garde le niveau avant d'en rajouter.",
+      rpe9: "Très difficile. Ce signal comptera : la prochaine séance comparable sera légèrement allégée."
+    }),
+    violette: Object.freeze({
+      halfway: "La moitié est dans la besace ! Garde du souffle pour la suite.",
+      above: "Un peu de rab aujourd'hui ! Très bien, tant que le mouvement reste joli et contrôlé.",
+      below: "On a raccourci la portion. Aucun souci : mieux vaut une bonne étape qu'une mauvaise chute.",
+      changed: "C'est modifié et rangé dans le carnet. On repart !",
+      adaptive: "J'ai allégé ou corsé le sac selon tes dernières aventures.",
+      rpe3: "Tu avais encore des biscuits dans la poche. Si ça continue, on pourra relever doucement le défi.",
+      rpe5: "Pile comme il faut. Une aventure utile sans finir roulé dans un tapis.",
+      rpe7: "Ça a bien piqué. On garde le cap sans augmenter tout de suite.",
+      rpe9: "Très costaud aujourd'hui. Je garde ce signal : la prochaine séance comparable sera légèrement allégée."
+    }),
+    elmin: Object.freeze({
+      halfway: "Mi-parcours. La régularité reste plus importante que la précipitation.",
+      above: "Objectif dépassé. Donnée utile, mais la qualité technique reste le critère principal.",
+      below: "Objectif réduit. Ajustement pertinent si cela préserve la technique et le contrôle.",
+      changed: "Performance réelle enregistrée. Cette donnée affinera les prochaines décisions.",
+      adaptive: "J'ai recalibré cette séance à partir de ton historique récent.",
+      rpe3: "Réserve importante. Si plusieurs séances comparables confirment ce signal, une légère progression sera pertinente.",
+      rpe5: "Charge d'effort bien calibrée. Nous conservons cette trajectoire.",
+      rpe7: "Effort soutenu. La priorité devient la consolidation plutôt que l'augmentation immédiate.",
+      rpe9: "Effort très élevé. Ce RPE sera pris en compte : la prochaine séance comparable sera légèrement allégée."
+    }),
+    bazul: Object.freeze({
+      halfway: "La pièce est à moitié forgée. Même rythme, même précision.",
+      above: "Tu as frappé un peu plus fort que prévu. Bien, si l'enclume reste stable.",
+      below: "Moins de coups aujourd'hui. Une forge propre vaut mieux qu'un métal massacré.",
+      changed: "Mesure corrigée. On forge avec des chiffres vrais.",
+      adaptive: "J'ai réglé la forge selon tes dernières séances.",
+      rpe3: "La forge était encore tiède. Si ça se répète, on ajoutera un peu de matière.",
+      rpe5: "Bonne température. On garde ce réglage.",
+      rpe7: "La forge a bien chauffé. On stabilise avant d'augmenter la charge.",
+      rpe9: "Trop chaud pour pousser davantage. Ce signal allégera légèrement la prochaine séance comparable."
+    }),
+    satyne: Object.freeze({
+      halfway: "Le rituel est à moitié accompli. Reste précise, le corps écoute tout.",
+      above: "Tu as dépassé l'incantation prévue. Intéressant, mais ne sacrifie jamais le contrôle.",
+      below: "Tu as réduit le rituel. Sage choix si le corps demandait moins aujourd'hui.",
+      changed: "La mesure réelle est inscrite. Les prochains rituels en tiendront compte.",
+      adaptive: "J'ai ajusté le rituel selon les signes laissés par tes dernières séances.",
+      rpe3: "Beaucoup de réserve. Si le signe se répète, le prochain rituel pourra gagner légèrement en intensité.",
+      rpe5: "Équilibre juste. L'effort nourrit la progression sans la dévorer.",
+      rpe7: "Le rituel était exigeant. On stabilise l'énergie avant de l'augmenter.",
+      rpe9: "Signal très fort. Je le garde en mémoire : la prochaine séance comparable sera légèrement adoucie."
+    })
+  });
+
+  Sport.getCoachVoice = function getCoachVoice(coachId) {
+    return Sport.coachVoices[coachId] || Sport.coachVoices.korvan;
+  };
+
+  Sport.pickStableCoachLine = function pickStableCoachLine(list, seed = "") {
+    if (!Array.isArray(list) || !list.length) return "";
+    const source = String(seed || "fitness-rpg");
+    let hash = 0;
+    for (let index = 0; index < source.length; index += 1) {
+      hash = ((hash << 5) - hash + source.charCodeAt(index)) | 0;
+    }
+    return list[Math.abs(hash) % list.length] || list[0] || "";
+  };
+
+  Sport.getCoachExerciseLine = function getCoachExerciseLine(coach, definition, session, index) {
+    if (!coach) return "Prêt pour la prochaine étape.";
+
+    const keys = [
+      definition?.id,
+      definition?.pose,
+      definition?.categoryId
+    ].filter(Boolean);
+
+    for (const key of keys) {
+      const list = coach.byExercise?.[key];
+      if (Array.isArray(list) && list.length) {
+        return Sport.pickStableCoachLine(
+          list,
+          `${session?.id || session?.startedAt || "session"}:${index}:${key}`
+        );
+      }
+    }
+
+    return Sport.pickStableCoachLine(
+      coach.start,
+      `${session?.id || session?.startedAt || "session"}:${index}:start`
+    ) || "Prêt pour la prochaine étape.";
+  };
+
+  Sport.getCoachPoseForExercise = function getCoachPoseForExercise(coach, definition) {
+    const requested = definition?.pose || definition?.categoryId || "explain";
+    if (coach?.poses?.[requested]) return requested;
+
+    const category = String(definition?.categoryId || "").toLowerCase();
+    if (category.includes("warm")) return coach?.poses?.warmup ? "warmup" : "explain";
+    if (category.includes("stretch") || category.includes("mobility") || category.includes("recovery")) {
+      return coach?.poses?.stretch ? "stretch" : "explain";
+    }
+    if (category.includes("bike")) return coach?.poses?.bike ? "bike" : "explain";
+    if (category.includes("walk")) return coach?.poses?.walk ? "walk" : "explain";
+    if (category.includes("run")) return coach?.poses?.run ? "run" : "explain";
+    return coach?.poses?.explain ? "explain" : "idle";
+  };
+
+  Sport.styleCoachTip = function styleCoachTip(coachId, tip) {
+    const cleanTip = String(tip || "").trim();
+    if (!cleanTip) return "";
+
+    const labels = {
+      korvan: "Technique",
+      xara: "Point technique",
+      violette: "Petit rappel",
+      elmin: "Point de contrôle",
+      bazul: "Réglage de forge",
+      satyne: "Rituel technique"
+    };
+
+    return `${labels[coachId] || "Conseil"} : ${cleanTip}`;
+  };
+
+  Sport.getModifiedPerformanceReaction = function getModifiedPerformanceReaction(coachId, record) {
+    if (!record) return "";
+
+    const planned = Number(record.plannedAmount);
+    const actual = Number(record.actualAmount);
+    const unit = record.unit || "";
+    const voice = Sport.getCoachVoice(coachId);
+    const plannedText = Sport.formatExerciseAmount(planned, unit);
+    const actualText = Sport.formatExerciseAmount(actual, unit);
+    const loadText = Number(record.loadKg) > 0 ? ` Charge enregistrée : ${Number(record.loadKg)} kg.` : "";
+
+    if (Number.isFinite(planned) && Number.isFinite(actual)) {
+      if (actual > planned) {
+        return `${voice.above} Bilan : ${actualText}, objectif ${plannedText}.${loadText}`;
+      }
+      if (actual < planned) {
+        return `${voice.below} Bilan : ${actualText}, objectif ${plannedText}.${loadText}`;
+      }
+    }
+
+    return `${voice.changed}${loadText}`;
+  };
+
+  Sport.getRpeCoachResponse = function getRpeCoachResponse(coachId, value) {
+    const voice = Sport.getCoachVoice(coachId);
+    const rpe = Number(value);
+    if (rpe >= 9) return voice.rpe9;
+    if (rpe >= 7) return voice.rpe7;
+    if (rpe >= 5) return voice.rpe5;
+    return voice.rpe3;
+  };
+
+  Sport.renderLivingCoachCard = function renderLivingCoachCard() {
+    const session = State.getActiveProgramSession?.();
+    const shell = document.querySelector("#activeProgramSession");
+    if (!session || !shell) return;
+
+    shell.querySelector(".guided-live-coach")?.remove();
+
+    const workout = Programs.getActiveProgramWorkout?.(session);
+    const exercises = Array.isArray(workout?.exercises) ? workout.exercises : [];
+    if (!exercises.length) return;
+
+    const completedKeys = Programs.getCompletedExerciseKeys?.(session) || [];
+    const isDone = (item, index) => {
+      const key = `${index}-${item.exerciseId}`;
+      return completedKeys.includes(key) || completedKeys.includes(item.exerciseId);
+    };
+    const doneCount = exercises.reduce((count, item, index) => count + (isDone(item, index) ? 1 : 0), 0);
+    const activeIndex = exercises.findIndex((item, index) => !isDone(item, index));
+    const complete = activeIndex < 0;
+
+    const coachId = State.getCoachId?.() || "korvan";
+    const coach = window.FitnessRpgData?.getCoach?.(coachId);
+    if (!coach) return;
+
+    let pose = "victory";
+    let message = Sport.pickStableCoachLine(
+      coach.complete,
+      `${session.id || session.startedAt || "session"}:complete`
+    ) || "Tous les exercices sont validés.";
+    let tip = complete ? "Tous les exercices sont validés. Termine la séance pour enregistrer ta progression." : "";
+    let status = complete ? "Séance prête à terminer" : "Coach en direct";
+
+    if (!complete) {
+      const activeItem = exercises[activeIndex];
+      const definition = Sport.getExerciseDefinition(activeItem.exerciseId);
+      pose = Sport.getCoachPoseForExercise(coach, definition);
+      message = Sport.getCoachExerciseLine(coach, definition, session, activeIndex);
+      tip = Sport.styleCoachTip(coachId, definition?.coachTip);
+      status = `Exercice ${activeIndex + 1} sur ${exercises.length}`;
+
+      const previousIndex = activeIndex - 1;
+      if (previousIndex >= 0) {
+        const previousItem = exercises[previousIndex];
+        const previousKey = `${previousIndex}-${previousItem.exerciseId}`;
+        const previousRecord = session.exercisePerformance?.[previousKey];
+        if (previousRecord?.recordingMode === "modified") {
+          message = Sport.getModifiedPerformanceReaction(coachId, previousRecord);
+        } else if (doneCount === Math.ceil(exercises.length / 2) && doneCount < exercises.length) {
+          message = Sport.getCoachVoice(coachId).halfway;
+        }
+      } else if (session.adaptation) {
+        const adaptation = session.adaptation;
+        const meaningfulAdaptation = Math.abs(Number(adaptation.volumeChangePercent || 0)) >= 2
+          || Number(adaptation.changedExerciseCount || 0) > 0
+          || Object.values(adaptation.factors || {}).some((factor) => Math.abs(Number(factor || 1) - 1) >= 0.03);
+
+        if (meaningfulAdaptation) {
+          const headline = Sport.buildAdaptiveCoachHeadline(adaptation);
+          const reason = (adaptation.summary || []).find((line) => line && line !== "Profil compatible avec la séance prévue");
+          message = `${Sport.getCoachVoice(coachId).adaptive} ${headline}.${reason ? ` ${reason}.` : ""}`;
+        }
+      }
+    }
+
+    const image = window.FitnessRpgData?.getCoachImage?.(coachId, pose)
+      || coach.fallbackImage
+      || coach.image;
+    const escape = Render.escapeHtml || ((value) => String(value ?? ""));
+
+    const card = document.createElement("aside");
+    card.className = "guided-live-coach";
+    card.setAttribute("aria-live", "polite");
+    card.innerHTML = `
+      <img class="guided-live-coach-image" src="${escape(image)}" alt="${escape(coach.fullName || coach.name || "Coach")}">
+      <div class="guided-live-coach-copy">
+        <div class="guided-live-coach-heading">
+          <strong>${escape(coach.name || "Coach")}</strong>
+          <span>${escape(status)}</span>
+        </div>
+        <p class="guided-live-coach-message">${escape(message)}</p>
+        ${tip ? `<p class="guided-live-coach-tip">${escape(tip)}</p>` : ""}
+      </div>
+    `;
+
+    const img = card.querySelector("img");
+    Render.setSafeImage?.(img, image, coach.fallbackImage || coach.image);
+
+    const stage = shell.querySelector(".guided-exercise-stage");
+    if (stage) {
+      stage.insertAdjacentElement("beforebegin", card);
+    } else {
+      shell.querySelector(".guided-progress-panel")?.insertAdjacentElement("afterend", card);
+    }
+  };
+
   Sport.captureSessionDraft = function captureSessionDraft(session) {
     if (!session) return null;
 
@@ -1778,15 +2050,34 @@
 
       const panel = rpeButton.closest(".sport-rpe-panel");
       if (panel) {
+        const coachId = State.getCoachId?.() || "korvan";
+        const coach = window.FitnessRpgData?.getCoach?.(coachId);
+        const coachImage = window.FitnessRpgData?.getCoachImage?.(coachId, "motivate")
+          || coach?.fallbackImage
+          || coach?.image
+          || "";
+        const coachResponse = Sport.getRpeCoachResponse(coachId, value);
+        const escape = Render.escapeHtml || ((item) => String(item ?? ""));
+
         panel.innerHTML = `
           <div class="sport-rpe-saved">
             <span>✓</span>
             <div>
               <strong>Effort enregistré</strong>
-              <small>${label} · RPE ${value}/10</small>
+              <small>${escape(label)} · RPE ${value}/10</small>
+            </div>
+          </div>
+          <div class="sport-rpe-coach-response">
+            <img src="${escape(coachImage)}" alt="${escape(coach?.fullName || coach?.name || "Coach")}">
+            <div>
+              <strong>${escape(coach?.name || "Coach")}</strong>
+              <p>${escape(coachResponse)}</p>
             </div>
           </div>
         `;
+
+        const coachImg = panel.querySelector(".sport-rpe-coach-response img");
+        Render.setSafeImage?.(coachImg, coachImage, coach?.fallbackImage || coach?.image);
       }
       return;
     }
@@ -2101,6 +2392,7 @@
       Sport.renderSportProfilePanel();
       Sport.renderPerformanceStatsCard();
       Sport.installGuidedPerformanceButton();
+      Sport.renderLivingCoachCard?.();
       Sport.installSummaryObserver();
       return result;
     };
@@ -2119,5 +2411,6 @@
     Sport.renderSportProfilePanel();
     Sport.renderPerformanceStatsCard();
     Sport.installGuidedPerformanceButton();
+    Sport.renderLivingCoachCard?.();
   }, 0);
 })();
