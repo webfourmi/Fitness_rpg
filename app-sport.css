@@ -471,6 +471,48 @@
    V6.2C — Saisie rapide de la performance réelle
    ============================================================ */
 
+/* Actions rapides de séance : Timer | Modifier | Valider */
+.guided-action-dock.sport-performance-actions-enabled,
+.active-program-session .program-session-actions.sport-performance-actions-enabled {
+  grid-template-columns: minmax(0, .8fr) minmax(0, .9fr) minmax(0, 1.55fr);
+  gap: 8px;
+}
+
+.sport-modify-performance-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.guided-action-dock.sport-performance-actions-enabled > button,
+.active-program-session .program-session-actions.sport-performance-actions-enabled > button {
+  width: 100%;
+  min-width: 0;
+  padding-inline: 8px;
+  white-space: normal;
+}
+
+@media (max-width: 420px) {
+  .guided-action-dock.sport-performance-actions-enabled,
+  .active-program-session .program-session-actions.sport-performance-actions-enabled {
+    grid-template-columns: .72fr .82fr 1.46fr;
+    gap: 6px;
+  }
+
+  .guided-action-dock.sport-performance-actions-enabled > button,
+  .active-program-session .program-session-actions.sport-performance-actions-enabled > button {
+    min-height: 50px;
+    padding: 6px 5px;
+    font-size: .8rem;
+  }
+
+  .sport-modify-performance-btn {
+    gap: 3px;
+  }
+}
+
 .sport-exercise-performance-overlay {
   position: fixed;
   inset: 0;
