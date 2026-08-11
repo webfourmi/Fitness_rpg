@@ -2352,6 +2352,13 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   });
 
   window.FitnessRpgState.setPose?.("victory");
+
+  const familiarReward = window.FitnessRpgRewards?.addFamiliarAffinity?.(
+    2,
+    "session",
+    session.id || null
+  ) || null;
+
   window.FitnessRpgState.clearActiveProgramSession?.();
 
   const coachId = window.FitnessRpgState.getCoachId?.();
@@ -2372,6 +2379,13 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     icon: badge.icon || "🏅",
     text: `Badge débloqué : ${badge.title}`
   }));
+  if (familiarReward?.familiar) {
+    rewards.push({
+      icon: "🐾",
+      text: `${familiarReward.familiar.name} gagne +${familiarReward.gain} Affinité`
+    });
+  }
+
   const bossNowUnlocked = window.FitnessRpgPrograms.isProgramBossUnlocked(program.id, weekNumber);
 
   if (!bossWasUnlocked && bossNowUnlocked) {
@@ -2409,6 +2423,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
       text: `${programProgress.completed} / ${programProgress.total} séances principales terminées`
     },
     rewards,
+    familiarReward,
     coachMessage: `${message || "Séance terminée !"} +${xp} XP.`,
     levelBefore,
     levelAfter: window.FitnessRpgRender?.getLevelSnapshot?.()
@@ -2509,6 +2524,13 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
     : "";
 
   window.FitnessRpgState.setPose?.("victory");
+
+  const familiarReward = window.FitnessRpgRewards?.addFamiliarAffinity?.(
+    5,
+    "boss",
+    session.id || null
+  ) || null;
+
   window.FitnessRpgState.clearActiveProgramSession?.();
 
   const victoryMessage = boss.chest
@@ -2536,6 +2558,13 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
     });
   }
 
+  if (familiarReward?.familiar) {
+    rewards.push({
+      icon: "🐾",
+      text: `${familiarReward.familiar.name} gagne +${familiarReward.gain} Affinité`
+    });
+  }
+
   const programProgress = window.FitnessRpgPrograms.getProgramCompletionProgress(program.id);
 
   window.FitnessRpgRender?.queueWorkoutSummary?.({
@@ -2557,6 +2586,7 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
         : `${programProgress.completed} / ${programProgress.total} séances principales terminées`
     },
     rewards,
+    familiarReward,
     coachMessage: [victoryMessage, badgeMessage].filter(Boolean).join(" "),
     chestReward,
     levelBefore,
