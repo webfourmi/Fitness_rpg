@@ -1417,6 +1417,7 @@ window.FitnessRpgData = {
       "id": "bridge",
       "categoryId": "strength",
       "title": "Pont de hanches",
+      "description": "Allongez-vous sur le dos, pliez les genoux et gardez les pieds à plat au sol. Poussez sur vos talons pour lever le bassin vers le haut. Serrez les fesses en haut pour former une ligne droite des genoux aux épaules.",
       "images": {
         "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_pontdehanches.png"
@@ -1433,6 +1434,7 @@ window.FitnessRpgData = {
       "id": "single_leg_bridge_alternate",
       "categoryId": "strength",
       "title": "Pont de hanches une jambe alternée",
+      
       "images": {
         "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_pontdehanchessurunejambealternee.png"
@@ -1670,6 +1672,7 @@ window.FitnessRpgData = {
       "id": "knee_plank",
       "categoryId": "strength",
       "title": "Planche genoux",
+      "description": "Placez vos avant-bras et vos genoux au sol. Alignez vos coudes sous vos épaules. Rentrez le ventre, aspirez le nombril et contractez les fesses pour garder le dos bien droit, sans creuser les lombaires.",
       "images": {
         "male": "assets/exercices/exercice_homme_planchesurlesgenoux.png",
         "female": "assets/exercices/exercice_femme_planchesurlesgenoux.jpg"
@@ -1777,6 +1780,7 @@ window.FitnessRpgData = {
       "id": "pelvic_tilt",
       "categoryId": "strength",
       "title": "Bascule du bassin au sol",
+      "description": "Creusez le bas du dos comme pour passer votre main sous celui-ci, sans décoller les fesses. Puis écrasez le bas du dos sur le sol.",
       "images": {
         "male": "assets/exercices/exercice_homme_basculebassinausol.png",
         "female": "assets/exercices/exercice_femme_basculedubassinausol.png"
@@ -1996,6 +2000,7 @@ window.FitnessRpgData = {
       "id": "cat_cow",
       "categoryId": "mobility",
       "title": "Chat-vache",
+      "description": "Inspirez en creusant le bas du dos, en poussant le ventre vers le sol et en ouvrant la poitrine vers l'avant tout en levant la tête. Expirez en rentrant le ventre, en arrondissant le haut et le milieu du dos vers le plafond, et en relâchant la tête vers le sol.",
       "images": {
         "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_chatvache.png"
@@ -2033,6 +2038,7 @@ window.FitnessRpgData = {
       "id": "thoracic_rotation",
       "categoryId": "mobility",
       "title": "Rotation thoracique",
+      "description": "Pour le réaliser, tenez-vous droit avec les pieds écartés, et pivotez lentement le buste d'un côté puis de l'autre en gardant le bassin stable.",
       "images": {
         "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_rotationthoracique.png"
@@ -2050,6 +2056,7 @@ window.FitnessRpgData = {
       "id": "abdominal_breathing",
       "categoryId": "mobility",
       "title": "Respiration abdominale",
+      "description": "Inspirez lentement par le nez. Sentez votre ventre se gonfler. La main sur la poitrine doit bouger le moins possible. Soufflez doucement par la bouche ou le nez en rentrant le ventre.",
       "images": {
         "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_respirationabdominalecontrolee.png"
@@ -2121,6 +2128,7 @@ window.FitnessRpgData = {
       "id": "hip_quad_stretch",
       "categoryId": "stretch",
       "title": "Étirement hanches / quadriceps",
+      "description": "Gardez le dos bien droit et avancez doucement le bassin vers l'avant jusqu'à sentir une tension à l'avant de la hanche.",
       "images": {
         "male": "assets/exercices/exercice_homme_etirementhanchesquadriceps.png",
         "female": "assets/exercices/exercice_femme_etirementhanchesquadriceps.png"
@@ -2158,7 +2166,8 @@ window.FitnessRpgData = {
       "id": "shoulder_arm_stretch",
       "categoryId": "stretch",
       "title": "Étirement épaules / bras",
-      "images": {
+      "description": "Passez un bras devant vous, au-dessus de l’épaule opposée, puis placez votre main sur le coude et exercez une pression vers vous.",
+        "images": {
         "male": "assets/exercices/exercice_homme_etirementepaulesbras.png",
         "female": "assets/exercices/exercice_femme_etirementsepaulesbras.png"
       },
