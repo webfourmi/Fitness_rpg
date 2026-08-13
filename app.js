@@ -274,6 +274,7 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       instructions,
       exercises: [
         ...warmup(),
+        ex("Activation Pilates · Version 2", "the_hundred", 10, "cycles respiratoires", { variantVersion: 2 }),
         ...repeatCycles("Défi 1", 2, challenge1),
         ...repeatCycles("Défi 2", 2, challenge2),
         ...cooldown()
@@ -284,6 +285,7 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
   const makeBossExercises = function makeBossExercises(items, includeFinalWarmup = false) {
     return [
       ...(includeFinalWarmup ? warmup() : []),
+      ex("Activation Pilates · Version 2", "the_hundred", 10, "cycles respiratoires", { variantVersion: 2 }),
       ...repeatCycles("Cycle", 3, items),
       ...(includeFinalWarmup ? cooldown() : [])
     ];
@@ -521,13 +523,17 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       "Semaine 2 : Les Vents Invisibles · ajout de Toe Taps.",
       "Semaine 3 : Les Arcanes du Mouvement · ajout de Side Leg Lift.",
       "Semaine 4 : Maître du Flux · ajout du Roll Up simplifié.",
-      "Chaque séance suit le format : échauffement, défi 1, défi 2, retour au calme.",
+      "Chaque séance suit le format : échauffement, The Hundred V2, défi 1, défi 2, retour au calme.",
+      "The Hundred est réalisé en version 2 dans les 12 séances et les 4 Boss.",
       "Les défis sont réalisés en 2 cycles.",
+      "Chaque Boss commence par The Hundred V2 avant ses 3 cycles.",
       "Le boss du samedi se débloque après les 3 séances de la semaine.",
       "Récompense finale : badge Dragon Astral, coffre mystique et +150 XP."
     ],
     notes: [
       "Programme Pilates intermédiaire, à faire après Tour du Mage.",
+      "The Hundred version 2 : jambes tendues à la verticale, talons en contact l’un contre l’autre.",
+      "Après The Hundred : 30 secondes de récupération allongé sur le dos.",
       "Objectif : stabilité, contrôle, équilibre et posture.",
       "Les répétitions par côté sont converties en répétitions totales dans l’application.",
       "Les temps par côté sont convertis en durée totale.",
