@@ -1806,7 +1806,8 @@ window.FitnessRpgData = {
       "step": 2,
       "xpPerUnit": 1,
       "stat": "Contrôle du centre",
-      "pose": "core"
+      "pose": "core",
+      "description": "Position de départ : allongez-vous sur le dos. Pliez les genoux et gardez les pieds à plat sur le sol, écartés de la largeur du bassin. Les bras reposent le long du corps, paumes vers le bas. La colonne est en position neutre.\n\nExpiration, montée : expirez profondément en contractant le périmètre pelvien (périnée) et en rentrant le nombril vers la colonne. Basculez doucement le bassin pour aplatir le bas du dos sur le tapis, puis décollez les vertèbres une par une jusqu’à former une ligne droite des épaules aux genoux.\n\nInspiration, pause : restez en haut une seconde, ouvrez la poitrine et gardez les fessiers et l’arrière des cuisses engagés.\n\nExpiration, descente : expirez à nouveau pour dérouler la colonne vertébrale, vertèbre après vertèbre, en posant le haut, le milieu puis le bas du dos en dernier sur le tapis pour retrouver la position neutre."
     },
     {
       "id": "crunch_controlled",
