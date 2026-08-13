@@ -1845,6 +1845,34 @@ window.FitnessRpgData = {
       "coachTip": "Les lombaires restent toujours en contact avec le sol."
     },
     {
+  "id": "the_hundred",
+  "categoryId": "strength",
+  "title": "The Hundred",
+  "images": {
+    "male": "assets/exercices/homme_default.png",
+    "female": "assets/exercices/femme_default.png"
+  },
+  "unit": "cycles respiratoires",
+  "defaultValue": 10,
+  "min": 1,
+  "step": 1,
+  "xpPerUnit": 1,
+  "stat": "Abdominaux / respiration / échauffement global",
+  "pose": "core",
+  "description": "Allongé sur le dos, tête et épaules relevées. Les bras tendus le long du corps effectuent de petites pulsations : 5 battements sur l’inspiration, 5 sur l’expiration, ×10. Le placement des jambes dépend de la version choisie. Après la série, récupérez 30 secondes allongé sur le dos, les bras le long du corps, les jambes tendues avec les pieds joints.",
+  "shortDescription": "100 petites pulsations des bras coordonnées à la respiration.",
+  "coachTip": "Gardez les lombaires et le milieu du dos plaqués contre le sol. Il ne faut absolument pas cambrer durant tout le maintien de la posture.",
+  "keywords": ["Abdominaux", "respiration", "échauffement global"],
+  "recoverySeconds": 30,
+  "difficultyVariants": [
+    { "version": 1, "label": "Version 1", "description": "Jambes fléchies avec pieds à hauteur des genoux, talons et genoux en contact l’un contre l’autre." },
+    { "version": 2, "label": "Version 2", "description": "Jambes tendues à la verticale, talons en contact l’un contre l’autre." },
+    { "version": 3, "label": "Version 3", "description": "Jambes fléchies avec pointes des pieds à quelques centimètres du sol (angle de flexion de 90° au niveau des genoux), talons et genoux en contact l’un contre l’autre." },
+    { "version": 4, "label": "Version 4", "description": "Jambes tendues inclinées à 45° environ, talons en contact l’un contre l’autre." },
+    { "version": 5, "label": "Version 5", "description": "Jambes tendues avec pieds à hauteur du visage (ou plus bas si vous pouvez), talons en contact l’un contre l’autre." }
+  ]
+},
+{
   "id": "swimming",
   "categoryId": "strength",
   "title": "Swimming",
@@ -7545,6 +7573,8 @@ window.FitnessRpgData = {
             { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
             { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
 
+            { phase: "Activation Pilates · Version 1", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+
             { phase: "Défi 1 · Cycle 1", exerciseId: "pelvic_tilt", amount: 10, unit: "répétitions" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "bridge", amount: 10, unit: "répétitions" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "dead_bug", amount: 12, unit: "répétitions" },
@@ -7579,6 +7609,8 @@ window.FitnessRpgData = {
             { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
             { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
 
+            { phase: "Activation Pilates · Version 1", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+
             { phase: "Défi 1 · Cycle 1", exerciseId: "cat_cow", amount: 10, unit: "répétitions" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "thoracic_rotation", amount: 10, unit: "répétitions" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
@@ -7612,6 +7644,8 @@ window.FitnessRpgData = {
             { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
             { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
             { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Activation Pilates · Version 1", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
 
             { phase: "Défi 1 · Cycle 1", exerciseId: "single_leg_balance", amount: 40, unit: "sec" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
@@ -7656,6 +7690,8 @@ window.FitnessRpgData = {
             { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
             { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
 
+            { phase: "Activation Pilates · Version 1", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+
             { phase: "Défi 1 · Cycle 1", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "dead_bug", amount: 16, unit: "répétitions" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "side_plank_knees", amount: 30, unit: "sec" },
@@ -7690,6 +7726,8 @@ window.FitnessRpgData = {
             { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
             { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
 
+            { phase: "Activation Pilates · Version 1", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+
             { phase: "Défi 1 · Cycle 1", exerciseId: "cat_cow", amount: 12, unit: "répétitions" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "thoracic_rotation", amount: 12, unit: "répétitions" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "side_plank_knees", amount: 30, unit: "sec" },
@@ -7723,6 +7761,8 @@ window.FitnessRpgData = {
             { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
             { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
             { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Activation Pilates · Version 1", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
 
             { phase: "Défi 1 · Cycle 1", exerciseId: "single_leg_balance", amount: 50, unit: "sec" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "knee_plank", amount: 20, unit: "sec" },
@@ -7767,6 +7807,8 @@ window.FitnessRpgData = {
             { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
             { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
 
+            { phase: "Activation Pilates · Version 1", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+
             { phase: "Défi 1 · Cycle 1", exerciseId: "pelvic_lift_floor", amount: 12, unit: "répétitions" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
@@ -7801,6 +7843,8 @@ window.FitnessRpgData = {
             { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
             { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
 
+            { phase: "Activation Pilates · Version 1", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+
             { phase: "Défi 1 · Cycle 1", exerciseId: "cat_cow", amount: 12, unit: "répétitions" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "thoracic_rotation", amount: 12, unit: "répétitions" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "pelvic_lift_floor", amount: 12, unit: "répétitions" },
@@ -7834,6 +7878,8 @@ window.FitnessRpgData = {
             { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
             { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
             { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Activation Pilates · Version 1", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
 
             { phase: "Défi 1 · Cycle 1", exerciseId: "single_leg_balance", amount: 60, unit: "sec" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "core", amount: 25, unit: "sec" },
@@ -7878,6 +7924,8 @@ window.FitnessRpgData = {
             { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
             { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
 
+            { phase: "Activation Pilates · Version 1", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+
             { phase: "Défi 1 · Cycle 1", exerciseId: "hollow_hold_simplified", amount: 15, unit: "sec" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
@@ -7912,6 +7960,8 @@ window.FitnessRpgData = {
             { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
             { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
 
+            { phase: "Activation Pilates · Version 1", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+
             { phase: "Défi 1 · Cycle 1", exerciseId: "hollow_hold_simplified", amount: 15, unit: "sec" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "core", amount: 30, unit: "sec" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
@@ -7945,6 +7995,8 @@ window.FitnessRpgData = {
             { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
             { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
             { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+
+            { phase: "Activation Pilates · Version 1", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
 
             { phase: "Défi 1 · Cycle 1", exerciseId: "hollow_hold_simplified", amount: 20, unit: "sec" },
             { phase: "Défi 1 · Cycle 1", exerciseId: "side_plank_knees", amount: 40, unit: "sec" },
@@ -8163,6 +8215,8 @@ window.FitnessRpgData = {
             { "phase": "Échauffement", "exerciseId": "thoracic_rotation", "amount": 1, "unit": "min" },
             { "phase": "Échauffement", "exerciseId": "arm_circles", "amount": 60, "unit": "sec" },
 
+            { "phase": "Activation Pilates · Version 2", "exerciseId": "the_hundred", "amount": 10, "unit": "cycles respiratoires" },
+
             { "phase": "Défi 1 · Cycle 1", "exerciseId": "hollow_hold_simplified", "amount": 20, "unit": "sec" },
             { "phase": "Défi 1 · Cycle 1", "exerciseId": "dead_bug", "amount": 20, "unit": "répétitions" },
             { "phase": "Défi 1 · Cycle 1", "exerciseId": "pelvic_lift_floor", "amount": 12, "unit": "répétitions" },
@@ -8195,6 +8249,8 @@ window.FitnessRpgData = {
             { "phase": "Échauffement", "exerciseId": "thoracic_rotation", "amount": 1, "unit": "min" },
             { "phase": "Échauffement", "exerciseId": "arm_circles", "amount": 60, "unit": "sec" },
 
+            { "phase": "Activation Pilates · Version 2", "exerciseId": "the_hundred", "amount": 10, "unit": "cycles respiratoires" },
+
             { "phase": "Défi 1 · Cycle 1", "exerciseId": "cat_cow", "amount": 12, "unit": "répétitions" },
             { "phase": "Défi 1 · Cycle 1", "exerciseId": "thoracic_rotation", "amount": 12, "unit": "répétitions" },
             { "phase": "Défi 1 · Cycle 1", "exerciseId": "swimming", "amount": 20, "unit": "sec" },
@@ -8226,6 +8282,8 @@ window.FitnessRpgData = {
             { "phase": "Échauffement", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
             { "phase": "Échauffement", "exerciseId": "thoracic_rotation", "amount": 1, "unit": "min" },
             { "phase": "Échauffement", "exerciseId": "arm_circles", "amount": 60, "unit": "sec" },
+
+            { "phase": "Activation Pilates · Version 2", "exerciseId": "the_hundred", "amount": 10, "unit": "cycles respiratoires" },
 
             { "phase": "Défi 1 · Cycle 1", "exerciseId": "single_leg_balance", "amount": 60, "unit": "sec" },
             { "phase": "Défi 1 · Cycle 1", "exerciseId": "hollow_hold_simplified", "amount": 20, "unit": "sec" },
@@ -8267,6 +8325,8 @@ window.FitnessRpgData = {
             { "phase": "Échauffement", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
             { "phase": "Échauffement", "exerciseId": "thoracic_rotation", "amount": 1, "unit": "min" },
             { "phase": "Échauffement", "exerciseId": "arm_circles", "amount": 60, "unit": "sec" },
+
+            { "phase": "Activation Pilates · Version 2", "exerciseId": "the_hundred", "amount": 10, "unit": "cycles respiratoires" },
 
             { "phase": "Défi 1 · Cycle 1", "exerciseId": "toe_taps", "amount": 20, "unit": "répétitions" },
             { "phase": "Défi 1 · Cycle 1", "exerciseId": "hollow_hold_simplified", "amount": 25, "unit": "sec" },
@@ -8320,6 +8380,7 @@ window.FitnessRpgData = {
   ],
 
   "notes": [
+    "The Hundred est réalisé en version 2 dans les séances régulières : jambes tendues à la verticale, talons en contact.",
     "Objectif : Pilates intermédiaire.",
     "Tour du Mage devient le programme débutant de cette voie.",
     "Maître du Flux ajoute davantage de stabilité, de contrôle et d’équilibre.",
