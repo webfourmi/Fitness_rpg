@@ -1513,6 +1513,12 @@ window.FitnessRpgRender.renderProgramBossChoiceHtml = function renderProgramBoss
     });
   }
 
+  const bossImageHtml = boss.image
+    ? `<div class="program-boss-image-frame">
+        <img class="program-boss-image" src="${boss.image}" alt="${window.FitnessRpgRender.escapeHtml(boss.title || "Boss")}" onerror="this.closest('.program-boss-image-frame')?.remove()">
+      </div>`
+    : "";
+
   const variantsHtml = variantList.map((variant) => {
     const exercisesPreview = (variant.exercises || [])
       .slice(0, 4)
@@ -1547,6 +1553,7 @@ window.FitnessRpgRender.renderProgramBossChoiceHtml = function renderProgramBoss
     <section class="program-boss-choice card">
       <p class="eyebrow">🐉 Boss de la semaine ${weekNumber}</p>
       <h3>${boss.title}</h3>
+      ${bossImageHtml}
       <p>${boss.subtitle || boss.instructions || ""}</p>
       ${
         defeated
