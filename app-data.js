@@ -1092,7 +1092,7 @@ window.FitnessRpgData = {
   title: "Demi-plié",
   images: {
     male: "assets/exercices/exercice_homme_demiplie.png",
-    female: "assets/exercices/femme_default.png"
+    female: "assets/exercices/exercice_femme_demiplie.png"
   },
   unit: "répétitions",
   defaultValue: 10,
@@ -1111,7 +1111,7 @@ window.FitnessRpgData = {
   title: "Bras en seconde",
   images: {
     male: "assets/exercices/exercice_homme_brasenseconde.png",
-    female: "assets/exercices/femme_default.png"
+    female: "assets/exercices/exercice_femme_brasenseconde.png"
   },
   unit: "sec",
   defaultValue: 30,
@@ -1131,7 +1131,7 @@ window.FitnessRpgData = {
   title: "Pas du cygne",
   images: {
     male: "assets/exercices/exercice_homme_pasducygne.png",
-    female: "assets/exercices/femme_default.png"
+    female: "assets/exercices/exercice_femme_pasducygne.png"
   },
   unit: "sec",
   defaultValue: 45,
@@ -1151,7 +1151,7 @@ window.FitnessRpgData = {
   title: "Arabesque simplifiée",
   images: {
     male: "assets/exercices/exercice_homme_arabesquesimplifiee.png",
-    female: "assets/exercices/femme_default.png"
+    female: "assets/exercices/exercice_femme_arabesquesimplifiee.png"
   },
   unit: "sec",
   defaultValue: 40,
@@ -1171,7 +1171,7 @@ window.FitnessRpgData = {
   title: "Développé avant simplifié",
   images: {
     male: "assets/exercices/exercice_homme_developpeavantsimplifie.png",
-    female: "assets/exercices/femme_default.png"
+    female: "assets/exercices/exercice_femme_developpeavantsimplifie.png"
   },
   unit: "répétitions",
   defaultValue: 16,
@@ -1190,7 +1190,7 @@ window.FitnessRpgData = {
   title: "Révérence de la Cour",
   images: {
     male: "assets/exercices/exercice_homme_reverencedelacour.png",
-    female: "assets/exercices/femme_default.png"
+    female: "assets/exercices/exercice_femme_reverencedelacour.png"
   },
   unit: "répétitions",
   defaultValue: 8,
@@ -1850,8 +1850,8 @@ window.FitnessRpgData = {
   "categoryId": "strength",
   "title": "The Hundred",
   "images": {
-    "male": "assets/exercices/homme_default.png",
-    "female": "assets/exercices/femme_default.png"
+    "male": "assets/exercices/exercice_homme_the_hundred.png",
+    "female": "assets/exercices/exercice_femme_the_hundred.png"
   },
   "unit": "cycles respiratoires",
   "defaultValue": 10,
@@ -1954,8 +1954,8 @@ window.FitnessRpgData = {
   "categoryId": "strength",
   "title": "Swimming",
   "images": {
-    "male": "assets/exercices/homme_default.png",
-    "female": "assets/exercices/femme_default.png"
+    "male": "assets/exercices/exercice_homme_swimming.png",
+    "female": "assets/exercices/exercice_femme_swimming.png"
   },
   "unit": "sec",
   "defaultValue": 20,
@@ -1974,8 +1974,8 @@ window.FitnessRpgData = {
   "categoryId": "strength",
   "title": "Toe Taps",
   "images": {
-    "male": "assets/exercices/homme_default.png",
-    "female": "assets/exercices/femme_default.png"
+    "male": "assets/exercices/exercice_homme_toe_taps.png",
+    "female": "assets/exercices/exercice_femme_toe_taps.png"
   },
   "unit": "répétitions",
   "defaultValue": 20,
@@ -1993,8 +1993,8 @@ window.FitnessRpgData = {
   "categoryId": "strength",
   "title": "Side Leg Lift",
   "images": {
-    "male": "assets/exercices/homme_default.png",
-    "female": "assets/exercices/femme_default.png"
+    "male": "assets/exercices/exercice_homme_side_leg_lift.png",
+    "female": "assets/exercices/exercice_femme_side_leg_lift.png"
   },
   "unit": "répétitions",
   "defaultValue": 24,
@@ -2012,8 +2012,8 @@ window.FitnessRpgData = {
   "categoryId": "strength",
   "title": "Roll Up simplifié",
   "images": {
-    "male": "assets/exercices/homme_default.png",
-    "female": "assets/exercices/femme_default.png"
+    "male": "assets/exercices/exercice_homme_roll_up_simplifie.png",
+    "female": "assets/exercices/exercice_femme_roll_up_simplifie.png"
   },
   "unit": "répétitions",
   "defaultValue": 10,
