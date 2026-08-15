@@ -303,7 +303,7 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       badgeTitle: "Dragon Astral",
       chest: true,
       xp: 150,
-      nextPrograms: ["seigneur-ether", "forge-guerrier", "champion-arenes"]
+      nextPrograms: ["archimage-centre", "seigneur-ether", "forge-guerrier", "champion-arenes"]
     },
     weeks: [
       {
@@ -502,7 +502,7 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
         xp: 150,
         badgeId: "flux-dragon-astral",
         chest: true,
-        nextPrograms: ["seigneur-ether", "forge-guerrier", "champion-arenes"],
+        nextPrograms: ["archimage-centre", "seigneur-ether", "forge-guerrier", "champion-arenes"],
         difficultyLabel: "Boss final · 30 à 40 min",
         instructions: "Débloqué après les 3 séances de la semaine 4. Coffre mystique final.",
         lockedMessage: "Le Dragon Astral ne descend que devant un Maître du Flux prêt.",
@@ -611,7 +611,7 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
         badgeId: "flux-dragon-astral",
         title: "Dragon Astral",
         chest: true,
-        nextPrograms: ["seigneur-ether", "forge-guerrier", "champion-arenes"]
+        nextPrograms: ["archimage-centre", "seigneur-ether", "forge-guerrier", "champion-arenes"]
       }
     });
   }
