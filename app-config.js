@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "0.6.5.7",
+  version: "0.6.6.0",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V6.5.7",
+  displayVersion: "V6.6.0",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "6.5.7",
+  assetVersion: "6.6.0",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
@@ -328,9 +328,29 @@ window.FitnessRpgConfig = {
         title: "Dragon Astral",
         chest: true,
         nextPrograms: [
+          "archimage-centre",
           "forge-guerrier",
           "champion-arenes"
         ]
+      }
+    },
+    {
+      id: "archimage-centre",
+      icon: "🔮",
+      title: "Archimage du Centre",
+      objective: "Pilates avancé · contrôle du centre, coordination et fluidité",
+      level: "Avancé · après Maître du Flux",
+      tier: "advanced",
+      unlockLevel: 3,
+      duration: "25-30 min",
+      frequency: "3 séances par semaine · 4 semaines + boss le samedi",
+      coachAdvice: "Elmin ou Satyne",
+      weeklySlots: [0, 2, 4],
+      xp: 180,
+      reward: {
+        title: "Archimage du Centre",
+        chest: true,
+        nextPrograms: []
       }
     },
     {
