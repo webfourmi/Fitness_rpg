@@ -8899,6 +8899,12 @@ window.FitnessRpgData = {
               "unit": "par côté"
             },
             {
+              "phase": "Défi 1 · Cycle 1",
+              "exerciseId": "side_leg_lift",
+              "amount": 8,
+              "unit": "par côté"
+            },
+            {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "one_leg_circle",
               "amount": 5,
@@ -8907,6 +8913,12 @@ window.FitnessRpgData = {
             {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "toe_taps",
+              "amount": 8,
+              "unit": "par côté"
+            },
+            {
+              "phase": "Défi 1 · Cycle 2",
+              "exerciseId": "side_leg_lift",
               "amount": 8,
               "unit": "par côté"
             },
@@ -8923,6 +8935,12 @@ window.FitnessRpgData = {
               "unit": "sec"
             },
             {
+              "phase": "Défi 2 · Cycle 1",
+              "exerciseId": "hollow_hold_simplified",
+              "amount": 20,
+              "unit": "sec"
+            },
+            {
               "phase": "Défi 2 · Cycle 2",
               "exerciseId": "roll_up_simplified",
               "amount": 6,
@@ -8932,6 +8950,12 @@ window.FitnessRpgData = {
               "phase": "Défi 2 · Cycle 2",
               "exerciseId": "swimming",
               "amount": 30,
+              "unit": "sec"
+            },
+            {
+              "phase": "Défi 2 · Cycle 2",
+              "exerciseId": "hollow_hold_simplified",
+              "amount": 20,
               "unit": "sec"
             },
             {
@@ -8987,6 +9011,12 @@ window.FitnessRpgData = {
               "unit": "par côté"
             },
             {
+              "phase": "Défi 1 · Cycle 1",
+              "exerciseId": "toe_taps",
+              "amount": 8,
+              "unit": "par côté"
+            },
+            {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "one_leg_circle",
               "amount": 5,
@@ -8995,6 +9025,12 @@ window.FitnessRpgData = {
             {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "side_leg_lift",
+              "amount": 8,
+              "unit": "par côté"
+            },
+            {
+              "phase": "Défi 1 · Cycle 2",
+              "exerciseId": "toe_taps",
               "amount": 8,
               "unit": "par côté"
             },
@@ -9011,6 +9047,12 @@ window.FitnessRpgData = {
               "unit": "sec"
             },
             {
+              "phase": "Défi 2 · Cycle 1",
+              "exerciseId": "swimming",
+              "amount": 30,
+              "unit": "sec"
+            },
+            {
               "phase": "Défi 2 · Cycle 2",
               "exerciseId": "pelvic_lift_floor",
               "amount": 8,
@@ -9020,6 +9062,12 @@ window.FitnessRpgData = {
               "phase": "Défi 2 · Cycle 2",
               "exerciseId": "hollow_hold_simplified",
               "amount": 20,
+              "unit": "sec"
+            },
+            {
+              "phase": "Défi 2 · Cycle 2",
+              "exerciseId": "swimming",
+              "amount": 30,
               "unit": "sec"
             },
             {
@@ -9075,6 +9123,12 @@ window.FitnessRpgData = {
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 1 · Cycle 1",
+              "exerciseId": "pelvic_lift_floor",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "one_leg_circle",
               "amount": 5,
@@ -9084,6 +9138,12 @@ window.FitnessRpgData = {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "roll_up_simplified",
               "amount": 6,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Cycle 2",
+              "exerciseId": "pelvic_lift_floor",
+              "amount": 8,
               "unit": "répétitions"
             },
             {
@@ -9099,6 +9159,12 @@ window.FitnessRpgData = {
               "unit": "sec"
             },
             {
+              "phase": "Défi 2 · Cycle 1",
+              "exerciseId": "side_leg_lift",
+              "amount": 8,
+              "unit": "par côté"
+            },
+            {
               "phase": "Défi 2 · Cycle 2",
               "exerciseId": "toe_taps",
               "amount": 8,
@@ -9109,6 +9175,12 @@ window.FitnessRpgData = {
               "exerciseId": "swimming",
               "amount": 30,
               "unit": "sec"
+            },
+            {
+              "phase": "Défi 2 · Cycle 2",
+              "exerciseId": "side_leg_lift",
+              "amount": 8,
+              "unit": "par côté"
             },
             {
               "phase": "Retour au calme",
@@ -9171,6 +9243,12 @@ window.FitnessRpgData = {
               "unit": "par sens / jambe"
             },
             {
+              "phase": "Défi 1 · Cycle 1",
+              "exerciseId": "roll_up_simplified",
+              "amount": 6,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "rolling_like_a_ball",
               "amount": 6,
@@ -9183,6 +9261,12 @@ window.FitnessRpgData = {
               "unit": "par sens / jambe"
             },
             {
+              "phase": "Défi 1 · Cycle 2",
+              "exerciseId": "roll_up_simplified",
+              "amount": 6,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Défi 2 · Cycle 1",
               "exerciseId": "toe_taps",
               "amount": 10,
@@ -9195,6 +9279,12 @@ window.FitnessRpgData = {
               "unit": "par côté"
             },
             {
+              "phase": "Défi 2 · Cycle 1",
+              "exerciseId": "swimming",
+              "amount": 35,
+              "unit": "sec"
+            },
+            {
               "phase": "Défi 2 · Cycle 2",
               "exerciseId": "toe_taps",
               "amount": 10,
@@ -9205,6 +9295,12 @@ window.FitnessRpgData = {
               "exerciseId": "side_leg_lift",
               "amount": 10,
               "unit": "par côté"
+            },
+            {
+              "phase": "Défi 2 · Cycle 2",
+              "exerciseId": "swimming",
+              "amount": 35,
+              "unit": "sec"
             },
             {
               "phase": "Retour au calme",
@@ -9259,6 +9355,12 @@ window.FitnessRpgData = {
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 1 · Cycle 1",
+              "exerciseId": "one_leg_circle",
+              "amount": 5,
+              "unit": "par sens / jambe"
+            },
+            {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "rolling_like_a_ball",
               "amount": 6,
@@ -9271,6 +9373,12 @@ window.FitnessRpgData = {
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 1 · Cycle 2",
+              "exerciseId": "one_leg_circle",
+              "amount": 5,
+              "unit": "par sens / jambe"
+            },
+            {
               "phase": "Défi 2 · Cycle 1",
               "exerciseId": "swimming",
               "amount": 35,
@@ -9283,6 +9391,12 @@ window.FitnessRpgData = {
               "unit": "sec"
             },
             {
+              "phase": "Défi 2 · Cycle 1",
+              "exerciseId": "side_leg_lift",
+              "amount": 10,
+              "unit": "par côté"
+            },
+            {
               "phase": "Défi 2 · Cycle 2",
               "exerciseId": "swimming",
               "amount": 35,
@@ -9293,6 +9407,12 @@ window.FitnessRpgData = {
               "exerciseId": "hollow_hold_simplified",
               "amount": 25,
               "unit": "sec"
+            },
+            {
+              "phase": "Défi 2 · Cycle 2",
+              "exerciseId": "side_leg_lift",
+              "amount": 10,
+              "unit": "par côté"
             },
             {
               "phase": "Retour au calme",
@@ -9347,6 +9467,12 @@ window.FitnessRpgData = {
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 1 · Cycle 1",
+              "exerciseId": "roll_up_simplified",
+              "amount": 6,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "one_leg_circle",
               "amount": 5,
@@ -9355,6 +9481,12 @@ window.FitnessRpgData = {
             {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "rolling_like_a_ball",
+              "amount": 6,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Cycle 2",
+              "exerciseId": "roll_up_simplified",
               "amount": 6,
               "unit": "répétitions"
             },
@@ -9371,6 +9503,12 @@ window.FitnessRpgData = {
               "unit": "par côté"
             },
             {
+              "phase": "Défi 2 · Cycle 1",
+              "exerciseId": "swimming",
+              "amount": 35,
+              "unit": "sec"
+            },
+            {
               "phase": "Défi 2 · Cycle 2",
               "exerciseId": "side_leg_lift",
               "amount": 10,
@@ -9381,6 +9519,12 @@ window.FitnessRpgData = {
               "exerciseId": "toe_taps",
               "amount": 10,
               "unit": "par côté"
+            },
+            {
+              "phase": "Défi 2 · Cycle 2",
+              "exerciseId": "swimming",
+              "amount": 35,
+              "unit": "sec"
             },
             {
               "phase": "Retour au calme",
@@ -9443,6 +9587,12 @@ window.FitnessRpgData = {
               "unit": "par côté"
             },
             {
+              "phase": "Défi 1 · Cycle 1",
+              "exerciseId": "one_leg_circle",
+              "amount": 5,
+              "unit": "par sens / jambe"
+            },
+            {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "single_leg_stretch",
               "amount": 5,
@@ -9455,6 +9605,12 @@ window.FitnessRpgData = {
               "unit": "par côté"
             },
             {
+              "phase": "Défi 1 · Cycle 2",
+              "exerciseId": "one_leg_circle",
+              "amount": 5,
+              "unit": "par sens / jambe"
+            },
+            {
               "phase": "Défi 2 · Cycle 1",
               "exerciseId": "rolling_like_a_ball",
               "amount": 6,
@@ -9467,6 +9623,12 @@ window.FitnessRpgData = {
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 2 · Cycle 1",
+              "exerciseId": "swimming",
+              "amount": 40,
+              "unit": "sec"
+            },
+            {
               "phase": "Défi 2 · Cycle 2",
               "exerciseId": "rolling_like_a_ball",
               "amount": 6,
@@ -9477,6 +9639,12 @@ window.FitnessRpgData = {
               "exerciseId": "roll_up_simplified",
               "amount": 6,
               "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Cycle 2",
+              "exerciseId": "swimming",
+              "amount": 40,
+              "unit": "sec"
             },
             {
               "phase": "Retour au calme",
@@ -9531,6 +9699,12 @@ window.FitnessRpgData = {
               "unit": "par sens / jambe"
             },
             {
+              "phase": "Défi 1 · Cycle 1",
+              "exerciseId": "toe_taps",
+              "amount": 10,
+              "unit": "par côté"
+            },
+            {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "single_leg_stretch",
               "amount": 5,
@@ -9543,6 +9717,12 @@ window.FitnessRpgData = {
               "unit": "par sens / jambe"
             },
             {
+              "phase": "Défi 1 · Cycle 2",
+              "exerciseId": "toe_taps",
+              "amount": 10,
+              "unit": "par côté"
+            },
+            {
               "phase": "Défi 2 · Cycle 1",
               "exerciseId": "side_leg_lift",
               "amount": 10,
@@ -9555,6 +9735,12 @@ window.FitnessRpgData = {
               "unit": "sec"
             },
             {
+              "phase": "Défi 2 · Cycle 1",
+              "exerciseId": "rolling_like_a_ball",
+              "amount": 6,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Défi 2 · Cycle 2",
               "exerciseId": "side_leg_lift",
               "amount": 10,
@@ -9565,6 +9751,12 @@ window.FitnessRpgData = {
               "exerciseId": "swimming",
               "amount": 40,
               "unit": "sec"
+            },
+            {
+              "phase": "Défi 2 · Cycle 2",
+              "exerciseId": "rolling_like_a_ball",
+              "amount": 6,
+              "unit": "répétitions"
             },
             {
               "phase": "Retour au calme",
@@ -9619,6 +9811,12 @@ window.FitnessRpgData = {
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 1 · Cycle 1",
+              "exerciseId": "one_leg_circle",
+              "amount": 5,
+              "unit": "par sens / jambe"
+            },
+            {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "single_leg_stretch",
               "amount": 5,
@@ -9631,6 +9829,12 @@ window.FitnessRpgData = {
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 1 · Cycle 2",
+              "exerciseId": "one_leg_circle",
+              "amount": 5,
+              "unit": "par sens / jambe"
+            },
+            {
               "phase": "Défi 2 · Cycle 1",
               "exerciseId": "hollow_hold_simplified",
               "amount": 25,
@@ -9643,6 +9847,12 @@ window.FitnessRpgData = {
               "unit": "sec"
             },
             {
+              "phase": "Défi 2 · Cycle 1",
+              "exerciseId": "roll_up_simplified",
+              "amount": 6,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Défi 2 · Cycle 2",
               "exerciseId": "hollow_hold_simplified",
               "amount": 25,
@@ -9653,6 +9863,12 @@ window.FitnessRpgData = {
               "exerciseId": "swimming",
               "amount": 40,
               "unit": "sec"
+            },
+            {
+              "phase": "Défi 2 · Cycle 2",
+              "exerciseId": "roll_up_simplified",
+              "amount": 6,
+              "unit": "répétitions"
             },
             {
               "phase": "Retour au calme",
@@ -9715,6 +9931,12 @@ window.FitnessRpgData = {
               "unit": "par jambe"
             },
             {
+              "phase": "Défi 1 · Cycle 1",
+              "exerciseId": "one_leg_circle",
+              "amount": 5,
+              "unit": "par sens / jambe"
+            },
+            {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "double_leg_stretch",
               "amount": 6,
@@ -9727,6 +9949,12 @@ window.FitnessRpgData = {
               "unit": "par jambe"
             },
             {
+              "phase": "Défi 1 · Cycle 2",
+              "exerciseId": "one_leg_circle",
+              "amount": 5,
+              "unit": "par sens / jambe"
+            },
+            {
               "phase": "Défi 2 · Cycle 1",
               "exerciseId": "rolling_like_a_ball",
               "amount": 6,
@@ -9739,6 +9967,12 @@ window.FitnessRpgData = {
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 2 · Cycle 1",
+              "exerciseId": "swimming",
+              "amount": 45,
+              "unit": "sec"
+            },
+            {
               "phase": "Défi 2 · Cycle 2",
               "exerciseId": "rolling_like_a_ball",
               "amount": 6,
@@ -9749,6 +9983,12 @@ window.FitnessRpgData = {
               "exerciseId": "roll_up_simplified",
               "amount": 6,
               "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Cycle 2",
+              "exerciseId": "swimming",
+              "amount": 45,
+              "unit": "sec"
             },
             {
               "phase": "Retour au calme",
@@ -9803,6 +10043,12 @@ window.FitnessRpgData = {
               "unit": "par sens / jambe"
             },
             {
+              "phase": "Défi 1 · Cycle 1",
+              "exerciseId": "single_leg_stretch",
+              "amount": 5,
+              "unit": "par jambe"
+            },
+            {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "double_leg_stretch",
               "amount": 6,
@@ -9815,6 +10061,12 @@ window.FitnessRpgData = {
               "unit": "par sens / jambe"
             },
             {
+              "phase": "Défi 1 · Cycle 2",
+              "exerciseId": "single_leg_stretch",
+              "amount": 5,
+              "unit": "par jambe"
+            },
+            {
               "phase": "Défi 2 · Cycle 1",
               "exerciseId": "side_leg_lift",
               "amount": 12,
@@ -9827,6 +10079,12 @@ window.FitnessRpgData = {
               "unit": "sec"
             },
             {
+              "phase": "Défi 2 · Cycle 1",
+              "exerciseId": "rolling_like_a_ball",
+              "amount": 6,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Défi 2 · Cycle 2",
               "exerciseId": "side_leg_lift",
               "amount": 12,
@@ -9837,6 +10095,12 @@ window.FitnessRpgData = {
               "exerciseId": "swimming",
               "amount": 45,
               "unit": "sec"
+            },
+            {
+              "phase": "Défi 2 · Cycle 2",
+              "exerciseId": "rolling_like_a_ball",
+              "amount": 6,
+              "unit": "répétitions"
             },
             {
               "phase": "Retour au calme",
@@ -9891,6 +10155,12 @@ window.FitnessRpgData = {
               "unit": "par jambe"
             },
             {
+              "phase": "Défi 1 · Cycle 1",
+              "exerciseId": "one_leg_circle",
+              "amount": 5,
+              "unit": "par sens / jambe"
+            },
+            {
               "phase": "Défi 1 · Cycle 2",
               "exerciseId": "double_leg_stretch",
               "amount": 6,
@@ -9903,6 +10173,12 @@ window.FitnessRpgData = {
               "unit": "par jambe"
             },
             {
+              "phase": "Défi 1 · Cycle 2",
+              "exerciseId": "one_leg_circle",
+              "amount": 5,
+              "unit": "par sens / jambe"
+            },
+            {
               "phase": "Défi 2 · Cycle 1",
               "exerciseId": "rolling_like_a_ball",
               "amount": 6,
@@ -9915,6 +10191,12 @@ window.FitnessRpgData = {
               "unit": "sec"
             },
             {
+              "phase": "Défi 2 · Cycle 1",
+              "exerciseId": "roll_up_simplified",
+              "amount": 6,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Défi 2 · Cycle 2",
               "exerciseId": "rolling_like_a_ball",
               "amount": 6,
@@ -9925,6 +10207,12 @@ window.FitnessRpgData = {
               "exerciseId": "swimming",
               "amount": 45,
               "unit": "sec"
+            },
+            {
+              "phase": "Défi 2 · Cycle 2",
+              "exerciseId": "roll_up_simplified",
+              "amount": 6,
+              "unit": "répétitions"
             },
             {
               "phase": "Retour au calme",
@@ -10444,7 +10732,7 @@ window.FitnessRpgData = {
     "Semaine 3 : Le Souffle Alterné · ajout du Single Leg Stretch.",
     "Semaine 4 : Le Double Arcane · ajout du Double Leg Stretch.",
     "The Hundred est réalisé en version 3 dans les 12 séances et les 4 Boss.",
-    "Chaque séance régulière comprend un échauffement, The Hundred V3, deux défis en 2 cycles et un retour au calme.",
+    "Chaque séance régulière comprend un échauffement, The Hundred V3, deux défis de 3 exercices en 2 cycles et un retour au calme.",
     "Chaque Boss est débloqué après les 3 séances de sa semaine et comprend The Hundred V3 puis 3 cycles.",
     "Programme conçu comme la suite directe de Tour du Mage puis Maître du Flux.",
     "Les nouveaux mouvements suivent la progression du répertoire classique déjà rassemblé : One Leg Circle, Rolling Like a Ball, Single Leg Stretch, Double Leg Stretch."
