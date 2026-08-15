@@ -9588,3 +9588,19 @@ body[data-page="hero-setup"] .app-page {
   .familiar-state-happy img,
   .familiar-state-victory img { animation: none !important; }
 }
+
+
+/* V6.6.0 · Illustration des Boss de programme */
+.program-boss-image-frame {
+  overflow: hidden;
+  margin: 12px 0 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.program-boss-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
