@@ -500,7 +500,7 @@ window.FitnessRpgData = {
       "images": {
         "homme": "assets/categories/categorie_homme_marche.png",
         "femme": "assets/categories/categorie_femme_marche.png",
-        "male": "assets/exercices/exercice_homme_marcheactive.png",
+        "male": "assets/categories/categorie_homme_marche.png",
         "female": "assets/categories/categorie_femme_marche.png"
       },
       "description": "Marche active dehors ou sur tapis."
@@ -558,7 +558,7 @@ window.FitnessRpgData = {
       "categoryId": "warmup",
       "title": "Cercles de bras",
       "images": {
-        "male": "assets/exercices/exercice_homme_cerclesdebras.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_cercledebras.png"
       },
       "unit": "sec",
@@ -615,7 +615,7 @@ window.FitnessRpgData = {
       "categoryId": "warmup",
       "title": "Montées de genoux lentes",
       "images": {
-        "male": "assets/exercices/exercice_homme_monteesdegenouxlentes.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_monteegedeouxlentes.png"
       },
       "unit": "sec",
@@ -658,7 +658,7 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Mountain climber lent",
       "images": {
-        "male": "assets/exercices/exercice_homme_mountainclimberlent.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_moutainclimberlent.png"
       },
       "unit": "sec",
@@ -775,7 +775,7 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Pas latéraux",
       "images": {
-        "male": "assets/exercices/exercice_homme_paslateraux.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_paslateraux.png"
       },
       "unit": "sec",
@@ -856,7 +856,7 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Jumping jack sans saut",
       "images": {
-        "male": "assets/exercices/exercice_homme_jumpingjacksanssaut.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_jumpingjacksanssaut.png"
       },
       "unit": "sec",
@@ -935,7 +935,7 @@ window.FitnessRpgData = {
       "categoryId": "run",
       "title": "Course extérieure",
       "images": {
-        "male": "assets/exercices/exercice_homme_courseexterieure.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_courseexterieure.png"
       },
       "unit": "min",
@@ -971,7 +971,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Demi-squat cycliste",
       "images": {
-        "male": "assets/exercices/exercice_homme_demisquatcycliste.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_squats.png"
       },
       "unit": "répétitions",
@@ -990,7 +990,7 @@ window.FitnessRpgData = {
       "categoryId": "mobility",
       "title": "Cercles de chevilles",
       "images": {
-        "male": "assets/exercices/exercice_homme_cerclesdechevilles.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_cerclesdechevilles.png"
       },
       "unit": "sec",
@@ -1092,7 +1092,7 @@ window.FitnessRpgData = {
   title: "Demi-plié",
   images: {
     male: "assets/exercices/exercice_homme_demiplie.png",
-    female: "assets/exercices/exercice_femme_demiplie.png"
+    female: "assets/exercices/femme_default.png"
   },
   unit: "répétitions",
   defaultValue: 10,
@@ -1111,7 +1111,7 @@ window.FitnessRpgData = {
   title: "Bras en seconde",
   images: {
     male: "assets/exercices/exercice_homme_brasenseconde.png",
-    female: "assets/exercices/exercice_femme_brasenseconde.png"
+    female: "assets/exercices/femme_default.png"
   },
   unit: "sec",
   defaultValue: 30,
@@ -1131,7 +1131,7 @@ window.FitnessRpgData = {
   title: "Pas du cygne",
   images: {
     male: "assets/exercices/exercice_homme_pasducygne.png",
-    female: "assets/exercices/exercice_femme_pasducygne.png"
+    female: "assets/exercices/femme_default.png"
   },
   unit: "sec",
   defaultValue: 45,
@@ -1151,7 +1151,7 @@ window.FitnessRpgData = {
   title: "Arabesque simplifiée",
   images: {
     male: "assets/exercices/exercice_homme_arabesquesimplifiee.png",
-    female: "assets/exercices/exercice_femme_arabesquesimplifiee.png"
+    female: "assets/exercices/femme_default.png"
   },
   unit: "sec",
   defaultValue: 40,
@@ -1171,7 +1171,7 @@ window.FitnessRpgData = {
   title: "Développé avant simplifié",
   images: {
     male: "assets/exercices/exercice_homme_developpeavantsimplifie.png",
-    female: "assets/exercices/exercice_femme_developpeavantsimplifie.png"
+    female: "assets/exercices/femme_default.png"
   },
   unit: "répétitions",
   defaultValue: 16,
@@ -1190,7 +1190,7 @@ window.FitnessRpgData = {
   title: "Révérence de la Cour",
   images: {
     male: "assets/exercices/exercice_homme_reverencedelacour.png",
-    female: "assets/exercices/exercice_femme_reverencedelacour.png"
+    female: "assets/exercices/femme_default.png"
   },
   unit: "répétitions",
   defaultValue: 8,
@@ -1267,7 +1267,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Équilibre sur une jambe",
       "images": {
-        "male": "assets/exercices/exercice_homme_equilibresurunejambe.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_equilibresurunejambe.png"
       },
       "unit": "sec",
@@ -1287,7 +1287,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Montées sur pointes lentes",
       "images": {
-        "male": "assets/exercices/exercice_homme_monteessurpointeslentes.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_monteessurpointes.png"
       },
       "unit": "répétitions",
@@ -1325,7 +1325,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Squats",
       "images": {
-        "male": "assets/exercices/exercice_homme_squats.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_squats.png"
       },
       "unit": "répétitions",
@@ -1344,7 +1344,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Chaise contre un mur",
       "images": {
-        "male": "assets/exercices/exercice_homme_chaisecontremur.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_squatchaise.png"
       },
       "unit": "sec",
@@ -1383,7 +1383,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Fentes arrière",
       "images": {
-        "male": "assets/exercices/exercice_homme_fentesarriere.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_fentesarriere.png"
       },
       "unit": "répétitions",
@@ -1402,7 +1402,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Montées sur pointes",
       "images": {
-        "male": "assets/exercices/exercice_homme_monteessurpointes.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_monteessurpointes.png"
       },
       "unit": "répétitions",
@@ -1418,7 +1418,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Pont de hanches",
       "images": {
-        "male": "assets/exercices/exercice_homme_pontdehanches.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_pontdehanches.png"
       },
       "unit": "répétitions",
@@ -1435,7 +1435,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Pont de hanches une jambe alternée",
       "images": {
-        "male": "assets/exercices/exercice_homme_pontdehanchesunejambealternee.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_pontdehanchessurunejambealternee.png"
       },
       "unit": "répétitions",
@@ -1451,7 +1451,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Superman",
       "images": {
-        "male": "assets/exercices/exercice_homme_superman.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_superman.png"
       },
       "unit": "répétitions",
@@ -1470,7 +1470,7 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Pompes murales",
       "images": {
-        "male": "assets/exercices/exercice_homme_pompesmurales.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_pompesmurales.png"
       },
       "unit": "répétitions",
@@ -1620,7 +1620,7 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Extension triceps contre un mur",
       "images": {
-        "male": "assets/exercices/exercice_homme_extensiontricepsmur.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_extensiontricepscontreunmur.png"
       },
       "unit": "répétitions",
@@ -1764,7 +1764,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Dead bug simplifié",
       "images": {
-        "male": "assets/exercices/exercice_homme_deadbugsimplifie.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_deadbugsimplifie.png"
       },
       "unit": "répétitions",
@@ -1806,8 +1806,7 @@ window.FitnessRpgData = {
       "step": 2,
       "xpPerUnit": 1,
       "stat": "Contrôle du centre",
-      "pose": "core",
-      "description": "Position de départ : allongez-vous sur le dos. Pliez les genoux et gardez les pieds à plat sur le sol, écartés de la largeur du bassin. Les bras reposent le long du corps, paumes vers le bas. La colonne est en position neutre.\n\nExpiration, montée : expirez profondément en contractant le périmètre pelvien (périnée) et en rentrant le nombril vers la colonne. Basculez doucement le bassin pour aplatir le bas du dos sur le tapis, puis décollez les vertèbres une par une jusqu’à former une ligne droite des épaules aux genoux.\n\nInspiration, pause : restez en haut une seconde, ouvrez la poitrine et gardez les fessiers et l’arrière des cuisses engagés.\n\nExpiration, descente : expirez à nouveau pour dérouler la colonne vertébrale, vertèbre après vertèbre, en posant le haut, le milieu puis le bas du dos en dernier sur le tapis pour retrouver la position neutre."
+      "pose": "core"
     },
     {
       "id": "crunch_controlled",
@@ -1850,8 +1849,8 @@ window.FitnessRpgData = {
   "categoryId": "strength",
   "title": "The Hundred",
   "images": {
-    "male": "assets/exercices/exercice_homme_the_hundred.png",
-    "female": "assets/exercices/exercice_femme_the_hundred.png"
+    "male": "assets/exercices/homme_default.png",
+    "female": "assets/exercices/femme_default.png"
   },
   "unit": "cycles respiratoires",
   "defaultValue": 10,
@@ -1874,88 +1873,12 @@ window.FitnessRpgData = {
   ]
 },
 {
-  "id": "one_leg_circle",
-  "categoryId": "strength",
-  "title": "One Leg Circle",
-  "images": {
-    "male": "assets/exercices/exercice_homme_one_leg_circle.png",
-    "female": "assets/exercices/exercice_femme_one_leg_circle.png"
-  },
-  "unit": "par sens / jambe",
-  "defaultValue": 5,
-  "min": 1,
-  "step": 1,
-  "xpPerUnit": 1.2,
-  "stat": "Centre / mobilité de hanche",
-  "pose": "core",
-  "description": "Allongé sur le dos, gardez une jambe allongée au sol et tendez l’autre vers le plafond. Dessinez un cercle avec la jambe depuis l’articulation de la hanche en maintenant le bassin aussi stable que possible. Réalisez 5 cercles dans chaque sens, puis changez de jambe.",
-  "shortDescription": "Cercles de jambe depuis la hanche, bassin stable.",
-  "coachTip": "Réduisez le diamètre du cercle dès que le bassin commence à bouger."
-},
-{
-  "id": "rolling_like_a_ball",
-  "categoryId": "strength",
-  "title": "Rolling Like a Ball",
-  "images": {
-    "male": "assets/exercices/exercice_homme_rolling_like_a_ball.png",
-    "female": "assets/exercices/exercice_femme_rolling_like_a_ball.png"
-  },
-  "unit": "répétitions",
-  "defaultValue": 6,
-  "min": 2,
-  "step": 1,
-  "xpPerUnit": 1.2,
-  "stat": "Centre / équilibre / mobilité de colonne",
-  "pose": "core",
-  "description": "Assis en équilibre derrière les ischions, rapprochez les genoux du thorax et tenez les tibias. Arrondissez le dos et roulez vers l’arrière jusqu’aux omoplates, jamais sur la nuque, puis revenez en équilibre sans poser les pieds.",
-  "shortDescription": "Rouler en boule jusqu’aux omoplates puis revenir en équilibre.",
-  "coachTip": "Gardez la forme ronde du dos et utilisez le centre, pas l’élan."
-},
-{
-  "id": "single_leg_stretch",
-  "categoryId": "strength",
-  "title": "Single Leg Stretch",
-  "images": {
-    "male": "assets/exercices/exercice_homme_single_leg_stretch.png",
-    "female": "assets/exercices/exercice_femme_single_leg_stretch.png"
-  },
-  "unit": "par jambe",
-  "defaultValue": 5,
-  "min": 2,
-  "step": 1,
-  "xpPerUnit": 1.2,
-  "stat": "Abdominaux / coordination",
-  "pose": "core",
-  "description": "Allongé sur le dos, relevez la tête et les épaules. Ramenez un genou vers le thorax pendant que l’autre jambe s’allonge vers l’avant. Alternez les jambes sans perdre la stabilité du bassin ni le contrôle du centre.",
-  "shortDescription": "Alternance d’une jambe vers le thorax et d’une jambe allongée.",
-  "coachTip": "La jambe qui s’allonge ne doit pas descendre au point de faire cambrer le bas du dos."
-},
-{
-  "id": "double_leg_stretch",
-  "categoryId": "strength",
-  "title": "Double Leg Stretch",
-  "images": {
-    "male": "assets/exercices/exercice_homme_double_leg_stretch.png",
-    "female": "assets/exercices/exercice_femme_double_leg_stretch.png"
-  },
-  "unit": "répétitions",
-  "defaultValue": 6,
-  "min": 2,
-  "step": 1,
-  "xpPerUnit": 1.3,
-  "stat": "Abdominaux / coordination globale",
-  "pose": "core",
-  "description": "Depuis une position regroupée, tête et épaules relevées, tendez simultanément les bras et les jambes sans perdre le contrôle du centre. Ramenez ensuite les bras en cercle et les genoux vers le thorax pour revenir en position regroupée.",
-  "shortDescription": "Bras et jambes s’allongent ensemble puis reviennent en position regroupée.",
-  "coachTip": "Choisissez une amplitude qui permet de garder les lombaires contrôlées du début à la fin."
-},
-{
   "id": "swimming",
   "categoryId": "strength",
   "title": "Swimming",
   "images": {
-    "male": "assets/exercices/exercice_homme_swimming.png",
-    "female": "assets/exercices/exercice_femme_swimming.png"
+    "male": "assets/exercices/homme_default.png",
+    "female": "assets/exercices/femme_default.png"
   },
   "unit": "sec",
   "defaultValue": 20,
@@ -1974,8 +1897,8 @@ window.FitnessRpgData = {
   "categoryId": "strength",
   "title": "Toe Taps",
   "images": {
-    "male": "assets/exercices/exercice_homme_toe_taps.png",
-    "female": "assets/exercices/exercice_femme_toe_taps.png"
+    "male": "assets/exercices/homme_default.png",
+    "female": "assets/exercices/femme_default.png"
   },
   "unit": "répétitions",
   "defaultValue": 20,
@@ -1993,8 +1916,8 @@ window.FitnessRpgData = {
   "categoryId": "strength",
   "title": "Side Leg Lift",
   "images": {
-    "male": "assets/exercices/exercice_homme_side_leg_lift.png",
-    "female": "assets/exercices/exercice_femme_side_leg_lift.png"
+    "male": "assets/exercices/homme_default.png",
+    "female": "assets/exercices/femme_default.png"
   },
   "unit": "répétitions",
   "defaultValue": 24,
@@ -2012,8 +1935,8 @@ window.FitnessRpgData = {
   "categoryId": "strength",
   "title": "Roll Up simplifié",
   "images": {
-    "male": "assets/exercices/exercice_homme_roll_up_simplifie.png",
-    "female": "assets/exercices/exercice_femme_roll_up_simplifie.png"
+    "male": "assets/exercices/homme_default.png",
+    "female": "assets/exercices/femme_default.png"
   },
   "unit": "répétitions",
   "defaultValue": 10,
@@ -2088,7 +2011,7 @@ window.FitnessRpgData = {
       "categoryId": "mobility",
       "title": "Pilates",
       "images": {
-        "male": "assets/exercices/exercice_homme_pilates.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_pilates.png"
       },
       "unit": "min",
@@ -2105,7 +2028,7 @@ window.FitnessRpgData = {
       "categoryId": "mobility",
       "title": "Chat-vache",
       "images": {
-        "male": "assets/exercices/exercice_homme_chatvache.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_chatvache.png"
       },
       "unit": "min",
@@ -2123,7 +2046,7 @@ window.FitnessRpgData = {
       "categoryId": "mobility",
       "title": "Cercles de hanches",
       "images": {
-        "male": "assets/exercices/exercice_homme_cerclesdehanches.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_cerclesdehanches.png"
       },
       "unit": "sec",
@@ -2143,7 +2066,7 @@ window.FitnessRpgData = {
       "categoryId": "mobility",
       "title": "Rotation thoracique",
       "images": {
-        "male": "assets/exercices/exercice_homme_rotationthoracique.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_rotationthoracique.png"
       },
       "unit": "min",
@@ -2161,7 +2084,7 @@ window.FitnessRpgData = {
       "categoryId": "mobility",
       "title": "Respiration abdominale",
       "images": {
-        "male": "assets/exercices/exercice_homme_respirationabdominale.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_respirationabdominalecontrolee.png"
       },
       "unit": "min",
@@ -2199,7 +2122,7 @@ window.FitnessRpgData = {
       "categoryId": "stretch",
       "title": "Respiration lente",
       "images": {
-        "male": "assets/exercices/exercice_homme_respirationlente.png",
+        "male": "assets/exercices/homme_default.png",
         "female": "assets/exercices/exercice_femme_respirationfinale.png"
       },
       "unit": "min",
@@ -8267,7 +8190,6 @@ window.FitnessRpgData = {
     "badgeTitle": "Dragon Astral",
     "chest": true,
     "nextPrograms": [
-      "archimage-centre",
       "forge-guerrier",
       "champion-arenes"
     ]
@@ -8839,1911 +8761,6 @@ window.FitnessRpgData = {
     "Toe Taps : pointe de pied au sol depuis la position jambes levées.",
     "Side Leg Lift : élévation latérale de jambe.",
     "Roll Up simplifié : remontée contrôlée du buste."
-  ]
-},
-   "archimage-centre": {
-  "id": "archimage-centre",
-  "subtitle": "Pilates avancé : contrôle du centre, respiration, coordination et fluidité dans le répertoire classique.",
-  "unlockLevel": 3,
-  "duration": "25 à 30 min",
-  "frequency": "3 séances par semaine + boss le samedi",
-  "material": "Aucun matériel. Tapis conseillé.",
-  "reward": {
-    "chest": true,
-    "xp": 180,
-    "nextPrograms": []
-  },
-  "weeks": [
-    {
-      "week": 1,
-      "title": "Le Cercle de l’Apprenti",
-      "xp": 90,
-      "progression": "Nouvel exercice : One Leg Circle. Stabiliser le bassin pendant le mouvement de hanche.",
-      "days": [
-        {
-          "day": 1,
-          "title": "Cercle et contrôle",
-          "xp": 90,
-          "difficultyLabel": "≈ 25 à 30 min",
-          "instructions": "Découvrir le One Leg Circle et conserver un centre stable.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "abdominal_breathing",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Échauffement",
-              "exerciseId": "pelvic_lift_floor",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Activation Pilates · Version 3",
-              "exerciseId": "the_hundred",
-              "amount": 10,
-              "unit": "cycles respiratoires",
-              "variantVersion": 3
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "toe_taps",
-              "amount": 8,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "side_leg_lift",
-              "amount": 8,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "toe_taps",
-              "amount": 8,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "side_leg_lift",
-              "amount": 8,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "swimming",
-              "amount": 30,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "hollow_hold_simplified",
-              "amount": 20,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "swimming",
-              "amount": 30,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "hollow_hold_simplified",
-              "amount": 20,
-              "unit": "sec"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "hip_quad_stretch",
-              "amount": 2,
-              "unit": "min"
-            },
-            {
-              "phase": "Respiration",
-              "exerciseId": "slow_breathing",
-              "amount": 1,
-              "unit": "min"
-            }
-          ]
-        },
-        {
-          "day": 2,
-          "title": "Bassin immobile",
-          "xp": 90,
-          "difficultyLabel": "≈ 25 à 30 min",
-          "instructions": "Contrôler la hanche sans laisser le bassin suivre le cercle.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "cat_cow",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Échauffement",
-              "exerciseId": "thoracic_rotation",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Activation Pilates · Version 3",
-              "exerciseId": "the_hundred",
-              "amount": 10,
-              "unit": "cycles respiratoires",
-              "variantVersion": 3
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "side_leg_lift",
-              "amount": 8,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "toe_taps",
-              "amount": 8,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "side_leg_lift",
-              "amount": 8,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "toe_taps",
-              "amount": 8,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "pelvic_lift_floor",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "hollow_hold_simplified",
-              "amount": 20,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "swimming",
-              "amount": 30,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "pelvic_lift_floor",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "hollow_hold_simplified",
-              "amount": 20,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "swimming",
-              "amount": 30,
-              "unit": "sec"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "gentle_back_stretch",
-              "amount": 2,
-              "unit": "min"
-            },
-            {
-              "phase": "Respiration",
-              "exerciseId": "slow_breathing",
-              "amount": 1,
-              "unit": "min"
-            }
-          ]
-        },
-        {
-          "day": 3,
-          "title": "Cercle et fluidité",
-          "xp": 90,
-          "difficultyLabel": "≈ 25 à 30 min",
-          "instructions": "Enchaîner cercle, Roll Up et travail du centre sans précipitation.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "pelvic_tilt",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Échauffement",
-              "exerciseId": "pelvic_lift_floor",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Activation Pilates · Version 3",
-              "exerciseId": "the_hundred",
-              "amount": 10,
-              "unit": "cycles respiratoires",
-              "variantVersion": 3
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "pelvic_lift_floor",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "pelvic_lift_floor",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "toe_taps",
-              "amount": 8,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "swimming",
-              "amount": 30,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "side_leg_lift",
-              "amount": 8,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "toe_taps",
-              "amount": 8,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "swimming",
-              "amount": 30,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "side_leg_lift",
-              "amount": 8,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "shoulder_arm_stretch",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "hip_quad_stretch",
-              "amount": 1,
-              "unit": "min"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "week": 2,
-      "title": "L’Équilibre de l’Orbe",
-      "xp": 100,
-      "progression": "Nouvel exercice : Rolling Like a Ball. Mobilité contrôlée de la colonne et équilibre sans élan.",
-      "days": [
-        {
-          "day": 1,
-          "title": "Rouler et revenir",
-          "xp": 100,
-          "difficultyLabel": "≈ 25 à 30 min",
-          "instructions": "Découvrir Rolling Like a Ball et retrouver l’équilibre sans poser les pieds.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "abdominal_breathing",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Échauffement",
-              "exerciseId": "pelvic_lift_floor",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Activation Pilates · Version 3",
-              "exerciseId": "the_hundred",
-              "amount": 10,
-              "unit": "cycles respiratoires",
-              "variantVersion": 3
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "toe_taps",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "side_leg_lift",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "swimming",
-              "amount": 35,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "toe_taps",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "side_leg_lift",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "swimming",
-              "amount": 35,
-              "unit": "sec"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "hip_quad_stretch",
-              "amount": 2,
-              "unit": "min"
-            },
-            {
-              "phase": "Respiration",
-              "exerciseId": "slow_breathing",
-              "amount": 1,
-              "unit": "min"
-            }
-          ]
-        },
-        {
-          "day": 2,
-          "title": "Colonne mobile",
-          "xp": 100,
-          "difficultyLabel": "≈ 25 à 30 min",
-          "instructions": "Associer mobilité en boule et contrôle du centre.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "cat_cow",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Échauffement",
-              "exerciseId": "thoracic_rotation",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Activation Pilates · Version 3",
-              "exerciseId": "the_hundred",
-              "amount": 10,
-              "unit": "cycles respiratoires",
-              "variantVersion": 3
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "swimming",
-              "amount": 35,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "hollow_hold_simplified",
-              "amount": 25,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "side_leg_lift",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "swimming",
-              "amount": 35,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "hollow_hold_simplified",
-              "amount": 25,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "side_leg_lift",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "gentle_back_stretch",
-              "amount": 2,
-              "unit": "min"
-            },
-            {
-              "phase": "Respiration",
-              "exerciseId": "slow_breathing",
-              "amount": 1,
-              "unit": "min"
-            }
-          ]
-        },
-        {
-          "day": 3,
-          "title": "Centre et équilibre",
-          "xp": 100,
-          "difficultyLabel": "≈ 25 à 30 min",
-          "instructions": "Conserver la précision quand les exercices s’enchaînent.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "pelvic_tilt",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Échauffement",
-              "exerciseId": "pelvic_lift_floor",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Activation Pilates · Version 3",
-              "exerciseId": "the_hundred",
-              "amount": 10,
-              "unit": "cycles respiratoires",
-              "variantVersion": 3
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "side_leg_lift",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "toe_taps",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "swimming",
-              "amount": 35,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "side_leg_lift",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "toe_taps",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "swimming",
-              "amount": 35,
-              "unit": "sec"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "shoulder_arm_stretch",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "hip_quad_stretch",
-              "amount": 1,
-              "unit": "min"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "week": 3,
-      "title": "Le Souffle Alterné",
-      "xp": 110,
-      "progression": "Nouvel exercice : Single Leg Stretch. Coordination alternée des jambes avec le tronc stable.",
-      "days": [
-        {
-          "day": 1,
-          "title": "Alternance",
-          "xp": 110,
-          "difficultyLabel": "≈ 25 à 30 min",
-          "instructions": "Découvrir le Single Leg Stretch avec une alternance lente et contrôlée.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "abdominal_breathing",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Échauffement",
-              "exerciseId": "pelvic_lift_floor",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Activation Pilates · Version 3",
-              "exerciseId": "the_hundred",
-              "amount": 10,
-              "unit": "cycles respiratoires",
-              "variantVersion": 3
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "single_leg_stretch",
-              "amount": 5,
-              "unit": "par jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "toe_taps",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "single_leg_stretch",
-              "amount": 5,
-              "unit": "par jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "toe_taps",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "swimming",
-              "amount": 40,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "swimming",
-              "amount": 40,
-              "unit": "sec"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "hip_quad_stretch",
-              "amount": 2,
-              "unit": "min"
-            },
-            {
-              "phase": "Respiration",
-              "exerciseId": "slow_breathing",
-              "amount": 1,
-              "unit": "min"
-            }
-          ]
-        },
-        {
-          "day": 2,
-          "title": "Centre stable",
-          "xp": 110,
-          "difficultyLabel": "≈ 25 à 30 min",
-          "instructions": "Maintenir le centre pendant le travail alterné et les cercles de jambe.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "cat_cow",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Échauffement",
-              "exerciseId": "thoracic_rotation",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Activation Pilates · Version 3",
-              "exerciseId": "the_hundred",
-              "amount": 10,
-              "unit": "cycles respiratoires",
-              "variantVersion": 3
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "single_leg_stretch",
-              "amount": 5,
-              "unit": "par jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "toe_taps",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "single_leg_stretch",
-              "amount": 5,
-              "unit": "par jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "toe_taps",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "side_leg_lift",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "swimming",
-              "amount": 40,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "side_leg_lift",
-              "amount": 10,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "swimming",
-              "amount": 40,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "gentle_back_stretch",
-              "amount": 2,
-              "unit": "min"
-            },
-            {
-              "phase": "Respiration",
-              "exerciseId": "slow_breathing",
-              "amount": 1,
-              "unit": "min"
-            }
-          ]
-        },
-        {
-          "day": 3,
-          "title": "Contrôle continu",
-          "xp": 110,
-          "difficultyLabel": "≈ 25 à 30 min",
-          "instructions": "Enchaîner alternance, équilibre et extension sans perdre le placement.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "pelvic_tilt",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Échauffement",
-              "exerciseId": "pelvic_lift_floor",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Activation Pilates · Version 3",
-              "exerciseId": "the_hundred",
-              "amount": 10,
-              "unit": "cycles respiratoires",
-              "variantVersion": 3
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "single_leg_stretch",
-              "amount": 5,
-              "unit": "par jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "single_leg_stretch",
-              "amount": 5,
-              "unit": "par jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "hollow_hold_simplified",
-              "amount": 25,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "swimming",
-              "amount": 40,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "hollow_hold_simplified",
-              "amount": 25,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "swimming",
-              "amount": 40,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "shoulder_arm_stretch",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "hip_quad_stretch",
-              "amount": 1,
-              "unit": "min"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "week": 4,
-      "title": "Le Double Arcane",
-      "xp": 120,
-      "progression": "Nouvel exercice : Double Leg Stretch. Bras et jambes s’éloignent ensemble sans perdre le contrôle du centre.",
-      "days": [
-        {
-          "day": 1,
-          "title": "Double contrôle",
-          "xp": 120,
-          "difficultyLabel": "≈ 25 à 30 min",
-          "instructions": "Découvrir le Double Leg Stretch et revenir en position regroupée sans élan.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "abdominal_breathing",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Échauffement",
-              "exerciseId": "pelvic_lift_floor",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Activation Pilates · Version 3",
-              "exerciseId": "the_hundred",
-              "amount": 10,
-              "unit": "cycles respiratoires",
-              "variantVersion": 3
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "double_leg_stretch",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "single_leg_stretch",
-              "amount": 5,
-              "unit": "par jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "double_leg_stretch",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "single_leg_stretch",
-              "amount": 5,
-              "unit": "par jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "swimming",
-              "amount": 45,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "swimming",
-              "amount": 45,
-              "unit": "sec"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "hip_quad_stretch",
-              "amount": 2,
-              "unit": "min"
-            },
-            {
-              "phase": "Respiration",
-              "exerciseId": "slow_breathing",
-              "amount": 1,
-              "unit": "min"
-            }
-          ]
-        },
-        {
-          "day": 2,
-          "title": "Centre et amplitude",
-          "xp": 120,
-          "difficultyLabel": "≈ 25 à 30 min",
-          "instructions": "Augmenter l’amplitude uniquement si les lombaires restent contrôlées.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "cat_cow",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Échauffement",
-              "exerciseId": "thoracic_rotation",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Activation Pilates · Version 3",
-              "exerciseId": "the_hundred",
-              "amount": 10,
-              "unit": "cycles respiratoires",
-              "variantVersion": 3
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "double_leg_stretch",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "single_leg_stretch",
-              "amount": 5,
-              "unit": "par jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "double_leg_stretch",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "single_leg_stretch",
-              "amount": 5,
-              "unit": "par jambe"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "side_leg_lift",
-              "amount": 12,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "swimming",
-              "amount": 45,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "side_leg_lift",
-              "amount": 12,
-              "unit": "par côté"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "swimming",
-              "amount": 45,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "gentle_back_stretch",
-              "amount": 2,
-              "unit": "min"
-            },
-            {
-              "phase": "Respiration",
-              "exerciseId": "slow_breathing",
-              "amount": 1,
-              "unit": "min"
-            }
-          ]
-        },
-        {
-          "day": 3,
-          "title": "Flux complet",
-          "xp": 120,
-          "difficultyLabel": "≈ 25 à 30 min",
-          "instructions": "Enchaîner les acquis du programme dans un flux précis et respiré.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "pelvic_tilt",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Échauffement",
-              "exerciseId": "pelvic_lift_floor",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Activation Pilates · Version 3",
-              "exerciseId": "the_hundred",
-              "amount": 10,
-              "unit": "cycles respiratoires",
-              "variantVersion": 3
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "double_leg_stretch",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "single_leg_stretch",
-              "amount": 5,
-              "unit": "par jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 1",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "double_leg_stretch",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "single_leg_stretch",
-              "amount": 5,
-              "unit": "par jambe"
-            },
-            {
-              "phase": "Défi 1 · Cycle 2",
-              "exerciseId": "one_leg_circle",
-              "amount": 5,
-              "unit": "par sens / jambe"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "swimming",
-              "amount": 45,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 1",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "rolling_like_a_ball",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "swimming",
-              "amount": 45,
-              "unit": "sec"
-            },
-            {
-              "phase": "Défi 2 · Cycle 2",
-              "exerciseId": "roll_up_simplified",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "shoulder_arm_stretch",
-              "amount": 1,
-              "unit": "min"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "hip_quad_stretch",
-              "amount": 1,
-              "unit": "min"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "bosses": [
-    {
-      "week": 1,
-      "title": "L’Orbe Lunaire",
-      "image": "assets/boss/archimage_orbe_lunaire.png",
-      "xp": 100,
-      "difficultyLabel": "Boss semaine 1 · 3 cycles",
-      "instructions": "Débloqué après les 3 séances de la semaine 1. The Hundred est réalisé en version 3 avant les 3 cycles.",
-      "lockedMessage": "L’Orbe Lunaire ne s’ouvre qu’après les trois maîtrises du Cercle de l’Apprenti.",
-      "exercises": [
-        {
-          "phase": "Échauffement",
-          "exerciseId": "abdominal_breathing",
-          "amount": 1,
-          "unit": "min"
-        },
-        {
-          "phase": "Échauffement",
-          "exerciseId": "pelvic_lift_floor",
-          "amount": 8,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Activation Pilates · Version 3",
-          "exerciseId": "the_hundred",
-          "amount": 10,
-          "unit": "cycles respiratoires",
-          "variantVersion": 3
-        },
-        {
-          "phase": "Défi 1 · Cycle 1",
-          "exerciseId": "one_leg_circle",
-          "amount": 5,
-          "unit": "par sens / jambe"
-        },
-        {
-          "phase": "Défi 1 · Cycle 1",
-          "exerciseId": "toe_taps",
-          "amount": 8,
-          "unit": "par côté"
-        },
-        {
-          "phase": "Défi 2 · Cycle 1",
-          "exerciseId": "roll_up_simplified",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 1",
-          "exerciseId": "swimming",
-          "amount": 30,
-          "unit": "sec"
-        },
-        {
-          "phase": "Défi 1 · Cycle 2",
-          "exerciseId": "one_leg_circle",
-          "amount": 5,
-          "unit": "par sens / jambe"
-        },
-        {
-          "phase": "Défi 1 · Cycle 2",
-          "exerciseId": "toe_taps",
-          "amount": 8,
-          "unit": "par côté"
-        },
-        {
-          "phase": "Défi 2 · Cycle 2",
-          "exerciseId": "roll_up_simplified",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 2",
-          "exerciseId": "swimming",
-          "amount": 30,
-          "unit": "sec"
-        },
-        {
-          "phase": "Défi 1 · Cycle 3",
-          "exerciseId": "one_leg_circle",
-          "amount": 5,
-          "unit": "par sens / jambe"
-        },
-        {
-          "phase": "Défi 1 · Cycle 3",
-          "exerciseId": "toe_taps",
-          "amount": 8,
-          "unit": "par côté"
-        },
-        {
-          "phase": "Défi 2 · Cycle 3",
-          "exerciseId": "roll_up_simplified",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 3",
-          "exerciseId": "swimming",
-          "amount": 30,
-          "unit": "sec"
-        },
-        {
-          "phase": "Retour au calme",
-          "exerciseId": "hip_quad_stretch",
-          "amount": 2,
-          "unit": "min"
-        },
-        {
-          "phase": "Respiration",
-          "exerciseId": "slow_breathing",
-          "amount": 1,
-          "unit": "min"
-        }
-      ]
-    },
-    {
-      "week": 2,
-      "title": "Le Golem Sphérique",
-      "image": "assets/boss/archimage_golem_spherique.png",
-      "xp": 110,
-      "difficultyLabel": "Boss semaine 2 · 3 cycles",
-      "instructions": "Débloqué après les 3 séances de la semaine 2. The Hundred V3 ouvre le défi.",
-      "lockedMessage": "Le Golem Sphérique attend que l’équilibre soit maîtrisé.",
-      "exercises": [
-        {
-          "phase": "Échauffement",
-          "exerciseId": "cat_cow",
-          "amount": 1,
-          "unit": "min"
-        },
-        {
-          "phase": "Échauffement",
-          "exerciseId": "thoracic_rotation",
-          "amount": 1,
-          "unit": "min"
-        },
-        {
-          "phase": "Activation Pilates · Version 3",
-          "exerciseId": "the_hundred",
-          "amount": 10,
-          "unit": "cycles respiratoires",
-          "variantVersion": 3
-        },
-        {
-          "phase": "Défi 1 · Cycle 1",
-          "exerciseId": "rolling_like_a_ball",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 1 · Cycle 1",
-          "exerciseId": "one_leg_circle",
-          "amount": 5,
-          "unit": "par sens / jambe"
-        },
-        {
-          "phase": "Défi 2 · Cycle 1",
-          "exerciseId": "roll_up_simplified",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 1",
-          "exerciseId": "toe_taps",
-          "amount": 10,
-          "unit": "par côté"
-        },
-        {
-          "phase": "Défi 1 · Cycle 2",
-          "exerciseId": "rolling_like_a_ball",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 1 · Cycle 2",
-          "exerciseId": "one_leg_circle",
-          "amount": 5,
-          "unit": "par sens / jambe"
-        },
-        {
-          "phase": "Défi 2 · Cycle 2",
-          "exerciseId": "roll_up_simplified",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 2",
-          "exerciseId": "toe_taps",
-          "amount": 10,
-          "unit": "par côté"
-        },
-        {
-          "phase": "Défi 1 · Cycle 3",
-          "exerciseId": "rolling_like_a_ball",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 1 · Cycle 3",
-          "exerciseId": "one_leg_circle",
-          "amount": 5,
-          "unit": "par sens / jambe"
-        },
-        {
-          "phase": "Défi 2 · Cycle 3",
-          "exerciseId": "roll_up_simplified",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 3",
-          "exerciseId": "toe_taps",
-          "amount": 10,
-          "unit": "par côté"
-        },
-        {
-          "phase": "Retour au calme",
-          "exerciseId": "hip_quad_stretch",
-          "amount": 2,
-          "unit": "min"
-        },
-        {
-          "phase": "Respiration",
-          "exerciseId": "slow_breathing",
-          "amount": 1,
-          "unit": "min"
-        }
-      ]
-    },
-    {
-      "week": 3,
-      "title": "Le Serpent du Souffle",
-      "image": "assets/boss/archimage_serpent_du_souffle.png",
-      "xp": 120,
-      "difficultyLabel": "Boss semaine 3 · 3 cycles",
-      "instructions": "Débloqué après les 3 séances de la semaine 3. Garde une respiration régulière pendant les alternances.",
-      "lockedMessage": "Le Serpent du Souffle n’apparaît qu’après les trois séances du Souffle Alterné.",
-      "exercises": [
-        {
-          "phase": "Échauffement",
-          "exerciseId": "pelvic_tilt",
-          "amount": 10,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Échauffement",
-          "exerciseId": "pelvic_lift_floor",
-          "amount": 8,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Activation Pilates · Version 3",
-          "exerciseId": "the_hundred",
-          "amount": 10,
-          "unit": "cycles respiratoires",
-          "variantVersion": 3
-        },
-        {
-          "phase": "Défi 1 · Cycle 1",
-          "exerciseId": "single_leg_stretch",
-          "amount": 5,
-          "unit": "par jambe"
-        },
-        {
-          "phase": "Défi 1 · Cycle 1",
-          "exerciseId": "rolling_like_a_ball",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 1",
-          "exerciseId": "one_leg_circle",
-          "amount": 5,
-          "unit": "par sens / jambe"
-        },
-        {
-          "phase": "Défi 2 · Cycle 1",
-          "exerciseId": "swimming",
-          "amount": 40,
-          "unit": "sec"
-        },
-        {
-          "phase": "Défi 1 · Cycle 2",
-          "exerciseId": "single_leg_stretch",
-          "amount": 5,
-          "unit": "par jambe"
-        },
-        {
-          "phase": "Défi 1 · Cycle 2",
-          "exerciseId": "rolling_like_a_ball",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 2",
-          "exerciseId": "one_leg_circle",
-          "amount": 5,
-          "unit": "par sens / jambe"
-        },
-        {
-          "phase": "Défi 2 · Cycle 2",
-          "exerciseId": "swimming",
-          "amount": 40,
-          "unit": "sec"
-        },
-        {
-          "phase": "Défi 1 · Cycle 3",
-          "exerciseId": "single_leg_stretch",
-          "amount": 5,
-          "unit": "par jambe"
-        },
-        {
-          "phase": "Défi 1 · Cycle 3",
-          "exerciseId": "rolling_like_a_ball",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 3",
-          "exerciseId": "one_leg_circle",
-          "amount": 5,
-          "unit": "par sens / jambe"
-        },
-        {
-          "phase": "Défi 2 · Cycle 3",
-          "exerciseId": "swimming",
-          "amount": 40,
-          "unit": "sec"
-        },
-        {
-          "phase": "Retour au calme",
-          "exerciseId": "hip_quad_stretch",
-          "amount": 2,
-          "unit": "min"
-        },
-        {
-          "phase": "Respiration",
-          "exerciseId": "slow_breathing",
-          "amount": 1,
-          "unit": "min"
-        }
-      ]
-    },
-    {
-      "week": 4,
-      "title": "L’Archimage du Centre",
-      "image": "assets/boss/archimage_du_centre.png",
-      "xp": 180,
-      "chest": true,
-      "difficultyLabel": "Boss final · 3 cycles",
-      "instructions": "Épreuve finale : The Hundred V3 puis trois cycles de maîtrise du répertoire acquis.",
-      "lockedMessage": "L’Archimage du Centre attend l’accomplissement des trois séances du Double Arcane.",
-      "exercises": [
-        {
-          "phase": "Échauffement",
-          "exerciseId": "abdominal_breathing",
-          "amount": 1,
-          "unit": "min"
-        },
-        {
-          "phase": "Échauffement",
-          "exerciseId": "pelvic_lift_floor",
-          "amount": 8,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Activation Pilates · Version 3",
-          "exerciseId": "the_hundred",
-          "amount": 10,
-          "unit": "cycles respiratoires",
-          "variantVersion": 3
-        },
-        {
-          "phase": "Défi 1 · Cycle 1",
-          "exerciseId": "one_leg_circle",
-          "amount": 5,
-          "unit": "par sens / jambe"
-        },
-        {
-          "phase": "Défi 1 · Cycle 1",
-          "exerciseId": "rolling_like_a_ball",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 1 · Cycle 1",
-          "exerciseId": "single_leg_stretch",
-          "amount": 5,
-          "unit": "par jambe"
-        },
-        {
-          "phase": "Défi 2 · Cycle 1",
-          "exerciseId": "double_leg_stretch",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 1",
-          "exerciseId": "roll_up_simplified",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 1",
-          "exerciseId": "swimming",
-          "amount": 45,
-          "unit": "sec"
-        },
-        {
-          "phase": "Défi 1 · Cycle 2",
-          "exerciseId": "one_leg_circle",
-          "amount": 5,
-          "unit": "par sens / jambe"
-        },
-        {
-          "phase": "Défi 1 · Cycle 2",
-          "exerciseId": "rolling_like_a_ball",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 1 · Cycle 2",
-          "exerciseId": "single_leg_stretch",
-          "amount": 5,
-          "unit": "par jambe"
-        },
-        {
-          "phase": "Défi 2 · Cycle 2",
-          "exerciseId": "double_leg_stretch",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 2",
-          "exerciseId": "roll_up_simplified",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 2",
-          "exerciseId": "swimming",
-          "amount": 45,
-          "unit": "sec"
-        },
-        {
-          "phase": "Défi 1 · Cycle 3",
-          "exerciseId": "one_leg_circle",
-          "amount": 5,
-          "unit": "par sens / jambe"
-        },
-        {
-          "phase": "Défi 1 · Cycle 3",
-          "exerciseId": "rolling_like_a_ball",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 1 · Cycle 3",
-          "exerciseId": "single_leg_stretch",
-          "amount": 5,
-          "unit": "par jambe"
-        },
-        {
-          "phase": "Défi 2 · Cycle 3",
-          "exerciseId": "double_leg_stretch",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 3",
-          "exerciseId": "roll_up_simplified",
-          "amount": 6,
-          "unit": "répétitions"
-        },
-        {
-          "phase": "Défi 2 · Cycle 3",
-          "exerciseId": "swimming",
-          "amount": 45,
-          "unit": "sec"
-        },
-        {
-          "phase": "Retour au calme",
-          "exerciseId": "gentle_back_stretch",
-          "amount": 2,
-          "unit": "min"
-        },
-        {
-          "phase": "Respiration",
-          "exerciseId": "slow_breathing",
-          "amount": 1,
-          "unit": "min"
-        }
-      ]
-    }
-  ],
-  "progression": [
-    "Semaine 1 : Le Cercle de l’Apprenti · ajout du One Leg Circle.",
-    "Semaine 2 : L’Équilibre de l’Orbe · ajout de Rolling Like a Ball.",
-    "Semaine 3 : Le Souffle Alterné · ajout du Single Leg Stretch.",
-    "Semaine 4 : Le Double Arcane · ajout du Double Leg Stretch.",
-    "The Hundred est réalisé en version 3 dans les 12 séances et les 4 Boss.",
-    "Chaque séance régulière comprend un échauffement, The Hundred V3, deux défis de 3 exercices en 2 cycles et un retour au calme.",
-    "Chaque Boss est débloqué après les 3 séances de sa semaine et comprend The Hundred V3 puis 3 cycles.",
-    "Programme conçu comme la suite directe de Tour du Mage puis Maître du Flux.",
-    "Les nouveaux mouvements suivent la progression du répertoire classique déjà rassemblé : One Leg Circle, Rolling Like a Ball, Single Leg Stretch, Double Leg Stretch."
-  ],
-  "notes": [
-    "The Hundred version 3 : jambes fléchies à 90°, pointes des pieds à quelques centimètres du sol, talons et genoux en contact.",
-    "Après The Hundred : 30 secondes de récupération allongé sur le dos.",
-    "One Leg Circle : 5 cercles dans chaque sens par jambe, bassin stable.",
-    "Rolling Like a Ball : 6 répétitions, rouler jusqu’aux omoplates sans passer sur la nuque.",
-    "Single Leg Stretch : 5 répétitions par jambe en alternance contrôlée.",
-    "Double Leg Stretch : 6 répétitions en gardant le centre engagé et les lombaires contrôlées."
   ]
 },
    "rempart-heros": {
