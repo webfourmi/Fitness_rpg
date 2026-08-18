@@ -9604,3 +9604,34 @@ body[data-page="hero-setup"] .app-page {
   aspect-ratio: 1 / 1;
   object-fit: cover;
 }
+
+
+.familiar-card.locked {
+  cursor: default;
+  filter: saturate(.88);
+}
+
+.familiar-card.locked:hover {
+  transform: none;
+  filter: saturate(.88);
+}
+
+.familiar-locked-badge {
+  position: absolute;
+  z-index: 2;
+  top: 14px;
+  right: 14px;
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: rgba(8,10,16,.72);
+  font-size: .82rem;
+}
+
+.familiar-card.locked .familiar-image {
+  filter: grayscale(.2) brightness(.76);
+}
+
+.familiar-locked-note {
+  color: var(--text-muted);
+  font-size: .68rem;
+}
