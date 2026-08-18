@@ -15,10 +15,10 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "0.6.5.7",
+  version: "0.6.5.8",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V6.5.7",
+  displayVersion: "V6.5.8",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
   assetVersion: "6.5.5",
@@ -328,8 +328,52 @@ window.FitnessRpgConfig = {
         title: "Dragon Astral",
         chest: true,
         nextPrograms: [
+          "archimage-corps",
           "forge-guerrier",
           "champion-arenes"
+        ]
+      }
+    },
+    {
+      id: "archimage-corps",
+      icon: "🜂",
+      title: "Archimage du Corps",
+      objective: "Pilates avancé · coordination, contrôle et obliques",
+      level: "Niveau 3 · Avancé",
+      tier: "advanced",
+      unlockLevel: 3,
+      duration: "25-30 min",
+      frequency: "3 séances par semaine + boss hebdomadaire",
+      coachAdvice: "Elmin ou Satyne",
+      xp: 180,
+      reward: {
+        badgeId: "archimage-corps-vaincu",
+        title: "Archimage du Corps",
+        chest: true,
+        nextPrograms: [
+          "grand-maitre-arcanes"
+        ]
+      }
+    },
+    {
+      id: "grand-maitre-arcanes",
+      icon: "🔮",
+      title: "Grand Maître des Arcanes",
+      objective: "Pilates avancé confirmé · leviers longs, équilibre et maîtrise globale",
+      level: "Niveau 4 · Avancé confirmé",
+      tier: "advanced",
+      unlockLevel: 4,
+      duration: "30-35 min",
+      frequency: "3 séances par semaine + boss hebdomadaire",
+      coachAdvice: "Elmin ou Satyne",
+      xp: 220,
+      reward: {
+        badgeId: "grand-maitre-arcanes-vaincu",
+        title: "Grand Maître des Arcanes",
+        chest: true,
+        nextPrograms: [
+          "champion-arenes",
+          "forge-guerrier"
         ]
       }
     },
