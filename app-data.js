@@ -494,8 +494,8 @@ window.FitnessRpgData = {
     },
     {
       "id": "walk",
-      "title": "Marche",
-      "icon": "🥾",
+      "title": "Marche & course",
+      "icon": "🏃",
       "color": "#a7d672",
       "images": {
         "homme": "assets/categories/categorie_homme_marche.png",
@@ -503,20 +503,20 @@ window.FitnessRpgData = {
         "male": "assets/categories/categorie_homme_marche.png",
         "female": "assets/categories/categorie_femme_marche.png"
       },
-      "description": "Marche active dehors ou sur tapis."
+      "description": "Marche et course, sur tapis ou en extérieur."
     },
     {
-      "id": "run",
-      "title": "Course",
-      "icon": "🏃",
-      "color": "#ff8a5b",
+      "id": "pilates",
+      "title": "Pilates",
+      "icon": "🧘",
+      "color": "#b7a7ff",
       "images": {
-        "homme": "assets/categories/categorie_homme_course.png",
-        "femme": "assets/categories/categorie_femme_course.png",
-        "male": "assets/categories/categorie_homme_course.png",
-        "female": "assets/categories/categorie_femme_course.png"
+        "homme": "assets/categories/categorie_homme_abdos.png",
+        "femme": "assets/categories/categorie_femme_abdos.png",
+        "male": "assets/categories/categorie_homme_abdos.png",
+        "female": "assets/categories/categorie_femme_abdos.png"
       },
-      "description": "Course sur tapis ou en extérieur."
+      "description": "Contrôle du centre, respiration, précision et fluidité."
     },
     {
       "id": "bike",
@@ -914,7 +914,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "run_treadmill",
-      "categoryId": "run",
+      "categoryId": "walk",
       "title": "Course sur tapis",
       "images": {
         "male": "assets/exercices/homme_default.png",
@@ -932,7 +932,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "run_outdoor",
-      "categoryId": "run",
+      "categoryId": "walk",
       "title": "Course extérieure",
       "images": {
         "male": "assets/exercices/homme_default.png",
@@ -1846,7 +1846,7 @@ window.FitnessRpgData = {
     },
     {
   "id": "the_hundred",
-  "categoryId": "strength",
+  "categoryId": "pilates",
   "title": "The Hundred",
   "images": {
     "male": "assets/exercices/homme_default.png",
@@ -1874,7 +1874,7 @@ window.FitnessRpgData = {
 },
 {
   "id": "swimming",
-  "categoryId": "strength",
+  "categoryId": "pilates",
   "title": "Swimming",
   "images": {
     "male": "assets/exercices/homme_default.png",
@@ -1894,7 +1894,7 @@ window.FitnessRpgData = {
 },
 {
   "id": "toe_taps",
-  "categoryId": "strength",
+  "categoryId": "pilates",
   "title": "Toe Taps",
   "images": {
     "male": "assets/exercices/homme_default.png",
@@ -1913,7 +1913,7 @@ window.FitnessRpgData = {
 },
 {
   "id": "side_leg_lift",
-  "categoryId": "strength",
+  "categoryId": "pilates",
   "title": "Side Leg Lift",
   "images": {
     "male": "assets/exercices/homme_default.png",
@@ -1932,7 +1932,7 @@ window.FitnessRpgData = {
 },
 {
   "id": "roll_up_simplified",
-  "categoryId": "strength",
+  "categoryId": "pilates",
   "title": "Roll Up simplifié",
   "images": {
     "male": "assets/exercices/homme_default.png",
@@ -2008,7 +2008,7 @@ window.FitnessRpgData = {
 },
     {
       "id": "single_leg_stretch",
-      "categoryId": "strength",
+      "categoryId": "pilates",
       "title": "Single Leg Stretch",
       "images": {
         "male": "assets/exercices/exercice_homme_single_leg_stretch.png",
@@ -2027,7 +2027,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "double_leg_stretch",
-      "categoryId": "strength",
+      "categoryId": "pilates",
       "title": "Double Leg Stretch",
       "images": {
         "male": "assets/exercices/exercice_homme_double_leg_stretch.png",
@@ -2046,7 +2046,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "roll_up_full",
-      "categoryId": "strength",
+      "categoryId": "pilates",
       "title": "Roll Up complet",
       "images": {
         "male": "assets/exercices/exercice_homme_roll_up_simplifie.png",
@@ -2065,7 +2065,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "criss_cross",
-      "categoryId": "strength",
+      "categoryId": "pilates",
       "title": "Criss Cross",
       "images": {
         "male": "assets/exercices/homme_default.png",
@@ -2084,7 +2084,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "scissors",
-      "categoryId": "strength",
+      "categoryId": "pilates",
       "title": "Scissors",
       "images": {
         "male": "assets/exercices/homme_default.png",
@@ -2103,7 +2103,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "double_straight_leg_lower_lift",
-      "categoryId": "strength",
+      "categoryId": "pilates",
       "title": "Double Straight Leg Lower & Lift",
       "images": {
         "male": "assets/exercices/homme_default.png",
@@ -2122,7 +2122,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "leg_pull_front",
-      "categoryId": "strength",
+      "categoryId": "pilates",
       "title": "Leg Pull Front",
       "images": {
         "male": "assets/exercices/homme_default.png",
@@ -2141,7 +2141,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "teaser_i",
-      "categoryId": "strength",
+      "categoryId": "pilates",
       "title": "Teaser I",
       "images": {
         "male": "assets/exercices/homme_default.png",
@@ -2160,7 +2160,7 @@ window.FitnessRpgData = {
     },
     {
       "id": "pilates",
-      "categoryId": "mobility",
+      "categoryId": "pilates",
       "title": "Pilates",
       "images": {
         "male": "assets/exercices/homme_default.png",
