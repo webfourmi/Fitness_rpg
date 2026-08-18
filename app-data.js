@@ -1490,7 +1490,7 @@ window.FitnessRpgData = {
       "title": "Pompes inclinées",
       "images": {
         "male": "assets/exercices/exercice_homme_pompesinclinees.png",
-        "female": "assets/exercices/exercice_femme_pompesinclinees.png"
+        "female": "assets/exercices/exercice_femme_pompeinclinees.jpg"
       },
       "unit": "répétitions",
       "defaultValue": 8,
@@ -12001,6 +12001,67 @@ window.FitnessRpgData.getCoachMessage = function getCoachMessage(coachId, type =
 
   return list[Math.floor(Math.random() * list.length)];
 };
+
+window.FitnessRpgData.exerciseImageOverrides = {
+  arm_circles: { male: "assets/exercices/exercice_homme_cerclesdebras.png" },
+  arm_open_close: { male: "assets/exercices/exercice_homme_cerclesdebras.png" },
+  slow_knee_raises: { male: "assets/exercices/exercice_homme_monteesdegenouxlentes.png" },
+  mountain_climber_slow: { male: "assets/exercices/exercice_homme_mountainclimberlent.png" },
+  lateral_steps: { male: "assets/exercices/exercice_homme_paslateraux.png" },
+  walk_acceleration: { male: "assets/exercices/exercice_homme_marcheactive.png" },
+  no_jump_jacks: { male: "assets/exercices/exercice_homme_jumpingjacksanssaut.png" },
+  slow_walk: { male: "assets/exercices/exercice_homme_marche.png" },
+  walk: { male: "assets/exercices/exercice_homme_marcheactive.png" },
+  run_outdoor: { male: "assets/exercices/exercice_homme_courseexterieure.png" },
+  cyclist_half_squat: { male: "assets/exercices/exercice_homme_demisquatcycliste.png" },
+  ankle_circles: { male: "assets/exercices/exercice_homme_cerclesdechevilles.png" },
+  demi_plie: { female: "assets/exercices/exercice_femme_demiplie.png" },
+  second_position_arms: { female: "assets/exercices/exercice_femme_brasenseconde.png" },
+  swan_step: { female: "assets/exercices/exercice_femme_pasducygne.png" },
+  arabesque_simplified: { female: "assets/exercices/exercice_femme_arabesquesimplifiee.png" },
+  front_developpe_simplified: { female: "assets/exercices/exercice_femme_developpeavantsimplifie.png" },
+  court_bow: { female: "assets/exercices/exercice_femme_reverencedelacour.png" },
+  single_leg_balance: { male: "assets/exercices/exercice_homme_equilibresurunejambe.png" },
+  slow_calf_raises: { male: "assets/exercices/exercice_homme_monteessurpointeslentes.png" },
+  squats: { male: "assets/exercices/exercice_homme_squats.png" },
+  wall_sit: { male: "assets/exercices/exercice_homme_chaisecontremur.png" },
+  reverse_lunges: { male: "assets/exercices/exercice_homme_fentesarriere.png" },
+  calf_raises: { male: "assets/exercices/exercice_homme_monteessurpointes.png" },
+  bridge: { male: "assets/exercices/exercice_homme_pontdehanches.png" },
+  single_leg_bridge_alternate: { male: "assets/exercices/exercice_homme_pontdehanchesunejambealternee.png" },
+  superman: { male: "assets/exercices/exercice_homme_superman.png" },
+  wall_pushups: { male: "assets/exercices/exercice_homme_pompesmurales.png" },
+  wall_triceps_extension: { male: "assets/exercices/exercice_homme_extensiontricepsmur.png" },
+  dead_bug_simplified: { male: "assets/exercices/exercice_homme_deadbugsimplifie.png" },
+  the_hundred: { male: "assets/exercices/exercice_homme_the_hundred.png", female: "assets/exercices/exercice_femme_the_hundred.png" },
+  swimming: { male: "assets/exercices/exercice_homme_swimming.png", female: "assets/exercices/exercice_femme_swimming.png" },
+  toe_taps: { male: "assets/exercices/exercice_homme_toe_taps.png", female: "assets/exercices/exercice_femme_toe_taps.png" },
+  side_leg_lift: { male: "assets/exercices/exercice_homme_side_leg_lift.png", female: "assets/exercices/exercice_femme_side_leg_lift.png" },
+  roll_up_simplified: { male: "assets/exercices/exercice_homme_roll_up_simplifie.png", female: "assets/exercices/exercice_femme_roll_up_simplifie.png" },
+  pilates: { male: "assets/exercices/exercice_homme_pilates.png" },
+  cat_cow: { male: "assets/exercices/exercice_homme_chatvache.png" },
+  hip_circles: { male: "assets/exercices/exercice_homme_cerclesdehanches.png" },
+  thoracic_rotation: { male: "assets/exercices/exercice_homme_rotationthoracique.png" },
+  abdominal_breathing: { male: "assets/exercices/exercice_homme_respirationabdominale.png" },
+  slow_breathing_extended: { male: "assets/exercices/exercice_homme_respirationfinale.png" }
+};
+
+window.FitnessRpgData.applyExerciseImageOverrides = function applyExerciseImageOverrides() {
+  const exercises = Array.isArray(window.FitnessRpgData.exercises) ? window.FitnessRpgData.exercises : [];
+  const overrides = window.FitnessRpgData.exerciseImageOverrides || {};
+
+  exercises.forEach((exercise) => {
+    const patch = overrides[exercise.id];
+    if (!patch) return;
+
+    exercise.images = {
+      ...(exercise.images || {}),
+      ...patch
+    };
+  });
+};
+
+window.FitnessRpgData.applyExerciseImageOverrides();
 
 window.FitnessRpgData.getRewardFamiliars = function getRewardFamiliars() {
   return Array.isArray(window.FitnessRpgData.rewardFamiliars)
