@@ -2007,6 +2007,158 @@ window.FitnessRpgData = {
   coachTip: "Monte et descends lentement. Les hanches ne doivent pas danser la gigue."
 },
     {
+      "id": "single_leg_stretch",
+      "categoryId": "strength",
+      "title": "Single Leg Stretch",
+      "images": {
+        "male": "assets/exercices/exercice_homme_single_leg_stretch.png",
+        "female": "assets/exercices/exercice_femme_single_leg_stretch.png"
+      },
+      "unit": "répétitions",
+      "defaultValue": 16,
+      "min": 4,
+      "step": 2,
+      "xpPerUnit": 1.1,
+      "stat": "Centre / coordination",
+      "pose": "core",
+      "description": "Allongé sur le dos, ramène un genou vers la poitrine pendant que l’autre jambe s’allonge. Alterne lentement les côtés en gardant le bassin stable.",
+      "shortDescription": "Alterne une jambe pliée et une jambe allongée.",
+      "coachTip": "Le ventre reste engagé. La jambe qui s’allonge part loin sans creuser le dos."
+    },
+    {
+      "id": "double_leg_stretch",
+      "categoryId": "strength",
+      "title": "Double Leg Stretch",
+      "images": {
+        "male": "assets/exercices/exercice_homme_double_leg_stretch.png",
+        "female": "assets/exercices/exercice_femme_double_leg_stretch.png"
+      },
+      "unit": "répétitions",
+      "defaultValue": 10,
+      "min": 2,
+      "step": 2,
+      "xpPerUnit": 1.2,
+      "stat": "Centre / leviers longs",
+      "pose": "core",
+      "description": "Allongé sur le dos, regroupe les genoux vers la poitrine puis tends bras et jambes simultanément avant de revenir au point de départ.",
+      "shortDescription": "Bras et jambes s’allongent puis reviennent ensemble.",
+      "coachTip": "Ne tends les jambes que si les lombaires restent stables et plaquées."
+    },
+    {
+      "id": "roll_up_full",
+      "categoryId": "strength",
+      "title": "Roll Up complet",
+      "images": {
+        "male": "assets/exercices/exercice_homme_roll_up_simplifie.png",
+        "female": "assets/exercices/exercice_femme_roll_up_simplifie.png"
+      },
+      "unit": "répétitions",
+      "defaultValue": 6,
+      "min": 1,
+      "step": 1,
+      "xpPerUnit": 1.4,
+      "stat": "Centre / articulation du rachis",
+      "pose": "core",
+      "description": "Allongé sur le dos, décolle les bras puis enroule la colonne vertèbre après vertèbre pour venir t’asseoir avant de redescendre avec contrôle.",
+      "shortDescription": "Enroule la colonne pour monter puis redescendre lentement.",
+      "coachTip": "Cherche la fluidité. Monte sans élan et redescends aussi lentement que possible."
+    },
+    {
+      "id": "criss_cross",
+      "categoryId": "strength",
+      "title": "Criss Cross",
+      "images": {
+        "male": "assets/exercices/homme_default.png",
+        "female": "assets/exercices/femme_default.png"
+      },
+      "unit": "répétitions",
+      "defaultValue": 16,
+      "min": 4,
+      "step": 2,
+      "xpPerUnit": 1.2,
+      "stat": "Obliques / rotation",
+      "pose": "core",
+      "description": "Allongé sur le dos, mains derrière la tête, rapproche le coude opposé d’un genou pendant que l’autre jambe s’allonge. Alterne les côtés avec contrôle.",
+      "shortDescription": "Rotation contrôlée coude-genou opposés.",
+      "coachTip": "La rotation vient du buste, pas d’un tirage sur la nuque."
+    },
+    {
+      "id": "scissors",
+      "categoryId": "strength",
+      "title": "Scissors",
+      "images": {
+        "male": "assets/exercices/homme_default.png",
+        "female": "assets/exercices/femme_default.png"
+      },
+      "unit": "répétitions",
+      "defaultValue": 16,
+      "min": 4,
+      "step": 2,
+      "xpPerUnit": 1.2,
+      "stat": "Abdos / contrôle jambes tendues",
+      "pose": "core",
+      "description": "Allongé sur le dos, une jambe tendue monte vers le plafond pendant que l’autre s’abaisse sans toucher le sol. Alterne lentement les deux jambes.",
+      "shortDescription": "Alternance de jambes tendues en ciseaux.",
+      "coachTip": "Garde le bassin immobile et baisse la jambe seulement si le dos reste stable."
+    },
+    {
+      "id": "double_straight_leg_lower_lift",
+      "categoryId": "strength",
+      "title": "Double Straight Leg Lower & Lift",
+      "images": {
+        "male": "assets/exercices/homme_default.png",
+        "female": "assets/exercices/femme_default.png"
+      },
+      "unit": "répétitions",
+      "defaultValue": 6,
+      "min": 2,
+      "step": 1,
+      "xpPerUnit": 1.4,
+      "stat": "Centre / leviers longs",
+      "pose": "core",
+      "description": "Allongé sur le dos, abaisse les deux jambes tendues jusqu’au point où le bas du dos reste stable, puis remonte-les avec contrôle.",
+      "shortDescription": "Deux jambes tendues qui s’abaissent puis remontent.",
+      "coachTip": "Amplitude courte au début. Si le dos se cambre, remonte immédiatement."
+    },
+    {
+      "id": "leg_pull_front",
+      "categoryId": "strength",
+      "title": "Leg Pull Front",
+      "images": {
+        "male": "assets/exercices/homme_default.png",
+        "female": "assets/exercices/femme_default.png"
+      },
+      "unit": "répétitions",
+      "defaultValue": 8,
+      "min": 2,
+      "step": 2,
+      "xpPerUnit": 1.4,
+      "stat": "Gainage / épaules / fessiers",
+      "pose": "core",
+      "description": "En planche bras tendus, lève une jambe de quelques centimètres sans laisser le bassin tourner, puis repose-la et alterne.",
+      "shortDescription": "En planche haute, lève une jambe en gardant le bassin stable.",
+      "coachTip": "Pousse fort dans le sol et serre les fesses pour éviter l’affaissement."
+    },
+    {
+      "id": "teaser_i",
+      "categoryId": "strength",
+      "title": "Teaser I",
+      "images": {
+        "male": "assets/exercices/homme_default.png",
+        "female": "assets/exercices/femme_default.png"
+      },
+      "unit": "répétitions",
+      "defaultValue": 5,
+      "min": 1,
+      "step": 1,
+      "xpPerUnit": 1.8,
+      "stat": "Équilibre / centre / coordination",
+      "pose": "core",
+      "description": "Depuis la position allongée, enroule la colonne pour venir en équilibre assis avec les jambes levées et les bras tendus vers l’avant, puis redescends lentement.",
+      "shortDescription": "Monte en équilibre assis, jambes levées, puis redescends avec contrôle.",
+      "coachTip": "Reste petit si besoin. L’objectif est la maîtrise, pas la hauteur des jambes."
+    },
+    {
       "id": "pilates",
       "categoryId": "mobility",
       "title": "Pilates",
@@ -8190,6 +8342,7 @@ window.FitnessRpgData = {
     "badgeTitle": "Dragon Astral",
     "chest": true,
     "nextPrograms": [
+      "archimage-corps",
       "forge-guerrier",
       "champion-arenes"
     ]
@@ -8762,6 +8915,919 @@ window.FitnessRpgData = {
     "Side Leg Lift : élévation latérale de jambe.",
     "Roll Up simplifié : remontée contrôlée du buste."
   ]
+},
+   "archimage-corps": {
+  id: "archimage-corps",
+  subtitle: "Pilates avancé : coordination, leviers plus longs, articulation du rachis et obliques.",
+  unlockLevel: 3,
+  duration: "25 à 30 min",
+  frequency: "3 séances par semaine + boss le samedi",
+  material: "Aucun matériel. Tapis conseillé.",
+  reward: {
+    badgeId: "archimage-corps-vaincu",
+    badgeTitle: "Archimage du Corps",
+    chest: true,
+    nextPrograms: ["grand-maitre-arcanes"]
+  },
+  weeks: [
+    {
+      week: 1,
+      title: "Le Sceau du Centre",
+      xp: 80,
+      progression: "Introduction du Single Leg Stretch et consolidation du contrôle du bassin.",
+      days: [
+        {
+          day: 1,
+          title: "Coordination du centre",
+          xp: 80,
+          difficultyLabel: "≈ 25 min",
+          instructions: "4 échauffements, The Hundred V3, 2 cycles de 3 exercices, retour au calme.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "single_leg_stretch", amount: 16, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "swimming", amount: 30, unit: "sec" },
+            { phase: "Cycle 1", exerciseId: "roll_up_simplified", amount: 10, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "toe_taps", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "side_leg_lift", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "side_plank", amount: 40, unit: "sec" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Centre stable",
+          xp: 80,
+          difficultyLabel: "≈ 25 min",
+          instructions: "Même structure avec accent sur la stabilité lombo-pelvienne.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "single_leg_stretch", amount: 16, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "dead_bug", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "swimming", amount: 30, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "bridge", amount: 14, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "side_leg_lift", amount: 20, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Allonger sans perdre le centre",
+          xp: 80,
+          difficultyLabel: "≈ 25 min",
+          instructions: "Coordination plus longue et obliques sollicités.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "single_leg_stretch", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "roll_up_simplified", amount: 10, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "toe_taps", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 30, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "side_leg_lift", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "side_plank", amount: 40, unit: "sec" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    },
+    {
+      week: 2,
+      title: "Le Cercle des Deux Astres",
+      xp: 90,
+      progression: "Ajout du Double Leg Stretch : plus de levier et plus de contrôle.",
+      days: [
+        {
+          day: 1,
+          title: "Levier long",
+          xp: 90,
+          difficultyLabel: "≈ 25 min",
+          instructions: "The Hundred V3 précède 2 cycles de 3 exercices.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "double_leg_stretch", amount: 10, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "single_leg_stretch", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "roll_up_simplified", amount: 10, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 35, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "side_leg_lift", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "side_plank", amount: 45, unit: "sec" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Contrôle bilatéral",
+          xp: 90,
+          difficultyLabel: "≈ 25 min",
+          instructions: "Progression du travail abdominal profond.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "toe_taps", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "double_leg_stretch", amount: 10, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "dead_bug", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "bird_dog", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 35, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "bridge", amount: 16, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Précision abdominale",
+          xp: 90,
+          difficultyLabel: "≈ 25 min",
+          instructions: "Le volume monte légèrement sans perdre la qualité.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "single_leg_stretch", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "roll_up_simplified", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "side_leg_lift", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 35, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "side_plank", amount: 50, unit: "sec" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    },
+    {
+      week: 3,
+      title: "Le Grimoire Déployé",
+      xp: 100,
+      progression: "Ajout du Roll Up complet, progression naturelle du Roll Up simplifié.",
+      days: [
+        {
+          day: 1,
+          title: "Articuler la colonne",
+          xp: 100,
+          difficultyLabel: "≈ 25-30 min",
+          instructions: "Le Roll Up complet apparaît avec faible volume et contrôle maximal.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 6, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "single_leg_stretch", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "swimming", amount: 35, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "side_leg_lift", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "side_plank", amount: 50, unit: "sec" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Déployer sans élan",
+          xp: 100,
+          difficultyLabel: "≈ 25-30 min",
+          instructions: "Même structure, un peu plus de précision et de stabilité.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 6, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "toe_taps", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "bird_dog", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 40, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "side_leg_lift", amount: 24, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Fluidité contrôlée",
+          xp: 100,
+          difficultyLabel: "≈ 25-30 min",
+          instructions: "Le Roll Up complet progresse légèrement.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "single_leg_stretch", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 40, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "side_plank", amount: 50, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "bridge", amount: 18, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    },
+    {
+      week: 4,
+      title: "La Spirale de l’Archimage",
+      xp: 110,
+      progression: "Ajout du Criss Cross : rotation du tronc et coordination oblique.",
+      days: [
+        {
+          day: 1,
+          title: "Spirale contrôlée",
+          xp: 110,
+          difficultyLabel: "≈ 25-30 min",
+          instructions: "The Hundred V3 puis 2 cycles de 3 exercices.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "criss_cross", amount: 16, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "single_leg_stretch", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 40, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "side_plank", amount: 60, unit: "sec" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Obliques et stabilité",
+          xp: 110,
+          difficultyLabel: "≈ 25-30 min",
+          instructions: "Rotation et contrôle du bassin.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "criss_cross", amount: 16, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "toe_taps", amount: 30, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "side_leg_lift", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 40, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Maîtrise oblique",
+          xp: 110,
+          difficultyLabel: "≈ 25-30 min",
+          instructions: "La semaine se termine avec la version la plus dense du programme.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "single_leg_stretch", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "criss_cross", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "double_leg_stretch", amount: 14, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 45, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "side_plank", amount: 60, unit: "sec" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    }
+  ],
+  bosses: [
+    {
+      week: 1,
+      title: "Le Gardien du Sceau",
+      xp: 90,
+      badgeId: "archimage-sceau-centre",
+      difficultyLabel: "Boss semaine 1 · 3 cycles",
+      instructions: "The Hundred V3 ouvre l’épreuve avant 3 cycles centrés sur le Single Leg Stretch.",
+      lockedMessage: "Le Gardien du Sceau attend la maîtrise des 3 séances de la semaine 1.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "hip_circles", amount: 1, unit: "min" },
+        { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+        { phase: "Cycle 1", exerciseId: "single_leg_stretch", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "swimming", amount: 30, unit: "sec" },
+        { phase: "Cycle 1", exerciseId: "side_plank", amount: 40, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "single_leg_stretch", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "swimming", amount: 30, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "side_plank", amount: 40, unit: "sec" },
+        { phase: "Cycle 3", exerciseId: "single_leg_stretch", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "swimming", amount: 30, unit: "sec" },
+        { phase: "Cycle 3", exerciseId: "side_plank", amount: 40, unit: "sec" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+      ]
+    },
+    {
+      week: 2,
+      title: "Le Maître des Astres Jumeaux",
+      xp: 100,
+      badgeId: "archimage-cercle-astres",
+      difficultyLabel: "Boss semaine 2 · 3 cycles",
+      instructions: "The Hundred V3 puis 3 cycles autour du Double Leg Stretch.",
+      lockedMessage: "Le Maître des Astres Jumeaux n’apparaît qu’après les 3 séances de la semaine 2.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "hip_circles", amount: 1, unit: "min" },
+        { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+        { phase: "Cycle 1", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "single_leg_stretch", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "swimming", amount: 35, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "single_leg_stretch", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "swimming", amount: 35, unit: "sec" },
+        { phase: "Cycle 3", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "single_leg_stretch", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "swimming", amount: 35, unit: "sec" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+      ]
+    },
+    {
+      week: 3,
+      title: "Le Scribe du Grimoire",
+      xp: 110,
+      badgeId: "archimage-grimoire-deploye",
+      difficultyLabel: "Boss semaine 3 · 3 cycles",
+      instructions: "The Hundred V3 puis 3 cycles avec Roll Up complet.",
+      lockedMessage: "Le Scribe du Grimoire attend la pleine maîtrise de la semaine 3.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "hip_circles", amount: 1, unit: "min" },
+        { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+        { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 6, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "swimming", amount: 40, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "roll_up_full", amount: 6, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "swimming", amount: 40, unit: "sec" },
+        { phase: "Cycle 3", exerciseId: "roll_up_full", amount: 6, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "swimming", amount: 40, unit: "sec" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+      ]
+    },
+    {
+      week: 4,
+      title: "L’Archimage du Corps",
+      xp: 180,
+      badgeId: "archimage-corps-vaincu",
+      chest: true,
+      difficultyLabel: "Boss final · 30 min",
+      instructions: "The Hundred V3 puis 3 cycles qui réunissent Single Leg Stretch, Double Leg Stretch, Roll Up complet et Criss Cross.",
+      lockedMessage: "L’Archimage du Corps n’apparaît qu’après la semaine 4 complète.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "arm_circles", amount: 1, unit: "min" },
+        { phase: "Activation Pilates · Version 3", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+        { phase: "Cycle 1", exerciseId: "single_leg_stretch", amount: 24, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "double_leg_stretch", amount: 14, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "criss_cross", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "swimming", amount: 45, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "side_plank", amount: 60, unit: "sec" },
+        { phase: "Cycle 3", exerciseId: "single_leg_stretch", amount: 24, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "double_leg_stretch", amount: 14, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "criss_cross", amount: 20, unit: "répétitions" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+      ]
+    }
+  ],
+  progression: [
+    "Semaine 1 : Le Sceau du Centre · ajout du Single Leg Stretch.",
+    "Semaine 2 : Le Cercle des Deux Astres · ajout du Double Leg Stretch.",
+    "Semaine 3 : Le Grimoire Déployé · ajout du Roll Up complet.",
+    "Semaine 4 : La Spirale de l’Archimage · ajout du Criss Cross.",
+    "The Hundred est réalisé en version 3 dans les 12 séances et les 4 Boss.",
+    "Chaque séance régulière comprend 4 échauffements, The Hundred V3, 2 cycles de 3 exercices et un retour au calme.",
+    "Chaque Boss comprend The Hundred V3 puis 3 cycles.",
+    "Programme conçu comme la suite directe de Maître du Flux.",
+    "Récompense finale : badge Archimage du Corps, coffre mystique et accès au niveau suivant."
+  ],
+  notes: [
+    "The Hundred version 3 : jambes fléchies, pointes proches du sol, genoux et talons joints.",
+    "Après The Hundred : 30 secondes de récupération allongé sur le dos.",
+    "Objectif : Pilates avancé, sans perdre la qualité du contrôle.",
+    "Si le contrôle se dégrade, revenir au Roll Up simplifié ou à The Hundred V2 ponctuellement.",
+    "Single Leg Stretch : alterner une jambe pliée et une jambe allongée.",
+    "Double Leg Stretch : allonger bras et jambes puis revenir au centre.",
+    "Roll Up complet : monter et descendre vertèbre après vertèbre.",
+    "Criss Cross : rotation contrôlée du buste, sans tirer sur la nuque."
+  ]
+},
+   "grand-maitre-arcanes": {
+  id: "grand-maitre-arcanes",
+  subtitle: "Pilates avancé confirmé : jambes tendues, équilibre, gainage dynamique et maîtrise globale.",
+  unlockLevel: 4,
+  duration: "30 à 35 min",
+  frequency: "3 séances par semaine + boss le samedi",
+  material: "Aucun matériel. Tapis conseillé.",
+  reward: {
+    badgeId: "grand-maitre-arcanes-vaincu",
+    badgeTitle: "Grand Maître des Arcanes",
+    chest: true,
+    nextPrograms: ["champion-arenes", "forge-guerrier"]
+  },
+  weeks: [
+    {
+      week: 1,
+      title: "Les Lames du Vent",
+      xp: 95,
+      progression: "Ajout du Scissors : jambes tendues et bassin stable.",
+      days: [
+        {
+          day: 1,
+          title: "Ciseaux de contrôle",
+          xp: 95,
+          difficultyLabel: "≈ 30 min",
+          instructions: "3 à 4 échauffements, The Hundred V4, 2 cycles de 3 exercices, retour au calme.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "scissors", amount: 16, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "swimming", amount: 40, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "criss_cross", amount: 16, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "side_leg_lift", amount: 24, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Bassin immobile",
+          xp: 95,
+          difficultyLabel: "≈ 30 min",
+          instructions: "Le travail sur jambes tendues devient central.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "scissors", amount: 16, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "single_leg_stretch", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 40, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "side_plank", amount: 50, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Amplitude maîtrisée",
+          xp: 95,
+          difficultyLabel: "≈ 30 min",
+          instructions: "Fin de semaine avec un peu plus d’amplitude et de rotation.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "scissors", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "criss_cross", amount: 18, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 45, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "side_leg_lift", amount: 24, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    },
+    {
+      week: 2,
+      title: "L’Orbite des Astres",
+      xp: 105,
+      progression: "Ajout du Double Straight Leg Lower & Lift.",
+      days: [
+        {
+          day: 1,
+          title: "Leviers longs",
+          xp: 105,
+          difficultyLabel: "≈ 30 min",
+          instructions: "Les deux jambes travaillent ensemble, amplitude contrôlée.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "double_straight_leg_lower_lift", amount: 6, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "scissors", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "criss_cross", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 45, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "side_leg_lift", amount: 24, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Abaissement contrôlé",
+          xp: 105,
+          difficultyLabel: "≈ 30 min",
+          instructions: "La difficulté vient de la maîtrise, pas de la vitesse.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "double_straight_leg_lower_lift", amount: 6, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "toe_taps", amount: 30, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "double_leg_stretch", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "side_plank", amount: 50, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 45, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Levier avancé",
+          xp: 105,
+          difficultyLabel: "≈ 30 min",
+          instructions: "Le nouvel exercice passe à 8 répétitions si le contrôle est solide.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "double_straight_leg_lower_lift", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "scissors", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "criss_cross", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 45, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "side_leg_lift", amount: 24, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    },
+    {
+      week: 3,
+      title: "Le Dragon en Suspension",
+      xp: 115,
+      progression: "Ajout du Leg Pull Front : gainage dynamique et stabilité des épaules.",
+      days: [
+        {
+          day: 1,
+          title: "Planche vivante",
+          xp: 115,
+          difficultyLabel: "≈ 30-35 min",
+          instructions: "Le gainage dynamique devient central.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "leg_pull_front", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "criss_cross", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "scissors", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "double_straight_leg_lower_lift", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 45, unit: "sec" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Épaules gardiennes",
+          xp: 115,
+          difficultyLabel: "≈ 30-35 min",
+          instructions: "Le bassin reste stable malgré les changements d’appui.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "leg_pull_front", amount: 10, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "double_straight_leg_lower_lift", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "scissors", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 45, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "side_plank", amount: 60, unit: "sec" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Suspension dynamique",
+          xp: 115,
+          difficultyLabel: "≈ 30-35 min",
+          instructions: "La troisième séance densifie un peu le gainage dynamique.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "leg_pull_front", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "scissors", amount: 20, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "double_straight_leg_lower_lift", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 45, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "criss_cross", amount: 20, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    },
+    {
+      week: 4,
+      title: "Le Trône de l’Archimage",
+      xp: 130,
+      progression: "Ajout du Teaser I : équilibre global et maîtrise du centre.",
+      days: [
+        {
+          day: 1,
+          title: "Teaser préparé",
+          xp: 130,
+          difficultyLabel: "≈ 30-35 min",
+          instructions: "Le Teaser I apparaît avec très peu de répétitions. Reviens à une version préparatoire si besoin.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "teaser_i", amount: 4, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "scissors", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "double_straight_leg_lower_lift", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "leg_pull_front", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "criss_cross", amount: 22, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 2,
+          title: "Équilibre assis",
+          xp: 130,
+          difficultyLabel: "≈ 30-35 min",
+          instructions: "Deuxième rencontre avec le Teaser I.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "hip_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "teaser_i", amount: 5, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "toe_taps", amount: 30, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "double_straight_leg_lower_lift", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "leg_pull_front", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "swimming", amount: 45, unit: "sec" },
+            { phase: "Cycle 2", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        },
+        {
+          day: 3,
+          title: "Trône de l’Archimage",
+          xp: 130,
+          difficultyLabel: "≈ 30-35 min",
+          instructions: "Séance finale régulière : densité maximale mais contrôle prioritaire.",
+          exercises: [
+            { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+            { phase: "Échauffement", exerciseId: "arm_circles", amount: 1, unit: "min" },
+            { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+            { phase: "Cycle 1", exerciseId: "teaser_i", amount: 5, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "scissors", amount: 24, unit: "répétitions" },
+            { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "double_straight_leg_lower_lift", amount: 8, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "leg_pull_front", amount: 12, unit: "répétitions" },
+            { phase: "Cycle 2", exerciseId: "criss_cross", amount: 24, unit: "répétitions" },
+            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 1, unit: "min" },
+            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          ]
+        }
+      ]
+    }
+  ],
+  bosses: [
+    {
+      week: 1,
+      title: "Djinn des Lames",
+      xp: 110,
+      badgeId: "grand-djinn-lames",
+      difficultyLabel: "Boss semaine 1 · 3 cycles",
+      instructions: "The Hundred V4 puis 3 cycles centrés sur Scissors.",
+      lockedMessage: "Le Djinn des Lames attend la maîtrise des 3 séances de la semaine 1.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "hip_circles", amount: 1, unit: "min" },
+        { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+        { phase: "Cycle 1", exerciseId: "scissors", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "swimming", amount: 40, unit: "sec" },
+        { phase: "Cycle 2", exerciseId: "scissors", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "swimming", amount: 40, unit: "sec" },
+        { phase: "Cycle 3", exerciseId: "scissors", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "swimming", amount: 40, unit: "sec" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+      ]
+    },
+    {
+      week: 2,
+      title: "Gardien de l’Orbite",
+      xp: 120,
+      badgeId: "grand-orbite-astres",
+      difficultyLabel: "Boss semaine 2 · 3 cycles",
+      instructions: "The Hundred V4 puis 3 cycles autour du Double Straight Leg Lower & Lift.",
+      lockedMessage: "Le Gardien de l’Orbite se présente après la semaine 2 complète.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "hip_circles", amount: 1, unit: "min" },
+        { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+        { phase: "Cycle 1", exerciseId: "double_straight_leg_lower_lift", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "scissors", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "double_straight_leg_lower_lift", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "scissors", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "double_straight_leg_lower_lift", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "scissors", amount: 20, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+      ]
+    },
+    {
+      week: 3,
+      title: "Dragon Suspendu",
+      xp: 130,
+      badgeId: "grand-dragon-suspension",
+      difficultyLabel: "Boss semaine 3 · 3 cycles",
+      instructions: "The Hundred V4 puis 3 cycles avec Leg Pull Front.",
+      lockedMessage: "Le Dragon Suspendu exige la maîtrise de la semaine 3.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "hip_circles", amount: 1, unit: "min" },
+        { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+        { phase: "Cycle 1", exerciseId: "leg_pull_front", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "double_straight_leg_lower_lift", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "leg_pull_front", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "double_straight_leg_lower_lift", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "leg_pull_front", amount: 10, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "double_straight_leg_lower_lift", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+      ]
+    },
+    {
+      week: 4,
+      title: "Grand Maître des Arcanes",
+      xp: 220,
+      badgeId: "grand-maitre-arcanes-vaincu",
+      chest: true,
+      difficultyLabel: "Boss final · 35 min",
+      instructions: "The Hundred V4 ouvre l’épreuve finale. The Hundred V5 reste une option pour les pratiquants parfaitement stables. Puis 3 cycles réunissent Teaser I, Scissors, Double Straight Leg Lower & Lift et Leg Pull Front.",
+      lockedMessage: "Le Grand Maître des Arcanes n’apparaît qu’après la semaine 4 complète.",
+      exercises: [
+        { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "cat_cow", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "thoracic_rotation", amount: 1, unit: "min" },
+        { phase: "Échauffement", exerciseId: "arm_circles", amount: 1, unit: "min" },
+        { phase: "Activation Pilates · Version 4", exerciseId: "the_hundred", amount: 10, unit: "cycles respiratoires" },
+        { phase: "Cycle 1", exerciseId: "teaser_i", amount: 5, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "scissors", amount: 24, unit: "répétitions" },
+        { phase: "Cycle 1", exerciseId: "roll_up_full", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "double_straight_leg_lower_lift", amount: 8, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "leg_pull_front", amount: 12, unit: "répétitions" },
+        { phase: "Cycle 2", exerciseId: "criss_cross", amount: 24, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "teaser_i", amount: 5, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "scissors", amount: 24, unit: "répétitions" },
+        { phase: "Cycle 3", exerciseId: "leg_pull_front", amount: 12, unit: "répétitions" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+      ]
+    }
+  ],
+  progression: [
+    "Semaine 1 : Les Lames du Vent · ajout du Scissors.",
+    "Semaine 2 : L’Orbite des Astres · ajout du Double Straight Leg Lower & Lift.",
+    "Semaine 3 : Le Dragon en Suspension · ajout du Leg Pull Front.",
+    "Semaine 4 : Le Trône de l’Archimage · ajout du Teaser I.",
+    "The Hundred est réalisé en version 4 dans les 12 séances et les 4 Boss.",
+    "Chaque séance régulière comprend au moins 4 échauffements, The Hundred V4, 2 cycles de 3 exercices et un retour au calme.",
+    "Chaque Boss comprend The Hundred V4 puis 3 cycles.",
+    "Programme conçu comme la suite directe d’Archimage du Corps.",
+    "Récompense finale : badge Grand Maître des Arcanes et coffre mystique."
+  ],
+  notes: [
+    "The Hundred version 4 : jambes tendues inclinées à 45° environ, talons en contact.",
+    "The Hundred version 5 peut être testé sur le boss final uniquement si le contrôle est parfait.",
+    "Objectif : Pilates avancé confirmé, sans sacrifier la précision.",
+    "Scissors : alterner les jambes tendues comme des ciseaux.",
+    "Double Straight Leg Lower & Lift : descendre et remonter les deux jambes ensemble.",
+    "Leg Pull Front : planche haute avec levée de jambe.",
+    "Teaser I : équilibre assis et redescente contrôlée.",
+    "Si le contrôle lombaire se perd, réduire l’amplitude ou revenir ponctuellement à une variante plus simple."
+  ]
+
 },
    "rempart-heros": {
   id: "rempart-heros",
@@ -11944,7 +13010,88 @@ window.FitnessRpgData = {
   "programId": "maitre-flux",
   "weekNumber": 4,
   "target": 1
+},
+{
+  "id": "archimage-sceau-centre",
+  "icon": "🜂",
+  "title": "Gardien du Sceau",
+  "description": "Vaincre le boss de la semaine 1 du programme Archimage du Corps.",
+  "type": "program-boss",
+  "programId": "archimage-corps",
+  "weekNumber": 1,
+  "target": 1
+},
+{
+  "id": "archimage-cercle-astres",
+  "icon": "🌗",
+  "title": "Maître des Astres Jumeaux",
+  "description": "Vaincre le boss de la semaine 2 du programme Archimage du Corps.",
+  "type": "program-boss",
+  "programId": "archimage-corps",
+  "weekNumber": 2,
+  "target": 1
+},
+{
+  "id": "archimage-grimoire-deploye",
+  "icon": "📜",
+  "title": "Scribe du Grimoire",
+  "description": "Vaincre le boss de la semaine 3 du programme Archimage du Corps.",
+  "type": "program-boss",
+  "programId": "archimage-corps",
+  "weekNumber": 3,
+  "target": 1
+},
+{
+  "id": "archimage-corps-vaincu",
+  "icon": "🧙",
+  "title": "Archimage du Corps",
+  "description": "Vaincre le boss final du programme Archimage du Corps.",
+  "type": "program-boss",
+  "programId": "archimage-corps",
+  "weekNumber": 4,
+  "target": 1
+},
+{
+  "id": "grand-djinn-lames",
+  "icon": "🌪️",
+  "title": "Djinn des Lames",
+  "description": "Vaincre le boss de la semaine 1 du programme Grand Maître des Arcanes.",
+  "type": "program-boss",
+  "programId": "grand-maitre-arcanes",
+  "weekNumber": 1,
+  "target": 1
+},
+{
+  "id": "grand-orbite-astres",
+  "icon": "🌙",
+  "title": "Gardien de l’Orbite",
+  "description": "Vaincre le boss de la semaine 2 du programme Grand Maître des Arcanes.",
+  "type": "program-boss",
+  "programId": "grand-maitre-arcanes",
+  "weekNumber": 2,
+  "target": 1
+},
+{
+  "id": "grand-dragon-suspension",
+  "icon": "🐲",
+  "title": "Dragon Suspendu",
+  "description": "Vaincre le boss de la semaine 3 du programme Grand Maître des Arcanes.",
+  "type": "program-boss",
+  "programId": "grand-maitre-arcanes",
+  "weekNumber": 3,
+  "target": 1
+},
+{
+  "id": "grand-maitre-arcanes-vaincu",
+  "icon": "🔮",
+  "title": "Grand Maître des Arcanes",
+  "description": "Vaincre le boss final du programme Grand Maître des Arcanes.",
+  "type": "program-boss",
+  "programId": "grand-maitre-arcanes",
+  "weekNumber": 4,
+  "target": 1
 }
+
   ]
 };
 
