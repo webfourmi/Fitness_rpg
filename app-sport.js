@@ -44,16 +44,16 @@
   });
 
   Sport.equipmentOptions = Object.freeze([
-    ["mat", "Tapis", "assets/equipements/tapis.png"],
-    ["resistance-band", "Élastique", "assets/equipements/elastique.png"],
-    ["dumbbells", "Haltères", "assets/equipements/halteres.png"],
-    ["kettlebell", "Kettlebell", "assets/equipements/kettlebell.png"],
-    ["barbell", "Barre", "assets/equipements/barre.png"],
-    ["pull-up-bar", "Barre de traction", "assets/equipements/barre_traction.png"],
-    ["bench", "Banc", "assets/equipements/banc.png"],
-    ["punching-bag", "Sac de frappe", "assets/equipements/sac_frappe.png"],
-    ["bicycle", "Vélo", "assets/equipements/velo.png"],
-    ["treadmill", "Tapis de marche/course", "assets/equipements/tapis_marche_course.png"]
+    ["mat", "Tapis", "assets/equipements/tapis.webp"],
+    ["resistance-band", "Élastique", "assets/equipements/elastique.webp"],
+    ["dumbbells", "Haltères", "assets/equipements/halteres.webp"],
+    ["kettlebell", "Kettlebell", "assets/equipements/kettlebell.webp"],
+    ["barbell", "Barre", "assets/equipements/barre.webp"],
+    ["pull-up-bar", "Barre de traction", "assets/equipements/barre_traction.webp"],
+    ["bench", "Banc", "assets/equipements/banc.webp"],
+    ["punching-bag", "Sac de frappe", "assets/equipements/sac_frappe.webp"],
+    ["bicycle", "Vélo", "assets/equipements/velo.webp"],
+    ["treadmill", "Tapis de marche/course", "assets/equipements/tapis_marche_course.webp"]
   ]);
 
 

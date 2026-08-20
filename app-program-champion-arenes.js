@@ -71,10 +71,10 @@
 
   function imageSet() {
     return {
-      homme: "assets/exercices/homme_default.png",
-      femme: "assets/exercices/femme_default.png",
-      male: "assets/exercices/homme_default.png",
-      female: "assets/exercices/femme_default.png"
+      homme: "assets/exercices/homme_default.webp",
+      femme: "assets/exercices/femme_default.webp",
+      male: "assets/exercices/homme_default.webp",
+      female: "assets/exercices/femme_default.webp"
     };
   }
 

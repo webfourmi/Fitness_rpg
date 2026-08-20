@@ -87,8 +87,8 @@ window.FitnessRpgExercises.escapeHtml = function escapeHtml(value) {
 };
 
 window.FitnessRpgExercises.defaultExerciseImages = Object.freeze({
-  homme: "assets/exercices/homme_default.png",
-  femme: "assets/exercices/femme_default.png"
+  homme: "assets/exercices/homme_default.webp",
+  femme: "assets/exercices/femme_default.webp"
 });
 
 window.FitnessRpgExercises.getCurrentGender = function getCurrentGender() {
@@ -287,7 +287,7 @@ window.FitnessRpgExercises.categoryCardHtml = function categoryCardHtml(category
       style="--category-color:${color}"
     >
       <span class="v3-category-icon">${icon}</span>
-      <img src="${image}" alt="${title}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/categories/default.png'">
+      <img src="${image}" alt="${title}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='assets/categories/default.webp'">
       <span class="exercise-category-copy">
         <strong>${title}</strong>
         <small>${description}</small>
