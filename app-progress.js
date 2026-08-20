@@ -212,7 +212,7 @@ window.FitnessRpgProgress.peekLevelUpModal = function peekLevelUpModal() {
 window.FitnessRpgProgress.pendingBadgeRewards = [];
 
 window.FitnessRpgProgress.getBadgeImagePath = function getBadgeImagePath(badge) {
-  if (!badge) return "assets/badges/badge_premierpas.png";
+  if (!badge) return "assets/badges/badge_premierpas.webp";
 
   if (badge.image) {
     return badge.image;
@@ -229,7 +229,7 @@ window.FitnessRpgProgress.getBadgeImagePath = function getBadgeImagePath(badge) 
     .replace(/\b(vaincu|vaincue|debloque|debloquee)\b/g, "")
     .replace(/[^a-z0-9]/g, "");
 
-  return `assets/badges/badge_${fileName}.png`;
+  return `assets/badges/badge_${fileName}.webp`;
 };
 
 window.FitnessRpgProgress.queueBadgeRewardModal = function queueBadgeRewardModal(badge) {
@@ -691,10 +691,10 @@ window.FitnessRpgProgress.getHeroImagePath = function getHeroImagePath() {
   const padded = String(level).padStart(2, "0");
 
   if (profile?.gender === "femme") {
-    return `assets/joueuse/joueuse_niveau_${padded}.png`;
+    return `assets/joueuse/joueuse_niveau_${padded}.webp`;
   }
 
-  return `assets/joueur/joueur_niveau_${padded}.png`;
+  return `assets/joueur/joueur_niveau_${padded}.webp`;
 };
 
 window.FitnessRpgProgress.getRankTitle = function getRankTitle() {

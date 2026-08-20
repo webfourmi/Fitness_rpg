@@ -80,42 +80,42 @@ window.FitnessRpgRewards.getRewardFamiliars = function getRewardFamiliars() {
     {
       id: "familier-01",
       name: "Dragonnet de Braise",
-      image: "assets/familiers/familier_grenouille.png"
+      image: "assets/familiers/familier_grenouille.webp"
     },
     {
       id: "familier-02",
       name: "Chaton des Ombres",
-      image: "assets/familiers/familier_hibou.png"
+      image: "assets/familiers/familier_hibou.webp"
     },
     {
       id: "familier-03",
       name: "Diablotin Farceur",
-      image: "assets/familiers/familier_renard.png"
+      image: "assets/familiers/familier_renard.webp"
     },
     {
       id: "familier-04",
       name: "Chiot Gardien",
-      image: "assets/familiers/familier_corbeau.png"
+      image: "assets/familiers/familier_corbeau.webp"
     },
     {
       id: "familier-05",
       name: "Familier 5",
-      image: "assets/familiers/familier_chien.png"
+      image: "assets/familiers/familier_chien.webp"
     },
     {
       id: "familier-06",
       name: "Familier 6",
-      image: "assets/familiers/familier_chat.png"
+      image: "assets/familiers/familier_chat.webp"
     },
     {
       id: "familier-07",
       name: "Familier 7",
-      image: "assets/familiers/familier_diablotin.png"
+      image: "assets/familiers/familier_diablotin.webp"
     },
     {
       id: "familier-08",
       name: "Familier 8",
-      image: "assets/familiers/familier_dragon.png"
+      image: "assets/familiers/familier_dragon.webp"
     }
   ];
 };
