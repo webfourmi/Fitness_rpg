@@ -9608,12 +9608,10 @@ body[data-page="hero-setup"] .app-page {
 
 .familiar-card.locked {
   cursor: default;
-  filter: saturate(.88);
 }
 
 .familiar-card.locked:hover {
   transform: none;
-  filter: saturate(.88);
 }
 
 .familiar-locked-badge {
@@ -9627,8 +9625,17 @@ body[data-page="hero-setup"] .app-page {
   font-size: .82rem;
 }
 
-.familiar-card.locked .familiar-image {
-  filter: grayscale(.2) brightness(.76);
+.familiar-mystery-frame {
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle, rgba(240,184,79,.16), rgba(8,10,16,.92));
+}
+
+.familiar-mystery-symbol {
+  font-size: clamp(3rem, 10vw, 5rem);
+  font-weight: 950;
+  color: var(--accent-strong);
+  text-shadow: 0 0 24px rgba(240,184,79,.35);
 }
 
 .familiar-locked-note {
