@@ -636,7 +636,7 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Pas chassés",
       "images": {
-        "male": "assets/exercices/homme_default.png",
+        "male": "assets/exercices/exercice_homme_side_steps.png",
         "female": "assets/exercices/exercice_femme_paschasses.png"
       },
       "unit": "sec",
@@ -1011,7 +1011,7 @@ window.FitnessRpgData = {
       "categoryId": "mobility",
       "title": "Enroulement des épaules",
       "images": {
-        "male": "assets/exercices/homme_default.png",
+        "male": "assets/exercices/exercice_homme_shoulder_rolls.png",
         "female": "assets/exercices/exercice_femme__cerclesdepaules.png"
       },
       "unit": "sec",
@@ -1306,7 +1306,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Squat chaise",
       "images": {
-        "male": "assets/exercices/homme_default.png",
+        "male": "assets/exercices/exercice_homme_chair_squat.png",
         "female": "assets/exercices/exercice_femme_squatchaise.png"
       },
       "unit": "répétitions",
@@ -1364,7 +1364,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Fentes arrière assistées",
       "images": {
-        "male": "assets/exercices/homme_default.png",
+        "male": "assets/exercices/exercice_homme_assisted_reverse_lunges.png",
         "female": "assets/exercices/exercice_femme_fentesarriereassistees.png"
       },
       "unit": "répétitions",
