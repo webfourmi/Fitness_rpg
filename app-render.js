@@ -3526,8 +3526,10 @@ window.FitnessRpgRender.renderFamiliarsPage = function renderFamiliarsPage() {
 
   const allFamiliars = window.FitnessRpgRewards?.getRewardFamiliars?.() || [];
   const unlockedIds = window.FitnessRpgRewards?.getUnlockedFamiliarIds?.() || [];
-  const unlockedCount = unlockedIds.length;
+  const unlockedFamiliars = allFamiliars.filter((familiar) => unlockedIds.includes(familiar.id));
+  const unlockedCount = unlockedFamiliars.length;
   const totalCount = allFamiliars.length;
+  const lockedCount = Math.max(0, totalCount - unlockedCount);
   const activeFamiliar = window.FitnessRpgRewards?.getActiveFamiliar?.() || null;
   const activeInfo = activeFamiliar
     ? window.FitnessRpgRewards?.getFamiliarLevelInfo?.(activeFamiliar.id)
@@ -3535,7 +3537,7 @@ window.FitnessRpgRender.renderFamiliarsPage = function renderFamiliarsPage() {
 
   summary.innerHTML = `
     <p class="eyebrow">🐾 Ménagerie du héros</p>
-    <h2>${unlockedCount} / ${totalCount} familiers débloqués</h2>
+    <h2>${unlockedCount} / ${totalCount} familiers découverts</h2>
     ${activeFamiliar ? `
       <div class="familiar-active-summary">
         <img src="${window.FitnessRpgRender.escapeHtml(activeFamiliar.image)}" alt="${window.FitnessRpgRender.escapeHtml(activeFamiliar.name)}">
@@ -3545,7 +3547,7 @@ window.FitnessRpgRender.renderFamiliarsPage = function renderFamiliarsPage() {
           <span>Affinité ${activeInfo?.points || 0} · Niv. ${activeInfo?.level || 1} ${window.FitnessRpgRender.escapeHtml(activeInfo?.title || "Compagnon")}</span>
         </div>
       </div>
-    ` : `<p>La collection complète est visible ci-dessous. Les familiers verrouillés apparaissent en grisé jusqu’à leur déblocage.</p>`}
+    ` : `<p>Découvre tes compagnons au fil de l’aventure. Leur identité reste secrète jusqu’à leur déblocage.</p>`}
   `;
 
   if (!allFamiliars.length) {
@@ -3558,27 +3560,12 @@ window.FitnessRpgRender.renderFamiliarsPage = function renderFamiliarsPage() {
     return;
   }
 
-  const familiarCardsHtml = allFamiliars.map((familiar) => {
+  const familiarCardsHtml = unlockedFamiliars.map((familiar) => {
     const safeId = window.FitnessRpgRender.escapeHtml(familiar.id);
     const safeName = window.FitnessRpgRender.escapeHtml(familiar.name);
     const safeImage = window.FitnessRpgRender.escapeHtml(familiar.image);
-    const isUnlocked = unlockedIds.includes(familiar.id);
-    const info = isUnlocked ? (window.FitnessRpgRewards?.getFamiliarLevelInfo?.(familiar.id) || {}) : null;
+    const info = window.FitnessRpgRewards?.getFamiliarLevelInfo?.(familiar.id) || {};
     const isActive = activeFamiliar?.id === familiar.id;
-
-    if (!isUnlocked) {
-      return `
-        <article class="familiar-card locked familiar-state-sleep" aria-label="${safeName} verrouillé">
-          <span class="familiar-locked-badge" aria-hidden="true">🔒</span>
-          <div class="familiar-image-frame">
-            <img src="${safeImage}" alt="${safeName}" class="familiar-image" />
-          </div>
-          <strong>${safeName}</strong>
-          <span class="familiar-level-line">Familier à découvrir</span>
-          <small class="familiar-locked-note">Débloque-le via les récompenses.</small>
-        </article>
-      `;
-    }
 
     return `
       <button
@@ -3599,15 +3586,32 @@ window.FitnessRpgRender.renderFamiliarsPage = function renderFamiliarsPage() {
     `;
   }).join("");
 
+  const mysteryCardHtml = lockedCount > 0
+    ? `
+      <article class="familiar-card locked familiar-mystery-card" aria-label="${lockedCount} familiers restent à découvrir">
+        <span class="familiar-locked-badge" aria-hidden="true">🔒</span>
+        <div class="familiar-image-frame familiar-mystery-frame" aria-hidden="true">
+          <span class="familiar-mystery-symbol">?</span>
+        </div>
+        <strong>${lockedCount} familier${lockedCount > 1 ? "s" : ""} à découvrir</strong>
+        <span class="familiar-level-line">Identité secrète</span>
+        <small class="familiar-locked-note">Progresse et ouvre les récompenses pour les révéler.</small>
+      </article>
+    `
+    : "";
+
+  const cardCount = unlockedFamiliars.length + (lockedCount > 0 ? 1 : 0);
+
   grid.innerHTML = `
     <div class="familiar-carousel-shell">
-      <button class="familiar-carousel-btn" type="button" data-direction="-1" aria-label="Familier précédent" ${allFamiliars.length <= 1 ? "disabled" : ""}>‹</button>
-      <div id="familiarCarouselTrack" class="familiar-carousel-track" tabindex="0" aria-label="Collection des familiers">
+      <button class="familiar-carousel-btn" type="button" data-direction="-1" aria-label="Familier précédent" ${cardCount <= 1 ? "disabled" : ""}>‹</button>
+      <div id="familiarCarouselTrack" class="familiar-carousel-track" tabindex="0" aria-label="Familiers découverts">
         ${familiarCardsHtml}
+        ${mysteryCardHtml}
       </div>
-      <button class="familiar-carousel-btn" type="button" data-direction="1" aria-label="Familier suivant" ${allFamiliars.length <= 1 ? "disabled" : ""}>›</button>
+      <button class="familiar-carousel-btn" type="button" data-direction="1" aria-label="Familier suivant" ${cardCount <= 1 ? "disabled" : ""}>›</button>
     </div>
-    <p class="familiar-carousel-help">Les familiers verrouillés restent visibles en grisé. Touche un familier débloqué pour voir son Affinité et le choisir comme compagnon actif.</p>
+    <p class="familiar-carousel-help">Seuls les familiers déjà découverts sont révélés. Les autres restent mystérieux jusqu’à leur déblocage.</p>
   `;
 };
 
