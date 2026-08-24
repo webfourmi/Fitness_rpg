@@ -984,6 +984,14 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
 
   if (!target) return;
 
+  const pwaActionButton = target.closest("[data-pwa-action]");
+
+  if (pwaActionButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgPwa?.handleAction?.(pwaActionButton.dataset.pwaAction);
+    return true;
+  }
+
   // ============================================================
   // COFFRE RECOMPENSE FERMETURE
   // ============================================================

@@ -625,6 +625,135 @@ button:disabled,
   box-shadow: none;
 }
 
+/* Invitation d’installation et mises à jour PWA */
+
+.pwa-prompt {
+  position: fixed;
+  left: 50%;
+  bottom: max(20px, env(safe-area-inset-bottom, 0px));
+  z-index: 96;
+
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+
+  width: min(calc(100% - 24px), 720px);
+  padding: 12px;
+  transform: translateX(-50%);
+
+  border: 1px solid rgba(241, 201, 104, 0.4);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(241, 201, 104, 0.14), transparent 38%),
+    rgba(12, 17, 29, 0.97);
+  backdrop-filter: blur(18px) saturate(1.15);
+  box-shadow: 0 22px 56px rgba(0, 0, 0, 0.46);
+}
+
+.pwa-prompt[data-mode="update"] {
+  border-color: rgba(124, 200, 255, 0.46);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(124, 200, 255, 0.15), transparent 40%),
+    rgba(12, 17, 29, 0.97);
+}
+
+.pwa-prompt-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(241, 201, 104, 0.3);
+  border-radius: 14px;
+  background: var(--accent-soft);
+  font-size: 1.35rem;
+}
+
+.pwa-prompt-copy {
+  min-width: 0;
+}
+
+.pwa-prompt-copy strong {
+  display: block;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.pwa-prompt-copy p {
+  margin: 3px 0 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.pwa-prompt-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.pwa-prompt-actions button {
+  min-height: 44px;
+  padding: 8px 11px;
+  white-space: nowrap;
+}
+
+.pwa-connection-status {
+  position: fixed;
+  top: max(70px, calc(env(safe-area-inset-top, 0px) + 58px));
+  left: 50%;
+  z-index: 95;
+
+  width: fit-content;
+  max-width: calc(100% - 24px);
+  margin: 0;
+  padding: 8px 12px;
+  transform: translateX(-50%);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: rgba(12, 17, 29, 0.94);
+  color: var(--text);
+  box-shadow: var(--shadow);
+
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.pwa-connection-status.is-offline {
+  border-color: rgba(255, 128, 146, 0.38);
+  background: rgba(53, 23, 31, 0.96);
+  color: #ffe2e7;
+}
+
+.pwa-connection-status.is-online {
+  border-color: rgba(100, 217, 140, 0.38);
+  background: rgba(18, 47, 34, 0.96);
+  color: #dffff0;
+}
+
+@media (max-width: 699px) {
+  .pwa-prompt {
+    bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 9px;
+  }
+
+  body[data-page="home"] .pwa-prompt,
+  body[data-page="hero-setup"] .pwa-prompt {
+    bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  }
+
+  .pwa-prompt-actions {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
 .program-session-actions,
 .session-actions,
 .card-actions,

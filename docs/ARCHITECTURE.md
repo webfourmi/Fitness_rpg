@@ -90,3 +90,30 @@ Styles de l'application.
 Les règles existantes doivent être modifiées directement.
 
 Éviter d'ajouter des blocs de correction en fin de fichier, sauf pour un test temporaire.
+
+### manifest.webmanifest
+
+Identité installable de l'application :
+
+- nom et description ;
+- couleurs système ;
+- icônes mobiles ;
+- URL de démarrage et périmètre de la PWA.
+
+### service-worker.js
+
+Gestion du fonctionnement hors ligne :
+
+- pré-cache du socle applicatif ;
+- cache à la demande des images ;
+- nettoyage ciblé des anciennes versions ;
+- activation d'une mise à jour uniquement à la demande de l'utilisateur.
+
+### app-pwa.js
+
+Interface du cycle PWA :
+
+- invitation d'installation ;
+- indication du mode hors connexion ;
+- détection des nouvelles versions ;
+- report du rechargement pendant une séance ou un minuteur actif.
