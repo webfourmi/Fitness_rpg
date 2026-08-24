@@ -1,4 +1,4 @@
-# Fitness RPG — V6.5.13
+# Fitness RPG — V6.6
 
 Fitness RPG est une application web mobile-first qui transforme l'entraînement sportif en aventure RPG.
 
@@ -6,9 +6,19 @@ La série V6.1 a principalement consolidé l'expérience mobile, les séances gu
 
 ## Version actuelle
 
-**V6.5.13 — optimisation WebP**
+**V6.6 — application mobile PWA**
 
-Cette version allège les images chargées par l'application sans modifier le contenu sportif, les programmes, l'XP, les badges ou les sauvegardes.
+Cette version rend Fitness RPG installable sur mobile et utilisable hors connexion après une première ouverture en ligne. Elle ajoute un cycle de mise à jour contrôlé qui ne recharge jamais l’application pendant une séance active.
+
+### Travaux V6.6
+
+- manifeste d’application et icônes mobiles ;
+- lancement en mode autonome depuis l’écran d’accueil ;
+- cache du socle applicatif pour le fonctionnement hors ligne ;
+- cache des images consultées avec actualisation en arrière-plan ;
+- invitation d’installation intégrée ;
+- notification de mise à jour avec rechargement différé pendant les séances ;
+- conservation stricte des programmes, exercices, XP, badges et clés de sauvegarde.
 
 ### Travaux V6.5.13
 
@@ -52,6 +62,9 @@ Cette version allège les images chargées par l'application sans modifier le co
 - `app-exercises.js` : bibliothèque d'exercices et programmes personnalisés ;
 - `app-progress.js` : XP, niveaux et badges ;
 - `app-rewards.js` : familiers et récompenses ;
+- `app-pwa.js` : installation, connexion et mises à jour PWA ;
+- `service-worker.js` : cache du socle applicatif et fonctionnement hors ligne ;
+- `manifest.webmanifest` : identité de l’application installable ;
 - `app-v5.css` : styles de l'application.
 
 ## Règles importantes
@@ -87,6 +100,7 @@ La documentation technique du projet se trouve dans :
 - `docs/ARCHITECTURE.md`
 - `docs/REGLES_PROJET.md`
 - `docs/OPTIMISATION_IMAGES_V6.5.13.md`
+- `docs/PWA_V6.6.md`
 - `docs/AUDIT_V6.1F.md`
 
 ## Validation

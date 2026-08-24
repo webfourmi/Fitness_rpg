@@ -2,18 +2,27 @@
 <html lang="fr">
 <head>
   <!--
-    Fitness RPG - V6.5
+    Fitness RPG - V6.6
     ------------------------------------------------------------
     Charte graphique commune et harmonisation responsive.
     La version officielle reste centralisée dans app-config.js.
   -->
 
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="Fitness RPG transforme l’entraînement sportif en aventure mobile." />
+  <meta name="theme-color" content="#0b0f18" />
+  <meta name="application-name" content="Fitness RPG" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Fitness RPG" />
   <title>Fitness RPG</title>
 
-  <link rel="stylesheet" href="app-v5.css?v=6.5.13">
-  <link rel="stylesheet" href="app-sport.css?v=6.5.13">
+  <link rel="manifest" href="./manifest.webmanifest?v=6.6.0" />
+  <link rel="icon" href="./assets/pwa/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./assets/pwa/apple-touch-icon.png" />
+  <link rel="stylesheet" href="app-v5.css?v=6.6.0">
+  <link rel="stylesheet" href="app-sport.css?v=6.6.0">
 </head>
 
 <body>
@@ -592,6 +601,41 @@
     </div>
   </div>
 
+  <aside
+    id="pwaPrompt"
+    class="pwa-prompt hidden"
+    aria-hidden="true"
+    aria-live="polite"
+    aria-labelledby="pwaPromptTitle"
+  >
+    <span id="pwaPromptIcon" class="pwa-prompt-icon" aria-hidden="true">🛡️</span>
+    <div class="pwa-prompt-copy">
+      <strong id="pwaPromptTitle">Installer Fitness RPG</strong>
+      <p id="pwaPromptMessage">Ajoute l’application à l’écran d’accueil.</p>
+    </div>
+    <div class="pwa-prompt-actions">
+      <button
+        id="pwaPromptPrimaryButton"
+        class="primary-btn"
+        type="button"
+        data-pwa-action="install"
+      >Installer</button>
+      <button
+        id="pwaPromptDismissButton"
+        class="ghost-btn"
+        type="button"
+        data-pwa-action="dismiss"
+      >Plus tard</button>
+    </div>
+  </aside>
+
+  <p
+    id="pwaConnectionStatus"
+    class="pwa-connection-status hidden"
+    role="status"
+    aria-live="polite"
+  ></p>
+
   <div
     id="workoutSummaryOverlay"
     class="workout-summary-overlay hidden"
@@ -629,20 +673,21 @@
     </section>
   </div>
 
-  <script src="./app-config.js?v=6.5.13"></script>
-  <script src="./app-data.js?v=6.5.13"></script>
-  <script src="./app-program-champion-arenes.js?v=6.5.13"></script>
-  <script src="./app-rewards.js?v=6.5.13"></script>
-  <script src="./app-state.js?v=6.5.13"></script>
-  <script src="./app-progress.js?v=6.5.13"></script>
-  <script src="app-render.js?v=6.5.13"></script>
-  <script src="./app-navigation.js?v=6.5.13"></script>
-  <script src="./app-exercises.js?v=6.5.13"></script>
-  <script src="app-programs.js?v=6.5.13"></script>
-  <script src="./app-media.js?v=6.5.13"></script>
-  <script src="./app-backup.js?v=6.5.13"></script>
-  <script src="./app-stats.js?v=6.5.13"></script>
-  <script src="./app-sport.js?v=6.5.13"></script>
-  <script src="./app.js?v=6.5.13"></script>
+  <script src="./app-config.js?v=6.6.0"></script>
+  <script src="./app-data.js?v=6.6.0"></script>
+  <script src="./app-program-champion-arenes.js?v=6.6.0"></script>
+  <script src="./app-rewards.js?v=6.6.0"></script>
+  <script src="./app-state.js?v=6.6.0"></script>
+  <script src="./app-progress.js?v=6.6.0"></script>
+  <script src="app-render.js?v=6.6.0"></script>
+  <script src="./app-navigation.js?v=6.6.0"></script>
+  <script src="./app-exercises.js?v=6.6.0"></script>
+  <script src="app-programs.js?v=6.6.0"></script>
+  <script src="./app-media.js?v=6.6.0"></script>
+  <script src="./app-backup.js?v=6.6.0"></script>
+  <script src="./app-stats.js?v=6.6.0"></script>
+  <script src="./app-sport.js?v=6.6.0"></script>
+  <script src="./app.js?v=6.6.0"></script>
+  <script src="./app-pwa.js?v=6.6.0"></script>
 </body>
 </html>
