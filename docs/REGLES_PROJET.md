@@ -26,6 +26,8 @@ Ne pas réécrire la structure complète d'un programme lorsqu'il est demandé d
 
 Les illustrations sont conçues en format carré 1024 × 1024.
 
+Le format de diffusion utilisé par l'application est WebP. Les PNG d'origine ne doivent pas être supprimés avant validation visuelle et accord explicite.
+
 Elles doivent toujours être :
 
 - visibles entièrement ;
@@ -43,8 +45,8 @@ aspect-ratio: 1 / 1;
 Ne jamais utiliser object-fit: cover pour une image d'exercice.
 
 Les fallbacks officiels sont :
-assets/exercices/homme_default.png
-assets/exercices/femme_default.png
+assets/exercices/homme_default.webp
+assets/exercices/femme_default.webp
 
 CSS
 Modifier les règles existantes dans app-v5.css.

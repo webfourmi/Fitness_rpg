@@ -1,4 +1,4 @@
-# Fitness RPG — V6.1F
+# Fitness RPG — V6.5.13
 
 Fitness RPG est une application web mobile-first qui transforme l'entraînement sportif en aventure RPG.
 
@@ -6,9 +6,18 @@ La série V6.1 a principalement consolidé l'expérience mobile, les séances gu
 
 ## Version actuelle
 
-**V6.1F — validation et nettoyage**
+**V6.5.13 — optimisation WebP**
 
-Cette version ne modifie pas le contenu sportif des programmes. Elle consolide le socle technique avant les évolutions suivantes.
+Cette version allège les images chargées par l'application sans modifier le contenu sportif, les programmes, l'XP, les badges ou les sauvegardes.
+
+### Travaux V6.5.13
+
+- génération de 396 images WebP à partir des PNG existants ;
+- réduction des grandes illustrations carrées à 1024 × 1024 ;
+- conservation de la transparence des illustrations qui l'utilisent ;
+- bascule des références actives de l'application vers WebP ;
+- retrait des PNG d'origine après validation technique et accord explicite ;
+- poids mesuré des images actives : 40,67 Mio en WebP contre 564,98 Mio en PNG.
 
 ### Travaux V6.1F
 
@@ -60,8 +69,8 @@ object-position: center;
 Fallbacks officiels :
 
 ```text
-assets/exercices/homme_default.png
-assets/exercices/femme_default.png
+assets/exercices/homme_default.webp
+assets/exercices/femme_default.webp
 ```
 
 La clé de sauvegarde historique de la séance active reste :
@@ -77,6 +86,7 @@ La documentation technique du projet se trouve dans :
 - `AGENTS.md`
 - `docs/ARCHITECTURE.md`
 - `docs/REGLES_PROJET.md`
+- `docs/OPTIMISATION_IMAGES_V6.5.13.md`
 - `docs/AUDIT_V6.1F.md`
 
 ## Validation
@@ -87,4 +97,4 @@ Après modification JavaScript, lancer :
 node --check nom-du-fichier.js
 ```
 
-La priorité actuelle du projet est la stabilité du socle V6.1F avant l'ajout de nouvelles fonctionnalités.
+La priorité actuelle du projet reste la stabilité, avec validation visuelle des images WebP avant fusion de la pull request.

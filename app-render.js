@@ -1966,7 +1966,7 @@ window.FitnessRpgRender.getBadgeImagePath = function getBadgeImagePath(badge) {
     .replace(/[^a-z0-9]/g, "")
     .trim();
 
-  return `assets/badges/badge_${safeName}.png`;
+  return `assets/badges/badge_${safeName}.webp`;
 };
 window.FitnessRpgRender.renderBadges = function renderBadges() {
   const summary = document.querySelector("#badgeCollectionSummary");
@@ -2898,10 +2898,10 @@ window.FitnessRpgRender.getHeroImagePathForLevel = function getHeroImagePathForL
   const padded = String(safeLevel).padStart(2, "0");
 
   if (profile?.gender === "femme") {
-    return `assets/joueuse/joueuse_niveau_${padded}.png`;
+    return `assets/joueuse/joueuse_niveau_${padded}.webp`;
   }
 
-  return `assets/joueur/joueur_niveau_${padded}.png`;
+  return `assets/joueur/joueur_niveau_${padded}.webp`;
 };
 
 window.FitnessRpgRender.renderLevelUpChestHtml = function renderLevelUpChestHtml(levelReward, familiar) {

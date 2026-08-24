@@ -420,10 +420,10 @@ window.FitnessRpgData = {
       "icon": "🔥",
       "color": "#f0b84f",
       "images": {
-        "homme": "assets/categories/categorie_homme_echauffement.png",
-        "femme": "assets/categories/categorie_femme_echauffement.png",
-        "male": "assets/categories/categorie_homme_echauffement.png",
-        "female": "assets/categories/categorie_femme_echauffement.png"
+        "homme": "assets/categories/categorie_homme_echauffement.webp",
+        "femme": "assets/categories/categorie_femme_echauffement.webp",
+        "male": "assets/categories/categorie_homme_echauffement.webp",
+        "female": "assets/categories/categorie_femme_echauffement.webp"
       },
       "description": "Préparer le corps avant l’effort."
     },
@@ -433,10 +433,10 @@ window.FitnessRpgData = {
       "icon": "🌀",
       "color": "#7db7ff",
       "images": {
-        "homme": "assets/categories/categorie_homme_mobilite.png",
-        "femme": "assets/categories/categorie_femme_mobilite.png",
-        "male": "assets/categories/categorie_homme_mobilite.png",
-        "female": "assets/categories/categorie_femme_mobilite.png"
+        "homme": "assets/categories/categorie_homme_mobilite.webp",
+        "femme": "assets/categories/categorie_femme_mobilite.webp",
+        "male": "assets/categories/categorie_homme_mobilite.webp",
+        "female": "assets/categories/categorie_femme_mobilite.webp"
       },
       "description": "Bouger mieux, délier les articulations."
     },
@@ -446,10 +446,10 @@ window.FitnessRpgData = {
       "icon": "❤️‍🔥",
       "color": "#ef6b6b",
       "images": {
-        "homme": "assets/categories/categorie_homme_cardio.png",
-        "femme": "assets/categories/categorie_femme_cardio.png",
-        "male": "assets/categories/categorie_homme_cardio.png",
-        "female": "assets/categories/categorie_femme_cardio.png"
+        "homme": "assets/categories/categorie_homme_cardio.webp",
+        "femme": "assets/categories/categorie_femme_cardio.webp",
+        "male": "assets/categories/categorie_homme_cardio.webp",
+        "female": "assets/categories/categorie_femme_cardio.webp"
       },
       "description": "Faire monter le souffle sans brutalité."
     },
@@ -459,10 +459,10 @@ window.FitnessRpgData = {
       "icon": "🛡️",
       "color": "#76d672",
       "images": {
-        "homme": "assets/categories/categorie_homme_renforcement.png",
-        "femme": "assets/categories/categorie_femme_renforcement.png",
-        "male": "assets/categories/categorie_homme_renforcement.png",
-        "female": "assets/categories/categorie_femme_renforcement.png"
+        "homme": "assets/categories/categorie_homme_renforcement.webp",
+        "femme": "assets/categories/categorie_femme_renforcement.webp",
+        "male": "assets/categories/categorie_homme_renforcement.webp",
+        "female": "assets/categories/categorie_femme_renforcement.webp"
       },
       "description": "Gainage, jambes, posture et stabilité."
     },
@@ -472,10 +472,10 @@ window.FitnessRpgData = {
       "icon": "💪",
       "color": "#c27dff",
       "images": {
-        "homme": "assets/categories/categorie_homme_bras.png",
-        "femme": "assets/categories/categorie_femme_bras.png",
-        "male": "assets/categories/categorie_homme_bras.png",
-        "female": "assets/categories/categorie_femme_bras.png"
+        "homme": "assets/categories/categorie_homme_bras.webp",
+        "femme": "assets/categories/categorie_femme_bras.webp",
+        "male": "assets/categories/categorie_homme_bras.webp",
+        "female": "assets/categories/categorie_femme_bras.webp"
       },
       "description": "Bras, épaules, force ciblée."
     },
@@ -485,10 +485,10 @@ window.FitnessRpgData = {
       "icon": "🌿",
       "color": "#78d6c6",
       "images": {
-        "homme": "assets/categories/categorie_homme_etirement.png",
-        "femme": "assets/categories/categorie_femme_etirement.png",
-        "male": "assets/categories/categorie_homme_etirement.png",
-        "female": "assets/categories/categorie_femme_etirement.png"
+        "homme": "assets/categories/categorie_homme_etirement.webp",
+        "femme": "assets/categories/categorie_femme_etirement.webp",
+        "male": "assets/categories/categorie_homme_etirement.webp",
+        "female": "assets/categories/categorie_femme_etirement.webp"
       },
       "description": "Retour au calme et récupération."
     },
@@ -498,10 +498,10 @@ window.FitnessRpgData = {
       "icon": "🏃",
       "color": "#a7d672",
       "images": {
-        "homme": "assets/categories/categorie_homme_marche.png",
-        "femme": "assets/categories/categorie_femme_marche.png",
-        "male": "assets/categories/categorie_homme_marche.png",
-        "female": "assets/categories/categorie_femme_marche.png"
+        "homme": "assets/categories/categorie_homme_marche.webp",
+        "femme": "assets/categories/categorie_femme_marche.webp",
+        "male": "assets/categories/categorie_homme_marche.webp",
+        "female": "assets/categories/categorie_femme_marche.webp"
       },
       "description": "Marche et course, sur tapis ou en extérieur."
     },
@@ -511,10 +511,10 @@ window.FitnessRpgData = {
       "icon": "🧘",
       "color": "#b7a7ff",
       "images": {
-        "homme": "assets/categories/categorie_homme_abdos.png",
-        "femme": "assets/categories/categorie_femme_abdos.png",
-        "male": "assets/categories/categorie_homme_abdos.png",
-        "female": "assets/categories/categorie_femme_abdos.png"
+        "homme": "assets/categories/categorie_homme_abdos.webp",
+        "femme": "assets/categories/categorie_femme_abdos.webp",
+        "male": "assets/categories/categorie_homme_abdos.webp",
+        "female": "assets/categories/categorie_femme_abdos.webp"
       },
       "description": "Contrôle du centre, respiration, précision et fluidité."
     },
@@ -524,10 +524,10 @@ window.FitnessRpgData = {
       "icon": "🚴",
       "color": "#66d9ef",
       "images": {
-        "homme": "assets/categories/categorie_homme_velo.png",
-        "femme": "assets/categories/categorie_femme_velo.png",
-        "male": "assets/categories/categorie_homme_velo.png",
-        "female": "assets/categories/categorie_femme_velo.png"
+        "homme": "assets/categories/categorie_homme_velo.webp",
+        "femme": "assets/categories/categorie_femme_velo.webp",
+        "male": "assets/categories/categorie_homme_velo.webp",
+        "female": "assets/categories/categorie_femme_velo.webp"
       },
       "description": "Vélo intérieur ou extérieur."
     }
@@ -538,8 +538,8 @@ window.FitnessRpgData = {
       "categoryId": "warmup",
       "title": "Marche sur place",
       "images": {
-        "male": "assets/exercices/exercice_homme_marche.png",
-        "female": "assets/exercices/exercice_femme_marchesurplace.png"
+        "male": "assets/exercices/exercice_homme_marche.webp",
+        "female": "assets/exercices/exercice_femme_marchesurplace.webp"
       },
       "unit": "min",
       "defaultValue": 2,
@@ -558,8 +558,8 @@ window.FitnessRpgData = {
       "categoryId": "warmup",
       "title": "Cercles de bras",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_cercledebras.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_cercledebras.webp"
       },
       "unit": "sec",
       "defaultValue": 60,
@@ -578,8 +578,8 @@ window.FitnessRpgData = {
       "categoryId": "warmup",
       "title": "Ouverture / fermeture des bras",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_ouverturefermeturedesbras.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_ouverturefermeturedesbras.webp"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -595,8 +595,8 @@ window.FitnessRpgData = {
       "categoryId": "warmup",
       "title": "Marche dynamique",
       "images": {
-        "male": "assets/exercices/exercice_homme_marche.png",
-        "female": "assets/exercices/exercice_femme_marchedynamique.png"
+        "male": "assets/exercices/exercice_homme_marche.webp",
+        "female": "assets/exercices/exercice_femme_marchedynamique.webp"
       },
       "unit": "min",
       "defaultValue": 3,
@@ -615,8 +615,8 @@ window.FitnessRpgData = {
       "categoryId": "warmup",
       "title": "Montées de genoux lentes",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_monteegedeouxlentes.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_monteegedeouxlentes.webp"
       },
       "unit": "sec",
       "defaultValue": 60,
@@ -636,8 +636,8 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Pas chassés",
       "images": {
-        "male": "assets/exercices/exercice_homme_side_steps.png",
-        "female": "assets/exercices/exercice_femme_paschasses.png"
+        "male": "assets/exercices/exercice_homme_side_steps.webp",
+        "female": "assets/exercices/exercice_femme_paschasses.webp"
       },
       "unit": "sec",
       "defaultValue": 90,
@@ -658,8 +658,8 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Mountain climber lent",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_moutainclimberlent.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_moutainclimberlent.webp"
       },
       "unit": "sec",
       "defaultValue": 90,
@@ -675,8 +675,8 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Piétinement",
       "images": {
-        "male": "assets/exercices/exercice_homme_stomping.png",
-        "female": "assets/exercices/exercice_femme_stomping.png"
+        "male": "assets/exercices/exercice_homme_stomping.webp",
+        "female": "assets/exercices/exercice_femme_stomping.webp"
       },
       "unit": "sec",
       "defaultValue": 30,
@@ -695,8 +695,8 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Talons-fesses",
       "images": {
-        "male": "assets/exercices/exercice_homme_butt_kicks.png",
-        "female": "assets/exercices/exercice_femme_butt_kicks.png"
+        "male": "assets/exercices/exercice_homme_butt_kicks.webp",
+        "female": "assets/exercices/exercice_femme_butt_kicks.webp"
       },
       "unit": "sec",
       "defaultValue": 30,
@@ -715,8 +715,8 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Toucher genou-main opposée",
       "images": {
-        "male": "assets/exercices/exercice_homme_cross_knee_tap.png",
-        "female": "assets/exercices/exercice_femme_cross_knee_tap.png"
+        "male": "assets/exercices/exercice_homme_cross_knee_tap.webp",
+        "female": "assets/exercices/exercice_femme_cross_knee_tap.webp"
       },
       "unit": "sec",
       "defaultValue": 30,
@@ -735,8 +735,8 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Step Touch",
       "images": {
-        "male": "assets/exercices/exercice_homme_step_touch.png",
-        "female": "assets/exercices/exercice_femme_step_touch.png"
+        "male": "assets/exercices/exercice_homme_step_touch.webp",
+        "female": "assets/exercices/exercice_femme_step_touch.webp"
       },
       "unit": "sec",
       "defaultValue": 45,
@@ -755,8 +755,8 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Pas du Rôdeur",
       "images": {
-        "male": "assets/exercices/exercice_homme_ranger_step.png",
-        "female": "assets/exercices/exercice_femme_ranger_step.png"
+        "male": "assets/exercices/exercice_homme_ranger_step.webp",
+        "female": "assets/exercices/exercice_femme_ranger_step.webp"
       },
       "unit": "sec",
       "defaultValue": 45,
@@ -775,8 +775,8 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Pas latéraux",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_paslateraux.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_paslateraux.webp"
       },
       "unit": "sec",
       "defaultValue": 30,
@@ -795,8 +795,8 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Pas du patineur",
       "images": {
-        "male": "assets/exercices/exercice_homme_skater_steps.png",
-        "female": "assets/exercices/exercice_femme_skater_steps.png"
+        "male": "assets/exercices/exercice_homme_skater_steps.webp",
+        "female": "assets/exercices/exercice_femme_skater_steps.webp"
       },
       "unit": "sec",
       "defaultValue": 30,
@@ -815,8 +815,8 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Boxeur léger",
       "images": {
-        "male": "assets/exercices/exercice_homme_light_boxer.png",
-        "female": "assets/exercices/exercice_femme_light_boxer.png"
+        "male": "assets/exercices/exercice_homme_light_boxer.webp",
+        "female": "assets/exercices/exercice_femme_light_boxer.webp"
       },
       "unit": "sec",
       "defaultValue": 45,
@@ -835,8 +835,8 @@ window.FitnessRpgData = {
       "categoryId": "walk",
       "title": "Accélération",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_marcheactive.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_marcheactive.webp"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -856,8 +856,8 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Jumping jack sans saut",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_jumpingjacksanssaut.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_jumpingjacksanssaut.webp"
       },
       "unit": "sec",
       "defaultValue": 30,
@@ -876,8 +876,8 @@ window.FitnessRpgData = {
       "categoryId": "walk",
       "title": "Marche lente",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_marchesurplace.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_marchesurplace.webp"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -896,8 +896,8 @@ window.FitnessRpgData = {
       "categoryId": "walk",
       "title": "Marche active",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_marchedynamique.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_marchedynamique.webp"
       },
       "unit": "min",
       "defaultValue": 30,
@@ -917,8 +917,8 @@ window.FitnessRpgData = {
       "categoryId": "walk",
       "title": "Course sur tapis",
       "images": {
-        "male": "assets/exercices/exercice_homme_run_treadmill.png",
-        "female": "assets/exercices/exercice_femme_run_treadmill.png"
+        "male": "assets/exercices/exercice_homme_run_treadmill.webp",
+        "female": "assets/exercices/exercice_femme_run_treadmill.webp"
       },
       "unit": "min",
       "defaultValue": 15,
@@ -935,8 +935,8 @@ window.FitnessRpgData = {
       "categoryId": "walk",
       "title": "Course extérieure",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_courseexterieure.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_courseexterieure.webp"
       },
       "unit": "min",
       "defaultValue": 20,
@@ -953,8 +953,8 @@ window.FitnessRpgData = {
       "categoryId": "bike",
       "title": "Vélo",
       "images": {
-        "male": "assets/exercices/exercice_homme_velo.png",
-        "female": "assets/exercices/exercice_femme_velo.png"
+        "male": "assets/exercices/exercice_homme_velo.webp",
+        "female": "assets/exercices/exercice_femme_velo.webp"
       },
       "unit": "min",
       "defaultValue": 15,
@@ -971,8 +971,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Demi-squat cycliste",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_squats.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_squats.webp"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -990,8 +990,8 @@ window.FitnessRpgData = {
       "categoryId": "mobility",
       "title": "Cercles de chevilles",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_cerclesdechevilles.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_cerclesdechevilles.webp"
       },
       "unit": "sec",
       "defaultValue": 30,
@@ -1011,8 +1011,8 @@ window.FitnessRpgData = {
       "categoryId": "mobility",
       "title": "Enroulement des épaules",
       "images": {
-        "male": "assets/exercices/exercice_homme_shoulder_rolls.png",
-        "female": "assets/exercices/exercice_femme__cerclesdepaules.png"
+        "male": "assets/exercices/exercice_homme_shoulder_rolls.webp",
+        "female": "assets/exercices/exercice_femme__cerclesdepaules.webp"
       },
       "unit": "sec",
       "defaultValue": 60,
@@ -1031,8 +1031,8 @@ window.FitnessRpgData = {
       "categoryId": "stretch",
       "title": "Étirement du chat",
       "images": {
-        "male": "assets/exercices/exercice_homme_child_pose_stretch.png",
-        "female": "assets/exercices/exercice_femme_child_pose_stretch.png"
+        "male": "assets/exercices/exercice_homme_child_pose_stretch.webp",
+        "female": "assets/exercices/exercice_femme_child_pose_stretch.webp"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -1051,8 +1051,8 @@ window.FitnessRpgData = {
       "categoryId": "mobility",
       "title": "Rotation cervicale douce",
       "images": {
-        "male": "assets/exercices/exercice_homme_gentle_neck_rotation.png",
-        "female": "assets/exercices/exercice_femme_gentle_neck_rotation.png"
+        "male": "assets/exercices/exercice_homme_gentle_neck_rotation.webp",
+        "female": "assets/exercices/exercice_femme_gentle_neck_rotation.webp"
       },
       "unit": "sec",
       "defaultValue": 60,
@@ -1071,8 +1071,8 @@ window.FitnessRpgData = {
       "categoryId": "stretch",
       "title": "Étirement poitrine",
       "images": {
-        "male": "assets/exercices/exercice_homme_chest_stretch.png",
-        "female": "assets/exercices/exercice_femme_chest_stretch.png"
+        "male": "assets/exercices/exercice_homme_chest_stretch.webp",
+        "female": "assets/exercices/exercice_femme_chest_stretch.webp"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -1091,8 +1091,8 @@ window.FitnessRpgData = {
   categoryId: "strength",
   title: "Demi-plié",
   images: {
-    male: "assets/exercices/exercice_homme_demiplie.png",
-    female: "assets/exercices/femme_default.png"
+    male: "assets/exercices/exercice_homme_demiplie.webp",
+    female: "assets/exercices/femme_default.webp"
   },
   unit: "répétitions",
   defaultValue: 10,
@@ -1110,8 +1110,8 @@ window.FitnessRpgData = {
   categoryId: "mobility",
   title: "Bras en seconde",
   images: {
-    male: "assets/exercices/exercice_homme_brasenseconde.png",
-    female: "assets/exercices/femme_default.png"
+    male: "assets/exercices/exercice_homme_brasenseconde.webp",
+    female: "assets/exercices/femme_default.webp"
   },
   unit: "sec",
   defaultValue: 30,
@@ -1130,8 +1130,8 @@ window.FitnessRpgData = {
   categoryId: "cardio",
   title: "Pas du cygne",
   images: {
-    male: "assets/exercices/exercice_homme_pasducygne.png",
-    female: "assets/exercices/femme_default.png"
+    male: "assets/exercices/exercice_homme_pasducygne.webp",
+    female: "assets/exercices/femme_default.webp"
   },
   unit: "sec",
   defaultValue: 45,
@@ -1150,8 +1150,8 @@ window.FitnessRpgData = {
   categoryId: "strength",
   title: "Arabesque simplifiée",
   images: {
-    male: "assets/exercices/exercice_homme_arabesquesimplifiee.png",
-    female: "assets/exercices/femme_default.png"
+    male: "assets/exercices/exercice_homme_arabesquesimplifiee.webp",
+    female: "assets/exercices/femme_default.webp"
   },
   unit: "sec",
   defaultValue: 40,
@@ -1170,8 +1170,8 @@ window.FitnessRpgData = {
   categoryId: "strength",
   title: "Développé avant simplifié",
   images: {
-    male: "assets/exercices/exercice_homme_developpeavantsimplifie.png",
-    female: "assets/exercices/femme_default.png"
+    male: "assets/exercices/exercice_homme_developpeavantsimplifie.webp",
+    female: "assets/exercices/femme_default.webp"
   },
   unit: "répétitions",
   defaultValue: 16,
@@ -1189,8 +1189,8 @@ window.FitnessRpgData = {
   categoryId: "mobility",
   title: "Révérence de la Cour",
   images: {
-    male: "assets/exercices/exercice_homme_reverencedelacour.png",
-    female: "assets/exercices/femme_default.png"
+    male: "assets/exercices/exercice_homme_reverencedelacour.webp",
+    female: "assets/exercices/femme_default.webp"
   },
   unit: "répétitions",
   defaultValue: 8,
@@ -1208,8 +1208,8 @@ window.FitnessRpgData = {
   categoryId: "mobility",
   title: "Balancé du danseur",
   images: {
-    male: "assets/exercices/exercice_homme_dancer_sway.png",
-    female: "assets/exercices/exercice_femme_dancer_sway.png"
+    male: "assets/exercices/exercice_homme_dancer_sway.webp",
+    female: "assets/exercices/exercice_femme_dancer_sway.webp"
   },
   unit: "sec",
   defaultValue: 45,
@@ -1228,8 +1228,8 @@ window.FitnessRpgData = {
   categoryId: "strength",
   title: "Passé simplifié",
   images: {
-    male: "assets/exercices/exercice_homme_passe_simplified.png",
-    female: "assets/exercices/exercice_femme_passe_simplified.png"
+    male: "assets/exercices/exercice_homme_passe_simplified.webp",
+    female: "assets/exercices/exercice_femme_passe_simplified.webp"
   },
   unit: "sec",
   defaultValue: 40,
@@ -1248,8 +1248,8 @@ window.FitnessRpgData = {
   categoryId: "cardio",
   title: "Petit enchaînement de ballet",
   images: {
-    male: "assets/exercices/exercice_homme_ballet_sequence.png",
-    female: "assets/exercices/exercice_femme_ballet_sequence.png"
+    male: "assets/exercices/exercice_homme_ballet_sequence.webp",
+    female: "assets/exercices/exercice_femme_ballet_sequence.webp"
   },
   unit: "tours",
   defaultValue: 3,
@@ -1267,8 +1267,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Équilibre sur une jambe",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_equilibresurunejambe.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_equilibresurunejambe.webp"
       },
       "unit": "sec",
       "defaultValue": 40,
@@ -1287,8 +1287,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Montées sur pointes lentes",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_monteessurpointes.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_monteessurpointes.webp"
       },
       "unit": "répétitions",
       "defaultValue": 20,
@@ -1306,8 +1306,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Squat chaise",
       "images": {
-        "male": "assets/exercices/exercice_homme_chair_squat.png",
-        "female": "assets/exercices/exercice_femme_squatchaise.png"
+        "male": "assets/exercices/exercice_homme_chair_squat.webp",
+        "female": "assets/exercices/exercice_femme_squatchaise.webp"
       },
       "unit": "répétitions",
       "defaultValue": 8,
@@ -1325,8 +1325,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Squats",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_squats.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_squats.webp"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -1344,8 +1344,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Chaise contre un mur",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_squatchaise.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_squatchaise.webp"
       },
       "unit": "sec",
       "defaultValue": 20,
@@ -1364,8 +1364,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Fentes arrière assistées",
       "images": {
-        "male": "assets/exercices/exercice_homme_assisted_reverse_lunges.png",
-        "female": "assets/exercices/exercice_femme_fentesarriereassistees.png"
+        "male": "assets/exercices/exercice_homme_assisted_reverse_lunges.webp",
+        "female": "assets/exercices/exercice_femme_fentesarriereassistees.webp"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -1383,8 +1383,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Fentes arrière",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_fentesarriere.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_fentesarriere.webp"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -1402,8 +1402,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Montées sur pointes",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_monteessurpointes.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_monteessurpointes.webp"
       },
       "unit": "répétitions",
       "defaultValue": 15,
@@ -1418,8 +1418,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Pont de hanches",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_pontdehanches.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_pontdehanches.webp"
       },
       "unit": "répétitions",
       "defaultValue": 12,
@@ -1435,8 +1435,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Pont de hanches une jambe alternée",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_pontdehanchessurunejambealternee.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_pontdehanchessurunejambealternee.webp"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -1451,8 +1451,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Superman",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_superman.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_superman.webp"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -1470,8 +1470,8 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Pompes murales",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_pompesmurales.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_pompesmurales.webp"
       },
       "unit": "répétitions",
       "defaultValue": 8,
@@ -1489,7 +1489,7 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Pompes inclinées",
       "images": {
-        "male": "assets/exercices/exercice_homme_pompesinclinees.png",
+        "male": "assets/exercices/exercice_homme_pompesinclinees.webp",
         "female": "assets/exercices/exercice_femme_pompeinclinees.jpg"
       },
       "unit": "répétitions",
@@ -1508,8 +1508,8 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Pompes",
       "images": {
-        "male": "assets/exercices/exercice_homme_pushups.png",
-        "female": "assets/exercices/exercice_femme_pushups.png"
+        "male": "assets/exercices/exercice_homme_pushups.webp",
+        "female": "assets/exercices/exercice_femme_pushups.webp"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -1524,8 +1524,8 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Curl biceps",
       "images": {
-        "male": "assets/exercices/exercice_homme_curlbiceps.png",
-        "female": "assets/exercices/exercice_femme_curlbiceps.png"
+        "male": "assets/exercices/exercice_homme_curlbiceps.webp",
+        "female": "assets/exercices/exercice_femme_curlbiceps.webp"
       },
       "unit": "répétitions",
       "defaultValue": 36,
@@ -1540,8 +1540,8 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Curl marteau",
       "images": {
-        "male": "assets/exercices/exercice_homme_curlmarteau.png",
-        "female": "assets/exercices/exercice_femme_curlmarteau.png"
+        "male": "assets/exercices/exercice_homme_curlmarteau.webp",
+        "female": "assets/exercices/exercice_femme_curlmarteau.webp"
       },
       "unit": "répétitions",
       "defaultValue": 24,
@@ -1556,8 +1556,8 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Élévations latérales",
       "images": {
-        "male": "assets/exercices/exercice_homme_elevationlaterales.png",
-        "female": "assets/exercices/exercice_femme_elevationslaterales.png"
+        "male": "assets/exercices/exercice_homme_elevationlaterales.webp",
+        "female": "assets/exercices/exercice_femme_elevationslaterales.webp"
       },
       "unit": "répétitions",
       "defaultValue": 20,
@@ -1572,8 +1572,8 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Élévations frontales",
       "images": {
-        "male": "assets/exercices/exercice_homme_elevatiosnfrontales.png",
-        "female": "assets/exercices/exercice_femme_elevationsfrontales.png"
+        "male": "assets/exercices/exercice_homme_elevatiosnfrontales.webp",
+        "female": "assets/exercices/exercice_femme_elevationsfrontales.webp"
       },
       "unit": "répétitions",
       "defaultValue": 20,
@@ -1588,8 +1588,8 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Kickback triceps",
       "images": {
-        "male": "assets/exercices/exercice_homme_kickbacktriceps.png",
-        "female": "assets/exercices/exercice_femme_kickbacktriceps.png"
+        "male": "assets/exercices/exercice_homme_kickbacktriceps.webp",
+        "female": "assets/exercices/exercice_femme_kickbacktriceps.webp"
       },
       "unit": "répétitions",
       "defaultValue": 20,
@@ -1604,8 +1604,8 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Développé épaules",
       "images": {
-        "male": "assets/exercices/exercice_homme_developpeepaules.png",
-        "female": "assets/exercices/exercice_femme_developpeepaules.png"
+        "male": "assets/exercices/exercice_homme_developpeepaules.webp",
+        "female": "assets/exercices/exercice_femme_developpeepaules.webp"
       },
       "unit": "répétitions",
       "defaultValue": 20,
@@ -1620,8 +1620,8 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Extension triceps contre un mur",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_extensiontricepscontreunmur.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_extensiontricepscontreunmur.webp"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -1636,7 +1636,7 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Taps épaules en appui incliné",
       "images": {
-        "male": "assets/exercices/exercice_homme_tapsepaules.png",
+        "male": "assets/exercices/exercice_homme_tapsepaules.webp",
         "female": "assets/exercices/exercice_femme_tapsepaulesappuiincline.jpg"
       },
       "unit": "répétitions",
@@ -1652,8 +1652,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Gainage",
       "images": {
-        "male": "assets/exercices/exercice_homme_planche.png",
-        "female": "assets/exercices/exercice_femme_plancheclassique.png"
+        "male": "assets/exercices/exercice_homme_planche.webp",
+        "female": "assets/exercices/exercice_femme_plancheclassique.webp"
       },
       "unit": "sec",
       "defaultValue": 20,
@@ -1672,7 +1672,7 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Planche genoux",
       "images": {
-        "male": "assets/exercices/exercice_homme_planchesurlesgenoux.png",
+        "male": "assets/exercices/exercice_homme_planchesurlesgenoux.webp",
         "female": "assets/exercices/exercice_femme_planchesurlesgenoux.jpg"
       },
       "unit": "sec",
@@ -1690,8 +1690,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Bird Dog",
       "images": {
-        "male": "assets/exercices/exercice_homme_birddog.png",
-        "female": "assets/exercices/exercice_femme_birdog.png"
+        "male": "assets/exercices/exercice_homme_birddog.webp",
+        "female": "assets/exercices/exercice_femme_birdog.webp"
       },
       "unit": "répétitions",
       "defaultValue": 12,
@@ -1709,8 +1709,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Gainage latéral genoux",
       "images": {
-        "male": "assets/exercices/exercice_homme_gainagelateralgenoux.png",
-        "female": "assets/exercices/exercice_femme_gainagelateralgenoux.png"
+        "male": "assets/exercices/exercice_homme_gainagelateralgenoux.webp",
+        "female": "assets/exercices/exercice_femme_gainagelateralgenoux.webp"
       },
       "unit": "sec",
       "defaultValue": 60,
@@ -1726,8 +1726,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Gainage latéral",
       "images": {
-        "male": "assets/exercices/exercice_homme_gainagelateral.png",
-        "female": "assets/exercices/exercice_femme_gainagelateral.png"
+        "male": "assets/exercices/exercice_homme_gainagelateral.webp",
+        "female": "assets/exercices/exercice_femme_gainagelateral.webp"
       },
       "unit": "sec",
       "defaultValue": 40,
@@ -1745,8 +1745,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Dead bug",
       "images": {
-        "male": "assets/exercices/exercice_homme_deadbugcomplet.png",
-        "female": "assets/exercices/exercice_femme_deadbugcomplet.png"
+        "male": "assets/exercices/exercice_homme_deadbugcomplet.webp",
+        "female": "assets/exercices/exercice_femme_deadbugcomplet.webp"
       },
       "unit": "répétitions",
       "defaultValue": 20,
@@ -1764,8 +1764,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Dead bug simplifié",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_deadbugsimplifie.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_deadbugsimplifie.webp"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -1780,8 +1780,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Bascule du bassin au sol",
       "images": {
-        "male": "assets/exercices/exercice_homme_basculebassinausol.png",
-        "female": "assets/exercices/exercice_femme_basculedubassinausol.png"
+        "male": "assets/exercices/exercice_homme_basculebassinausol.webp",
+        "female": "assets/exercices/exercice_femme_basculedubassinausol.webp"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -1797,8 +1797,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Relevé de bassin contrôlé",
       "images": {
-        "male": "assets/exercices/exercice_homme_relevedebassin.png",
-        "female": "assets/exercices/exercice_femme_relevedebassinausol.png"
+        "male": "assets/exercices/exercice_homme_relevedebassin.webp",
+        "female": "assets/exercices/exercice_femme_relevedebassinausol.webp"
       },
       "unit": "répétitions",
       "defaultValue": 12,
@@ -1813,8 +1813,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Crunch contrôlé",
       "images": {
-        "male": "assets/exercices/exercice_homme_crunchcontrole.png",
-        "female": "assets/exercices/exercice_femme_crunchcontrole.png"
+        "male": "assets/exercices/exercice_homme_crunchcontrole.webp",
+        "female": "assets/exercices/exercice_femme_crunchcontrole.webp"
       },
       "unit": "répétitions",
       "defaultValue": 15,
@@ -1829,8 +1829,8 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Hollow hold simplifié",
       "images": {
-        "male": "assets/exercices/exercice_homme_hollowholdsimplifie.png",
-        "female": "assets/exercices/exercice_femme_hollowholdsimplifie.png"
+        "male": "assets/exercices/exercice_homme_hollowholdsimplifie.webp",
+        "female": "assets/exercices/exercice_femme_hollowholdsimplifie.webp"
       },
       "unit": "sec",
       "defaultValue": 45,
@@ -1849,8 +1849,8 @@ window.FitnessRpgData = {
   "categoryId": "pilates",
   "title": "The Hundred",
   "images": {
-    "male": "assets/exercices/homme_default.png",
-    "female": "assets/exercices/femme_default.png"
+    "male": "assets/exercices/homme_default.webp",
+    "female": "assets/exercices/femme_default.webp"
   },
   "unit": "cycles respiratoires",
   "defaultValue": 10,
@@ -1877,8 +1877,8 @@ window.FitnessRpgData = {
   "categoryId": "pilates",
   "title": "Swimming",
   "images": {
-    "male": "assets/exercices/homme_default.png",
-    "female": "assets/exercices/femme_default.png"
+    "male": "assets/exercices/homme_default.webp",
+    "female": "assets/exercices/femme_default.webp"
   },
   "unit": "sec",
   "defaultValue": 20,
@@ -1897,8 +1897,8 @@ window.FitnessRpgData = {
   "categoryId": "pilates",
   "title": "Toe Taps",
   "images": {
-    "male": "assets/exercices/homme_default.png",
-    "female": "assets/exercices/femme_default.png"
+    "male": "assets/exercices/homme_default.webp",
+    "female": "assets/exercices/femme_default.webp"
   },
   "unit": "répétitions",
   "defaultValue": 20,
@@ -1916,8 +1916,8 @@ window.FitnessRpgData = {
   "categoryId": "pilates",
   "title": "Side Leg Lift",
   "images": {
-    "male": "assets/exercices/homme_default.png",
-    "female": "assets/exercices/femme_default.png"
+    "male": "assets/exercices/homme_default.webp",
+    "female": "assets/exercices/femme_default.webp"
   },
   "unit": "répétitions",
   "defaultValue": 24,
@@ -1935,8 +1935,8 @@ window.FitnessRpgData = {
   "categoryId": "pilates",
   "title": "Roll Up simplifié",
   "images": {
-    "male": "assets/exercices/homme_default.png",
-    "female": "assets/exercices/femme_default.png"
+    "male": "assets/exercices/homme_default.webp",
+    "female": "assets/exercices/femme_default.webp"
   },
   "unit": "répétitions",
   "defaultValue": 10,
@@ -1954,8 +1954,8 @@ window.FitnessRpgData = {
   categoryId: "strength",
   title: "Crunch vélo",
   images: {
-    male: "assets/exercices/exercice_homme_bicycle_crunch.png",
-    female: "assets/exercices/exercice_femme_bicycle_crunch.png"
+    male: "assets/exercices/exercice_homme_bicycle_crunch.webp",
+    female: "assets/exercices/exercice_femme_bicycle_crunch.webp"
   },
   unit: "répétitions",
   defaultValue: 20,
@@ -1973,8 +1973,8 @@ window.FitnessRpgData = {
   categoryId: "strength",
   title: "Planche avec toucher d’épaule",
   images: {
-    male: "assets/exercices/exercice_homme_plank_shoulder_taps.png",
-    female: "assets/exercices/exercice_femme_plank_shoulder_taps.png"
+    male: "assets/exercices/exercice_homme_plank_shoulder_taps.webp",
+    female: "assets/exercices/exercice_femme_plank_shoulder_taps.webp"
   },
   unit: "répétitions",
   defaultValue: 20,
@@ -1992,8 +1992,8 @@ window.FitnessRpgData = {
   categoryId: "strength",
   title: "Planche dynamique",
   images: {
-    male: "assets/exercices/exercice_homme_dynamic_plank.png",
-    female: "assets/exercices/exercice_femme_dynamic_plank.png"
+    male: "assets/exercices/exercice_homme_dynamic_plank.webp",
+    female: "assets/exercices/exercice_femme_dynamic_plank.webp"
   },
   unit: "répétitions",
   defaultValue: 10,
@@ -2011,8 +2011,8 @@ window.FitnessRpgData = {
       "categoryId": "pilates",
       "title": "Single Leg Stretch",
       "images": {
-        "male": "assets/exercices/exercice_homme_single_leg_stretch.png",
-        "female": "assets/exercices/exercice_femme_single_leg_stretch.png"
+        "male": "assets/exercices/exercice_homme_single_leg_stretch.webp",
+        "female": "assets/exercices/exercice_femme_single_leg_stretch.webp"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -2030,8 +2030,8 @@ window.FitnessRpgData = {
       "categoryId": "pilates",
       "title": "Double Leg Stretch",
       "images": {
-        "male": "assets/exercices/exercice_homme_double_leg_stretch.png",
-        "female": "assets/exercices/exercice_femme_double_leg_stretch.png"
+        "male": "assets/exercices/exercice_homme_double_leg_stretch.webp",
+        "female": "assets/exercices/exercice_femme_double_leg_stretch.webp"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -2049,8 +2049,8 @@ window.FitnessRpgData = {
       "categoryId": "pilates",
       "title": "Roll Up complet",
       "images": {
-        "male": "assets/exercices/exercice_homme_roll_up_simplifie.png",
-        "female": "assets/exercices/exercice_femme_roll_up_simplifie.png"
+        "male": "assets/exercices/exercice_homme_roll_up_simplifie.webp",
+        "female": "assets/exercices/exercice_femme_roll_up_simplifie.webp"
       },
       "unit": "répétitions",
       "defaultValue": 6,
@@ -2068,8 +2068,8 @@ window.FitnessRpgData = {
       "categoryId": "pilates",
       "title": "Criss Cross",
       "images": {
-        "male": "assets/exercices/exercice_homme_criss_cross.png",
-        "female": "assets/exercices/exercice_femme_criss_cross.png"
+        "male": "assets/exercices/exercice_homme_criss_cross.webp",
+        "female": "assets/exercices/exercice_femme_criss_cross.webp"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -2087,8 +2087,8 @@ window.FitnessRpgData = {
       "categoryId": "pilates",
       "title": "Scissors",
       "images": {
-        "male": "assets/exercices/exercice_homme_scissors.png",
-        "female": "assets/exercices/exercice_femme_scissors.png"
+        "male": "assets/exercices/exercice_homme_scissors.webp",
+        "female": "assets/exercices/exercice_femme_scissors.webp"
       },
       "unit": "répétitions",
       "defaultValue": 16,
@@ -2106,8 +2106,8 @@ window.FitnessRpgData = {
       "categoryId": "pilates",
       "title": "Double Straight Leg Lower & Lift",
       "images": {
-        "male": "assets/exercices/exercice_homme_double_straight_leg_lower_lift.png",
-        "female": "assets/exercices/exercice_femme_double_straight_leg_lower_lift.png"
+        "male": "assets/exercices/exercice_homme_double_straight_leg_lower_lift.webp",
+        "female": "assets/exercices/exercice_femme_double_straight_leg_lower_lift.webp"
       },
       "unit": "répétitions",
       "defaultValue": 6,
@@ -2125,8 +2125,8 @@ window.FitnessRpgData = {
       "categoryId": "pilates",
       "title": "Leg Pull Front",
       "images": {
-        "male": "assets/exercices/exercice_homme_leg_pull_front.png",
-        "female": "assets/exercices/exercice_femme_leg_pull_front.png"
+        "male": "assets/exercices/exercice_homme_leg_pull_front.webp",
+        "female": "assets/exercices/exercice_femme_leg_pull_front.webp"
       },
       "unit": "répétitions",
       "defaultValue": 8,
@@ -2144,8 +2144,8 @@ window.FitnessRpgData = {
       "categoryId": "pilates",
       "title": "Teaser I",
       "images": {
-        "male": "assets/exercices/exercice_homme_teaser_i.png",
-        "female": "assets/exercices/exercice_femme_teaser_i.png"
+        "male": "assets/exercices/exercice_homme_teaser_i.webp",
+        "female": "assets/exercices/exercice_femme_teaser_i.webp"
       },
       "unit": "répétitions",
       "defaultValue": 5,
@@ -2163,8 +2163,8 @@ window.FitnessRpgData = {
       "categoryId": "pilates",
       "title": "Pilates",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_pilates.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_pilates.webp"
       },
       "unit": "min",
       "defaultValue": 10,
@@ -2180,8 +2180,8 @@ window.FitnessRpgData = {
       "categoryId": "mobility",
       "title": "Chat-vache",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_chatvache.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_chatvache.webp"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -2198,8 +2198,8 @@ window.FitnessRpgData = {
       "categoryId": "mobility",
       "title": "Cercles de hanches",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_cerclesdehanches.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_cerclesdehanches.webp"
       },
       "unit": "sec",
       "defaultValue": 60,
@@ -2218,8 +2218,8 @@ window.FitnessRpgData = {
       "categoryId": "mobility",
       "title": "Rotation thoracique",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_rotationthoracique.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_rotationthoracique.webp"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -2236,8 +2236,8 @@ window.FitnessRpgData = {
       "categoryId": "mobility",
       "title": "Respiration abdominale",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_respirationabdominalecontrolee.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_respirationabdominalecontrolee.webp"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -2254,8 +2254,8 @@ window.FitnessRpgData = {
       "categoryId": "stretch",
       "title": "Respiration profonde",
       "images": {
-        "male": "assets/exercices/exercice_homme_respirationfinale.png",
-        "female": "assets/exercices/exercice_femme_respirationfinale.png"
+        "male": "assets/exercices/exercice_homme_respirationfinale.webp",
+        "female": "assets/exercices/exercice_femme_respirationfinale.webp"
       },
       "unit": "min",
       "defaultValue": 1,
@@ -2274,8 +2274,8 @@ window.FitnessRpgData = {
       "categoryId": "stretch",
       "title": "Respiration lente",
       "images": {
-        "male": "assets/exercices/homme_default.png",
-        "female": "assets/exercices/exercice_femme_respirationfinale.png"
+        "male": "assets/exercices/homme_default.webp",
+        "female": "assets/exercices/exercice_femme_respirationfinale.webp"
       },
       "unit": "min",
       "defaultValue": 2,
@@ -2291,8 +2291,8 @@ window.FitnessRpgData = {
       "categoryId": "stretch",
       "title": "Étirement cuisses / mollets",
       "images": {
-        "male": "assets/exercices/exercice_homme_etirementcuissesmollets.png",
-        "female": "assets/exercices/exercice_femme_etirementcuissesmollets.png"
+        "male": "assets/exercices/exercice_homme_etirementcuissesmollets.webp",
+        "female": "assets/exercices/exercice_femme_etirementcuissesmollets.webp"
       },
       "unit": "min",
       "defaultValue": 3,
@@ -2308,8 +2308,8 @@ window.FitnessRpgData = {
       "categoryId": "stretch",
       "title": "Étirement hanches / quadriceps",
       "images": {
-        "male": "assets/exercices/exercice_homme_etirementhanchesquadriceps.png",
-        "female": "assets/exercices/exercice_femme_etirementhanchesquadriceps.png"
+        "male": "assets/exercices/exercice_homme_etirementhanchesquadriceps.webp",
+        "female": "assets/exercices/exercice_femme_etirementhanchesquadriceps.webp"
       },
       "unit": "min",
       "defaultValue": 3,
@@ -2326,8 +2326,8 @@ window.FitnessRpgData = {
       "categoryId": "stretch",
       "title": "Étirement doux du dos",
       "images": {
-        "male": "assets/exercices/exercice_homme_etirementdouxdudos.png",
-        "female": "assets/exercices/exercice_femme_etirementdouxdudos.png"
+        "male": "assets/exercices/exercice_homme_etirementdouxdudos.webp",
+        "female": "assets/exercices/exercice_femme_etirementdouxdudos.webp"
       },
       "unit": "min",
       "defaultValue": 2,
@@ -2346,8 +2346,8 @@ window.FitnessRpgData = {
       "categoryId": "stretch",
       "title": "Étirement épaules / bras",
       "images": {
-        "male": "assets/exercices/exercice_homme_etirementepaulesbras.png",
-        "female": "assets/exercices/exercice_femme_etirementsepaulesbras.png"
+        "male": "assets/exercices/exercice_homme_etirementepaulesbras.webp",
+        "female": "assets/exercices/exercice_femme_etirementsepaulesbras.webp"
       },
       "unit": "min",
       "defaultValue": 2,
@@ -2364,10 +2364,10 @@ window.FitnessRpgData = {
       "categoryId": "warmup",
       "title": "Échauffement standard avancé",
       "images": {
-        "homme": "assets/exercices/exercice_homme_advanced_standard_warmup.png",
-        "femme": "assets/exercices/exercice_femme_advanced_standard_warmup.png",
-        "male": "assets/exercices/exercice_homme_advanced_standard_warmup.png",
-        "female": "assets/exercices/exercice_femme_advanced_standard_warmup.png"
+        "homme": "assets/exercices/exercice_homme_advanced_standard_warmup.webp",
+        "femme": "assets/exercices/exercice_femme_advanced_standard_warmup.webp",
+        "male": "assets/exercices/exercice_homme_advanced_standard_warmup.webp",
+        "female": "assets/exercices/exercice_femme_advanced_standard_warmup.webp"
       },
       "unit": "min",
       "defaultValue": 5,
@@ -2386,10 +2386,10 @@ window.FitnessRpgData = {
       "categoryId": "stretch",
       "title": "Retour au calme standard avancé",
       "images": {
-        "homme": "assets/exercices/exercice_homme_advanced_standard_cooldown.png",
-        "femme": "assets/exercices/exercice_femme_advanced_standard_cooldown.png",
-        "male": "assets/exercices/exercice_homme_advanced_standard_cooldown.png",
-        "female": "assets/exercices/exercice_femme_advanced_standard_cooldown.png"
+        "homme": "assets/exercices/exercice_homme_advanced_standard_cooldown.webp",
+        "femme": "assets/exercices/exercice_femme_advanced_standard_cooldown.webp",
+        "male": "assets/exercices/exercice_homme_advanced_standard_cooldown.webp",
+        "female": "assets/exercices/exercice_femme_advanced_standard_cooldown.webp"
       },
       "unit": "min",
       "defaultValue": 5,
@@ -2408,10 +2408,10 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Goblet Squat",
       "images": {
-        "homme": "assets/exercices/exercice_homme_goblet_squat.png",
-        "femme": "assets/exercices/exercice_femme_goblet_squat.png",
-        "male": "assets/exercices/exercice_homme_goblet_squat.png",
-        "female": "assets/exercices/exercice_femme_goblet_squat.png"
+        "homme": "assets/exercices/exercice_homme_goblet_squat.webp",
+        "femme": "assets/exercices/exercice_femme_goblet_squat.webp",
+        "male": "assets/exercices/exercice_homme_goblet_squat.webp",
+        "female": "assets/exercices/exercice_femme_goblet_squat.webp"
       },
       "unit": "répétitions",
       "defaultValue": 12,
@@ -2429,10 +2429,10 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Développé couché",
       "images": {
-        "homme": "assets/exercices/exercice_homme_bench_press.png",
-        "femme": "assets/exercices/exercice_femme_bench_press.png",
-        "male": "assets/exercices/exercice_homme_bench_press.png",
-        "female": "assets/exercices/exercice_femme_bench_press.png"
+        "homme": "assets/exercices/exercice_homme_bench_press.webp",
+        "femme": "assets/exercices/exercice_femme_bench_press.webp",
+        "male": "assets/exercices/exercice_homme_bench_press.webp",
+        "female": "assets/exercices/exercice_femme_bench_press.webp"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -2450,10 +2450,10 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Rowing élastique",
       "images": {
-        "homme": "assets/exercices/exercice_homme_resistance_band_row.png",
-        "femme": "assets/exercices/exercice_femme_resistance_band_row.png",
-        "male": "assets/exercices/exercice_homme_resistance_band_row.png",
-        "female": "assets/exercices/exercice_femme_resistance_band_row.png"
+        "homme": "assets/exercices/exercice_homme_resistance_band_row.webp",
+        "femme": "assets/exercices/exercice_femme_resistance_band_row.webp",
+        "male": "assets/exercices/exercice_homme_resistance_band_row.webp",
+        "female": "assets/exercices/exercice_femme_resistance_band_row.webp"
       },
       "unit": "répétitions",
       "defaultValue": 15,
@@ -2471,10 +2471,10 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Swing kettlebell",
       "images": {
-        "homme": "assets/exercices/exercice_homme_kettlebell_swing.png",
-        "femme": "assets/exercices/exercice_femme_kettlebell_swing.png",
-        "male": "assets/exercices/exercice_homme_kettlebell_swing.png",
-        "female": "assets/exercices/exercice_femme_kettlebell_swing.png"
+        "homme": "assets/exercices/exercice_homme_kettlebell_swing.webp",
+        "femme": "assets/exercices/exercice_femme_kettlebell_swing.webp",
+        "male": "assets/exercices/exercice_homme_kettlebell_swing.webp",
+        "female": "assets/exercices/exercice_femme_kettlebell_swing.webp"
       },
       "unit": "répétitions",
       "defaultValue": 15,
@@ -2492,10 +2492,10 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Développé militaire",
       "images": {
-        "homme": "assets/exercices/exercice_homme_kettlebell_military_press.png",
-        "femme": "assets/exercices/exercice_femme_kettlebell_military_press.png",
-        "male": "assets/exercices/exercice_homme_kettlebell_military_press.png",
-        "female": "assets/exercices/exercice_femme_kettlebell_military_press.png"
+        "homme": "assets/exercices/exercice_homme_kettlebell_military_press.webp",
+        "femme": "assets/exercices/exercice_femme_kettlebell_military_press.webp",
+        "male": "assets/exercices/exercice_homme_kettlebell_military_press.webp",
+        "female": "assets/exercices/exercice_femme_kettlebell_military_press.webp"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -2513,10 +2513,10 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Soulevé de terre kettlebell",
       "images": {
-        "homme": "assets/exercices/exercice_homme_kettlebell_deadlift.png",
-        "femme": "assets/exercices/exercice_femme_kettlebell_deadlift.png",
-        "male": "assets/exercices/exercice_homme_kettlebell_deadlift.png",
-        "female": "assets/exercices/exercice_femme_kettlebell_deadlift.png"
+        "homme": "assets/exercices/exercice_homme_kettlebell_deadlift.webp",
+        "femme": "assets/exercices/exercice_femme_kettlebell_deadlift.webp",
+        "male": "assets/exercices/exercice_homme_kettlebell_deadlift.webp",
+        "female": "assets/exercices/exercice_femme_kettlebell_deadlift.webp"
       },
       "unit": "répétitions",
       "defaultValue": 12,
@@ -2534,10 +2534,10 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Turkish Get-Up",
       "images": {
-        "homme": "assets/exercices/exercice_homme_turkish_get_up.png",
-        "femme": "assets/exercices/exercice_femme_turkish_get_up.png",
-        "male": "assets/exercices/exercice_homme_turkish_get_up.png",
-        "female": "assets/exercices/exercice_femme_turkish_get_up.png"
+        "homme": "assets/exercices/exercice_homme_turkish_get_up.webp",
+        "femme": "assets/exercices/exercice_femme_turkish_get_up.webp",
+        "male": "assets/exercices/exercice_homme_turkish_get_up.webp",
+        "female": "assets/exercices/exercice_femme_turkish_get_up.webp"
       },
       "unit": "répétitions",
       "defaultValue": 10,
@@ -2555,10 +2555,10 @@ window.FitnessRpgData = {
       "categoryId": "cardio",
       "title": "Sac de frappe",
       "images": {
-        "homme": "assets/exercices/exercice_homme_heavy_bag_rounds.png",
-        "femme": "assets/exercices/exercice_femme_heavy_bag_rounds.png",
-        "male": "assets/exercices/exercice_homme_heavy_bag_rounds.png",
-        "female": "assets/exercices/exercice_femme_heavy_bag_rounds.png"
+        "homme": "assets/exercices/exercice_homme_heavy_bag_rounds.webp",
+        "femme": "assets/exercices/exercice_femme_heavy_bag_rounds.webp",
+        "male": "assets/exercices/exercice_homme_heavy_bag_rounds.webp",
+        "female": "assets/exercices/exercice_femme_heavy_bag_rounds.webp"
       },
       "unit": "min",
       "defaultValue": 5,
@@ -2577,10 +2577,10 @@ window.FitnessRpgData = {
       "categoryId": "strength",
       "title": "Fentes marchées",
       "images": {
-        "homme": "assets/exercices/exercice_homme_walking_lunges.png",
-        "femme": "assets/exercices/exercice_femme_walking_lunges.png",
-        "male": "assets/exercices/exercice_homme_walking_lunges.png",
-        "female": "assets/exercices/exercice_femme_walking_lunges.png"
+        "homme": "assets/exercices/exercice_homme_walking_lunges.webp",
+        "femme": "assets/exercices/exercice_femme_walking_lunges.webp",
+        "male": "assets/exercices/exercice_homme_walking_lunges.webp",
+        "female": "assets/exercices/exercice_femme_walking_lunges.webp"
       },
       "unit": "répétitions",
       "defaultValue": 20,
@@ -2598,10 +2598,10 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Tractions assistées",
       "images": {
-        "homme": "assets/exercices/exercice_homme_assisted_pullups.png",
-        "femme": "assets/exercices/exercice_femme_assisted_pullups.png",
-        "male": "assets/exercices/exercice_homme_assisted_pullups.png",
-        "female": "assets/exercices/exercice_femme_assisted_pullups.png"
+        "homme": "assets/exercices/exercice_homme_assisted_pullups.webp",
+        "femme": "assets/exercices/exercice_femme_assisted_pullups.webp",
+        "male": "assets/exercices/exercice_homme_assisted_pullups.webp",
+        "female": "assets/exercices/exercice_femme_assisted_pullups.webp"
       },
       "unit": "répétitions",
       "defaultValue": 5,
@@ -2619,10 +2619,10 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Tractions propres",
       "images": {
-        "homme": "assets/exercices/exercice_homme_pullups_clean_max.png",
-        "femme": "assets/exercices/exercice_femme_pullups_clean_max.png",
-        "male": "assets/exercices/exercice_homme_pullups_clean_max.png",
-        "female": "assets/exercices/exercice_femme_pullups_clean_max.png"
+        "homme": "assets/exercices/exercice_homme_pullups_clean_max.webp",
+        "femme": "assets/exercices/exercice_femme_pullups_clean_max.webp",
+        "male": "assets/exercices/exercice_homme_pullups_clean_max.webp",
+        "female": "assets/exercices/exercice_femme_pullups_clean_max.webp"
       },
       "unit": "répétitions",
       "defaultValue": 5,
@@ -2640,10 +2640,10 @@ window.FitnessRpgData = {
       "categoryId": "muscle",
       "title": "Face Pull",
       "images": {
-        "homme": "assets/exercices/exercice_homme_face_pull.png",
-        "femme": "assets/exercices/exercice_femme_face_pull.png",
-        "male": "assets/exercices/exercice_homme_face_pull.png",
-        "female": "assets/exercices/exercice_femme_face_pull.png"
+        "homme": "assets/exercices/exercice_homme_face_pull.webp",
+        "femme": "assets/exercices/exercice_femme_face_pull.webp",
+        "male": "assets/exercices/exercice_homme_face_pull.webp",
+        "female": "assets/exercices/exercice_femme_face_pull.webp"
       },
       "unit": "répétitions",
       "defaultValue": 15,
@@ -2661,10 +2661,10 @@ window.FitnessRpgData = {
       "categoryId": "bike",
       "title": "Accélérations vélo",
       "images": {
-        "homme": "assets/exercices/exercice_homme_bike_acceleration.png",
-        "femme": "assets/exercices/exercice_femme_bike_acceleration.png",
-        "male": "assets/exercices/exercice_homme_bike_acceleration.png",
-        "female": "assets/exercices/exercice_femme_bike_acceleration.png"
+        "homme": "assets/exercices/exercice_homme_bike_acceleration.webp",
+        "femme": "assets/exercices/exercice_femme_bike_acceleration.webp",
+        "male": "assets/exercices/exercice_homme_bike_acceleration.webp",
+        "female": "assets/exercices/exercice_femme_bike_acceleration.webp"
       },
       "unit": "min",
       "defaultValue": 3,
@@ -12297,157 +12297,157 @@ window.FitnessRpgData = {
     {
       "id": "familier-01",
       "name": "Batraglyphe",
-      "image": "assets/familiers/familier_grenouille.png"
+      "image": "assets/familiers/familier_grenouille.webp"
     },
     {
       "id": "familier-02",
       "name": "Plumérion",
-      "image": "assets/familiers/familier_hibou.png"
+      "image": "assets/familiers/familier_hibou.webp"
     },
     {
       "id": "familier-03",
       "name": "Flambis",
-      "image": "assets/familiers/familier_renard.png"
+      "image": "assets/familiers/familier_renard.webp"
     },
     {
       "id": "familier-04",
       "name": "Noxplume",
-      "image": "assets/familiers/familier_corbeau.png"
+      "image": "assets/familiers/familier_corbeau.webp"
     },
     {
       "id": "familier-05",
       "name": "Bravouf",
-      "image": "assets/familiers/familier_chien.png"
+      "image": "assets/familiers/familier_chien.webp"
     },
     {
       "id": "familier-06",
       "name": "Noctimaow",
-      "image": "assets/familiers/familier_chat.png"
+      "image": "assets/familiers/familier_chat.webp"
     },
     {
       "id": "familier-07",
       "name": "Gribzouk",
-      "image": "assets/familiers/familier_diablotin.png"
+      "image": "assets/familiers/familier_diablotin.webp"
     },
     {
       "id": "familier-08",
       "name": "Pyrolins",
-      "image": "assets/familiers/familier_dragon.png"
+      "image": "assets/familiers/familier_dragon.webp"
     },
      {
       "id": "familier-09",
       "name": "Lunminelle",
-      "image": "assets/familiers/familier_axolot.png"
+      "image": "assets/familiers/familier_axolot.webp"
     },
      {
       "id": "familier-10",
       "name": "Calmabulle",
-      "image": "assets/familiers/familier_capybara.png"
+      "image": "assets/familiers/familier_capybara.webp"
     },
      {
       "id": "familier-11",
       "name": "Sylvanelle",
-      "image": "assets/familiers/familier_cerf.png"
+      "image": "assets/familiers/familier_cerf.webp"
     },
      {
       "id": "familier-12",
       "name": "Crépuskule",
-      "image": "assets/familiers/familier_chauvesouris.png"
+      "image": "assets/familiers/familier_chauvesouris.webp"
     },
      {
       "id": "familier-13",
       "name": "Corneliot",
-      "image": "assets/familiers/familier_chevre.png"
+      "image": "assets/familiers/familier_chevre.webp"
     },
      {
       "id": "familier-14",
       "name": "Grisvent",
-      "image": "assets/familiers/familier_chien2.png"
+      "image": "assets/familiers/familier_chien2.webp"
     },
      {
       "id": "familier-15",
       "name": "Grandcrocs",
-      "image": "assets/familiers/familier_crocodile.png"
+      "image": "assets/familiers/familier_crocodile.webp"
     },
      {
       "id": "familier-16",
       "name": "Noiselys",
-      "image": "assets/familiers/familier_ecureuil.png"
+      "image": "assets/familiers/familier_ecureuil.webp"
     },
      {
       "id": "familier-17",
       "name": "Piquelune",
-      "image": "assets/familiers/familier_herisson.png"
+      "image": "assets/familiers/familier_herisson.webp"
     },
      {
       "id": "familier-18",
       "name": "Griffonus",
-      "image": "assets/familiers/familier_hippogriffe.png"
+      "image": "assets/familiers/familier_hippogriffe.webp"
     },
      {
       "id": "familier-19",
       "name": "Eukalyptus",
-      "image": "assets/familiers/familier_koala.png"
+      "image": "assets/familiers/familier_koala.webp"
     },
      {
       "id": "familier-20",
       "name": "Bondonyx",
-      "image": "assets/familiers/familier_lapin.png"
+      "image": "assets/familiers/familier_lapin.webp"
     },
      {
       "id": "familier-21",
       "name": "Etoilys",
-      "image": "assets/familiers/familier_licorne.png"
+      "image": "assets/familiers/familier_licorne.webp"
     },
      {
       "id": "familier-22",
       "name": "Silverine",
-      "image": "assets/familiers/familier_loutre.png"
+      "image": "assets/familiers/familier_loutre.webp"
     },
      {
       "id": "familier-23",
       "name": "Moumoute",
-      "image": "assets/familiers/familier_mouton.png"
+      "image": "assets/familiers/familier_mouton.webp"
     },
      {
       "id": "familier-24",
       "name": "Bamboulys",
-      "image": "assets/familiers/familier_panda.png"
+      "image": "assets/familiers/familier_panda.webp"
     },
      {
       "id": "familier-25",
       "name": "Vifroux",
-      "image": "assets/familiers/familier_pandaroux.png"
+      "image": "assets/familiers/familier_pandaroux.webp"
     },
      {
       "id": "familier-26",
       "name": "Nuagelle",
-      "image": "assets/familiers/familier_pegase.png"
+      "image": "assets/familiers/familier_pegase.webp"
     },
      {
       "id": "familier-27",
       "name": "Fireflam",
-      "image": "assets/familiers/familier_phenix.png"
+      "image": "assets/familiers/familier_phenix.webp"
     },
      {
       "id": "familier-28",
       "name": "Ondinou",
-      "image": "assets/familiers/familier_phoque.png"
+      "image": "assets/familiers/familier_phoque.webp"
     },
      {
       "id": "familier-29",
       "name": "Masquille",
-      "image": "assets/familiers/familier_ratonlaveur.png"
+      "image": "assets/familiers/familier_ratonlaveur.webp"
     },
      {
       "id": "familier-30",
       "name": "Fiolys",
-      "image": "assets/familiers/familier_souris.png"
+      "image": "assets/familiers/familier_souris.webp"
     },
      {
       "id": "familier-31",
       "name": "Carapazur",
-      "image": "assets/familiers/familier_tortue.png"
+      "image": "assets/familiers/familier_tortue.webp"
     }
   ],
   "badges": [
@@ -12532,7 +12532,7 @@ window.FitnessRpgData = {
   programId: "ballet-sylphes",
   weekNumber: 1,
   target: 1,
-  image: "assets/badges/badge_petitesylphe.png"
+  image: "assets/badges/badge_petitesylphe.webp"
 },
 {
   id: "ballet-cygne-argente",
@@ -12543,7 +12543,7 @@ window.FitnessRpgData = {
   programId: "ballet-sylphes",
   weekNumber: 2,
   target: 1,
-  image: "assets/badges/badge_cygneargente.png"
+  image: "assets/badges/badge_cygneargente.webp"
 },
 {
   id: "ballet-esprit-theatre",
@@ -12554,7 +12554,7 @@ window.FitnessRpgData = {
   programId: "ballet-sylphes",
   weekNumber: 3,
   target: 1,
-  image: "assets/badges/badge_espritdutheatre.png"
+  image: "assets/badges/badge_espritdutheatre.webp"
 },
 {
   id: "ballet-reine-sylphes",
@@ -12565,7 +12565,7 @@ window.FitnessRpgData = {
   programId: "ballet-sylphes",
   weekNumber: 4,
   target: 1,
-  image: "assets/badges/badge_reinedessylphes.png"
+  image: "assets/badges/badge_reinedessylphes.webp"
 },
     {
   id: "rempart-gardien-pierre",
@@ -12576,7 +12576,7 @@ window.FitnessRpgData = {
   programId: "rempart-heros",
   weekNumber: 1,
   target: 1,
-  image: "assets/badges/badge_gardiendepierre.png"
+  image: "assets/badges/badge_gardiendepierre.webp"
 },
 {
   id: "rempart-chevalier",
@@ -12587,7 +12587,7 @@ window.FitnessRpgData = {
   programId: "rempart-heros",
   weekNumber: 2,
   target: 1,
-  image: "assets/badges/badge_chevalierdurempart.png"
+  image: "assets/badges/badge_chevalierdurempart.webp"
 },
 {
   id: "rempart-forteresse-vivante",
@@ -12598,7 +12598,7 @@ window.FitnessRpgData = {
   programId: "rempart-heros",
   weekNumber: 3,
   target: 1,
-  image: "assets/badges/badge_forteressevivante.png"
+  image: "assets/badges/badge_forteressevivante.webp"
 },
 {
   id: "rempart-heros-vaincu",
@@ -12609,7 +12609,7 @@ window.FitnessRpgData = {
   programId: "rempart-heros",
   weekNumber: 4,
   target: 1,
-  image: "assets/badges/badge_rempartduheros.png"
+  image: "assets/badges/badge_rempartduheros.webp"
 },
     {
       "id": "strength",
@@ -13150,47 +13150,47 @@ window.FitnessRpgData.getCoachMessage = function getCoachMessage(coachId, type =
 };
 
 window.FitnessRpgData.exerciseImageOverrides = {
-  arm_circles: { male: "assets/exercices/exercice_homme_cerclesdebras.png" },
-  arm_open_close: { male: "assets/exercices/exercice_homme_cerclesdebras.png" },
-  slow_knee_raises: { male: "assets/exercices/exercice_homme_monteesdegenouxlentes.png" },
-  mountain_climber_slow: { male: "assets/exercices/exercice_homme_mountainclimberlent.png" },
-  lateral_steps: { male: "assets/exercices/exercice_homme_paslateraux.png" },
-  walk_acceleration: { male: "assets/exercices/exercice_homme_marcheactive.png" },
-  no_jump_jacks: { male: "assets/exercices/exercice_homme_jumpingjacksanssaut.png" },
-  slow_walk: { male: "assets/exercices/exercice_homme_marche.png" },
-  walk: { male: "assets/exercices/exercice_homme_marcheactive.png" },
-  run_outdoor: { male: "assets/exercices/exercice_homme_courseexterieure.png" },
-  cyclist_half_squat: { male: "assets/exercices/exercice_homme_demisquatcycliste.png" },
-  ankle_circles: { male: "assets/exercices/exercice_homme_cerclesdechevilles.png" },
-  demi_plie: { female: "assets/exercices/exercice_femme_demiplie.png" },
-  second_position_arms: { female: "assets/exercices/exercice_femme_brasenseconde.png" },
-  swan_step: { female: "assets/exercices/exercice_femme_pasducygne.png" },
-  arabesque_simplified: { female: "assets/exercices/exercice_femme_arabesquesimplifiee.png" },
-  front_developpe_simplified: { female: "assets/exercices/exercice_femme_developpeavantsimplifie.png" },
-  court_bow: { female: "assets/exercices/exercice_femme_reverencedelacour.png" },
-  single_leg_balance: { male: "assets/exercices/exercice_homme_equilibresurunejambe.png" },
-  slow_calf_raises: { male: "assets/exercices/exercice_homme_monteessurpointeslentes.png" },
-  squats: { male: "assets/exercices/exercice_homme_squats.png" },
-  wall_sit: { male: "assets/exercices/exercice_homme_chaisecontremur.png" },
-  reverse_lunges: { male: "assets/exercices/exercice_homme_fentesarriere.png" },
-  calf_raises: { male: "assets/exercices/exercice_homme_monteessurpointes.png" },
-  bridge: { male: "assets/exercices/exercice_homme_pontdehanches.png" },
-  single_leg_bridge_alternate: { male: "assets/exercices/exercice_homme_pontdehanchesunejambealternee.png" },
-  superman: { male: "assets/exercices/exercice_homme_superman.png" },
-  wall_pushups: { male: "assets/exercices/exercice_homme_pompesmurales.png" },
-  wall_triceps_extension: { male: "assets/exercices/exercice_homme_extensiontricepsmur.png" },
-  dead_bug_simplified: { male: "assets/exercices/exercice_homme_deadbugsimplifie.png" },
-  the_hundred: { male: "assets/exercices/exercice_homme_the_hundred.png", female: "assets/exercices/exercice_femme_the_hundred.png" },
-  swimming: { male: "assets/exercices/exercice_homme_swimming.png", female: "assets/exercices/exercice_femme_swimming.png" },
-  toe_taps: { male: "assets/exercices/exercice_homme_toe_taps.png", female: "assets/exercices/exercice_femme_toe_taps.png" },
-  side_leg_lift: { male: "assets/exercices/exercice_homme_side_leg_lift.png", female: "assets/exercices/exercice_femme_side_leg_lift.png" },
-  roll_up_simplified: { male: "assets/exercices/exercice_homme_roll_up_simplifie.png", female: "assets/exercices/exercice_femme_roll_up_simplifie.png" },
-  pilates: { male: "assets/exercices/exercice_homme_pilates.png" },
-  cat_cow: { male: "assets/exercices/exercice_homme_chatvache.png" },
-  hip_circles: { male: "assets/exercices/exercice_homme_cerclesdehanches.png" },
-  thoracic_rotation: { male: "assets/exercices/exercice_homme_rotationthoracique.png" },
-  abdominal_breathing: { male: "assets/exercices/exercice_homme_respirationabdominale.png" },
-  slow_breathing_extended: { male: "assets/exercices/exercice_homme_respirationfinale.png" }
+  arm_circles: { male: "assets/exercices/exercice_homme_cerclesdebras.webp" },
+  arm_open_close: { male: "assets/exercices/exercice_homme_cerclesdebras.webp" },
+  slow_knee_raises: { male: "assets/exercices/exercice_homme_monteesdegenouxlentes.webp" },
+  mountain_climber_slow: { male: "assets/exercices/exercice_homme_mountainclimberlent.webp" },
+  lateral_steps: { male: "assets/exercices/exercice_homme_paslateraux.webp" },
+  walk_acceleration: { male: "assets/exercices/exercice_homme_marcheactive.webp" },
+  no_jump_jacks: { male: "assets/exercices/exercice_homme_jumpingjacksanssaut.webp" },
+  slow_walk: { male: "assets/exercices/exercice_homme_marche.webp" },
+  walk: { male: "assets/exercices/exercice_homme_marcheactive.webp" },
+  run_outdoor: { male: "assets/exercices/exercice_homme_courseexterieure.webp" },
+  cyclist_half_squat: { male: "assets/exercices/exercice_homme_demisquatcycliste.webp" },
+  ankle_circles: { male: "assets/exercices/exercice_homme_cerclesdechevilles.webp" },
+  demi_plie: { female: "assets/exercices/exercice_femme_demiplie.webp" },
+  second_position_arms: { female: "assets/exercices/exercice_femme_brasenseconde.webp" },
+  swan_step: { female: "assets/exercices/exercice_femme_pasducygne.webp" },
+  arabesque_simplified: { female: "assets/exercices/exercice_femme_arabesquesimplifiee.webp" },
+  front_developpe_simplified: { female: "assets/exercices/exercice_femme_developpeavantsimplifie.webp" },
+  court_bow: { female: "assets/exercices/exercice_femme_reverencedelacour.webp" },
+  single_leg_balance: { male: "assets/exercices/exercice_homme_equilibresurunejambe.webp" },
+  slow_calf_raises: { male: "assets/exercices/exercice_homme_monteessurpointeslentes.webp" },
+  squats: { male: "assets/exercices/exercice_homme_squats.webp" },
+  wall_sit: { male: "assets/exercices/exercice_homme_chaisecontremur.webp" },
+  reverse_lunges: { male: "assets/exercices/exercice_homme_fentesarriere.webp" },
+  calf_raises: { male: "assets/exercices/exercice_homme_monteessurpointes.webp" },
+  bridge: { male: "assets/exercices/exercice_homme_pontdehanches.webp" },
+  single_leg_bridge_alternate: { male: "assets/exercices/exercice_homme_pontdehanchesunejambealternee.webp" },
+  superman: { male: "assets/exercices/exercice_homme_superman.webp" },
+  wall_pushups: { male: "assets/exercices/exercice_homme_pompesmurales.webp" },
+  wall_triceps_extension: { male: "assets/exercices/exercice_homme_extensiontricepsmur.webp" },
+  dead_bug_simplified: { male: "assets/exercices/exercice_homme_deadbugsimplifie.webp" },
+  the_hundred: { male: "assets/exercices/exercice_homme_the_hundred.webp", female: "assets/exercices/exercice_femme_the_hundred.webp" },
+  swimming: { male: "assets/exercices/exercice_homme_swimming.webp", female: "assets/exercices/exercice_femme_swimming.webp" },
+  toe_taps: { male: "assets/exercices/exercice_homme_toe_taps.webp", female: "assets/exercices/exercice_femme_toe_taps.webp" },
+  side_leg_lift: { male: "assets/exercices/exercice_homme_side_leg_lift.webp", female: "assets/exercices/exercice_femme_side_leg_lift.webp" },
+  roll_up_simplified: { male: "assets/exercices/exercice_homme_roll_up_simplifie.webp", female: "assets/exercices/exercice_femme_roll_up_simplifie.webp" },
+  pilates: { male: "assets/exercices/exercice_homme_pilates.webp" },
+  cat_cow: { male: "assets/exercices/exercice_homme_chatvache.webp" },
+  hip_circles: { male: "assets/exercices/exercice_homme_cerclesdehanches.webp" },
+  thoracic_rotation: { male: "assets/exercices/exercice_homme_rotationthoracique.webp" },
+  abdominal_breathing: { male: "assets/exercices/exercice_homme_respirationabdominale.webp" },
+  slow_breathing_extended: { male: "assets/exercices/exercice_homme_respirationfinale.webp" }
 };
 
 window.FitnessRpgData.applyExerciseImageOverrides = function applyExerciseImageOverrides() {

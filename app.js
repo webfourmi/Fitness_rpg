@@ -111,7 +111,7 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
     }
   };
 
-  const setExerciseImage = function setExerciseImage(exerciseId, femalePath, malePath = "assets/exercices/homme_default.png") {
+  const setExerciseImage = function setExerciseImage(exerciseId, femalePath, malePath = "assets/exercices/homme_default.webp") {
     const exercise = data.exercises.find((item) => item?.id === exerciseId);
     if (!exercise) return;
 
@@ -125,13 +125,13 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
   };
 
   [
-    ["arm_circles", "assets/exercices/exercice_femme_cercledebras.png"],
+    ["arm_circles", "assets/exercices/exercice_femme_cercledebras.webp"],
     ["slow_knee_raises", "assets/exercices/exercice_femme_monteegenouxlente.jpg"],
-    ["mountain_climber_slow", "assets/exercices/exercice_femme_moutainclimberlent.png"],
-    ["single_leg_bridge_alternate", "assets/exercices/exercice_femme_pontdehanchessurunejambealternee.png"],
+    ["mountain_climber_slow", "assets/exercices/exercice_femme_moutainclimberlent.webp"],
+    ["single_leg_bridge_alternate", "assets/exercices/exercice_femme_pontdehanchessurunejambealternee.webp"],
     ["knee_plank", "assets/exercices/exercice_femme_planchesurlesgenoux.jpg"],
     ["incline_shoulder_taps", "assets/exercices/exercice_femme_tapsepaulesappuiincline.jpg"],
-    ["hollow_hold_simplified", "assets/exercices/exercice_femme_hollowholdsimplifie.png"]
+    ["hollow_hold_simplified", "assets/exercices/exercice_femme_hollowholdsimplifie.webp"]
   ].forEach(([exerciseId, femalePath]) => setExerciseImage(exerciseId, femalePath));
 
   const newPilatesExercises = [
@@ -140,10 +140,10 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       categoryId: "strength",
       title: "Swimming",
       images: {
-        homme: "assets/exercices/homme_default.png",
-        femme: "assets/exercices/femme_default.png",
-        male: "assets/exercices/homme_default.png",
-        female: "assets/exercices/femme_default.png"
+        homme: "assets/exercices/homme_default.webp",
+        femme: "assets/exercices/femme_default.webp",
+        male: "assets/exercices/homme_default.webp",
+        female: "assets/exercices/femme_default.webp"
       },
       unit: "sec",
       defaultValue: 20,
@@ -162,10 +162,10 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       categoryId: "strength",
       title: "Toe Taps",
       images: {
-        homme: "assets/exercices/homme_default.png",
-        femme: "assets/exercices/femme_default.png",
-        male: "assets/exercices/homme_default.png",
-        female: "assets/exercices/femme_default.png"
+        homme: "assets/exercices/homme_default.webp",
+        femme: "assets/exercices/femme_default.webp",
+        male: "assets/exercices/homme_default.webp",
+        female: "assets/exercices/femme_default.webp"
       },
       unit: "répétitions",
       defaultValue: 20,
@@ -183,10 +183,10 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       categoryId: "strength",
       title: "Side Leg Lift",
       images: {
-        homme: "assets/exercices/homme_default.png",
-        femme: "assets/exercices/femme_default.png",
-        male: "assets/exercices/homme_default.png",
-        female: "assets/exercices/femme_default.png"
+        homme: "assets/exercices/homme_default.webp",
+        femme: "assets/exercices/femme_default.webp",
+        male: "assets/exercices/homme_default.webp",
+        female: "assets/exercices/femme_default.webp"
       },
       unit: "répétitions",
       defaultValue: 24,
@@ -204,10 +204,10 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       categoryId: "strength",
       title: "Roll Up simplifié",
       images: {
-        homme: "assets/exercices/homme_default.png",
-        femme: "assets/exercices/femme_default.png",
-        male: "assets/exercices/homme_default.png",
-        female: "assets/exercices/femme_default.png"
+        homme: "assets/exercices/homme_default.webp",
+        femme: "assets/exercices/femme_default.webp",
+        male: "assets/exercices/homme_default.webp",
+        female: "assets/exercices/femme_default.webp"
       },
       unit: "répétitions",
       defaultValue: 10,
