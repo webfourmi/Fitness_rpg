@@ -4401,6 +4401,132 @@ button .btn-icon {
   font-size: 1.2rem;
 }
 
+.exercise-search-panel {
+  display: grid;
+  gap: 9px;
+  margin-bottom: 14px;
+  padding: 13px;
+  border-color: rgba(94, 200, 255, 0.36);
+  background:
+    linear-gradient(135deg, rgba(94, 200, 255, 0.08), transparent 56%),
+    rgba(255, 255, 255, 0.035);
+}
+
+.exercise-search-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.exercise-search-field {
+  position: relative;
+}
+
+.exercise-search-field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 52px 10px 13px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: rgba(0, 0, 0, 0.22);
+  color: var(--text);
+  font: inherit;
+}
+
+.exercise-search-field input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.82;
+}
+
+.exercise-search-field input:focus-visible {
+  border-color: var(--accent);
+  outline: 3px solid rgba(94, 200, 255, 0.2);
+  outline-offset: 1px;
+}
+
+.exercise-search-field input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.exercise-search-clear {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  min-height: 38px;
+  padding: 0;
+  border-radius: 10px;
+  transform: translateY(-50%);
+}
+
+.exercise-search-clear[hidden] {
+  display: none;
+}
+
+.exercise-search-status {
+  min-height: 18px;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.exercise-search-results {
+  display: grid;
+  gap: 12px;
+}
+
+.exercise-search-results[hidden] {
+  display: none;
+}
+
+.exercise-search-results-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.exercise-search-results-header > div {
+  display: grid;
+  gap: 3px;
+}
+
+.exercise-search-results-header > span {
+  flex-shrink: 0;
+  color: var(--accent-strong);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.exercise-search-empty {
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  padding: 24px 18px;
+  text-align: center;
+}
+
+.exercise-search-empty > span {
+  font-size: 2rem;
+}
+
+.exercise-search-empty h3,
+.exercise-search-empty p {
+  margin: 0;
+}
+
+.exercise-search-empty p {
+  max-width: 48ch;
+  color: var(--text-muted);
+}
+
 #exerciseList .exercise-category-grid,
 #exercisesContent .exercise-category-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -4720,6 +4846,10 @@ button .btn-icon {
   .exercise-library-summary,
   .exercise-category-hero {
     display: grid;
+  }
+
+  .exercise-search-results-header {
+    align-items: start;
   }
 
   .exercise-library-counts {

@@ -18,6 +18,8 @@
 
 window.FitnessRpgExercises = {
   currentCategoryId: null,
+  searchQuery: "",
+  currentSearchPage: 0,
   activeTimer: null,
   countdownTimer: null,
   remainingSeconds: 0,
@@ -234,6 +236,207 @@ window.FitnessRpgExercises.getSafeExerciseImage = function getSafeExerciseImage(
   const image = window.FitnessRpgExercises.resolveImage(exercise);
   return image || window.FitnessRpgExercises.getDefaultExerciseImage();
 };
+
+// ============================================================
+// Recherche dans la bibliothèque d’exercices
+// ============================================================
+
+window.FitnessRpgExercises.normalizeSearchText = function normalizeSearchText(value) {
+  return String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("fr-FR")
+    .replaceAll("œ", "oe")
+    .replaceAll("æ", "ae")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+};
+
+window.FitnessRpgExercises.getExerciseSearchText = function getExerciseSearchText(exercise) {
+  const category = window.FitnessRpgExercises.getExerciseCategory(exercise);
+  const variants = Array.isArray(exercise?.difficultyVariants)
+    ? exercise.difficultyVariants.flatMap((variant) => [variant?.label, variant?.description])
+    : [];
+
+  return window.FitnessRpgExercises.normalizeSearchText([
+    exercise?.title,
+    exercise?.shortDescription,
+    exercise?.description,
+    exercise?.coachTip,
+    exercise?.stat,
+    exercise?.unit,
+    category?.title,
+    category?.description,
+    ...variants
+  ].filter(Boolean).join(" "));
+};
+
+window.FitnessRpgExercises.searchExercises = function searchExercises(query) {
+  const words = window.FitnessRpgExercises
+    .normalizeSearchText(query)
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (!words.length) return [];
+
+  return window.FitnessRpgExercises.getExercises().filter((exercise) => {
+    const searchableText = window.FitnessRpgExercises.getExerciseSearchText(exercise);
+    return words.every((word) => searchableText.includes(word));
+  });
+};
+
+window.FitnessRpgExercises.exerciseSearchPanelHtml = function exerciseSearchPanelHtml() {
+  const query = window.FitnessRpgExercises.searchQuery || "";
+  const exerciseCount = window.FitnessRpgExercises.getExercises().length;
+
+  return `
+    <section class="exercise-search-panel card" role="search" aria-labelledby="exerciseSearchLabel">
+      <label id="exerciseSearchLabel" class="exercise-search-label" for="exerciseSearchInput">
+        <span aria-hidden="true">🔎</span>
+        Rechercher un exercice
+      </label>
+
+      <div class="exercise-search-field">
+        <input
+          id="exerciseSearchInput"
+          type="search"
+          value="${window.FitnessRpgExercises.escapeHtml(query)}"
+          placeholder="Nom, catégorie ou type d’effort…"
+          autocomplete="off"
+          autocapitalize="none"
+          enterkeyhint="search"
+          aria-describedby="exerciseSearchStatus"
+          aria-controls="exerciseSearchResults"
+        >
+        <button
+          id="clearExerciseSearchBtn"
+          class="exercise-search-clear ghost-btn"
+          type="button"
+          aria-label="Effacer la recherche"
+          title="Effacer la recherche"
+          ${window.FitnessRpgExercises.normalizeSearchText(query) ? "" : "hidden"}
+        >
+          ✕
+        </button>
+      </div>
+
+      <p id="exerciseSearchStatus" class="exercise-search-status" role="status" aria-live="polite">
+        ${exerciseCount} exercices disponibles.
+      </p>
+    </section>
+
+    <section
+      id="exerciseSearchResults"
+      class="exercise-search-results"
+      aria-label="Résultats de recherche"
+      hidden
+    ></section>
+  `;
+};
+
+window.FitnessRpgExercises.renderExerciseSearchResults = function renderExerciseSearchResults(
+  query = window.FitnessRpgExercises.searchQuery,
+  page = 0
+) {
+  const rawQuery = String(query || "");
+  const normalizedQuery = window.FitnessRpgExercises.normalizeSearchText(rawQuery);
+  const input = document.querySelector("#exerciseSearchInput");
+  const clearButton = document.querySelector("#clearExerciseSearchBtn");
+  const status = document.querySelector("#exerciseSearchStatus");
+  const resultsContainer = document.querySelector("#exerciseSearchResults");
+  const defaultContent = document.querySelector("#exerciseLibraryDefaultContent");
+  const exerciseCount = window.FitnessRpgExercises.getExercises().length;
+
+  window.FitnessRpgExercises.searchQuery = rawQuery;
+
+  if (input && input.value !== rawQuery) {
+    input.value = rawQuery;
+  }
+
+  if (clearButton) {
+    clearButton.hidden = !normalizedQuery;
+  }
+
+  if (!normalizedQuery) {
+    window.FitnessRpgExercises.currentSearchPage = 0;
+
+    if (status) status.textContent = `${exerciseCount} exercices disponibles.`;
+    if (resultsContainer) {
+      resultsContainer.hidden = true;
+      resultsContainer.innerHTML = "";
+    }
+    if (defaultContent) defaultContent.hidden = false;
+    return;
+  }
+
+  const results = window.FitnessRpgExercises.searchExercises(rawQuery);
+  const pageSize = window.FitnessRpgExercises.getExercisePageSize?.()
+    || window.FitnessRpgExercises.exercisePageSize
+    || 9;
+  const maxPage = Math.max(0, Math.ceil(results.length / pageSize) - 1);
+  const safePage = Math.max(0, Math.min(Number(page) || 0, maxPage));
+  const start = safePage * pageSize;
+  const visibleResults = results.slice(start, start + pageSize);
+  const resultLabel = `${results.length} résultat${results.length === 1 ? "" : "s"}`;
+
+  window.FitnessRpgExercises.currentSearchPage = safePage;
+
+  if (status) {
+    status.textContent = `${resultLabel} pour « ${rawQuery.trim()} ».`;
+  }
+
+  if (defaultContent) defaultContent.hidden = true;
+  if (!resultsContainer) return;
+
+  resultsContainer.hidden = false;
+  resultsContainer.innerHTML = `
+    <div class="exercise-search-results-header">
+      <div>
+        <p class="eyebrow">Bibliothèque complète</p>
+        <h2 id="exerciseSearchResultsTitle">Résultats de recherche</h2>
+      </div>
+      <span>${resultLabel}</span>
+    </div>
+
+    ${
+      visibleResults.length
+        ? `
+          <div class="exercise-card-grid v3-grid-3x3">
+            ${visibleResults.map((exercise) => window.FitnessRpgExercises.exerciseCardHtml(exercise)).join("")}
+          </div>
+        `
+        : `
+          <div class="exercise-search-empty card">
+            <span aria-hidden="true">🧭</span>
+            <h3>Aucun exercice trouvé</h3>
+            <p>Essaie un nom plus court ou une catégorie, par exemple « Pilates », « marche » ou « dos ».</p>
+          </div>
+        `
+    }
+
+    ${
+      maxPage > 0
+        ? `
+          <div class="exercise-carousel-controls card">
+            <button class="ghost-btn exercise-search-page-btn" type="button" data-delta="-1" ${safePage <= 0 ? "disabled" : ""} aria-label="Page précédente">←</button>
+            <span>Page ${safePage + 1} sur ${maxPage + 1}</span>
+            <button class="ghost-btn exercise-search-page-btn" type="button" data-delta="1" ${safePage >= maxPage ? "disabled" : ""} aria-label="Page suivante">→</button>
+          </div>
+        `
+        : ""
+    }
+  `;
+};
+
+window.FitnessRpgExercises.clearExerciseSearch = function clearExerciseSearch(options = {}) {
+  const input = document.querySelector("#exerciseSearchInput");
+
+  window.FitnessRpgExercises.renderExerciseSearchResults("", 0);
+
+  if (options.focus !== false) {
+    input?.focus?.();
+  }
+};
 // ============================================================
 // V3 - Rendu : catégories 3x3
 // ============================================================
@@ -259,13 +462,22 @@ window.FitnessRpgExercises.renderCategories = function renderCategories() {
         </div>
       </div>
 
-      ${window.FitnessRpgExercises.customProgramsPanelHtml()}
+      ${window.FitnessRpgExercises.exerciseSearchPanelHtml()}
 
-      <div class="exercise-category-grid">
-        ${categories.map((category) => window.FitnessRpgExercises.categoryCardHtml(category)).join("")}
+      <div id="exerciseLibraryDefaultContent">
+        ${window.FitnessRpgExercises.customProgramsPanelHtml()}
+
+        <div class="exercise-category-grid">
+          ${categories.map((category) => window.FitnessRpgExercises.categoryCardHtml(category)).join("")}
+        </div>
       </div>
     </section>
   `;
+
+  window.FitnessRpgExercises.renderExerciseSearchResults(
+    window.FitnessRpgExercises.searchQuery,
+    window.FitnessRpgExercises.currentSearchPage
+  );
 };
 
 window.FitnessRpgExercises.categoryCardHtml = function categoryCardHtml(category) {
@@ -1058,41 +1270,50 @@ window.FitnessRpgExercises.renderCategoryExercises = function renderCategoryExer
 
   container.innerHTML = `
     <section class="exercise-category-detail-page" style="--category-color:${color}">
-      <header class="subpage-header v3-exercise-header exercise-category-hero">
-        <div class="exercise-category-hero-copy">
-          <span class="exercise-category-hero-icon">${category?.icon || "⚔️"}</span>
-          <div>
-            <p class="eyebrow">Entraînement libre</p>
-            <h2>${window.FitnessRpgExercises.escapeHtml(category?.title || "Catégorie")}</h2>
-            <p class="muted">${window.FitnessRpgExercises.escapeHtml(category?.description || "")}</p>
-          </div>
-        </div>
+      ${window.FitnessRpgExercises.exerciseSearchPanelHtml()}
 
-        <div class="exercise-category-hero-actions">
-          <span>${allExercises.length} exercice${allExercises.length > 1 ? "s" : ""}</span>
-          <button id="backToExerciseCategoriesBtn" class="ghost-btn" type="button">
-            ← Catégories
-          </button>
-        </div>
-      </header>
-
-      <div class="exercise-card-grid v3-grid-3x3">
-        ${exercises.map((exercise) => window.FitnessRpgExercises.exerciseCardHtml(exercise)).join("")}
-      </div>
-
-      ${
-        maxPage > 0
-          ? `
-            <div class="exercise-carousel-controls card">
-              <button class="ghost-btn exercise-page-btn" type="button" data-delta="-1" ${safePage <= 0 ? "disabled" : ""}>←</button>
-              <span>Page ${safePage + 1} sur ${maxPage + 1}</span>
-              <button class="ghost-btn exercise-page-btn" type="button" data-delta="1" ${safePage >= maxPage ? "disabled" : ""}>→</button>
+      <div id="exerciseLibraryDefaultContent">
+        <header class="subpage-header v3-exercise-header exercise-category-hero">
+          <div class="exercise-category-hero-copy">
+            <span class="exercise-category-hero-icon">${category?.icon || "⚔️"}</span>
+            <div>
+              <p class="eyebrow">Entraînement libre</p>
+              <h2>${window.FitnessRpgExercises.escapeHtml(category?.title || "Catégorie")}</h2>
+              <p class="muted">${window.FitnessRpgExercises.escapeHtml(category?.description || "")}</p>
             </div>
-          `
-          : ""
-      }
+          </div>
+
+          <div class="exercise-category-hero-actions">
+            <span>${allExercises.length} exercice${allExercises.length > 1 ? "s" : ""}</span>
+            <button id="backToExerciseCategoriesBtn" class="ghost-btn" type="button">
+              ← Catégories
+            </button>
+          </div>
+        </header>
+
+        <div class="exercise-card-grid v3-grid-3x3">
+          ${exercises.map((exercise) => window.FitnessRpgExercises.exerciseCardHtml(exercise)).join("")}
+        </div>
+
+        ${
+          maxPage > 0
+            ? `
+              <div class="exercise-carousel-controls card">
+                <button class="ghost-btn exercise-page-btn" type="button" data-delta="-1" ${safePage <= 0 ? "disabled" : ""}>←</button>
+                <span>Page ${safePage + 1} sur ${maxPage + 1}</span>
+                <button class="ghost-btn exercise-page-btn" type="button" data-delta="1" ${safePage >= maxPage ? "disabled" : ""}>→</button>
+              </div>
+            `
+            : ""
+        }
+      </div>
     </section>
   `;
+
+  window.FitnessRpgExercises.renderExerciseSearchResults(
+    window.FitnessRpgExercises.searchQuery,
+    window.FitnessRpgExercises.currentSearchPage
+  );
 };
 
 window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise, options = {}) {
@@ -2366,5 +2587,3 @@ window.FitnessRpgExercises.init = function initExercises() {
   }, 0);
 };
   
-
-

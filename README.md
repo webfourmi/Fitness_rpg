@@ -1,10 +1,14 @@
-# Fitness RPG — V6.6
+# Fitness RPG — V6.6.1
 
 Fitness RPG est une application web mobile-first qui transforme l'entraînement sportif en aventure RPG.
 
 La série V6.1 a principalement consolidé l'expérience mobile, les séances guidées, les écrans secondaires, les images d'exercices et la stabilité générale de l'application.
 
 ## Version actuelle
+
+**V6.6.1 — recherche d’exercices**
+
+La bibliothèque d’exercices dispose désormais d’une recherche instantanée par nom, catégorie, description ou type d’effort, avec navigation paginée adaptée au mobile.
 
 **V6.6 — application mobile PWA**
 
