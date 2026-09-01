@@ -863,6 +863,35 @@ if (planningButton) {
 // ============================================================
 
 window.FitnessRpgNavigation.handleExerciseClick = function handleExerciseClick(event, target) {
+  const clearSearchButton = target.closest("#clearExerciseSearchBtn");
+
+  if (clearSearchButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgExercises?.clearExerciseSearch?.();
+    return true;
+  }
+
+  const searchPageButton = target.closest(".exercise-search-page-btn");
+
+  if (searchPageButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+
+    const delta = Number(searchPageButton.dataset.delta || 0);
+    const currentPage = Number(window.FitnessRpgExercises.currentSearchPage || 0);
+
+    window.FitnessRpgExercises?.renderExerciseSearchResults?.(
+      window.FitnessRpgExercises.searchQuery,
+      currentPage + delta
+    );
+
+    document.querySelector("#exerciseSearchResults")?.scrollIntoView?.({
+      behavior: "smooth",
+      block: "start"
+    });
+
+    return true;
+  }
+
   // Ouvrir une catégorie
   const categoryButton = target.closest(".exercise-category-card, .v3-category-card");
 
@@ -1485,6 +1514,11 @@ if (target.closest("#openBackupFromHeroMenuButton")) {
 window.FitnessRpgNavigation.handleDocumentInput = function handleDocumentInput(event) {
   const target = event.target;
   if (!(target instanceof Element)) return;
+
+  if (target.matches("#exerciseSearchInput")) {
+    window.FitnessRpgExercises?.renderExerciseSearchResults?.(target.value, 0);
+    return;
+  }
 
   if (target.matches("#journalSearchInput")) {
     window.FitnessRpgRender?.setJournalQuery?.(target.value);
