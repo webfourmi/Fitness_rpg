@@ -1,10 +1,21 @@
-# Fitness RPG — V6.6.1
+# Fitness RPG — V6.6.2
 
 Fitness RPG est une application web mobile-first qui transforme l'entraînement sportif en aventure RPG.
 
 La série V6.1 a principalement consolidé l'expérience mobile, les séances guidées, les écrans secondaires, les images d'exercices et la stabilité générale de l'application.
 
 ## Version actuelle
+
+**V6.6.2 — pesées et exercices favoris**
+
+- suppression individuelle d’une pesée avec confirmation ; historique complet accessible ;
+- mise à jour immédiate de la courbe et du résumé après suppression ;
+- étoile pour ajouter ou retirer un exercice des favoris depuis une catégorie ou la recherche ;
+- favoris regroupés avant « Crée ton propre programme », avec les mêmes actions d’entraînement ;
+- favoris inclus dans le profil et les sauvegardes JSON ; anciennes sauvegardes compatibles ;
+- conservation des programmes, exercices, XP, badges et clés de sauvegarde.
+
+Tests ciblés (Node.js, sans dépendance) : `node --test tests/weight-favorites.test.cjs`.
 
 **V6.6.1 — recherche d’exercices**
 

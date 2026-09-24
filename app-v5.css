@@ -4078,6 +4078,29 @@ button .btn-icon {
   margin-bottom: 16px;
 }
 
+.exercise-favorites-panel {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.exercise-favorites-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.exercise-favorites-heading h2,
+.exercise-favorites-empty {
+  margin: 0;
+}
+
+#favoriteExercisesPanel .exercise-card-grid[hidden] {
+  display: none;
+}
+
 .custom-program-panel-header {
   display: grid;
   gap: 12px;
@@ -4670,9 +4693,30 @@ button .btn-icon {
 }
 
 .exercise-card-heading {
+  position: relative;
   display: grid;
   gap: 4px;
   min-height: 54px;
+  padding-right: 48px;
+}
+
+.toggle-exercise-favorite-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  color: var(--text-muted);
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.toggle-exercise-favorite-btn[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(240, 184, 79, 0.12);
 }
 
 .exercise-card-category {
@@ -5568,11 +5612,13 @@ button .btn-icon {
 .weight-history-list {
   display: grid;
   gap: 8px;
+  max-height: 34rem;
+  overflow-y: auto;
 }
 
 .weight-history-item {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
   align-items: center;
   gap: 12px;
   padding: 11px 12px;
@@ -5590,6 +5636,11 @@ button .btn-icon {
 .weight-history-item strong {
   color: #fff;
   font-size: 0.9rem;
+}
+
+.delete-weight-btn {
+  min-height: 44px;
+  color: #ffd9df;
 }
 
 .weight-change {
@@ -8939,8 +8990,13 @@ body[data-page="hero-setup"] .app-page {
   }
 
   .weight-change {
-    grid-column: 1 / -1;
+    grid-column: 1;
     justify-self: start;
+  }
+
+  .delete-weight-btn {
+    grid-column: 2;
+    justify-self: end;
   }
 
   .statistics-hero-icon {

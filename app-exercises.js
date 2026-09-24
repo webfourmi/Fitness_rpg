@@ -465,6 +465,7 @@ window.FitnessRpgExercises.renderCategories = function renderCategories() {
       ${window.FitnessRpgExercises.exerciseSearchPanelHtml()}
 
       <div id="exerciseLibraryDefaultContent">
+        ${window.FitnessRpgExercises.favoriteExercisesPanelHtml()}
         ${window.FitnessRpgExercises.customProgramsPanelHtml()}
 
         <div class="exercise-category-grid">
@@ -507,6 +508,85 @@ window.FitnessRpgExercises.categoryCardHtml = function categoryCardHtml(category
       <span class="exercise-category-count">${count}</span>
     </button>
   `;
+};
+
+// ============================================================
+// Exercices favoris
+// ============================================================
+
+window.FitnessRpgExercises.getFavoriteExercises = function getFavoriteExercises() {
+  return (window.FitnessRpgState?.getFavoriteExerciseIds?.() || [])
+    .map((id) => window.FitnessRpgExercises.getExercise(id))
+    .filter(Boolean);
+};
+
+window.FitnessRpgExercises.favoriteExercisesPanelHtml = function favoriteExercisesPanelHtml() {
+  const favorites = window.FitnessRpgExercises.getFavoriteExercises();
+  return `
+    <section id="favoriteExercisesPanel" class="exercise-favorites-panel card" aria-labelledby="favoriteExercisesTitle">
+      <div class="exercise-favorites-heading">
+        <h2 id="favoriteExercisesTitle" tabindex="-1">⭐ Mes exercices favoris</h2>
+        <span class="exercise-favorites-count status-chip" role="status">${favorites.length} favori${favorites.length > 1 ? "s" : ""}</span>
+      </div>
+      <p class="exercise-favorites-empty muted" ${favorites.length ? "hidden" : ""}>Touche l’étoile d’un exercice pour le retrouver ici.</p>
+      <div class="exercise-card-grid v3-grid-3x3" ${favorites.length ? "" : "hidden"}>
+        ${favorites.map((exercise) => window.FitnessRpgExercises.exerciseCardHtml(exercise)).join("")}
+      </div>
+    </section>
+  `;
+};
+
+window.FitnessRpgExercises.toggleExerciseFavorite = function toggleExerciseFavorite(exerciseId, sourceButton) {
+  if (!window.FitnessRpgState?.hasProfile?.()) {
+    window.FitnessRpgNavigation?.showMessage?.({
+      title: "Héros requis",
+      message: "Crée ton héros pour enregistrer tes favoris."
+    });
+    return;
+  }
+
+  try {
+    if (window.FitnessRpgState.toggleFavoriteExercise(exerciseId) === null) return;
+  } catch {
+    window.FitnessRpgNavigation?.showMessage?.({
+      title: "Favoris non enregistrés",
+      message: "Le navigateur n’a pas pu enregistrer la modification. Réessaie après avoir libéré de l’espace."
+    });
+    return;
+  }
+
+  const favorites = window.FitnessRpgExercises.getFavoriteExercises();
+  const favoriteIds = new Set(favorites.map((exercise) => exercise.id));
+  const panel = document.querySelector("#favoriteExercisesPanel");
+  if (panel) {
+    const grid = panel.querySelector(".exercise-card-grid");
+    // Conserver les cartes existantes préserve les quantités déjà saisies.
+    grid.querySelectorAll(".exercise-card").forEach((card) => {
+      if (!favoriteIds.has(card.dataset.exerciseId)) card.remove();
+    });
+    const renderedIds = new Set(Array.from(grid.children, (card) => card.dataset.exerciseId));
+    favorites.forEach((exercise) => {
+      if (!renderedIds.has(exercise.id)) {
+        grid.insertAdjacentHTML("beforeend", window.FitnessRpgExercises.exerciseCardHtml(exercise));
+      }
+    });
+    grid.hidden = favorites.length === 0;
+    panel.querySelector(".exercise-favorites-empty").hidden = favorites.length > 0;
+    panel.querySelector(".exercise-favorites-count").textContent = `${favorites.length} favori${favorites.length > 1 ? "s" : ""}`;
+  }
+
+  document.querySelectorAll(".toggle-exercise-favorite-btn").forEach((button) => {
+    const exercise = window.FitnessRpgExercises.getExercise(button.dataset.exerciseId);
+    const isFavorite = favoriteIds.has(button.dataset.exerciseId);
+    button.setAttribute("aria-pressed", String(isFavorite));
+    button.setAttribute("aria-label", `${isFavorite ? "Retirer" : "Ajouter"} ${exercise?.title || "cet exercice"} ${isFavorite ? "des" : "aux"} favoris`);
+    button.title = isFavorite ? "Retirer des favoris" : "Ajouter aux favoris";
+    button.querySelector("span").textContent = isFavorite ? "★" : "☆";
+  });
+
+  if (sourceButton && !sourceButton.isConnected) {
+    (panel?.querySelector(".toggle-exercise-favorite-btn") || document.querySelector("#favoriteExercisesTitle"))?.focus();
+  }
 };
 
 // ============================================================
@@ -1336,6 +1416,7 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
   const safeUnit = window.FitnessRpgExercises.escapeHtml(unit || "");
   const safeExerciseId = window.FitnessRpgExercises.escapeHtml(exerciseId);
   const safeExerciseKey = window.FitnessRpgExercises.escapeHtml(exerciseKey);
+  const isFavorite = window.FitnessRpgState?.getFavoriteExerciseIds?.().includes(exerciseId) || false;
 
   const image = window.FitnessRpgExercises.getSafeExerciseImage(exercise);
   const color = window.FitnessRpgExercises.getCategoryColor(exercise.categoryId);
@@ -1418,6 +1499,12 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
   return `
     <article class="${articleClasses}" data-exercise-id="${safeExerciseId}" style="--category-color:${color}">
       <header class="exercise-card-heading">
+        <button class="toggle-exercise-favorite-btn ghost-btn" type="button" data-exercise-id="${safeExerciseId}"
+          aria-pressed="${isFavorite}"
+          aria-label="${isFavorite ? "Retirer" : "Ajouter"} ${title} ${isFavorite ? "des" : "aux"} favoris"
+          title="${isFavorite ? "Retirer des favoris" : "Ajouter aux favoris"}">
+          <span aria-hidden="true">${isFavorite ? "★" : "☆"}</span>
+        </button>
         <span class="exercise-card-category">${icon} ${window.FitnessRpgExercises.escapeHtml(category?.title || "Exercice")}</span>
         <h3 class="v3-exercise-title">${title}</h3>
       </header>

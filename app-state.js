@@ -117,6 +117,7 @@ window.FitnessRpgState.createDefaultProfile = function createDefaultProfile(data
     journal: [],
     badges: [],
     customPrograms: [],
+    favoriteExerciseIds: [],
     familiars: [],
     activeFamiliarId: null,
     familiarAffinity: {},
@@ -142,6 +143,9 @@ window.FitnessRpgState.loadProfile = function loadProfile() {
       journal: Array.isArray(loaded.journal) ? loaded.journal : [],
       badges: Array.isArray(loaded.badges) ? loaded.badges : [],
       customPrograms: Array.isArray(loaded.customPrograms) ? loaded.customPrograms : [],
+      favoriteExerciseIds: Array.isArray(loaded.favoriteExerciseIds)
+        ? [...new Set(loaded.favoriteExerciseIds.filter((id) => typeof id === "string"))]
+        : [],
       familiars: Array.isArray(loaded.familiars) ? loaded.familiars : [],
       activeFamiliarId: loaded.activeFamiliarId || null,
       familiarAffinity: loaded.familiarAffinity && typeof loaded.familiarAffinity === "object"
@@ -179,6 +183,41 @@ window.FitnessRpgState.hasProfile = function hasProfile() {
 
 window.FitnessRpgState.getProfile = function getProfile() {
   return window.FitnessRpgState.profile;
+};
+
+// ============================================================
+// Exercices favoris
+// ============================================================
+
+window.FitnessRpgState.getFavoriteExerciseIds = function getFavoriteExerciseIds() {
+  const ids = window.FitnessRpgState.getProfile()?.favoriteExerciseIds;
+  return Array.isArray(ids) ? [...new Set(ids.filter((id) => typeof id === "string"))] : [];
+};
+
+window.FitnessRpgState.toggleFavoriteExercise = function toggleFavoriteExercise(exerciseId) {
+  const profile = window.FitnessRpgState.getProfile();
+  if (!profile || !window.FitnessRpgData?.exercises?.some((exercise) => exercise.id === exerciseId)) {
+    return null;
+  }
+
+  const ids = window.FitnessRpgState.getFavoriteExerciseIds();
+  const isFavorite = !ids.includes(exerciseId);
+  const previousIds = profile.favoriteExerciseIds;
+  const previousUpdatedAt = profile.updatedAt;
+  profile.favoriteExerciseIds = isFavorite
+    ? [...ids, exerciseId]
+    : ids.filter((id) => id !== exerciseId);
+
+  try {
+    window.FitnessRpgState.saveProfile();
+  } catch (error) {
+    if (previousIds === undefined) delete profile.favoriteExerciseIds;
+    else profile.favoriteExerciseIds = previousIds;
+    profile.updatedAt = previousUpdatedAt;
+    throw error;
+  }
+
+  return isFavorite;
 };
 
 // ============================================================
@@ -674,6 +713,21 @@ window.FitnessRpgState.addWeight = function addWeight(value, dateKey = null) {
 
 window.FitnessRpgState.clearWeights = function clearWeights() {
   window.FitnessRpgState.saveWeights([]);
+};
+
+window.FitnessRpgState.deleteWeightAt = function deleteWeightAt(index, expectedEntry) {
+  const weights = window.FitnessRpgState.getWeights();
+
+  // L'index d'origine distingue aussi les anciennes mesures sans identifiant.
+  // Vérifier leur contenu évite d'effacer une autre mesure après un changement.
+  if (!Array.isArray(weights) || !Number.isInteger(index) || index < 0 || index >= weights.length
+    || JSON.stringify(weights[index]) !== expectedEntry) {
+    return false;
+  }
+
+  weights.splice(index, 1);
+  window.FitnessRpgState.saveWeights(weights);
+  return true;
 };
 
 // ============================================================

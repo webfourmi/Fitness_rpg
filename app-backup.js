@@ -355,6 +355,13 @@ window.FitnessRpgBackup.validateProfile = function validateProfile(profile, erro
   if (profile.badges !== undefined && !Array.isArray(profile.badges)) {
     errors.push("La collection de badges est invalide.");
   }
+
+  if (profile.favoriteExerciseIds !== undefined && (
+    !Array.isArray(profile.favoriteExerciseIds)
+    || profile.favoriteExerciseIds.some((id) => typeof id !== "string" || !id.trim())
+  )) {
+    errors.push("La liste des exercices favoris est invalide.");
+  }
 };
 
 window.FitnessRpgBackup.validateBackupObject = function validateBackupObject(candidate) {
