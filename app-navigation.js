@@ -494,6 +494,52 @@ window.FitnessRpgNavigation.saveWeight = function saveWeight() {
 };
 
 // ============================================================
+// Suppression d'une seule pesée, avec confirmation de sa valeur et de sa date.
+// ============================================================
+
+window.FitnessRpgNavigation.deleteWeight = function deleteWeight(button) {
+  const index = Number(button.dataset.weightIndex);
+  const expectedEntry = button.dataset.weightEntry;
+  const entry = window.FitnessRpgState.getWeights()?.[index];
+  if (!entry || JSON.stringify(entry) !== expectedEntry) {
+    window.FitnessRpgRender.renderWeight();
+    window.FitnessRpgNavigation.showMessage({
+      title: "Historique actualisé",
+      message: "Les mesures ont changé. Sélectionne à nouveau celle à supprimer."
+    });
+    return;
+  }
+
+  const value = Number(entry.value).toLocaleString("fr-FR", { maximumFractionDigits: 1 });
+  const date = window.FitnessRpgRender.formatWeightDate(entry.date || entry.at);
+  if (!window.confirm(`Supprimer la mesure de ${value} kg du ${date} ?`)) return;
+
+  const buttonIndex = Array.from(document.querySelectorAll("#weightHistory .delete-weight-btn")).indexOf(button);
+  let removed;
+  try {
+    removed = window.FitnessRpgState.deleteWeightAt(index, expectedEntry);
+  } catch {
+    window.FitnessRpgNavigation.showMessage({
+      title: "Suppression impossible",
+      message: "La mesure a été conservée : le navigateur n’a pas pu enregistrer la modification."
+    });
+    return;
+  }
+
+  window.FitnessRpgRender.renderWeight();
+  if (!removed) {
+    window.FitnessRpgNavigation.showMessage({
+      title: "Historique actualisé",
+      message: "Les mesures ont changé. Sélectionne à nouveau celle à supprimer."
+    });
+  } else {
+    const buttons = document.querySelectorAll("#weightHistory .delete-weight-btn");
+    const nextButton = buttons[Math.min(Math.max(0, buttonIndex), buttons.length - 1)];
+    (nextButton || document.querySelector("#weightInput"))?.focus();
+  }
+};
+
+// ============================================================
 // Clics : overlays et modales
 // ============================================================
 
@@ -863,6 +909,13 @@ if (planningButton) {
 // ============================================================
 
 window.FitnessRpgNavigation.handleExerciseClick = function handleExerciseClick(event, target) {
+  const favoriteButton = target.closest(".toggle-exercise-favorite-btn");
+  if (favoriteButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgExercises.toggleExerciseFavorite(favoriteButton.dataset.exerciseId, favoriteButton);
+    return true;
+  }
+
   const clearSearchButton = target.closest("#clearExerciseSearchBtn");
 
   if (clearSearchButton) {
@@ -1504,6 +1557,13 @@ if (target.closest("#openBackupFromHeroMenuButton")) {
   }
 
   // Poids
+  const deleteWeightButton = target.closest(".delete-weight-btn");
+  if (deleteWeightButton) {
+    event.preventDefault();
+    window.FitnessRpgNavigation.deleteWeight(deleteWeightButton);
+    return;
+  }
+
   if (target.closest("#saveWeightButton")) {
     event.preventDefault();
     window.FitnessRpgNavigation.saveWeight();

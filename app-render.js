@@ -2483,6 +2483,7 @@ window.FitnessRpgRender.renderWeight = function renderWeight() {
   if (!canvas) return;
 
   const weights = (window.FitnessRpgState.getWeights() || [])
+    .map((entry, storageIndex) => ({ ...entry, storageIndex, storageEntry: JSON.stringify(entry) }))
     .filter((entry) => Number.isFinite(Number(entry?.value)))
     .map((entry) => ({ ...entry, value: Number(entry.value) }))
     .sort((a, b) => String(a.date || a.at).localeCompare(String(b.date || b.at)));
@@ -2527,7 +2528,7 @@ window.FitnessRpgRender.renderWeight = function renderWeight() {
         </div>
       `;
     } else {
-      history.innerHTML = weights.slice(-8).reverse().map((entry, index) => {
+      history.innerHTML = weights.slice().reverse().map((entry, index) => {
         const previous = weights[weights.length - 2 - index];
         const change = previous ? entry.value - previous.value : null;
         const changeText = change === null
@@ -2542,6 +2543,12 @@ window.FitnessRpgRender.renderWeight = function renderWeight() {
             <time>${window.FitnessRpgRender.escapeHtml(window.FitnessRpgRender.formatWeightDate(entry.date || entry.at))}</time>
             <strong>${entry.value.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} kg</strong>
             <span class="weight-change ${changeClass}">${window.FitnessRpgRender.escapeHtml(changeText)}</span>
+            <button class="ghost-btn delete-weight-btn" type="button"
+              data-weight-index="${entry.storageIndex}"
+              data-weight-entry="${window.FitnessRpgRender.escapeHtml(entry.storageEntry)}"
+              aria-label="Supprimer la mesure de ${entry.value.toLocaleString("fr-FR")} kg du ${window.FitnessRpgRender.escapeHtml(window.FitnessRpgRender.formatWeightDate(entry.date || entry.at))}">
+              Supprimer
+            </button>
           </article>
         `;
       }).join("");
