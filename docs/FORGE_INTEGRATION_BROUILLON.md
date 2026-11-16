@@ -1,25 +1,26 @@
 # Les Épreuves de la Forge · intégration de données (brouillon)
-## État de la reprise · V6.6.3 préparée, non publiée
 
-- Pré-cache corrigé dans `service-worker.js` : les deux modules Forge sont inclus, dans le même ordre que `index.html`.
-- Version cohérente `6.6.3` dans `app-config.js`, `index.html` et `service-worker.js`, afin de renouveler le cache statique lors de la future publication.
-- Les données des programmes, les règles générales d'XP, les clés de sauvegarde et le moteur restent inchangés.
-- Sources graphiques retrouvées : les huit PNG individuels `image-gen-1(20261116-220516).png` à `image-gen-8(20261116-220538).png`, ainsi que l'archive `fitness-forge-20-webp-revus-a-integrer.zip`. Les images d'exercices de cette ancienne archive proviennent encore majoritairement d'une planche : ne pas les substituer aux huit visuels individuels définitifs sans vérification.
-- **Aucun des 20 WebP n'a été transféré au dépôt pendant cette reprise.** L'environnement d'exécution local est indisponible ; la conversion, l'association visuelle des huit PNG aux exercices et le test navigateur restent bloqués.
+## État actuel · 20 WebP déposés et contrôlés
 
-### Contrôles effectués pendant cette reprise
+Le lot déposé sur la branche `feature/forge-exercices-bibliotheque-20261116` au commit `0334f5615c4f65f3512c2170205ac59e590c179a` contient les **8 exercices, 8 boss et 4 badges attendus**.
 
-Exécution des vrais fichiers de données et de `app-programs.js` dans le moteur JavaScript de code mode, avec un état simulé en mémoire ; aucune lecture ni écriture des sauvegardes utilisateur :
+- Les 20 chemins sont résolus dans les deux modules Forge ; aucun nouveau visuel ne manque au raccordement technique.
+- Chaque fichier a été lu en base64 puis contrôlé : signature RIFF/WebP, taille de fichier, dimensions **1024 × 1024** et SHA-1 Git recalculé identique au blob annoncé par GitHub.
+- Volume total du lot : **2 586 776 octets**.
+- Les 18 scripts de `index.html` figurent au pré-cache de `service-worker.js`. Les versions de la configuration, des ressources HTML et du service worker restent cohérentes en **6.6.3**.
+- Les données des programmes, les répétitions, les règles générales d'XP, les clés de sauvegarde et le moteur ne sont pas modifiés par ce dépôt d'images.
 
-- 8 semaines, 24 séances, 8 boss et 4 badges ; aucun identifiant d'exercice, de programme ou de badge en double.
-- Toutes les références `exerciseId` sont résolues ; un nouveau mouvement est introduit chaque semaine.
-- Chaque boss reste verrouillé avant les trois séances de sa semaine ; après victoire, le parcours propose la semaine suivante, jusqu'à la fin de S8.
-- Rejouer une séance ne gonfle pas le nombre de séances complétées ; recharger les modules ne crée aucun doublon.
-- Les programmes existants, les clés de sauvegarde et les règles générales d'XP sont conservés.
-- Installation et activation du service worker simulées : tous les scripts HTML figurent au pré-cache et les deux modules Forge sont disponibles sans réseau depuis le cache simulé.
-- Le cache d'images et les caches d'autres applications sont conservés ; seul le cache statique obsolète de Fitness RPG est nettoyé.
+### Réserves graphiques
 
-**Limites :** ce contrôle JavaScript et cette simulation de cache ne remplacent ni `node --check`, ni un vrai test navigateur/PWA. Ces deux contrôles restent à faire ; les 20 chemins des nouveaux visuels restent manquants. Conserver la PR en brouillon, sans fusion ni publication.
+Les huit images d'exercices déposées ont été examinées visuellement. Elles appartiennent au lot WebP antérieur aux huit PNG individuels les plus récents : sept sont issus de la planche agrandie. **La dimension de diffusion 1024 × 1024 ne constitue pas une résolution source native 1024 × 1024.**
+
+L'illustration `exercice_femme_forge_assisted_pullup.webp` présente le support des pieds à deux hauteurs différentes entre le départ et l'arrivée. Cette ambiguïté pédagogique reste à corriger ; ne pas présenter ce dessin comme validé.
+
+Les huit PNG individuels `image-gen-1(20261116-220516).png` à `image-gen-8(20261116-220538).png` ne sont pas présents sur cette branche, notamment pas dans `assets/exercices/forge-sources/`. Leur contrôle, leur association aux exercices et leur conversion restent à faire pour la série définitive.
+
+### Validation restante
+
+Les contrôles de progression et de cache simulé déjà décrits ci-dessous restent applicables, les sources de jeu étant inchangées. Ils ne remplacent pas `node --check` ni un vrai test navigateur/PWA, qui ne sont toujours pas disponibles dans cette session. **Conserver la PR en brouillon, sans fusion ni publication.**
 
 Cette branche ajoute sans changement du moteur Fitness RPG :
 
@@ -38,9 +39,9 @@ Cette branche ajoute sans changement du moteur Fitness RPG :
 
 Aucune modification des fichiers `app-progress.js`, `app-programs.js`, `app-state.js`, `app-render.js` ou des règles d'XP.
 
-## Images à téléverser AVANT toute fusion (non présentes dans cette branche)
+## Chemins des 20 images présentes sur la branche
 
-Les fichiers sont préparés dans les archives livrées dans la conversation. Conserver les PNG sources séparément et déposer les WebP aux chemins :
+Les fichiers suivants ont été déposés et leur intégrité binaire a été vérifiée. Conserver les PNG sources séparément :
 
 ### Exercices
 ```
@@ -83,24 +84,13 @@ Les noms des boss/badges reprennent les fichiers de l'archive graphique. Les hui
 - 24 séances, 8 boss, 4 badges : OK.
 - Toutes les références d'exercices du programme et des boss sont résolues : OK.
 - Boss semaine 1 verrouillé avant les séances, déverrouillé après 3 séances, puis accès à la semaine 2 après victoire : OK.
-- **Test navigateur complet non effectué**. Images non encore téléversées.
+- **Test navigateur complet non effectué**. Les 20 WebP sont maintenant présents ; la série graphique définitive reste à finaliser.
 
 ## Avant publication
 
-1. Intégrer les 20 WebP ci-dessus, sans supprimer les PNG originaux.
+1. Finaliser la série graphique à partir des huit PNG individuels, sans supprimer les originaux.
 2. Vérifier la qualité et l'exactitude anatomique des mouvements avant de les publier.
 3. Tester dans un vrai navigateur l'affichage des fiches, des boss, des badges et la progression.
-4. Mettre à jour de manière cohérente la version et le cache PWA au moment du déploiement, sans modifier les règles du jeu.
+4. Vérifier la V6.6.3 et le pré-cache PWA déjà préparés au moment du futur déploiement, sans modifier les règles du jeu.
 5. Conserver la PR en brouillon jusqu'à validation explicite.
 
-## Relecture graphique du 16 novembre 2026
-
-Le contrôle par comparaison avec les visuels d'exercices du dépôt révèle que la première série de huit exercices (tenue moderne et décor extérieur) n'est pas conforme au style de Fitness RPG : personnages médiévaux sur fond noir. Une nouvelle planche médiévale est préparée dans le fichier de conversation `fitness-forge-20-visuels-style-medieval-BROUILLON.zip`, mais **elle reste à valider** : les huit exercices ont été découpés depuis une planche source (environ 438 px par case), puis agrandis à 1024 px ; ce n'est pas un rendu natif 1024 px. La traction assistée comporte également une représentation ambiguë de la hauteur du support des pieds. Éviter toute fusion tant que ce visuel n'a pas été corrigé et qu'un test d'affichage n'a pas été réalisé.
-
-Les nouveaux WebP ne sont **pas** téléversés sur GitHub. Les trois dossiers cibles existants sont `assets/exercices/`, `assets/boss/` et `assets/badges/`.
-
-## Lot graphique revu (16 novembre 2026, seconde vérification)
-
-Archive de travail remise dans la conversation : `fitness-forge-20-webp-revus-a-integrer.zip` (8 exercices, 8 boss, 4 badges), avec `MANIFEST-20-IMAGES.json` comprenant chemins, dimensions et SHA-256. Les fichiers ne sont toujours **pas** transférés sur cette branche.
-
-La traction assistée a été **régénérée individuellement** sur fond noir (source native 1254×1254), puis exportée en WebP 1024×1024. Les 7 autres exercices proviennent encore de la planche d'exercices et les 12 portraits/badges de la planche composite, avec agrandissement : ils restent à valider pour la finesse des détails. Le dessin d'aide à la traction présente un support des pieds ; confirmer la compatibilité de ce support avec la station réelle et les consignes de sécurité. Le navigateur et la PWA restent à tester une fois les images déposées.
