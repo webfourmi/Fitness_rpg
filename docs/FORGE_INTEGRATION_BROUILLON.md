@@ -33,16 +33,16 @@ assets/exercices/exercice_femme_forge_assisted_pullup.webp
 assets/exercices/exercice_femme_forge_reverse_lunge.webp
 ```
 
-### Boss
+### Boss (dossier existant `assets/boss/`)
 ```
-assets/bosses/forge-boss-semaine-01-gardien-fondations.webp
-assets/bosses/forge-boss-semaine-02-gardien-fondations-revanche.webp
-assets/bosses/forge-boss-semaine-03-veilleur-tour.webp
-assets/bosses/forge-boss-semaine-04-veilleur-tour-revanche.webp
-assets/bosses/forge-boss-semaine-05-maitre-trois-armes.webp
-assets/bosses/forge-boss-semaine-06-maitre-trois-armes-revanche.webp
-assets/bosses/forge-boss-semaine-07-gardienne-forge.webp
-assets/bosses/forge-boss-semaine-08-gardienne-forge-ultime.webp
+assets/boss/forge-boss-semaine-01-gardien-fondations.webp
+assets/boss/forge-boss-semaine-02-gardien-fondations-revanche.webp
+assets/boss/forge-boss-semaine-03-veilleur-tour.webp
+assets/boss/forge-boss-semaine-04-veilleur-tour-revanche.webp
+assets/boss/forge-boss-semaine-05-maitre-trois-armes.webp
+assets/boss/forge-boss-semaine-06-maitre-trois-armes-revanche.webp
+assets/boss/forge-boss-semaine-07-gardienne-forge.webp
+assets/boss/forge-boss-semaine-08-gardienne-forge-ultime.webp
 ```
 
 ### Badges
