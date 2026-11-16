@@ -1,8 +1,8 @@
-/* Fitness RPG — service worker V6.6.2 */
+/* Fitness RPG — service worker V6.6.3 */
 
 "use strict";
 
-const APP_VERSION = "6.6.2";
+const APP_VERSION = "6.6.3";
 const CACHE_PREFIX = "fitness-rpg-";
 const STATIC_CACHE = `${CACHE_PREFIX}static-v${APP_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-v1`;
@@ -10,25 +10,27 @@ const IMAGE_CACHE = `${CACHE_PREFIX}images-v1`;
 const CORE_ASSETS = [
   "./",
   "./index.html",
-  "./manifest.webmanifest?v=6.6.2",
-  "./app-v5.css?v=6.6.2",
-  "./app-sport.css?v=6.6.2",
-  "./app-config.js?v=6.6.2",
-  "./app-data.js?v=6.6.2",
-  "./app-program-champion-arenes.js?v=6.6.2",
-  "./app-rewards.js?v=6.6.2",
-  "./app-state.js?v=6.6.2",
-  "./app-progress.js?v=6.6.2",
-  "./app-render.js?v=6.6.2",
-  "./app-navigation.js?v=6.6.2",
-  "./app-exercises.js?v=6.6.2",
-  "./app-programs.js?v=6.6.2",
-  "./app-media.js?v=6.6.2",
-  "./app-backup.js?v=6.6.2",
-  "./app-stats.js?v=6.6.2",
-  "./app-sport.js?v=6.6.2",
-  "./app.js?v=6.6.2",
-  "./app-pwa.js?v=6.6.2",
+  "./manifest.webmanifest?v=6.6.3",
+  "./app-v5.css?v=6.6.3",
+  "./app-sport.css?v=6.6.3",
+  "./app-config.js?v=6.6.3",
+  "./app-data.js?v=6.6.3",
+  "./app-program-forge-exercises.js?v=6.6.3",
+  "./app-program-forge.js?v=6.6.3",
+  "./app-program-champion-arenes.js?v=6.6.3",
+  "./app-rewards.js?v=6.6.3",
+  "./app-state.js?v=6.6.3",
+  "./app-progress.js?v=6.6.3",
+  "./app-render.js?v=6.6.3",
+  "./app-navigation.js?v=6.6.3",
+  "./app-exercises.js?v=6.6.3",
+  "./app-programs.js?v=6.6.3",
+  "./app-media.js?v=6.6.3",
+  "./app-backup.js?v=6.6.3",
+  "./app-stats.js?v=6.6.3",
+  "./app-sport.js?v=6.6.3",
+  "./app.js?v=6.6.3",
+  "./app-pwa.js?v=6.6.3",
   "./assets/pwa/icon.svg",
   "./assets/pwa/icon-192.png",
   "./assets/pwa/icon-512.png",

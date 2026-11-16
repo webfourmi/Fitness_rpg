@@ -1,4 +1,25 @@
 # Les Épreuves de la Forge · intégration de données (brouillon)
+## État de la reprise · V6.6.3 préparée, non publiée
+
+- Pré-cache corrigé dans `service-worker.js` : les deux modules Forge sont inclus, dans le même ordre que `index.html`.
+- Version cohérente `6.6.3` dans `app-config.js`, `index.html` et `service-worker.js`, afin de renouveler le cache statique lors de la future publication.
+- Les données des programmes, les règles générales d'XP, les clés de sauvegarde et le moteur restent inchangés.
+- Sources graphiques retrouvées : les huit PNG individuels `image-gen-1(20261116-220516).png` à `image-gen-8(20261116-220538).png`, ainsi que l'archive `fitness-forge-20-webp-revus-a-integrer.zip`. Les images d'exercices de cette ancienne archive proviennent encore majoritairement d'une planche : ne pas les substituer aux huit visuels individuels définitifs sans vérification.
+- **Aucun des 20 WebP n'a été transféré au dépôt pendant cette reprise.** L'environnement d'exécution local est indisponible ; la conversion, l'association visuelle des huit PNG aux exercices et le test navigateur restent bloqués.
+
+### Contrôles effectués pendant cette reprise
+
+Exécution des vrais fichiers de données et de `app-programs.js` dans le moteur JavaScript de code mode, avec un état simulé en mémoire ; aucune lecture ni écriture des sauvegardes utilisateur :
+
+- 8 semaines, 24 séances, 8 boss et 4 badges ; aucun identifiant d'exercice, de programme ou de badge en double.
+- Toutes les références `exerciseId` sont résolues ; un nouveau mouvement est introduit chaque semaine.
+- Chaque boss reste verrouillé avant les trois séances de sa semaine ; après victoire, le parcours propose la semaine suivante, jusqu'à la fin de S8.
+- Rejouer une séance ne gonfle pas le nombre de séances complétées ; recharger les modules ne crée aucun doublon.
+- Les programmes existants, les clés de sauvegarde et les règles générales d'XP sont conservés.
+- Installation et activation du service worker simulées : tous les scripts HTML figurent au pré-cache et les deux modules Forge sont disponibles sans réseau depuis le cache simulé.
+- Le cache d'images et les caches d'autres applications sont conservés ; seul le cache statique obsolète de Fitness RPG est nettoyé.
+
+**Limites :** ce contrôle JavaScript et cette simulation de cache ne remplacent ni `node --check`, ni un vrai test navigateur/PWA. Ces deux contrôles restent à faire ; les 20 chemins des nouveaux visuels restent manquants. Conserver la PR en brouillon, sans fusion ni publication.
 
 Cette branche ajoute sans changement du moteur Fitness RPG :
 
