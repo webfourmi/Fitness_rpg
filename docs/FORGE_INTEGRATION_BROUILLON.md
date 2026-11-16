@@ -77,3 +77,9 @@ Les noms des boss/badges reprennent les fichiers de l'archive graphique. Les hui
 Le contrôle par comparaison avec les visuels d'exercices du dépôt révèle que la première série de huit exercices (tenue moderne et décor extérieur) n'est pas conforme au style de Fitness RPG : personnages médiévaux sur fond noir. Une nouvelle planche médiévale est préparée dans le fichier de conversation `fitness-forge-20-visuels-style-medieval-BROUILLON.zip`, mais **elle reste à valider** : les huit exercices ont été découpés depuis une planche source (environ 438 px par case), puis agrandis à 1024 px ; ce n'est pas un rendu natif 1024 px. La traction assistée comporte également une représentation ambiguë de la hauteur du support des pieds. Éviter toute fusion tant que ce visuel n'a pas été corrigé et qu'un test d'affichage n'a pas été réalisé.
 
 Les nouveaux WebP ne sont **pas** téléversés sur GitHub. Les trois dossiers cibles existants sont `assets/exercices/`, `assets/boss/` et `assets/badges/`.
+
+## Lot graphique revu (16 novembre 2026, seconde vérification)
+
+Archive de travail remise dans la conversation : `fitness-forge-20-webp-revus-a-integrer.zip` (8 exercices, 8 boss, 4 badges), avec `MANIFEST-20-IMAGES.json` comprenant chemins, dimensions et SHA-256. Les fichiers ne sont toujours **pas** transférés sur cette branche.
+
+La traction assistée a été **régénérée individuellement** sur fond noir (source native 1254×1254), puis exportée en WebP 1024×1024. Les 7 autres exercices proviennent encore de la planche d'exercices et les 12 portraits/badges de la planche composite, avec agrandissement : ils restent à valider pour la finesse des détails. Le dessin d'aide à la traction présente un support des pieds ; confirmer la compatibilité de ce support avec la station réelle et les consignes de sécurité. Le navigateur et la PWA restent à tester une fois les images déposées.
