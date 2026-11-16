@@ -71,3 +71,9 @@ Les noms des boss/badges reprennent les fichiers de l'archive graphique. Les hui
 3. Tester dans un vrai navigateur l'affichage des fiches, des boss, des badges et la progression.
 4. Mettre à jour de manière cohérente la version et le cache PWA au moment du déploiement, sans modifier les règles du jeu.
 5. Conserver la PR en brouillon jusqu'à validation explicite.
+
+## Relecture graphique du 16 novembre 2026
+
+Le contrôle par comparaison avec les visuels d'exercices du dépôt révèle que la première série de huit exercices (tenue moderne et décor extérieur) n'est pas conforme au style de Fitness RPG : personnages médiévaux sur fond noir. Une nouvelle planche médiévale est préparée dans le fichier de conversation `fitness-forge-20-visuels-style-medieval-BROUILLON.zip`, mais **elle reste à valider** : les huit exercices ont été découpés depuis une planche source (environ 438 px par case), puis agrandis à 1024 px ; ce n'est pas un rendu natif 1024 px. La traction assistée comporte également une représentation ambiguë de la hauteur du support des pieds. Éviter toute fusion tant que ce visuel n'a pas été corrigé et qu'un test d'affichage n'a pas été réalisé.
+
+Les nouveaux WebP ne sont **pas** téléversés sur GitHub. Les trois dossiers cibles existants sont `assets/exercices/`, `assets/boss/` et `assets/badges/`.
