@@ -1,0 +1,186 @@
+{
+  "version": "6.6.3",
+  "image_count": 20,
+  "exercise_image_count": 8,
+  "boss_image_count": 8,
+  "badge_image_count": 4,
+  "png_sources_preserved": true,
+  "files": [
+    {
+      "path": "assets/badges/forge-apprenti.webp",
+      "bytes": 166058,
+      "sha256": "20d7ba4d0bca4132800c4baf05a7598c1e52284be9af73b97f2d3b87c73eccee",
+      "width": 1024,
+      "height": 1024,
+      "source": "Lot boss/badges déjà déposé, conservé à l’identique"
+    },
+    {
+      "path": "assets/badges/forge-compagnon.webp",
+      "bytes": 166230,
+      "sha256": "0a1c87958e48f65f22a33d3408a26a779e6055494f0bc1e77058d9a808761a57",
+      "width": 1024,
+      "height": 1024,
+      "source": "Lot boss/badges déjà déposé, conservé à l’identique"
+    },
+    {
+      "path": "assets/badges/forge-maitre.webp",
+      "bytes": 159510,
+      "sha256": "b44d93dbd0a3e62616a2b906d757ddfaa159e9089a06568a3fbda50288568c9f",
+      "width": 1024,
+      "height": 1024,
+      "source": "Lot boss/badges déjà déposé, conservé à l’identique"
+    },
+    {
+      "path": "assets/badges/forge-premier.webp",
+      "bytes": 175496,
+      "sha256": "e980204832ba98d93d675522c85608deb9222050fbbdb31b9be4e55fe140d671",
+      "width": 1024,
+      "height": 1024,
+      "source": "Lot boss/badges déjà déposé, conservé à l’identique"
+    },
+    {
+      "path": "assets/boss/forge-boss-semaine-01-gardien-fondations.webp",
+      "bytes": 158682,
+      "sha256": "497a1f111a94e2bf74d04c4cc60dac66cd640eef3d3a8214bde7c9b24a8873c2",
+      "width": 1024,
+      "height": 1024,
+      "source": "Lot boss/badges déjà déposé, conservé à l’identique"
+    },
+    {
+      "path": "assets/boss/forge-boss-semaine-02-gardien-fondations-revanche.webp",
+      "bytes": 188244,
+      "sha256": "2f5d595a094886ab7388fdc18ce63f2440cbfc0366c99504b1e7f47c11de3be5",
+      "width": 1024,
+      "height": 1024,
+      "source": "Lot boss/badges déjà déposé, conservé à l’identique"
+    },
+    {
+      "path": "assets/boss/forge-boss-semaine-03-veilleur-tour.webp",
+      "bytes": 156130,
+      "sha256": "2892421e30ede2cc3cc2b22577fa92a22126e635da01412191461dff8b0408e3",
+      "width": 1024,
+      "height": 1024,
+      "source": "Lot boss/badges déjà déposé, conservé à l’identique"
+    },
+    {
+      "path": "assets/boss/forge-boss-semaine-04-veilleur-tour-revanche.webp",
+      "bytes": 192794,
+      "sha256": "f4604a586a1575f18023a22bda072482f35b48b564d0c466ee4020909f05c613",
+      "width": 1024,
+      "height": 1024,
+      "source": "Lot boss/badges déjà déposé, conservé à l’identique"
+    },
+    {
+      "path": "assets/boss/forge-boss-semaine-05-maitre-trois-armes.webp",
+      "bytes": 149916,
+      "sha256": "cdce1d46d89bf6de5ae11ff095db1a8034d41c3bd7b9208f0f3d477cabd09b72",
+      "width": 1024,
+      "height": 1024,
+      "source": "Lot boss/badges déjà déposé, conservé à l’identique"
+    },
+    {
+      "path": "assets/boss/forge-boss-semaine-06-maitre-trois-armes-revanche.webp",
+      "bytes": 216186,
+      "sha256": "78e326ab86f9c6d7b8470e65bc87fd8e3b8e1688a176999da6eaf496f53af76c",
+      "width": 1024,
+      "height": 1024,
+      "source": "Lot boss/badges déjà déposé, conservé à l’identique"
+    },
+    {
+      "path": "assets/boss/forge-boss-semaine-07-gardienne-forge.webp",
+      "bytes": 135460,
+      "sha256": "b56526c3df993b71af988730969e00285cb67887583e2dd99e84fd3346edb5c0",
+      "width": 1024,
+      "height": 1024,
+      "source": "Lot boss/badges déjà déposé, conservé à l’identique"
+    },
+    {
+      "path": "assets/boss/forge-boss-semaine-08-gardienne-forge-ultime.webp",
+      "bytes": 197286,
+      "sha256": "1e939c09e8ba6c09c6e36144bbae4f24bb36e8c880920bd4887fa3ec6da12c3d",
+      "width": 1024,
+      "height": 1024,
+      "source": "Lot boss/badges déjà déposé, conservé à l’identique"
+    },
+    {
+      "path": "assets/exercices/exercice_femme_forge_assisted_pullup.webp",
+      "bytes": 165834,
+      "sha256": "fd39de279dfee9d4bff58b7c72b967d1b77ada1d8b9cec05ceecae049269f74a",
+      "width": 1024,
+      "height": 1024,
+      "source_png": "traction-assistee-appui-fixe.png",
+      "source_dimensions": "1254x1254",
+      "export": "ImageMagick / Lanczos / WebP quality 94 / method 6"
+    },
+    {
+      "path": "assets/exercices/exercice_femme_forge_dumbbell_bench_press.webp",
+      "bytes": 95580,
+      "sha256": "2ae0692d744d7f856c1aabddfcd50233f34d1138aa400fb5fc79f9697084e6e1",
+      "width": 1024,
+      "height": 1024,
+      "source_png": "image-gen-2(20261116-220518).png",
+      "source_dimensions": "1254x1254",
+      "export": "ImageMagick / Lanczos / WebP quality 94 / method 6"
+    },
+    {
+      "path": "assets/exercices/exercice_femme_forge_farmer_carry.webp",
+      "bytes": 136206,
+      "sha256": "a49997b6dd70a971935c2a3571c3f729a9fa2cb4661da4e4e1608f171c8a0024",
+      "width": 1024,
+      "height": 1024,
+      "source_png": "image-gen-5(20261116-220527).png",
+      "source_dimensions": "1254x1254",
+      "export": "ImageMagick / Lanczos / WebP quality 94 / method 6"
+    },
+    {
+      "path": "assets/exercices/exercice_femme_forge_goblet_squat.webp",
+      "bytes": 112638,
+      "sha256": "e0a47911b13bb0370672ef85bcde070179a0be77d421613ee95a2689626b8a53",
+      "width": 1024,
+      "height": 1024,
+      "source_png": "image-gen-1(20261116-220516).png",
+      "source_dimensions": "1254x1254",
+      "export": "ImageMagick / Lanczos / WebP quality 94 / method 6"
+    },
+    {
+      "path": "assets/exercices/exercice_femme_forge_one_arm_row.webp",
+      "bytes": 113078,
+      "sha256": "38f62a7a83f6c20c928492e4a4094ea116024fa918b5f8c696bd5bc923bddb6b",
+      "width": 1024,
+      "height": 1024,
+      "source_png": "image-gen-3(20261116-220521).png",
+      "source_dimensions": "1254x1254",
+      "export": "ImageMagick / Lanczos / WebP quality 94 / method 6"
+    },
+    {
+      "path": "assets/exercices/exercice_femme_forge_reverse_lunge.webp",
+      "bytes": 118410,
+      "sha256": "255125ac6af81105893b84bd849e87efe6fa5b9f396ae2b0a95a4994776ad77d",
+      "width": 1024,
+      "height": 1024,
+      "source_png": "image-gen-7(20261116-220534).png",
+      "source_dimensions": "1254x1254",
+      "export": "ImageMagick / Lanczos / WebP quality 94 / method 6"
+    },
+    {
+      "path": "assets/exercices/exercice_femme_forge_romanian_deadlift.webp",
+      "bytes": 124334,
+      "sha256": "fbd524cda536bbf97b3dc39f1f7985b6db6770749f269e01eb2ea6ab52de9443",
+      "width": 1024,
+      "height": 1024,
+      "source_png": "image-gen-4(20261116-220524).png",
+      "source_dimensions": "1254x1254",
+      "export": "ImageMagick / Lanczos / WebP quality 94 / method 6"
+    },
+    {
+      "path": "assets/exercices/exercice_femme_forge_seated_shoulder_press.webp",
+      "bytes": 149400,
+      "sha256": "535b6df9ed44145acfc86627f94f11756157131abe3b6444f52f319568739b11",
+      "width": 1024,
+      "height": 1024,
+      "source_png": "image-gen-6(20261116-220530).png",
+      "source_dimensions": "1254x1254",
+      "export": "ImageMagick / Lanczos / WebP quality 94 / method 6"
+    }
+  ]
+}

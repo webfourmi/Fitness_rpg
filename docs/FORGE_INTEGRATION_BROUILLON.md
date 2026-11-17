@@ -1,26 +1,32 @@
-# Les Épreuves de la Forge · intégration de données (brouillon)
+# Les Épreuves de la Forge · intégration (brouillon)
 
-## État actuel · 20 WebP déposés et contrôlés
+## État actuel · huit illustrations individuelles intégrées
 
-Le lot déposé sur la branche `feature/forge-exercices-bibliotheque-20261116` au commit `0334f5615c4f65f3512c2170205ac59e590c179a` contient les **8 exercices, 8 boss et 4 badges attendus**.
+La branche `feature/forge-exercices-bibliotheque-20261116` contient les **24 séances, 8 boss, 4 badges et 8 fiches d’exercices** du parcours. La V6.6.3 et le pré-cache des deux modules Forge sont préparés.
 
-- Les 20 chemins sont résolus dans les deux modules Forge ; aucun nouveau visuel ne manque au raccordement technique.
-- Chaque fichier a été lu en base64 puis contrôlé : signature RIFF/WebP, taille de fichier, dimensions **1024 × 1024** et SHA-1 Git recalculé identique au blob annoncé par GitHub.
-- Volume total du lot : **2 586 776 octets**.
-- Les 18 scripts de `index.html` figurent au pré-cache de `service-worker.js`. Les versions de la configuration, des ressources HTML et du service worker restent cohérentes en **6.6.3**.
-- Les données des programmes, les répétitions, les règles générales d'XP, les clés de sauvegarde et le moteur ne sont pas modifiés par ce dépôt d'images.
+- Sept WebP ont été remplacés par des exports des PNG individuels de 1254 × 1254 pixels, sans agrandissement de planche, en WebP 1024 × 1024, qualité 94 et filtre Lanczos.
+- La huitième illustration, la traction assistée, a été corrigée à partir du dernier PNG : les pieds restent sur le même appui fixe dans les deux positions, en cohérence avec la fiche existante.
+- L’association des fichiers a été contrôlée visuellement : `image-gen-7(20261116-220534).png` représente la fente arrière, tandis que `image-gen-8(20261116-220538).png` est la source de la correction de traction. Ne pas inverser ces deux visuels.
+- Les huit PNG initiaux et le PNG de traction corrigée sont conservés dans l’archive complète remise en conversation. Aucun original PNG n’a été supprimé.
+- Les 8 boss et 4 badges déjà déposés sont conservés à l’identique.
+- Les données des programmes, les répétitions, les XP, les clés de sauvegarde et le moteur restent inchangés pendant cette reprise.
+- `docs/FORGE_IMAGES_MANIFEST.json` recense les 20 chemins, dimensions, tailles et SHA-256 ; les huit nouvelles illustrations y sont reliées à leurs sources.
 
-### Réserves graphiques
+### Vérifications réellement exécutées
 
-Les huit images d'exercices déposées ont été examinées visuellement. Elles appartiennent au lot WebP antérieur aux huit PNG individuels les plus récents : sept sont issus de la planche agrandie. **La dimension de diffusion 1024 × 1024 ne constitue pas une résolution source native 1024 × 1024.**
+- `node --check` : les 19 scripts applicatifs passent ; le nouveau fichier de tests passe aussi.
+- `node --test tests/*.test.cjs` : **19 tests réussis, 0 échec**, dont 8 tests Forge et 11 tests de régression poids/favoris/sauvegarde.
+- Conservation des programmes, exercices, badges, règles générales d’XP et clés existants ; rechargement des modules sans doublon.
+- Huit semaines de trois séances, un nouveau mouvement chaque semaine, références d’exercices résolues et 20 images WebP présentes.
+- Déverrouillage des boss après trois séances distinctes, progression jusqu’à la fin de S8, absence de déverrouillage indu par une séance répétée ou un autre programme.
+- Seuils des quatre badges vérifiés avec le moteur existant ; reprise d’une séance et de l’exercice coché après rechargement de la sauvegarde simulée.
+- HTML des cartes de bibliothèque et de séance vérifié : les huit illustrations sont référencées correctement.
 
-L'illustration `exercice_femme_forge_assisted_pullup.webp` présente le support des pieds à deux hauteurs différentes entre le départ et l'arrivée. Cette ambiguïté pédagogique reste à corriger ; ne pas présenter ce dessin comme validé.
+### Limite de validation
 
-Les huit PNG individuels `image-gen-1(20261116-220516).png` à `image-gen-8(20261116-220538).png` ne sont pas présents sur cette branche, notamment pas dans `assets/exercices/forge-sources/`. Leur contrôle, leur association aux exercices et leur conversion restent à faire pour la série définitive.
+**Le test dans un vrai navigateur et le test PWA réel restent à effectuer.** Chromium local ne peut pas démarrer dans cet environnement et le navigateur distant refuse l’ouverture des fichiers locaux. Les tests Node et les contrôles de fichiers ne remplacent pas cette vérification.
 
-### Validation restante
-
-Les contrôles de progression et de cache simulé déjà décrits ci-dessous restent applicables, les sources de jeu étant inchangées. Ils ne remplacent pas `node --check` ni un vrai test navigateur/PWA, qui ne sont toujours pas disponibles dans cette session. **Conserver la PR en brouillon, sans fusion ni publication.**
+La PR reste en brouillon, sans fusion ni publication, jusqu’à validation explicite.
 
 Cette branche ajoute sans changement du moteur Fitness RPG :
 
@@ -84,13 +90,10 @@ Les noms des boss/badges reprennent les fichiers de l'archive graphique. Les hui
 - 24 séances, 8 boss, 4 badges : OK.
 - Toutes les références d'exercices du programme et des boss sont résolues : OK.
 - Boss semaine 1 verrouillé avant les séances, déverrouillé après 3 séances, puis accès à la semaine 2 après victoire : OK.
-- **Test navigateur complet non effectué**. Les 20 WebP sont maintenant présents ; la série graphique définitive reste à finaliser.
+- **Test navigateur complet non effectué**. Les huit illustrations individuelles sont désormais intégrées ; la validation dans le navigateur reste à faire.
 
 ## Avant publication
 
-1. Finaliser la série graphique à partir des huit PNG individuels, sans supprimer les originaux.
-2. Vérifier la qualité et l'exactitude anatomique des mouvements avant de les publier.
-3. Tester dans un vrai navigateur l'affichage des fiches, des boss, des badges et la progression.
-4. Vérifier la V6.6.3 et le pré-cache PWA déjà préparés au moment du futur déploiement, sans modifier les règles du jeu.
-5. Conserver la PR en brouillon jusqu'à validation explicite.
-
+1. Vérifier dans un navigateur l’affichage complet des illustrations, les fiches, les boss et les badges, sur mobile et ordinateur.
+2. Vérifier le cycle de mise à jour PWA 6.6.3 et la reprise d’une séance avec le stockage du navigateur.
+3. Obtenir la validation explicite avant toute fusion dans `main`.
