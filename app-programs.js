@@ -396,6 +396,56 @@ window.FitnessRpgPrograms.getActiveProgramWorkout = function getActiveProgramWor
   );
 };
 
+// Refaire une semaine sans effacer l'historique ni attribuer une seconde fois les XP.
+window.FitnessRpgPrograms.getRepeatWeek = function getRepeatWeek(programId) {
+  const repeat = window.FitnessRpgState?.profile?.repeatWeek || null;
+  return repeat?.programId === programId ? repeat : null;
+};
+
+window.FitnessRpgPrograms.startRepeatWeek = function startRepeatWeek(programId, weekNumber) {
+  const days = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, weekNumber);
+  if (programId !== "eveil-heros" || !days.length) return false;
+  const active = window.FitnessRpgState?.getActiveProgramSession?.();
+  if (active && !window.confirm("Une séance est en cours. L'abandonner pour recommencer cette semaine ?")) return false;
+  if (active) window.FitnessRpgState.clearActiveProgramSession?.();
+  const repeat = { programId, weekNumber: Number(weekNumber), nextDay: Number(days[0].day) };
+  window.FitnessRpgState.profile.repeatWeek = repeat;
+  window.FitnessRpgState.saveProfile?.();
+  window.FitnessRpgPrograms.setProgramBrowserSelection(programId, repeat.weekNumber, repeat.nextDay);
+  window.FitnessRpgRender?.renderProgramDetail?.(programId);
+  return true;
+};
+
+window.FitnessRpgPrograms.cancelRepeatWeek = function cancelRepeatWeek(programId) {
+  if (!window.FitnessRpgPrograms.getRepeatWeek(programId)) return;
+  delete window.FitnessRpgState.profile.repeatWeek;
+  window.FitnessRpgState.saveProfile?.();
+  window.FitnessRpgRender?.renderProgramDetail?.(programId);
+};
+
+window.FitnessRpgPrograms.finishRepeatDay = function finishRepeatDay(session, day) {
+  const repeat = window.FitnessRpgPrograms.getRepeatWeek(session.programId);
+  if (!repeat || Number(repeat.weekNumber) !== Number(session.weekNumber)
+      || Number(repeat.nextDay) !== Number(session.dayNumber)) return false;
+  const days = window.FitnessRpgPrograms.getProgramDaysForWeek(session.programId, repeat.weekNumber);
+  const index = days.findIndex((item) => Number(item.day) === Number(session.dayNumber));
+  const next = days[index + 1];
+  if (next) repeat.nextDay = Number(next.day);
+  else delete window.FitnessRpgState.profile.repeatWeek;
+  window.FitnessRpgState.saveProfile?.();
+  window.FitnessRpgState.clearActiveProgramSession?.();
+  if (next) window.FitnessRpgPrograms.setProgramBrowserSelection(session.programId, repeat.weekNumber, repeat.nextDay);
+  window.FitnessRpgRender?.renderAll?.();
+  window.FitnessRpgRender?.renderProgramDetail?.(session.programId);
+  window.FitnessRpgPrograms.showMessage({
+    icon: "🌅",
+    title: next ? "Séance de révision terminée" : "Semaine révisée",
+    message: next ? "Les XP et les récompenses acquis sont conservés. Passe à la séance suivante." : "Bravo ! La révision est terminée. Tes XP, badges et progrès restent intacts.",
+    okText: "Continuer"
+  });
+  return true;
+};
+
 window.FitnessRpgPrograms.getCompletedProgramWeekDays = function getCompletedProgramWeekDays(
   programId,
   weekNumber = 1
@@ -1017,6 +1067,17 @@ window.FitnessRpgPrograms.startProgramBossSession = function startProgramBossSes
       icon: "🔒",
       title: "Boss verrouillé",
       message: boss.lockedMessage || "Termine les séances de la semaine pour débloquer ce boss.",
+      okText: "Compris"
+    });
+    return;
+  }
+
+  const repeat = window.FitnessRpgPrograms.getRepeatWeek(programId);
+  if (repeat && (Number(repeat.weekNumber) !== Number(weekNumber)
+      || Number(repeat.nextDay) !== Number(dayNumber))) {
+    window.FitnessRpgPrograms.showMessage({
+      icon: "🌅", title: "Semaine en révision",
+      message: `Termine d'abord la séance ${repeat.nextDay} de la semaine ${repeat.weekNumber}, ou annule la révision.`,
       okText: "Compris"
     });
     return;
@@ -2310,6 +2371,9 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     });
     return;
   }
+
+  // La révision ne modifie ni les entrées, ni l'XP, ni les badges, ni la série.
+  if (window.FitnessRpgPrograms.finishRepeatDay(session, day)) return;
 
   const badgeIdsBefore = window.FitnessRpgRender?.captureBadgeIds?.() || [];
   const levelBefore = window.FitnessRpgRender?.getLevelSnapshot?.();
