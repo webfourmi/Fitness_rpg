@@ -1852,6 +1852,15 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
               </div>
             </div>
           </div>
+          ${programId === "eveil-heros" ? `
+            <div class="program-repeat-week">
+              <p>🌅 Une semaine trop difficile ? Recommence-la à ton rythme, sans perdre les XP ou badges acquis.</p>
+              ${window.FitnessRpgPrograms.getRepeatWeek(programId)
+                ? `<p>Révision en cours : semaine ${window.FitnessRpgPrograms.getRepeatWeek(programId).weekNumber}, séance ${window.FitnessRpgPrograms.getRepeatWeek(programId).nextDay}.</p>
+                   <button type="button" class="secondary-btn cancel-repeat-week-btn" data-program-id="${programId}">Arrêter la révision</button>`
+                : `<button type="button" class="secondary-btn repeat-program-week-btn" data-program-id="${programId}" data-week="${selection.weekNumber}">Recommencer cette semaine</button>`}
+            </div>
+          ` : ""}
           ${weekNote}
         </section>
 
