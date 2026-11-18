@@ -2682,483 +2682,32 @@ window.FitnessRpgData = {
   ],
   "programDetails": {
     "eveil-heros": {
-      "id": "eveil-heros",
-      "subtitle": "Une reprise douce pour débutant complet ou retour après plusieurs mois.",
-      "unlockLevel": 1,
-      "duration": "15 à 30 min",
-      "frequency": "3 séances par semaine",
-      "reward": {
-        "badgeId": "heros-eveille",
-        "badgeTitle": "Héros Éveillé",
-        "chest": true,
-        "nextPrograms": [
-          "forge-guerrier",
-          "marche-aventurier"
-        ]
-      },
-      "weeks": [
+  "id": "eveil-heros",
+  "subtitle": "Reprise très progressive pour personne sédentaire, sans prérequis sportif.",
+  "unlockLevel": 1,
+  "duration": "10 à 25 min selon la semaine (pauses incluses, estimation)",
+  "frequency": "3 séances essentielles par semaine · 4 semaines, rythme adaptable",
+  "reward": {
+    "badgeId": "heros-eveille",
+    "badgeTitle": "Héros Éveillé",
+    "chest": true,
+    "nextPrograms": [
+      "forge-guerrier",
+      "marche-aventurier"
+    ]
+  },
+  "weeks": [
+    {
+      "week": 1,
+      "title": "L’Appel de l’Aventure",
+      "xp": 50,
+      "progression": "Découvrir des mouvements simples, avec appui et pauses à volonté.",
+      "days": [
         {
-          "week": 1,
-          "title": "L’Appel de l’Aventure",
+          "day": 1,
+          "title": "Réveil du Corps",
           "xp": 50,
-          "progression": "Découverte douce, aucun exercice punitif. On réveille le corps sans le brusquer.",
-          "days": [
-            {
-              "day": 1,
-              "title": "Réveil du Corps",
-              "xp": 50,
-              "difficultyLabel": "≈ 15 min",
-              "exercises": [
-                {
-                  "phase": "Échauffement",
-                  "exerciseId": "march_on_spot",
-                  "amount": 3,
-                  "unit": "min"
-                },
-                {
-                  "phase": "Mobilité",
-                  "exerciseId": "arm_circles",
-                  "amount": 20,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Mobilité",
-                  "exerciseId": "hip_circles",
-                  "amount": 20,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Jambes",
-                  "exerciseId": "chair_squat",
-                  "amount": 8,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Cardio doux",
-                  "exerciseId": "slow_knee_raises",
-                  "amount": 20,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Retour au calme",
-                  "exerciseId": "gentle_back_stretch",
-                  "amount": 3,
-                  "unit": "min"
-                }
-              ]
-            },
-            {
-              "day": 2,
-              "title": "Fondation du Héros",
-              "xp": 50,
-              "difficultyLabel": "≈ 15 min",
-              "exercises": [
-                {
-                  "phase": "Échauffement",
-                  "exerciseId": "march_on_spot",
-                  "amount": 3,
-                  "unit": "min"
-                },
-                {
-                  "phase": "Haut du corps",
-                  "exerciseId": "wall_pushups",
-                  "amount": 8,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Jambes",
-                  "exerciseId": "wall_sit",
-                  "amount": 20,
-                  "unit": "sec"
-                },
-                {
-                  "phase": "Dos / équilibre",
-                  "exerciseId": "bird_dog",
-                  "amount": 12,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Gainage",
-                  "exerciseId": "core",
-                  "amount": 15,
-                  "unit": "sec"
-                },
-                {
-                  "phase": "Retour au calme",
-                  "exerciseId": "gentle_back_stretch",
-                  "amount": 3,
-                  "unit": "min"
-                }
-              ]
-            },
-            {
-              "day": 3,
-              "title": "Endurance de l’Aventurier",
-              "xp": 50,
-              "difficultyLabel": "≈ 20 min",
-              "exercises": [
-                {
-                  "phase": "Endurance",
-                  "exerciseId": "walk",
-                  "amount": 15,
-                  "unit": "min",
-                  "distanceOptional": true
-                },
-                {
-                  "phase": "Respiration",
-                  "exerciseId": "slow_breathing",
-                  "amount": 2,
-                  "unit": "min"
-                },
-                {
-                  "phase": "Retour au calme",
-                  "exerciseId": "gentle_back_stretch",
-                  "amount": 3,
-                  "unit": "min"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "week": 2,
-          "title": "Premiers Pas du Héros",
-          "xp": 60,
-          "progression": "On augmente un peu le volume, sans changer l’esprit : propre, accessible, rassurant.",
-          "days": [
-            {
-              "day": 1,
-              "title": "Réveil du Corps",
-              "xp": 60,
-              "difficultyLabel": "≈ 18 min",
-              "exercises": [
-                {
-                  "phase": "Échauffement",
-                  "exerciseId": "march_on_spot",
-                  "amount": 4,
-                  "unit": "min"
-                },
-                {
-                  "phase": "Mobilité",
-                  "exerciseId": "arm_circles",
-                  "amount": 30,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Mobilité",
-                  "exerciseId": "hip_circles",
-                  "amount": 30,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Jambes",
-                  "exerciseId": "squats",
-                  "amount": 12,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Cardio doux",
-                  "exerciseId": "slow_knee_raises",
-                  "amount": 30,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Retour au calme",
-                  "exerciseId": "gentle_back_stretch",
-                  "amount": 4,
-                  "unit": "min"
-                }
-              ]
-            },
-            {
-              "day": 2,
-              "title": "Fondation du Héros",
-              "xp": 60,
-              "difficultyLabel": "≈ 18 min",
-              "exercises": [
-                {
-                  "phase": "Échauffement",
-                  "exerciseId": "walk",
-                  "amount": 4,
-                  "unit": "min"
-                },
-                {
-                  "phase": "Haut du corps",
-                  "exerciseId": "wall_pushups",
-                  "amount": 12,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Jambes",
-                  "exerciseId": "wall_sit",
-                  "amount": 30,
-                  "unit": "sec"
-                },
-                {
-                  "phase": "Dos / équilibre",
-                  "exerciseId": "bird_dog",
-                  "amount": 16,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Gainage",
-                  "exerciseId": "core",
-                  "amount": 20,
-                  "unit": "sec"
-                },
-                {
-                  "phase": "Dos",
-                  "exerciseId": "superman",
-                  "amount": 8,
-                  "unit": "répétitions"
-                }
-              ]
-            },
-            {
-              "day": 3,
-              "title": "Endurance de l’Aventurier",
-              "xp": 60,
-              "difficultyLabel": "≈ 24 min",
-              "exercises": [
-                {
-                  "phase": "Endurance",
-                  "exerciseId": "walk",
-                  "amount": 20,
-                  "unit": "min",
-                  "distanceOptional": true
-                },
-                {
-                  "phase": "Retour au calme",
-                  "exerciseId": "gentle_back_stretch",
-                  "amount": 4,
-                  "unit": "min"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "week": 3,
-          "title": "Entraînement du Novice",
-          "xp": 70,
-          "progression": "Le héros prend confiance : un peu plus de jambes, un peu plus de souffle, toujours sans punition.",
-          "days": [
-            {
-              "day": 1,
-              "title": "Réveil du Corps",
-              "xp": 70,
-              "difficultyLabel": "≈ 22 min",
-              "exercises": [
-                {
-                  "phase": "Échauffement",
-                  "exerciseId": "dynamic_walk",
-                  "amount": 5,
-                  "unit": "min"
-                },
-                {
-                  "phase": "Jambes",
-                  "exerciseId": "squats",
-                  "amount": 15,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Jambes",
-                  "exerciseId": "assisted_reverse_lunges",
-                  "amount": 16,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Cardio doux",
-                  "exerciseId": "slow_knee_raises",
-                  "amount": 40,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Retour au calme",
-                  "exerciseId": "gentle_back_stretch",
-                  "amount": 4,
-                  "unit": "min"
-                }
-              ]
-            },
-            {
-              "day": 2,
-              "title": "Fondation du Héros",
-              "xp": 70,
-              "difficultyLabel": "≈ 22 min",
-              "exercises": [
-                {
-                  "phase": "Haut du corps",
-                  "exerciseId": "incline_pushups",
-                  "amount": 10,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Jambes",
-                  "exerciseId": "wall_sit",
-                  "amount": 40,
-                  "unit": "sec"
-                },
-                {
-                  "phase": "Dos / équilibre",
-                  "exerciseId": "bird_dog",
-                  "amount": 20,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Dos",
-                  "exerciseId": "superman",
-                  "amount": 10,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Gainage",
-                  "exerciseId": "core",
-                  "amount": 25,
-                  "unit": "sec"
-                }
-              ]
-            },
-            {
-              "day": 3,
-              "title": "Endurance de l’Aventurier",
-              "xp": 70,
-              "difficultyLabel": "≈ 30 min",
-              "exercises": [
-                {
-                  "phase": "Endurance",
-                  "exerciseId": "dynamic_walk",
-                  "amount": 25,
-                  "unit": "min",
-                  "distanceOptional": true
-                },
-                {
-                  "phase": "Retour au calme",
-                  "exerciseId": "gentle_back_stretch",
-                  "amount": 5,
-                  "unit": "min"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "week": 4,
-          "title": "Le Héros s’Éveille",
-          "xp": 80,
-          "progression": "Dernière semaine : le héros termine la reprise et peut choisir sa prochaine voie.",
-          "days": [
-            {
-              "day": 1,
-              "title": "Réveil du Corps",
-              "xp": 80,
-              "difficultyLabel": "≈ 25 min",
-              "exercises": [
-                {
-                  "phase": "Échauffement",
-                  "exerciseId": "dynamic_walk",
-                  "amount": 5,
-                  "unit": "min"
-                },
-                {
-                  "phase": "Jambes",
-                  "exerciseId": "squats",
-                  "amount": 20,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Jambes",
-                  "exerciseId": "reverse_lunges",
-                  "amount": 20,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Cardio doux",
-                  "exerciseId": "slow_knee_raises",
-                  "amount": 50,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Retour au calme",
-                  "exerciseId": "gentle_back_stretch",
-                  "amount": 5,
-                  "unit": "min"
-                }
-              ]
-            },
-            {
-              "day": 2,
-              "title": "Fondation du Héros",
-              "xp": 80,
-              "difficultyLabel": "≈ 25 min",
-              "exercises": [
-                {
-                  "phase": "Haut du corps",
-                  "exerciseId": "incline_pushups",
-                  "amount": 12,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Jambes",
-                  "exerciseId": "wall_sit",
-                  "amount": 45,
-                  "unit": "sec"
-                },
-                {
-                  "phase": "Dos / équilibre",
-                  "exerciseId": "bird_dog",
-                  "amount": 24,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Dos",
-                  "exerciseId": "superman",
-                  "amount": 12,
-                  "unit": "répétitions"
-                },
-                {
-                  "phase": "Gainage",
-                  "exerciseId": "core",
-                  "amount": 30,
-                  "unit": "sec"
-                }
-              ]
-            },
-            {
-              "day": 3,
-              "title": "Endurance de l’Aventurier",
-              "xp": 80,
-              "difficultyLabel": "≈ 35 min",
-              "exercises": [
-                {
-                  "phase": "Endurance",
-                  "exerciseId": "dynamic_walk",
-                  "amount": 30,
-                  "unit": "min",
-                  "distanceOptional": true
-                },
-                {
-                  "phase": "Retour au calme",
-                  "exerciseId": "gentle_back_stretch",
-                  "amount": 5,
-                  "unit": "min"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "bosses": [
-        {
-          "week": 1,
-          "title": "Le Rat des Caves",
-          "subtitle": "Premier ennemi du héros.",
-          "xp": 30,
-          "badgeId": "rat-caves-vaincu",
-          "difficultyLabel": "Boss semaine 1 · 12 à 15 min",
-          "instructions": "Débloqué après les 3 séances de la semaine 1.",
-          "lockedMessage": "Même les plus grands héros ont commencé par chasser les rats. Termine tes entraînements, puis reviens.",
-          "coachLine": "Même les plus grands héros ont commencé par chasser les rats.",
+          "difficultyLabel": "≈ 10–12 min",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -3167,51 +2716,85 @@ window.FitnessRpgData = {
               "unit": "min"
             },
             {
-              "phase": "Tour 1",
+              "phase": "Mobilité",
+              "exerciseId": "arm_circles",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Mobilité",
+              "exerciseId": "hip_circles",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Jambes",
               "exerciseId": "chair_squat",
               "amount": 6,
               "unit": "répétitions"
             },
             {
-              "phase": "Tour 1",
-              "exerciseId": "wall_pushups",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 1",
+              "phase": "Cardio doux",
               "exerciseId": "slow_knee_raises",
-              "amount": 20,
+              "amount": 12,
               "unit": "répétitions"
             },
             {
-              "phase": "Tour 1 · Récupération",
+              "phase": "Retour au calme",
+              "exerciseId": "gentle_back_stretch",
+              "amount": 2,
+              "unit": "min"
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Fondation du Héros",
+          "xp": 50,
+          "difficultyLabel": "≈ 10–12 min",
+          "exercises": [
+            {
+              "phase": "Échauffement",
               "exerciseId": "march_on_spot",
-              "amount": 1,
+              "amount": 2,
               "unit": "min"
             },
             {
-              "phase": "Tour 2",
-              "exerciseId": "chair_squat",
-              "amount": 6,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 2",
+              "phase": "Haut du corps",
               "exerciseId": "wall_pushups",
               "amount": 6,
               "unit": "répétitions"
             },
             {
-              "phase": "Tour 2",
-              "exerciseId": "slow_knee_raises",
-              "amount": 20,
+              "phase": "Jambes",
+              "exerciseId": "chair_squat",
+              "amount": 6,
               "unit": "répétitions"
             },
             {
-              "phase": "Tour 2 · Récupération",
-              "exerciseId": "march_on_spot",
-              "amount": 1,
+              "phase": "Coordination",
+              "exerciseId": "bird_dog",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Retour au calme",
+              "exerciseId": "gentle_back_stretch",
+              "amount": 2,
+              "unit": "min"
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Endurance de l’Aventurier",
+          "xp": 50,
+          "difficultyLabel": "≈ 11–14 min",
+          "exercises": [
+            {
+              "phase": "Endurance",
+              "exerciseId": "walk",
+              "amount": 8,
               "unit": "min"
             },
             {
@@ -3223,380 +2806,651 @@ window.FitnessRpgData = {
             {
               "phase": "Retour au calme",
               "exerciseId": "gentle_back_stretch",
-              "amount": 3,
-              "unit": "min"
-            }
-          ]
-        },
-        {
-          "week": 2,
-          "title": "Le Loup Solitaire",
-          "xp": 40,
-          "badgeId": "loup-solitaire-vaincu",
-          "difficultyLabel": "Boss semaine 2 · 15 à 18 min",
-          "instructions": "Débloqué après les 3 séances de la semaine 2.",
-          "lockedMessage": "Le loup observe les faibles. Termine ta semaine, puis montre-lui qu’il se trompe.",
-          "coachLine": "Le loup observe les faibles. Aujourd’hui, montre-lui qu’il se trompe.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "walk",
-              "amount": 3,
-              "unit": "min",
-              "distanceOptional": true
-            },
-            {
-              "phase": "Tour 1",
-              "exerciseId": "squats",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 1",
-              "exerciseId": "wall_pushups",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 1",
-              "exerciseId": "bird_dog",
-              "amount": 12,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 1",
-              "exerciseId": "slow_knee_raises",
-              "amount": 30,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 1 · Récupération",
-              "exerciseId": "walk",
-              "amount": 1,
-              "unit": "min",
-              "distanceOptional": true
-            },
-            {
-              "phase": "Tour 2",
-              "exerciseId": "squats",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 2",
-              "exerciseId": "wall_pushups",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 2",
-              "exerciseId": "bird_dog",
-              "amount": 12,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 2",
-              "exerciseId": "slow_knee_raises",
-              "amount": 30,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 2 · Récupération",
-              "exerciseId": "walk",
-              "amount": 1,
-              "unit": "min",
-              "distanceOptional": true
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "gentle_back_stretch",
-              "amount": 3,
-              "unit": "min"
-            }
-          ]
-        },
-        {
-          "week": 3,
-          "title": "Le Sanglier des Fourrés",
-          "xp": 50,
-          "badgeId": "sanglier-fourres-vaincu",
-          "difficultyLabel": "Boss semaine 3 · 20 à 25 min",
-          "instructions": "Débloqué après les 3 séances de la semaine 3.",
-          "lockedMessage": "Le sanglier charge sans réfléchir. Toi, avance avec méthode : termine d’abord ta semaine.",
-          "coachLine": "Le sanglier charge sans réfléchir. Toi, tu avances avec méthode.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "dynamic_walk",
-              "amount": 4,
-              "unit": "min",
-              "distanceOptional": true
-            },
-            {
-              "phase": "Tour 1",
-              "exerciseId": "squats",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 1",
-              "exerciseId": "assisted_reverse_lunges",
-              "amount": 12,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 1",
-              "exerciseId": "incline_pushups",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 1",
-              "exerciseId": "bird_dog",
-              "amount": 16,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 1 · Récupération",
-              "exerciseId": "walk",
-              "amount": 1,
-              "unit": "min",
-              "distanceOptional": true
-            },
-            {
-              "phase": "Tour 2",
-              "exerciseId": "squats",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 2",
-              "exerciseId": "assisted_reverse_lunges",
-              "amount": 12,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 2",
-              "exerciseId": "incline_pushups",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 2",
-              "exerciseId": "bird_dog",
-              "amount": 16,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 2 · Récupération",
-              "exerciseId": "walk",
-              "amount": 1,
-              "unit": "min",
-              "distanceOptional": true
-            },
-            {
-              "phase": "Tour 3",
-              "exerciseId": "squats",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 3",
-              "exerciseId": "assisted_reverse_lunges",
-              "amount": 12,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 3",
-              "exerciseId": "incline_pushups",
-              "amount": 8,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 3",
-              "exerciseId": "bird_dog",
-              "amount": 16,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 3 · Récupération",
-              "exerciseId": "walk",
-              "amount": 1,
-              "unit": "min",
-              "distanceOptional": true
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "gentle_back_stretch",
-              "amount": 4,
-              "unit": "min"
-            }
-          ]
-        },
-        {
-          "week": 4,
-          "title": "L’Ogre Endormi",
-          "subtitle": "Le premier véritable adversaire.",
-          "xp": 75,
-          "badgeId": "ogre-endormi-vaincu",
-          "chest": true,
-          "nextPrograms": [
-            "coeur-dragon",
-            "forge-guerrier",
-            "marche-aventurier"
-          ],
-          "difficultyLabel": "Boss final · 25 à 30 min",
-          "instructions": "Débloqué après les 3 séances de la semaine 4.",
-          "lockedMessage": "L’ogre paraît invincible de loin. Termine ta préparation, puis approche-toi.",
-          "coachLine": "L’ogre paraît invincible quand on le regarde de loin. Approche-toi et tu verras qu’il tombe comme les autres.",
-          "exercises": [
-            {
-              "phase": "Échauffement",
-              "exerciseId": "dynamic_walk",
-              "amount": 5,
-              "unit": "min",
-              "distanceOptional": true
-            },
-            {
-              "phase": "Tour 1",
-              "exerciseId": "squats",
-              "amount": 15,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 1",
-              "exerciseId": "reverse_lunges",
-              "amount": 16,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 1",
-              "exerciseId": "incline_pushups",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 1",
-              "exerciseId": "bird_dog",
-              "amount": 20,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 1",
-              "exerciseId": "core",
-              "amount": 20,
-              "unit": "sec"
-            },
-            {
-              "phase": "Tour 1 · Récupération",
-              "exerciseId": "walk",
-              "amount": 1,
-              "unit": "min",
-              "distanceOptional": true
-            },
-            {
-              "phase": "Tour 2",
-              "exerciseId": "squats",
-              "amount": 15,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 2",
-              "exerciseId": "reverse_lunges",
-              "amount": 16,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 2",
-              "exerciseId": "incline_pushups",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 2",
-              "exerciseId": "bird_dog",
-              "amount": 20,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 2",
-              "exerciseId": "core",
-              "amount": 20,
-              "unit": "sec"
-            },
-            {
-              "phase": "Tour 2 · Récupération",
-              "exerciseId": "walk",
-              "amount": 1,
-              "unit": "min",
-              "distanceOptional": true
-            },
-            {
-              "phase": "Tour 3",
-              "exerciseId": "squats",
-              "amount": 15,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 3",
-              "exerciseId": "reverse_lunges",
-              "amount": 16,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 3",
-              "exerciseId": "incline_pushups",
-              "amount": 10,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 3",
-              "exerciseId": "bird_dog",
-              "amount": 20,
-              "unit": "répétitions"
-            },
-            {
-              "phase": "Tour 3",
-              "exerciseId": "core",
-              "amount": 20,
-              "unit": "sec"
-            },
-            {
-              "phase": "Tour 3 · Récupération",
-              "exerciseId": "walk",
-              "amount": 1,
-              "unit": "min",
-              "distanceOptional": true
-            },
-            {
-              "phase": "Respiration",
-              "exerciseId": "slow_breathing",
               "amount": 2,
-              "unit": "min"
-            },
-            {
-              "phase": "Retour au calme",
-              "exerciseId": "gentle_back_stretch",
-              "amount": 5,
               "unit": "min"
             }
           ]
         }
-      ],
-      "progression": [
-        "Semaine 1 : L’Appel de l’Aventure · découvrir sans se punir.",
-        "Semaine 2 : Premiers Pas du Héros · augmenter doucement.",
-        "Semaine 3 : Entraînement du Novice · construire la régularité.",
-        "Semaine 4 : Le Héros s’Éveille · terminer la reprise.",
-        "Récompense : badge Héros Éveillé, coffre de récompense, puis choix entre Forge du Guerrier ou Marche de l’Aventurier."
-      ],
-      "notes": [
-        "Objectif : débutant complet ou reprise après plusieurs mois.",
-        "3 séances différentes par semaine.",
-        "Progression douce.",
-        "Aucune séance punitive."
       ]
     },
+    {
+      "week": 2,
+      "title": "Premiers Pas du Héros",
+      "xp": 60,
+      "progression": "Consolider les gestes, augmenter légèrement la marche et les répétitions.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Réveil du Corps",
+          "xp": 60,
+          "difficultyLabel": "≈ 12–15 min",
+          "exercises": [
+            {
+              "phase": "Échauffement",
+              "exerciseId": "march_on_spot",
+              "amount": 3,
+              "unit": "min"
+            },
+            {
+              "phase": "Mobilité",
+              "exerciseId": "arm_circles",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Mobilité",
+              "exerciseId": "hip_circles",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Jambes",
+              "exerciseId": "chair_squat",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Cardio doux",
+              "exerciseId": "slow_knee_raises",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Retour au calme",
+              "exerciseId": "gentle_back_stretch",
+              "amount": 2,
+              "unit": "min"
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Fondation du Héros",
+          "xp": 60,
+          "difficultyLabel": "≈ 12–15 min",
+          "exercises": [
+            {
+              "phase": "Échauffement",
+              "exerciseId": "march_on_spot",
+              "amount": 3,
+              "unit": "min"
+            },
+            {
+              "phase": "Haut du corps",
+              "exerciseId": "wall_pushups",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Jambes",
+              "exerciseId": "chair_squat",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Coordination",
+              "exerciseId": "bird_dog",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Gainage doux",
+              "exerciseId": "wall_sit",
+              "amount": 10,
+              "unit": "sec"
+            },
+            {
+              "phase": "Retour au calme",
+              "exerciseId": "gentle_back_stretch",
+              "amount": 2,
+              "unit": "min"
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Endurance de l’Aventurier",
+          "xp": 60,
+          "difficultyLabel": "≈ 15–18 min",
+          "exercises": [
+            {
+              "phase": "Endurance",
+              "exerciseId": "walk",
+              "amount": 12,
+              "unit": "min"
+            },
+            {
+              "phase": "Respiration",
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min"
+            },
+            {
+              "phase": "Retour au calme",
+              "exerciseId": "gentle_back_stretch",
+              "amount": 2,
+              "unit": "min"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "title": "Entraînement du Novice",
+      "xp": 70,
+      "progression": "Introduire un second petit tour de renforcement, sans mouvement technique nouveau.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Réveil du Corps",
+          "xp": 70,
+          "difficultyLabel": "≈ 15–18 min",
+          "exercises": [
+            {
+              "phase": "Échauffement",
+              "exerciseId": "march_on_spot",
+              "amount": 3,
+              "unit": "min"
+            },
+            {
+              "phase": "Mobilité",
+              "exerciseId": "arm_circles",
+              "amount": 14,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Jambes · Tour 1",
+              "exerciseId": "chair_squat",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Cardio doux · Tour 1",
+              "exerciseId": "slow_knee_raises",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Récupération",
+              "exerciseId": "march_on_spot",
+              "amount": 1,
+              "unit": "min"
+            },
+            {
+              "phase": "Jambes · Tour 2",
+              "exerciseId": "chair_squat",
+              "amount": 6,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Cardio doux · Tour 2",
+              "exerciseId": "slow_knee_raises",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Retour au calme",
+              "exerciseId": "gentle_back_stretch",
+              "amount": 2,
+              "unit": "min"
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Fondation du Héros",
+          "xp": 70,
+          "difficultyLabel": "≈ 15–18 min",
+          "exercises": [
+            {
+              "phase": "Échauffement",
+              "exerciseId": "march_on_spot",
+              "amount": 3,
+              "unit": "min"
+            },
+            {
+              "phase": "Haut du corps · Tour 1",
+              "exerciseId": "wall_pushups",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Coordination · Tour 1",
+              "exerciseId": "bird_dog",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Récupération",
+              "exerciseId": "march_on_spot",
+              "amount": 1,
+              "unit": "min"
+            },
+            {
+              "phase": "Haut du corps · Tour 2",
+              "exerciseId": "wall_pushups",
+              "amount": 6,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Coordination · Tour 2",
+              "exerciseId": "bird_dog",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Stabilité",
+              "exerciseId": "wall_sit",
+              "amount": 15,
+              "unit": "sec"
+            },
+            {
+              "phase": "Retour au calme",
+              "exerciseId": "gentle_back_stretch",
+              "amount": 2,
+              "unit": "min"
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Endurance de l’Aventurier",
+          "xp": 70,
+          "difficultyLabel": "≈ 19–22 min",
+          "exercises": [
+            {
+              "phase": "Endurance",
+              "exerciseId": "walk",
+              "amount": 16,
+              "unit": "min"
+            },
+            {
+              "phase": "Respiration",
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min"
+            },
+            {
+              "phase": "Retour au calme",
+              "exerciseId": "gentle_back_stretch",
+              "amount": 2,
+              "unit": "min"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "title": "Le Héros s’Éveille",
+      "xp": 80,
+      "progression": "Consolider l'autonomie et la marche confortable, sans obligation de performance.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Réveil du Corps",
+          "xp": 80,
+          "difficultyLabel": "≈ 17–20 min",
+          "exercises": [
+            {
+              "phase": "Échauffement",
+              "exerciseId": "march_on_spot",
+              "amount": 3,
+              "unit": "min"
+            },
+            {
+              "phase": "Mobilité",
+              "exerciseId": "arm_circles",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Jambes · Tour 1",
+              "exerciseId": "chair_squat",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Cardio doux · Tour 1",
+              "exerciseId": "slow_knee_raises",
+              "amount": 20,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Récupération",
+              "exerciseId": "march_on_spot",
+              "amount": 1,
+              "unit": "min"
+            },
+            {
+              "phase": "Jambes · Tour 2",
+              "exerciseId": "chair_squat",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Cardio doux · Tour 2",
+              "exerciseId": "slow_knee_raises",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Retour au calme",
+              "exerciseId": "gentle_back_stretch",
+              "amount": 3,
+              "unit": "min"
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Fondation du Héros",
+          "xp": 80,
+          "difficultyLabel": "≈ 17–20 min",
+          "exercises": [
+            {
+              "phase": "Échauffement",
+              "exerciseId": "march_on_spot",
+              "amount": 3,
+              "unit": "min"
+            },
+            {
+              "phase": "Haut du corps · Tour 1",
+              "exerciseId": "wall_pushups",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Coordination · Tour 1",
+              "exerciseId": "bird_dog",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Récupération",
+              "exerciseId": "march_on_spot",
+              "amount": 1,
+              "unit": "min"
+            },
+            {
+              "phase": "Haut du corps · Tour 2",
+              "exerciseId": "wall_pushups",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Coordination · Tour 2",
+              "exerciseId": "bird_dog",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Stabilité",
+              "exerciseId": "wall_sit",
+              "amount": 20,
+              "unit": "sec"
+            },
+            {
+              "phase": "Retour au calme",
+              "exerciseId": "gentle_back_stretch",
+              "amount": 3,
+              "unit": "min"
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "Endurance de l’Aventurier",
+          "xp": 80,
+          "difficultyLabel": "≈ 23–25 min",
+          "exercises": [
+            {
+              "phase": "Endurance",
+              "exerciseId": "walk",
+              "amount": 20,
+              "unit": "min"
+            },
+            {
+              "phase": "Respiration",
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min"
+            },
+            {
+              "phase": "Retour au calme",
+              "exerciseId": "gentle_back_stretch",
+              "amount": 2,
+              "unit": "min"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "bosses": [
+    {
+      "week": 1,
+      "title": "Le Rat des Caves",
+      "subtitle": "Premier ennemi du héros.",
+      "xp": 30,
+      "badgeId": "rat-caves-vaincu",
+      "difficultyLabel": "Boss semaine 1 · ≈ 7–10 min",
+      "instructions": "Débloqué après les 3 séances essentielles de la semaine 1. Circuit unique, pauses libres. Réaliser le défi après récupération suffisante, sans rechercher la vitesse.",
+      "lockedMessage": "Même les plus grands héros ont commencé par chasser les rats. Termine tes entraînements, puis reviens.",
+      "coachLine": "Même les plus grands héros ont commencé par chasser les rats.",
+      "exercises": [
+        {
+          "phase": "Échauffement",
+          "exerciseId": "march_on_spot",
+          "amount": 2,
+          "unit": "min"
+        },
+        {
+          "phase": "Défi doux",
+          "exerciseId": "chair_squat",
+          "amount": 6,
+          "unit": "répétitions"
+        },
+        {
+          "phase": "Défi doux",
+          "exerciseId": "wall_pushups",
+          "amount": 6,
+          "unit": "répétitions"
+        },
+        {
+          "phase": "Défi doux",
+          "exerciseId": "slow_knee_raises",
+          "amount": 12,
+          "unit": "répétitions"
+        },
+        {
+          "phase": "Retour au calme",
+          "exerciseId": "gentle_back_stretch",
+          "amount": 2,
+          "unit": "min"
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "title": "Le Loup Solitaire",
+      "xp": 40,
+      "badgeId": "loup-solitaire-vaincu",
+      "difficultyLabel": "Boss semaine 2 · ≈ 8–11 min",
+      "instructions": "Débloqué après les 3 séances essentielles de la semaine 2. Circuit unique, pauses libres. Réaliser le défi après récupération suffisante, sans rechercher la vitesse.",
+      "lockedMessage": "Le loup observe les faibles. Termine ta semaine, puis montre-lui qu’il se trompe.",
+      "coachLine": "Le loup observe les faibles. Aujourd’hui, montre-lui qu’il se trompe.",
+      "exercises": [
+        {
+          "phase": "Échauffement",
+          "exerciseId": "march_on_spot",
+          "amount": 2,
+          "unit": "min"
+        },
+        {
+          "phase": "Défi doux",
+          "exerciseId": "chair_squat",
+          "amount": 8,
+          "unit": "répétitions"
+        },
+        {
+          "phase": "Défi doux",
+          "exerciseId": "wall_pushups",
+          "amount": 8,
+          "unit": "répétitions"
+        },
+        {
+          "phase": "Défi doux",
+          "exerciseId": "bird_dog",
+          "amount": 8,
+          "unit": "répétitions"
+        },
+        {
+          "phase": "Respiration",
+          "exerciseId": "slow_breathing",
+          "amount": 1,
+          "unit": "min"
+        },
+        {
+          "phase": "Retour au calme",
+          "exerciseId": "gentle_back_stretch",
+          "amount": 2,
+          "unit": "min"
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "title": "Le Sanglier des Fourrés",
+      "xp": 50,
+      "badgeId": "sanglier-fourres-vaincu",
+      "difficultyLabel": "Boss semaine 3 · ≈ 9–12 min",
+      "instructions": "Débloqué après les 3 séances essentielles de la semaine 3. Circuit unique, pauses libres. Réaliser le défi après récupération suffisante, sans rechercher la vitesse.",
+      "lockedMessage": "Le sanglier charge sans réfléchir. Toi, avance avec méthode : termine d’abord ta semaine.",
+      "coachLine": "Le sanglier charge sans réfléchir. Toi, tu avances avec méthode.",
+      "exercises": [
+        {
+          "phase": "Échauffement",
+          "exerciseId": "march_on_spot",
+          "amount": 3,
+          "unit": "min"
+        },
+        {
+          "phase": "Défi doux",
+          "exerciseId": "chair_squat",
+          "amount": 8,
+          "unit": "répétitions"
+        },
+        {
+          "phase": "Défi doux",
+          "exerciseId": "wall_pushups",
+          "amount": 8,
+          "unit": "répétitions"
+        },
+        {
+          "phase": "Défi doux",
+          "exerciseId": "slow_knee_raises",
+          "amount": 16,
+          "unit": "répétitions"
+        },
+        {
+          "phase": "Défi doux",
+          "exerciseId": "bird_dog",
+          "amount": 10,
+          "unit": "répétitions"
+        },
+        {
+          "phase": "Retour au calme",
+          "exerciseId": "gentle_back_stretch",
+          "amount": 2,
+          "unit": "min"
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "title": "L’Ogre Endormi",
+      "subtitle": "Le premier véritable adversaire.",
+      "xp": 75,
+      "badgeId": "ogre-endormi-vaincu",
+      "chest": true,
+      "nextPrograms": [
+        "coeur-dragon",
+        "forge-guerrier",
+        "marche-aventurier"
+      ],
+      "difficultyLabel": "Boss final · ≈ 11–15 min",
+      "instructions": "Débloqué après les 3 séances essentielles de la semaine 4. Circuit unique, pauses libres. Réaliser le défi après récupération suffisante, sans rechercher la vitesse.",
+      "lockedMessage": "L’ogre paraît invincible de loin. Termine ta préparation, puis approche-toi.",
+      "coachLine": "L’ogre paraît invincible quand on le regarde de loin. Approche-toi et tu verras qu’il tombe comme les autres.",
+      "exercises": [
+        {
+          "phase": "Échauffement",
+          "exerciseId": "march_on_spot",
+          "amount": 3,
+          "unit": "min"
+        },
+        {
+          "phase": "Défi final",
+          "exerciseId": "chair_squat",
+          "amount": 10,
+          "unit": "répétitions"
+        },
+        {
+          "phase": "Défi final",
+          "exerciseId": "wall_pushups",
+          "amount": 10,
+          "unit": "répétitions"
+        },
+        {
+          "phase": "Défi final",
+          "exerciseId": "slow_knee_raises",
+          "amount": 20,
+          "unit": "répétitions"
+        },
+        {
+          "phase": "Défi final",
+          "exerciseId": "bird_dog",
+          "amount": 12,
+          "unit": "répétitions"
+        },
+        {
+          "phase": "Respiration",
+          "exerciseId": "slow_breathing",
+          "amount": 1,
+          "unit": "min"
+        },
+        {
+          "phase": "Retour au calme",
+          "exerciseId": "gentle_back_stretch",
+          "amount": 3,
+          "unit": "min"
+        }
+      ]
+    }
+  ],
+  "progression": [
+    "Semaine 1 : découvrir les mouvements et marcher 8 minutes confortablement.",
+    "Semaine 2 : augmenter légèrement le volume et marcher 12 minutes.",
+    "Semaine 3 : deux petits tours de renforcement, marche de 16 minutes.",
+    "Semaine 4 : consolider les acquis, marche de 20 minutes et boss final accessible.",
+    "En cas de difficulté, répéter la semaine au lieu de forcer la progression ; cette souplesse doit aussi être prise en charge par la logique de planning.",
+    "Chaque boss est un circuit court, sans séries supplémentaires obligatoires.",
+    "Récompense : badge Héros Éveillé et coffre après accomplissement du programme."
+  ],
+  "notes": [
+    "Public : personne sédentaire ou en reprise après une longue interruption.",
+    "Trois séances essentielles par semaine ; deux séances complémentaires de marche ou mobilité restent facultatives et ne conditionnent pas le boss.",
+    "Conserver au moins un jour de récupération entre deux séances de renforcement quand c'est possible.",
+    "Marcher à une allure permettant de parler ; fractionner la marche si nécessaire.",
+    "Les répétitions sont des repères : réduire l'amplitude ou le nombre si besoin, sans douleur.",
+    "Utiliser une chaise stable pour les assis-debout et un mur pour les pompes ; privilégier la technique à la vitesse.",
+    "Prévoir de courtes pauses entre les mouvements et davantage selon le ressenti.",
+    "Arrêter en cas de douleur thoracique, malaise ou essoufflement inhabituel et demander un avis médical adapté.",
+    "Répétition d'une semaine sans pénalité : règle pédagogique validée, à vérifier dans le moteur de progression avant activation."
+  ]
+},
 
 
     "sanctuaire-voyageur": {
