@@ -405,6 +405,15 @@ window.FitnessRpgPrograms.getRepeatWeek = function getRepeatWeek(programId) {
 window.FitnessRpgPrograms.startRepeatWeek = function startRepeatWeek(programId, weekNumber) {
   const days = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, weekNumber);
   if (programId !== "eveil-heros" || !days.length) return false;
+  const completed = window.FitnessRpgPrograms.getCompletedProgramWeekDays(programId, weekNumber);
+  if (!days.every((day) => completed.has(Number(day.day)))) {
+    window.FitnessRpgPrograms.showMessage({
+      icon: "🌅", title: "Semaine encore en cours",
+      message: "Tu peux terminer les séances manquantes à ton rythme, même la semaine suivante. La révision complète est disponible une fois les trois séances validées.",
+      okText: "Compris"
+    });
+    return false;
+  }
   const active = window.FitnessRpgState?.getActiveProgramSession?.();
   if (active && !window.confirm("Une séance est en cours. L'abandonner pour recommencer cette semaine ?")) return false;
   if (active) window.FitnessRpgState.clearActiveProgramSession?.();
