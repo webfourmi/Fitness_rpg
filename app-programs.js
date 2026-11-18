@@ -332,14 +332,30 @@ window.FitnessRpgPrograms.getProgramBossVariant = function getProgramBossVariant
 
 window.FitnessRpgPrograms.getPlanningBossWeekNumber = function getPlanningBossWeekNumber(programId) {
   const weeks = window.FitnessRpgPrograms.getProgramWeeks(programId);
-  const days = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, 1);
-
-  const weekCount = Math.max(1, weeks.length || 1);
-  const daysPerWeek = Math.max(1, days.length || 3);
-  const completedCount = window.FitnessRpgPrograms.getCompletedProgramSessionCount(programId);
-  const bossWeekNumber = Math.ceil(Math.max(1, completedCount) / daysPerWeek);
-
-  return Math.min(weekCount, Math.max(1, bossWeekNumber));
+  // Le boss de la première semaine dont les trois séances sont terminées
+  // mais dont le boss n'a pas encore été vaincu reste prioritaire.
+  const entries = window.FitnessRpgState?.getAllEntries?.() || [];
+  for (const week of weeks) {
+    const weekNumber = Number(week.week || 1);
+    const completed = window.FitnessRpgPrograms.getCompletedProgramWeekDays(programId, weekNumber);
+    const days = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, weekNumber);
+    const bossDone = entries.some((entry) =>
+      entry.type === "program-boss"
+      && entry.programId === programId
+      && Number(entry.weekNumber || 1) === weekNumber
+    );
+    if (days.length && days.every((day) => completed.has(Number(day.day))) && !bossDone) {
+      return weekNumber;
+    }
+  }
+  // Sinon, rester sur la première semaine inachevée.
+  for (const week of weeks) {
+    const weekNumber = Number(week.week || 1);
+    if (!window.FitnessRpgPrograms.isProgramBossUnlocked(programId, weekNumber)) {
+      return weekNumber;
+    }
+  }
+  return Number(weeks.at(-1)?.week || 1);
 };
 
 window.FitnessRpgPrograms.getActiveProgramWorkout = function getActiveProgramWorkout(session = null) {
@@ -1599,14 +1615,14 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
 
   const bossUnlocked = programBoss
     ? window.FitnessRpgPrograms.isProgramBossUnlocked(activeProgramId, bossWeekNumber)
-    : completedMainSessions >= 5;
+    : completedMainSessions >= 3;
 
   const bossTitle = programBoss ? programBoss.title : "Défi boss hebdo";
   const bossProgramId = programBoss ? activeProgramId : "boss-hebdo";
   const bossSource = programBoss ? "program-boss" : "boss";
   const bossProgress = programBoss
     ? `${completedProgramBossDays.size}/${programBossDays.length}`
-    : `${completedMainSessions}/5`;
+    : `${completedMainSessions}/3`;
 
   return [
     ["Lun", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
@@ -1955,7 +1971,7 @@ window.FitnessRpgPrograms.getMissingMainSessionsThisWeek = function getMissingMa
       plan,
       done
     };
-  }).filter((item) => item.programId && !item.done);
+  }).filter((item) => item.source === "active-program" && item.programId && !item.done);
 };
 
 window.FitnessRpgPrograms.startWeeklyCatchupSession = function startWeeklyCatchupSession() {
