@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "0.6.6.3",
+  version: "0.6.6.4",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V6.6.3",
+  displayVersion: "V6.6.4",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "6.6.3",
+  assetVersion: "6.6.4",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
@@ -91,74 +91,52 @@ window.FitnessRpgConfig = {
       id: "perte-poids",
       icon: "⚖️",
       title: "Perte de poids",
-      rhythm: "4 à 5 séances douces par semaine",
+      rhythm: "Alterner endurance et renforcement au poids du corps.",
       recommendedProgramId: "marche-aventurier",
-      programProgression: [
-          "marche-aventurier",
-          "eveil-heros",
-          "coeur-dragon"
-      ]
+      programProgression: ["marche-aventurier", "coeur-dragon", "cavalier-route", "forge-guerrier"]
     },
     {
       id: "reprise-douce",
       icon: "🌅",
       title: "Reprise douce",
-      rhythm: "3 séances courtes par semaine",
+      rhythm: "Reprendre avec des mouvements accessibles et progressifs.",
       recommendedProgramId: "eveil-heros",
-      programProgression: [
-        "eveil-heros",
-        "tour-mage",
-        "marche-aventurier"
-      ]
+      programProgression: ["eveil-heros", "sanctuaire-voyageur", "tour-mage"]
     },
     {
       id: "cardio",
       icon: "❤️‍🔥",
       title: "Cardio",
-      rhythm: "3 séances cardio progressives",
+      rhythm: "Travailler le souffle et l’endurance.",
       recommendedProgramId: "cavalier-route",
-      programProgression: [
-        "cavalier-route",
-        "coeur-dragon",
-        "marche-aventurier"
-      ]
+      programProgression: ["cavalier-route", "coeur-dragon", "marche-aventurier"]
     },
     {
       id: "renforcement",
       icon: "⚒️",
       title: "Renforcement",
-      rhythm: "3 séances de force par semaine",
+      rhythm: "Développer la force et le contrôle des mouvements.",
       recommendedProgramId: "forge-guerrier",
       programProgression: [
-        "forge-guerrier",
-        "bras-heros",
-        "rempart-heros"
+        "forge-guerrier", "epreuves-forge", "bras-heros", "rempart-heros",
+        "maitre-flux", "archimage-corps", "grand-maitre-arcanes", "champion-arenes"
       ]
-        
     },
     {
       id: "regularite",
       icon: "📅",
       title: "Régularité",
-      rhythm: "Bouger souvent, sans pression",
-      recommendedProgramId: "marche-aventurier",
-       programProgression: [
-        "marche-aventurier",
-        "eveil-heros",
-        "tour-mage"
-      ]
+      rhythm: "Construire une habitude grâce à des rendez-vous réguliers.",
+      recommendedProgramId: "eveil-heros",
+      programProgression: ["eveil-heros", "ballet-sylphes", "epreuves-forge"]
     },
     {
       id: "mobilite",
       icon: "🧙",
       title: "Mobilité / récupération",
-      rhythm: "2 à 4 séances légères",
+      rhythm: "Entretenir la mobilité et l’équilibre avec des mouvements contrôlés.",
       recommendedProgramId: "tour-mage",
-       programProgression: [
-        "tour-mage",
-        "rempart-heros",
-        "eveil-heros"
-      ]
+      programProgression: ["tour-mage", "sanctuaire-voyageur", "ballet-sylphes", "maitre-flux"]
     }
   ],
 
@@ -485,6 +463,10 @@ window.FitnessRpgConfig.getProgramTier = function getProgramTier(program) {
 
 window.FitnessRpgConfig.getGoalById = function getGoalById(goalId) {
   return window.FitnessRpgConfig.goals.find((goal) => goal.id === goalId) || null;
+};
+
+window.FitnessRpgConfig.getGoalsForProgram = function getGoalsForProgram(programId) {
+  return window.FitnessRpgConfig.goals.filter((goal) => goal.programProgression.includes(programId));
 };
 
 window.FitnessRpgConfig.getRecommendedProgramForGoal = function getRecommendedProgramForGoal(goalId) {

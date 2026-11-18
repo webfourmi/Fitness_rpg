@@ -1475,64 +1475,7 @@ window.FitnessRpgPrograms.getTodayPlanIndex = function getTodayPlanIndex() {
 };
 
 window.FitnessRpgPrograms.getWeeklyPlan = function getWeeklyPlan(goalId) {
-  const plans = {
-    "perte-poids": [
-      ["Lun", "Marche douce", "marche-aventurier", "goal"],
-      ["Mar", "Éveil du héros", "eveil-heros", "goal"],
-      ["Mer", "Marche active", "marche-aventurier", "goal"],
-      ["Jeu", "Tour de mage", "tour-mage", "goal"],
-      ["Ven", "Marche ou vélo léger", "marche-aventurier", "goal"],
-      ["Sam", "Cœur de dragon", "coeur-dragon", "goal"],
-      ["Dim", "Repos actif", "tour-mage", "goal"]
-    ],
-    "reprise-douce": [
-      ["Lun", "Éveil du héros", "eveil-heros", "goal"],
-      ["Mar", "Repos ou marche douce", "marche-aventurier", "goal"],
-      ["Mer", "Éveil du héros", "eveil-heros", "goal"],
-      ["Jeu", "Tour de mage", "tour-mage", "goal"],
-      ["Ven", "Repos", null, "rest"],
-      ["Sam", "Éveil du héros", "eveil-heros", "goal"],
-      ["Dim", "Marche tranquille", "marche-aventurier", "goal"]
-    ],
-    cardio: [
-      ["Lun", "Cavalier de la route", "cavalier-route", "goal"],
-      ["Mar", "Tour de mage", "tour-mage", "goal"],
-      ["Mer", "Vélo ou cardio", "cavalier-route", "goal"],
-      ["Jeu", "Repos actif", "marche-aventurier", "goal"],
-      ["Ven", "Cœur de dragon", "coeur-dragon", "goal"],
-      ["Sam", "Marche longue", "marche-aventurier", "goal"],
-      ["Dim", "Repos", null, "rest"]
-    ],
-    renforcement: [
-      ["Lun", "Forge du guerrier", "forge-guerrier", "goal"],
-      ["Mar", "Rempart du héros", "rempart-heros", "goal"],
-      ["Mer", "Bras du héros", "bras-heros", "goal"],
-      ["Jeu", "Marche douce", "marche-aventurier", "goal"],
-      ["Ven", "Forge du guerrier", "forge-guerrier", "goal"],
-      ["Sam", "Défi boss hebdo", "boss-hebdo", "boss"],
-      ["Dim", "Repos", null, "rest"]
-    ],
-    regularite: [
-      ["Lun", "Marche de l’aventurier", "marche-aventurier", "goal"],
-      ["Mar", "Éveil du héros", "eveil-heros", "goal"],
-      ["Mer", "Marche courte", "marche-aventurier", "goal"],
-      ["Jeu", "Tour de mage", "tour-mage", "goal"],
-      ["Ven", "Marche de l’aventurier", "marche-aventurier", "goal"],
-      ["Sam", "Programme libre", "eveil-heros", "goal"],
-      ["Dim", "Repos actif", "tour-mage", "goal"]
-    ],
-    mobilite: [
-      ["Lun", "Tour de mage", "tour-mage", "goal"],
-      ["Mar", "Marche douce", "marche-aventurier", "goal"],
-      ["Mer", "Rempart du héros", "rempart-heros", "goal"],
-      ["Jeu", "Repos", null, "rest"],
-      ["Ven", "Tour de mage", "tour-mage", "goal"],
-      ["Sam", "Éveil du héros", "eveil-heros", "goal"],
-      ["Dim", "Respiration et étirements", "tour-mage", "goal"]
-    ]
-  };
-
-  return plans[goalId] || plans["reprise-douce"];
+  return window.FitnessRpgPrograms.getCombinedWeeklyPlan(goalId);
 };
 
 window.FitnessRpgPrograms.getCompletedMainSessionsThisWeek = function getCompletedMainSessionsThisWeek() {
@@ -1547,39 +1490,54 @@ window.FitnessRpgPrograms.getCompletedMainSessionsThisWeek = function getComplet
 };
 
 window.FitnessRpgPrograms.getObjectiveProgramIds = function getObjectiveProgramIds(goalId) {
-  const goal = window.FitnessRpgConfig?.getGoalById?.(goalId);
+  const config = window.FitnessRpgConfig;
+  const goal = config.getGoalById(goalId) || config.getGoalById("reprise-douce");
+  return goal.programProgression.filter((id) => config.getProgramById(id));
+};
 
-  if (Array.isArray(goal?.programProgression) && goal.programProgression.length) {
-    return goal.programProgression;
-  }
+window.FitnessRpgPrograms.getPlanningMainProgram = function getPlanningMainProgram(goalId) {
+  const config = window.FitnessRpgConfig;
+  return config.getProgramById(window.FitnessRpgState.getActiveProgramId())
+    || config.getRecommendedProgramForGoal(goalId);
+};
 
-  if (goal?.recommendedProgramId) return [goal.recommendedProgramId];
-  return ["eveil-heros", "marche-aventurier"];
+window.FitnessRpgPrograms.getWeeklyObjectiveProgramIds = function getWeeklyObjectiveProgramIds(
+  goalId,
+  mainProgram = window.FitnessRpgPrograms.getPlanningMainProgram(goalId)
+) {
+  const config = window.FitnessRpgConfig;
+  const state = window.FitnessRpgState;
+  const sportLevel = state.getSportProfile?.()?.level || "beginner";
+  const candidates = window.FitnessRpgPrograms.getObjectiveProgramIds(goalId).filter((id) => {
+    const program = config.getProgramById(id);
+    return sportLevel === "advanced" || config.getProgramTier(program) !== "advanced";
+  });
+  const alternatives = candidates.filter((id) => id !== mainProgram?.id);
+  const pool = alternatives.length ? alternatives : candidates;
+  if (pool.length < 2) return pool;
+
+  // La date civile du lundi est stable toute la semaine, y compris au changement d’heure.
+  const weekNumber = Math.floor(Date.parse(state.getCurrentWeekId()) / (7 * 24 * 60 * 60 * 1000));
+  const step = pool.length === 2 ? 1 : 2;
+  const offset = (weekNumber * step) % pool.length;
+  return pool.slice(offset).concat(pool.slice(0, offset));
 };
 
 window.FitnessRpgPrograms.getObjectiveProgramForSlot = function getObjectiveProgramForSlot(
   goalId,
-  slotIndex
+  slotIndex,
+  programIds = window.FitnessRpgPrograms.getWeeklyObjectiveProgramIds(goalId)
 ) {
-  const activeProgramId = window.FitnessRpgState?.getActiveProgramId?.();
-  const objectiveIds = window.FitnessRpgPrograms.getObjectiveProgramIds(goalId);
-  const ids = objectiveIds.filter((programId) => {
-    return programId && programId !== activeProgramId;
-  });
-
-  const safeIds = ids.length ? ids : objectiveIds;
-  return safeIds[slotIndex % safeIds.length] || "eveil-heros";
+  if (!programIds.length) return null;
+  return programIds[slotIndex % programIds.length] || null;
 };
 
 window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan(goalId) {
-  const activeProgramId =
-    window.FitnessRpgState?.getActiveProgramId?.()
-    || window.FitnessRpgConfig?.getGoalById?.(goalId)?.recommendedProgramId
-    || "eveil-heros";
-
-  const activeProgram = window.FitnessRpgConfig?.getProgramById?.(activeProgramId);
-  const objectiveProgram1Id = window.FitnessRpgPrograms.getObjectiveProgramForSlot(goalId, 0);
-  const objectiveProgram2Id = window.FitnessRpgPrograms.getObjectiveProgramForSlot(goalId, 1);
+  const activeProgram = window.FitnessRpgPrograms.getPlanningMainProgram(goalId);
+  const activeProgramId = activeProgram.id;
+  const objectiveIds = window.FitnessRpgPrograms.getWeeklyObjectiveProgramIds(goalId, activeProgram);
+  const objectiveProgram1Id = window.FitnessRpgPrograms.getObjectiveProgramForSlot(goalId, 0, objectiveIds);
+  const objectiveProgram2Id = window.FitnessRpgPrograms.getObjectiveProgramForSlot(goalId, 1, objectiveIds);
   const objectiveProgram1 = window.FitnessRpgConfig?.getProgramById?.(objectiveProgram1Id);
   const objectiveProgram2 = window.FitnessRpgConfig?.getProgramById?.(objectiveProgram2Id);
   const completedMainSessions = window.FitnessRpgPrograms.getCompletedMainSessionsThisWeek();
@@ -1803,24 +1761,10 @@ window.FitnessRpgPrograms.getNextProgramSession = function getNextProgramSession
 
 window.FitnessRpgPrograms.getNextGoalSession = function getNextGoalSession() {
   const goalId = window.FitnessRpgState?.getGoalId?.() || "reprise-douce";
-  const goal = window.FitnessRpgConfig?.getGoalById?.(goalId);
-  const activeProgramId = window.FitnessRpgState?.getActiveProgramId?.();
-  const progression = Array.isArray(goal?.programProgression)
-    ? goal.programProgression
-    : [];
+  const goal = window.FitnessRpgConfig.getGoalById(goalId);
+  const programIds = window.FitnessRpgPrograms.getWeeklyObjectiveProgramIds(goalId);
 
-  const fallbackProgression = [
-    "eveil-heros",
-    "marche-aventurier",
-    "coeur-dragon"
-  ];
-
-  const programIds = progression.length ? progression : fallbackProgression;
-  const objectiveOnlyIds = programIds.filter((programId) => {
-    return programId !== activeProgramId;
-  });
-
-  for (const programId of objectiveOnlyIds.length ? objectiveOnlyIds : programIds) {
+  for (const programId of programIds) {
     const session = window.FitnessRpgPrograms.getNextProgramSession(programId);
 
     if (session) {
@@ -1833,7 +1777,7 @@ window.FitnessRpgPrograms.getNextGoalSession = function getNextGoalSession() {
     }
   }
 
-  return window.FitnessRpgPrograms.getNextProgramSession("eveil-heros");
+  return null;
 };
 
 // ============================================================

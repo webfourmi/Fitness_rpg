@@ -801,6 +801,9 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
   
     goals.forEach((goal) => {
       const program = window.FitnessRpgConfig.getProgramById(goal.recommendedProgramId);
+      const otherPrograms = window.FitnessRpgPrograms.getObjectiveProgramIds(goal.id)
+        .filter((id) => id !== program?.id)
+        .map((id) => window.FitnessRpgConfig.getProgramById(id).title);
   
       const card = document.createElement("article");
       card.className = `goal-choice-card card${goal.id === selectedGoalId ? " selected" : ""}`;
@@ -814,6 +817,7 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
           <p class="goal-program">
             Programme conseillé : <strong>${program?.title || "Éveil du héros"}</strong>
           </p>
+          <p class="muted">Autres programmes associés · ${otherPrograms.join(" · ")}</p>
          <button class="primary-btn choose-goal-btn" type="button" data-goal-id="${goal.id}">
             ${goal.id === selectedGoalId ? "Objectif actuel" : "Choisir cet objectif"}
          </button>
@@ -1055,6 +1059,8 @@ const todayItem = {
     ? window.FitnessRpgConfig.getProgramById(activeProgramId)
     : null;
 
+  const mainProgram = window.FitnessRpgPrograms.getPlanningMainProgram(goalId);
+
   const bossLockedToday = todayItem.source === "boss-locked";
   const missingSessions = window.FitnessRpgPrograms.getMissingMainSessionsThisWeek?.() || [];
   const firstMissing = missingSessions[0] || null;
@@ -1071,7 +1077,7 @@ const todayItem = {
 summary.innerHTML = `
   <div class="planning-compact-header">
     <span class="eyebrow">${goal?.icon || "🎯"} Planning interactif</span>
-    <span><strong>Programme :</strong> ${activeProgram?.title || "Aucun programme choisi"}</span>
+    <span><strong>${activeProgram ? "Programme suivi" : "Programme proposé"}</strong> · ${mainProgram.title}</span>
     <span><strong>Objectif :</strong> ${goal?.title || "Reprise douce"}</span>
   </div>
 
@@ -1149,6 +1155,9 @@ plan.forEach(([dayLabel, title, programId, source, bossWeekNumber], index) => {
     ].filter(Boolean).join(" ");
 
     card.dataset.programId = programId || "";
+    const roleLabel = source === "goal"
+      ? `Complément · ${goal?.title || "Reprise douce"}`
+      : source === "active-program" ? "Programme principal" : "";
 
     card.innerHTML = `
       <div class="planning-day-top">
@@ -1161,7 +1170,7 @@ plan.forEach(([dayLabel, title, programId, source, bossWeekNumber], index) => {
       <p>
         ${
           program
-            ? `${program.title} · ${program.objective}`
+            ? [roleLabel, program.objective].filter(Boolean).join(" · ")
             : "Repos ou récupération douce."
         }
       </p>
@@ -1343,6 +1352,12 @@ window.FitnessRpgRender.renderProgramProgressOverviewHtml = function renderProgr
   `;
 };
 
+window.FitnessRpgRender.renderProgramGoalsHtml = function renderProgramGoalsHtml(programId) {
+  const labels = window.FitnessRpgConfig.getGoalsForProgram(programId).map((goal) => goal.title);
+  if (!labels.length) return "";
+  return `<span>${labels.length === 1 ? "Objectif" : "Objectifs"} · ${labels.join(" · ")}</span>`;
+};
+
 window.FitnessRpgRender.renderProgramList = function renderProgramList() {
   const list = document.querySelector("#programList");
   const detail = document.querySelector("#programDetail");
@@ -1450,6 +1465,7 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
         <span>🎚️ ${program.level}</span>
         <span>⏱️ ${program.duration}</span>
         <span>📅 ${program.frequency}</span>
+        ${window.FitnessRpgRender.renderProgramGoalsHtml(program.id)}
       </div>
 
       ${window.FitnessRpgRender.renderProgramProgressOverviewHtml(progress, { compact: true })}
@@ -1818,6 +1834,7 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
           <span>🎚️ ${program.level}</span>
           <span>🧙 ${program.coachAdvice || "Coach libre"}</span>
           <span>🏆 ${program.xp || 0} XP par séance</span>
+          ${window.FitnessRpgRender.renderProgramGoalsHtml(program.id)}
         </div>
       </div>
     </header>

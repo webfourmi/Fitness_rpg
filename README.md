@@ -1,10 +1,18 @@
-# Fitness RPG — V6.6.2
+# Fitness RPG — V6.6.4
 
 Fitness RPG est une application web mobile-first qui transforme l'entraînement sportif en aventure RPG.
 
 La série V6.1 a principalement consolidé l'expérience mobile, les séances guidées, les écrans secondaires, les images d'exercices et la stabilité générale de l'application.
 
 ## Version actuelle
+
+**V6.6.4 — programmes et objectifs**
+
+Les quinze programmes sont rattachés à un ou deux objectifs. Le programme principal occupe le lundi, le mercredi et le vendredi. Les compléments du mardi et du jeudi alternent chaque semaine parmi les programmes associés à l’objectif. Les campagnes avancées sont proposées automatiquement aux profils sportifs avancés.
+
+**V6.6.3 — Les Épreuves de la Forge**
+
+Programme de renforcement sur huit semaines, avec 24 séances et huit boss.
 
 **V6.6.2 — pesées et exercices favoris**
 
