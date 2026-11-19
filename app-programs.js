@@ -51,7 +51,8 @@ window.FitnessRpgPrograms.isForgeAccessible = function isForgeAccessible() {
   const state = window.FitnessRpgState;
   const entries = state?.getAllEntries?.() || [];
   if (entries.some((entry) => entry.programId === forgeId)
-      || state?.getActiveProgramSession?.()?.programId === forgeId) return true;
+      || state?.getActiveProgramSession?.()?.programId === forgeId
+      || state?.getActiveProgramId?.() === forgeId) return true;
   const programs = window.FitnessRpgConfig?.programs || [];
   return programs.some((program) => program.id !== forgeId
     && window.FitnessRpgConfig?.getProgramTier?.(program) === "beginner"
