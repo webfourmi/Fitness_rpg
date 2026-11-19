@@ -432,7 +432,7 @@ window.FitnessRpgPrograms.cancelRepeatWeek = function cancelRepeatWeek(programId
   window.FitnessRpgRender?.renderProgramDetail?.(programId);
 };
 
-window.FitnessRpgPrograms.finishRepeatDay = function finishRepeatDay(session, day) {
+window.FitnessRpgPrograms.finishRepeatDay = function finishRepeatDay(session) {
   const repeat = window.FitnessRpgPrograms.getRepeatWeek(session.programId);
   if (!repeat || Number(repeat.weekNumber) !== Number(session.weekNumber)
       || Number(repeat.nextDay) !== Number(session.dayNumber)) return false;
@@ -872,6 +872,7 @@ window.FitnessRpgPrograms.getProgramProgressDetails = function getProgramProgres
   const totalXp = entries.reduce((sum, entry) => sum + Number(entry.xp || 0), 0);
   const lastEntry = entries[0] || null;
 
+  const repeat = window.FitnessRpgPrograms.getRepeatWeek(programId);
   let action;
 
   if (activeForProgram) {
@@ -882,6 +883,13 @@ window.FitnessRpgPrograms.getProgramProgressDetails = function getProgramProgres
         : "Reprendre la séance en cours",
       weekNumber: Number(activeForProgram.weekNumber || 1),
       dayNumber: Number(activeForProgram.dayNumber || 1)
+    };
+  } else if (repeat) {
+    action = {
+      type: "start-day",
+      label: `Continuer la révision · S${repeat.weekNumber} J${repeat.nextDay}`,
+      weekNumber: repeat.weekNumber,
+      dayNumber: repeat.nextDay
     };
   } else if (nextItem?.type === "day") {
     action = {
@@ -1082,8 +1090,7 @@ window.FitnessRpgPrograms.startProgramBossSession = function startProgramBossSes
   }
 
   const repeat = window.FitnessRpgPrograms.getRepeatWeek(programId);
-  if (repeat && (Number(repeat.weekNumber) !== Number(weekNumber)
-      || Number(repeat.nextDay) !== Number(dayNumber))) {
+  if (repeat) {
     window.FitnessRpgPrograms.showMessage({
       icon: "🌅", title: "Semaine en révision",
       message: `Termine d'abord la séance ${repeat.nextDay} de la semaine ${repeat.weekNumber}, ou annule la révision.`,
@@ -1225,6 +1232,18 @@ window.FitnessRpgPrograms.getSuggestedProgramPosition = function getSuggestedPro
       completedCount: progress.completed,
       weekCount: progress.weeks.length,
       daysPerWeek: activeDays.length || 1
+    };
+  }
+
+  const repeat = window.FitnessRpgPrograms.getRepeatWeek(programId);
+  if (repeat) {
+    const days = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, repeat.weekNumber);
+    return {
+      weekNumber: repeat.weekNumber,
+      dayNumber: repeat.nextDay,
+      completedCount: progress.completed,
+      weekCount: progress.weeks.length,
+      daysPerWeek: days.length
     };
   }
 
@@ -2181,6 +2200,17 @@ window.FitnessRpgPrograms.validateProgramDay = function validateProgramDay(
     return;
   }
 
+  const repeat = window.FitnessRpgPrograms.getRepeatWeek(programId);
+  if (repeat && (Number(repeat.weekNumber) !== Number(weekNumber)
+      || Number(repeat.nextDay) !== Number(dayNumber))) {
+    window.FitnessRpgPrograms.showMessage({
+      icon: "🌅", title: "Semaine en révision",
+      message: `Termine d'abord la séance ${repeat.nextDay} de la semaine ${repeat.weekNumber}, ou annule la révision.`,
+      okText: "Compris"
+    });
+    return;
+  }
+
   const browser = window.FitnessRpgPrograms.programBrowser || {};
   const browserMatches =
     browser.programId === programId
@@ -2382,7 +2412,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   }
 
   // La révision ne modifie ni les entrées, ni l'XP, ni les badges, ni la série.
-  if (window.FitnessRpgPrograms.finishRepeatDay(session, day)) return;
+  if (window.FitnessRpgPrograms.finishRepeatDay(session)) return;
 
   const badgeIdsBefore = window.FitnessRpgRender?.captureBadgeIds?.() || [];
   const levelBefore = window.FitnessRpgRender?.getLevelSnapshot?.();
