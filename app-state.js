@@ -819,6 +819,7 @@ window.FitnessRpgState.startProgramSession = function startProgramSession(progra
 window.FitnessRpgState.activeProgramSession = {
   id: window.FitnessRpgState.createId("program-session"),
   programId,
+  workoutRevision: window.FitnessRpgPrograms?.getProgramDetail?.(programId)?.workoutRevision,
   dayNumber: Number(dayNumber),
   weekNumber: safeWeekNumber,
   startedAt: window.FitnessRpgState.nowIso(),
@@ -855,6 +856,7 @@ window.FitnessRpgState.startProgramBossSession = function startProgramBossSessio
     id: window.FitnessRpgState.createId("program-boss-session"),
     type: "program-boss",
     programId,
+    workoutRevision: window.FitnessRpgPrograms?.getProgramDetail?.(programId)?.workoutRevision,
     weekNumber: safeWeekNumber,
     dayNumber: 0,
     bossTitle: boss.title,

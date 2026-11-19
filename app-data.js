@@ -13650,6 +13650,115 @@ window.FitnessRpgData.getExerciseById = function getExerciseById(exerciseId) {
   return window.FitnessRpgData.getExerciseList().find((exercise) => exercise.id === exerciseId) || null;
 };
 
+
+// Les séances enregistrées avant cette révision conservent l'ordre de leurs exercices.
+{
+  const legacy = window.FitnessRpgData.programDetails["tour-mage"];
+  const reps = (exerciseId, amount, cue) => ({ exerciseId, amount, unit: "répétitions", cue });
+  const seconds = (exerciseId, amount, cue) => ({ exerciseId, amount, unit: "sec", cue });
+  const phase = (name, items) => items.map((item) => ({ ...item, phase: name }));
+
+  const warmup = phase("Échauffement", [
+    seconds("march_on_spot", 90, "Marche à allure facile. Garde un appui stable à portée de main."),
+    reps("cat_cow", 6, "À quatre pattes, arrondis et relâche doucement le dos. Garde une petite amplitude.")
+  ]);
+  const cooldown = phase("Retour au calme", [
+    seconds("slow_breathing", 60, "Laisse le souffle ralentir naturellement, sans apnée.")
+  ]);
+  const safety = "Respire pendant l’effort. Prends environ 30 s entre exercices et 45 à 60 s entre les tours. Réduis l’amplitude ou le temps si tu perds la position. Arrête en cas de douleur ou de malaise.";
+  const sides = (exerciseId, duration, cue) => ["gauche", "droit"].map((side) =>
+    seconds(exerciseId, duration, "Côté " + side + ". " + cue)
+  );
+  const rotation = reps("thoracic_rotation", 8, "Alterne 4 fois par côté. Debout, tourne le buste lentement, bassin stable, sans forcer.");
+  const tilt = reps("pelvic_tilt", 6, "Sur le dos, genoux pliés, bascule doucement le bassin en expirant, puis relâche.");
+  const makeWorkout = (name, items, rounds) => [
+    ...warmup,
+    ...Array.from({ length: rounds }, (_, index) =>
+      phase(name + " · Cycle " + (index + 1), items)
+    ).flat(),
+    ...cooldown
+  ];
+
+  const progressions = [
+    "Apprends à stabiliser le bassin en respirant. Garde une petite amplitude et un appui pour l’équilibre.",
+    "Introduis le gainage latéral sur les genoux et répète les mouvements de la première semaine.",
+    "Passe à deux tours si un tour reste confortable, avec une respiration et une posture stables.",
+    "Conserve deux tours. Allonge légèrement les maintiens et ajoute deux répétitions aux mouvements alternés si la technique reste stable."
+  ];
+  const weeks = legacy.weeks.map((week, index) => {
+    const rounds = index < 2 ? 1 : 2;
+    const dose = [6, 8, 8, 10][index];
+    const bridge = reps("bridge", dose, "Pieds au sol, expire en montant les hanches. Arrête avant de cambrer et redescends lentement.");
+    const deadBug = reps("dead_bug", dose, "Alterne, moitié des répétitions par côté. Garde la tête au sol et raccourcis le trajet. Au besoin, déplace une jambe à la fois, bras immobiles.");
+    const birdDog = reps("bird_dog", dose, "Alterne, moitié des répétitions par côté. Garde le bassin face au sol. Au besoin, tends un seul membre ou fais glisser le pied au sol.");
+    const front = seconds("knee_plank", index === 3 ? 20 : 15, "Avant-bras et genoux au sol, coudes sous les épaules. Garde les hanches dans l’alignement et respire.");
+    const lateral = index === 0 ? [front] : sides("side_plank_knees", index === 3 ? 15 : 10,
+      "Coude sous l’épaule, genoux pliés. Soulève les hanches juste assez pour aligner le tronc. Repose les hanches avant de changer de côté.");
+    const balance = sides("single_leg_balance", index === 3 ? 20 : 15,
+      "Près d’un mur, tiens-toi sur cette jambe, genou souple. Pose les doigts au mur ou le pied libre au sol si nécessaire.");
+    const day = (slot, title, focus, items) => ({
+      day: slot,
+      title,
+      xp: week.days[slot - 1].xp,
+      difficultyLabel: rounds === 1 ? "8 à 13 min" : "12 à 19 min",
+      instructions: focus + " " + safety + " Si le deuxième tour est trop exigeant, arrête et reprends la semaine précédente lors de ta prochaine séance.",
+      exercises: makeWorkout(title, items, rounds)
+    });
+    return {
+      ...week,
+      progression: progressions[index],
+      days: [
+        day(1, "Centre et bassin", "Laisse un jour de récupération entre les séances essentielles.", [tilt, deadBug, bridge, front]),
+        day(2, "Mobilité et stabilité latérale", "Cherche un mouvement fluide et confortable.", [rotation, birdDog, ...lateral]),
+        day(3, "Équilibre et contrôle", "Reste près d’un mur ou d’un appui stable.", [...balance, deadBug, birdDog, bridge]),
+        {
+          day: 4,
+          optional: true,
+          title: "Mobilité douce",
+          xp: 20,
+          difficultyLabel: "5 à 8 min",
+          instructions: "Complément facultatif pour un jour sans séance essentielle. Fais un seul passage, à allure facile et sans chercher à gagner en amplitude. " + safety,
+          exercises: [...warmup, ...phase("Mobilité", [rotation, tilt]), ...cooldown]
+        }
+      ]
+    };
+  });
+
+  const bosses = legacy.bosses.map((boss, index) => ({
+    ...boss,
+    optional: true,
+    difficultyLabel: "Stabilité · un tour",
+    instructions: "Complément facultatif après les trois séances essentielles. Place-le un autre jour, si tu te sens reposé. " + safety,
+    lockedMessage: "Termine les trois séances essentielles pour débloquer ce défi facultatif.",
+    exercises: makeWorkout("Stabilité", weeks[index].days[1].exercises.filter(
+      (item) => item.phase.endsWith("Cycle 1")
+    ), 1)
+  }));
+
+  window.FitnessRpgData.programDetails["tour-mage"] = {
+    ...legacy,
+    legacyWorkouts: { weeks: legacy.weeks, bosses: legacy.bosses },
+    workoutRevision: 1,
+    subtitle: "Mobilité, gainage et équilibre sur quatre semaines.",
+    duration: "8 à 19 min",
+    frequency: "3 séances essentielles et 2 compléments facultatifs",
+    material: "Tapis conseillé et mur ou appui stable pour l’équilibre.",
+    weeks,
+    bosses,
+    progression: [
+      ...progressions.map((line, index) => "Semaine " + (index + 1) + " · " + line),
+      "Répartis les trois séances essentielles sur des jours non consécutifs, par exemple lundi, mercredi et vendredi.",
+      "Mobilité douce et boss de stabilité sont facultatifs. Les trois séances essentielles suffisent pour passer à la semaine suivante.",
+      "Les boss gardent leurs récompenses. Le Dragon Astral donne accès au badge Tour du Mage et au coffre final.",
+      "Garde les doses de la semaine précédente si la technique ou la respiration se dégrade. En cas de douleur ou de malaise, arrête."
+    ],
+    notes: [
+      "Pour les exercices alternés, le total indiqué se partage entre les deux côtés.",
+      "Les maintiens de chaque côté sont affichés et chronométrés séparément."
+    ]
+  };
+}
+
 window.FitnessRpgData.getProgramDetail = function getProgramDetail(programId) {
   return window.FitnessRpgData.programDetails[programId] || null;
 };
