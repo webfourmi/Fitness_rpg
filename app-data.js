@@ -3532,11 +3532,11 @@ window.FitnessRpgData = {
 
     "sanctuaire-voyageur": {
   "id": "sanctuaire-voyageur",
-  "subtitle": "Détente du dos et mobilité douce pour les jours où le corps se sent rouillé.",
+  "subtitle": "Routines courtes pour retrouver une mobilité confortable du dos, des épaules et des hanches, sans recherche de performance.",
   "unlockLevel": 1,
-  "duration": "5 à 10 min",
-  "frequency": "Libre · utilisable après le bureau, avant de dormir, après le sport ou en jour de repos",
-  "material": "Aucun matériel. Tapis conseillé.",
+  "duration": "5 à 12 min",
+  "frequency": "3 routines essentielles par semaine · 2 compléments facultatifs selon l’objectif · rythme adaptable",
+  "material": "Aucun matériel obligatoire. Tapis confortable conseillé ; chaise stable possible pour certaines adaptations.",
   "reward": {
     "badgeId": "sanctuaire-serenite-mage",
     "badgeTitle": "Sérénité du Mage",
@@ -3548,18 +3548,18 @@ window.FitnessRpgData = {
       "week": 1,
       "title": "Délier les Chaînes",
       "xp": 30,
-      "progression": "Routine très douce pour relâcher le dos, la respiration et la mobilité thoracique.",
+      "progression": "Découvrir les mouvements dans une amplitude confortable et retrouver une respiration calme ; pauses autorisées.",
       "days": [
         {
           "day": 1,
           "title": "Dos Délié",
           "xp": 30,
           "difficultyLabel": "≈ 6 min",
-          "instructions": "Routine douce, sans performance. Arrête si la douleur augmente.",
+          "instructions": "Enchaîne lentement les mouvements, à amplitude confortable. Tu peux faire une pause entre chacun. Arrête si la douleur augmente.",
           "exercises": [
             { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
-            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
-            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
+            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 2, "unit": "min" },
             { "phase": "Étirement", "exerciseId": "gentle_back_stretch", "amount": 1, "unit": "min" },
             { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 1, "unit": "min" }
           ]
@@ -3569,11 +3569,11 @@ window.FitnessRpgData = {
           "title": "Épaules Légères",
           "xp": 30,
           "difficultyLabel": "≈ 6 min",
-          "instructions": "Routine de relâchement des épaules et du haut du dos.",
+          "instructions": "Réalise des cercles de bras de petite amplitude si nécessaire. Épaules basses et respiration libre, sans forcer.",
           "exercises": [
             { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
             { "phase": "Mobilité épaules", "exerciseId": "arm_circles", "amount": 60, "unit": "sec" },
-            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
             { "phase": "Étirement", "exerciseId": "chest_stretch", "amount": 1, "unit": "min" },
             { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 1, "unit": "min" }
           ]
@@ -3583,7 +3583,7 @@ window.FitnessRpgData = {
           "title": "Hanches Calmes",
           "xp": 30,
           "difficultyLabel": "≈ 7 min",
-          "instructions": "Routine douce bassin, hanches et respiration.",
+          "instructions": "Effectue la bascule du bassin puis le pont sans cambrer ni pousser dans la douleur. Fais une pause au besoin ; étire chaque côté progressivement.",
           "exercises": [
             { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
             { "phase": "Mobilité bassin", "exerciseId": "pelvic_tilt", "amount": 10, "unit": "répétitions" },
@@ -3598,19 +3598,19 @@ window.FitnessRpgData = {
       "week": 2,
       "title": "Les Chemins Oubliés",
       "xp": 35,
-      "progression": "On ajoute l’enroulement des épaules pour délier le haut du corps.",
+      "progression": "Introduire les roulements d’épaules sans accélérer ; privilégier la fluidité plutôt que la durée.",
       "days": [
         {
           "day": 1,
           "title": "Chemin du Dos",
           "xp": 35,
           "difficultyLabel": "≈ 7 min",
-          "instructions": "Nouveau mouvement : enroulement des épaules.",
+          "instructions": "Nouveau mouvement : roulements des épaules, lents et de faible amplitude. Ne cherche ni la vitesse ni le craquement.",
           "exercises": [
             { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
             { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
-            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
-            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
+            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 2, "unit": "min" },
             { "phase": "Étirement", "exerciseId": "gentle_back_stretch", "amount": 1, "unit": "min" },
             { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 1, "unit": "min" }
           ]
@@ -3620,7 +3620,7 @@ window.FitnessRpgData = {
           "title": "Bassin Paisible",
           "xp": 35,
           "difficultyLabel": "≈ 7 min",
-          "instructions": "Bassin, hanches et récupération.",
+          "instructions": "Mobilise le bassin doucement ; le pont peut rester de faible amplitude. Respire librement et repose-toi si nécessaire.",
           "exercises": [
             { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
             { "phase": "Mobilité bassin", "exerciseId": "pelvic_tilt", "amount": 10, "unit": "répétitions" },
@@ -3639,7 +3639,7 @@ window.FitnessRpgData = {
             { "phase": "Mobilité épaules", "exerciseId": "arm_circles", "amount": 60, "unit": "sec" },
             { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
             { "phase": "Étirement", "exerciseId": "chest_stretch", "amount": 1, "unit": "min" },
-            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 2, "unit": "min" },
             { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
           ]
         }
@@ -3649,19 +3649,19 @@ window.FitnessRpgData = {
       "week": 3,
       "title": "Le Souffle des Anciens",
       "xp": 40,
-      "progression": "On ajoute l’étirement du chat, position de l’enfant, pour relâcher le dos.",
+      "progression": "Découvrir la position de l’enfant sans forcer les genoux, le dos ni les épaules ; adapter l’amplitude.",
       "days": [
         {
           "day": 1,
           "title": "Souffle Long",
           "xp": 40,
           "difficultyLabel": "≈ 7 à 8 min",
-          "instructions": "Nouveau mouvement : étirement du chat.",
+          "instructions": "Découvre la position de l’enfant, parfois appelée étirement du chat. Ne force pas sur les genoux ou les épaules ; interromps-la si elle est inconfortable.",
           "exercises": [
             { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
-            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
             { "phase": "Étirement", "exerciseId": "child_pose_stretch", "amount": 1, "unit": "min" },
-            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 2, "unit": "min" },
             { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
           ]
         },
@@ -3685,11 +3685,11 @@ window.FitnessRpgData = {
           "title": "Repos du Mage",
           "xp": 40,
           "difficultyLabel": "≈ 8 min",
-          "instructions": "Routine de récupération pour jour de fatigue.",
+          "instructions": "Routine de jour calme : choisis une amplitude très réduite et allonge les pauses si tu es fatigué. Aucune cadence à tenir.",
           "exercises": [
             { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
-            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
-            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
+            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 2, "unit": "min" },
             { "phase": "Étirement", "exerciseId": "gentle_back_stretch", "amount": 1, "unit": "min" },
             { "phase": "Étirement", "exerciseId": "child_pose_stretch", "amount": 1, "unit": "min" },
             { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
@@ -3701,19 +3701,19 @@ window.FitnessRpgData = {
       "week": 4,
       "title": "Le Sanctuaire",
       "xp": 45,
-      "progression": "On ajoute la rotation cervicale douce pour compléter la routine de détente.",
+      "progression": "Compléter la routine par des rotations cervicales limitées et confortables, sans cercle complet de la tête.",
       "days": [
         {
           "day": 1,
           "title": "Nuque et Épaules",
           "xp": 45,
           "difficultyLabel": "≈ 8 à 10 min",
-          "instructions": "Nouveau mouvement : rotation cervicale douce.",
+          "instructions": "Nouveau mouvement : tourner lentement la tête de droite à gauche, sans faire de cercle complet ni basculer la tête en arrière. Reste dans le confort.",
           "exercises": [
             { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
             { "phase": "Nuque", "exerciseId": "gentle_neck_rotation", "amount": 60, "unit": "sec" },
             { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
-            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
             { "phase": "Étirement", "exerciseId": "chest_stretch", "amount": 1, "unit": "min" },
             { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
           ]
@@ -3727,7 +3727,7 @@ window.FitnessRpgData = {
           "exercises": [
             { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
             { "phase": "Nuque", "exerciseId": "gentle_neck_rotation", "amount": 60, "unit": "sec" },
-            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 2, "unit": "min" },
             { "phase": "Mobilité bassin", "exerciseId": "pelvic_tilt", "amount": 10, "unit": "répétitions" },
             { "phase": "Étirement", "exerciseId": "child_pose_stretch", "amount": 1, "unit": "min" },
             { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
@@ -3738,13 +3738,13 @@ window.FitnessRpgData = {
           "title": "Veillée du Mage",
           "xp": 45,
           "difficultyLabel": "≈ 10 min",
-          "instructions": "Routine finale douce, idéale avant de dormir.",
+          "instructions": "Routine finale de retour au calme, à suivre à son rythme. Si un mouvement gêne, réduis son amplitude ou interromps-le.",
           "exercises": [
             { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
             { "phase": "Nuque", "exerciseId": "gentle_neck_rotation", "amount": 60, "unit": "sec" },
             { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
-            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
-            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+            { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
+            { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 2, "unit": "min" },
             { "phase": "Étirement", "exerciseId": "gentle_back_stretch", "amount": 1, "unit": "min" },
             { "phase": "Étirement", "exerciseId": "child_pose_stretch", "amount": 1, "unit": "min" },
             { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
@@ -3760,12 +3760,12 @@ window.FitnessRpgData = {
       "xp": 30,
       "badgeId": "sanctuaire-epaules-liberees",
       "difficultyLabel": "Mission douce · routine complète",
-      "instructions": "Mission : réaliser la routine complète sans interruption.",
+      "instructions": "Rituel : parcourir les mouvements tranquillement, avec autant de pauses que nécessaire. Le confort prime sur la continuité.",
       "lockedMessage": "Le nœud attend que tu aies pris le temps de délier ton corps cette semaine.",
       "exercises": [
         { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
-        { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
-        { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+        { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
+        { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 2, "unit": "min" },
         { "phase": "Étirement", "exerciseId": "gentle_back_stretch", "amount": 1, "unit": "min" },
         { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 1, "unit": "min" }
       ]
@@ -3776,13 +3776,13 @@ window.FitnessRpgData = {
       "xp": 35,
       "badgeId": "sanctuaire-colonne-assouplie",
       "difficultyLabel": "Mission douce · 10 min",
-      "instructions": "Mission : 10 minutes complètes de mobilité douce.",
+      "instructions": "Rituel : environ 10 minutes de mobilité douce, pauses incluses. Il n’est pas nécessaire de tenir un chronomètre sans arrêt.",
       "lockedMessage": "Le Dos de Pierre ne se fissure pas sous la force. Il s’assouplit avec patience.",
       "exercises": [
         { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
         { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
-        { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
-        { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+        { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
+        { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 2, "unit": "min" },
         { "phase": "Étirement", "exerciseId": "chest_stretch", "amount": 1, "unit": "min" },
         { "phase": "Étirement", "exerciseId": "gentle_back_stretch", "amount": 2, "unit": "min" },
         { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
@@ -3794,14 +3794,14 @@ window.FitnessRpgData = {
       "xp": 40,
       "badgeId": "sanctuaire-souffle-retrouve",
       "difficultyLabel": "Mission douce · contrôle lent",
-      "instructions": "Mission : effectuer chaque mouvement lentement et avec contrôle.",
+      "instructions": "Rituel : réaliser des mouvements lents et maîtrisés, sans rechercher d’amplitude maximale. Les pauses sont libres.",
       "lockedMessage": "Les chaînes invisibles se défont lentement. Termine tes routines avant de revenir.",
       "exercises": [
         { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
         { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
-        { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
+        { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
         { "phase": "Étirement", "exerciseId": "child_pose_stretch", "amount": 1, "unit": "min" },
-        { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+        { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 2, "unit": "min" },
         { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
       ]
     },
@@ -3812,14 +3812,14 @@ window.FitnessRpgData = {
       "badgeId": "sanctuaire-serenite-mage",
       "chest": false,
       "difficultyLabel": "Mission finale · récupération complète",
-      "instructions": "Mission : routine complète de récupération.",
+      "instructions": "Rituel final : retrouver les mouvements confortables appris pendant quatre semaines. Arrêter ou adapter au moindre inconfort croissant.",
       "lockedMessage": "Le Sage du Repos n’ouvre son sanctuaire qu’aux voyageurs patients.",
       "exercises": [
         { "phase": "Respiration", "exerciseId": "abdominal_breathing", "amount": 1, "unit": "min" },
         { "phase": "Nuque", "exerciseId": "gentle_neck_rotation", "amount": 60, "unit": "sec" },
         { "phase": "Mobilité épaules", "exerciseId": "shoulder_rolls", "amount": 60, "unit": "sec" },
-        { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 10, "unit": "répétitions" },
-        { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 20, "unit": "répétitions" },
+        { "phase": "Mobilité", "exerciseId": "cat_cow", "amount": 1, "unit": "min" },
+        { "phase": "Mobilité", "exerciseId": "thoracic_rotation", "amount": 2, "unit": "min" },
         { "phase": "Étirement", "exerciseId": "child_pose_stretch", "amount": 1, "unit": "min" },
         { "phase": "Étirement", "exerciseId": "gentle_back_stretch", "amount": 1, "unit": "min" },
         { "phase": "Respiration", "exerciseId": "slow_breathing", "amount": 2, "unit": "min" }
@@ -3834,13 +3834,13 @@ window.FitnessRpgData = {
     "Programme utilisable librement, surtout les jours de fatigue, de bureau ou de récupération."
   ],
   "notes": [
-    "Ce n’est pas un programme de renforcement.",
+    "Ce programme est dédié à la mobilité douce et à la récupération, non au renforcement musculaire.",
     "Ce n’est pas du Pilates.",
     "Ce n’est pas du cardio.",
-    "Objectif : diminuer les tensions légères, améliorer la mobilité et favoriser la récupération.",
-    "Les mouvements doivent rester doux, lents et confortables.",
-    "Arrêter la routine si une douleur augmente, descend dans la jambe, provoque des fourmillements ou une faiblesse.",
-    "En cas de douleur persistante, intense, nocturne ou inquiétante, demander un avis médical."
+    "Objectif : améliorer le confort de mouvement et favoriser la récupération ; ce programme ne remplace pas une prise en charge médicale.",
+    "Les mouvements restent lents, avec une amplitude confortable ; les pauses sont toujours autorisées, y compris pendant les défis.",
+    "Arrêter la routine si la douleur augmente ou irradie, si apparaissent des fourmillements, une faiblesse ou des vertiges.",
+    "En cas de douleur intense, persistante, nocturne, de traumatisme ou de signe neurologique, demander un avis médical adapté."
   ]
 },
 
