@@ -1087,6 +1087,83 @@ window.FitnessRpgData = {
       "coachTip": "Grandis-toi sans pousser les côtes en avant."
     },
     {
+  "id": "ballet_preparatory_arms",
+  "categoryId": "mobility",
+  "title": "Position préparatoire des bras",
+  "images": {
+    "male": "assets/exercices/exercice_homme_brasenseconde.webp",
+    "female": "assets/exercices/femme_default.webp"
+  },
+  "unit": "sec",
+  "defaultValue": 30,
+  "min": 10,
+  "step": 5,
+  "xpPerUnit": 0.15,
+  "stat": "Posture / épaules",
+  "pose": "stretch",
+  "hasTimer": true,
+  "description": "Debout, pieds parallèles ou légèrement ouverts, allonge la nuque et relâche les épaules. Arrondis les bras devant le bas du ventre comme pour entourer un ballon, coudes souples, mains détendues, sans toucher le corps. Respire tranquillement, puis ouvre progressivement vers la seconde position et reviens. Variante débutant : exécuter le mouvement assis sur une chaise stable.",
+  "shortDescription": "Bras arrondis devant le bas du ventre, épaules relâchées.",
+  "coachTip": "Ne hausse pas les épaules et ne serre pas les omoplates. Image existante provisoire : vérifier la correspondance visuelle."
+},
+{
+  "id": "ballet_gliding_tendu",
+  "categoryId": "mobility",
+  "title": "Dégagé glissé au sol (tendu préparatoire)",
+  "images": {
+    "male": "assets/exercices/exercice_homme_pasducygne.webp",
+    "female": "assets/exercices/femme_default.webp"
+  },
+  "unit": "répétitions",
+  "defaultValue": 8,
+  "min": 2,
+  "step": 2,
+  "xpPerUnit": 0.8,
+  "stat": "Mobilité / coordination",
+  "pose": "walk",
+  "description": "Une main sur une chaise stable, pieds parallèles ou en ouverture naturelle. Garde le poids sur la jambe d'appui et fais glisser l'autre pied vers l'avant ou le côté jusqu'à tendre doucement la jambe, orteils restant en contact avec le sol. Ramène le pied par le même chemin sans basculer le bassin. Fais quatre passages de chaque côté. Variante débutant : glisser sur une distance plus courte. Ce geste est un tendu préparatoire, sans décoller le pied.",
+  "shortDescription": "Glisser un pied au sol, tendre doucement la jambe puis revenir.",
+  "coachTip": "Le pied reste au sol : ne pas confondre avec un dégagé décollé. Image existante provisoire à revoir."
+},
+{
+  "id": "ballet_weight_transfer",
+  "categoryId": "mobility",
+  "title": "Transfert de poids du danseur",
+  "images": {
+    "male": "assets/exercices/exercice_homme_pasducygne.webp",
+    "female": "assets/exercices/femme_default.webp"
+  },
+  "unit": "répétitions",
+  "defaultValue": 8,
+  "min": 2,
+  "step": 2,
+  "xpPerUnit": 0.8,
+  "stat": "Équilibre / coordination",
+  "pose": "walk",
+  "description": "Debout, pieds écartés de la largeur des hanches et une main près d'une chaise. Fléchis très légèrement les genoux puis déplace lentement le poids vers le pied droit, sans incliner le buste. Ramène le poids au centre et recommence à gauche. Garde les deux pieds au sol au début ; ensuite seulement, allège le pied libre. Variante débutant : mains en appui pendant tout l'exercice.",
+  "shortDescription": "Déplacer le poids d'un pied à l'autre sans perdre l'alignement.",
+  "coachTip": "Bassin horizontal, genoux souples, mouvement contrôlé. Illustration existante provisoire."
+},
+{
+  "id": "ballet_eight_count_phrase",
+  "categoryId": "cardio",
+  "title": "Phrase dansée sur huit temps",
+  "images": {
+    "male": "assets/exercices/exercice_homme_ballet_sequence.webp",
+    "female": "assets/exercices/exercice_femme_ballet_sequence.webp"
+  },
+  "unit": "tours",
+  "defaultValue": 2,
+  "min": 1,
+  "step": 1,
+  "xpPerUnit": 4,
+  "stat": "Coordination / rythme",
+  "pose": "walk",
+  "description": "Compte régulièrement de 1 à 8, à voix haute si besoin. Temps 1-2 : ouvrir doucement les bras depuis la position préparatoire. Temps 3-4 : réaliser un petit demi-plié et revenir debout. Temps 5-6 : glisser un pied sur le côté puis le ramener. Temps 7-8 : transférer légèrement le poids, revenir stable et refermer les bras. Répéter lentement avec une pause entre les passages. Variante débutant : sans musique, une main près d'une chaise. Les mouvements peuvent être simplifiés si nécessaire.",
+  "shortDescription": "Huit temps : bras, plié, glissé, transfert et retour stable.",
+  "coachTip": "Le rythme doit rester régulier ; commence sans musique avant d'accélérer."
+},
+{
   id: "demi_plie",
   categoryId: "strength",
   title: "Demi-plié",
@@ -1101,9 +1178,9 @@ window.FitnessRpgData = {
   xpPerUnit: 0.8,
   stat: "Jambes / posture",
   pose: "squats",
-  description: "Place les pieds légèrement plus écartés que les hanches, pointes ouvertes naturellement. Fléchis lentement les genoux en gardant le dos droit et les talons au sol. Descends seulement jusqu’à une position confortable, puis remonte en poussant sur les jambes.",
-  shortDescription: "Petit plié contrôlé, dos droit et talons au sol.",
-  coachTip: "Genoux dans l’axe des pieds, épaules relâchées, mouvement lent."
+  description: "Debout, près d'une chaise stable, place les pieds dans une première position naturelle peu ouverte ou parallèles si c'est plus confortable. Grandis la colonne, garde le bassin neutre et répartis le poids sur tout le pied. Fléchis doucement les genoux dans la direction des orteils, sans décoller les talons ni forcer l'ouverture des hanches. Remonte en allongeant les jambes sans verrouiller les genoux. Inspire en descendant et expire en remontant. Variante débutant : petit plié en parallèle avec une main en appui.",
+  shortDescription: "Flexion peu profonde, talons au sol, genoux alignés avec les pieds.",
+  coachTip: "Ce n'est pas un squat profond : garde le buste vertical, le bassin neutre et l'en-dehors naturel."
 },
 {
   id: "second_position_arms",
@@ -1161,9 +1238,9 @@ window.FitnessRpgData = {
   stat: "Équilibre / posture",
   pose: "core",
   hasTimer: true,
-  description: "Tiens-toi sur une jambe. Penche légèrement le buste vers l’avant tout en levant doucement l’autre jambe derrière toi. Les bras peuvent être ouverts sur les côtés pour t’aider à garder l’équilibre.",
-  shortDescription: "Équilibre sur une jambe, jambe arrière légèrement levée.",
-  coachTip: "Ne cherche pas la hauteur. Cherche la stabilité."
+  description: "Place une main sur le dossier d'une chaise stable. Tiens-toi droit sur la jambe d'appui, genou souple. Glisse l'autre pied vers l'arrière, pointe au sol, puis soulève-le de quelques centimètres seulement si l'équilibre reste confortable. Allonge la jambe derrière sans cambrer les lombaires ni basculer le bassin. Reviens lentement et change de côté. Variante débutant : garder les orteils au sol pendant tout le mouvement.",
+  shortDescription: "Jambe allongée derrière, pointe au sol ou légèrement levée, avec appui.",
+  coachTip: "Bassin stable, dos long, jambe basse : la hauteur n'est jamais l'objectif."
 },
 {
   id: "front_developpe_simplified",
@@ -1226,7 +1303,7 @@ window.FitnessRpgData = {
 {
   id: "passe_simplified",
   categoryId: "strength",
-  title: "Passé simplifié",
+  title: "Retiré bas (préparation au passé)",
   images: {
     male: "assets/exercices/exercice_homme_passe_simplified.webp",
     female: "assets/exercices/exercice_femme_passe_simplified.webp"
@@ -1239,9 +1316,9 @@ window.FitnessRpgData = {
   stat: "Équilibre",
   pose: "core",
   hasTimer: true,
-  description: "Tiens-toi sur une jambe et place l’autre pied contre la cheville ou le mollet de la jambe d’appui. Garde le buste droit et fixe un point devant toi.",
-  shortDescription: "Équilibre debout, pied posé contre la jambe d’appui.",
-  coachTip: "Le pied reste bas. Le contrôle passe avant l’élégance."
+  description: "Près d'une chaise stable, répartis d'abord le poids sur les deux pieds. Transfère-le progressivement sur la jambe d'appui puis fais glisser la pointe de l'autre pied jusqu'à la cheville de la jambe porteuse, sans pousser sur son genou. Garde le bassin de face, la colonne allongée et le regard fixe. Maintiens quelques secondes, repose le pied et change de côté. Variante débutant : pointe du pied mobile au sol et main en appui. Le passé désigne le passage du pied ; ici on apprend surtout la position basse du retiré.",
+  shortDescription: "Équilibre assisté, pointe du pied près de la cheville.",
+  coachTip: "Ne pose pas le pied contre le genou et ne force pas l'ouverture de la hanche."
 },
 {
   id: "ballet_sequence",
@@ -3823,7 +3900,7 @@ window.FitnessRpgData = {
             },
             {
               "phase": "Technique",
-              "exerciseId": "second_position_arms",
+              "exerciseId": "ballet_preparatory_arms",
               "amount": 30,
               "unit": "sec"
             },
@@ -3886,7 +3963,7 @@ window.FitnessRpgData = {
             },
             {
               "phase": "Technique",
-              "exerciseId": "second_position_arms",
+              "exerciseId": "ballet_preparatory_arms",
               "amount": 40,
               "unit": "sec"
             },
@@ -4050,9 +4127,9 @@ window.FitnessRpgData = {
             },
             {
               "phase": "Technique",
-              "exerciseId": "lateral_steps",
-              "amount": 40,
-              "unit": "sec"
+              "exerciseId": "ballet_gliding_tendu",
+              "amount": 8,
+              "unit": "répétitions"
             },
             {
               "phase": "Technique",
@@ -4125,9 +4202,9 @@ window.FitnessRpgData = {
             },
             {
               "phase": "Technique",
-              "exerciseId": "dancer_sway",
-              "amount": 40,
-              "unit": "sec"
+              "exerciseId": "ballet_weight_transfer",
+              "amount": 8,
+              "unit": "répétitions"
             },
             {
               "phase": "Technique",
@@ -4200,9 +4277,9 @@ window.FitnessRpgData = {
             },
             {
               "phase": "Technique",
-              "exerciseId": "swan_step",
-              "amount": 40,
-              "unit": "sec"
+              "exerciseId": "ballet_eight_count_phrase",
+              "amount": 2,
+              "unit": "tours"
             },
             {
               "phase": "Technique",
@@ -4352,9 +4429,9 @@ window.FitnessRpgData = {
             },
             {
               "phase": "Technique",
-              "exerciseId": "lateral_steps",
-              "amount": 45,
-              "unit": "sec"
+              "exerciseId": "ballet_gliding_tendu",
+              "amount": 8,
+              "unit": "répétitions"
             },
             {
               "phase": "Technique",
@@ -4445,9 +4522,9 @@ window.FitnessRpgData = {
             },
             {
               "phase": "Combinaison dansée",
-              "exerciseId": "ballet_sequence",
-              "amount": 1,
-              "unit": "tour"
+              "exerciseId": "ballet_eight_count_phrase",
+              "amount": 2,
+              "unit": "tours"
             },
             {
               "phase": "Combinaison dansée",
@@ -4528,9 +4605,9 @@ window.FitnessRpgData = {
             },
             {
               "phase": "Combinaison dansée",
-              "exerciseId": "ballet_sequence",
-              "amount": 1,
-              "unit": "tour"
+              "exerciseId": "ballet_eight_count_phrase",
+              "amount": 2,
+              "unit": "tours"
             },
             {
               "phase": "Combinaison dansée",
@@ -4597,9 +4674,9 @@ window.FitnessRpgData = {
             },
             {
               "phase": "Combinaison dansée",
-              "exerciseId": "ballet_sequence",
-              "amount": 1,
-              "unit": "tour"
+              "exerciseId": "ballet_eight_count_phrase",
+              "amount": 2,
+              "unit": "tours"
             },
             {
               "phase": "Combinaison dansée",
@@ -4678,9 +4755,9 @@ window.FitnessRpgData = {
             },
             {
               "phase": "Combinaison dansée",
-              "exerciseId": "ballet_sequence",
-              "amount": 1,
-              "unit": "tour"
+              "exerciseId": "ballet_eight_count_phrase",
+              "amount": 2,
+              "unit": "tours"
             },
             {
               "phase": "Combinaison dansée",
@@ -4759,9 +4836,9 @@ window.FitnessRpgData = {
         },
         {
           "phase": "Épreuve chorégraphique",
-          "exerciseId": "lateral_steps",
-          "amount": 40,
-          "unit": "sec"
+          "exerciseId": "ballet_gliding_tendu",
+          "amount": 8,
+          "unit": "répétitions"
         },
         {
           "phase": "Épreuve chorégraphique",
@@ -4806,9 +4883,9 @@ window.FitnessRpgData = {
         },
         {
           "phase": "Épreuve chorégraphique",
-          "exerciseId": "ballet_sequence",
-          "amount": 1,
-          "unit": "tour"
+          "exerciseId": "ballet_eight_count_phrase",
+          "amount": 2,
+          "unit": "tours"
         }
       ]
     },
@@ -4859,9 +4936,9 @@ window.FitnessRpgData = {
         },
         {
           "phase": "Variation finale",
-          "exerciseId": "ballet_sequence",
-          "amount": 1,
-          "unit": "tour"
+          "exerciseId": "ballet_eight_count_phrase",
+          "amount": 2,
+          "unit": "tours"
         },
         {
           "phase": "Variation finale",
