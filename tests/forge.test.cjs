@@ -164,7 +164,7 @@ test('la Forge est intermédiaire avec une progression de deux puis trois série
   for (const week of program.weeks) {
     for (const day of week.days) {
       const series = new Set(day.exercises.flatMap((exercise) =>
-        [...String(exercise.phase || '').matchAll(/Série (\\d+)/g)].map((match) => Number(match[1]))
+        [...String(exercise.phase || '').matchAll(/Série ([0-9]+)/g)].map((match) => Number(match[1]))
       ));
       assert.equal(series.size, week.week <= 2 ? 2 : 3);
     }
