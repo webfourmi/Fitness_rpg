@@ -1705,6 +1705,24 @@ window.FitnessRpgRender.renderProgramExerciseBlocksHtml = function renderProgram
   }).join("");
 };
 
+// Rappel de sécurité affiché uniquement sur les programmes de niveau avancé.
+// Ajout non destructif : aucune donnée, XP ou sauvegarde n'est modifiée.
+function getProgramSafetyNoticeHtml(program) {
+  const tier = window.FitnessRpgConfig?.getProgramTier?.(program) || program?.tier;
+  if (tier !== "advanced") return "";
+
+  return `
+    <aside class="program-safety-notice" role="note" aria-labelledby="programSafetyTitle">
+      <p class="program-safety-title" id="programSafetyTitle">⚠️ Programme avancé : sécurité d'abord</p>
+      <ul>
+        <li>Demande l'avis d'un médecin avant de commencer ou de reprendre une activité intense.</li>
+        <li>Arrête immédiatement l'exercice en cas de douleur vive, de gêne thoracique, de vertige ou d'essoufflement anormal.</li>
+        <li>Si un exercice dépasse ton niveau, choisis une version plus simple ou reviens à un programme intermédiaire ou débutant.</li>
+        <li>Respecte les temps de repos et prends une semaine allégée si la fatigue s'accumule.</li>
+      </ul>
+    </aside>`;
+}
+
 window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(programId) {
   const list = document.querySelector("#programList");
   const detail = document.querySelector("#programDetail");
@@ -1826,6 +1844,8 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
         </div>
       </div>
     </header>
+
+    ${getProgramSafetyNoticeHtml(program)}
 
     <div class="program-detail-layout">
       <main class="program-detail-main">

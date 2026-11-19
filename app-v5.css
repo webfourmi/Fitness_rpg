@@ -1983,7 +1983,7 @@ small {
 
 .training-tool-group-heading small {
   color: var(--text-muted);
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   text-align: right;
 }
 
@@ -2025,12 +2025,10 @@ small {
 
 .training-toolbar button span {
   max-width: 100%;
-  overflow: hidden;
-  font-size: 0.66rem;
+  font-size: 0.8125rem;
   font-weight: 850;
-  line-height: 1.05;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 380px) {
@@ -2369,7 +2367,7 @@ small {
 
 .program-progress-session-btn em {
   color: var(--text-muted);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   font-style: normal;
   font-weight: 850;
 }
@@ -2409,7 +2407,7 @@ small {
   border-radius: 999px;
   color: var(--text-muted);
   background: rgba(255, 255, 255, 0.08);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   font-weight: 900;
 }
 
@@ -2503,7 +2501,7 @@ small {
 
 .program-day-card li strong {
   color: var(--accent);
-  font-size: 0.78rem;
+  font-size: 0.8125rem;
 }
 
 .program-day-card li span {
@@ -2545,7 +2543,7 @@ small {
   border-radius: 999px;
   background: var(--accent-soft);
   color: var(--accent-strong);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   font-weight: 900;
 }
 
@@ -3026,7 +3024,7 @@ small {
 
   .custom-program-run-body .muted,
   .custom-program-run-tip {
-    font-size: 0.76rem;
+    font-size: 0.8125rem;
   }
 
   .custom-step-timer-actions,
@@ -3185,6 +3183,36 @@ small {
   gap: 12px;
 }
 
+/* Rappel de sécurité : programmes avancés */
+.program-safety-notice {
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--accent, #f1c968);
+  border-left-width: 4px;
+  border-radius: 12px;
+  background: rgba(241, 201, 104, 0.08);
+  color: var(--text, #f6f3ec);
+}
+
+.program-safety-notice .program-safety-title {
+  margin: 0 0 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--accent, #f1c968);
+}
+
+.program-safety-notice ul {
+  margin: 0;
+  padding-left: 1.1em;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--text-muted, #b8c0d0);
+}
+
+.program-safety-notice li + li {
+  margin-top: 4px;
+}
+
 .program-detail-hero {
   display: grid;
   grid-template-columns: 70px minmax(0, 1fr);
@@ -3258,7 +3286,7 @@ small {
 
 .program-browser-control > span {
   color: var(--text-muted);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.07em;
@@ -3343,7 +3371,7 @@ small {
   border-radius: 11px;
   background: rgba(255, 111, 111, 0.08);
   color: #ffb3b3;
-  font-size: 0.76rem;
+  font-size: 0.8125rem;
   font-weight: 850;
 }
 
@@ -3434,7 +3462,7 @@ small {
 
 .guided-live-coach-heading span {
   color: var(--text-muted);
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   font-weight: 850;
 }
 
@@ -3455,7 +3483,7 @@ small {
   padding-top: 4px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--text-muted);
-  font-size: 0.73rem;
+  font-size: 0.8125rem;
   line-height: 1.35;
 }
 
@@ -3482,13 +3510,13 @@ small {
 
 .sport-rpe-coach-response strong {
   color: var(--accent-strong);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
 }
 
 .sport-rpe-coach-response p {
   margin: 3px 0 0;
   color: var(--text);
-  font-size: 0.78rem;
+  font-size: 0.8125rem;
   line-height: 1.35;
 }
 
@@ -3515,7 +3543,7 @@ small {
   }
 
   .guided-live-coach-tip {
-    font-size: 0.69rem;
+    font-size: 0.8125rem;
   }
 }
 
@@ -3601,7 +3629,7 @@ small {
 .guided-next-line {
   margin: 0;
   color: var(--text-muted);
-  font-size: 0.76rem;
+  font-size: 0.8125rem;
   text-align: center;
 }
 
@@ -5039,7 +5067,7 @@ button .btn-icon {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.07);
   color: rgba(255, 255, 255, 0.76);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 900;
 }
 
@@ -6690,7 +6718,7 @@ audio {
 
 .workout-summary-stats small {
   color: var(--text-muted);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -6705,7 +6733,7 @@ audio {
 
 .workout-summary-stats article > small:last-child:not(:nth-child(2)) {
   color: var(--accent);
-  font-size: 0.67rem;
+  font-size: 0.75rem;
   text-transform: none;
 }
 
@@ -6796,7 +6824,7 @@ audio {
 
 .workout-summary-exercise-copy small {
   color: var(--text-muted);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
 }
 
 .workout-summary-exercise-copy strong {
@@ -6806,7 +6834,7 @@ audio {
 
 .workout-summary-exercise em {
   color: var(--accent);
-  font-size: 0.78rem;
+  font-size: 0.8125rem;
   font-style: normal;
   font-weight: 900;
   text-align: right;
@@ -9424,7 +9452,7 @@ body[data-page="hero-setup"] .app-page {
 
   .selected-program-day-meta span {
     padding: 5px 7px;
-    font-size: 0.68rem;
+    font-size: 0.75rem;
   }
 
   .selected-program-day-start {
@@ -9567,7 +9595,7 @@ body[data-page="hero-setup"] .app-page {
   }
 
   .v3-exercise-card:not(.program-session-exercise) .exercise-card-category {
-    font-size: 0.62rem;
+    font-size: 0.8125rem;
   }
 
   .v3-exercise-card:not(.program-session-exercise) .v3-exercise-title {
@@ -9853,22 +9881,22 @@ body[data-page="hero-setup"] .app-page {
   border-radius: 999px;
   background: #17120c;
   border: 1px solid rgba(240,184,79,.38);
-  font-size: .76rem;
+  font-size: 0.8125rem;
 }
 .guided-familiar-copy { min-width: 0; }
 .guided-familiar-copy small,
 .guided-familiar-copy strong,
 .guided-familiar-copy p { display: block; margin: 0; }
-.guided-familiar-copy small { color: var(--text-muted); font-size: .66rem; }
+.guided-familiar-copy small { color: var(--text-muted); font-size: 0.75rem; }
 .guided-familiar-copy strong { margin: 2px 0; color: var(--accent-strong); font-size: .88rem; }
-.guided-familiar-copy p { color: var(--text-muted); font-size: .72rem; line-height: 1.35; }
+.guided-familiar-copy p { color: var(--text-muted); font-size: 0.8125rem; line-height: 1.35; }
 .guided-familiar-level {
   align-self: start;
   padding: 4px 7px;
   border-radius: 999px;
   background: rgba(255,255,255,.06);
   color: var(--text-muted);
-  font-size: .64rem;
+  font-size: 0.8125rem;
   font-weight: 900;
 }
 
@@ -9888,7 +9916,7 @@ body[data-page="hero-setup"] .app-page {
 .workout-summary-familiar strong,
 .workout-summary-familiar small { display: block; margin: 0; }
 .workout-summary-familiar strong { margin: 2px 0; color: var(--accent-strong); }
-.workout-summary-familiar small { color: var(--text-muted); font-size: .72rem; }
+.workout-summary-familiar small { color: var(--text-muted); font-size: 0.75rem; }
 
 @media (max-width: 420px) {
   .guided-familiar-companion { grid-template-columns: 54px minmax(0, 1fr); }
