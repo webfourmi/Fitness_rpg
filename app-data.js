@@ -10168,549 +10168,427 @@ window.FitnessRpgData = {
   ]
 },
    "marche-aventurier": {
-  id: "marche-aventurier",
-  subtitle: "Programme débutant de marche progressive, avec renforcement doux des jambes, équilibre et endurance.",
-  unlockLevel: 1,
-  duration: "20 à 35 min",
-  frequency: "3 séances par semaine + boss le samedi · repos le dimanche",
-  material: "Aucun matériel. Chaussures confortables conseillées.",
-  reward: {
-    badgeId: "marcheur-royaumes-vaincu",
-    badgeTitle: "Marcheur des Royaumes",
-    chest: true,
-    nextPrograms: [
+  "id": "marche-aventurier",
+  "subtitle": "Marche très progressive pour personne très sédentaire, sans recherche de performance.",
+  "unlockLevel": 1,
+  "duration": "5 à 20 min selon la semaine (indicatif, pauses possibles)",
+  "frequency": "3 séances essentielles par semaine · 4 semaines + boss hebdomadaire",
+  "material": "Chaussures confortables. Terrain plat recommandé.",
+  "reward": {
+    "badgeId": "marcheur-royaumes-vaincu",
+    "badgeTitle": "Marcheur des Royaumes",
+    "chest": true,
+    "nextPrograms": [
       "coeur-dragon",
       "cavalier-route",
       "messager-sentiers"
     ]
   },
-
-  weeks: [
+  "weeks": [
     {
-      week: 1,
-      title: "Premiers Pas",
-      xp: 60,
-      progression: "Reprise douce. Nouvel exercice : montées sur pointes.",
-      days: [
+      "week": 1,
+      "title": "Les premiers pas",
+      "xp": 60,
+      "progression": "Marche sur terrain plat, allure confortable, pauses libres. Répéter la semaine si nécessaire.",
+      "days": [
         {
-          day: 1,
-          title: "Sentier du Village",
-          xp: 60,
-          difficultyLabel: "≈ 20 à 25 min",
-          instructions: "Échauffement 5 min, deux défis en 2 cycles, puis retour au calme.",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "slow_walk", amount: 2, unit: "min" },
-            { phase: "Échauffement", exerciseId: "ankle_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" },
-
-            { phase: "Défi 1 · Cycle 1", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 1", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
-
-            { phase: "Défi 2 · Cycle 1", exerciseId: "chair_squat", amount: 8, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 1", exerciseId: "single_leg_balance", amount: 30, unit: "sec" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "chair_squat", amount: 8, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "single_leg_balance", amount: 30, unit: "sec" },
-
-            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
-            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          "day": 1,
+          "title": "Le sentier s'ouvre",
+          "xp": 60,
+          "difficultyLabel": "≈ 5 min",
+          "instructions": "Marche douce à allure permettant de parler. Terrain plat, pauses autorisées. La durée est indicative et peut être fractionnée.",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 5,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         },
         {
-          day: 2,
-          title: "Chemin de la Rivière",
-          xp: 60,
-          difficultyLabel: "≈ 20 à 25 min",
-          instructions: "Marche active, coordination douce et stabilité.",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "slow_walk", amount: 2, unit: "min" },
-            { phase: "Échauffement", exerciseId: "ankle_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" },
-
-            { phase: "Défi 1 · Cycle 1", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 1", exerciseId: "lateral_steps", amount: 20, unit: "sec" },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "lateral_steps", amount: 20, unit: "sec" },
-
-            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
-
-            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
-            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          "day": 2,
+          "title": "Sur la route",
+          "xp": 60,
+          "difficultyLabel": "≈ 7 min",
+          "instructions": "Marche douce à allure permettant de parler. Terrain plat, pauses autorisées. La durée est indicative et peut être fractionnée.",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 7,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         },
         {
-          day: 3,
-          title: "Exploration",
-          xp: 60,
-          difficultyLabel: "≈ 20 min",
-          instructions: "Marche extérieure à rythme confortable.",
-          exercises: [
-            { phase: "Marche extérieure", exerciseId: "walk", amount: 20, unit: "min", distanceOptional: true }
+          "day": 3,
+          "title": "La halte du voyageur",
+          "xp": 60,
+          "difficultyLabel": "≈ 8 min",
+          "instructions": "Marche douce à allure permettant de parler. Terrain plat, pauses autorisées. La durée est indicative et peut être fractionnée.",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 8,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         }
       ]
     },
-
     {
-      week: 2,
-      title: "Le Voyageur",
-      xp: 70,
-      progression: "On renforce les jambes et la stabilité. Nouvel exercice : fentes arrière assistées.",
-      days: [
+      "week": 2,
+      "title": "Le pont des brumes",
+      "xp": 60,
+      "progression": "Marche sur terrain plat, allure confortable, pauses libres. Répéter la semaine si nécessaire.",
+      "days": [
         {
-          day: 1,
-          title: "Route des Fermes",
-          xp: 70,
-          difficultyLabel: "≈ 25 min",
-          instructions: "Nouvel exercice : fentes arrière assistées.",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "slow_walk", amount: 2, unit: "min" },
-            { phase: "Échauffement", exerciseId: "ankle_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" },
-
-            { phase: "Défi 1 · Cycle 1", exerciseId: "walk", amount: 4, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 12, unit: "répétitions" },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "walk", amount: 4, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 12, unit: "répétitions" },
-
-            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 1", exerciseId: "single_leg_balance", amount: 40, unit: "sec" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "single_leg_balance", amount: 40, unit: "sec" },
-
-            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
-            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          "day": 1,
+          "title": "Le sentier s'ouvre",
+          "xp": 60,
+          "difficultyLabel": "≈ 8 min",
+          "instructions": "Marche douce à allure permettant de parler. Terrain plat, pauses autorisées. La durée est indicative et peut être fractionnée.",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 8,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         },
         {
-          day: 2,
-          title: "Vieux Pont",
-          xp: 70,
-          difficultyLabel: "≈ 25 min",
-          instructions: "Marche active, pas latéraux et stabilité.",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "slow_walk", amount: 2, unit: "min" },
-            { phase: "Échauffement", exerciseId: "ankle_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" },
-
-            { phase: "Défi 1 · Cycle 1", exerciseId: "walk", amount: 4, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 1", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "walk", amount: 4, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
-
-            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 12, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 12, unit: "répétitions" },
-
-            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
-            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          "day": 2,
+          "title": "Sur la route",
+          "xp": 60,
+          "difficultyLabel": "≈ 10 min",
+          "instructions": "Marche douce à allure permettant de parler. Terrain plat, pauses autorisées. La durée est indicative et peut être fractionnée.",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 10,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         },
         {
-          day: 3,
-          title: "Exploration",
-          xp: 70,
-          difficultyLabel: "≈ 25 min",
-          instructions: "Marche extérieure à rythme confortable.",
-          exercises: [
-            { phase: "Marche extérieure", exerciseId: "walk", amount: 25, unit: "min", distanceOptional: true }
+          "day": 3,
+          "title": "La halte du voyageur",
+          "xp": 60,
+          "difficultyLabel": "≈ 12 min",
+          "instructions": "Marche douce à allure permettant de parler. Terrain plat, pauses autorisées. La durée est indicative et peut être fractionnée.",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 12,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         }
       ]
     },
-
     {
-      week: 3,
-      title: "Les Grandes Routes",
-      xp: 80,
-      progression: "On ajoute de la coordination en marchant. Nouvel exercice : toucher genou-main opposée.",
-      days: [
+      "week": 3,
+      "title": "Les collines oubliées",
+      "xp": 60,
+      "progression": "Marche sur terrain plat, allure confortable, pauses libres. Répéter la semaine si nécessaire.",
+      "days": [
         {
-          day: 1,
-          title: "Route Royale",
-          xp: 80,
-          difficultyLabel: "≈ 30 min",
-          instructions: "Coordination et jambes solides.",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "slow_walk", amount: 2, unit: "min" },
-            { phase: "Échauffement", exerciseId: "ankle_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" },
-
-            { phase: "Défi 1 · Cycle 1", exerciseId: "walk", amount: 5, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 1", exerciseId: "cross_knee_tap", amount: 30, unit: "sec" },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "walk", amount: 5, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "cross_knee_tap", amount: 30, unit: "sec" },
-
-            { phase: "Défi 2 · Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
-
-            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
-            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          "day": 1,
+          "title": "Le sentier s'ouvre",
+          "xp": 60,
+          "difficultyLabel": "≈ 12 min",
+          "instructions": "Marche douce à allure permettant de parler. Terrain plat, pauses autorisées. La durée est indicative et peut être fractionnée.",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 12,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         },
         {
-          day: 2,
-          title: "Carrefour des Marchands",
-          xp: 80,
-          difficultyLabel: "≈ 30 min",
-          instructions: "Marche active, équilibre et coordination.",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "slow_walk", amount: 2, unit: "min" },
-            { phase: "Échauffement", exerciseId: "ankle_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" },
-
-            { phase: "Défi 1 · Cycle 1", exerciseId: "walk", amount: 5, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 1", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "walk", amount: 5, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "lateral_steps", amount: 30, unit: "sec" },
-
-            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 1", exerciseId: "cross_knee_tap", amount: 30, unit: "sec" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "cross_knee_tap", amount: 30, unit: "sec" },
-
-            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
-            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          "day": 2,
+          "title": "Sur la route",
+          "xp": 60,
+          "difficultyLabel": "≈ 15 min",
+          "instructions": "Marche douce à allure permettant de parler. Terrain plat, pauses autorisées. La durée est indicative et peut être fractionnée.",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 15,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         },
         {
-          day: 3,
-          title: "Exploration",
-          xp: 80,
-          difficultyLabel: "≈ 30 min",
-          instructions: "Marche extérieure à rythme confortable.",
-          exercises: [
-            { phase: "Marche extérieure", exerciseId: "walk", amount: 30, unit: "min", distanceOptional: true }
+          "day": 3,
+          "title": "La halte du voyageur",
+          "xp": 60,
+          "difficultyLabel": "≈ 15 min",
+          "instructions": "Marche douce à allure permettant de parler. Terrain plat, pauses autorisées. La durée est indicative et peut être fractionnée.",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 15,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         }
       ]
     },
-
     {
-      week: 4,
-      title: "Aventurier Confirmé",
-      xp: 90,
-      progression: "Dernière semaine : marche plus longue et mouvement cardio doux. Nouvel exercice : talons-fesses.",
-      days: [
+      "week": 4,
+      "title": "La route de la citadelle",
+      "xp": 60,
+      "progression": "Marche sur terrain plat, allure confortable, pauses libres. Répéter la semaine si nécessaire.",
+      "days": [
         {
-          day: 1,
-          title: "Route du Nord",
-          xp: 90,
-          difficultyLabel: "≈ 30 à 35 min",
-          instructions: "Marche active et jambes renforcées.",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "slow_walk", amount: 2, unit: "min" },
-            { phase: "Échauffement", exerciseId: "ankle_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" },
-
-            { phase: "Défi 1 · Cycle 1", exerciseId: "walk", amount: 5, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 1", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "walk", amount: 5, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
-
-            { phase: "Défi 2 · Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 1", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
-
-            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
-            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          "day": 1,
+          "title": "Le sentier s'ouvre",
+          "xp": 60,
+          "difficultyLabel": "≈ 15 min",
+          "instructions": "Marche douce à allure permettant de parler. Terrain plat, pauses autorisées. La durée est indicative et peut être fractionnée.",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 15,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         },
         {
-          day: 2,
-          title: "Chemin des Collines",
-          xp: 90,
-          difficultyLabel: "≈ 30 à 35 min",
-          instructions: "Coordination, posture et souffle.",
-          exercises: [
-            { phase: "Échauffement", exerciseId: "slow_walk", amount: 2, unit: "min" },
-            { phase: "Échauffement", exerciseId: "ankle_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "hip_circles", amount: 30, unit: "sec" },
-            { phase: "Échauffement", exerciseId: "slow_knee_raises", amount: 30, unit: "sec" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" },
-
-            { phase: "Défi 1 · Cycle 1", exerciseId: "walk", amount: 5, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 1", exerciseId: "cross_knee_tap", amount: 45, unit: "sec" },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "walk", amount: 5, unit: "min", distanceOptional: true },
-            { phase: "Défi 1 · Cycle 2", exerciseId: "cross_knee_tap", amount: 45, unit: "sec" },
-
-            { phase: "Défi 2 · Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 1", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
-            { phase: "Défi 2 · Cycle 2", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
-
-            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
-            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+          "day": 2,
+          "title": "Sur la route",
+          "xp": 60,
+          "difficultyLabel": "≈ 18 min",
+          "instructions": "Marche douce à allure permettant de parler. Terrain plat, pauses autorisées. La durée est indicative et peut être fractionnée.",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 18,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         },
         {
-          day: 3,
-          title: "Grande Exploration",
-          xp: 90,
-          difficultyLabel: "≈ 40 min",
-          instructions: "Marche extérieure longue à rythme confortable.",
-          exercises: [
-            { phase: "Marche extérieure", exerciseId: "walk", amount: 40, unit: "min", distanceOptional: true }
+          "day": 3,
+          "title": "La halte du voyageur",
+          "xp": 60,
+          "difficultyLabel": "≈ 20 min",
+          "instructions": "Marche douce à allure permettant de parler. Terrain plat, pauses autorisées. La durée est indicative et peut être fractionnée.",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 20,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         }
       ]
     }
   ],
-
-  bosses: [
+  "bosses": [
     {
-      week: 1,
-      title: "Le Rat des Sentiers",
-      xp: 50,
-      badgeId: "marche-bottes-cuir",
-      difficultyLabel: "Boss semaine 1",
-      instructions: "Débloqué après les 3 séances de la semaine 1.",
-      lockedMessage: "Le Rat des Sentiers trotte encore trop vite. Termine tes 3 séances avant de le rattraper.",
-      variants: {
-        indoor: {
-          id: "indoor",
-          label: "🏠 Boss Intérieur",
-          title: "Le Rat des Sentiers",
-          mission: "Circuit intérieur en 3 cycles.",
-          difficultyLabel: "3 cycles",
-          exercises: [
-            { phase: "Cycle 1", exerciseId: "walk", amount: 2, unit: "min", distanceOptional: true },
-            { phase: "Cycle 1", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
-            { phase: "Cycle 1", exerciseId: "chair_squat", amount: 8, unit: "répétitions" },
-            { phase: "Cycle 1", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
-
-            { phase: "Cycle 2", exerciseId: "walk", amount: 2, unit: "min", distanceOptional: true },
-            { phase: "Cycle 2", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
-            { phase: "Cycle 2", exerciseId: "chair_squat", amount: 8, unit: "répétitions" },
-            { phase: "Cycle 2", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
-
-            { phase: "Cycle 3", exerciseId: "walk", amount: 2, unit: "min", distanceOptional: true },
-            { phase: "Cycle 3", exerciseId: "calf_raises", amount: 15, unit: "répétitions" },
-            { phase: "Cycle 3", exerciseId: "chair_squat", amount: 8, unit: "répétitions" },
-            { phase: "Cycle 3", exerciseId: "bird_dog", amount: 12, unit: "répétitions" }
+      "week": 1,
+      "title": "Le Rat des Sentiers",
+      "xp": 50,
+      "badgeId": "marche-bottes-cuir",
+      "difficultyLabel": "Boss semaine 1 · ≈ 8 min",
+      "instructions": "Débloqué après les trois séances essentielles de la semaine. À réaliser après récupération, sans obligation de le faire le samedi.",
+      "lockedMessage": "Valide les trois marches essentielles pour débloquer cette rencontre.",
+      "variants": {
+        "indoor": {
+          "id": "indoor",
+          "label": "🏠 Boss Intérieur",
+          "title": "Le Rat des Sentiers",
+          "mission": "Marche douce en intérieur, pauses possibles.",
+          "difficultyLabel": "≈ 8 min",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 8,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         },
-        outdoor: {
-          id: "outdoor",
-          label: "🌲 Boss Extérieur",
-          title: "Patrouille des Sentiers",
-          mission: "Marche extérieure 25 min.",
-          difficultyLabel: "≈ 25 min",
-          exercises: [
-            { phase: "Marche extérieure", exerciseId: "walk", amount: 25, unit: "min", distanceOptional: true }
+        "outdoor": {
+          "id": "outdoor",
+          "label": "🌲 Boss Extérieur",
+          "title": "Le Rat des Sentiers",
+          "mission": "Marche sur chemin plat à rythme confortable.",
+          "difficultyLabel": "≈ 8 min",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 8,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         }
       }
     },
-
     {
-      week: 2,
-      title: "Le Loup Solitaire",
-      xp: 60,
-      badgeId: "marche-cape-voyage",
-      difficultyLabel: "Boss semaine 2",
-      instructions: "Débloqué après les 3 séances de la semaine 2.",
-      lockedMessage: "Le Loup Solitaire attend un voyageur régulier. Termine tes 3 séances.",
-      variants: {
-        indoor: {
-          id: "indoor",
-          label: "🏠 Boss Intérieur",
-          title: "Le Loup Solitaire",
-          mission: "Circuit intérieur en 3 cycles.",
-          difficultyLabel: "3 cycles",
-          exercises: [
-            { phase: "Cycle 1", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
-            { phase: "Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 12, unit: "répétitions" },
-            { phase: "Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
-            { phase: "Cycle 1", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
-
-            { phase: "Cycle 2", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
-            { phase: "Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 12, unit: "répétitions" },
-            { phase: "Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
-            { phase: "Cycle 2", exerciseId: "calf_raises", amount: 20, unit: "répétitions" },
-
-            { phase: "Cycle 3", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
-            { phase: "Cycle 3", exerciseId: "assisted_reverse_lunges", amount: 12, unit: "répétitions" },
-            { phase: "Cycle 3", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
-            { phase: "Cycle 3", exerciseId: "calf_raises", amount: 20, unit: "répétitions" }
+      "week": 2,
+      "title": "Le Loup Solitaire",
+      "xp": 50,
+      "badgeId": "marche-cape-voyage",
+      "difficultyLabel": "Boss semaine 2 · ≈ 12 min",
+      "instructions": "Débloqué après les trois séances essentielles de la semaine. À réaliser après récupération, sans obligation de le faire le samedi.",
+      "lockedMessage": "Valide les trois marches essentielles pour débloquer cette rencontre.",
+      "variants": {
+        "indoor": {
+          "id": "indoor",
+          "label": "🏠 Boss Intérieur",
+          "title": "Le Loup Solitaire",
+          "mission": "Marche douce en intérieur, pauses possibles.",
+          "difficultyLabel": "≈ 12 min",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 12,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         },
-        outdoor: {
-          id: "outdoor",
-          label: "🌲 Boss Extérieur",
-          title: "Piste du Loup",
-          mission: "Marche extérieure 30 min.",
-          difficultyLabel: "≈ 30 min",
-          exercises: [
-            { phase: "Marche extérieure", exerciseId: "walk", amount: 30, unit: "min", distanceOptional: true }
+        "outdoor": {
+          "id": "outdoor",
+          "label": "🌲 Boss Extérieur",
+          "title": "Le Loup Solitaire",
+          "mission": "Marche sur chemin plat à rythme confortable.",
+          "difficultyLabel": "≈ 12 min",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 12,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         }
       }
     },
-
     {
-      week: 3,
-      title: "Le Sanglier des Fourrés",
-      xp: 70,
-      badgeId: "marche-baton-voyageur",
-      difficultyLabel: "Boss semaine 3",
-      instructions: "Débloqué après les 3 séances de la semaine 3.",
-      lockedMessage: "Le Sanglier des Fourrés charge les imprudents. Termine tes 3 séances avant de l’affronter.",
-      variants: {
-        indoor: {
-          id: "indoor",
-          label: "🏠 Boss Intérieur",
-          title: "Le Sanglier des Fourrés",
-          mission: "Circuit intérieur en 3 cycles.",
-          difficultyLabel: "3 cycles",
-          exercises: [
-            { phase: "Cycle 1", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
-            { phase: "Cycle 1", exerciseId: "cross_knee_tap", amount: 30, unit: "sec" },
-            { phase: "Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
-            { phase: "Cycle 1", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
-
-            { phase: "Cycle 2", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
-            { phase: "Cycle 2", exerciseId: "cross_knee_tap", amount: 30, unit: "sec" },
-            { phase: "Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
-            { phase: "Cycle 2", exerciseId: "bird_dog", amount: 16, unit: "répétitions" },
-
-            { phase: "Cycle 3", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
-            { phase: "Cycle 3", exerciseId: "cross_knee_tap", amount: 30, unit: "sec" },
-            { phase: "Cycle 3", exerciseId: "assisted_reverse_lunges", amount: 16, unit: "répétitions" },
-            { phase: "Cycle 3", exerciseId: "bird_dog", amount: 16, unit: "répétitions" }
+      "week": 3,
+      "title": "Le Sanglier des Fourrés",
+      "xp": 50,
+      "badgeId": "marche-baton-voyageur",
+      "difficultyLabel": "Boss semaine 3 · ≈ 15 min",
+      "instructions": "Débloqué après les trois séances essentielles de la semaine. À réaliser après récupération, sans obligation de le faire le samedi.",
+      "lockedMessage": "Valide les trois marches essentielles pour débloquer cette rencontre.",
+      "variants": {
+        "indoor": {
+          "id": "indoor",
+          "label": "🏠 Boss Intérieur",
+          "title": "Le Sanglier des Fourrés",
+          "mission": "Marche douce en intérieur, pauses possibles.",
+          "difficultyLabel": "≈ 15 min",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 15,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         },
-        outdoor: {
-          id: "outdoor",
-          label: "🌲 Boss Extérieur",
-          title: "Fourrés Sauvages",
-          mission: "Marche extérieure 35 min.",
-          difficultyLabel: "≈ 35 min",
-          exercises: [
-            { phase: "Marche extérieure", exerciseId: "walk", amount: 35, unit: "min", distanceOptional: true }
+        "outdoor": {
+          "id": "outdoor",
+          "label": "🌲 Boss Extérieur",
+          "title": "Le Sanglier des Fourrés",
+          "mission": "Marche sur chemin plat à rythme confortable.",
+          "difficultyLabel": "≈ 15 min",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 15,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         }
       }
     },
-
     {
-      week: 4,
-      title: "Le Rôdeur des Terres Sauvages",
-      xp: 100,
-      badgeId: "marcheur-royaumes-vaincu",
-      chest: true,
-      nextPrograms: [
-        "coeur-dragon",
-        "cavalier-route",
-        "messager-sentiers"
-      ],
-      difficultyLabel: "Boss final",
-      instructions: "Débloqué après les 3 séances de la semaine 4. Coffre de récompense final.",
-      lockedMessage: "Le Rôdeur des Terres Sauvages ne se montre qu’aux aventuriers préparés.",
-      variants: {
-        indoor: {
-          id: "indoor",
-          label: "🏠 Boss Intérieur",
-          title: "Le Rôdeur des Terres Sauvages",
-          mission: "Circuit final intérieur en 3 cycles.",
-          difficultyLabel: "3 cycles",
-          exercises: [
-            { phase: "Cycle 1", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
-            { phase: "Cycle 1", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
-            { phase: "Cycle 1", exerciseId: "cross_knee_tap", amount: 30, unit: "sec" },
-            { phase: "Cycle 1", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
-            { phase: "Cycle 1", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
-            { phase: "Cycle 1", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
-
-            { phase: "Cycle 2", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
-            { phase: "Cycle 2", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
-            { phase: "Cycle 2", exerciseId: "cross_knee_tap", amount: 30, unit: "sec" },
-            { phase: "Cycle 2", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
-            { phase: "Cycle 2", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
-            { phase: "Cycle 2", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
-
-            { phase: "Cycle 3", exerciseId: "walk", amount: 3, unit: "min", distanceOptional: true },
-            { phase: "Cycle 3", exerciseId: "butt_kicks", amount: 30, unit: "sec" },
-            { phase: "Cycle 3", exerciseId: "cross_knee_tap", amount: 30, unit: "sec" },
-            { phase: "Cycle 3", exerciseId: "assisted_reverse_lunges", amount: 20, unit: "répétitions" },
-            { phase: "Cycle 3", exerciseId: "bird_dog", amount: 20, unit: "répétitions" },
-            { phase: "Cycle 3", exerciseId: "calf_raises", amount: 25, unit: "répétitions" },
-
-            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
-            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
-            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 1, unit: "min" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+      "week": 4,
+      "title": "Le Rôdeur des Terres Sauvages",
+      "xp": 50,
+      "badgeId": "marcheur-royaumes-vaincu",
+      "difficultyLabel": "Boss semaine 4 · ≈ 20 min",
+      "instructions": "Débloqué après les trois séances essentielles de la semaine. À réaliser après récupération, sans obligation de le faire le samedi.",
+      "lockedMessage": "Valide les trois marches essentielles pour débloquer cette rencontre.",
+      "variants": {
+        "indoor": {
+          "id": "indoor",
+          "label": "🏠 Boss Intérieur",
+          "title": "Le Rôdeur des Terres Sauvages",
+          "mission": "Marche douce en intérieur, pauses possibles.",
+          "difficultyLabel": "≈ 20 min",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 20,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         },
-        outdoor: {
-          id: "outdoor",
-          label: "🌲 Boss Extérieur",
-          title: "Terres Sauvages",
-          mission: "Marche 45 min ou 4 km, selon ce qui est atteint en premier.",
-          difficultyLabel: "≈ 45 min ou 4 km",
-          instructions: "Valide la mission dès que tu atteins 45 minutes ou 4 km.",
-          exercises: [
-            { phase: "Marche extérieure", exerciseId: "walk", amount: 45, unit: "min", distanceOptional: true },
-            { phase: "Objectif distance", exerciseId: "walk", amount: 4, unit: "km", distanceOptional: true },
-            { phase: "Retour au calme", exerciseId: "thigh_calf_stretch", amount: 2, unit: "min" },
-            { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
-            { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 1, unit: "min" },
-            { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+        "outdoor": {
+          "id": "outdoor",
+          "label": "🌲 Boss Extérieur",
+          "title": "Le Rôdeur des Terres Sauvages",
+          "mission": "Marche sur chemin plat à rythme confortable.",
+          "difficultyLabel": "≈ 20 min",
+          "exercises": [
+            {
+              "phase": "Endurance douce",
+              "exerciseId": "walk",
+              "amount": 20,
+              "unit": "min",
+              "distanceOptional": true
+            }
           ]
         }
       }
     }
   ],
-
-  progression: [
-    "Semaine 1 : Premiers Pas · ajout des montées sur pointes.",
-    "Semaine 2 : Le Voyageur · ajout des fentes arrière assistées.",
-    "Semaine 3 : Les Grandes Routes · ajout du toucher genou-main opposée.",
-    "Semaine 4 : Aventurier Confirmé · ajout des talons-fesses.",
-    "Chaque semaine propose 2 séances de marche renforcée et 1 exploration extérieure.",
-    "Chaque samedi, le boss se débloque après validation des 3 séances de la semaine.",
-    "Récompense finale : badge Marcheur des Royaumes, coffre de récompense et +100 XP."
-  ],
-
-  notes: [
-    "Objectif : reprendre une activité physique, développer l’endurance, renforcer les jambes et créer une habitude sportive.",
-    "Programme débutant avec plus de marche que Cœur de Dragon.",
-    "Les répétitions par jambe ou par côté sont converties en répétitions totales dans l’application.",
-    "Les temps par jambe sont convertis en durée totale.",
-    "Montées sur pointes : monte sur la pointe des pieds puis redescends lentement.",
-    "Fentes arrière assistées : recule une jambe et descends légèrement en t’aidant d’un support.",
-    "Toucher genou-main opposée : monte un genou et touche-le avec la main opposée.",
-    "Talons-fesses : ramène alternativement les talons vers les fesses."
+  "progression": [
+    "Trois séances essentielles par semaine ; deux activités liées à l’objectif restent facultatives.",
+    "Le boss se débloque après les trois séances essentielles.",
+    "Les marches peuvent être fractionnées, avec pauses, et les semaines répétées sans nouvelles récompenses.",
+    "Arrêter en cas de douleur thoracique, malaise, vertiges ou essoufflement anormal."
   ]
 },
     "boss-hebdo": {
