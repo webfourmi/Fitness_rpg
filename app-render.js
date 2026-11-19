@@ -1422,8 +1422,9 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
 
   filteredPrograms.forEach((program) => {
     const selected = program.id === activeProgramId;
+    const forgeLocked = program.id === 'epreuves-forge' && !window.FitnessRpgPrograms.isForgeAccessible?.();
     const progress = window.FitnessRpgPrograms.getProgramProgressDetails(program.id);
-    const nextStatus = progress.action?.type === "resume"
+    const nextStatus = forgeLocked ? "🔒 Verrouillé" : progress.action?.type === "resume"
       ? "En cours"
       : progress.completed >= progress.total && progress.total > 0
         ? "Terminée"
@@ -1463,15 +1464,18 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
 
       ${window.FitnessRpgRender.renderProgramProgressOverviewHtml(progress, { compact: true })}
 
+      ${forgeLocked ? '<p class="program-card-coach">🔒 Termine un programme débutant et son boss final pour débloquer la Forge.</p>' : ""}
+
       <p class="program-card-coach">🧙 Coach conseillé : <strong>${program.coachAdvice || "Libre"}</strong></p>
 
       <div class="program-card-actions">
         <button
           class="primary-btn program-primary-action-btn"
           type="button"
+          ${forgeLocked ? "disabled aria-disabled=\"true\"" : ""}
           data-program-id="${program.id}"
         >
-          ${progress.action.label}
+          ${forgeLocked ? "🔒 Programme verrouillé" : progress.action.label}
         </button>
 
         <button
@@ -1485,9 +1489,10 @@ window.FitnessRpgRender.renderProgramList = function renderProgramList() {
         <button
           class="${selected ? "secondary-btn" : "ghost-btn"} choose-program-btn"
           type="button"
+          ${forgeLocked ? "disabled aria-disabled=\"true\"" : ""}
           data-program-id="${program.id}"
         >
-          ${selected ? "Sélectionné" : "Sélectionner"}
+          ${forgeLocked ? "🔒 Indisponible" : selected ? "Sélectionné" : "Sélectionner"}
         </button>
       </div>
     `;
