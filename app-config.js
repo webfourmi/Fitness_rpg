@@ -107,8 +107,9 @@ window.FitnessRpgConfig = {
       recommendedProgramId: "eveil-heros",
       programProgression: [
         "eveil-heros",
-        "tour-mage",
-        "marche-aventurier"
+        "sanctuaire-voyageur",
+        "marche-aventurier",
+        "tour-mage"
       ]
     },
     {
@@ -153,11 +154,11 @@ window.FitnessRpgConfig = {
       icon: "🧙",
       title: "Mobilité / récupération",
       rhythm: "2 à 4 séances légères",
-      recommendedProgramId: "tour-mage",
+      recommendedProgramId: "sanctuaire-voyageur",
        programProgression: [
+        "sanctuaire-voyageur",
         "tour-mage",
-        "rempart-heros",
-        "eveil-heros"
+        "marche-aventurier"
       ]
     }
   ],
@@ -282,12 +283,12 @@ window.FitnessRpgConfig = {
       id: "sanctuaire-voyageur",
       icon: "🌿",
       title: "Sanctuaire du Voyageur",
-      objective: "Détente du dos · mobilité douce · récupération",
+      objective: "Mobilité douce et récupération · reprise douce",
       level: "Débutant · Récupération",
       tier: "beginner",
       unlockLevel: 1,
-      duration: "5-10 min",
-      frequency: "Libre · 3 routines par semaine proposées",
+      duration: "5-12 min",
+      frequency: "3 routines essentielles et 2 compléments facultatifs par semaine",
       coachAdvice: "Violette, Elmin ou Satyne",
       xp: 40,
       reward: {
