@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "0.6.6.7",
+  version: "0.6.6.8",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V6.6.7",
+  displayVersion: "V6.6.8",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "6.6.7",
+  assetVersion: "6.6.8",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
@@ -302,11 +302,11 @@ window.FitnessRpgConfig = {
       id: "tour-mage",
       icon: "🧘",
       title: "Tour du Mage",
-      objective: "Pilates : centre du corps, posture, mobilité, équilibre et prévention du mal de dos",
+      objective: "Mobilité, gainage et équilibre",
       level: "Débutant à intermédiaire",
       tier: "beginner",
-      duration: "20 min",
-      frequency: "3 séances par semaine + boss hebdomadaire",
+      duration: "8 à 19 min",
+      frequency: "3 séances essentielles et 2 compléments facultatifs",
       coachAdvice: "Elmin ou Satyne",
       xp: 60
     },

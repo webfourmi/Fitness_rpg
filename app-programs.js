@@ -279,6 +279,16 @@ window.FitnessRpgPrograms.getProgramDay = function getProgramDay(programId, dayN
 
   if (!Array.isArray(days) || !days.length) return null;
 
+  const session = window.FitnessRpgState?.getActiveProgramSession?.();
+  const legacy = window.FitnessRpgPrograms.getProgramDetail(programId)?.legacyWorkouts;
+  if (legacy && session?.programId === programId && !session.workoutRevision
+      && session.type !== "program-boss"
+      && Number(session.weekNumber || 1) === Number(weekNumber)
+      && Number(session.dayNumber) === Number(dayNumber)) {
+    const day = legacy.weeks.find((week) => Number(week.week) === Number(weekNumber))
+      ?.days.find((item) => Number(item.day) === Number(dayNumber));
+    if (day) return day;
+  }
   return days.find((day) => Number(day.day) === Number(dayNumber))
     || days[0]
     || null;
@@ -302,7 +312,13 @@ window.FitnessRpgPrograms.getProgramBossVariant = function getProgramBossVariant
   weekNumber = 1,
   variantId = "indoor"
 ) {
-  const boss = window.FitnessRpgPrograms.getProgramBoss(programId, weekNumber);
+  const session = window.FitnessRpgState?.getActiveProgramSession?.();
+  const legacy = window.FitnessRpgPrograms.getProgramDetail(programId)?.legacyWorkouts;
+  const legacyBoss = session?.type === "program-boss" && session.programId === programId
+    && Number(session.weekNumber || 1) === Number(weekNumber) && !session.workoutRevision
+    ? legacy?.bosses.find((boss) => Number(boss.week) === Number(weekNumber))
+    : null;
+  const boss = legacyBoss || window.FitnessRpgPrograms.getProgramBoss(programId, weekNumber);
 
   if (!boss) return null;
 
@@ -322,6 +338,7 @@ window.FitnessRpgPrograms.getProgramBossVariant = function getProgramBossVariant
       label: "⚔️ Boss",
       title: boss.title,
       mission: boss.coachLine || boss.subtitle || "",
+      instructions: boss.optional ? boss.instructions : "",
       difficultyLabel: boss.difficultyLabel || "",
       exercises: boss.exercises
     };
@@ -332,6 +349,11 @@ window.FitnessRpgPrograms.getProgramBossVariant = function getProgramBossVariant
 
 window.FitnessRpgPrograms.getPlanningBossWeekNumber = function getPlanningBossWeekNumber(programId) {
   const weeks = window.FitnessRpgPrograms.getProgramWeeks(programId);
+  if (window.FitnessRpgPrograms.getProgramBosses(programId)[0]?.optional) {
+    const progress = window.FitnessRpgPrograms.getProgramProgressDetails(programId);
+    return progress.weeks.findLast((week) => week.boss?.unlocked && !week.boss.defeated)?.weekNumber
+      || progress.nextItem?.weekNumber || Number(weeks.at(-1)?.week || 1);
+  }
   // Le boss de la première semaine dont les trois séances sont terminées
   // mais dont le boss n'a pas encore été vaincu reste prioritaire.
   const entries = window.FitnessRpgState?.getAllEntries?.() || [];
@@ -403,7 +425,7 @@ window.FitnessRpgPrograms.getRepeatWeek = function getRepeatWeek(programId) {
 };
 
 window.FitnessRpgPrograms.startRepeatWeek = function startRepeatWeek(programId, weekNumber) {
-  const days = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, weekNumber);
+  const days = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, weekNumber).filter((day) => !day.optional);
   if (!window.FitnessRpgPrograms.getProgram(programId) || !days.length) return false;
   const completed = window.FitnessRpgPrograms.getCompletedProgramWeekDays(programId, weekNumber);
   if (!days.every((day) => completed.has(Number(day.day)))) {
@@ -443,7 +465,7 @@ window.FitnessRpgPrograms.finishRepeatDay = function finishRepeatDay(session) {
   const repeat = window.FitnessRpgPrograms.getRepeatWeek(session.programId);
   if (!repeat || Number(repeat.weekNumber) !== Number(session.weekNumber)
       || Number(repeat.nextDay) !== Number(session.dayNumber)) return false;
-  const days = window.FitnessRpgPrograms.getProgramDaysForWeek(session.programId, repeat.weekNumber);
+  const days = window.FitnessRpgPrograms.getProgramDaysForWeek(session.programId, repeat.weekNumber).filter((day) => !day.optional);
   const index = days.findIndex((item) => Number(item.day) === Number(session.dayNumber));
   const next = days[index + 1];
   if (next) repeat.nextDay = Number(next.day);
@@ -485,7 +507,7 @@ window.FitnessRpgPrograms.isProgramBossUnlocked = function isProgramBossUnlocked
   programId,
   weekNumber = 1
 ) {
-  const days = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, weekNumber);
+  const days = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, weekNumber).filter((day) => !day.optional);
   const completedDays = window.FitnessRpgPrograms.getCompletedProgramWeekDays(
     programId,
     weekNumber
@@ -763,8 +785,9 @@ window.FitnessRpgPrograms.getProgramProgressDetails = function getProgramProgres
       };
     });
 
-    const completedDays = dayDetails.filter((item) => item.completed).length;
-    const allDaysCompleted = dayDetails.length > 0 && completedDays >= dayDetails.length;
+    const essentialDays = dayDetails.filter((item) => !item.day.optional);
+    const completedDays = essentialDays.filter((item) => item.completed).length;
+    const allDaysCompleted = essentialDays.length > 0 && completedDays === essentialDays.length;
     const bossEntry = bossEntryMap.get(String(weekNumber)) || null;
     const bossActive = Boolean(
       activeForProgram
@@ -777,7 +800,7 @@ window.FitnessRpgPrograms.getProgramProgressDetails = function getProgramProgres
       week,
       days: dayDetails,
       completedDays,
-      totalDays: dayDetails.length,
+      totalDays: essentialDays.length,
       allDaysCompleted,
       boss: boss
         ? {
@@ -803,7 +826,7 @@ window.FitnessRpgPrograms.getProgramProgressDetails = function getProgramProgres
   let nextItem = null;
 
   for (const week of weekDetails) {
-    const nextDay = week.days.find((day) => !day.completed);
+    const nextDay = week.days.find((day) => !day.day.optional && !day.completed);
 
     if (nextDay) {
       nextItem = {
@@ -816,7 +839,7 @@ window.FitnessRpgPrograms.getProgramProgressDetails = function getProgramProgres
       break;
     }
 
-    if (week.boss && !week.boss.defeated) {
+    if (week.boss && !week.boss.data.optional && !week.boss.defeated) {
       nextItem = {
         type: "boss",
         programId,
@@ -857,7 +880,7 @@ window.FitnessRpgPrograms.getProgramProgressDetails = function getProgramProgres
     }
 
     const campaignWeekComplete = week.allDaysCompleted
-      && (!week.boss || week.boss.defeated);
+      && (!week.boss || week.boss.data.optional || week.boss.defeated);
     const hasActive = week.days.some((day) => day.active) || week.boss?.active;
     const hasNext = nextItem?.weekNumber === week.weekNumber;
 
@@ -875,7 +898,8 @@ window.FitnessRpgPrograms.getProgramProgressDetails = function getProgramProgres
   const bossTotal = weekDetails.filter((week) => Boolean(week.boss)).length;
   const bossesDefeated = weekDetails.filter((week) => week.boss?.defeated).length;
   const mainComplete = total > 0 && completed >= total;
-  const campaignComplete = mainComplete && bossesDefeated >= bossTotal;
+  const campaignComplete = mainComplete
+    && weekDetails.every((week) => !week.boss || week.boss.data.optional || week.boss.defeated);
   const totalXp = entries.reduce((sum, entry) => sum + Number(entry.xp || 0), 0);
   const lastEntry = entries[0] || null;
 
@@ -1692,6 +1716,7 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
   const activeProgram = window.FitnessRpgConfig?.getProgramById?.(activeProgramId);
   const objectiveProgram1Id = window.FitnessRpgPrograms.getObjectiveProgramForSlot(goalId, 0);
   const objectiveProgram2Id = window.FitnessRpgPrograms.getObjectiveProgramForSlot(goalId, 1);
+  const mage = activeProgramId === "tour-mage";
   const objectiveProgram1 = window.FitnessRpgConfig?.getProgramById?.(objectiveProgram1Id);
   const objectiveProgram2 = window.FitnessRpgConfig?.getProgramById?.(objectiveProgram2Id);
   const completedMainSessions = window.FitnessRpgPrograms.getCompletedMainSessionsThisWeek();
@@ -1702,7 +1727,7 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
   );
 
   const programBossDays = programBoss
-    ? window.FitnessRpgPrograms.getProgramDaysForWeek(activeProgramId, bossWeekNumber)
+    ? window.FitnessRpgPrograms.getProgramDaysForWeek(activeProgramId, bossWeekNumber).filter((day) => !day.optional)
     : [];
 
   const completedProgramBossDays = programBoss
@@ -1717,18 +1742,22 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
   const bossProgramId = programBoss ? activeProgramId : "boss-hebdo";
   const bossSource = programBoss ? "program-boss" : "boss";
   const bossProgress = programBoss
-    ? `${completedProgramBossDays.size}/${programBossDays.length}`
+    ? `${programBossDays.filter((day) => completedProgramBossDays.has(Number(day.day))).length}/${programBossDays.length}`
     : `${completedMainSessions}/3`;
 
   return [
     ["Lun", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
-    ["Mar", objectiveProgram1?.title || "Séance objectif", objectiveProgram1Id, "goal"],
+    mage
+      ? ["Mar", "Mobilité douce · facultatif", activeProgramId, "program-optional"]
+      : ["Mar", objectiveProgram1?.title || "Séance objectif", objectiveProgram1Id, "goal"],
     ["Mer", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
-    ["Jeu", objectiveProgram2?.title || "Séance objectif", objectiveProgram2Id, "goal"],
+    mage
+      ? ["Jeu", "Repos", null, "rest"]
+      : ["Jeu", objectiveProgram2?.title || "Séance objectif", objectiveProgram2Id, "goal"],
     ["Ven", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
     bossUnlocked
-      ? ["Sam", bossTitle, bossProgramId, bossSource, bossWeekNumber]
-      : [
+      ? ["Sam", programBoss?.optional ? bossTitle + " · facultatif" : bossTitle, bossProgramId, bossSource, bossWeekNumber]
+      : mage ? ["Sam", "Boss facultatif · après les trois séances essentielles", null, "rest"] : [
           "Sam",
           programBoss
             ? `Boss verrouillé · ${programBoss.title} · ${bossProgress} séances`
@@ -1760,11 +1789,22 @@ window.FitnessRpgPrograms.getTodayPlanningItem = function getTodayPlanningItem()
 
 window.FitnessRpgPrograms.getSuggestedDayNumberForPlanItem = function getSuggestedDayNumberForPlanItem(item) {
   if (!item?.programId) return 1;
+  if (item.source === "program-optional") return 4;
+  if (item.programId === "tour-mage") {
+    return window.FitnessRpgPrograms.getRepeatWeek(item.programId)?.nextDay
+      || window.FitnessRpgPrograms.getNextProgramSession(item.programId)?.dayNumber || 3;
+  }
   return window.FitnessRpgPrograms.getSuggestedProgramPosition(item.programId).dayNumber;
 };
 
 window.FitnessRpgPrograms.getSuggestedWeekNumberForPlanItem = function getSuggestedWeekNumberForPlanItem(item) {
   if (!item?.programId) return 1;
+  if (item.programId === "tour-mage") {
+    const next = window.FitnessRpgPrograms.getNextProgramSession(item.programId);
+    const repeat = window.FitnessRpgPrograms.getRepeatWeek(item.programId);
+    return (item.source === "program-optional" ? next?.weekNumber : repeat?.weekNumber || next?.weekNumber)
+      || window.FitnessRpgPrograms.getProgramWeeks(item.programId).at(-1)?.week || 1;
+  }
   return window.FitnessRpgPrograms.getSuggestedProgramPosition(item.programId).weekNumber;
 };
 
@@ -1806,9 +1846,9 @@ window.FitnessRpgPrograms.getTodayPlanningQuest = function getTodayPlanningQuest
       boss,
       weekNumber: item.bossWeekNumber || 1,
       dayNumber: 0,
-      title: boss?.title || "Boss de programme",
+      title: boss?.optional ? item.title : boss?.title || "Boss de programme",
       subtitle: `${item.dayLabel} · Boss semaine ${item.bossWeekNumber || 1}`,
-      description: boss?.subtitle || "Choisis une mission intérieure ou extérieure."
+      description: boss?.optional ? boss.instructions : boss?.subtitle || "Choisis une mission intérieure ou extérieure."
     };
   }
 
@@ -1843,7 +1883,7 @@ window.FitnessRpgPrograms.getTodayPlanningQuest = function getTodayPlanningQuest
     day,
     weekNumber,
     dayNumber,
-    title: program.title,
+    title: day?.optional ? item.title : program.title,
     subtitle: `Aujourd’hui · ${item.dayLabel} · Semaine ${weekNumber} · Jour ${dayNumber}`,
     description: day
       ? `${day.title} · ${day.difficultyLabel || program.duration}`
@@ -1887,6 +1927,7 @@ window.FitnessRpgPrograms.getNextProgramSession = function getNextProgramSession
     const days = Array.isArray(week.days) ? week.days : [];
 
     for (const day of days) {
+      if (day.optional) continue;
       const weekNumber = Number(week.week || 1);
       const dayNumber = Number(day.day || 1);
       const key = `${weekNumber}-${dayNumber}`;
@@ -2053,7 +2094,8 @@ window.FitnessRpgPrograms.getMissingMainSessionsThisWeek = function getMissingMa
 
     const done = programId
       ? entries.some((entry) => {
-          return entry.type === "program" && entry.programId === programId;
+          return entry.type === "program" && entry.programId === programId
+            && !window.FitnessRpgPrograms.getProgramDay(programId, entry.dayNumber, entry.weekNumber)?.optional;
         })
       : false;
 
