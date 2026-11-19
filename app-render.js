@@ -3566,6 +3566,7 @@ window.FitnessRpgRender.renderFamiliarsPage = function renderFamiliarsPage() {
           <small>Compagnon actif</small>
           <strong>${window.FitnessRpgRender.escapeHtml(activeFamiliar.name)}</strong>
           <span>Affinité ${activeInfo?.points || 0} · Niv. ${activeInfo?.level || 1} ${window.FitnessRpgRender.escapeHtml(activeInfo?.title || "Compagnon")}</span>
+          <span>Passif · +${window.FitnessRpgRewards.getFamiliarPassiveXp(activeInfo?.level)} XP</span>
         </div>
       </div>
     ` : `<p>Découvre tes compagnons au fil de l’aventure. Leur identité reste secrète jusqu’à leur déblocage.</p>`}
@@ -3665,6 +3666,9 @@ window.FitnessRpgRender.openFamiliarModal = function openFamiliarModal(familiarI
       <img src="${safeImage}" alt="${safeName}" class="familiar-detail-image" />
       <h2>${safeName}</h2>
       <p class="familiar-detail-description">${window.FitnessRpgRender.escapeHtml(description)}</p>
+
+      <p class="familiar-detail-description"><strong>Passif · +${window.FitnessRpgRewards.getFamiliarPassiveXp(info.level)} XP</strong><br>
+        Avec ce compagnon actif, le bonus s’applique à la première nouvelle séance de programme guidée validée dans la journée. Le bonus passe à +2 XP au niveau 3 et +3 XP au niveau 4.</p>
 
       <section class="familiar-affinity-card" aria-label="Progression d’Affinité">
         <div>

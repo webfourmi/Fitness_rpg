@@ -120,6 +120,7 @@ window.FitnessRpgState.createDefaultProfile = function createDefaultProfile(data
     favoriteExerciseIds: [],
     familiars: [],
     activeFamiliarId: null,
+    familiarPassiveClaims: { lastDate: null, days: {} },
     familiarAffinity: {},
     familiarAffinityHistory: [],
     levelFamiliarRewards: {},
@@ -477,7 +478,7 @@ window.FitnessRpgState.setEntriesForDate = function setEntriesForDate(dateKey, e
   window.FitnessRpgState.saveProfile();
 };
 
-window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}) {
+window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}, { familiarPassive = null } = {}) {
   if (!window.FitnessRpgState.profile) return null;
 
   const dateKey = entry.date || window.FitnessRpgState.todayKey();
@@ -514,10 +515,24 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}) 
     at: entry.at || window.FitnessRpgState.nowIso()
   };
 
-  entries.push(cleanEntry);
+  if (familiarPassive) {
+    const profile = window.FitnessRpgState.profile;
+    profile.familiarPassiveClaims = {
+      lastDate: familiarPassive.date,
+      days: { ...profile.familiarPassiveClaims?.days, [familiarPassive.dayKey]: true }
+    };
+    cleanEntry.familiarBonusXp = familiarPassive.xp;
+    cleanEntry.familiarId = familiarPassive.familiar.id;
+    cleanEntry.xp += familiarPassive.xp;
 
-  window.FitnessRpgState.setEntriesForDate(dateKey, entries);
-  window.FitnessRpgState.updateStreak(dateKey);
+    // Le premier enregistrement du profil contient ensemble la séance, le bonus et son plafond.
+    profile.completedByDate[dateKey] = [...entries, cleanEntry];
+    window.FitnessRpgState.updateStreak(dateKey, { save: false });
+  } else {
+    entries.push(cleanEntry);
+    window.FitnessRpgState.setEntriesForDate(dateKey, entries);
+    window.FitnessRpgState.updateStreak(dateKey);
+  }
 
   if (cleanEntry.xp > 0) {
     window.FitnessRpgState.addXp(cleanEntry.xp, cleanEntry.title);
@@ -607,7 +622,7 @@ window.FitnessRpgState.resetProgramProgress = function resetProgramProgress(prog
 // Série
 // ============================================================
 
-window.FitnessRpgState.updateStreak = function updateStreak(activeDateKey = null) {
+window.FitnessRpgState.updateStreak = function updateStreak(activeDateKey = null, { save = true } = {}) {
   if (!window.FitnessRpgState.profile) return;
 
   const dateKey = activeDateKey || window.FitnessRpgState.todayKey();
@@ -625,7 +640,7 @@ window.FitnessRpgState.updateStreak = function updateStreak(activeDateKey = null
   }
 
   window.FitnessRpgState.profile.lastActiveDate = dateKey;
-  window.FitnessRpgState.saveProfile();
+  if (save) window.FitnessRpgState.saveProfile();
 };
 
 // ============================================================

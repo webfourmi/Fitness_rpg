@@ -2421,6 +2421,13 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   // La révision ne modifie ni les entrées, ni l'XP, ni les badges, ni la série.
   if (window.FitnessRpgPrograms.finishRepeatDay(session)) return;
 
+  const state = window.FitnessRpgState;
+  if (session.id && state.getAllEntries().some((entry) => entry.id === session.id)) {
+    state.clearActiveProgramSession();
+    window.FitnessRpgRender?.renderAll?.();
+    return;
+  }
+
   const badgeIdsBefore = window.FitnessRpgRender?.captureBadgeIds?.() || [];
   const levelBefore = window.FitnessRpgRender?.getLevelSnapshot?.();
   const bossWasUnlocked = window.FitnessRpgPrograms.isProgramBossUnlocked(
@@ -2429,7 +2436,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   );
   const durationSeconds = window.FitnessRpgRender?.getElapsedSeconds?.(session.startedAt);
 
-  const xp = window.FitnessRpgProgress?.calculateProgramSessionXp
+  const baseXp = window.FitnessRpgProgress?.calculateProgramSessionXp
     ? window.FitnessRpgProgress.calculateProgramSessionXp(
         session.programId,
         session.dayNumber,
@@ -2450,25 +2457,44 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   const title = `${program.title} · Semaine ${weekNumber} · Jour ${dayNumber} · ${day.title}`;
   const entryDate = session.planningDateKey || window.FitnessRpgState?.todayKey?.();
 
-  window.FitnessRpgState.addTrainingEntry?.({
-    date: entryDate,
-    type: "program",
-    sportId: "program",
-    sportTitle: "Programme",
-    programId: program.id,
-    programTitle: program.title,
-    weekNumber,
-    dayNumber,
-    planningDateKey: session.planningDateKey || null,
-    planningIndex: session.planningIndex ?? null,
-    planningDayLabel: session.planningDayLabel || null,
-    planningTitle: session.planningTitle || null,
-    planningSource: session.planningSource || null,
-    title,
-    amount: 1,
-    unit: "séance",
-    xp
-  });
+  const familiarPassive = window.FitnessRpgRewards?.getGuidedSessionPassive?.(
+    session, weekNumber, dayNumber
+  ) || null;
+  const familiarBonusXp = familiarPassive?.xp || 0;
+  const xp = baseXp + familiarBonusXp;
+
+  try {
+    state.addTrainingEntry({
+      id: familiarPassive ? session.id : null,
+      date: entryDate,
+      type: "program",
+      sportId: "program",
+      sportTitle: "Programme",
+      programId: program.id,
+      programTitle: program.title,
+      weekNumber,
+      dayNumber,
+      planningDateKey: session.planningDateKey || null,
+      planningIndex: session.planningIndex ?? null,
+      planningDayLabel: session.planningDayLabel || null,
+      planningTitle: session.planningTitle || null,
+      planningSource: session.planningSource || null,
+      title,
+      amount: 1,
+      unit: "séance",
+      xp: baseXp
+    }, { familiarPassive });
+  } catch (error) {
+    console.error("Fitness RPG - séance impossible à sauvegarder :", error);
+    state.loadProfile();
+    window.FitnessRpgPrograms.showMessage({
+      icon: "⚠️",
+      title: "Sauvegarde de séance interrompue",
+      message: "La séance reste ouverte. Vérifie le stockage disponible puis réessaie.",
+      okText: "Compris"
+    });
+    return;
+  }
 
   window.FitnessRpgState.addJournalEntry?.({
     type: "program",
@@ -2505,6 +2531,12 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     icon: badge.icon || "🏅",
     text: `Badge débloqué : ${badge.title}`
   }));
+  if (familiarPassive) {
+    rewards.push({
+      icon: "🐾",
+      text: `${familiarPassive.familiar.name} · bonus passif +${familiarBonusXp} XP`
+    });
+  }
   if (familiarReward?.familiar) {
     rewards.push({
       icon: "🐾",
@@ -2538,8 +2570,8 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     subtitle: `${program.title} · Semaine ${weekNumber} · Jour ${dayNumber}`,
     durationSeconds,
     xp: xp + bonusXp,
-    baseXp: xp,
-    bonusXp,
+    baseXp,
+    bonusXp: bonusXp + familiarBonusXp,
     items: window.FitnessRpgPrograms.buildWorkoutSummaryItems(day.exercises),
     progress: {
       label: program.title,
