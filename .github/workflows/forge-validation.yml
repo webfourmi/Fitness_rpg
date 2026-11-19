@@ -1,0 +1,25 @@
+name: Tests Fitness RPG
+
+on:
+  push:
+    branches: [main, revision-forge-intermediaire-20261119]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  node-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Vérifier les fichiers JavaScript
+        run: |
+          for file in app-program-forge.js app-programs.js app-config.js; do node --check "$file"; done
+      - name: Exécuter les tests Node.js
+        run: node --test tests/*.test.cjs
