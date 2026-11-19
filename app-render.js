@@ -851,6 +851,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
 
   const isBoss = session.type === "program-boss";
   const complete = window.FitnessRpgState.isProgramSessionComplete();
+  const isRepeat = !isBoss && Boolean(window.FitnessRpgPrograms.getRepeatWeek(session.programId));
 
   const xp = isBoss
     ? Number(workout.xp || workout.boss?.xp || 50)
@@ -906,7 +907,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
   const actionsHtml = complete
     ? `
       <button id="finishProgramSessionButton" class="primary-btn guided-finish-btn" type="button">
-        Terminer · +${xp} XP
+        ${isRepeat ? "Terminer la séance de révision" : `Terminer · +${xp} XP`}
       </button>
     `
     : `
@@ -1753,11 +1754,15 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
   const selectedDayProgress = selectedWeekProgress?.days.find((item) => {
     return Number(item.dayNumber) === Number(day?.day || selection.dayNumber);
   });
+  const repeat = window.FitnessRpgPrograms.getRepeatWeek(programId);
+  const isRepeatDay = repeat?.weekNumber === selection.weekNumber && repeat.nextDay === Number(day?.day);
   const selectedDayButtonLabel = selectedDayProgress?.active
     ? "Reprendre cette séance"
-    : selectedDayProgress?.completed
-      ? "Refaire cette séance"
-      : "Démarrer cette séance";
+    : isRepeatDay
+      ? "Démarrer la séance de révision"
+      : selectedDayProgress?.completed
+        ? "Refaire cette séance"
+        : "Démarrer cette séance";
   const selectedDayButtonClass = selectedDayProgress?.completed
     ? "secondary-btn"
     : "primary-btn";
@@ -1852,6 +1857,15 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
               </div>
             </div>
           </div>
+          ${programId === "eveil-heros" ? `
+            <div class="program-repeat-week">
+              <p>🌅 Une semaine trop difficile ? Recommence-la à ton rythme, sans perdre les XP ou badges acquis.</p>
+              ${repeat
+                ? `<p>Révision en cours : semaine ${repeat.weekNumber}, séance ${repeat.nextDay}.</p>
+                   <button type="button" class="secondary-btn cancel-repeat-week-btn" data-program-id="${programId}">Arrêter la révision</button>`
+                : `<button type="button" class="secondary-btn repeat-program-week-btn" data-program-id="${programId}" data-week="${selection.weekNumber}">Recommencer cette semaine</button>`}
+            </div>
+          ` : ""}
           ${weekNote}
         </section>
 
@@ -1870,7 +1884,7 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
             <div class="selected-program-day-meta">
               <span>🧩 ${exerciseCount} exercice${exerciseCount > 1 ? "s" : ""}</span>
               <span>⏱️ ${program.duration}</span>
-              <span>✨ ${program.xp || 0} XP</span>
+              <span>${isRepeatDay ? "Sans récompense supplémentaire" : `✨ ${program.xp || 0} XP`}</span>
             </div>
 
             <div class="program-phase-block-list">${exercisesHtml}</div>

@@ -736,6 +736,21 @@ if (resetProgramButton) {
   return true;
 }
 
+  const repeatWeekButton = target.closest(".repeat-program-week-btn");
+  if (repeatWeekButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgPrograms?.startRepeatWeek?.(
+      repeatWeekButton.dataset.programId, Number(repeatWeekButton.dataset.week || 1)
+    );
+    return true;
+  }
+  const cancelRepeatButton = target.closest(".cancel-repeat-week-btn");
+  if (cancelRepeatButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgPrograms?.cancelRepeatWeek?.(cancelRepeatButton.dataset.programId);
+    return true;
+  }
+
   const startProgramDayButton = target.closest(".start-program-day-btn");
 
   if (startProgramDayButton) {
