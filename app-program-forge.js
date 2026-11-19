@@ -9,11 +9,11 @@
   "id": "epreuves-forge",
   "icon": "⚒️",
   "title": "Les Épreuves de la Forge",
-  "objective": "Musculation avec haltères et banc · initiation progressive",
-  "level": "Débutant",
-  "tier": "beginner",
-  "unlockLevel": 1,
-  "duration": "20-40 min",
+  "objective": "Renforcement musculaire et développement de la force · haltères et banc",
+  "level": "Intermédiaire",
+  "tier": "intermediate",
+  "unlockLevel": 2,
+  "duration": "30-50 min",
   "frequency": "3 séances par semaine + boss hebdomadaire · 8 semaines",
   "coachAdvice": "Xara ou Bazul",
   "xp": 55,
@@ -29,11 +29,11 @@
 };
   const program = {
   "id": "epreuves-forge",
-  "subtitle": "Initiation à la musculation avec haltères, banc et matériel facultatif, adaptée aux débutants.",
-  "unlockLevel": 1,
-  "duration": "20 à 40 min",
+  "subtitle": "Musculation intermédiaire : progression individualisée des charges, maîtrise technique et renforcement complet.",
+  "unlockLevel": 2,
+  "duration": "30 à 50 min",
   "frequency": "3 séances par semaine + boss le samedi · 8 semaines",
-  "material": "Haltères 1 ou 2 kg et banc ; barre de traction optionnelle, avec tirage assisté seulement si appui sûr. Sac à dos lestable possible après maîtrise.",
+  "material": "Haltères à charge adaptée et banc stable ; barre de traction facultative avec assistance sûre. Prévoir une charge permettant de garder 2 à 3 répétitions en réserve.",
   "reward": {
     "badgeId": "forge-maitre",
     "badgeTitle": "Maître de la Forge",
@@ -48,14 +48,14 @@
       "week": 1,
       "title": "Les Premières Braises",
       "xp": 52,
-      "progression": "Nouveauté : squat goblet. Apprends le geste, garde une charge légère et conserve des répétitions en réserve.",
+      "progression": "Nouveauté : squat goblet. Apprends le geste, garde une charge légère et conserve des répétitions en réserve. Progression : 2 séries par mouvement ; conserve 2 à 3 répétitions en réserve. Augmente légèrement la charge seulement après avoir réussi toutes les séries avec une technique stable.",
       "days": [
         {
           "day": 1,
           "title": "Fondations et appuis",
           "xp": 52,
-          "difficultyLabel": "≈ 20 à 25 min",
-          "instructions": "Séance A · 1 série des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 25 à 35 min",
+          "instructions": "Séance A · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -100,6 +100,30 @@
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 1 · Série 2",
+              "exerciseId": "forge_goblet_squat",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 2",
+              "exerciseId": "incline_pushups",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 2",
+              "exerciseId": "bridge",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 2",
+              "exerciseId": "bird_dog",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Retour au calme",
               "exerciseId": "gentle_back_stretch",
               "amount": 1,
@@ -117,8 +141,8 @@
           "day": 2,
           "title": "L'étincelle contrôlée",
           "xp": 52,
-          "difficultyLabel": "≈ 20 à 25 min",
-          "instructions": "Séance B · 1 série des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 25 à 35 min",
+          "instructions": "Séance B · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -163,6 +187,30 @@
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 2 · Série 2",
+              "exerciseId": "chair_squat",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 2",
+              "exerciseId": "incline_pushups",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 2",
+              "exerciseId": "bird_dog",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 2",
+              "exerciseId": "calf_raises",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Retour au calme",
               "exerciseId": "gentle_back_stretch",
               "amount": 1,
@@ -180,8 +228,8 @@
           "day": 3,
           "title": "Premier métal",
           "xp": 52,
-          "difficultyLabel": "≈ 20 à 25 min",
-          "instructions": "Séance C · 1 série des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 25 à 35 min",
+          "instructions": "Séance C · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -226,6 +274,30 @@
               "unit": "sec"
             },
             {
+              "phase": "Défi 3 · Série 2",
+              "exerciseId": "forge_goblet_squat",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 2",
+              "exerciseId": "bridge",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 2",
+              "exerciseId": "calf_raises",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 2",
+              "exerciseId": "core",
+              "amount": 22,
+              "unit": "sec"
+            },
+            {
               "phase": "Retour au calme",
               "exerciseId": "gentle_back_stretch",
               "amount": 1,
@@ -245,14 +317,14 @@
       "week": 2,
       "title": "Le Banc de l'Apprenti",
       "xp": 54,
-      "progression": "Nouveauté : développé couché. Apprends le geste, garde une charge légère et conserve des répétitions en réserve.",
+      "progression": "Nouveauté : développé couché. Apprends le geste, garde une charge légère et conserve des répétitions en réserve. Progression : 2 séries par mouvement ; conserve 2 à 3 répétitions en réserve. Augmente légèrement la charge seulement après avoir réussi toutes les séries avec une technique stable.",
       "days": [
         {
           "day": 1,
           "title": "La poussée précise",
           "xp": 54,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance A · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 25 à 35 min",
+          "instructions": "Séance A · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -338,8 +410,8 @@
           "day": 2,
           "title": "Force en réserve",
           "xp": 54,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance B · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 25 à 35 min",
+          "instructions": "Séance B · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -425,8 +497,8 @@
           "day": 3,
           "title": "L'établi de la Forge",
           "xp": 54,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance C · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 25 à 35 min",
+          "instructions": "Séance C · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -514,14 +586,14 @@
       "week": 3,
       "title": "Le Tirage du Veilleur",
       "xp": 56,
-      "progression": "Nouveauté : rowing sur banc. Conserve le contrôle, puis augmente seulement les répétitions ou la charge si le mouvement est facile.",
+      "progression": "Nouveauté : rowing sur banc. Conserve le contrôle, puis augmente seulement les répétitions ou la charge si le mouvement est facile. Progression : 3 séries par mouvement ; conserve 2 à 3 répétitions en réserve. Augmente légèrement la charge seulement après avoir réussi toutes les séries avec une technique stable.",
       "days": [
         {
           "day": 1,
           "title": "Dos protecteur",
           "xp": 56,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance A · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance A · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -585,6 +657,30 @@
             },
             {
               "phase": "Défi 1 · Série 2",
+              "exerciseId": "bird_dog",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_goblet_squat",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_dumbbell_bench_press",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "bridge",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
               "exerciseId": "bird_dog",
               "amount": 12,
               "unit": "répétitions"
@@ -607,8 +703,8 @@
           "day": 2,
           "title": "Équilibre des appuis",
           "xp": 56,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance B · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance B · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -677,6 +773,30 @@
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "forge_one_arm_row",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "chair_squat",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "incline_pushups",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "calf_raises",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Retour au calme",
               "exerciseId": "gentle_back_stretch",
               "amount": 1,
@@ -694,8 +814,8 @@
           "day": 3,
           "title": "La corde de la Tour",
           "xp": 56,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance C · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance C · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -759,6 +879,30 @@
             },
             {
               "phase": "Défi 3 · Série 2",
+              "exerciseId": "core",
+              "amount": 26,
+              "unit": "sec"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_goblet_squat",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_one_arm_row",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_dumbbell_bench_press",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
               "exerciseId": "core",
               "amount": 26,
               "unit": "sec"
@@ -783,14 +927,14 @@
       "week": 4,
       "title": "La Charnière d'Acier",
       "xp": 58,
-      "progression": "Nouveauté : soulevé de terre roumain. Conserve le contrôle, puis augmente seulement les répétitions ou la charge si le mouvement est facile.",
+      "progression": "Nouveauté : soulevé de terre roumain. Conserve le contrôle, puis augmente seulement les répétitions ou la charge si le mouvement est facile. Progression : 3 séries par mouvement ; conserve 2 à 3 répétitions en réserve. Augmente légèrement la charge seulement après avoir réussi toutes les séries avec une technique stable.",
       "days": [
         {
           "day": 1,
           "title": "Hanches solides",
           "xp": 58,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance A · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance A · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -854,6 +998,30 @@
             },
             {
               "phase": "Défi 1 · Série 2",
+              "exerciseId": "calf_raises",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_romanian_deadlift",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_dumbbell_bench_press",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "bird_dog",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
               "exerciseId": "calf_raises",
               "amount": 12,
               "unit": "répétitions"
@@ -876,8 +1044,8 @@
           "day": 2,
           "title": "Consolider les épaules",
           "xp": 58,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance B · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance B · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -946,6 +1114,30 @@
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "forge_one_arm_row",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "forge_goblet_squat",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "bridge",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "incline_pushups",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Retour au calme",
               "exerciseId": "gentle_back_stretch",
               "amount": 1,
@@ -963,8 +1155,8 @@
           "day": 3,
           "title": "Le chemin de l'Enclume",
           "xp": 58,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance C · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance C · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -1028,6 +1220,30 @@
             },
             {
               "phase": "Défi 3 · Série 2",
+              "exerciseId": "core",
+              "amount": 28,
+              "unit": "sec"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_romanian_deadlift",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_one_arm_row",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_dumbbell_bench_press",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
               "exerciseId": "core",
               "amount": 28,
               "unit": "sec"
@@ -1052,14 +1268,14 @@
       "week": 5,
       "title": "Porter les Métaux",
       "xp": 60,
-      "progression": "Nouveauté : marche du fermier. Conserve le contrôle, puis augmente seulement les répétitions ou la charge si le mouvement est facile.",
+      "progression": "Nouveauté : marche du fermier. Conserve le contrôle, puis augmente seulement les répétitions ou la charge si le mouvement est facile. Progression : 3 séries par mouvement ; conserve 2 à 3 répétitions en réserve. Augmente légèrement la charge seulement après avoir réussi toutes les séries avec une technique stable.",
       "days": [
         {
           "day": 1,
           "title": "Préhension et marche",
           "xp": 60,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance A · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance A · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -1123,6 +1339,30 @@
             },
             {
               "phase": "Défi 1 · Série 2",
+              "exerciseId": "calf_raises",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_goblet_squat",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_dumbbell_bench_press",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_one_arm_row",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
               "exerciseId": "calf_raises",
               "amount": 12,
               "unit": "répétitions"
@@ -1145,8 +1385,8 @@
           "day": 2,
           "title": "Soulever sans hâte",
           "xp": 60,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance B · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance B · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -1215,6 +1455,30 @@
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "forge_romanian_deadlift",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "forge_farmer_carry",
+              "amount": 20,
+              "unit": "sec"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "bird_dog",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "incline_pushups",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Retour au calme",
               "exerciseId": "gentle_back_stretch",
               "amount": 1,
@@ -1232,8 +1496,8 @@
           "day": 3,
           "title": "Le transport de la Forge",
           "xp": 60,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance C · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance C · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -1297,6 +1561,30 @@
             },
             {
               "phase": "Défi 3 · Série 2",
+              "exerciseId": "bridge",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_goblet_squat",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_farmer_carry",
+              "amount": 20,
+              "unit": "sec"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_one_arm_row",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
               "exerciseId": "bridge",
               "amount": 10,
               "unit": "répétitions"
@@ -1321,14 +1609,14 @@
       "week": 6,
       "title": "Les Épaules du Forgeron",
       "xp": 62,
-      "progression": "Nouveauté : développé épaules assis. Conserve le contrôle, puis augmente seulement les répétitions ou la charge si le mouvement est facile.",
+      "progression": "Nouveauté : développé épaules assis. Conserve le contrôle, puis augmente seulement les répétitions ou la charge si le mouvement est facile. Progression : 3 séries par mouvement ; conserve 2 à 3 répétitions en réserve. Augmente légèrement la charge seulement après avoir réussi toutes les séries avec une technique stable.",
       "days": [
         {
           "day": 1,
           "title": "Poussée stable",
           "xp": 62,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance A · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance A · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -1392,6 +1680,30 @@
             },
             {
               "phase": "Défi 1 · Série 2",
+              "exerciseId": "bird_dog",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_romanian_deadlift",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_dumbbell_bench_press",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_one_arm_row",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
               "exerciseId": "bird_dog",
               "amount": 12,
               "unit": "répétitions"
@@ -1414,8 +1726,8 @@
           "day": 2,
           "title": "Contrôle du dos",
           "xp": 62,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance B · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance B · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -1484,6 +1796,30 @@
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "forge_seated_shoulder_press",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "forge_goblet_squat",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "forge_farmer_carry",
+              "amount": 25,
+              "unit": "sec"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "calf_raises",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Retour au calme",
               "exerciseId": "gentle_back_stretch",
               "amount": 1,
@@ -1501,8 +1837,8 @@
           "day": 3,
           "title": "Haut et bas en harmonie",
           "xp": 62,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance C · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. ",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance C · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire.  Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -1566,6 +1902,30 @@
             },
             {
               "phase": "Défi 3 · Série 2",
+              "exerciseId": "forge_one_arm_row",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_romanian_deadlift",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_seated_shoulder_press",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "bridge",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
               "exerciseId": "forge_one_arm_row",
               "amount": 16,
               "unit": "répétitions"
@@ -1590,14 +1950,14 @@
       "week": 7,
       "title": "Vers le Sommet de la Tour",
       "xp": 64,
-      "progression": "Nouveauté : tirage assisté à la station. Conserve le contrôle, puis augmente seulement les répétitions ou la charge si le mouvement est facile.",
+      "progression": "Nouveauté : tirage assisté à la station. Conserve le contrôle, puis augmente seulement les répétitions ou la charge si le mouvement est facile. Progression : 3 séries par mouvement ; conserve 2 à 3 répétitions en réserve. Augmente légèrement la charge seulement après avoir réussi toutes les séries avec une technique stable.",
       "days": [
         {
           "day": 1,
           "title": "Tirage progressif",
           "xp": 64,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance A · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. Le tirage à la station peut être remplacé par un rowing si aucun appui sûr n'est disponible.",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance A · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. Le tirage à la station peut être remplacé par un rowing si aucun appui sûr n'est disponible. Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -1661,6 +2021,30 @@
             },
             {
               "phase": "Défi 1 · Série 2",
+              "exerciseId": "calf_raises",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_goblet_squat",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_dumbbell_bench_press",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_one_arm_row",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
               "exerciseId": "calf_raises",
               "amount": 12,
               "unit": "répétitions"
@@ -1683,8 +2067,8 @@
           "day": 2,
           "title": "Épaules disponibles",
           "xp": 64,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance B · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. Le tirage à la station peut être remplacé par un rowing si aucun appui sûr n'est disponible.",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance B · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. Le tirage à la station peut être remplacé par un rowing si aucun appui sûr n'est disponible. Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -1753,6 +2137,30 @@
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "forge_assisted_pullup",
+              "amount": 4,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "forge_romanian_deadlift",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "bird_dog",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "bridge",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Retour au calme",
               "exerciseId": "gentle_back_stretch",
               "amount": 1,
@@ -1770,8 +2178,8 @@
           "day": 3,
           "title": "Le pied de l'Échelle",
           "xp": 64,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance C · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. Le tirage à la station peut être remplacé par un rowing si aucun appui sûr n'est disponible.",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance C · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. Le tirage à la station peut être remplacé par un rowing si aucun appui sûr n'est disponible. Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -1835,6 +2243,30 @@
             },
             {
               "phase": "Défi 3 · Série 2",
+              "exerciseId": "chair_squat",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_farmer_carry",
+              "amount": 30,
+              "unit": "sec"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_seated_shoulder_press",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_assisted_pullup",
+              "amount": 4,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
               "exerciseId": "chair_squat",
               "amount": 10,
               "unit": "répétitions"
@@ -1859,14 +2291,14 @@
       "week": 8,
       "title": "La Grande Forge",
       "xp": 66,
-      "progression": "Nouveauté : fente arrière. Conserve le contrôle, puis augmente seulement les répétitions ou la charge si le mouvement est facile.",
+      "progression": "Nouveauté : fente arrière. Conserve le contrôle, puis augmente seulement les répétitions ou la charge si le mouvement est facile. Progression : 3 séries par mouvement ; conserve 2 à 3 répétitions en réserve. Augmente légèrement la charge seulement après avoir réussi toutes les séries avec une technique stable.",
       "days": [
         {
           "day": 1,
           "title": "Fentes maîtrisées",
           "xp": 66,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance A · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. Le tirage à la station peut être remplacé par un rowing si aucun appui sûr n'est disponible.",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance A · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. Le tirage à la station peut être remplacé par un rowing si aucun appui sûr n'est disponible. Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -1930,6 +2362,30 @@
             },
             {
               "phase": "Défi 1 · Série 2",
+              "exerciseId": "bridge",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_reverse_lunge",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_dumbbell_bench_press",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
+              "exerciseId": "forge_one_arm_row",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 1 · Série 3",
               "exerciseId": "bridge",
               "amount": 10,
               "unit": "répétitions"
@@ -1952,8 +2408,8 @@
           "day": 2,
           "title": "Ultime préparation",
           "xp": 66,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance B · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. Le tirage à la station peut être remplacé par un rowing si aucun appui sûr n'est disponible.",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance B · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. Le tirage à la station peut être remplacé par un rowing si aucun appui sûr n'est disponible. Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -2022,6 +2478,30 @@
               "unit": "répétitions"
             },
             {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "forge_assisted_pullup",
+              "amount": 4,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "forge_romanian_deadlift",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "forge_seated_shoulder_press",
+              "amount": 8,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 2 · Série 3",
+              "exerciseId": "bird_dog",
+              "amount": 12,
+              "unit": "répétitions"
+            },
+            {
               "phase": "Retour au calme",
               "exerciseId": "gentle_back_stretch",
               "amount": 1,
@@ -2039,8 +2519,8 @@
           "day": 3,
           "title": "La maîtrise tranquille",
           "xp": 66,
-          "difficultyLabel": "≈ 30 à 40 min",
-          "instructions": "Séance C · 2 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. Le tirage à la station peut être remplacé par un rowing si aucun appui sûr n'est disponible.",
+          "difficultyLabel": "≈ 35 à 50 min",
+          "instructions": "Séance C · 3 séries des mouvements proposés. Repos 60 à 90 secondes entre les séries, davantage si nécessaire. Expire pendant l'effort. Utilise la variante la plus confortable sans douleur articulaire. Le tirage à la station peut être remplacé par un rowing si aucun appui sûr n'est disponible. Garde 2 à 3 répétitions en réserve ; augmente la charge seulement lorsque toutes les séries sont maîtrisées.",
           "exercises": [
             {
               "phase": "Échauffement",
@@ -2104,6 +2584,30 @@
             },
             {
               "phase": "Défi 3 · Série 2",
+              "exerciseId": "forge_one_arm_row",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_reverse_lunge",
+              "amount": 16,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_farmer_carry",
+              "amount": 35,
+              "unit": "sec"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
+              "exerciseId": "forge_goblet_squat",
+              "amount": 10,
+              "unit": "répétitions"
+            },
+            {
+              "phase": "Défi 3 · Série 3",
               "exerciseId": "forge_one_arm_row",
               "amount": 16,
               "unit": "répétitions"
@@ -2133,7 +2637,7 @@
       "image": "assets/boss/forge-boss-semaine-01-gardien-fondations.webp",
       "xp": 55,
       "difficultyLabel": "≈ 15 min",
-      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire.",
+      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire. Charge adaptée : 2 à 3 répétitions en réserve. Le boss valide la technique et la régularité, pas une performance maximale.",
       "lockedMessage": "Termine les 3 séances de la semaine 1 pour affronter ce boss.",
       "exercises": [
         {
@@ -2193,7 +2697,7 @@
       "image": "assets/boss/forge-boss-semaine-02-gardien-fondations-revanche.webp",
       "xp": 60,
       "difficultyLabel": "≈ 20 à 30 min",
-      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire.",
+      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire. Charge adaptée : 2 à 3 répétitions en réserve. Le boss valide la technique et la régularité, pas une performance maximale.",
       "lockedMessage": "Termine les 3 séances de la semaine 2 pour affronter ce boss.",
       "exercises": [
         {
@@ -2271,7 +2775,7 @@
       "image": "assets/boss/forge-boss-semaine-03-veilleur-tour.webp",
       "xp": 65,
       "difficultyLabel": "≈ 20 à 30 min",
-      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire.",
+      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire. Charge adaptée : 2 à 3 répétitions en réserve. Le boss valide la technique et la régularité, pas une performance maximale.",
       "lockedMessage": "Termine les 3 séances de la semaine 3 pour affronter ce boss.",
       "exercises": [
         {
@@ -2349,7 +2853,7 @@
       "image": "assets/boss/forge-boss-semaine-04-veilleur-tour-revanche.webp",
       "xp": 70,
       "difficultyLabel": "≈ 20 à 30 min",
-      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire.",
+      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire. Charge adaptée : 2 à 3 répétitions en réserve. Le boss valide la technique et la régularité, pas une performance maximale.",
       "lockedMessage": "Termine les 3 séances de la semaine 4 pour affronter ce boss.",
       "exercises": [
         {
@@ -2427,7 +2931,7 @@
       "image": "assets/boss/forge-boss-semaine-05-maitre-trois-armes.webp",
       "xp": 75,
       "difficultyLabel": "≈ 20 à 30 min",
-      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire.",
+      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire. Charge adaptée : 2 à 3 répétitions en réserve. Le boss valide la technique et la régularité, pas une performance maximale.",
       "lockedMessage": "Termine les 3 séances de la semaine 5 pour affronter ce boss.",
       "exercises": [
         {
@@ -2505,7 +3009,7 @@
       "image": "assets/boss/forge-boss-semaine-06-maitre-trois-armes-revanche.webp",
       "xp": 80,
       "difficultyLabel": "≈ 20 à 30 min",
-      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire.",
+      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire. Charge adaptée : 2 à 3 répétitions en réserve. Le boss valide la technique et la régularité, pas une performance maximale.",
       "lockedMessage": "Termine les 3 séances de la semaine 6 pour affronter ce boss.",
       "exercises": [
         {
@@ -2583,7 +3087,7 @@
       "image": "assets/boss/forge-boss-semaine-07-gardienne-forge.webp",
       "xp": 85,
       "difficultyLabel": "≈ 20 à 30 min",
-      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire.",
+      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire. Charge adaptée : 2 à 3 répétitions en réserve. Le boss valide la technique et la régularité, pas une performance maximale.",
       "lockedMessage": "Termine les 3 séances de la semaine 7 pour affronter ce boss.",
       "exercises": [
         {
@@ -2663,7 +3167,7 @@
       "badgeId": "forge-maitre",
       "chest": true,
       "difficultyLabel": "≈ 20 à 30 min",
-      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire.",
+      "instructions": "Débloqué après les trois séances de la semaine. Priorité à la technique, récupère autant que nécessaire. Charge adaptée : 2 à 3 répétitions en réserve. Le boss valide la technique et la régularité, pas une performance maximale.",
       "lockedMessage": "Termine les 3 séances de la semaine 8 pour affronter ce boss.",
       "exercises": [
         {

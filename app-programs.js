@@ -44,6 +44,31 @@ window.FitnessRpgPrograms.setCoachMessage = function setCoachMessage(message) {
   if (coachMessage) coachMessage.textContent = message || "";
 };
 
+// Les Épreuves de la Forge exigent la réussite d'un programme débutant.
+// Une progression Forge préexistante conserve son accès après migration.
+window.FitnessRpgPrograms.isForgeAccessible = function isForgeAccessible() {
+  const forgeId = "epreuves-forge";
+  const state = window.FitnessRpgState;
+  const entries = state?.getAllEntries?.() || [];
+  if (entries.some((entry) => entry.programId === forgeId)
+      || state?.getActiveProgramSession?.()?.programId === forgeId
+      || state?.getActiveProgramId?.() === forgeId) return true;
+  const programs = window.FitnessRpgConfig?.programs || [];
+  return programs.some((program) => program.id !== forgeId
+    && window.FitnessRpgConfig?.getProgramTier?.(program) === "beginner"
+    && window.FitnessRpgPrograms.getProgramProgressDetails(program.id).campaignComplete);
+};
+
+window.FitnessRpgPrograms.requireForgeAccess = function requireForgeAccess(programId) {
+  if (programId !== "epreuves-forge" || window.FitnessRpgPrograms.isForgeAccessible()) return true;
+  window.FitnessRpgPrograms.showMessage({
+    icon: "🔒", title: "La Forge est verrouillée",
+    message: "Termine un programme débutant et son boss final pour accéder aux Épreuves de la Forge.",
+    okText: "Compris"
+  });
+  return false;
+};
+
 // ============================================================
 // Reprise et remplacement sécurisé d’une séance active
 // ============================================================
@@ -1093,6 +1118,8 @@ window.FitnessRpgPrograms.startProgramBossSession = function startProgramBossSes
     return;
   }
 
+  if (!window.FitnessRpgPrograms.requireForgeAccess(programId)) return;
+
   const boss = window.FitnessRpgPrograms.getProgramBoss(programId, weekNumber);
   const variant = window.FitnessRpgPrograms.getProgramBossVariant(
     programId,
@@ -1225,6 +1252,8 @@ window.FitnessRpgPrograms.describeProgramDay = function describeProgramDay(
   dayNumber,
   weekNumber = 1
 ) {
+  if (!window.FitnessRpgPrograms.requireForgeAccess(programId)) return;
+
   const program = window.FitnessRpgPrograms.getProgram(programId);
   const day = window.FitnessRpgPrograms.getProgramDay(programId, dayNumber, weekNumber);
 
@@ -1593,6 +1622,8 @@ window.FitnessRpgPrograms.chooseProgram = function chooseProgram(programId) {
     });
     return;
   }
+
+  if (!window.FitnessRpgPrograms.requireForgeAccess(programId)) return;
 
   window.FitnessRpgState.setActiveProgramId(programId);
   window.FitnessRpgPrograms.setCoachMessage(

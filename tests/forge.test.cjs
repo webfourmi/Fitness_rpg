@@ -153,3 +153,56 @@ test('les cartes de bibliothèque et de séance utilisent les WebP Forge présen
   for (const boss of program.bosses) assert.ok(existsSync(path.join(root, boss.image)));
   for (const badge of data.badges.filter((b) => b.programId === id)) assert.ok(existsSync(path.join(root, badge.image)));
 });
+
+
+test('la Forge est intermédiaire avec une progression de deux puis trois séries', () => {
+  const { window } = boot();
+  const config = window.FitnessRpgConfig.getProgramById(id);
+  const program = window.FitnessRpgData.programDetails[id];
+  assert.equal(config.tier, 'intermediate');
+  assert.equal(config.unlockLevel, 2);
+  for (const week of program.weeks) {
+    for (const day of week.days) {
+      const series = new Set(day.exercises.flatMap((exercise) =>
+        [...String(exercise.phase || '').matchAll(/Série ([0-9]+)/g)].map((match) => Number(match[1]))
+      ));
+      assert.equal(series.size, week.week <= 2 ? 2 : 3);
+    }
+  }
+});
+
+test('la Forge exige un programme débutant complet, boss inclus', () => {
+  const { window, state } = boot();
+  const programs = window.FitnessRpgPrograms;
+  state.setActiveProgramId(null);
+  assert.equal(programs.isForgeAccessible(), false);
+  const beginner = window.FitnessRpgConfig.programs.find((item) =>
+    item.id !== id && window.FitnessRpgConfig.getProgramTier(item) === 'beginner'
+      && programs.getProgramWeeks(item.id).length > 0
+  );
+  assert.ok(beginner, 'Programme débutant de référence requis');
+  for (const week of programs.getProgramWeeks(beginner.id)) {
+    for (const day of programs.getProgramDaysForWeek(beginner.id, week.week)) {
+      state.addTrainingEntry({ type: 'program', programId: beginner.id, weekNumber: week.week, dayNumber: day.day, xp: 0 });
+    }
+  }
+  const beforeBoss = programs.getProgramProgressDetails(beginner.id);
+  assert.equal(beforeBoss.campaignComplete, false);
+  assert.equal(programs.isForgeAccessible(), false);
+  for (const week of programs.getProgramWeeks(beginner.id)) {
+    if (programs.getProgramBoss(beginner.id, week.week)) {
+      state.addTrainingEntry({ type: 'program-boss', programId: beginner.id, weekNumber: week.week, xp: 0 });
+    }
+  }
+  assert.equal(programs.getProgramProgressDetails(beginner.id).campaignComplete, true);
+  assert.equal(programs.isForgeAccessible(), true);
+});
+
+test('une ancienne progression Forge conserve son accès', () => {
+  const { window, state } = boot();
+  assert.equal(window.FitnessRpgPrograms.isForgeAccessible(), true);
+  state.setActiveProgramId(null);
+  assert.equal(window.FitnessRpgPrograms.isForgeAccessible(), false);
+  state.addTrainingEntry({ type: 'program', programId: id, weekNumber: 1, dayNumber: 1, xp: 0 });
+  assert.equal(window.FitnessRpgPrograms.isForgeAccessible(), true);
+});
