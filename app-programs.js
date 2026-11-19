@@ -404,7 +404,7 @@ window.FitnessRpgPrograms.getRepeatWeek = function getRepeatWeek(programId) {
 
 window.FitnessRpgPrograms.startRepeatWeek = function startRepeatWeek(programId, weekNumber) {
   const days = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, weekNumber);
-  if (programId !== "eveil-heros" || !days.length) return false;
+  if (!window.FitnessRpgPrograms.getProgram(programId) || !days.length) return false;
   const completed = window.FitnessRpgPrograms.getCompletedProgramWeekDays(programId, weekNumber);
   if (!days.every((day) => completed.has(Number(day.day)))) {
     window.FitnessRpgPrograms.showMessage({
@@ -413,6 +413,13 @@ window.FitnessRpgPrograms.startRepeatWeek = function startRepeatWeek(programId, 
       okText: "Compris"
     });
     return false;
+  }
+  const previousRepeat = window.FitnessRpgState?.profile?.repeatWeek;
+  if (previousRepeat && previousRepeat.programId !== programId) {
+    const previousProgram = window.FitnessRpgPrograms.getProgram(previousRepeat.programId);
+    if (!window.confirm(
+      `Une révision est déjà en cours dans « ${previousProgram?.title || "un autre programme"} ». La remplacer ?`
+    )) return false;
   }
   const active = window.FitnessRpgState?.getActiveProgramSession?.();
   if (active && !window.confirm("Une séance est en cours. L'abandonner pour recommencer cette semaine ?")) return false;
