@@ -9957,3 +9957,31 @@ body[data-page="hero-setup"] .app-page {
   color: var(--text-muted);
   font-size: .68rem;
 }
+
+/* Fitness RPG V6.6.5 : boutons de séance dans le flux du document.
+   Ajouter à la FIN de app-v5.css. */
+@media (max-width: 759px) {
+  #programDetail .start-program-day-btn,
+  #programDetail .resume-program-day-btn,
+  #programDetail .resume-program-session-btn,
+  #programDetail .start-session-btn {
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    float: none !important;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 14px 0 4px;
+    z-index: auto !important;
+  }
+  #programDetail .program-day-card {
+    min-height: 0;
+  }
+  #programDetail .program-day-card li {
+    margin-bottom: 5px;
+  }
+  #programDetail .program-day-card ul {
+    margin-top: 8px;
+  }
+}
