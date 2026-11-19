@@ -20,6 +20,6 @@ jobs:
           node-version: '22'
       - name: Vérifier les fichiers JavaScript
         run: |
-          for file in app-program-forge.js app-programs.js app-config.js; do node --check "$file"; done
+          for file in app-program-forge.js app-programs.js app-config.js app-render.js; do node --check "$file"; done
       - name: Exécuter les tests Node.js
         run: node --test tests/*.test.cjs
