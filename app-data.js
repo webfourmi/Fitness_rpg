@@ -3919,8 +3919,8 @@ window.FitnessRpgData = {
             {
               "phase": "Combinaison dansée",
               "exerciseId": "slow_breathing",
-              "amount": 30,
-              "unit": "sec"
+              "amount": 1,
+              "unit": "min"
             },
             {
               "phase": "Retour au calme",
@@ -4442,8 +4442,8 @@ window.FitnessRpgData = {
             {
               "phase": "Technique",
               "exerciseId": "front_developpe_simplified",
-              "amount": 40,
-              "unit": "sec"
+              "amount": 8,
+              "unit": "répétitions"
             },
             {
               "phase": "Technique",
