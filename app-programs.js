@@ -2470,6 +2470,24 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     return;
   }
 
+  // Une séance déjà récompensée ne peut pas générer de nouveaux gains.
+  const dayAlreadyRewarded = (window.FitnessRpgState?.getAllEntries?.() || []).some((entry) =>
+    entry.type === "program"
+    && entry.programId === session.programId
+    && Number(entry.weekNumber || 1) === Number(session.weekNumber || 1)
+    && Number(entry.dayNumber) === Number(session.dayNumber)
+  );
+  if (dayAlreadyRewarded) {
+    window.FitnessRpgState.clearActiveProgramSession?.();
+    window.FitnessRpgPrograms.showMessage({
+      icon: "🛡️", title: "Séance déjà validée",
+      message: "Cette séance a déjà été récompensée. Pour la refaire sans nouveaux XP, utilise « Recommencer cette semaine ».",
+      okText: "Compris"
+    });
+    window.FitnessRpgRender?.renderAll?.();
+    return;
+  }
+
   const badgeIdsBefore = window.FitnessRpgRender?.captureBadgeIds?.() || [];
   const levelBefore = window.FitnessRpgRender?.getLevelSnapshot?.();
   const bossWasUnlocked = window.FitnessRpgPrograms.isProgramBossUnlocked(
@@ -2680,6 +2698,23 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
       message: "Impossible de terminer ce boss.",
       okText: "Compris"
     });
+    return;
+  }
+
+  // Bloquer toute seconde attribution des XP, badges et coffres d'un boss vaincu.
+  const bossAlreadyRewarded = (window.FitnessRpgState?.getAllEntries?.() || []).some((entry) =>
+    entry.type === "program-boss"
+    && entry.programId === session.programId
+    && Number(entry.weekNumber || 1) === Number(session.weekNumber || 1)
+  );
+  if (bossAlreadyRewarded) {
+    window.FitnessRpgState.clearActiveProgramSession?.();
+    window.FitnessRpgPrograms.showMessage({
+      icon: "🏅", title: "Boss déjà vaincu",
+      message: "La victoire et ses récompenses sont déjà enregistrées. Aucun nouvel XP ni coffre n'est attribué.",
+      okText: "Compris"
+    });
+    window.FitnessRpgRender?.renderAll?.();
     return;
   }
 

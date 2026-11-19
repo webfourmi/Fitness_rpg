@@ -1099,7 +1099,7 @@ summary.innerHTML = `
         </button>`
       : bossLockedToday
         ? `<button class="ghost-btn" type="button" disabled>
-            Boss verrouillé · valide les 5 séances
+            Boss verrouillé · valide les 3 séances essentielles
           </button>`
         : `<button class="ghost-btn" type="button" disabled>
             Jour de repos
