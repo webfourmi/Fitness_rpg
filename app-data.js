@@ -1091,8 +1091,8 @@ window.FitnessRpgData = {
   "categoryId": "mobility",
   "title": "Position préparatoire des bras",
   "images": {
-    "male": "assets/exercices/exercice_homme_brasenseconde.webp",
-    "female": "assets/exercices/femme_default.webp"
+    "male": "assets/exercices/exercice_ballet_preparatory_arms.webp",
+    "female": "assets/exercices/exercice_ballet_preparatory_arms.webp"
   },
   "unit": "sec",
   "defaultValue": 30,
@@ -1111,8 +1111,8 @@ window.FitnessRpgData = {
   "categoryId": "mobility",
   "title": "Dégagé glissé au sol (tendu préparatoire)",
   "images": {
-    "male": "assets/exercices/exercice_homme_pasducygne.webp",
-    "female": "assets/exercices/femme_default.webp"
+    "male": "assets/exercices/exercice_ballet_gliding_tendu.webp",
+    "female": "assets/exercices/exercice_ballet_gliding_tendu.webp"
   },
   "unit": "répétitions",
   "defaultValue": 8,
@@ -1130,8 +1130,8 @@ window.FitnessRpgData = {
   "categoryId": "mobility",
   "title": "Transfert de poids du danseur",
   "images": {
-    "male": "assets/exercices/exercice_homme_pasducygne.webp",
-    "female": "assets/exercices/femme_default.webp"
+    "male": "assets/exercices/exercice_ballet_weight_transfer.webp",
+    "female": "assets/exercices/exercice_ballet_weight_transfer.webp"
   },
   "unit": "répétitions",
   "defaultValue": 8,
@@ -1149,8 +1149,8 @@ window.FitnessRpgData = {
   "categoryId": "cardio",
   "title": "Phrase dansée sur huit temps",
   "images": {
-    "male": "assets/exercices/exercice_homme_ballet_sequence.webp",
-    "female": "assets/exercices/exercice_femme_ballet_sequence.webp"
+    "male": "assets/exercices/exercice_ballet_eight_count_phrase.webp",
+    "female": "assets/exercices/exercice_ballet_eight_count_phrase.webp"
   },
   "unit": "tours",
   "defaultValue": 2,
