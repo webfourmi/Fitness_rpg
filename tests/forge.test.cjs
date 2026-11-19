@@ -174,6 +174,7 @@ test('la Forge est intermédiaire avec une progression de deux puis trois série
 test('la Forge exige un programme débutant complet, boss inclus', () => {
   const { window, state } = boot();
   const programs = window.FitnessRpgPrograms;
+  state.setActiveProgramId(null);
   assert.equal(programs.isForgeAccessible(), false);
   const beginner = window.FitnessRpgConfig.programs.find((item) =>
     item.id !== id && window.FitnessRpgConfig.getProgramTier(item) === 'beginner'
@@ -199,6 +200,8 @@ test('la Forge exige un programme débutant complet, boss inclus', () => {
 
 test('une ancienne progression Forge conserve son accès', () => {
   const { window, state } = boot();
+  assert.equal(window.FitnessRpgPrograms.isForgeAccessible(), true);
+  state.setActiveProgramId(null);
   assert.equal(window.FitnessRpgPrograms.isForgeAccessible(), false);
   state.addTrainingEntry({ type: 'program', programId: id, weekNumber: 1, dayNumber: 1, xp: 0 });
   assert.equal(window.FitnessRpgPrograms.isForgeAccessible(), true);
