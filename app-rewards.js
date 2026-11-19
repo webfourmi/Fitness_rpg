@@ -329,6 +329,25 @@ window.FitnessRpgRewards.getFamiliarLevelInfo = function getFamiliarLevelInfo(fa
   };
 };
 
+window.FitnessRpgRewards.getFamiliarPassiveXp = function getFamiliarPassiveXp(level) {
+  return [1, 1, 2, 3][level - 1] || 0;
+};
+
+window.FitnessRpgRewards.getGuidedSessionPassive = function getGuidedSessionPassive(session, week, day) {
+  const state = window.FitnessRpgState;
+  const date = state.todayKey();
+  const dayKey = JSON.stringify([session.programId, week, day]);
+  const claims = state.profile?.familiarPassiveClaims;
+  if (claims?.lastDate >= date || claims?.days?.[dayKey]) return null;
+  if (window.FitnessRpgPrograms.getCompletedProgramWeekDays(session.programId, week).has(day)) return null;
+
+  const familiar = window.FitnessRpgRewards.getActiveFamiliar();
+  if (!familiar) return null;
+
+  const { level } = window.FitnessRpgRewards.getFamiliarLevelInfo(familiar.id);
+  return { familiar, date, dayKey, xp: window.FitnessRpgRewards.getFamiliarPassiveXp(level) };
+};
+
 window.FitnessRpgRewards.getFamiliarDescription = function getFamiliarDescription(familiar) {
   if (!familiar) return "Compagnon de route du héros.";
 
