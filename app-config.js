@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "6.6.13",
+  version: "6.6.14",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V6.6.13",
+  displayVersion: "V6.6.14",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "6.6.13",
+  assetVersion: "6.6.14",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
@@ -274,8 +274,8 @@ window.FitnessRpgConfig = {
       objective: "Bras, épaules, posture et tonus du haut du corps",
       level: "Débutant à intermédiaire",
       tier: "intermediate",
-      duration: "15-25 min",
-      frequency: "3 fois par semaine",
+      duration: "6 à 12 min",
+      frequency: "3 séances essentielles + 2 compléments facultatifs par semaine",
       coachAdvice: "Xara, Bazul ou Korvan",
       xp: 35
     },

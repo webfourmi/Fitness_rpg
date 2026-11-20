@@ -1,10 +1,16 @@
-# Fitness RPG — V6.6.13
+# Fitness RPG — V6.6.14
 
 Fitness RPG est une application web mobile-first qui transforme l'entraînement sportif en aventure RPG.
 
 La série V6.1 a principalement consolidé l'expérience mobile, les séances guidées, les écrans secondaires, les images d'exercices et la stabilité générale de l'application.
 
 ## Version actuelle
+
+**V6.6.14 — Bras du héros**
+
+- Quatre semaines qui introduisent progressivement les charges légères à partir de la troisième semaine.
+- Trois séances essentielles et deux compléments facultatifs par semaine.
+- Reprise des séances ouvertes avant la mise à jour.
 
 **V6.6.13 — Rempart du Héros**
 
