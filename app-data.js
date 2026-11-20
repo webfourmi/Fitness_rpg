@@ -8674,101 +8674,87 @@ window.FitnessRpgData = {
             "xp": 50,
             "badgeId": "roues-destin",
             "difficultyLabel": "Boss semaine 1",
-            "instructions": "Débloqué après les 3 séances essentielles de la semaine. Le boss peut être reporté pour récupérer.",
+            "instructions": "Débloqué après les 3 séances de la semaine 1.",
             "lockedMessage": "Le Gobelin des Pavés attend que tes roues soient prêtes. Termine les 3 séances de la semaine.",
             "variants": {
               "indoor": {
                 "id": "indoor",
                 "label": "🏠 Boss Intérieur",
                 "title": "Gobelin des Pavés",
-                "mission": "Deux circuits de renforcement maîtrisé, récupération de 60 à 90 secondes entre les cycles.",
-                "difficultyLabel": "≈ 20-30 min · 2 cycles",
+                "mission": "Affronte le pavé sans quitter le fort.",
+                "difficultyLabel": "2 cycles",
                 "exercises": [
                   {
-                    "phase": "Échauffement",
-                    "exerciseId": "march_on_spot",
-                    "amount": 2,
-                    "unit": "min",
-                    "cue": "Marche en place avant le circuit."
-                  },
-                  {
-                    "phase": "Défi 1 · Cycle 1",
+                    "phase": "Cycle 1",
                     "exerciseId": "chair_squat",
-                    "amount": 8,
+                    "amount": 10,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 1 · Cycle 1",
+                    "phase": "Cycle 1",
                     "exerciseId": "cyclist_half_squat",
-                    "amount": 8,
+                    "amount": 10,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 1 · Cycle 1",
+                    "phase": "Cycle 1",
                     "exerciseId": "bird_dog",
-                    "amount": 8,
+                    "amount": 12,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 1",
+                    "phase": "Cycle 1",
                     "exerciseId": "bridge",
                     "amount": 10,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 1",
+                    "phase": "Cycle 1",
                     "exerciseId": "calf_raises",
-                    "amount": 12,
+                    "amount": 15,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 1",
+                    "phase": "Cycle 1",
                     "exerciseId": "core",
                     "amount": 15,
                     "unit": "sec"
                   },
                   {
-                    "phase": "Défi 1 · Cycle 2",
+                    "phase": "Cycle 2",
                     "exerciseId": "chair_squat",
-                    "amount": 8,
+                    "amount": 10,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 1 · Cycle 2",
+                    "phase": "Cycle 2",
                     "exerciseId": "cyclist_half_squat",
-                    "amount": 8,
+                    "amount": 10,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 1 · Cycle 2",
+                    "phase": "Cycle 2",
                     "exerciseId": "bird_dog",
-                    "amount": 8,
+                    "amount": 12,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 2",
+                    "phase": "Cycle 2",
                     "exerciseId": "bridge",
                     "amount": 10,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 2",
+                    "phase": "Cycle 2",
                     "exerciseId": "calf_raises",
-                    "amount": 12,
+                    "amount": 15,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 2",
+                    "phase": "Cycle 2",
                     "exerciseId": "core",
                     "amount": 15,
                     "unit": "sec"
-                  },
-                  {
-                    "phase": "Retour au calme",
-                    "exerciseId": "thigh_calf_stretch",
-                    "amount": 2,
-                    "unit": "min",
-                    "cue": "Étire doucement les jambes."
                   }
                 ]
               },
@@ -8776,35 +8762,17 @@ window.FitnessRpgData = {
                 "id": "outdoor",
                 "label": "🌲 Boss Extérieur",
                 "title": "Sortie contre le Gobelin",
-                "mission": "Sortie de 30 min à intensité confortable, sans vitesse imposée.",
-                "difficultyLabel": "≈ 30 min",
+                "mission": "Roule 25 minutes à rythme facile.",
+                "difficultyLabel": "≈ 25 min",
                 "exercises": [
                   {
-                    "phase": "Départ facile",
+                    "phase": "Sortie vélo",
                     "exerciseId": "bike",
-                    "amount": 5,
+                    "amount": 25,
                     "unit": "min",
-                    "cue": "Départ progressif.",
-                    "distanceOptional": true
-                  },
-                  {
-                    "phase": "Parcours confortable",
-                    "exerciseId": "bike",
-                    "amount": 20,
-                    "unit": "min",
-                    "cue": "Allure de conversation; terrain adapté.",
-                    "distanceOptional": true
-                  },
-                  {
-                    "phase": "Retour au calme",
-                    "exerciseId": "bike",
-                    "amount": 5,
-                    "unit": "min",
-                    "cue": "Fin progressive.",
                     "distanceOptional": true
                   }
-                ],
-                "instructions": "Programme le défi après une récupération suffisante, plutôt qu'au lendemain d'une longue sortie."
+                ]
               }
             }
           },
@@ -8814,101 +8782,87 @@ window.FitnessRpgData = {
             "xp": 60,
             "badgeId": "grimpeur-novice",
             "difficultyLabel": "Boss semaine 2",
-            "instructions": "Débloqué après les 3 séances essentielles de la semaine. Le boss peut être reporté pour récupérer.",
+            "instructions": "Débloqué après les 3 séances de la semaine 2.",
             "lockedMessage": "L’Orque de la Côte garde la montée. Termine les 3 séances de la semaine avant de le défier.",
             "variants": {
               "indoor": {
                 "id": "indoor",
                 "label": "🏠 Boss Intérieur",
                 "title": "Côte en salle",
-                "mission": "Deux circuits de renforcement maîtrisé, récupération de 60 à 90 secondes entre les cycles.",
-                "difficultyLabel": "≈ 20-30 min · 2 cycles",
+                "mission": "Tous les exercices appris, 2 cycles.",
+                "difficultyLabel": "2 cycles",
                 "exercises": [
                   {
-                    "phase": "Échauffement",
-                    "exerciseId": "march_on_spot",
-                    "amount": 2,
-                    "unit": "min",
-                    "cue": "Marche en place avant le circuit."
-                  },
-                  {
-                    "phase": "Défi 1 · Cycle 1",
+                    "phase": "Cycle 1",
                     "exerciseId": "squats",
-                    "amount": 10,
+                    "amount": 12,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 1 · Cycle 1",
-                    "exerciseId": "assisted_reverse_lunges",
-                    "amount": 8,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 1 · Cycle 1",
+                    "phase": "Cycle 1",
                     "exerciseId": "cyclist_half_squat",
-                    "amount": 10,
+                    "amount": 12,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 1",
+                    "phase": "Cycle 1",
+                    "exerciseId": "assisted_reverse_lunges",
+                    "amount": 16,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 1",
                     "exerciseId": "bridge",
                     "amount": 12,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 1",
+                    "phase": "Cycle 1",
                     "exerciseId": "calf_raises",
-                    "amount": 15,
+                    "amount": 20,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 1",
+                    "phase": "Cycle 1",
                     "exerciseId": "core",
                     "amount": 20,
                     "unit": "sec"
                   },
                   {
-                    "phase": "Défi 1 · Cycle 2",
+                    "phase": "Cycle 2",
                     "exerciseId": "squats",
-                    "amount": 10,
+                    "amount": 12,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 1 · Cycle 2",
-                    "exerciseId": "assisted_reverse_lunges",
-                    "amount": 8,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 1 · Cycle 2",
+                    "phase": "Cycle 2",
                     "exerciseId": "cyclist_half_squat",
-                    "amount": 10,
+                    "amount": 12,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 2",
+                    "phase": "Cycle 2",
+                    "exerciseId": "assisted_reverse_lunges",
+                    "amount": 16,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 2",
                     "exerciseId": "bridge",
                     "amount": 12,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 2",
+                    "phase": "Cycle 2",
                     "exerciseId": "calf_raises",
-                    "amount": 15,
+                    "amount": 20,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 2",
+                    "phase": "Cycle 2",
                     "exerciseId": "core",
                     "amount": 20,
                     "unit": "sec"
-                  },
-                  {
-                    "phase": "Retour au calme",
-                    "exerciseId": "thigh_calf_stretch",
-                    "amount": 2,
-                    "unit": "min",
-                    "cue": "Étire doucement les jambes."
                   }
                 ]
               },
@@ -8916,35 +8870,17 @@ window.FitnessRpgData = {
                 "id": "outdoor",
                 "label": "🌲 Boss Extérieur",
                 "title": "Côte extérieure",
-                "mission": "Sortie de 40 min à intensité confortable, sans vitesse imposée.",
-                "difficultyLabel": "≈ 40 min",
+                "mission": "Vélo 35 minutes.",
+                "difficultyLabel": "≈ 35 min",
                 "exercises": [
                   {
-                    "phase": "Départ facile",
+                    "phase": "Sortie vélo",
                     "exerciseId": "bike",
-                    "amount": 5,
+                    "amount": 35,
                     "unit": "min",
-                    "cue": "Départ progressif.",
-                    "distanceOptional": true
-                  },
-                  {
-                    "phase": "Parcours confortable",
-                    "exerciseId": "bike",
-                    "amount": 30,
-                    "unit": "min",
-                    "cue": "Allure de conversation; terrain adapté.",
-                    "distanceOptional": true
-                  },
-                  {
-                    "phase": "Retour au calme",
-                    "exerciseId": "bike",
-                    "amount": 5,
-                    "unit": "min",
-                    "cue": "Fin progressive.",
                     "distanceOptional": true
                   }
-                ],
-                "instructions": "Programme le défi après une récupération suffisante, plutôt qu'au lendemain d'une longue sortie."
+                ]
               }
             }
           },
@@ -8954,101 +8890,87 @@ window.FitnessRpgData = {
             "xp": 70,
             "badgeId": "maitre-collines",
             "difficultyLabel": "Boss semaine 3",
-            "instructions": "Débloqué après les 3 séances essentielles de la semaine. Le boss peut être reporté pour récupérer.",
+            "instructions": "Débloqué après les 3 séances de la semaine 3.",
             "lockedMessage": "Le Troll du Col Noir ne laisse passer que les cyclistes réguliers.",
             "variants": {
               "indoor": {
                 "id": "indoor",
                 "label": "🏠 Boss Intérieur",
                 "title": "Col Noir en salle",
-                "mission": "Deux circuits de renforcement maîtrisé, récupération de 60 à 90 secondes entre les cycles.",
-                "difficultyLabel": "≈ 20-30 min · 2 cycles",
+                "mission": "Tous les exercices appris, 2 cycles.",
+                "difficultyLabel": "2 cycles",
                 "exercises": [
                   {
-                    "phase": "Échauffement",
-                    "exerciseId": "march_on_spot",
-                    "amount": 2,
-                    "unit": "min",
-                    "cue": "Marche en place avant le circuit."
-                  },
-                  {
-                    "phase": "Défi 1 · Cycle 1",
+                    "phase": "Cycle 1",
                     "exerciseId": "squats",
-                    "amount": 12,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 1 · Cycle 1",
-                    "exerciseId": "assisted_reverse_lunges",
-                    "amount": 10,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 1 · Cycle 1",
-                    "exerciseId": "cyclist_half_squat",
-                    "amount": 10,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 2 · Cycle 1",
-                    "exerciseId": "single_leg_bridge_alternate",
-                    "amount": 12,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 2 · Cycle 1",
-                    "exerciseId": "slow_calf_raises",
                     "amount": 15,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 1",
-                    "exerciseId": "core",
-                    "amount": 20,
-                    "unit": "sec"
-                  },
-                  {
-                    "phase": "Défi 1 · Cycle 2",
-                    "exerciseId": "squats",
-                    "amount": 12,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 1 · Cycle 2",
+                    "phase": "Cycle 1",
                     "exerciseId": "assisted_reverse_lunges",
-                    "amount": 10,
+                    "amount": 20,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 1 · Cycle 2",
+                    "phase": "Cycle 1",
                     "exerciseId": "cyclist_half_squat",
-                    "amount": 10,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 2 · Cycle 2",
-                    "exerciseId": "single_leg_bridge_alternate",
-                    "amount": 12,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 2 · Cycle 2",
-                    "exerciseId": "slow_calf_raises",
                     "amount": 15,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 2",
-                    "exerciseId": "core",
+                    "phase": "Cycle 1",
+                    "exerciseId": "single_leg_bridge_alternate",
+                    "amount": 16,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 1",
+                    "exerciseId": "slow_calf_raises",
                     "amount": 20,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 1",
+                    "exerciseId": "core",
+                    "amount": 25,
                     "unit": "sec"
                   },
                   {
-                    "phase": "Retour au calme",
-                    "exerciseId": "thigh_calf_stretch",
-                    "amount": 2,
-                    "unit": "min",
-                    "cue": "Étire doucement les jambes."
+                    "phase": "Cycle 2",
+                    "exerciseId": "squats",
+                    "amount": 15,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 2",
+                    "exerciseId": "assisted_reverse_lunges",
+                    "amount": 20,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 2",
+                    "exerciseId": "cyclist_half_squat",
+                    "amount": 15,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 2",
+                    "exerciseId": "single_leg_bridge_alternate",
+                    "amount": 16,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 2",
+                    "exerciseId": "slow_calf_raises",
+                    "amount": 20,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 2",
+                    "exerciseId": "core",
+                    "amount": 25,
+                    "unit": "sec"
                   }
                 ]
               },
@@ -9056,35 +8978,24 @@ window.FitnessRpgData = {
                 "id": "outdoor",
                 "label": "🌲 Boss Extérieur",
                 "title": "Col Noir extérieur",
-                "mission": "Sortie de 50 min à intensité confortable, sans vitesse imposée.",
+                "mission": "Vélo 50 minutes avec 5 accélérations de 30 secondes.",
                 "difficultyLabel": "≈ 50 min",
                 "exercises": [
                   {
-                    "phase": "Départ facile",
+                    "phase": "Sortie vélo",
                     "exerciseId": "bike",
-                    "amount": 5,
+                    "amount": 50,
                     "unit": "min",
-                    "cue": "Départ progressif.",
                     "distanceOptional": true
                   },
                   {
-                    "phase": "Parcours confortable",
+                    "phase": "Accélérations",
                     "exerciseId": "bike",
-                    "amount": 40,
+                    "amount": 3,
                     "unit": "min",
-                    "cue": "Allure de conversation; terrain adapté.",
-                    "distanceOptional": true
-                  },
-                  {
-                    "phase": "Retour au calme",
-                    "exerciseId": "bike",
-                    "amount": 5,
-                    "unit": "min",
-                    "cue": "Fin progressive.",
                     "distanceOptional": true
                   }
-                ],
-                "instructions": "Programme le défi après une récupération suffisante, plutôt qu'au lendemain d'une longue sortie."
+                ]
               }
             }
           },
@@ -9101,101 +9012,87 @@ window.FitnessRpgData = {
               "champion-arenes"
             ],
             "difficultyLabel": "Boss final",
-            "instructions": "Débloqué après les 3 séances essentielles de la semaine. Le boss peut être reporté pour récupérer.",
+            "instructions": "Débloqué après les 3 séances de la semaine 4.",
             "lockedMessage": "Le Cavalier Noir attend au bout de la route. Termine d’abord ta préparation.",
             "variants": {
               "indoor": {
                 "id": "indoor",
                 "label": "🏠 Boss Intérieur",
                 "title": "Duel contre le Cavalier Noir",
-                "mission": "Deux circuits de renforcement maîtrisé, récupération de 60 à 90 secondes entre les cycles.",
-                "difficultyLabel": "≈ 20-30 min · 2 cycles",
+                "mission": "Tous les exercices du programme. 2 cycles complets.",
+                "difficultyLabel": "2 cycles complets",
                 "exercises": [
                   {
-                    "phase": "Échauffement",
-                    "exerciseId": "march_on_spot",
-                    "amount": 2,
-                    "unit": "min",
-                    "cue": "Marche en place avant le circuit."
-                  },
-                  {
-                    "phase": "Défi 1 · Cycle 1",
+                    "phase": "Cycle 1",
                     "exerciseId": "squats",
-                    "amount": 12,
+                    "amount": 20,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 1 · Cycle 1",
+                    "phase": "Cycle 1",
                     "exerciseId": "wall_sit",
-                    "amount": 20,
+                    "amount": 30,
                     "unit": "sec"
                   },
                   {
-                    "phase": "Défi 1 · Cycle 1",
-                    "exerciseId": "reverse_lunges",
-                    "amount": 10,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 2 · Cycle 1",
-                    "exerciseId": "bridge",
-                    "amount": 12,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 2 · Cycle 1",
-                    "exerciseId": "calf_raises",
-                    "amount": 15,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 2 · Cycle 1",
-                    "exerciseId": "bird_dog",
-                    "amount": 10,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 1 · Cycle 2",
-                    "exerciseId": "squats",
-                    "amount": 12,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 1 · Cycle 2",
-                    "exerciseId": "wall_sit",
+                    "phase": "Cycle 1",
+                    "exerciseId": "cyclist_half_squat",
                     "amount": 20,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 1",
+                    "exerciseId": "reverse_lunges",
+                    "amount": 20,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 1",
+                    "exerciseId": "single_leg_bridge_alternate",
+                    "amount": 20,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 1",
+                    "exerciseId": "calf_raises",
+                    "amount": 25,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 2",
+                    "exerciseId": "squats",
+                    "amount": 20,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 2",
+                    "exerciseId": "wall_sit",
+                    "amount": 30,
                     "unit": "sec"
                   },
                   {
-                    "phase": "Défi 1 · Cycle 2",
+                    "phase": "Cycle 2",
+                    "exerciseId": "cyclist_half_squat",
+                    "amount": 20,
+                    "unit": "répétitions"
+                  },
+                  {
+                    "phase": "Cycle 2",
                     "exerciseId": "reverse_lunges",
-                    "amount": 10,
+                    "amount": 20,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 2",
-                    "exerciseId": "bridge",
-                    "amount": 12,
+                    "phase": "Cycle 2",
+                    "exerciseId": "single_leg_bridge_alternate",
+                    "amount": 20,
                     "unit": "répétitions"
                   },
                   {
-                    "phase": "Défi 2 · Cycle 2",
+                    "phase": "Cycle 2",
                     "exerciseId": "calf_raises",
-                    "amount": 15,
+                    "amount": 25,
                     "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Défi 2 · Cycle 2",
-                    "exerciseId": "bird_dog",
-                    "amount": 10,
-                    "unit": "répétitions"
-                  },
-                  {
-                    "phase": "Retour au calme",
-                    "exerciseId": "thigh_calf_stretch",
-                    "amount": 2,
-                    "unit": "min",
-                    "cue": "Étire doucement les jambes."
                   }
                 ]
               },
@@ -9203,32 +9100,15 @@ window.FitnessRpgData = {
                 "id": "outdoor",
                 "label": "🌲 Boss Extérieur",
                 "title": "Grande chevauchée",
-                "mission": "Grande expédition : 60 min faciles. Tu peux prolonger à 75 min si tu as récupéré et te sens bien; seule l'heure est obligatoire.",
-                "difficultyLabel": "≈ 60 min",
-                "instructions": "Programme le défi après une récupération suffisante, plutôt qu'au lendemain d'une longue sortie.",
+                "mission": "Vélo 75 minutes ou 15 km selon ce qui est atteint en premier.",
+                "difficultyLabel": "≈ 75 min ou 15 km",
+                "instructions": "Valide la mission dès que tu atteins 75 minutes ou 15 km.",
                 "exercises": [
                   {
-                    "phase": "Départ facile",
+                    "phase": "Grande sortie vélo",
                     "exerciseId": "bike",
-                    "amount": 5,
+                    "amount": 75,
                     "unit": "min",
-                    "cue": "Départ progressif.",
-                    "distanceOptional": true
-                  },
-                  {
-                    "phase": "Parcours confortable",
-                    "exerciseId": "bike",
-                    "amount": 50,
-                    "unit": "min",
-                    "cue": "Allure de conversation; terrain adapté.",
-                    "distanceOptional": true
-                  },
-                  {
-                    "phase": "Retour au calme",
-                    "exerciseId": "bike",
-                    "amount": 5,
-                    "unit": "min",
-                    "cue": "Fin progressive.",
                     "distanceOptional": true
                   }
                 ]
