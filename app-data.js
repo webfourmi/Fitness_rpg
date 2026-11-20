@@ -15825,3 +15825,2152 @@ window.FitnessRpgData.checkIntegrity = async function checkIntegrity(options = {
 
   return report;
 };
+
+// ============================================================
+// Optimisation Forge du guerrier - revision 2 (20/11/2026)
+// Les anciennes séances et leurs récompenses ne sont pas modifiées.
+// Aucun asset graphique n'est créé ou remplacé.
+// ============================================================
+{
+  const data = window.FitnessRpgData;
+  const previous = data.programDetails["forge-guerrier"];
+  if (previous && !data.exercises.some((exercise) => exercise.id === "supported_row_water_bottle")) {
+    data.exercises.push({
+  "id": "supported_row_water_bottle",
+  "categoryId": "strength",
+  "title": "Rowing unilatéral avec bouteille",
+  "images": {
+    "male": "assets/exercices/homme_default.png",
+    "female": "assets/exercices/femme_default.png"
+  },
+  "description": "Tirage du dos avec une bouteille d’eau légère, buste soutenu et dos neutre. Répartis le total entre les deux bras.",
+  "unit": "répétitions",
+  "defaultValue": 12,
+  "min": 2,
+  "step": 2,
+  "xpPerUnit": 0.8,
+  "stat": "Dos / omoplates",
+  "pose": "core"
+});
+  }
+  if (previous && Number(previous.workoutRevision || 0) < 2) {
+    const improved = {
+  "workoutRevision": 2,
+  "subtitle": "Force générale progressive : jambes, dos, poitrine, épaules et stabilité.",
+  "duration": "20 à 35 min (récupérations comprises)",
+  "frequency": "3 séances essentielles + 2 compléments facultatifs par semaine · boss après les 3 essentielles",
+  "material": "Chaise stable, tapis et petite bouteille d’eau (ou haltère léger).",
+  "weeks": [
+    {
+      "week": 1,
+      "title": "L’Apprenti Forgeron",
+      "xp": 60,
+      "progression": "Apprendre les gestes : deux séries courtes, amplitude confortable et appuis stables.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Les fondations de fer",
+          "xp": 60,
+          "difficultyLabel": "≈ 20 à 30 min, pauses comprises",
+          "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+          "exercises": [
+            {
+              "exerciseId": "march_on_spot",
+              "amount": 2,
+              "unit": "min",
+              "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "arm_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Petits cercles progressifs, épaules détendues.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "hip_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Mouvements lents, pieds bien ancrés.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "slow_knee_raises",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Alterne les jambes avec un support si nécessaire.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "chair_squat",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Descends seulement aussi bas que tu peux maintenir tes genoux alignés.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "calf_raises",
+              "amount": 12,
+              "unit": "répétitions",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Pousse par les talons sans cambrer le dos.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "knee_plank",
+              "amount": 15,
+              "unit": "sec",
+              "cue": "Garde le bassin stable, respire.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Récupération libre, sans te presser."
+            },
+            {
+              "exerciseId": "chair_squat",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Descends seulement aussi bas que tu peux maintenir tes genoux alignés.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "calf_raises",
+              "amount": 12,
+              "unit": "répétitions",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Pousse par les talons sans cambrer le dos.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "knee_plank",
+              "amount": 15,
+              "unit": "sec",
+              "cue": "Garde le bassin stable, respire.",
+              "phase": "Récupération"
+            },
+            {
+              "exerciseId": "slow_walk",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Marche lentement, laisse le souffle revenir.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "gentle_back_stretch",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Respiration naturelle, sans apnée.",
+              "phase": "Retour au calme"
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Le marteau du guerrier",
+          "xp": 60,
+          "difficultyLabel": "≈ 20 à 30 min, pauses comprises",
+          "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+          "exercises": [
+            {
+              "exerciseId": "march_on_spot",
+              "amount": 2,
+              "unit": "min",
+              "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "arm_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Petits cercles progressifs, épaules détendues.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "hip_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Mouvements lents, pieds bien ancrés.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "slow_knee_raises",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Alterne les jambes avec un support si nécessaire.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "wall_pushups",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Support fixé et stable. Garde les épaules abaissées.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "shoulder_press_1kg",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Petite charge ou bouteilles légères. Si douleur à l’épaule, garde une amplitude réduite.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "dead_bug_simplified",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Alterne droite/gauche et maintiens le bas du dos confortable.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Récupération libre, sans te presser."
+            },
+            {
+              "exerciseId": "wall_pushups",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Support fixé et stable. Garde les épaules abaissées.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "shoulder_press_1kg",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Petite charge ou bouteilles légères. Si douleur à l’épaule, garde une amplitude réduite.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "dead_bug_simplified",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Alterne droite/gauche et maintiens le bas du dos confortable.",
+              "phase": "Récupération"
+            },
+            {
+              "exerciseId": "slow_walk",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Marche lentement, laisse le souffle revenir.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "gentle_back_stretch",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Respiration naturelle, sans apnée.",
+              "phase": "Retour au calme"
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "L’armure du héros",
+          "xp": 60,
+          "difficultyLabel": "≈ 20 à 30 min, pauses comprises",
+          "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+          "exercises": [
+            {
+              "exerciseId": "march_on_spot",
+              "amount": 2,
+              "unit": "min",
+              "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "arm_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Petits cercles progressifs, épaules détendues.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "hip_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Mouvements lents, pieds bien ancrés.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "slow_knee_raises",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Alterne les jambes avec un support si nécessaire.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "chair_squat",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Contrôle la descente, évite de rebondir.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "wall_pushups",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Variante murale autorisée à tout moment.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Pieds stables, bassin contrôlé.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "knee_plank",
+              "amount": 15,
+              "unit": "sec",
+              "cue": "Respire régulièrement.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Récupération libre, sans te presser."
+            },
+            {
+              "exerciseId": "chair_squat",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Contrôle la descente, évite de rebondir.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "wall_pushups",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Variante murale autorisée à tout moment.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Pieds stables, bassin contrôlé.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "knee_plank",
+              "amount": 15,
+              "unit": "sec",
+              "cue": "Respire régulièrement.",
+              "phase": "Récupération"
+            },
+            {
+              "exerciseId": "slow_walk",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Marche lentement, laisse le souffle revenir.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "gentle_back_stretch",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Respiration naturelle, sans apnée.",
+              "phase": "Retour au calme"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "title": "Le Compagnon",
+      "xp": 70,
+      "progression": "Ajouter une à deux répétitions si la technique reste propre et introduire les fentes assistées.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Les fondations de fer",
+          "xp": 70,
+          "difficultyLabel": "≈ 20 à 30 min, pauses comprises",
+          "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+          "exercises": [
+            {
+              "exerciseId": "march_on_spot",
+              "amount": 2,
+              "unit": "min",
+              "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "arm_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Petits cercles progressifs, épaules détendues.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "hip_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Mouvements lents, pieds bien ancrés.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "slow_knee_raises",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Alterne les jambes avec un support si nécessaire.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "chair_squat",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Descends seulement aussi bas que tu peux maintenir tes genoux alignés.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "assisted_reverse_lunges",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "6 à 8 répétitions par jambe, aide-toi d’un support fixe.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Pousse par les talons sans cambrer le dos.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "knee_plank",
+              "amount": 20,
+              "unit": "sec",
+              "cue": "Garde le bassin stable, respire.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Récupération libre, sans te presser."
+            },
+            {
+              "exerciseId": "chair_squat",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Descends seulement aussi bas que tu peux maintenir tes genoux alignés.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "assisted_reverse_lunges",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "6 à 8 répétitions par jambe, aide-toi d’un support fixe.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Pousse par les talons sans cambrer le dos.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "knee_plank",
+              "amount": 20,
+              "unit": "sec",
+              "cue": "Garde le bassin stable, respire.",
+              "phase": "Récupération"
+            },
+            {
+              "exerciseId": "slow_walk",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Marche lentement, laisse le souffle revenir.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "gentle_back_stretch",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Respiration naturelle, sans apnée.",
+              "phase": "Retour au calme"
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Le marteau du guerrier",
+          "xp": 70,
+          "difficultyLabel": "≈ 20 à 30 min, pauses comprises",
+          "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+          "exercises": [
+            {
+              "exerciseId": "march_on_spot",
+              "amount": 2,
+              "unit": "min",
+              "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "arm_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Petits cercles progressifs, épaules détendues.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "hip_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Mouvements lents, pieds bien ancrés.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "slow_knee_raises",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Alterne les jambes avec un support si nécessaire.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "incline_pushups",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Support fixé et stable. Garde les épaules abaissées.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 14,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "shoulder_press_1kg",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Petite charge ou bouteilles légères. Si douleur à l’épaule, garde une amplitude réduite.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "dead_bug",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Alterne droite/gauche et maintiens le bas du dos confortable.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Récupération libre, sans te presser."
+            },
+            {
+              "exerciseId": "incline_pushups",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Support fixé et stable. Garde les épaules abaissées.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 14,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "shoulder_press_1kg",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Petite charge ou bouteilles légères. Si douleur à l’épaule, garde une amplitude réduite.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "dead_bug",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Alterne droite/gauche et maintiens le bas du dos confortable.",
+              "phase": "Récupération"
+            },
+            {
+              "exerciseId": "slow_walk",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Marche lentement, laisse le souffle revenir.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "gentle_back_stretch",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Respiration naturelle, sans apnée.",
+              "phase": "Retour au calme"
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "L’armure du héros",
+          "xp": 70,
+          "difficultyLabel": "≈ 20 à 30 min, pauses comprises",
+          "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+          "exercises": [
+            {
+              "exerciseId": "march_on_spot",
+              "amount": 2,
+              "unit": "min",
+              "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "arm_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Petits cercles progressifs, épaules détendues.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "hip_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Mouvements lents, pieds bien ancrés.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "slow_knee_raises",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Alterne les jambes avec un support si nécessaire.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "chair_squat",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Contrôle la descente, évite de rebondir.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "incline_pushups",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Variante murale autorisée à tout moment.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 14,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Pieds stables, bassin contrôlé.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "knee_plank",
+              "amount": 20,
+              "unit": "sec",
+              "cue": "Respire régulièrement.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Récupération libre, sans te presser."
+            },
+            {
+              "exerciseId": "chair_squat",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Contrôle la descente, évite de rebondir.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "incline_pushups",
+              "amount": 8,
+              "unit": "répétitions",
+              "cue": "Variante murale autorisée à tout moment.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 14,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Pieds stables, bassin contrôlé.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "knee_plank",
+              "amount": 20,
+              "unit": "sec",
+              "cue": "Respire régulièrement.",
+              "phase": "Récupération"
+            },
+            {
+              "exerciseId": "slow_walk",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Marche lentement, laisse le souffle revenir.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "gentle_back_stretch",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Respiration naturelle, sans apnée.",
+              "phase": "Retour au calme"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "title": "Le Maître Artisan",
+      "xp": 80,
+      "progression": "Élargir progressivement l’amplitude ou ajouter une courte série ciblée, sans aller à l’échec.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Les fondations de fer",
+          "xp": 80,
+          "difficultyLabel": "≈ 25 à 35 min, pauses comprises",
+          "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+          "exercises": [
+            {
+              "exerciseId": "march_on_spot",
+              "amount": 2,
+              "unit": "min",
+              "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "arm_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Petits cercles progressifs, épaules détendues.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "hip_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Mouvements lents, pieds bien ancrés.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "slow_knee_raises",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Alterne les jambes avec un support si nécessaire.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "squats",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Descends seulement aussi bas que tu peux maintenir tes genoux alignés.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "assisted_reverse_lunges",
+              "amount": 14,
+              "unit": "répétitions",
+              "cue": "6 à 8 répétitions par jambe, aide-toi d’un support fixe.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Pousse par les talons sans cambrer le dos.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "core",
+              "amount": 20,
+              "unit": "sec",
+              "cue": "Variantes sur genoux possibles.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Récupération libre, sans te presser."
+            },
+            {
+              "exerciseId": "squats",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Descends seulement aussi bas que tu peux maintenir tes genoux alignés.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "assisted_reverse_lunges",
+              "amount": 14,
+              "unit": "répétitions",
+              "cue": "6 à 8 répétitions par jambe, aide-toi d’un support fixe.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Pousse par les talons sans cambrer le dos.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "core",
+              "amount": 20,
+              "unit": "sec",
+              "cue": "Variantes sur genoux possibles.",
+              "phase": "Récupération"
+            },
+            {
+              "exerciseId": "squats",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Descends seulement aussi bas que tu peux maintenir tes genoux alignés. Série ciblée facultativement allégée, jamais à l’échec.",
+              "phase": "Défi 2 · Cycle 3"
+            },
+            {
+              "exerciseId": "slow_walk",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Marche lentement, laisse le souffle revenir.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "gentle_back_stretch",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Respiration naturelle, sans apnée.",
+              "phase": "Retour au calme"
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Le marteau du guerrier",
+          "xp": 80,
+          "difficultyLabel": "≈ 25 à 35 min, pauses comprises",
+          "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+          "exercises": [
+            {
+              "exerciseId": "march_on_spot",
+              "amount": 2,
+              "unit": "min",
+              "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "arm_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Petits cercles progressifs, épaules détendues.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "hip_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Mouvements lents, pieds bien ancrés.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "slow_knee_raises",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Alterne les jambes avec un support si nécessaire.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "incline_pushups",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Support fixé et stable. Garde les épaules abaissées.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 16,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "shoulder_press_1kg",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Petite charge ou bouteilles légères. Si douleur à l’épaule, garde une amplitude réduite.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "dead_bug",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Alterne droite/gauche et maintiens le bas du dos confortable.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Récupération libre, sans te presser."
+            },
+            {
+              "exerciseId": "incline_pushups",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Support fixé et stable. Garde les épaules abaissées.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 16,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "shoulder_press_1kg",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Petite charge ou bouteilles légères. Si douleur à l’épaule, garde une amplitude réduite.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "dead_bug",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Alterne droite/gauche et maintiens le bas du dos confortable.",
+              "phase": "Récupération"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 16,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras. Série ciblée facultativement allégée, jamais à l’échec.",
+              "phase": "Défi 2 · Cycle 3"
+            },
+            {
+              "exerciseId": "slow_walk",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Marche lentement, laisse le souffle revenir.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "gentle_back_stretch",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Respiration naturelle, sans apnée.",
+              "phase": "Retour au calme"
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "L’armure du héros",
+          "xp": 80,
+          "difficultyLabel": "≈ 25 à 35 min, pauses comprises",
+          "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+          "exercises": [
+            {
+              "exerciseId": "march_on_spot",
+              "amount": 2,
+              "unit": "min",
+              "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "arm_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Petits cercles progressifs, épaules détendues.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "hip_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Mouvements lents, pieds bien ancrés.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "slow_knee_raises",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Alterne les jambes avec un support si nécessaire.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "squats",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Contrôle la descente, évite de rebondir.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "incline_pushups",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Variante murale autorisée à tout moment.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 16,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Pieds stables, bassin contrôlé.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "side_plank_knees",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "15 secondes de chaque côté, sans basculer l’épaule.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Récupération libre, sans te presser."
+            },
+            {
+              "exerciseId": "squats",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Contrôle la descente, évite de rebondir.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "incline_pushups",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Variante murale autorisée à tout moment.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 16,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Pieds stables, bassin contrôlé.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "side_plank_knees",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "15 secondes de chaque côté, sans basculer l’épaule.",
+              "phase": "Récupération"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 16,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras. Série ciblée facultativement allégée, jamais à l’échec.",
+              "phase": "Défi 2 · Cycle 3"
+            },
+            {
+              "exerciseId": "slow_walk",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Marche lentement, laisse le souffle revenir.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "gentle_back_stretch",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Respiration naturelle, sans apnée.",
+              "phase": "Retour au calme"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "title": "Le Guerrier Forgé",
+      "xp": 90,
+      "progression": "Consolider et comparer les sensations à la première semaine, sans imposer une intensité maximale.",
+      "days": [
+        {
+          "day": 1,
+          "title": "Les fondations de fer",
+          "xp": 90,
+          "difficultyLabel": "≈ 25 à 35 min, pauses comprises",
+          "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+          "exercises": [
+            {
+              "exerciseId": "march_on_spot",
+              "amount": 2,
+              "unit": "min",
+              "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "arm_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Petits cercles progressifs, épaules détendues.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "hip_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Mouvements lents, pieds bien ancrés.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "slow_knee_raises",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Alterne les jambes avec un support si nécessaire.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "squats",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Descends seulement aussi bas que tu peux maintenir tes genoux alignés.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "assisted_reverse_lunges",
+              "amount": 16,
+              "unit": "répétitions",
+              "cue": "6 à 8 répétitions par jambe, aide-toi d’un support fixe.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 14,
+              "unit": "répétitions",
+              "cue": "Pousse par les talons sans cambrer le dos.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "core",
+              "amount": 25,
+              "unit": "sec",
+              "cue": "Variantes sur genoux possibles.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Récupération libre, sans te presser."
+            },
+            {
+              "exerciseId": "squats",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Descends seulement aussi bas que tu peux maintenir tes genoux alignés.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "assisted_reverse_lunges",
+              "amount": 16,
+              "unit": "répétitions",
+              "cue": "6 à 8 répétitions par jambe, aide-toi d’un support fixe.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 14,
+              "unit": "répétitions",
+              "cue": "Pousse par les talons sans cambrer le dos.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "core",
+              "amount": 25,
+              "unit": "sec",
+              "cue": "Variantes sur genoux possibles.",
+              "phase": "Récupération"
+            },
+            {
+              "exerciseId": "squats",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Descends seulement aussi bas que tu peux maintenir tes genoux alignés. Série ciblée facultativement allégée, jamais à l’échec.",
+              "phase": "Défi 2 · Cycle 3"
+            },
+            {
+              "exerciseId": "slow_walk",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Marche lentement, laisse le souffle revenir.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "gentle_back_stretch",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Respiration naturelle, sans apnée.",
+              "phase": "Retour au calme"
+            }
+          ]
+        },
+        {
+          "day": 2,
+          "title": "Le marteau du guerrier",
+          "xp": 90,
+          "difficultyLabel": "≈ 25 à 35 min, pauses comprises",
+          "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+          "exercises": [
+            {
+              "exerciseId": "march_on_spot",
+              "amount": 2,
+              "unit": "min",
+              "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "arm_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Petits cercles progressifs, épaules détendues.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "hip_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Mouvements lents, pieds bien ancrés.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "slow_knee_raises",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Alterne les jambes avec un support si nécessaire.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "incline_pushups",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Support fixé et stable. Garde les épaules abaissées.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 16,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "shoulder_press_1kg",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Petite charge ou bouteilles légères. Si douleur à l’épaule, garde une amplitude réduite.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "dead_bug",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Alterne droite/gauche et maintiens le bas du dos confortable.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Récupération libre, sans te presser."
+            },
+            {
+              "exerciseId": "incline_pushups",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Support fixé et stable. Garde les épaules abaissées.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 16,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "shoulder_press_1kg",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Petite charge ou bouteilles légères. Si douleur à l’épaule, garde une amplitude réduite.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "dead_bug",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Alterne droite/gauche et maintiens le bas du dos confortable.",
+              "phase": "Récupération"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 16,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras. Série ciblée facultativement allégée, jamais à l’échec.",
+              "phase": "Défi 2 · Cycle 3"
+            },
+            {
+              "exerciseId": "slow_walk",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Marche lentement, laisse le souffle revenir.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "gentle_back_stretch",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Respiration naturelle, sans apnée.",
+              "phase": "Retour au calme"
+            }
+          ]
+        },
+        {
+          "day": 3,
+          "title": "L’armure du héros",
+          "xp": 90,
+          "difficultyLabel": "≈ 25 à 35 min, pauses comprises",
+          "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+          "exercises": [
+            {
+              "exerciseId": "march_on_spot",
+              "amount": 2,
+              "unit": "min",
+              "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "arm_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Petits cercles progressifs, épaules détendues.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "hip_circles",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "Mouvements lents, pieds bien ancrés.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "slow_knee_raises",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Alterne les jambes avec un support si nécessaire.",
+              "phase": "Échauffement"
+            },
+            {
+              "exerciseId": "squats",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Contrôle la descente, évite de rebondir.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "incline_pushups",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Variante murale autorisée à tout moment.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 16,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 14,
+              "unit": "répétitions",
+              "cue": "Pieds stables, bassin contrôlé.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "side_plank_knees",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "15 secondes de chaque côté, sans basculer l’épaule.",
+              "phase": "Défi 1 · Cycle 1"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 60,
+              "unit": "sec",
+              "cue": "Récupération libre, sans te presser."
+            },
+            {
+              "exerciseId": "squats",
+              "amount": 12,
+              "unit": "répétitions",
+              "cue": "Contrôle la descente, évite de rebondir.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "incline_pushups",
+              "amount": 10,
+              "unit": "répétitions",
+              "cue": "Variante murale autorisée à tout moment.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 16,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "bridge",
+              "amount": 14,
+              "unit": "répétitions",
+              "cue": "Pieds stables, bassin contrôlé.",
+              "phase": "Défi 1 · Cycle 2"
+            },
+            {
+              "exerciseId": "side_plank_knees",
+              "amount": 30,
+              "unit": "sec",
+              "cue": "15 secondes de chaque côté, sans basculer l’épaule.",
+              "phase": "Récupération"
+            },
+            {
+              "exerciseId": "supported_row_water_bottle",
+              "amount": 16,
+              "unit": "répétitions",
+              "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras. Série ciblée facultativement allégée, jamais à l’échec.",
+              "phase": "Défi 2 · Cycle 3"
+            },
+            {
+              "exerciseId": "slow_walk",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Marche lentement, laisse le souffle revenir.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "gentle_back_stretch",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+              "phase": "Retour au calme"
+            },
+            {
+              "exerciseId": "slow_breathing",
+              "amount": 1,
+              "unit": "min",
+              "cue": "Respiration naturelle, sans apnée.",
+              "phase": "Retour au calme"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "bosses": [
+    {
+      "week": 1,
+      "xp": 50,
+      "difficultyLabel": "Boss semaine 1 · 2 cycles",
+      "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+      "lockedMessage": "Le boss se débloque après les trois séances essentielles de cette semaine.",
+      "exercises": [
+        {
+          "exerciseId": "march_on_spot",
+          "amount": 2,
+          "unit": "min",
+          "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "arm_circles",
+          "amount": 30,
+          "unit": "sec",
+          "cue": "Petits cercles progressifs, épaules détendues.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "hip_circles",
+          "amount": 30,
+          "unit": "sec",
+          "cue": "Mouvements lents, pieds bien ancrés.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "slow_knee_raises",
+          "amount": 60,
+          "unit": "sec",
+          "cue": "Alterne les jambes avec un support si nécessaire.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "chair_squat",
+          "amount": 8,
+          "unit": "répétitions",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "wall_pushups",
+          "amount": 8,
+          "unit": "répétitions",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "supported_row_water_bottle",
+          "amount": 12,
+          "unit": "répétitions",
+          "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "bridge",
+          "amount": 10,
+          "unit": "répétitions",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "knee_plank",
+          "amount": 15,
+          "unit": "sec",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "chair_squat",
+          "amount": 8,
+          "unit": "répétitions",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "wall_pushups",
+          "amount": 8,
+          "unit": "répétitions",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "supported_row_water_bottle",
+          "amount": 12,
+          "unit": "répétitions",
+          "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "bridge",
+          "amount": 10,
+          "unit": "répétitions",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "knee_plank",
+          "amount": 15,
+          "unit": "sec",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "slow_walk",
+          "amount": 1,
+          "unit": "min",
+          "cue": "Marche lentement, laisse le souffle revenir.",
+          "phase": "Retour au calme"
+        },
+        {
+          "exerciseId": "gentle_back_stretch",
+          "amount": 1,
+          "unit": "min",
+          "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+          "phase": "Retour au calme"
+        },
+        {
+          "exerciseId": "slow_breathing",
+          "amount": 1,
+          "unit": "min",
+          "cue": "Respiration naturelle, sans apnée.",
+          "phase": "Retour au calme"
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "xp": 60,
+      "difficultyLabel": "Boss semaine 2 · 2 cycles",
+      "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+      "lockedMessage": "Le boss se débloque après les trois séances essentielles de cette semaine.",
+      "exercises": [
+        {
+          "exerciseId": "march_on_spot",
+          "amount": 2,
+          "unit": "min",
+          "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "arm_circles",
+          "amount": 30,
+          "unit": "sec",
+          "cue": "Petits cercles progressifs, épaules détendues.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "hip_circles",
+          "amount": 30,
+          "unit": "sec",
+          "cue": "Mouvements lents, pieds bien ancrés.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "slow_knee_raises",
+          "amount": 60,
+          "unit": "sec",
+          "cue": "Alterne les jambes avec un support si nécessaire.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "chair_squat",
+          "amount": 10,
+          "unit": "répétitions",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "incline_pushups",
+          "amount": 8,
+          "unit": "répétitions",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "supported_row_water_bottle",
+          "amount": 14,
+          "unit": "répétitions",
+          "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "bridge",
+          "amount": 12,
+          "unit": "répétitions",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "knee_plank",
+          "amount": 20,
+          "unit": "sec",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "chair_squat",
+          "amount": 10,
+          "unit": "répétitions",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "incline_pushups",
+          "amount": 8,
+          "unit": "répétitions",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "supported_row_water_bottle",
+          "amount": 14,
+          "unit": "répétitions",
+          "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "bridge",
+          "amount": 12,
+          "unit": "répétitions",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "knee_plank",
+          "amount": 20,
+          "unit": "sec",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "slow_walk",
+          "amount": 1,
+          "unit": "min",
+          "cue": "Marche lentement, laisse le souffle revenir.",
+          "phase": "Retour au calme"
+        },
+        {
+          "exerciseId": "gentle_back_stretch",
+          "amount": 1,
+          "unit": "min",
+          "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+          "phase": "Retour au calme"
+        },
+        {
+          "exerciseId": "slow_breathing",
+          "amount": 1,
+          "unit": "min",
+          "cue": "Respiration naturelle, sans apnée.",
+          "phase": "Retour au calme"
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "xp": 70,
+      "difficultyLabel": "Boss semaine 3 · 2 cycles",
+      "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+      "lockedMessage": "Le boss se débloque après les trois séances essentielles de cette semaine.",
+      "exercises": [
+        {
+          "exerciseId": "march_on_spot",
+          "amount": 2,
+          "unit": "min",
+          "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "arm_circles",
+          "amount": 30,
+          "unit": "sec",
+          "cue": "Petits cercles progressifs, épaules détendues.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "hip_circles",
+          "amount": 30,
+          "unit": "sec",
+          "cue": "Mouvements lents, pieds bien ancrés.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "slow_knee_raises",
+          "amount": 60,
+          "unit": "sec",
+          "cue": "Alterne les jambes avec un support si nécessaire.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "squats",
+          "amount": 10,
+          "unit": "répétitions",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "incline_pushups",
+          "amount": 10,
+          "unit": "répétitions",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "supported_row_water_bottle",
+          "amount": 16,
+          "unit": "répétitions",
+          "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "bridge",
+          "amount": 12,
+          "unit": "répétitions",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "core",
+          "amount": 20,
+          "unit": "sec",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "squats",
+          "amount": 10,
+          "unit": "répétitions",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "incline_pushups",
+          "amount": 10,
+          "unit": "répétitions",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "supported_row_water_bottle",
+          "amount": 16,
+          "unit": "répétitions",
+          "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "bridge",
+          "amount": 12,
+          "unit": "répétitions",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "core",
+          "amount": 20,
+          "unit": "sec",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "slow_walk",
+          "amount": 1,
+          "unit": "min",
+          "cue": "Marche lentement, laisse le souffle revenir.",
+          "phase": "Retour au calme"
+        },
+        {
+          "exerciseId": "gentle_back_stretch",
+          "amount": 1,
+          "unit": "min",
+          "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+          "phase": "Retour au calme"
+        },
+        {
+          "exerciseId": "slow_breathing",
+          "amount": 1,
+          "unit": "min",
+          "cue": "Respiration naturelle, sans apnée.",
+          "phase": "Retour au calme"
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "xp": 90,
+      "difficultyLabel": "Boss semaine 4 · 3 cycles",
+      "instructions": "Expire pendant l’effort. Prends 45 à 90 secondes de repos entre les séries, davantage si nécessaire. Termine avec environ deux répétitions possibles en réserve. Arrête en cas de douleur inhabituelle, vertige ou malaise.",
+      "lockedMessage": "Le boss se débloque après les trois séances essentielles de cette semaine.",
+      "exercises": [
+        {
+          "exerciseId": "march_on_spot",
+          "amount": 2,
+          "unit": "min",
+          "cue": "Reste à une allure facile, sans chercher à accélérer le souffle.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "arm_circles",
+          "amount": 30,
+          "unit": "sec",
+          "cue": "Petits cercles progressifs, épaules détendues.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "hip_circles",
+          "amount": 30,
+          "unit": "sec",
+          "cue": "Mouvements lents, pieds bien ancrés.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "slow_knee_raises",
+          "amount": 60,
+          "unit": "sec",
+          "cue": "Alterne les jambes avec un support si nécessaire.",
+          "phase": "Échauffement"
+        },
+        {
+          "exerciseId": "squats",
+          "amount": 12,
+          "unit": "répétitions",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "incline_pushups",
+          "amount": 10,
+          "unit": "répétitions",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "supported_row_water_bottle",
+          "amount": 16,
+          "unit": "répétitions",
+          "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "bridge",
+          "amount": 14,
+          "unit": "répétitions",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "core",
+          "amount": 25,
+          "unit": "sec",
+          "phase": "Cycle 1"
+        },
+        {
+          "exerciseId": "squats",
+          "amount": 12,
+          "unit": "répétitions",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "incline_pushups",
+          "amount": 10,
+          "unit": "répétitions",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "supported_row_water_bottle",
+          "amount": 16,
+          "unit": "répétitions",
+          "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "bridge",
+          "amount": 14,
+          "unit": "répétitions",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "core",
+          "amount": 25,
+          "unit": "sec",
+          "phase": "Cycle 2"
+        },
+        {
+          "exerciseId": "squats",
+          "amount": 12,
+          "unit": "répétitions",
+          "phase": "Cycle 3"
+        },
+        {
+          "exerciseId": "incline_pushups",
+          "amount": 10,
+          "unit": "répétitions",
+          "phase": "Cycle 3"
+        },
+        {
+          "exerciseId": "supported_row_water_bottle",
+          "amount": 16,
+          "unit": "répétitions",
+          "cue": "En appui sur une chaise stable, tire une petite bouteille d’eau vers la hanche, dos neutre. Répartis les répétitions entre les deux bras.",
+          "phase": "Cycle 3"
+        },
+        {
+          "exerciseId": "bridge",
+          "amount": 14,
+          "unit": "répétitions",
+          "phase": "Cycle 3"
+        },
+        {
+          "exerciseId": "core",
+          "amount": 25,
+          "unit": "sec",
+          "phase": "Cycle 3"
+        },
+        {
+          "exerciseId": "slow_walk",
+          "amount": 1,
+          "unit": "min",
+          "cue": "Marche lentement, laisse le souffle revenir.",
+          "phase": "Retour au calme"
+        },
+        {
+          "exerciseId": "gentle_back_stretch",
+          "amount": 1,
+          "unit": "min",
+          "cue": "Sans forcer la colonne ni chercher une amplitude maximale.",
+          "phase": "Retour au calme"
+        },
+        {
+          "exerciseId": "slow_breathing",
+          "amount": 1,
+          "unit": "min",
+          "cue": "Respiration naturelle, sans apnée.",
+          "phase": "Retour au calme"
+        }
+      ]
+    }
+  ],
+  "progression": [
+    "Semaine 1 : Apprendre les gestes : deux séries courtes, amplitude confortable et appuis stables.",
+    "Semaine 2 : Ajouter une à deux répétitions si la technique reste propre et introduire les fentes assistées.",
+    "Semaine 3 : Élargir progressivement l’amplitude ou ajouter une courte série ciblée, sans aller à l’échec.",
+    "Semaine 4 : Consolider et comparer les sensations à la première semaine, sans imposer une intensité maximale."
+  ],
+  "notes": [
+    "Les séances A, B et C sont essentielles. Les deux compléments du planning sont facultatifs.",
+    "Le boss se débloque uniquement après A, B et C, jamais grâce aux compléments.",
+    "Échauffe-toi avant les séries. Prends entre 45 et 90 secondes de repos, voire plus si nécessaire.",
+    "Les répétitions de rowing sont comptées pour les deux bras réunis. Une bouteille légère suffit.",
+    "Variantes faciles : squat sur chaise, pompes murales, gainage sur genoux. Répète une semaine si nécessaire.",
+    "L’objectif est le contrôle, pas l’épuisement. Si douleur inhabituelle, vertige ou malaise : arrête et adapte.",
+    "Le programme conserve les noms et récompenses des quatre boss historiques."
+  ]
+};
+    data.programDetails["forge-guerrier"] = {
+      ...previous,
+      ...improved,
+      // Garder l'ancien déroulement pour une séance entamée avant la mise à jour.
+      legacyWorkouts: previous.legacyWorkouts || { weeks: previous.weeks, bosses: previous.bosses },
+      bosses: improved.bosses.map((boss, index) => ({
+        ...previous.bosses[index], ...boss,
+        badgeId: previous.bosses[index]?.badgeId || null,
+        title: previous.bosses[index]?.title || "Boss de la Forge",
+        xp: previous.bosses[index]?.xp ?? boss.xp,
+        chest: previous.bosses[index]?.chest
+      }))
+    };
+  }
+}

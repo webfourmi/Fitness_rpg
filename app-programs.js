@@ -1756,6 +1756,17 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
   // Pour Cavalier de la route, deux séances légères restent facultatives.
   // Elles soutiennent l'objectif sans entrer dans les trois validations du boss.
   const isCavalier = activeProgramId === "cavalier-route";
+  const isForgeGuerrier = activeProgramId === "forge-guerrier";
+  const forgeComplementsByGoal = {
+    "renforcement": ["tour-mage", "marche-aventurier"],
+    "cardio": ["marche-aventurier", "tour-mage"],
+    "perte-poids": ["marche-aventurier", "tour-mage"],
+    "reprise-douce": ["tour-mage", "marche-aventurier"],
+    "regularite": ["marche-aventurier", "tour-mage"],
+    "mobilite": ["tour-mage", "marche-aventurier"]
+  };
+  const forgeComplements = forgeComplementsByGoal[goalId]
+    || forgeComplementsByGoal.renforcement;
   const cavalierComplementsByGoal = {
     "cardio": ["tour-mage", "marche-aventurier"],
     "perte-poids": ["marche-aventurier", "tour-mage"],
@@ -1766,11 +1777,13 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
   };
   const cavalierComplements = cavalierComplementsByGoal[goalId]
     || cavalierComplementsByGoal.cardio;
-  const objectiveProgram1Id = isCavalier
-    ? cavalierComplements[0]
+  const objectiveProgram1Id = isForgeGuerrier
+    ? forgeComplements[0]
+    : isCavalier ? cavalierComplements[0]
     : window.FitnessRpgPrograms.getObjectiveProgramForSlot(goalId, 0);
-  const objectiveProgram2Id = isCavalier
-    ? cavalierComplements[1]
+  const objectiveProgram2Id = isForgeGuerrier
+    ? forgeComplements[1]
+    : isCavalier ? cavalierComplements[1]
     : window.FitnessRpgPrograms.getObjectiveProgramForSlot(goalId, 1);
   const mage = activeProgramId === "tour-mage";
   const objectiveProgram1 = window.FitnessRpgConfig?.getProgramById?.(objectiveProgram1Id);
@@ -1811,11 +1824,11 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
     ["Lun", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
     dragonComplements[0] ? optionalSlot("Mar", dragonComplements[0]) : mage
       ? ["Mar", "Mobilité douce · facultatif", activeProgramId, "program-optional"]
-      : ["Mar", (objectiveProgram1?.title || "Séance objectif") + (isCavalier ? " · facultatif" : ""), objectiveProgram1Id, "goal"],
+      : ["Mar", (objectiveProgram1?.title || "Séance objectif") + (isCavalier || isForgeGuerrier ? " · facultatif" : ""), objectiveProgram1Id, "goal"],
     ["Mer", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
     dragonComplements[1] ? optionalSlot("Jeu", dragonComplements[1]) : mage
       ? ["Jeu", "Repos", null, "rest"]
-      : ["Jeu", (objectiveProgram2?.title || "Séance objectif") + (isCavalier ? " · facultatif" : ""), objectiveProgram2Id, "goal"],
+      : ["Jeu", (objectiveProgram2?.title || "Séance objectif") + (isCavalier || isForgeGuerrier ? " · facultatif" : ""), objectiveProgram2Id, "goal"],
     ["Ven", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
     bossUnlocked
       ? ["Sam", programBoss?.optional ? bossTitle + " · facultatif" : bossTitle, bossProgramId, bossSource, bossWeekNumber]
