@@ -409,16 +409,24 @@ window.FitnessRpgPrograms.getActiveProgramWorkout = function getActiveProgramWor
   if (!activeSession) return null;
 
   if (activeSession.type === "program-boss") {
-    const boss = window.FitnessRpgPrograms.getProgramBoss(
+    // Une session déjà lancée avant cette révision conserve son parcours de boss.
+    const legacy = !activeSession.workoutRevision
+      ? window.FitnessRpgPrograms.getProgramDetail(activeSession.programId)?.legacyWorkouts
+      : null;
+    const legacyBoss = legacy?.bosses?.find((item) =>
+      Number(item.week || item.weekNumber || 1) === Number(activeSession.weekNumber || 1)
+    ) || null;
+    const boss = legacyBoss || window.FitnessRpgPrograms.getProgramBoss(
       activeSession.programId,
       activeSession.weekNumber || 1
     );
 
-    const variant = window.FitnessRpgPrograms.getProgramBossVariant(
-      activeSession.programId,
-      activeSession.weekNumber || 1,
-      activeSession.bossVariant || "indoor"
-    );
+    const variant = legacyBoss?.variants?.[activeSession.bossVariant || "indoor"]
+      || window.FitnessRpgPrograms.getProgramBossVariant(
+        activeSession.programId,
+        activeSession.weekNumber || 1,
+        activeSession.bossVariant || "indoor"
+      );
 
     if (!boss || !variant) return null;
 
@@ -1745,8 +1753,25 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
     || "eveil-heros";
 
   const activeProgram = window.FitnessRpgConfig?.getProgramById?.(activeProgramId);
-  const objectiveProgram1Id = window.FitnessRpgPrograms.getObjectiveProgramForSlot(goalId, 0);
-  const objectiveProgram2Id = window.FitnessRpgPrograms.getObjectiveProgramForSlot(goalId, 1);
+  // Pour Cavalier de la route, deux séances légères restent facultatives.
+  // Elles soutiennent l'objectif sans entrer dans les trois validations du boss.
+  const isCavalier = activeProgramId === "cavalier-route";
+  const cavalierComplementsByGoal = {
+    "cardio": ["tour-mage", "marche-aventurier"],
+    "perte-poids": ["marche-aventurier", "tour-mage"],
+    "reprise-douce": ["tour-mage", "marche-aventurier"],
+    "renforcement": ["rempart-heros", "tour-mage"],
+    "regularite": ["marche-aventurier", "tour-mage"],
+    "mobilite": ["tour-mage", "marche-aventurier"]
+  };
+  const cavalierComplements = cavalierComplementsByGoal[goalId]
+    || cavalierComplementsByGoal.cardio;
+  const objectiveProgram1Id = isCavalier
+    ? cavalierComplements[0]
+    : window.FitnessRpgPrograms.getObjectiveProgramForSlot(goalId, 0);
+  const objectiveProgram2Id = isCavalier
+    ? cavalierComplements[1]
+    : window.FitnessRpgPrograms.getObjectiveProgramForSlot(goalId, 1);
   const mage = activeProgramId === "tour-mage";
   const objectiveProgram1 = window.FitnessRpgConfig?.getProgramById?.(objectiveProgram1Id);
   const objectiveProgram2 = window.FitnessRpgConfig?.getProgramById?.(objectiveProgram2Id);
@@ -1786,11 +1811,11 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
     ["Lun", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
     dragonComplements[0] ? optionalSlot("Mar", dragonComplements[0]) : mage
       ? ["Mar", "Mobilité douce · facultatif", activeProgramId, "program-optional"]
-      : ["Mar", objectiveProgram1?.title || "Séance objectif", objectiveProgram1Id, "goal"],
+      : ["Mar", (objectiveProgram1?.title || "Séance objectif") + (isCavalier ? " · facultatif" : ""), objectiveProgram1Id, "goal"],
     ["Mer", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
     dragonComplements[1] ? optionalSlot("Jeu", dragonComplements[1]) : mage
       ? ["Jeu", "Repos", null, "rest"]
-      : ["Jeu", objectiveProgram2?.title || "Séance objectif", objectiveProgram2Id, "goal"],
+      : ["Jeu", (objectiveProgram2?.title || "Séance objectif") + (isCavalier ? " · facultatif" : ""), objectiveProgram2Id, "goal"],
     ["Ven", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
     bossUnlocked
       ? ["Sam", programBoss?.optional ? bossTitle + " · facultatif" : bossTitle, bossProgramId, bossSource, bossWeekNumber]
@@ -2738,12 +2763,13 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
   }
 
   const program = window.FitnessRpgPrograms.getProgram(session.programId);
-  const boss = window.FitnessRpgPrograms.getProgramBoss(
+  const activeBossWorkout = window.FitnessRpgPrograms.getActiveProgramWorkout(session);
+  const boss = activeBossWorkout?.boss || window.FitnessRpgPrograms.getProgramBoss(
     session.programId,
     session.weekNumber || 1
   );
 
-  const variant = window.FitnessRpgPrograms.getProgramBossVariant(
+  const variant = activeBossWorkout || window.FitnessRpgPrograms.getProgramBossVariant(
     session.programId,
     session.weekNumber || 1,
     session.bossVariant || "indoor"
