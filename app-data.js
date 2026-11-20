@@ -11010,7 +11010,7 @@ window.FitnessRpgData = {
   subtitle: "Pilates avancé : coordination, leviers plus longs, articulation du rachis et obliques.",
   unlockLevel: 3,
   duration: "25 à 30 min",
-  frequency: "3 séances par semaine + boss le samedi",
+  frequency: "3 séances essentielles + 2 complémentaires facultatives par semaine, puis boss",
   material: "Aucun matériel. Tapis conseillé.",
   reward: {
     badgeId: "archimage-corps-vaincu",
@@ -11094,6 +11094,23 @@ window.FitnessRpgData = {
             { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
           ]
         }
+      ,
+        { day: 4, title: "Mobilité du mage", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Récupération active un jour sans séance essentielle. Amplitude confortable, sans douleur. N’intervient pas dans le déblocage du boss.", exercises: [
+          { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "cat_cow", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "thoracic_rotation", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "hip_circles", amount: 2, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+        ] },
+        { day: 5, title: "Souffle des arcanes", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Séance douce, sans recherche de performance. Arrête en cas de douleur ou de vertige. N’intervient pas dans le déblocage du boss.", exercises: [
+          { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 3, unit: "min" },
+          { phase: "Mobilité", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+          { phase: "Mobilité", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+          { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 3, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 2, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 3, unit: "min" }
+        ] }
       ]
     },
     {
@@ -11171,6 +11188,23 @@ window.FitnessRpgData = {
             { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
           ]
         }
+      ,
+        { day: 4, title: "Mobilité du mage", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Récupération active un jour sans séance essentielle. Amplitude confortable, sans douleur. N’intervient pas dans le déblocage du boss.", exercises: [
+          { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "cat_cow", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "thoracic_rotation", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "hip_circles", amount: 2, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+        ] },
+        { day: 5, title: "Souffle des arcanes", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Séance douce, sans recherche de performance. Arrête en cas de douleur ou de vertige. N’intervient pas dans le déblocage du boss.", exercises: [
+          { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 3, unit: "min" },
+          { phase: "Mobilité", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+          { phase: "Mobilité", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+          { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 3, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 2, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 3, unit: "min" }
+        ] }
       ]
     },
     {
@@ -11248,6 +11282,23 @@ window.FitnessRpgData = {
             { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
           ]
         }
+      ,
+        { day: 4, title: "Mobilité du mage", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Récupération active un jour sans séance essentielle. Amplitude confortable, sans douleur. N’intervient pas dans le déblocage du boss.", exercises: [
+          { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "cat_cow", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "thoracic_rotation", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "hip_circles", amount: 2, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+        ] },
+        { day: 5, title: "Souffle des arcanes", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Séance douce, sans recherche de performance. Arrête en cas de douleur ou de vertige. N’intervient pas dans le déblocage du boss.", exercises: [
+          { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 3, unit: "min" },
+          { phase: "Mobilité", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+          { phase: "Mobilité", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+          { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 3, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 2, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 3, unit: "min" }
+        ] }
       ]
     },
     {
@@ -11325,6 +11376,23 @@ window.FitnessRpgData = {
             { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
           ]
         }
+      ,
+        { day: 4, title: "Mobilité du mage", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Récupération active un jour sans séance essentielle. Amplitude confortable, sans douleur. N’intervient pas dans le déblocage du boss.", exercises: [
+          { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "cat_cow", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "thoracic_rotation", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "hip_circles", amount: 2, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+        ] },
+        { day: 5, title: "Souffle des arcanes", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Séance douce, sans recherche de performance. Arrête en cas de douleur ou de vertige. N’intervient pas dans le déblocage du boss.", exercises: [
+          { phase: "Échauffement", exerciseId: "abdominal_breathing", amount: 3, unit: "min" },
+          { phase: "Mobilité", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+          { phase: "Mobilité", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+          { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 3, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "shoulder_arm_stretch", amount: 2, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 3, unit: "min" }
+        ] }
       ]
     }
   ],
@@ -11458,7 +11526,10 @@ window.FitnessRpgData = {
     "Single Leg Stretch : alterner une jambe pliée et une jambe allongée.",
     "Double Leg Stretch : allonger bras et jambes puis revenir au centre.",
     "Roll Up complet : monter et descendre vertèbre après vertèbre.",
-    "Criss Cross : rotation contrôlée du buste, sans tirer sur la nuque."
+    "Criss Cross : rotation contrôlée du buste, sans tirer sur la nuque.",
+    "Double Leg Stretch : réduire l’amplitude si le bassin perd sa stabilité.",
+    "Roll Up : revenir à la variante simplifiée en cas d’élan ou de gêne.",
+    "Boss : récupérer entre les cycles ; les séances facultatives ne conditionnent pas son déblocage."
   ]
 },
    "grand-maitre-arcanes": {
