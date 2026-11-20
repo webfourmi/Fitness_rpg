@@ -278,7 +278,7 @@ window.FitnessRpgMedia.stopPulse = function stopPulse() {
 // Plein écran image
 // ============================================================
 
-window.FitnessRpgMedia.openImageOverlay = function openImageOverlay(src, title = "Image", avatarClass = "camp-avatar") {
+window.FitnessRpgMedia.openImageOverlay = function openImageOverlay(src, title = "Image", sourceAvatar = null) {
   const overlay = document.querySelector("#imageOverlay");
   const img = document.querySelector("#imageOverlayImg");
   const label = document.querySelector("#imageOverlayTitle");
@@ -288,7 +288,19 @@ window.FitnessRpgMedia.openImageOverlay = function openImageOverlay(src, title =
   img.src = src;
   img.alt = title;
   const avatar = document.querySelector("#imageOverlayAvatar");
-  if (avatar) avatar.className = avatarClass;
+  if (avatar) {
+    avatar.className = sourceAvatar?.className || "camp-avatar";
+    avatar.style.cssText = sourceAvatar?.style.cssText || "";
+
+    const familiar = avatar.querySelector(".camp-avatar-familiar");
+    const sourceFamiliar = sourceAvatar?.querySelector(".camp-avatar-familiar");
+    if (familiar) {
+      familiar.classList.toggle("hidden", !sourceFamiliar?.src);
+      familiar.alt = sourceFamiliar?.alt || "";
+      if (sourceFamiliar?.src) familiar.src = sourceFamiliar.src;
+      else familiar.removeAttribute("src");
+    }
+  }
 
   if (label) label.textContent = title;
 
@@ -316,7 +328,7 @@ window.FitnessRpgMedia.openHeroImage = function openHeroImage() {
   const profile = window.FitnessRpgState.getProfile?.();
   const title = profile?.name || "Héros";
 
-  window.FitnessRpgMedia.openImageOverlay(img.src, title, img.closest(".camp-avatar")?.className);
+  window.FitnessRpgMedia.openImageOverlay(img.src, title, img.closest(".camp-avatar"));
 };
 
 window.FitnessRpgMedia.openCoachImage = function openCoachImage() {

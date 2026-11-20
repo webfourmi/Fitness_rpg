@@ -69,12 +69,14 @@ test('le portrait équipé reste le même quand on parcourt les anciens paliers'
   assert.match(portrait.innerHTML, /assets\/heros-campement\/heroine\.webp/);
   assert.match(portrait.innerHTML, /\bcamp-avatar--aventurier\b/);
   assert.match(portrait.innerHTML, /\bcamp-avatar--rank-champion\b/);
+  assert.match(portrait.innerHTML, /\bcamp-avatar--rank-step-1\b/);
 
   render.changeHeroEvolutionLevel(-1);
   assert.match(portrait.innerHTML, /Niveau 9\b/);
   assert.match(portrait.innerHTML, /assets\/heros-campement\/heroine\.webp/);
   assert.match(portrait.innerHTML, /\bcamp-avatar--aventurier\b/);
   assert.match(portrait.innerHTML, /\bcamp-avatar--rank-aventurier\b/);
+  assert.match(portrait.innerHTML, /\bcamp-avatar--rank-step-5\b/);
 
   camp.mutate('remove', 'emerald-cloak');
   render.renderHeroEvolutionCarousel();
@@ -91,6 +93,7 @@ test('la progression affiche aussi le niveau réel au-delà du palier 20', () =>
   assert.match(portrait.innerHTML, /Niveau 26\b/);
   assert.match(portrait.innerHTML, /assets\/heros-campement\/heros\.webp/);
   assert.match(portrait.innerHTML, /\bcamp-avatar--rank-mythique\b/);
+  assert.match(portrait.innerHTML, /\bcamp-avatar--rank-step-2\b/);
 
   render.changeHeroEvolutionLevel(1);
   assert.match(portrait.innerHTML, /Niveau 26\b/);
@@ -98,6 +101,7 @@ test('la progression affiche aussi le niveau réel au-delà du palier 20', () =>
   profile.totalXp = config.totalXpForLevel(27);
   render.renderHeroEvolutionCarousel();
   assert.match(portrait.innerHTML, /Niveau 27\b/);
+  assert.match(portrait.innerHTML, /\bcamp-avatar--rank-step-3\b/);
 });
 
 test('la montée de rang affiche le portrait habillé et conserve le coffre de familier', () => {
@@ -117,6 +121,7 @@ test('la montée de rang affiche le portrait habillé et conserve le coffre de f
   assert.match(text, /\bcamp-avatar--rank-champion\b/);
   assert.match(text, /Niv\. 9.*Niv\. 10/s);
   assert.match(text, /level-up-chest-button/);
+  assert.match(text, /Débloqué en boutique/);
   assert.match(text, /Gardien/);
   assert.match(nodes['#levelUpReward'].textContent, /Coffre de familier/);
   assert.doesNotMatch(text, /nouvelle apparence/i);

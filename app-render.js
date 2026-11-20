@@ -3074,6 +3074,8 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
 
   const heroName = window.FitnessRpgRender.escapeHtml(profile?.name || "Ton personnage");
   const avatar = window.FitnessRpgCamp.avatar(heroName, "", "", newLevel);
+  const unlockedItem = window.FitnessRpgCamp.getLevelItem(newLevel);
+  const otherUnlocks = Math.max(0, newLevel - oldLevel - 1);
 
   const icon = document.querySelector("#levelUpIcon");
   const title = document.querySelector("#levelUpTitle");
@@ -3099,6 +3101,7 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
       ${pending.gold > 0
         ? `<p class="level-up-gold-reward">💰 Sac de pièces <strong>+${Number(pending.gold)} PO</strong></p>`
         : ""}
+      ${unlockedItem ? `<p>Débloqué en boutique · <strong>${unlockedItem.name}</strong>${otherUnlocks ? ` + ${otherUnlocks} autre${otherUnlocks > 1 ? "s" : ""}` : ""}</p>` : ""}
       ${narrative ? `<p class="level-up-narrative">${narrative}</p>` : ""}
       ${hasChest ? window.FitnessRpgRender.renderLevelUpChestHtml(levelReward, familiar) : ""}
       <button class="secondary-btn open-progression-from-levelup-btn" type="button">
