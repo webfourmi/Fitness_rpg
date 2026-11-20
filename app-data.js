@@ -13528,6 +13528,155 @@ window.FitnessRpgData.getExerciseById = function getExerciseById(exerciseId) {
   return window.FitnessRpgData.getExerciseList().find((exercise) => exercise.id === exerciseId) || null;
 };
 
+// Conserver les étapes et leurs indices pour les séances commencées avant la révision.
+{
+  const legacy = window.FitnessRpgData.programDetails["coeur-dragon"];
+  const frequency = "3 séances essentielles, 2 compléments facultatifs et 1 boss";
+  const safety = "Tu dois pouvoir parler en phrases. Ralentis ou marche sur place si le souffle devient trop court. Fais une pause si nécessaire. Arrête en cas de douleur ou de malaise.";
+  const movementCues = {
+    stomping: "Marche sur place à petits pas. Pose les pieds doucement et garde toujours un pied au sol.",
+    slow_knee_raises: "Monte les genoux à une hauteur confortable, sans saut. Utilise un appui stable si besoin.",
+    lateral_steps: "Fais de petits pas de côté, sans croiser les pieds. Reviens au centre sans tourner sur le genou.",
+    cross_knee_tap: "Approche la main du genou opposé, sans forcer le contact. Alterne lentement.",
+    step_touch: "Fais un pas de côté puis rapproche l’autre pied. Réduis la largeur du pas au besoin.",
+    butt_kicks: "Ramène un talon vers l’arrière en gardant l’autre pied au sol. Alterne doucement.",
+    skater_steps: "Transfère le poids d’un pied à l’autre avec un petit pas latéral, sans saut.",
+    light_boxer: "Fais de petits pas alternés, pieds près du sol. Laisse les bras accompagner le mouvement."
+  };
+  const step = (phase, exerciseId, seconds, cue) => ({
+    phase,
+    exerciseId,
+    amount: seconds % 60 === 0 ? seconds / 60 : seconds,
+    unit: seconds % 60 === 0 ? "min" : "sec",
+    cue
+  });
+  const warmup = step("Échauffement", "dynamic_walk", 240, "Commence en marchant lentement. Accélère un peu seulement si tu restes à l’aise.");
+  const cooldown = step("Retour au calme", "walk", 120, "Ralentis progressivement jusqu’à retrouver un souffle facile.");
+  const walk = (phase, seconds) => step(phase, "walk", seconds, "Marche à allure facile, dehors sur du plat ou sur place à l’intérieur.");
+  const recovery = (phase, seconds) => step(phase, "walk", seconds, "Reviens à une marche lente. Prolonge la récupération si tu ne peux pas encore parler facilement.");
+  const movement = (phase, id, seconds) => step(phase, id, seconds, movementCues[id]);
+  const workout = (instructions, exercises) => {
+    const seconds = exercises.reduce((total, item) => total + item.amount * (item.unit === "min" ? 60 : 1), 0);
+    const minutes = Math.floor(seconds / 60);
+    const remainder = seconds % 60;
+    return {
+      instructions: instructions + " " + safety,
+      difficultyLabel: minutes + " min" + (remainder ? " " + remainder + " s" : ""),
+      exercises
+    };
+  };
+  const intervals = (label, moves, effort, rest) => moves.flatMap((id, index) => {
+    const phase = label + " · Cycle " + (index + 1);
+    return [movement(phase, id, effort), recovery(phase, rest)];
+  });
+  const walkIntervals = (count, effort, rest, cue) => Array.from({ length: count }, (_, index) => {
+    const phase = "Marche par blocs · Cycle " + (index + 1);
+    return [step(phase, "walk_acceleration", effort, cue), recovery(phase, rest)];
+  }).flat();
+
+  const progressions = [
+    "Trouve une allure à laquelle tu peux discuter et découvre les pas sans sauter.",
+    "Alterne 30 secondes un peu plus actives et une minute de marche facile.",
+    "Allonge les blocs d’effort à allure modérée. Garde assez de récupération pour parler aisément.",
+    "Conserve l’allure de la semaine 3. Fais le dernier bloc à ton allure habituelle si tu as besoin de ménager ton souffle."
+  ];
+  const weeks = legacy.weeks.map((week, index) => {
+    const cardioMoves = ["stomping", "slow_knee_raises", "lateral_steps", "step_touch"];
+    if (index === 3) cardioMoves.push("light_boxer");
+    const cardio = intervals("Cardio et récupération", cardioMoves, index < 2 ? 30 : 45, [45, 60, 75, 75][index]);
+    const coordinationMoves = ["lateral_steps", "cross_knee_tap", "step_touch", "slow_knee_raises", "butt_kicks", "skater_steps", "cross_knee_tap"];
+    const coordination = coordinationMoves.slice(0, index + 3).flatMap((id, cycle) => {
+      const phase = "Coordination · Cycle " + (cycle + 1);
+      return [movement(phase, id, 30), movement(phase, coordinationMoves[cycle + 1], 30), recovery(phase, 60)];
+    });
+    const endurance = index === 2
+      ? walkIntervals(3, 240, 60, "Marche d’un pas régulier, un peu plus soutenu si tu peux toujours parler.")
+      : [step("Endurance", "walk", [600, 780, 900, 1080][index], "Choisis un terrain plat. Garde une allure que tu peux tenir jusqu’au bout et ralentis si nécessaire.")];
+    const warmupMobility = walk("Échauffement", 120);
+    const mobilityMoves = ["lateral_steps", "slow_knee_raises", "cross_knee_tap", "step_touch"];
+    const essentialWorkouts = [
+      workout("Fais les mouvements à petite amplitude, puis récupère en marchant."
+        + (index === 3 ? " Fais le cinquième bloc à allure modérée seulement si la semaine 3 a été bien tolérée. Sinon, marche tranquillement." : ""), [
+        warmup, ...cardio, walk("Marche facile", index === 0 ? 120 : 180), cooldown
+      ]),
+      workout("Travaille la fluidité avant la vitesse. Fais les pas près d’un mur si tu as besoin d’un appui.", [
+        warmup, ...coordination, walk("Marche facile", 60), cooldown
+      ]),
+      workout("Fais la marche sur terrain plat ou à l’intérieur, à ton rythme. Tu peux couper un bloc en plusieurs passages.", [
+        warmup, ...endurance, cooldown
+      ])
+    ];
+    const optionalDays = [
+      {
+        day: 4,
+        title: "Marche de récupération",
+        optional: true,
+        xp: 0,
+        ...workout("Choisis un jour sans séance essentielle. Avance à une allure qui te permet de discuter facilement.", [
+          walk("Échauffement", 120), walk("Récupération active", [240, 300, 360, 480][index]), cooldown
+        ])
+      },
+      {
+        day: 5,
+        title: "Mobilité et coordination",
+        optional: true,
+        xp: 0,
+        ...workout("Répète les pas lentement pour gagner en aisance. Garde les mouvements petits et confortables.", [
+          warmupMobility,
+          ...intervals("Pas tranquilles", mobilityMoves.slice(0, 2 + Math.floor(index / 2)), 30, index === 3 ? 60 : 30),
+          cooldown
+        ])
+      }
+    ];
+    return {
+      ...week,
+      progression: progressions[index],
+      days: [...week.days.map((day, dayIndex) => ({ ...day, ...essentialWorkouts[dayIndex] })), ...optionalDays]
+    };
+  });
+
+  const bosses = legacy.bosses.map((boss, index) => {
+    const indoorMoves = ["step_touch", "slow_knee_raises", "lateral_steps", "cross_knee_tap", "skater_steps"].slice(0, index + 2);
+    const indoor = [
+      warmup,
+      ...intervals("Parcours intérieur", indoorMoves, index < 2 ? 30 : 45, index < 2 ? 60 : 75),
+      walk("Marche facile", [240, 330, 300, 360][index]),
+      cooldown
+    ];
+    const outdoor = [
+      warmup,
+      walk("Parcours sur terrain plat", [420, 330, 360, 540][index]),
+      ...walkIntervals([0, 3, 4, 4][index], index < 2 ? 30 : 45, index < 2 ? 60 : 75,
+        "Augmente légèrement l’allure en restant capable de parler. Tu peux garder ta marche habituelle."),
+      cooldown
+    ];
+    return {
+      ...boss,
+      variants: {
+        indoor: { ...boss.variants.indoor, ...workout("Reprends des pas connus dans un espace dégagé. Garde un pied au sol.", indoor) },
+        outdoor: { ...boss.variants.outdoor, ...workout("Choisis un terrain plat. Suis les blocs guidés et ralentis dès que parler devient difficile.", outdoor) }
+      }
+    };
+  });
+
+  window.FitnessRpgData.programDetails["coeur-dragon"] = {
+    ...legacy,
+    legacyWorkouts: { weeks: legacy.weeks, bosses: legacy.bosses },
+    workoutRevision: 1,
+    subtitle: "Quatre semaines pour apprendre à doser le souffle, coordonner les pas et tenir une marche régulière.",
+    duration: "12 à 25 min par séance essentielle",
+    frequency,
+    weeks,
+    bosses,
+    progression: [
+      "Espace les trois séances essentielles, par exemple lundi, mercredi et vendredi.",
+      "Les deux compléments sont facultatifs. Les trois séances essentielles débloquent le boss de la semaine.",
+      "Choisis la variante intérieure ou extérieure et place le boss un jour où tu te sens reposé.",
+      "Refais une semaine à la même allure si tu as besoin de plus de temps pour t’y sentir à l’aise."
+    ],
+    notes: ["Les récupérations figurent dans le minuteur. Reste à une allure où tu peux parler en phrases."]
+  };
+}
 
 // Les séances enregistrées avant cette révision conservent l'ordre de leurs exercices.
 {

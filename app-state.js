@@ -564,6 +564,30 @@ window.FitnessRpgState.getAllEntries = function getAllEntries() {
     .filter(Boolean);
 };
 
+window.FitnessRpgState.getProgramComplementCompletion = function getProgramComplementCompletion(programId, weekNumber, dayNumber) {
+  return window.FitnessRpgState.profile?.programComplements?.[programId]?.[`${weekNumber}-${dayNumber}`] || null;
+};
+
+window.FitnessRpgState.completeProgramComplement = function completeProgramComplement(programId, weekNumber, dayNumber) {
+  const state = window.FitnessRpgState;
+  const profile = state.getProfile();
+  if (!profile || state.getProgramComplementCompletion(programId, weekNumber, dayNumber)) return;
+  const previous = profile.programComplements;
+  profile.programComplements = {
+    ...previous,
+    [programId]: {
+      ...previous?.[programId],
+      [`${weekNumber}-${dayNumber}`]: { date: state.todayKey(), at: state.nowIso() }
+    }
+  };
+  try {
+    state.saveProfile();
+  } catch (error) {
+    profile.programComplements = previous;
+    throw error;
+  }
+};
+
 window.FitnessRpgState.resetProgramProgress = function resetProgramProgress(programId) {
   if (!window.FitnessRpgState.profile || !programId) {
     return { removedEntries: 0 };
@@ -605,6 +629,11 @@ window.FitnessRpgState.resetProgramProgress = function resetProgramProgress(prog
       delete profile.completedByDate[dateKey];
     }
   });
+
+  if (profile.programComplements?.[programId]) {
+    removedEntries += Object.keys(profile.programComplements[programId]).length;
+    delete profile.programComplements[programId];
+  }
 
   const activeSession = window.FitnessRpgState.getActiveProgramSession?.();
 

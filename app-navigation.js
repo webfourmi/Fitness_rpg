@@ -909,6 +909,8 @@ if (planningButton) {
 
   window.FitnessRpgPrograms?.openPlanningProgram?.({
     programId,
+    weekNumber,
+    dayNumber: Number(planningButton.dataset.dayNumber || 0),
     planningDateKey: planningButton.dataset.dateKey || "",
     planningSource: source
   });

@@ -1469,8 +1469,9 @@ window.FitnessRpgExercises.exerciseCardHtml = function exerciseCardHtml(exercise
     : "";
 
   if (isProgramCard) {
-    const instructionHtml = description
-      ? `<p class="program-exercise-instruction">${description}</p>`
+    const instruction = item.cue ? window.FitnessRpgExercises.escapeHtml(item.cue) : description;
+    const instructionHtml = instruction
+      ? `<p class="program-exercise-instruction">${instruction}</p>`
       : "";
 
     return `

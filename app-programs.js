@@ -384,14 +384,12 @@ window.FitnessRpgPrograms.getPlanningBossWeekNumber = function getPlanningBossWe
   const entries = window.FitnessRpgState?.getAllEntries?.() || [];
   for (const week of weeks) {
     const weekNumber = Number(week.week || 1);
-    const completed = window.FitnessRpgPrograms.getCompletedProgramWeekDays(programId, weekNumber);
-    const days = window.FitnessRpgPrograms.getProgramDaysForWeek(programId, weekNumber);
     const bossDone = entries.some((entry) =>
       entry.type === "program-boss"
       && entry.programId === programId
       && Number(entry.weekNumber || 1) === weekNumber
     );
-    if (days.length && days.every((day) => completed.has(Number(day.day))) && !bossDone) {
+    if (!bossDone && window.FitnessRpgPrograms.isProgramBossUnlocked(programId, weekNumber)) {
       return weekNumber;
     }
   }
@@ -790,7 +788,9 @@ window.FitnessRpgPrograms.getProgramProgressDetails = function getProgramProgres
     const dayDetails = days.map((day, dayIndex) => {
       const dayNumber = Number(day.day || dayIndex + 1);
       const key = `${weekNumber}-${dayNumber}`;
-      const completedEntry = mainEntryMap.get(key) || null;
+      const completedEntry = mainEntryMap.get(key)
+        || (day.optional && window.FitnessRpgState?.getProgramComplementCompletion?.(programId, weekNumber, dayNumber))
+        || null;
       const active = Boolean(
         activeForProgram
         && activeForProgram.type !== "program-boss"
@@ -1752,6 +1752,12 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
   const objectiveProgram2 = window.FitnessRpgConfig?.getProgramById?.(objectiveProgram2Id);
   const completedMainSessions = window.FitnessRpgPrograms.getCompletedMainSessionsThisWeek();
   const bossWeekNumber = window.FitnessRpgPrograms.getPlanningBossWeekNumber(activeProgramId);
+  const dragonComplements = activeProgramId === "coeur-dragon"
+    ? window.FitnessRpgPrograms.getProgramDaysForWeek(activeProgramId, bossWeekNumber).filter((day) => day.optional)
+    : [];
+  const optionalSlot = (dayLabel, day) => [
+    dayLabel, day.title + " · facultatif", activeProgramId, "program-optional", bossWeekNumber, day.day
+  ];
   const programBoss = window.FitnessRpgPrograms.getProgramBoss(
     activeProgramId,
     bossWeekNumber
@@ -1778,11 +1784,11 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
 
   return [
     ["Lun", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
-    mage
+    dragonComplements[0] ? optionalSlot("Mar", dragonComplements[0]) : mage
       ? ["Mar", "Mobilité douce · facultatif", activeProgramId, "program-optional"]
       : ["Mar", objectiveProgram1?.title || "Séance objectif", objectiveProgram1Id, "goal"],
     ["Mer", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
-    mage
+    dragonComplements[1] ? optionalSlot("Jeu", dragonComplements[1]) : mage
       ? ["Jeu", "Repos", null, "rest"]
       : ["Jeu", objectiveProgram2?.title || "Séance objectif", objectiveProgram2Id, "goal"],
     ["Ven", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
@@ -1814,13 +1820,15 @@ window.FitnessRpgPrograms.getTodayPlanningItem = function getTodayPlanningItem()
     programId: item[2] || null,
     source: item[3] || "goal",
     bossWeekNumber: Number(item[4] || 1),
+    weekNumber: item[5] ? Number(item[4]) : null,
+    dayNumber: item[5] ? Number(item[5]) : null,
     plan
   };
 };
 
 window.FitnessRpgPrograms.getSuggestedDayNumberForPlanItem = function getSuggestedDayNumberForPlanItem(item) {
   if (!item?.programId) return 1;
-  if (item.source === "program-optional") return 4;
+  if (item.source === "program-optional") return item.dayNumber || 4;
   if (item.programId === "tour-mage") {
     return window.FitnessRpgPrograms.getRepeatWeek(item.programId)?.nextDay
       || window.FitnessRpgPrograms.getNextProgramSession(item.programId)?.dayNumber || 3;
@@ -1830,6 +1838,7 @@ window.FitnessRpgPrograms.getSuggestedDayNumberForPlanItem = function getSuggest
 
 window.FitnessRpgPrograms.getSuggestedWeekNumberForPlanItem = function getSuggestedWeekNumberForPlanItem(item) {
   if (!item?.programId) return 1;
+  if (item.source === "program-optional" && item.weekNumber) return item.weekNumber;
   if (item.programId === "tour-mage") {
     const next = window.FitnessRpgPrograms.getNextProgramSession(item.programId);
     const repeat = window.FitnessRpgPrograms.getRepeatWeek(item.programId);
@@ -2033,6 +2042,8 @@ window.FitnessRpgPrograms.openPlanningProgram = function openPlanningProgram(opt
     dayLabel: options.planningDayLabel || "",
     title: options.planningTitle || "",
     programId,
+    weekNumber: options.weekNumber,
+    dayNumber: options.dayNumber,
     source: options.planningSource || "planning",
     dateKey: options.planningDateKey || ""
   };
@@ -2495,6 +2506,31 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   if (window.FitnessRpgPrograms.finishRepeatDay(session)) return;
 
   const state = window.FitnessRpgState;
+  if (day.optional && day.xp === 0) {
+    try {
+      state.completeProgramComplement(program.id, Number(session.weekNumber || 1), Number(day.day));
+    } catch (error) {
+      console.error("Fitness RPG - complément impossible à sauvegarder :", error);
+      window.FitnessRpgPrograms.showMessage({
+        icon: "⚠️",
+        title: "Sauvegarde interrompue",
+        message: "Le complément reste ouvert. Vérifie le stockage disponible puis réessaie.",
+        okText: "Compris"
+      });
+      return;
+    }
+    state.clearActiveProgramSession();
+    window.FitnessRpgRender?.renderAll?.();
+    window.FitnessRpgRender?.renderProgramDetail?.(program.id);
+    window.FitnessRpgPrograms.showMessage({
+      icon: "✅",
+      title: "Complément terminé",
+      message: "Cette séance facultative reste disponible quand tu en as envie.",
+      okText: "Continuer"
+    });
+    return;
+  }
+
   if (session.id && state.getAllEntries().some((entry) => entry.id === session.id)) {
     state.clearActiveProgramSession();
     window.FitnessRpgRender?.renderAll?.();
@@ -2511,8 +2547,8 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   if (dayAlreadyRewarded) {
     window.FitnessRpgState.clearActiveProgramSession?.();
     window.FitnessRpgPrograms.showMessage({
-      icon: "🛡️", title: "Séance déjà validée",
-      message: "Cette séance a déjà été récompensée. Pour la refaire sans nouveaux XP, utilise « Recommencer cette semaine ».",
+      icon: "🛡️", title: "Séance refaite",
+      message: "Tes XP, badges et progrès acquis sont conservés.",
       okText: "Compris"
     });
     window.FitnessRpgRender?.renderAll?.();
@@ -2741,8 +2777,8 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
   if (bossAlreadyRewarded) {
     window.FitnessRpgState.clearActiveProgramSession?.();
     window.FitnessRpgPrograms.showMessage({
-      icon: "🏅", title: "Boss déjà vaincu",
-      message: "La victoire et ses récompenses sont déjà enregistrées. Aucun nouvel XP ni coffre n'est attribué.",
+      icon: "🏅", title: "Mission rejouée",
+      message: "Ta victoire et les récompenses déjà acquises sont conservées.",
       okText: "Compris"
     });
     window.FitnessRpgRender?.renderAll?.();
