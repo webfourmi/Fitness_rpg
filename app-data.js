@@ -18095,6 +18095,7 @@ window.FitnessRpgData.checkIntegrity = async function checkIntegrity(options = {
   window.FitnessRpgData.programDetails[id] = {
     ...legacy,
     legacyWorkouts: { weeks: legacy.weeks, bosses: legacy.bosses },
+    workoutRevision: "rempart-stabilite-v2",
     subtitle: "Stabilité du tronc, gainage et contrôle du bassin pour une posture plus confortable.",
     duration: "15 à 25 min",
     frequency: "3 séances essentielles et 2 compléments facultatifs par semaine, puis boss",
