@@ -829,6 +829,41 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
 // Séance de programme active
 // ============================================================
 
+window.FitnessRpgRender.renderBossBattlePanel = function renderBossBattlePanel(session, boss, battle) {
+  const render = window.FitnessRpgRender;
+  const battleId = session.id || session;
+  const { hp, maxHp } = battle;
+  const previousHp = render.bossBattleView?.id === battleId ? render.bossBattleView.hp : hp;
+  const newBattle = render.pendingBossIntroId === battleId && hp === maxHp;
+  if (render.pendingBossIntroId === battleId) render.pendingBossIntroId = null;
+  render.bossBattleView = { id: battleId, hp };
+
+  const damage = previousHp - hp;
+  let animation = "";
+  if (newBattle) animation = "is-entering";
+  else if (damage > 0) animation = hp === 0 ? "is-defeated" : "is-hit";
+
+  return `
+    <section class="guided-boss-battle ${animation}" data-boss-defeated="${hp === 0}" aria-label="Combat du boss">
+      <div class="guided-boss-portrait" aria-hidden="true">
+        🐉
+        ${boss?.image ? `<img src="${render.escapeHtml(boss.image)}" alt="" onerror="this.hidden=true">` : ""}
+      </div>
+      <div class="guided-boss-hp">
+        <div class="guided-boss-hp-heading">
+          <strong>${newBattle ? "Le combat commence" : hp === 0 ? "Boss à terre" : "PV du boss"}</strong>
+          <strong>${hp} / ${maxHp} PV</strong>
+        </div>
+        <div class="guided-boss-hp-track" role="progressbar" aria-label="Points de vie du boss"
+          aria-valuemin="0" aria-valuemax="${maxHp}" aria-valuenow="${hp}">
+          <span style="--boss-hp-start: ${previousHp / maxHp}; --boss-hp-end: ${hp / maxHp}"></span>
+        </div>
+        ${damage > 0 ? `<span class="guided-boss-damage">−${damage} PV</span>` : ""}
+      </div>
+    </section>
+  `;
+};
+
 window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgramSession() {
   const detail = document.querySelector("#programDetail");
   const session = window.FitnessRpgState.getActiveProgramSession?.();
@@ -851,7 +886,8 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
   }
 
   const isBoss = session.type === "program-boss";
-  const complete = window.FitnessRpgState.isProgramSessionComplete();
+  const battle = isBoss ? window.FitnessRpgPrograms.getBossBattleProgress(session, workout) : null;
+  const complete = battle ? battle.hp === 0 : window.FitnessRpgState.isProgramSessionComplete();
   const isRepeat = !isBoss && Boolean(window.FitnessRpgPrograms.getRepeatWeek(session.programId));
   const isComplement = workout.optional && workout.xp === 0;
   const complementReward = isComplement && window.FitnessRpgState.canRewardProgramComplement(
@@ -877,9 +913,9 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
           : Number(workout.xp || 20)
       );
 
-  const completedKeys = window.FitnessRpgPrograms.getCompletedExerciseKeys?.(session) || [];
+  const completedKeys = battle?.completedKeys ?? window.FitnessRpgPrograms.getCompletedExerciseKeys?.(session) ?? [];
   const totalCount = exercises.length;
-  const doneCount = Math.min(
+  const doneCount = battle?.completedKeys.length ?? Math.min(
     totalCount,
     window.FitnessRpgState.getProgramSessionCompletedCount?.() || 0
   );
@@ -893,7 +929,9 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
   const activeItem = exercises[activeIndex];
   const activeExercise = window.FitnessRpgExercises.getExercise?.(activeItem.exerciseId);
   const activeExerciseKey = `${activeIndex}-${activeItem.exerciseId}`;
-  const activeDone = window.FitnessRpgState.isProgramSessionExerciseDone(activeExerciseKey);
+  const activeDone = battle
+    ? completedKeys.includes(activeExerciseKey)
+    : window.FitnessRpgState.isProgramSessionExerciseDone(activeExerciseKey);
   const normalizedUnit = String(activeItem.unit || "").toLowerCase();
   const canUseTimer = [
     "min",
@@ -982,6 +1020,8 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
           Quitter
         </button>
       </header>
+
+      ${battle ? window.FitnessRpgRender.renderBossBattlePanel(session, workout.boss, battle) : ""}
 
       ${(program.id === "tour-mage" || program.id === "coeur-dragon" || program.id === "bras-heros") && workout.instructions
         ? `<details><summary>Consignes de la séance</summary>
@@ -2013,9 +2053,7 @@ window.FitnessRpgRender.renderExerciseList = function renderExerciseList() {
     <div id="exercisesContent"></div>
   `;
 
-  window.setTimeout(() => {
-    window.FitnessRpgExercises?.renderCategories?.();
-  }, 0);
+  window.FitnessRpgExercises?.renderCategories?.();
 };
 
 
@@ -2426,26 +2464,76 @@ window.FitnessRpgRender.renderJournal = function renderJournal() {
 
 // ============================================================
 // Poids
+// ============================================================
 
-// ============================================================
-// Poids
-// ============================================================
+window.FitnessRpgRender.getWeightDate = function getWeightDate(value) {
+  if (value == null || value === "") return null;
+  const isDateKey = typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
+  const date = new Date(isDateKey ? `${value}T12:00:00` : value);
+  if (!Number.isFinite(date.getTime())) return null;
+  if (isDateKey && window.FitnessRpgState.dateKeyFromDate(date) !== value) return null;
+  return date;
+};
 
 window.FitnessRpgRender.formatWeightDate = function formatWeightDate(value, options = {}) {
-  const date = new Date(value);
-  if (!Number.isFinite(date.getTime())) return "Date inconnue";
+  const date = window.FitnessRpgRender.getWeightDate(value);
+  if (!date) return "Date inconnue";
   return date.toLocaleDateString("fr-FR", {
     day: "numeric",
     month: options.short ? "short" : "long",
-    year: "numeric"
+    year: options.year === false ? undefined : "numeric"
   });
 };
 
-window.FitnessRpgRender.drawWeightChart = function drawWeightChart(canvas, weights) {
+window.FitnessRpgRender.getWeightPeriod = function getWeightPeriod(date, mode) {
+  const render = window.FitnessRpgRender;
+  const start = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12);
+  const end = new Date(start);
+  let label;
+  if (mode === "week") {
+    start.setDate(start.getDate() - (start.getDay() + 6) % 7);
+    end.setTime(start.getTime());
+    end.setDate(end.getDate() + 6);
+    label = `Du ${render.formatWeightDate(start, { short: true, year: false })} au ${render.formatWeightDate(end, { short: true })}`;
+  } else {
+    start.setDate(1);
+    end.setMonth(start.getMonth() + 1, 0);
+    label = start.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
+  }
+  return { key: window.FitnessRpgState.dateKeyFromDate(start), start, end, label };
+};
+
+window.FitnessRpgRender.selectWeightPeriod = function selectWeightPeriod(weights, mode, picker) {
+  if (mode !== "week" && mode !== "month") return null;
+  const render = window.FitnessRpgRender;
+  const periods = new Map();
+  const current = render.getWeightPeriod(new Date(), mode);
+  const previousSelection = render.getWeightDate(picker?.value);
+  const lastMeasureDate = weights.findLast((entry) => entry.measureDate)?.measureDate;
+  periods.set(current.key, current);
+  for (const entry of weights) {
+    if (!entry.measureDate) continue;
+    const period = render.getWeightPeriod(entry.measureDate, mode);
+    periods.set(period.key, period);
+  }
+  const selected = previousSelection
+    ? render.getWeightPeriod(previousSelection, mode)
+    : lastMeasureDate ? render.getWeightPeriod(lastMeasureDate, mode) : current;
+  periods.set(selected.key, selected);
+  if (picker) {
+    picker.innerHTML = [...periods.values()]
+      .sort((a, b) => b.key.localeCompare(a.key))
+      .map((period) => `<option value="${period.key}">${render.escapeHtml(period.label)}</option>`).join("");
+    picker.value = selected.key;
+  }
+  return selected;
+};
+
+window.FitnessRpgRender.drawWeightChart = function drawWeightChart(canvas, weights, period = null) {
   const ctx = canvas?.getContext?.("2d");
   if (!ctx) return;
 
-  const parentWidth = Math.max(320, canvas.parentElement?.clientWidth || 760);
+  const parentWidth = canvas.parentElement?.clientWidth || 760;
   const cssHeight = parentWidth < 520 ? 240 : 300;
   const ratio = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
 
@@ -2461,15 +2549,16 @@ window.FitnessRpgRender.drawWeightChart = function drawWeightChart(canvas, weigh
   const lineColor = styles.getPropertyValue("--accent").trim() || "#f1c968";
   const blue = styles.getPropertyValue("--blue").trim() || "#7cc8ff";
 
-  if (!weights.length) {
+  const datedWeights = weights.filter((entry) => entry.measureDate);
+  if (!datedWeights.length) {
     ctx.fillStyle = textColor;
     ctx.font = "600 14px system-ui";
     ctx.textAlign = "center";
-    ctx.fillText("Aucune mesure enregistrée pour l’instant.", parentWidth / 2, cssHeight / 2);
+    ctx.fillText("Aucune mesure à afficher.", parentWidth / 2, cssHeight / 2);
     return;
   }
 
-  const values = weights.map((entry) => Number(entry.value)).filter(Number.isFinite);
+  const values = datedWeights.map((entry) => entry.value);
   const rawMin = Math.min(...values);
   const rawMax = Math.max(...values);
   const paddingValue = Math.max(0.5, (rawMax - rawMin) * 0.18);
@@ -2496,13 +2585,19 @@ window.FitnessRpgRender.drawWeightChart = function drawWeightChart(canvas, weigh
     ctx.stroke();
     ctx.textAlign = "right";
     ctx.textBaseline = "middle";
-    ctx.fillText(`${value.toFixed(1)}`, margin.left - 8, y);
+    ctx.fillText(value.toLocaleString("fr-FR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }), margin.left - 8, y);
   }
 
-  const points = weights.map((entry, index) => {
-    const x = margin.left + (index / Math.max(1, weights.length - 1)) * chartWidth;
+  const dayIndex = (date) => Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86400000;
+  const startDate = period?.start || datedWeights[0].measureDate;
+  const endDate = period?.end || datedWeights.at(-1).measureDate;
+  const startDay = dayIndex(startDate);
+  const spanDays = dayIndex(endDate) - startDay;
+  const xForDate = (date) => margin.left + (spanDays ? (dayIndex(date) - startDay) / spanDays : .5) * chartWidth;
+  const points = datedWeights.map((entry) => {
+    const x = xForDate(entry.measureDate);
     const y = margin.top + chartHeight - ((Number(entry.value) - min) / range) * chartHeight;
-    return { x, y, entry };
+    return { x, y };
   });
 
   const gradient = ctx.createLinearGradient(0, margin.top, 0, margin.top + chartHeight);
@@ -2534,22 +2629,28 @@ window.FitnessRpgRender.drawWeightChart = function drawWeightChart(canvas, weigh
     ctx.stroke();
   });
 
-  const labelIndexes = [...new Set([0, Math.floor((weights.length - 1) / 2), weights.length - 1])];
+  const labelDates = [startDate];
+  if (spanDays > 3 && parentWidth >= 270) {
+    const middle = new Date(startDate);
+    middle.setDate(middle.getDate() + Math.floor(spanDays / 2));
+    labelDates.push(middle);
+  }
+  if (spanDays) labelDates.push(endDate);
   ctx.fillStyle = textColor;
   ctx.font = "600 11px system-ui";
   ctx.textBaseline = "top";
-  labelIndexes.forEach((index) => {
-    const point = points[index];
-    ctx.textAlign = index === 0 ? "left" : index === weights.length - 1 ? "right" : "center";
+  labelDates.forEach((date, index) => {
+    ctx.textAlign = !spanDays ? "center" : index === 0 ? "left" : index === labelDates.length - 1 ? "right" : "center";
     ctx.fillText(
-      window.FitnessRpgRender.formatWeightDate(point.entry.date || point.entry.at, { short: true }),
-      point.x,
+      window.FitnessRpgRender.formatWeightDate(date, { short: true, year: startDate.getFullYear() !== endDate.getFullYear() }),
+      xForDate(date),
       margin.top + chartHeight + 13
     );
   });
 };
 
 window.FitnessRpgRender.renderWeight = function renderWeight() {
+  const render = window.FitnessRpgRender;
   const canvas = document.querySelector("#weightChart");
   const summary = document.querySelector("#weightSummary");
   const history = document.querySelector("#weightHistory");
@@ -2557,49 +2658,68 @@ window.FitnessRpgRender.renderWeight = function renderWeight() {
   const rangeNode = document.querySelector("#weightChartRange");
   if (!canvas) return;
 
-  const weights = (window.FitnessRpgState.getWeights() || [])
+  const allWeights = (window.FitnessRpgState.getWeights() || [])
     .map((entry, storageIndex) => ({ ...entry, storageIndex, storageEntry: JSON.stringify(entry) }))
     .filter((entry) => Number.isFinite(Number(entry?.value)))
-    .map((entry) => ({ ...entry, value: Number(entry.value) }))
-    .sort((a, b) => String(a.date || a.at).localeCompare(String(b.date || b.at)));
+    .map((entry) => ({
+      ...entry,
+      value: Number(entry.value),
+      measureDate: render.getWeightDate(entry.date) || render.getWeightDate(entry.at)
+    }))
+    .sort((a, b) => (a.measureDate?.getTime() || 0) - (b.measureDate?.getTime() || 0));
+  const mode = document.querySelector("#weightView")?.value;
+  const period = render.selectWeightPeriod(allWeights, mode, document.querySelector("#weightPeriod"));
+  document.querySelector("#weightPeriodPicker")?.classList.toggle("hidden", !period);
+  const endExclusive = period && new Date(period.end.getFullYear(), period.end.getMonth(), period.end.getDate() + 1);
+  const startInclusive = period && new Date(period.start.getFullYear(), period.start.getMonth(), period.start.getDate());
+  const weights = period
+    ? allWeights.filter((entry) => entry.measureDate && entry.measureDate >= startInclusive && entry.measureDate < endExclusive)
+    : allWeights;
 
   const latest = weights.at(-1) || null;
   const first = weights[0] || null;
   const values = weights.map((entry) => entry.value);
   const min = values.length ? Math.min(...values) : null;
   const max = values.length ? Math.max(...values) : null;
-  const delta = latest && first ? latest.value - first.value : null;
+  const delta = weights.length > 1 ? latest.value - first.value : null;
   const deltaText = delta === null
-    ? "Pas encore de tendance"
+    ? "—"
     : `${delta > 0 ? "+" : ""}${delta.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} kg`;
+  const evolutionLabel = period ? "évolution sur la période" : "évolution depuis la première mesure";
 
   if (summary) {
     summary.innerHTML = `
       <article class="weight-summary-card"><span>⚖️</span><div><strong>${latest ? `${latest.value.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} kg` : "—"}</strong><small>dernière mesure</small></div></article>
-      <article class="weight-summary-card"><span>📈</span><div><strong>${window.FitnessRpgRender.escapeHtml(deltaText)}</strong><small>évolution depuis la première mesure</small></div></article>
+      <article class="weight-summary-card"><span>📈</span><div><strong>${render.escapeHtml(deltaText)}</strong><small>${evolutionLabel}</small></div></article>
       <article class="weight-summary-card"><span>↕️</span><div><strong>${min === null ? "—" : `${min.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} à ${max.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} kg`}</strong><small>amplitude observée</small></div></article>
       <article class="weight-summary-card"><span>🗓️</span><div><strong>${weights.length}</strong><small>mesure${weights.length > 1 ? "s" : ""} enregistrée${weights.length > 1 ? "s" : ""}</small></div></article>
     `;
   }
 
   if (rangeNode) {
-    rangeNode.textContent = weights.length > 1
-      ? `${window.FitnessRpgRender.formatWeightDate(first.date || first.at, { short: true })} → ${window.FitnessRpgRender.formatWeightDate(latest.date || latest.at, { short: true })}`
+    rangeNode.textContent = period?.label || (weights.length > 1
+      ? `${render.formatWeightDate(first.measureDate, { short: true })} → ${render.formatWeightDate(latest.measureDate, { short: true })}`
       : weights.length === 1
         ? "Première mesure"
-        : "Aucune mesure";
+        : "Aucune mesure");
   }
 
   if (countNode) countNode.textContent = `${weights.length} mesure${weights.length > 1 ? "s" : ""}`;
 
-  window.FitnessRpgRender.drawWeightChart(canvas, weights);
+  const chartDescription = weights.length
+    ? `${weights.length} mesure${weights.length > 1 ? "s" : ""}. Dernière mesure ${latest.value.toLocaleString("fr-FR")} kg.${delta === null ? "" : ` Évolution ${deltaText}.`}`
+    : "Aucune mesure.";
+  canvas.setAttribute?.("aria-label", `Courbe d’évolution du poids. ${period ? `${period.label}. ` : ""}${chartDescription}`);
+  render.drawWeightChart(canvas, weights, period);
 
   if (history) {
     if (!weights.length) {
       history.innerHTML = `
         <div class="weight-empty-state">
           <span aria-hidden="true">⚖️</span>
-          <div><strong>Aucune mesure enregistrée</strong><p>La première mesure créera la courbe d’évolution.</p></div>
+          <div>${period && allWeights.length
+            ? "<strong>Aucune mesure sur cette période</strong><p>Choisis une autre période pour retrouver tes mesures.</p>"
+            : "<strong>Aucune mesure enregistrée</strong><p>La première mesure créera la courbe d’évolution.</p>"}</div>
         </div>
       `;
     } else {
@@ -2615,13 +2735,13 @@ window.FitnessRpgRender.renderWeight = function renderWeight() {
 
         return `
           <article class="weight-history-item">
-            <time>${window.FitnessRpgRender.escapeHtml(window.FitnessRpgRender.formatWeightDate(entry.date || entry.at))}</time>
+            <time>${render.escapeHtml(render.formatWeightDate(entry.measureDate))}</time>
             <strong>${entry.value.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} kg</strong>
             <span class="weight-change ${changeClass}">${window.FitnessRpgRender.escapeHtml(changeText)}</span>
             <button class="ghost-btn delete-weight-btn" type="button"
               data-weight-index="${entry.storageIndex}"
               data-weight-entry="${window.FitnessRpgRender.escapeHtml(entry.storageEntry)}"
-              aria-label="Supprimer la mesure de ${entry.value.toLocaleString("fr-FR")} kg du ${window.FitnessRpgRender.escapeHtml(window.FitnessRpgRender.formatWeightDate(entry.date || entry.at))}">
+              aria-label="Supprimer la mesure de ${entry.value.toLocaleString("fr-FR")} kg du ${render.escapeHtml(render.formatWeightDate(entry.measureDate))}">
               Supprimer
             </button>
           </article>
@@ -2817,7 +2937,15 @@ window.FitnessRpgRender.renderWorkoutSummaryOverlay = function renderWorkoutSumm
           ${summary.rewards.map((reward) => {
             const icon = typeof reward === "string" ? "✨" : reward.icon || "✨";
             const text = typeof reward === "string" ? reward : reward.text || reward.title || "Récompense";
-            return `<li><span>${escape(icon)}</span><strong>${escape(text)}</strong></li>`;
+            const trophy = window.FitnessRpgCamp?.getTrophy(reward.trophyId);
+            const equipped = trophy && window.FitnessRpgCamp.isEquipped(trophy.id);
+            const action = trophy ? `
+              <div class="workout-summary-trophy-actions">
+                <button class="secondary-btn" type="button" data-workout-trophy="${escape(trophy.id)}"
+                  aria-label="${equipped ? "Équipé" : "Équiper"} · ${escape(trophy.name)}" ${equipped ? "disabled" : ""}>${equipped ? "Équipé" : "Équiper"}</button>
+                <p class="workout-summary-trophy-status" role="status" tabindex="-1"></p>
+              </div>` : "";
+            return `<li${trophy ? ' class="workout-summary-trophy"' : ""}><span>${escape(icon)}</span><strong>${escape(text)}</strong>${action}</li>`;
           }).join("")}
         </ul>
       </section>

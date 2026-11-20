@@ -2137,6 +2137,16 @@ window.FitnessRpgExercises.runTimer = function runTimer(options = {}) {
     return;
   }
 
+  const savedTimer = window.FitnessRpgState?.getActiveTimerSession?.();
+  const isSameTimer = savedTimer?.exerciseId === exercise.id
+    && savedTimer.durationSeconds === seconds
+    && ["kind", "programId", "sessionId", "exerciseKey", "stepIndex", "amount", "distanceKm"]
+      .every((field) => (savedTimer.context?.[field] ?? null) === (context[field] ?? null));
+  if (isSameTimer && document.querySelector("#exerciseTimerOverlay")?.classList.contains("hidden")) {
+    window.FitnessRpgExercises.showTimerSession(savedTimer);
+    return;
+  }
+
   window.FitnessRpgExercises.stopTimer();
 
   const now = Date.now();

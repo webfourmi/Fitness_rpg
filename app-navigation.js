@@ -17,6 +17,186 @@
 
 window.FitnessRpgNavigation = window.FitnessRpgNavigation || {};
 
+// L’historique du navigateur suit les écrans affichés, y compris quand un
+// programme ou le minuteur les ouvre sans passer par le menu.
+window.FitnessRpgNavigation.browserHistory = (() => {
+  const entryKey = "fitnessRpgView";
+  let entry = null;
+  const overlays = {
+    mobileMorePanel: () => window.FitnessRpgNavigation.closeMobileMorePanel(),
+    imageOverlay: () => window.FitnessRpgMedia?.closeImageOverlay?.(),
+    exerciseTimerOverlay: () => window.FitnessRpgExercises?.stopTimer?.({ clearState: false }),
+    rpgModalOverlay: () => window.FitnessRpgRender?.closeModal?.(),
+    exerciseDetailOverlay: () => window.FitnessRpgExercises?.closeExerciseDetails?.(),
+    sportExercisePerformanceOverlay: (node) => node.querySelector(".sport-exercise-performance-close")?.click(),
+    workoutSummaryOverlay: () => window.FitnessRpgRender?.closeWorkoutSummaryOverlay?.(),
+    levelUpOverlay: () => window.FitnessRpgRender?.closeLevelUpOverlay?.(),
+    badgeRewardOverlay: () => window.FitnessRpgRender?.closeBadgeRewardOverlay?.(),
+    badgeDetailOverlay: () => window.FitnessRpgRender?.closeBadgeModal?.(),
+    chestRewardOverlay: () => window.FitnessRpgRender?.closeChestRewardModal?.(),
+    familiarDetailOverlay: () => window.FitnessRpgRender?.closeFamiliarModal?.()
+  };
+
+  function getVisibleOverlay() {
+    let front = null;
+    let highest = -Infinity;
+    for (const id of Object.keys(overlays)) {
+      const node = document.getElementById(id);
+      if (!node || node.classList.contains("hidden")) continue;
+      const z = Number(window.getComputedStyle(node).zIndex) || 0;
+      if (z >= highest) {
+        front = node;
+        highest = z;
+      }
+    }
+    return front;
+  }
+
+  function getView() {
+    const state = window.FitnessRpgState;
+    const page = state.getPage();
+    const view = { page, profileId: state.getProfile()?.id || null };
+    if (page === "programs") {
+      const detail = document.querySelector("#programDetail:not(.hidden)");
+      if (detail?.dataset.programId) {
+        view.programId = detail.dataset.programId;
+        view.programOptions = window.FitnessRpgPrograms?.programBrowser || {};
+      }
+    } else if (page === "exercises") {
+      const exercises = window.FitnessRpgExercises;
+      if (document.querySelector("#exerciseList .exercise-category-detail-page")) {
+        view.categoryId = exercises.currentCategoryId;
+        view.exercisePage = exercises.currentExercisePage;
+      } else if (document.querySelector("#exerciseList .custom-program-run-page")) {
+        view.customProgramId = exercises.customProgramRun?.programId;
+      }
+    } else if (page === "hero-setup") {
+      view.setupMode = window.FitnessRpgNavigation.heroSetupMode;
+    }
+    return view;
+  }
+
+  function viewKey(view) {
+    return JSON.stringify([view.profileId, view.page, view.programId, view.categoryId, view.customProgramId, view.setupMode]);
+  }
+
+  function write(next, replace = false) {
+    const method = replace ? "replaceState" : "pushState";
+    window.history[method]({ ...window.history.state, [entryKey]: next }, "");
+    entry = next;
+  }
+
+  function sync() {
+    if (!entry) return;
+    const view = getView();
+    if (viewKey(view) !== viewKey(entry.view)) {
+      const next = entry.overlay
+        ? { ...entry, view, overlay: false }
+        : { view, depth: entry.depth + 1, parent: viewKey(entry.view) };
+      write(next, Boolean(entry.overlay));
+    } else if (JSON.stringify(view) !== JSON.stringify(entry.view)) {
+      write({ ...entry, view }, true);
+    }
+
+    if (!entry.overlay && getVisibleOverlay()) {
+      // Une entrée temporaire permet à Retour de fermer un panneau sans changer de page.
+      write({ ...entry, depth: entry.depth + 1, overlay: true });
+    }
+  }
+
+  function restore(view) {
+    const state = window.FitnessRpgState;
+    const sameProfile = view.profileId === (state.getProfile()?.id || null);
+    const safePage = sameProfile && window.FitnessRpgConfig.pages.includes(view.page);
+    const page = safePage ? view.page : state.hasProfile() ? "home" : "hero-setup";
+    const navigation = window.FitnessRpgNavigation;
+    const exercises = window.FitnessRpgExercises;
+    if (page === "hero-setup") {
+      navigation.heroSetupMode = safePage && view.setupMode ? view.setupMode : state.hasProfile() ? "edit-hero" : "create";
+    }
+    state.setPage(page);
+    navigation.render();
+
+    if (page === "programs" && view.programId) {
+      window.FitnessRpgPrograms?.openProgramDetail?.(view.programId, view.programOptions);
+    }
+    if (page === "exercises") {
+      if (view.categoryId) {
+        exercises.renderCategoryExercises(view.categoryId, view.exercisePage);
+      } else if (view.customProgramId && exercises.customProgramRun?.programId === view.customProgramId) {
+        exercises.renderCustomProgramGuided();
+      } else {
+        exercises.currentCategoryId = null;
+        exercises.currentExercisePage = 0;
+      }
+    }
+  }
+
+  function onPopState(event) {
+    const previous = entry;
+    const target = event.state?.[entryKey];
+    entry = target || null;
+    if (!target) return;
+
+    if (previous?.overlay && target.depth < previous.depth && viewKey(previous.view) === viewKey(target.view)) {
+      const node = getVisibleOverlay();
+      if (!node) {
+        // Le panneau avait déjà été fermé par son propre bouton.
+        window.history.back();
+        return;
+      }
+      overlays[node.id](node);
+      sync();
+      return;
+    }
+
+    restore(target.view);
+    write({ ...target, view: getView() }, true);
+    sync();
+  }
+
+  function start() {
+    if (!window.history?.pushState || !window.MutationObserver) return;
+    write({ view: getView(), depth: 0 }, true);
+    window.addEventListener("popstate", onPopState);
+
+    const observer = new window.MutationObserver(() => {
+      observeOverlays();
+      sync();
+    });
+    const observed = new WeakSet();
+    function observeOverlays() {
+      for (const id of Object.keys(overlays)) {
+        const node = document.getElementById(id);
+        if (!node || observed.has(node)) continue;
+        observed.add(node);
+        observer.observe(node, { attributes: true, attributeFilter: ["class"] });
+      }
+    }
+    observer.observe(document.body, { childList: true, attributes: true, attributeFilter: ["data-page"] });
+    const detail = document.getElementById("programDetail");
+    if (detail) observer.observe(detail, { childList: true, attributes: true, attributeFilter: ["class", "data-program-id"] });
+    const library = document.getElementById("exerciseList");
+    if (library) observer.observe(library, { childList: true, subtree: true });
+    observeOverlays();
+  }
+
+  function back() {
+    sync();
+    if (!entry || entry.depth === 0) return false;
+    window.history.back();
+    return true;
+  }
+
+  function backToList(page) {
+    sync();
+    const list = { page, profileId: entry?.view.profileId };
+    return entry?.parent === viewKey(list) && back();
+  }
+
+  return { start, back, backToList };
+})();
+
 // ============================================================
 // Raccourcis
 // ============================================================
@@ -128,6 +308,8 @@ window.FitnessRpgNavigation.openMobileDestination = function openMobileDestinati
 // ============================================================
 
 window.FitnessRpgNavigation.goBack = function goBack() {
+  if (window.FitnessRpgNavigation.browserHistory.back()) return;
+
   const currentPage = window.FitnessRpgState.getPage();
 
   if (currentPage === "home") {
@@ -201,23 +383,16 @@ window.FitnessRpgNavigation.openHeroEdit = function openHeroEdit() {
 
 window.FitnessRpgNavigation.openPrograms = function openPrograms(programId = null) {
   window.FitnessRpgNavigation.setPage("programs");
-
-  window.setTimeout(() => {
-    if (programId) {
-      window.FitnessRpgPrograms?.openProgramDetail?.(programId);
-    } else {
-      window.FitnessRpgPrograms?.openProgramList?.();
-    }
-  }, 0);
+  if (programId) {
+    window.FitnessRpgPrograms?.openProgramDetail?.(programId);
+  } else {
+    window.FitnessRpgPrograms?.openProgramList?.();
+  }
 };
 
 window.FitnessRpgNavigation.openExercises = function openExercises() {
-  window.FitnessRpgNavigation.setPage("exercises");
   window.FitnessRpgExercises.currentCategoryId = null;
-
-  window.setTimeout(() => {
-    window.FitnessRpgExercises?.renderCategories?.();
-  }, 0);
+  window.FitnessRpgNavigation.setPage("exercises");
 };
 
 window.FitnessRpgNavigation.openMusic = function openMusic() {
@@ -546,6 +721,24 @@ window.FitnessRpgNavigation.deleteWeight = function deleteWeight(button) {
 // ============================================================
 
 window.FitnessRpgNavigation.handleOverlayClick = function handleOverlayClick(event, target) {
+  const trophyButton = target.closest("[data-workout-trophy]");
+  if (trophyButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    const camp = window.FitnessRpgCamp;
+    const id = trophyButton.dataset.workoutTrophy;
+    if (trophyButton.disabled || !camp?.getTrophy(id)) return true;
+    const result = camp.mutate("equip", id);
+    const status = trophyButton.parentElement.querySelector("[role='status']");
+    if (status) status.textContent = result;
+    if (camp.isEquipped(id)) {
+      trophyButton.textContent = "Équipé";
+      trophyButton.setAttribute("aria-label", result);
+      trophyButton.disabled = true;
+      status?.focus();
+    }
+    return true;
+  }
+
   if (target.closest("#sessionSummaryContinueButton")) {
     window.FitnessRpgNavigation.stopEvent(event);
     window.FitnessRpgRender?.closeWorkoutSummaryOverlay?.();
@@ -606,6 +799,7 @@ window.FitnessRpgNavigation.handleProgramClick = function handleProgramClick(eve
 
   if (backToProgramListButton) {
     window.FitnessRpgNavigation.stopEvent(event);
+    if (window.FitnessRpgNavigation.browserHistory.backToList("programs")) return true;
     window.FitnessRpgPrograms?.openProgramList?.();
     return true;
   }
@@ -984,6 +1178,7 @@ window.FitnessRpgNavigation.handleExerciseClick = function handleExerciseClick(e
 
   if (backToCategoriesButton) {
     window.FitnessRpgNavigation.stopEvent(event);
+    if (window.FitnessRpgNavigation.browserHistory.backToList("exercises")) return true;
 
     window.FitnessRpgExercises.currentCategoryId = null;
     window.FitnessRpgExercises.currentExercisePage = 0;
@@ -1646,6 +1841,13 @@ window.FitnessRpgNavigation.handleDocumentInput = function handleDocumentInput(e
     return;
   }
 
+  if (target.matches("#weightView, #weightPeriod")) {
+    const period = document.querySelector("#weightPeriod");
+    if (target.id === "weightView" && period) period.value = "";
+    window.FitnessRpgRender?.renderWeight?.();
+    return;
+  }
+
   if (target.matches("#journalSearchInput")) {
     window.FitnessRpgRender?.setJournalQuery?.(target.value);
   }
@@ -1690,6 +1892,7 @@ window.FitnessRpgNavigation.init = function initNavigation() {
   document.addEventListener("click", window.FitnessRpgNavigation.handleDocumentClick);
   document.addEventListener("input", window.FitnessRpgNavigation.handleDocumentInput);
   document.addEventListener("keydown", window.FitnessRpgNavigation.handleDocumentKeydown);
+  window.FitnessRpgNavigation.browserHistory.start();
 
   window.FitnessRpgNavigation.isInitialized = true;
 };

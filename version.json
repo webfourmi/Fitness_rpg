@@ -1,5 +1,5 @@
 {
-  "version": "7.0.2",
+  "version": "7.0.3",
   "date": "2026-11-20",
-  "notes": "Blason évolutif, équipement de boss à chaque niveau, boutique par type et familier visible sur le portrait."
+  "notes": "PV et trophées des boss, suivi du poids par semaine ou mois, retour du téléphone et détail des PO repliable."
 }

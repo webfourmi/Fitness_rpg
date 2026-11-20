@@ -22,6 +22,14 @@ window.FitnessRpgCamp = (() => {
     { slot: "broche", name: "Sceau du Gobelin Forgeron", price: 75, style: "dragon", variant: "forge" },
     { slot: "aura", name: "Aura du Dragon Astral", price: 85, style: "lunaire", variant: "astral" }
   ];
+  const trophies = [
+    { id: "trophy-marble-golem", programId: "tour-mage", week: 2, badgeId: "tour-cercle-pierre",
+      name: "Broche de pierre polie", slot: "broche", style: "dragon", variant: "trophee-marbre" },
+    { id: "trophy-rampart-knight", programId: "rempart-heros", week: 2, badgeId: "rempart-chevalier",
+      name: "Bandeau du Rempart", slot: "head", style: "grenat", variant: "trophee-rempart" },
+    { id: "trophy-astral-dragon", programId: "tour-mage", week: 4, badgeId: "tour-mage-vaincu",
+      name: "Cape étoilée", slot: "cape", style: "aventurier", variant: "trophee-astral" }
+  ];
   const shopSelection = Object.create(null);
   const freezePrice = 60;
   const goldPerLevel = 20;
@@ -47,7 +55,18 @@ window.FitnessRpgCamp = (() => {
 
   function getItem(id) {
     const levelId = /^boss-gear-([1-9]\d*)$/.exec(id);
-    return levelId ? getLevelItem(Number(levelId[1])) : catalog.find((item) => item.id === id);
+    return levelId
+      ? getLevelItem(Number(levelId[1]))
+      : catalog.find((item) => item.id === id) || getTrophy(id);
+  }
+
+  function getTrophy(id) {
+    return trophies.find((item) => item.id === id);
+  }
+
+  function isEquipped(id) {
+    const item = getItem(id);
+    return Boolean(item && state().getProfile()?.camp?.equipped[item.slot] === id);
   }
 
   function getLevel(profile) {
@@ -100,6 +119,7 @@ window.FitnessRpgCamp = (() => {
     return Boolean(isRecord(camp) && isDate(camp.startedOn) && isCount(camp.gold)
       && (camp.levelRewardedThrough === undefined || isCount(camp.levelRewardedThrough))
       && (camp.levelCatchUpGold === undefined || isCount(camp.levelCatchUpGold))
+      && (camp.trophiesMigrated === undefined || typeof camp.trophiesMigrated === "boolean")
       && isRecord(camp.claims) && Object.values(camp.claims).every((value) => value === true)
       && (camp.showFamiliar === undefined || typeof camp.showFamiliar === "boolean")
       && Array.isArray(camp.owned) && camp.owned.every((id) => typeof id === "string" && getItem(id))
@@ -151,6 +171,37 @@ window.FitnessRpgCamp = (() => {
       earned += credit(camp, JSON.stringify(["campaign", entry.programId]), 50);
     }
     return earned;
+  }
+
+  function getTrophyForVictory(entry) {
+    if (entry.type !== "program-boss") return null;
+    const position = window.FitnessRpgPrograms?.getProgramEntryPosition?.(entry) || entry;
+    return trophies.find((item) => item.programId === entry.programId
+      && item.week === Number(position.weekNumber || 1)
+      && (!entry.badgeId || entry.badgeId === item.badgeId));
+  }
+
+  function rewardTrophy(camp, entry) {
+    const trophy = getTrophyForVictory(entry);
+    if (!trophy || camp.owned.includes(trophy.id)) return null;
+    camp.owned.push(trophy.id);
+    return trophy.id;
+  }
+
+  function restoreBossTrophies(camp) {
+    if (camp.trophiesMigrated) return camp;
+    const pastTrophies = new Set(camp.owned);
+    const preservedVictories = new Set();
+    for (const entry of state().getAllEntries()) {
+      if (entry.type === "program-boss") preservedVictories.add(rewardKey(entry));
+      const trophy = getTrophyForVictory(entry);
+      if (trophy) pastTrophies.add(trophy.id);
+    }
+    for (const trophy of trophies) {
+      const key = JSON.stringify(["boss", trophy.programId, trophy.week]);
+      if (camp.claims[key] && !preservedVictories.has(key)) pastTrophies.add(trophy.id);
+    }
+    return { ...camp, owned: [...pastTrophies], trophiesMigrated: true };
   }
 
   function rewardFreeSession(camp) {
@@ -242,7 +293,7 @@ window.FitnessRpgCamp = (() => {
     const previousUpdatedAt = profile.updatedAt;
     const today = state().todayKey();
     try {
-      const migratedCamp = catchUpLevels(profile);
+      const migratedCamp = restoreBossTrophies(catchUpLevels(profile));
       profile.camp = structuredClone(migratedCamp);
       if (settle(profile, today) || migratedCamp !== previousCamp) {
         state().saveProfile();
@@ -287,7 +338,7 @@ window.FitnessRpgCamp = (() => {
         message = "Fiole ajoutée à ta réserve.";
         break;
       case "buy":
-        if (!item) return "Cet objet est indisponible.";
+        if (!item || item.price === undefined) return "Cet objet est indisponible à l’achat.";
         if (item.minLevel > getLevel(profile)) return `Cet objet se débloque au niveau ${item.minLevel}.`;
         if (camp.owned.includes(id)) return "Cet objet est déjà dans ton inventaire.";
         if (camp.gold < item.price) return "Tu n’as pas assez de PO pour cet objet.";
@@ -331,7 +382,7 @@ window.FitnessRpgCamp = (() => {
 
   function getPurchaseDetails(id) {
     const item = getItem(id);
-    return item ? { name: item.name, price: item.price } : null;
+    return item?.price !== undefined ? { name: item.name, price: item.price } : null;
   }
 
   function avatar(alt, imageAttributes = "", imageClass = "", level = null) {
@@ -374,6 +425,7 @@ window.FitnessRpgCamp = (() => {
     const paid = paidStock(camp);
     const renderer = window.FitnessRpgRender;
     const level = getLevel(profile);
+    const goldDetailsOpen = Boolean(root.querySelector?.(".camp-gold-details[open]"));
     const itemCard = (item, owned, showSlot = true) => {
       const equipped = camp.equipped[item.slot] === item.id;
       const locked = !owned && item.minLevel > level;
@@ -430,9 +482,18 @@ window.FitnessRpgCamp = (() => {
         ${avatar(renderer.escapeHtml(profile.name))}
         <div>
           <strong class="camp-balance">${camp.gold} PO</strong>
-          ${camp.levelCatchUpGold ? `<p class="camp-catch-up">Rattrapage de tes niveaux précédents · <strong>+${camp.levelCatchUpGold} PO</strong></p>` : ""}
-          <p>10 PO par nouvelle séance essentielle, 5 par complément, 20 par boss, 50 par campagne terminée et ${goldPerLevel} par nouveau niveau.</p>
-          <p>Le premier exercice libre ou programme perso validé de la journée rapporte aussi 5 PO.</p>
+          <details class="camp-gold-details" ${goldDetailsOpen ? "open" : ""}>
+            <summary>Détail des pièces d’or</summary>
+            ${camp.levelCatchUpGold ? `<p class="camp-catch-up">Rattrapage de tes niveaux précédents · <strong>+${camp.levelCatchUpGold} PO</strong></p>` : ""}
+            <ul>
+              <li>10 PO par nouvelle séance essentielle</li>
+              <li>5 PO par nouveau complément</li>
+              <li>20 PO par première victoire contre un boss</li>
+              <li>50 PO par campagne terminée</li>
+              <li>${goldPerLevel} PO par nouveau niveau</li>
+              <li>5 PO pour le premier exercice libre ou programme perso du jour</li>
+            </ul>
+          </details>
         </div>
       </div>
       <p class="camp-status" role="status" tabindex="-1">${message}</p>
@@ -455,6 +516,7 @@ window.FitnessRpgCamp = (() => {
     `;
   }
 
-  return { migrate, reward, rewardFreeSession, rewardComplement, hasComplementReward, rewardLevels,
-    settle, nextDay, isDate, hasValidSave, resolveOvernight, mutate, getPurchaseDetails, getLevelItem, stepShop, avatar, render };
+  return { migrate, reward, rewardFreeSession, rewardComplement, hasComplementReward, rewardLevels, rewardTrophy,
+    settle, nextDay, isDate, hasValidSave, resolveOvernight, mutate, getPurchaseDetails, getLevelItem, getTrophy,
+    isEquipped, stepShop, avatar, render };
 })();

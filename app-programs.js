@@ -1218,6 +1218,9 @@ window.FitnessRpgPrograms.startProgramBossSession = function startProgramBossSes
   }
 
   window.FitnessRpgState.saveActiveProgramSession?.();
+  if (activeSession && window.FitnessRpgRender) {
+    window.FitnessRpgRender.pendingBossIntroId = activeSession.id;
+  }
   window.FitnessRpgRender?.renderProgramDetail?.(programId);
 
   const coachLine = variant.mission || boss.coachLine || "Le boss t’attend.";
@@ -2470,6 +2473,31 @@ window.FitnessRpgPrograms.getCompletedExerciseKeys = function getCompletedExerci
   return Array.isArray(completed) ? completed : [];
 };
 
+window.FitnessRpgPrograms.getBossBattleProgress = function getBossBattleProgress(session, workout) {
+  const exercises = workout?.exercises;
+  if (session?.type !== "program-boss" || !Array.isArray(exercises) || !exercises.length) return null;
+
+  const checks = new Set([
+    ...window.FitnessRpgPrograms.getCompletedExerciseKeys(session),
+    ...(Array.isArray(session.completedExerciseIds) ? session.completedExerciseIds : [])
+  ]);
+
+  exercises.forEach(({ exerciseId }, index) => {
+    if (checks.has(`${index}-${exerciseId}`)) {
+      // Certains anciens profils enregistraient à la fois la clé et l’identifiant.
+      checks.delete(exerciseId);
+    }
+  });
+
+  const completedKeys = exercises.flatMap(({ exerciseId }, index) => {
+    const key = `${index}-${exerciseId}`;
+    return checks.has(key) || checks.delete(exerciseId) ? [key] : [];
+  });
+  const maxHp = Math.max(100, exercises.length);
+  const hp = Math.ceil(maxHp * (exercises.length - completedKeys.length) / exercises.length);
+  return { completedKeys, maxHp, hp };
+};
+
 window.FitnessRpgPrograms.isActiveProgramSessionComplete = function isActiveProgramSessionComplete() {
   const session = window.FitnessRpgState?.getActiveProgramSession?.();
   if (!session) return false;
@@ -2478,6 +2506,10 @@ window.FitnessRpgPrograms.isActiveProgramSessionComplete = function isActiveProg
 
   if (!workout || !Array.isArray(workout.exercises) || !workout.exercises.length) {
     return false;
+  }
+
+  if (session.type === "program-boss") {
+    return window.FitnessRpgPrograms.getBossBattleProgress(session, workout)?.hp === 0;
   }
 
   const completed = window.FitnessRpgPrograms.getCompletedExerciseKeys(session);
@@ -2937,6 +2969,9 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
         : "Coffre de familier obtenu"
     });
   }
+
+  const trophy = window.FitnessRpgCamp?.getTrophy(completion?.trophyId);
+  if (trophy) rewards.push({ icon: "🏆", text: `Trophée obtenu · ${trophy.name}`, trophyId: trophy.id });
 
   if (familiarReward?.familiar) {
     rewards.push({

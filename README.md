@@ -1,10 +1,17 @@
-# Fitness RPG — V7.0.2
+# Fitness RPG — V7.0.3
 
 Fitness RPG est une application web mobile-first qui transforme l'entraînement sportif en aventure RPG.
 
 La série V6.1 a principalement consolidé l'expérience mobile, les séances guidées, les écrans secondaires, les images d'exercices et la stabilité générale de l'application.
 
 ## Version actuelle
+
+**V7.0.3 — Combats de boss et suivi du poids**
+
+- Les PV d’un boss diminuent à chaque exercice validé, avec une animation d’entrée et de fin de combat. Une séance reprise retrouve ses PV.
+- Les victoires contre le Golem de Marbre, le Chevalier du Rempart et le Dragon Astral donnent un trophée équipable. Les anciennes victoires enregistrées sont reconnues.
+- Le détail des PO se déplie au campement. Le retour du navigateur ou du téléphone remonte les écrans de l’application.
+- Le suivi du poids permet de choisir une semaine ou un mois, en plus de l’historique complet.
 
 **V7.0.2 — Blasons de niveau et équipement des boss**
 
