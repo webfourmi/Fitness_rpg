@@ -106,6 +106,7 @@ window.FitnessRpgNavigation.openMobileDestination = function openMobileDestinati
     badges: () => window.FitnessRpgNavigation.openBadges(),
     familiars: () => window.FitnessRpgNavigation.openFamiliars(),
     journal: () => window.FitnessRpgNavigation.openJournal(),
+    camp: () => window.FitnessRpgNavigation.setPage(window.FitnessRpgState.hasProfile() ? "camp" : "hero-setup"),
     "hero-menu": () => window.FitnessRpgNavigation.openHeroMenu(),
     coach: () => window.FitnessRpgNavigation.openCoach(),
     weight: () => window.FitnessRpgNavigation.openWeight(),
@@ -1082,6 +1083,24 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
     : event.target?.parentElement;
 
   if (!target) return;
+
+  const campButton = target.closest("[data-camp-action]");
+  if (campButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    const { campAction, campItem } = campButton.dataset;
+    if (campAction === "open") {
+      window.FitnessRpgNavigation.openMobileDestination("camp");
+    } else {
+      const camp = window.FitnessRpgCamp;
+      camp.render(camp.mutate(campAction, campItem));
+      const nextButton = [...document.querySelectorAll("#campContent button")].find((button) =>
+        campItem ? button.dataset.campItem === campItem : button.dataset.campAction === campAction
+      );
+      if (nextButton && !nextButton.disabled) nextButton.focus();
+      else document.querySelector("#campContent [role='status']")?.focus();
+    }
+    return true;
+  }
 
   const pwaActionButton = target.closest("[data-pwa-action]");
 

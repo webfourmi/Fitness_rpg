@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <!--
-    Fitness RPG - V6.6.18
+    Fitness RPG - V7.0.0
     ------------------------------------------------------------
     Charte graphique commune et harmonisation responsive.
     La version officielle reste centralisée dans app-config.js.
@@ -18,11 +18,11 @@
   <meta name="apple-mobile-web-app-title" content="Fitness RPG" />
   <title>Fitness RPG</title>
 
-  <link rel="manifest" href="./manifest.webmanifest?v=6.6.18" />
+  <link rel="manifest" href="./manifest.webmanifest?v=7.0.0" />
   <link rel="icon" href="./assets/pwa/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="./assets/pwa/apple-touch-icon.png" />
-  <link rel="stylesheet" href="app-v5.css?v=6.6.18">
-  <link rel="stylesheet" href="app-sport.css?v=6.6.18">
+  <link rel="stylesheet" href="app-v5.css?v=7.0.0">
+  <link rel="stylesheet" href="app-sport.css?v=7.0.0">
 </head>
 
 <body>
@@ -230,6 +230,7 @@
               <small>Héros, journal et outils</small>
             </div>
             <div class="training-tool-grid training-tool-grid-secondary">
+              <button data-camp-action="open" type="button">⛺<span>Campement</span></button>
               <button id="openHeroMenuButton" type="button">🧬<span>Héros</span></button>
               <button id="openCoachButton" type="button">🧙<span>Coach</span></button>
               <button id="openJournalButton" type="button">📖<span>Journal</span></button>
@@ -249,6 +250,7 @@
         <p id="heroMenuSummary" class="muted">Consulte ou modifie ton héros.</p>
 
         <div class="hero-menu-actions">
+          <button data-camp-action="open" class="secondary-btn" type="button">Campement et apparence</button>
           <button id="editHeroProfileButton" class="primary-btn" type="button">Modifier le héros</button>
           <button id="openBackupFromHeroMenuButton" class="secondary-btn" type="button">Sauvegarde</button>
           <button id="createNewHeroFromMenuButton" class="danger-btn" type="button">Créer un nouveau héros</button>
@@ -257,6 +259,13 @@
         <p class="muted hero-menu-warning">
           Créer un nouveau héros supprimera le profil actuel de cet appareil après confirmation.
         </p>
+      </section>
+    </main>
+
+    <main id="pageCamp" class="app-page hidden" data-page="camp">
+      <section class="card camp-card">
+        <h1>Campement</h1>
+        <div id="campContent"></div>
       </section>
     </main>
 
@@ -560,6 +569,7 @@
       <button type="button" data-mobile-destination="badges">🏅<span>Badges</span></button>
       <button type="button" data-mobile-destination="familiars">🐾<span>Familiers</span></button>
       <button type="button" data-mobile-destination="journal">📖<span>Journal</span></button>
+      <button type="button" data-mobile-destination="camp">⛺<span>Campement</span></button>
       <button type="button" data-mobile-destination="hero-menu">🧬<span>Héros</span></button>
       <button type="button" data-mobile-destination="coach">🧙<span>Coach</span></button>
       <button type="button" data-mobile-destination="weight">⚖️<span>Poids</span></button>
@@ -599,7 +609,13 @@
 
     <div id="imageOverlay" class="image-overlay hidden" aria-hidden="true">
       <button id="closeImageOverlayButton" class="ghost-btn" type="button">← Retour</button>
-      <img id="imageOverlayImg" alt="Image agrandie" />
+      <div class="camp-avatar" id="imageOverlayAvatar">
+        <img id="imageOverlayImg" alt="Image agrandie" />
+        <span class="camp-avatar-aura" aria-hidden="true"></span>
+        <span class="camp-avatar-cloak" aria-hidden="true"></span>
+        <span class="camp-avatar-mantle" aria-hidden="true"></span>
+        <span class="camp-avatar-clasp" aria-hidden="true"></span>
+      </div>
       <p id="imageOverlayTitle"></p>
     </div>
   </div>
@@ -676,23 +692,24 @@
     </section>
   </div>
 
-  <script src="./app-config.js?v=6.6.18"></script>
-  <script src="./app-data.js?v=6.6.18"></script>
-  <script src="./app-program-forge-exercises.js?v=6.6.18"></script>
-  <script src="./app-program-forge.js?v=6.6.18"></script>
-  <script src="./app-program-champion-arenes.js?v=6.6.18"></script>
-  <script src="./app-rewards.js?v=6.6.18"></script>
-  <script src="./app-state.js?v=6.6.18"></script>
-  <script src="./app-progress.js?v=6.6.18"></script>
-  <script src="app-render.js?v=6.6.18"></script>
-  <script src="./app-navigation.js?v=6.6.18"></script>
-  <script src="./app-exercises.js?v=6.6.18"></script>
-  <script src="app-programs.js?v=6.6.18"></script>
-  <script src="./app-media.js?v=6.6.18"></script>
-  <script src="./app-backup.js?v=6.6.18"></script>
-  <script src="./app-stats.js?v=6.6.18"></script>
-  <script src="./app-sport.js?v=6.6.18"></script>
-  <script src="./app.js?v=6.6.18"></script>
-  <script src="./app-pwa.js?v=6.6.18"></script>
+  <script src="./app-config.js?v=7.0.0"></script>
+  <script src="./app-data.js?v=7.0.0"></script>
+  <script src="./app-program-forge-exercises.js?v=7.0.0"></script>
+  <script src="./app-program-forge.js?v=7.0.0"></script>
+  <script src="./app-program-champion-arenes.js?v=7.0.0"></script>
+  <script src="./app-rewards.js?v=7.0.0"></script>
+  <script src="./app-state.js?v=7.0.0"></script>
+  <script src="./app-camp.js?v=7.0.0"></script>
+  <script src="./app-progress.js?v=7.0.0"></script>
+  <script src="app-render.js?v=7.0.0"></script>
+  <script src="./app-navigation.js?v=7.0.0"></script>
+  <script src="./app-exercises.js?v=7.0.0"></script>
+  <script src="app-programs.js?v=7.0.0"></script>
+  <script src="./app-media.js?v=7.0.0"></script>
+  <script src="./app-backup.js?v=7.0.0"></script>
+  <script src="./app-stats.js?v=7.0.0"></script>
+  <script src="./app-sport.js?v=7.0.0"></script>
+  <script src="./app.js?v=7.0.0"></script>
+  <script src="./app-pwa.js?v=7.0.0"></script>
 </body>
 </html>

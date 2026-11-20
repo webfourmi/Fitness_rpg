@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "6.6.18",
+  version: "7.0.0",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V6.6.18",
+  displayVersion: "V7.0.0",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "6.6.18",
+  assetVersion: "7.0.0",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
@@ -404,6 +404,7 @@ window.FitnessRpgConfig = {
     "home",
     "hero-setup",
     "hero-menu",
+    "camp",
     "training",
     "programs",
     "exercises",

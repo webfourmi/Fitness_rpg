@@ -278,7 +278,7 @@ window.FitnessRpgMedia.stopPulse = function stopPulse() {
 // Plein écran image
 // ============================================================
 
-window.FitnessRpgMedia.openImageOverlay = function openImageOverlay(src, title = "Image") {
+window.FitnessRpgMedia.openImageOverlay = function openImageOverlay(src, title = "Image", avatarClass = "camp-avatar") {
   const overlay = document.querySelector("#imageOverlay");
   const img = document.querySelector("#imageOverlayImg");
   const label = document.querySelector("#imageOverlayTitle");
@@ -287,6 +287,8 @@ window.FitnessRpgMedia.openImageOverlay = function openImageOverlay(src, title =
 
   img.src = src;
   img.alt = title;
+  const avatar = document.querySelector("#imageOverlayAvatar");
+  if (avatar) avatar.className = avatarClass;
 
   if (label) label.textContent = title;
 
@@ -314,7 +316,7 @@ window.FitnessRpgMedia.openHeroImage = function openHeroImage() {
   const profile = window.FitnessRpgState.getProfile?.();
   const title = profile?.name || "Héros";
 
-  window.FitnessRpgMedia.openImageOverlay(img.src, title);
+  window.FitnessRpgMedia.openImageOverlay(img.src, title, img.closest(".camp-avatar")?.className);
 };
 
 window.FitnessRpgMedia.openCoachImage = function openCoachImage() {

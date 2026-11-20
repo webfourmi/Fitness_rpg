@@ -1,10 +1,16 @@
-# Fitness RPG — V6.6.14
+# Fitness RPG — V7.0.0
 
 Fitness RPG est une application web mobile-first qui transforme l'entraînement sportif en aventure RPG.
 
 La série V6.1 a principalement consolidé l'expérience mobile, les séances guidées, les écrans secondaires, les images d'exercices et la stabilité générale de l'application.
 
 ## Version actuelle
+
+**V7.0.0 — Apparence, boutique et pièces d’or**
+
+- Campement avec inventaire, objets visibles sur les deux portraits personnalisables et boutique en PO.
+- Deux gels gratuits par mois, deux achats mensuels de fioles au maximum et un jour de repos entre deux jours actifs.
+- Les sauvegardes existantes migrent à la première ouverture. [Règles du campement et migration](docs/CAMPEMENT-V7.md).
 
 **V6.6.14 — Bras du héros**
 

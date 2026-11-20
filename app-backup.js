@@ -340,6 +340,10 @@ window.FitnessRpgBackup.validateProfile = function validateProfile(profile, erro
     errors.push("La quantité d’XP du héros est invalide.");
   }
 
+  if (profile.camp !== undefined && window.FitnessRpgCamp && !window.FitnessRpgCamp.hasValidSave(profile.camp)) {
+    errors.push("Les données du campement sont invalides.");
+  }
+
   if (profile.completedByDate !== undefined) {
     if (!window.FitnessRpgBackup.isPlainObject(profile.completedByDate)) {
       errors.push("L’historique des entraînements est invalide.");
