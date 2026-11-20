@@ -4,7 +4,9 @@ Le campement est accessible depuis le tableau du héros, le menu Héros et le me
 
 Les modèles de la [planche du héros](references-apparence/visuelnew1.png) et de la [planche de l’héroïne](references-apparence/visuelnew2.png) servent de référence pour les deux portraits de base et leurs équipements.
 
-Le campement indique l’objet porté dans chacun des cinq emplacements : Tête, Tenue, Cape, Accessoire et Aura. Équiper un objet depuis l’inventaire remplace uniquement celui du même emplacement.
+Le campement indique l’objet porté aux emplacements Tête, Tenue, Cape, Accessoire et Aura. Ouvre un emplacement pour choisir un objet compatible de ton inventaire ou retirer celui que tu portes. L’emplacement Familier affiche ou retire le familier actif du portrait.
+
+Dans la boutique, les flèches font défiler les objets du même type. Chaque achat de cosmétique affiche une confirmation avec son prix en PO. À partir du niveau 2, chaque niveau rend disponible un nouvel objet inspiré d’un boss. Le blason gagne aussi un losange entre deux changements de rang.
 
 ## Économie
 

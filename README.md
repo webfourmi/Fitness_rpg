@@ -1,10 +1,16 @@
-# Fitness RPG — V7.0.1
+# Fitness RPG — V7.0.2
 
 Fitness RPG est une application web mobile-first qui transforme l'entraînement sportif en aventure RPG.
 
 La série V6.1 a principalement consolidé l'expérience mobile, les séances guidées, les écrans secondaires, les images d'exercices et la stabilité générale de l'application.
 
 ## Version actuelle
+
+**V7.0.2 — Blasons de niveau et équipement des boss**
+
+- Un losange s’ajoute au blason à chaque niveau dans le rang. La couleur et les ornements repartent au changement de rang.
+- Les emplacements permettent d’équiper ou de retirer les objets depuis le campement. Le familier actuel peut apparaître à côté du portrait.
+- La boutique fait défiler les objets par type et demande confirmation avant l’achat d’un cosmétique. Une pièce inspirée d’un boss devient disponible à chaque niveau à partir du niveau 2.
 
 **V7.0.1 — Progression et sacs de pièces**
 

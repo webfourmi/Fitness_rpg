@@ -1093,13 +1093,35 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
       window.FitnessRpgNavigation.openMobileDestination("camp");
     } else {
       const camp = window.FitnessRpgCamp;
+      if (campAction === "buy") {
+        const item = camp.getPurchaseDetails(campItem);
+        if (!item || !window.confirm(`Acheter « ${item.name} » pour ${item.price} PO ?`)) return true;
+      }
       camp.render(camp.mutate(campAction, campItem));
-      const nextButton = [...document.querySelectorAll("#campContent button")].find((button) =>
-        campItem ? button.dataset.campItem === campItem : button.dataset.campAction === campAction
+      const nextButton = [...document.querySelectorAll("#campContent button:enabled")].find((button) =>
+        button.getClientRects().length &&
+        (campItem ? button.dataset.campItem === campItem : button.dataset.campAction === campAction)
       );
-      if (nextButton && !nextButton.disabled) nextButton.focus();
+      if (nextButton) nextButton.focus();
       else document.querySelector("#campContent [role='status']")?.focus();
     }
+    return true;
+  }
+
+  const shopStepButton = target.closest("[data-camp-shop-step]");
+  if (shopStepButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    const slot = shopStepButton.closest(".camp-shop-category")?.dataset.campShopSlot;
+    const step = Number(shopStepButton.dataset.campShopStep);
+    if (!slot || (step !== -1 && step !== 1)) return true;
+
+    window.FitnessRpgCamp.stepShop(slot, step);
+    const category = [...document.querySelectorAll(".camp-shop-category")].find((item) =>
+      item.dataset.campShopSlot === slot
+    );
+    const arrows = [...(category?.querySelectorAll("[data-camp-shop-step]:enabled") || [])];
+    const nextArrow = arrows.find((arrow) => Number(arrow.dataset.campShopStep) === step) || arrows[0];
+    nextArrow?.focus();
     return true;
   }
 
