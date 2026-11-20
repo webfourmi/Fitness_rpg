@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <!--
-    Fitness RPG - V7.0.2
+    Fitness RPG - V7.0.3
     ------------------------------------------------------------
     Charte graphique commune et harmonisation responsive.
     La version officielle reste centralisée dans app-config.js.
@@ -18,11 +18,11 @@
   <meta name="apple-mobile-web-app-title" content="Fitness RPG" />
   <title>Fitness RPG</title>
 
-  <link rel="manifest" href="./manifest.webmanifest?v=7.0.2" />
+  <link rel="manifest" href="./manifest.webmanifest?v=7.0.3" />
   <link rel="icon" href="./assets/pwa/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="./assets/pwa/apple-touch-icon.png" />
-  <link rel="stylesheet" href="app-v5.css?v=7.0.2">
-  <link rel="stylesheet" href="app-sport.css?v=7.0.2">
+  <link rel="stylesheet" href="app-v5.css?v=7.0.3">
+  <link rel="stylesheet" href="app-sport.css?v=7.0.3">
 </head>
 
 <body>
@@ -437,8 +437,22 @@
             </div>
             <span id="weightChartRange" class="status-chip status-info">Aucune mesure</span>
           </div>
+          <div class="weight-chart-controls">
+            <label for="weightView">
+              Affichage
+              <select id="weightView">
+                <option value="all">Tout l’historique</option>
+                <option value="week">Par semaine</option>
+                <option value="month">Par mois</option>
+              </select>
+            </label>
+            <label id="weightPeriodPicker" for="weightPeriod" class="hidden">
+              Période
+              <select id="weightPeriod"></select>
+            </label>
+          </div>
           <div class="weight-chart-wrap">
-            <canvas id="weightChart" width="760" height="300" aria-label="Courbe d’évolution du poids"></canvas>
+            <canvas id="weightChart" width="760" height="300" role="img" aria-label="Courbe d’évolution du poids"></canvas>
           </div>
         </section>
       </div>
@@ -446,7 +460,6 @@
       <section class="weight-history-card card">
         <div class="weight-section-heading">
           <div>
-            <p class="eyebrow">Historique complet</p>
             <h2>Mesures enregistrées</h2>
           </div>
           <span id="weightHistoryCount" class="status-chip status-info">0 mesure</span>
@@ -696,24 +709,24 @@
     </section>
   </div>
 
-  <script src="./app-config.js?v=7.0.2"></script>
-  <script src="./app-data.js?v=7.0.2"></script>
-  <script src="./app-program-forge-exercises.js?v=7.0.2"></script>
-  <script src="./app-program-forge.js?v=7.0.2"></script>
-  <script src="./app-program-champion-arenes.js?v=7.0.2"></script>
-  <script src="./app-rewards.js?v=7.0.2"></script>
-  <script src="./app-state.js?v=7.0.2"></script>
-  <script src="./app-camp.js?v=7.0.2"></script>
-  <script src="./app-progress.js?v=7.0.2"></script>
-  <script src="app-render.js?v=7.0.2"></script>
-  <script src="./app-navigation.js?v=7.0.2"></script>
-  <script src="./app-exercises.js?v=7.0.2"></script>
-  <script src="app-programs.js?v=7.0.2"></script>
-  <script src="./app-media.js?v=7.0.2"></script>
-  <script src="./app-backup.js?v=7.0.2"></script>
-  <script src="./app-stats.js?v=7.0.2"></script>
-  <script src="./app-sport.js?v=7.0.2"></script>
-  <script src="./app.js?v=7.0.2"></script>
-  <script src="./app-pwa.js?v=7.0.2"></script>
+  <script src="./app-config.js?v=7.0.3"></script>
+  <script src="./app-data.js?v=7.0.3"></script>
+  <script src="./app-program-forge-exercises.js?v=7.0.3"></script>
+  <script src="./app-program-forge.js?v=7.0.3"></script>
+  <script src="./app-program-champion-arenes.js?v=7.0.3"></script>
+  <script src="./app-rewards.js?v=7.0.3"></script>
+  <script src="./app-state.js?v=7.0.3"></script>
+  <script src="./app-camp.js?v=7.0.3"></script>
+  <script src="./app-progress.js?v=7.0.3"></script>
+  <script src="app-render.js?v=7.0.3"></script>
+  <script src="./app-navigation.js?v=7.0.3"></script>
+  <script src="./app-exercises.js?v=7.0.3"></script>
+  <script src="app-programs.js?v=7.0.3"></script>
+  <script src="./app-media.js?v=7.0.3"></script>
+  <script src="./app-backup.js?v=7.0.3"></script>
+  <script src="./app-stats.js?v=7.0.3"></script>
+  <script src="./app-sport.js?v=7.0.3"></script>
+  <script src="./app.js?v=7.0.3"></script>
+  <script src="./app-pwa.js?v=7.0.3"></script>
 </body>
 </html>

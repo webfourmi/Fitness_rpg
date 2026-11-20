@@ -8,7 +8,11 @@ Le campement indique l’objet porté aux emplacements Tête, Tenue, Cape, Acces
 
 Dans la boutique, les flèches font défiler les objets du même type. Chaque achat de cosmétique affiche une confirmation avec son prix en PO. À partir du niveau 2, chaque niveau rend disponible un nouvel objet inspiré d’un boss. Le blason gagne aussi un losange entre deux changements de rang.
 
+À partir de la V7.0.3, le Golem de Marbre offre la broche de pierre polie, le Chevalier du Rempart le bandeau du Rempart et le Dragon Astral la cape étoilée. Chaque trophée rejoint une seule fois l’inventaire. On peut l’équiper depuis le bilan de victoire ou le campement. Les anciennes victoires sauvegardées permettent aussi de récupérer ces trophées.
+
 ## Économie
+
+Le solde des PO reste visible au campement. **Détail des pièces d’or** affiche sur demande les sources de gains et le montant d’un éventuel rattrapage.
 
 | Première validation | Gain |
 | --- | ---: |

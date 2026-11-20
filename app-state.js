@@ -563,6 +563,10 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}, 
   } else if (camp && cleanEntry.xp > 0 && ["exercise", "custom-program"].includes(cleanEntry.type)) {
     cleanEntry.gold = window.FitnessRpgCamp.rewardFreeSession(camp);
   }
+  if (camp && cleanEntry.type === "program-boss") {
+    const trophyId = window.FitnessRpgCamp.rewardTrophy(camp, cleanEntry);
+    if (trophyId) cleanEntry.trophyId = trophyId;
+  }
   window.FitnessRpgState.updateStreak(dateKey, { save: false });
 
   try {

@@ -9,7 +9,8 @@ function boot(records = new Map(), date = '2026-11-20') {
   const document = { addEventListener() {}, querySelector: () => null };
   const localStorage = {
     getItem: (key) => records.get(key) ?? null,
-    setItem: (key, value) => records.set(key, value)
+    setItem: (key, value) => records.set(key, value),
+    removeItem: (key) => records.delete(key)
   };
   const context = vm.createContext({ window, document, localStorage, console, structuredClone });
   for (const file of ['config', 'data', 'program-forge-exercises', 'program-forge',
@@ -22,11 +23,69 @@ function boot(records = new Map(), date = '2026-11-20') {
   const profileKey = window.FitnessRpgConfig.storageKeys.profile;
   state.todayKey = () => date;
   state.loadProfile() || state.setProfile(state.createDefaultProfile({ name: 'Aventurière', gender: 'femme' }));
-  return { state, camp, programs, backup, profileKey, records, setDate: (next) => { date = next; } };
+  return { state, camp, programs, backup, profileKey, records, window, setDate: (next) => { date = next; } };
 }
 
 const firstDay = { type: 'program', programId: 'epreuves-forge', weekNumber: 1, dayNumber: 1 };
 const firstBoss = { type: 'program-boss', programId: firstDay.programId, weekNumber: 1 };
+
+test('une première victoire sauvegarde son trophée, le propose au bilan et permet de l’équiper', () => {
+  const { window, state, camp, programs, records } = boot();
+  let summary;
+  let message;
+  window.FitnessRpgRender = { queueWorkoutSummary: (value) => { summary = value; } };
+  window.setTimeout = () => {};
+  programs.showMessage = (value) => { message = value; };
+  const finish = () => {
+    state.startProgramBossSession('tour-mage', 2, 'single');
+    programs.getActiveProgramWorkout().exercises.forEach(({ exerciseId }, index) => {
+      state.completeProgramSessionExercise(`${index}-${exerciseId}`);
+    });
+    programs.finishProgramBossSession();
+  };
+  finish();
+  const trophyId = 'trophy-marble-golem';
+  assert.equal(state.getAllEntries().find((entry) => entry.type === 'program-boss').trophyId, trophyId);
+  assert.equal(summary.rewards.find((reward) => reward.trophyId === trophyId).text, 'Trophée obtenu · Broche de pierre polie');
+  const totalXp = state.getProfile().totalXp;
+  finish();
+  assert.equal(state.getProfile().totalXp, totalXp);
+  assert.equal(message.title, 'Mission rejouée');
+
+  const reopened = boot(records);
+  reopened.camp.resolveOvernight();
+  assert.equal(reopened.state.profile.camp.owned.filter((id) => id === trophyId).length, 1);
+  assert.equal(reopened.camp.getPurchaseDetails(trophyId), null);
+  const gold = reopened.state.profile.camp.gold;
+  reopened.camp.mutate('buy', trophyId);
+  assert.equal(reopened.state.profile.camp.gold, gold);
+  assert.match(reopened.camp.mutate('equip', trophyId), /Équipé/);
+  assert.ok(reopened.camp.isEquipped(trophyId));
+  assert.match(reopened.camp.avatar('Mage'), /camp-avatar--trophee-marbre/);
+});
+
+test('les victoires antérieures donnent leurs trophées sans versement supplémentaire', () => {
+  const app = boot();
+  app.camp.resolveOvernight();
+  const legacy = JSON.parse(app.records.get(app.profileKey));
+  delete legacy.camp.trophiesMigrated;
+  legacy.camp.gold = 73;
+  legacy.camp.claims[JSON.stringify(['boss', 'rempart-heros', 2])] = true;
+  legacy.completedByDate = {
+    '2026-11-19': [
+      { type: 'program-boss', programId: 'tour-mage', title: 'Tour du Mage · Semaine 4 · Le Dragon Astral' },
+      { type: 'program-boss', programId: 'maitre-flux', weekNumber: 2 }
+    ]
+  };
+  app.records.set(app.profileKey, JSON.stringify(legacy));
+  const reopened = boot(app.records);
+  reopened.camp.resolveOvernight();
+  assert.deepEqual([...reopened.state.profile.camp.owned].sort(), ['trophy-astral-dragon', 'trophy-rampart-knight']);
+  assert.equal(reopened.state.profile.camp.gold, 73);
+  reopened.state.loadProfile();
+  reopened.camp.resolveOvernight();
+  assert.equal(reopened.state.profile.camp.owned.length, 2);
+});
 
 test('migration avec sacs de niveau, sans recrédit des anciennes séances ni perte du profil', () => {
   const app = boot();
