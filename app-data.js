@@ -17969,7 +17969,7 @@ window.FitnessRpgData.checkIntegrity = async function checkIntegrity(options = {
         badgeId: previous.bosses[index]?.badgeId || null,
         title: previous.bosses[index]?.title || "Boss de la Forge",
         xp: previous.bosses[index]?.xp ?? boss.xp,
-        chest: previous.bosses[index]?.chest || false
+        chest: previous.bosses[index]?.chest
       }))
     };
   }
