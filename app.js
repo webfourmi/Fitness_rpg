@@ -631,7 +631,9 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
     weeks: fluxWeeks,
     bosses: fluxBosses,
     progression: [
-      ...fluxLegacy.progression,
+      ...fluxLegacy.progression.map((line) => line.startsWith("Chaque Boss commence")
+        ? "Les boss des semaines 1 à 3 utilisent trois cycles ; le Dragon Astral en utilise deux."
+        : line),
       "Les séances du mardi et du jeudi sont facultatives, sans XP et sans influence sur les boss.",
       "Les trois séances essentielles débloquent le boss de la semaine.",
       "Le Dragon Astral demande désormais deux cycles au lieu de trois, pour privilégier le contrôle."
