@@ -13,6 +13,7 @@ const html = read("index.html");
 const worker = read("service-worker.js");
 const pwaSource = read("app-pwa.js");
 const manifest = JSON.parse(read("version.json"));
+const nextVersion = manifest.version.replace(/\d+$/, (patch) => String(Number(patch) + 1));
 
 function property(source, name) {
   const value = source.match(new RegExp("\\b" + name + ':\\s*"([^"]+)"'));
@@ -65,7 +66,7 @@ test("tous les fichiers publiés partagent la même version", () => {
 });
 
 test("comparaison sémantique des versions", () => {
-  const { pwa } = createPwa("6.6.13");
+  const { pwa } = createPwa(nextVersion);
   assert.equal(pwa.compareVersions("6.6.12", "6.6.9"), 1);
   assert.equal(pwa.compareVersions("6.7.0", "6.6.99"), 1);
   assert.equal(pwa.compareVersions("V6.6.12", "6.6.12"), 0);
@@ -73,14 +74,14 @@ test("comparaison sémantique des versions", () => {
 });
 
 test("une version distante plus récente déclenche Installer MAJ", async () => {
-  const { pwa } = createPwa("6.6.13");
+  const { pwa } = createPwa(nextVersion);
   await pwa.checkForUpdate();
-  assert.equal(pwa.availableVersion, "6.6.13");
+  assert.equal(pwa.availableVersion, nextVersion);
   assert.equal(pwa.isUpdateAvailable(), true);
   pwa.showPrompt = (options) => { pwa.lastPrompt = options; };
   pwa.showUpdatePrompt();
   assert.equal(pwa.lastPrompt.primaryLabel, "Installer MAJ");
-  assert.match(pwa.lastPrompt.message, /6\.6\.12 → 6\.6\.13/);
+  assert.ok(pwa.lastPrompt.message.includes(`Version ${manifest.version} → ${nextVersion}.`));
 });
 
 test("pas de proposition quand la version distante est égale ou antérieure", async () => {
@@ -94,7 +95,7 @@ test("pas de proposition quand la version distante est égale ou antérieure", a
 });
 
 test("une MAJ ne recharge pas une séance et propose une navigation réseau ensuite", async () => {
-  const { pwa, win } = createPwa("6.6.13");
+  const { pwa, win } = createPwa(nextVersion);
   await pwa.checkForUpdate();
   pwa.getElements = () => ({ primary: null });
   pwa.hasActiveWorkout = () => true;
@@ -102,11 +103,11 @@ test("une MAJ ne recharge pas une séance et propose une navigation réseau ensu
   assert.equal(win.lastNavigation, undefined);
   pwa.hasActiveWorkout = () => false;
   pwa.applyUpdate();
-  assert.match(win.lastNavigation, /maj=6\.6\.13/);
+  assert.equal(new URL(win.lastNavigation).searchParams.get("maj"), nextVersion);
 });
 
 test("un bouton MAJ reste accessible même après avoir fermé le bandeau", async () => {
-  const { pwa } = createPwa("6.6.13");
+  const { pwa } = createPwa(nextVersion);
   await pwa.checkForUpdate();
   const button = {
     classList: { toggle(name, hidden) { button.hidden = hidden; } },
