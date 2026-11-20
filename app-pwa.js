@@ -402,6 +402,9 @@
     }
     if (pwa.updateCheckInProgress) return false;
     pwa.updateCheckInProgress = true;
+    // Même si version.json est momentanément indisponible, la vérification
+    // native du service worker doit toujours être exécutée.
+    const workerCheck = pwa.registration?.update?.().catch(() => undefined);
     try {
       // Comparaison avec le manifeste réseau, sans utiliser un cache éventuellement périmé.
       const url = new URL("./version.json", window.location.href);
@@ -424,12 +427,13 @@
         pwa.releaseNotes = null;
       }
       pwa.refreshPrompt();
-      await pwa.registration?.update().catch(() => undefined);
+      await workerCheck;
       if (manual && !pwa.isUpdateAvailable()) {
         pwa.showConnectionStatus(`Fitness RPG ${pwa.getCurrentVersion()} : déjà à jour.`, "online");
       }
       return pwa.isUpdateAvailable();
     } catch (error) {
+      await workerCheck;
       console.warn("Fitness RPG : contrôle de version indisponible.", error);
       if (manual) pwa.showConnectionStatus("Impossible de vérifier les MAJ pour le moment.", "offline");
       // Une MAJ du worker reste exploitable même sans réponse du manifeste.
@@ -518,6 +522,7 @@
     });
 
     pwa.sessionWatchId = window.setInterval(() => {
+      pwa.refreshUpdateButton();
       if (pwa.activePrompt === "update") {
         pwa.showUpdatePrompt();
       }
