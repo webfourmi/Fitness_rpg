@@ -558,7 +558,7 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
     optional: true,
     xp: 0,
     difficultyLabel: dayNumber === 4 ? "≈ 10 à 12 min" : "≈ 12 à 15 min",
-    instructions: focus + " Séance facultative, sans XP et sans effet sur le déblocage du boss. " + fluxSafety,
+    instructions: focus + " Séance facultative récompensée à sa première validation, sans effet sur le déblocage du boss. " + fluxSafety,
     exercises: [
       fluxMove("Échauffement", "abdominal_breathing", 1, "min", "Respire calmement, sans retenir le souffle."),
       fluxMove("Échauffement", "march_on_spot", 1, "min", "Marche tranquillement pour délier les articulations."),
@@ -634,7 +634,7 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       ...fluxLegacy.progression.map((line) => line.startsWith("Chaque Boss commence")
         ? "Les boss des semaines 1 à 3 utilisent trois cycles ; le Dragon Astral en utilise deux."
         : line),
-      "Les séances du mardi et du jeudi sont facultatives, sans XP et sans influence sur les boss.",
+      "Les séances du mardi et du jeudi sont facultatives et récompensées à leur première validation. Elles ne conditionnent pas les boss.",
       "Les trois séances essentielles débloquent le boss de la semaine.",
       "Le Dragon Astral demande désormais deux cycles au lieu de trois, pour privilégier le contrôle."
     ],

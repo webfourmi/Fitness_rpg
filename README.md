@@ -10,6 +10,9 @@ La série V6.1 a principalement consolidé l'expérience mobile, les séances gu
 
 - Le même portrait équipé apparaît au tableau du héros, au campement, dans la progression et à la montée en niveau. La couleur du blason évolue avec le rang.
 - Chaque niveau atteint pour la première fois rapporte un sac de 20 PO, en plus des récompenses existantes.
+- Les héros déjà créés reçoivent aussi leurs sacs pour les niveaux franchis avant la mise à jour.
+- Le premier exercice libre ou programme perso de la journée rapporte 5 PO en plus de ses XP. Les compléments de récupération rapportent 10 XP et 5 PO à leur première validation.
+- L’équipement est visible dans cinq emplacements au campement. Le bandeau grenat et la tunique indigo rejoignent la boutique.
 
 **V7.0.0 — Apparence, boutique et pièces d’or**
 

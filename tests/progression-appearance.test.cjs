@@ -53,7 +53,8 @@ function boot(gender, level) {
   const profile = state.createDefaultProfile({ name: 'Alix', gender });
   profile.totalXp = config.totalXpForLevel(level);
   state.setProfile(profile);
-  camp.migrate(profile).gold = 100;
+  camp.resolveOvernight();
+  profile.camp.gold = 100;
   return { profile, config, camp, progress, render, nodes };
 }
 

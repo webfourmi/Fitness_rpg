@@ -535,6 +535,15 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}, 
   };
 
   const profile = window.FitnessRpgState.profile;
+  const previousXp = profile.totalXp;
+  const previousEntries = profile.completedByDate[dateKey];
+  const previous = {
+    camp: profile.camp ? structuredClone(profile.camp) : undefined,
+    familiarPassiveClaims: profile.familiarPassiveClaims,
+    lastActiveDate: profile.lastActiveDate,
+    streak: profile.streak,
+    updatedAt: profile.updatedAt
+  };
   const camp = window.FitnessRpgCamp?.migrate(profile);
   if (familiarPassive) {
     profile.familiarPassiveClaims = {
@@ -551,13 +560,24 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}, 
   profile.completedByDate[dateKey] = [...entries, cleanEntry];
   if (camp && campGold > 0) {
     cleanEntry.gold = window.FitnessRpgCamp.reward(camp, cleanEntry, campGold);
+  } else if (camp && cleanEntry.xp > 0 && ["exercise", "custom-program"].includes(cleanEntry.type)) {
+    cleanEntry.gold = window.FitnessRpgCamp.rewardFreeSession(camp);
   }
   window.FitnessRpgState.updateStreak(dateKey, { save: false });
 
-  if (cleanEntry.xp > 0) {
-    window.FitnessRpgState.addXp(cleanEntry.xp, cleanEntry.title);
-  } else {
-    window.FitnessRpgState.saveProfile();
+  try {
+    if (cleanEntry.xp > 0) {
+      window.FitnessRpgState.addXp(cleanEntry.xp, cleanEntry.title);
+    } else {
+      window.FitnessRpgState.saveProfile();
+    }
+  } catch (error) {
+    if (profile.totalXp === previousXp) {
+      Object.assign(profile, previous);
+      if (previousEntries === undefined) delete profile.completedByDate[dateKey];
+      else profile.completedByDate[dateKey] = previousEntries;
+    }
+    throw error;
   }
 
   return cleanEntry;
@@ -588,11 +608,18 @@ window.FitnessRpgState.getProgramComplementCompletion = function getProgramCompl
   return window.FitnessRpgState.profile?.programComplements?.[programId]?.[`${weekNumber}-${dayNumber}`] || null;
 };
 
-window.FitnessRpgState.completeProgramComplement = function completeProgramComplement(programId, weekNumber, dayNumber) {
+window.FitnessRpgState.canRewardProgramComplement = function canRewardProgramComplement(programId, weekNumber, dayNumber) {
+  const state = window.FitnessRpgState;
+  return !state.getProgramComplementCompletion(programId, weekNumber, dayNumber)
+    && !window.FitnessRpgCamp?.hasComplementReward(state.profile?.camp, programId, weekNumber, dayNumber);
+};
+
+window.FitnessRpgState.completeProgramComplement = function completeProgramComplement(programId, weekNumber, dayNumber, title = "Complément facultatif") {
   const state = window.FitnessRpgState;
   const profile = state.getProfile();
   if (!profile || state.getProgramComplementCompletion(programId, weekNumber, dayNumber)) return;
   const previous = profile.programComplements;
+  const previousXp = profile.totalXp;
   const camp = window.FitnessRpgCamp?.migrate(profile);
   const previousCamp = camp ? structuredClone(camp) : null;
   profile.programComplements = {
@@ -603,12 +630,16 @@ window.FitnessRpgState.completeProgramComplement = function completeProgramCompl
     }
   };
   try {
-    const earned = camp ? window.FitnessRpgCamp.reward(camp, { programId, weekNumber, dayNumber }, 5) : 0;
-    state.saveProfile();
-    return earned;
+    const gold = camp ? window.FitnessRpgCamp.rewardComplement(camp, programId, weekNumber, dayNumber) : 0;
+    const xp = gold || !camp ? window.FitnessRpgConfig.xpRules.optionalProgramComplement : 0;
+    if (xp > 0) state.addXp(xp, title);
+    else state.saveProfile();
+    return { gold, xp };
   } catch (error) {
-    profile.programComplements = previous;
-    if (camp) profile.camp = previousCamp;
+    if (profile.totalXp === previousXp) {
+      profile.programComplements = previous;
+      if (camp) profile.camp = previousCamp;
+    }
     throw error;
   }
 };

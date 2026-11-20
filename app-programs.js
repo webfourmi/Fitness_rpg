@@ -2548,9 +2548,11 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
 
   const state = window.FitnessRpgState;
   if (day.optional && day.xp === 0) {
-    let earned = 0;
+    const render = window.FitnessRpgRender;
+    const levelBefore = render?.getLevelSnapshot?.();
+    let earned;
     try {
-      earned = state.completeProgramComplement(program.id, Number(session.weekNumber || 1), Number(day.day));
+      earned = state.completeProgramComplement(program.id, Number(session.weekNumber || 1), Number(day.day), day.title);
     } catch (error) {
       console.error("Fitness RPG - complément impossible à sauvegarder :", error);
       window.FitnessRpgPrograms.showMessage({
@@ -2562,14 +2564,30 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
       return;
     }
     state.clearActiveProgramSession();
-    window.FitnessRpgRender?.renderAll?.();
-    window.FitnessRpgRender?.renderProgramDetail?.(program.id);
-    window.FitnessRpgPrograms.showMessage({
-      icon: "✅",
-      title: "Complément terminé",
-      message: earned ? `+${earned} PO · Ce complément reste disponible.` : "Cette séance facultative reste disponible quand tu en as envie.",
-      okText: "Continuer"
-    });
+    if (earned?.xp) {
+      render?.queueWorkoutSummary?.({
+        type: "program",
+        icon: "✅",
+        eyebrow: "Complément terminé",
+        title: day.title,
+        subtitle: program.title,
+        durationSeconds: render?.getElapsedSeconds?.(session.startedAt),
+        xp: earned.xp,
+        items: window.FitnessRpgPrograms.buildWorkoutSummaryItems(day.exercises),
+        rewards: earned.gold ? [{ icon: "🪙", text: `+${earned.gold} PO` }] : [],
+        levelBefore,
+        levelAfter: render?.getLevelSnapshot?.()
+      });
+    } else {
+      window.FitnessRpgPrograms.showMessage({
+        icon: "✅",
+        title: "Complément terminé",
+        message: "Les récompenses déjà obtenues sont conservées.",
+        okText: "Continuer"
+      });
+    }
+    render?.renderAll?.();
+    render?.renderProgramDetail?.(program.id);
     return;
   }
 

@@ -698,7 +698,10 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
     ? "Récupération"
     : (quest.programId === "coeur-dragon" && quest.day?.difficultyLabel)
       || program?.duration || quest.day?.duration || "Séance guidée";
-  const xp = !isRest && !isComplement && quest.programId
+  const xp = isComplement && !isRest
+    ? (window.FitnessRpgState.canRewardProgramComplement(quest.programId, quest.weekNumber || 1, quest.dayNumber)
+        ? window.FitnessRpgConfig.xpRules.optionalProgramComplement : 0)
+    : !isRest && quest.programId
     ? Number(
         window.FitnessRpgProgress.calculateProgramSessionXp?.(
           quest.programId,
@@ -851,6 +854,9 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
   const complete = window.FitnessRpgState.isProgramSessionComplete();
   const isRepeat = !isBoss && Boolean(window.FitnessRpgPrograms.getRepeatWeek(session.programId));
   const isComplement = workout.optional && workout.xp === 0;
+  const complementReward = isComplement && window.FitnessRpgState.canRewardProgramComplement(
+    session.programId, session.weekNumber || 1, session.dayNumber
+  );
   const isDragonReplay = session.programId === "coeur-dragon"
     && window.FitnessRpgState.getAllEntries().some((entry) =>
       entry.programId === session.programId
@@ -914,7 +920,9 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
     ? `
       <button id="finishProgramSessionButton" class="primary-btn guided-finish-btn" type="button">
         ${isRepeat ? "Terminer la séance de révision"
-          : isComplement || isDragonReplay ? "Terminer" : `Terminer · +${xp} XP`}
+          : isComplement
+            ? (complementReward ? `Terminer · +${window.FitnessRpgConfig.xpRules.optionalProgramComplement} XP et 5 PO` : "Terminer")
+            : isDragonReplay ? "Terminer" : `Terminer · +${xp} XP`}
       </button>
     `
     : `
@@ -1931,7 +1939,9 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
             <div class="selected-program-day-meta">
               <span>🧩 ${exerciseCount} exercice${exerciseCount > 1 ? "s" : ""}</span>
               <span>⏱️ ${hasSpecificInstructions ? day.difficultyLabel : program.duration}</span>
-              <span>${isComplement ? "Sans XP"
+              <span>${isComplement
+                ? (window.FitnessRpgState.canRewardProgramComplement(program.id, selection.weekNumber, day.day) && !isRepeatDay
+                    ? `✨ ${window.FitnessRpgConfig.xpRules.optionalProgramComplement} XP et 5 PO` : "Sans récompense supplémentaire")
                 : isRepeatDay || (programId === "coeur-dragon" && selectedDayProgress?.completed)
                   ? "Sans récompense supplémentaire" : `✨ ${programId === "bras-heros" || day.optional ? day.xp : program.xp || 0} XP`}</span>
             </div>

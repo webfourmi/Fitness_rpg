@@ -972,6 +972,7 @@ window.FitnessRpgExercises.validateCustomProgram = function validateCustomProgra
     icon: badge.icon || "🏅",
     text: `Badge débloqué : ${badge.title}`
   }));
+  if (entry.gold) rewards.push({ icon: "🪙", text: `+${entry.gold} PO · Première séance libre du jour` });
 
   window.FitnessRpgRender?.queueWorkoutSummary?.({
     type: "custom-program",
@@ -1713,6 +1714,7 @@ window.FitnessRpgExercises.validateExercise = function validateExercise(exercise
     icon: badge.icon || "🏅",
     text: `Badge débloqué : ${badge.title}`
   }));
+  if (entry.gold) rewards.push({ icon: "🪙", text: `+${entry.gold} PO · Première séance libre du jour` });
 
   window.FitnessRpgRender?.queueWorkoutSummary?.({
     type: "exercise",

@@ -76,6 +76,7 @@ window.FitnessRpgConfig = {
     shortSession: 20,
     normalSession: 40,
     hardSession: 60,
+    optionalProgramComplement: 10,
     walk: 10,
     weeklyBoss: 50,
     threeDayStreakBonus: 30,
