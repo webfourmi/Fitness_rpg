@@ -8,7 +8,7 @@ La série V6.1 a principalement consolidé l'expérience mobile, les séances gu
 
 **V7.0.0 — Apparence, boutique et pièces d’or**
 
-- Campement avec inventaire, tenues visibles sur les deux séries de portraits et boutique en PO.
+- Campement avec inventaire, objets visibles sur les deux portraits personnalisables et boutique en PO.
 - Deux gels gratuits par mois, deux achats mensuels de fioles au maximum et un jour de repos entre deux jours actifs.
 - Les sauvegardes existantes migrent à la première ouverture. [Règles du campement et migration](docs/CAMPEMENT-V7.md).
 

@@ -42,6 +42,8 @@ const CORE_ASSETS = [
   "./assets/exercices/homme_default.webp",
   "./assets/exercices/femme_default.webp",
   "./assets/coach/korvan/idle.jpg",
+  "./assets/heros-campement/heros.webp",
+  "./assets/heros-campement/heroine.webp",
   "./assets/joueur/joueur_niveau_01.webp",
   "./assets/joueuse/joueuse_niveau_01.webp"
 ];

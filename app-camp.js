@@ -4,7 +4,7 @@ window.FitnessRpgCamp = (() => {
     { id: "moon-aura", slot: "aura", name: "Aura lunaire", price: 35, style: "lunaire" },
     { id: "sun-aura", slot: "aura", name: "Aura solaire", price: 50, style: "solaire" },
     { id: "emerald-cloak", slot: "cape", name: "Cape de l’aventurier", price: 100, style: "aventurier" },
-    { id: "dragon-clasp", slot: "broche", name: "Broche du dragon", price: 150, style: "dragon" }
+    { id: "dragon-clasp", slot: "broche", name: "Médaillon runique", price: 150, style: "dragon" }
   ];
   const freezePrice = 60;
   const freePerMonth = 2;
@@ -18,7 +18,8 @@ window.FitnessRpgCamp = (() => {
   }
 
   function rewardKey(entry) {
-    const { type, programId, weekNumber, dayNumber } = entry;
+    const { type, programId } = entry;
+    const { weekNumber, dayNumber } = window.FitnessRpgPrograms?.getProgramEntryPosition?.(entry) || entry;
     if (type === "program-boss") return JSON.stringify(["boss", programId, Number(weekNumber || 1)]);
     return JSON.stringify(["day", programId, Number(weekNumber || 1), Number(dayNumber)]);
   }
@@ -215,15 +216,19 @@ window.FitnessRpgCamp = (() => {
     }
   }
 
-  function avatar(heroPath, alt, imageAttributes = "", imageClass = "") {
-    const camp = state().getProfile()?.camp;
+  function avatar(alt, imageAttributes = "", imageClass = "") {
+    const profile = state().getProfile();
+    const camp = profile?.camp;
+    const heroine = profile?.gender === "femme";
+    const heroPath = heroine ? "assets/heros-campement/heroine.webp" : "assets/heros-campement/heros.webp";
     const styles = catalog.filter((item) => camp?.equipped[item.slot] === item.id)
       .map((item) => `camp-avatar--${item.style}`).join(" ");
-    const pose = heroPath.includes("/joueuse/") ? " camp-avatar--heroine" : "";
+    const pose = heroine ? " camp-avatar--heroine" : "";
     return `<div class="camp-avatar ${styles}${pose}">
       <img src="${heroPath}" alt="${alt}" class="${imageClass}" ${imageAttributes}>
       <span class="camp-avatar-aura" aria-hidden="true"></span>
       <span class="camp-avatar-cloak" aria-hidden="true"></span>
+      <span class="camp-avatar-mantle" aria-hidden="true"></span>
       <span class="camp-avatar-clasp" aria-hidden="true"></span>
     </div>`;
   }
@@ -253,7 +258,7 @@ window.FitnessRpgCamp = (() => {
       && camp.protectedThrough !== today && !camp.restedSinceWorkout;
     root.innerHTML = `
       <div class="camp-summary">
-        ${avatar(window.FitnessRpgProgress.getHeroImagePath(), renderer.escapeHtml(profile.name))}
+        ${avatar(renderer.escapeHtml(profile.name))}
         <div><strong class="camp-balance">${camp.gold} PO</strong><p>10 PO par nouvelle séance essentielle, 5 par complément, 20 par boss et 50 par campagne terminée.</p></div>
       </div>
       <p class="camp-status" role="status" tabindex="-1">${message}</p>

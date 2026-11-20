@@ -1506,10 +1506,11 @@ small {
 }
 
 .camp-avatar {
-  --clasp-x: 50%;
-  --clasp-y: 24%;
-  --cape-x: 54%;
-  --cape-y: 20%;
+  --clasp-x: 54%;
+  --clasp-y: 25%;
+  --cape-y: 16.4%;
+  --mantle-x: 29%;
+  --mantle-width: 43%;
   position: relative;
   width: fit-content;
   max-width: 100%;
@@ -1520,20 +1521,23 @@ small {
 }
 
 .camp-avatar--heroine {
-  --clasp-x: 54%;
-  --clasp-y: 28%;
-  --cape-x: 58%;
-  --cape-y: 24%;
+  --clasp-y: 26.6%;
+  --cape-y: 20%;
+  --mantle-x: 31%;
+  --mantle-width: 38%;
 }
 
 .camp-avatar > img {
   display: block;
   width: auto;
   height: auto;
+  position: relative;
+  z-index: 1;
 }
 
 .camp-avatar-aura,
 .camp-avatar-cloak,
+.camp-avatar-mantle,
 .camp-avatar-clasp {
   display: none;
   position: absolute;
@@ -1554,35 +1558,49 @@ small {
 
 .camp-avatar--aventurier .camp-avatar-cloak {
   display: block;
-  left: var(--cape-x);
-  top: var(--cape-y);
-  width: 32%;
-  height: 65%;
-  clip-path: polygon(0 0, 13% 4%, 26% 27%, 43% 49%, 68% 70%, 100% 88%, 69% 95%, 41% 100%, 35% 92%, 17% 96%, 20% 80%, 7% 53%);
+  left: 14%;
+  right: 10%;
+  top: calc(var(--cape-y) + 2%);
+  height: 68%;
+  clip-path: polygon(27% 1%, 49% 0, 72% 3%, 79% 18%, 89% 47%, 94% 68%, 100% 84%, 94% 90%, 83% 96%, 76% 94%, 66% 98%, 52% 96%, 35% 100%, 25% 97%, 12% 98%, 0 93%, 9% 73%, 16% 46%, 21% 20%);
   background:
-    linear-gradient(71deg, transparent 26%, rgba(4, 32, 25, 0.65) 42%, transparent 52%, rgba(201, 194, 107, 0.4) 59%, transparent 64%),
-    linear-gradient(160deg, #396f55, #184035 51%, #418366 81%, #c9a455 82% 84%, #183d31 85%);
+    linear-gradient(95deg, #20382b, #3e6246 9%, #263e2b 15%, #527452 23%, #2c4b34 32%, #213c2c 47%, #68805a 69%, #2c4934 81%, #567553 89%, #273e2d);
+  box-shadow: inset 0 -14px 0 #99733c;
+}
+
+.camp-avatar--aventurier .camp-avatar-mantle {
+  display: block;
+  z-index: 2;
+  left: var(--mantle-x);
+  top: var(--cape-y);
+  width: var(--mantle-width);
+  height: 12%;
+  clip-path: polygon(22% 4%, 29% 0%, 40% 22%, 55% 27%, 70% 15%, 72% 3%, 83% 8%, 96% 29%, 100% 65%, 91% 59%, 77% 52%, 59% 44%, 54% 45%, 40% 56%, 24% 71%, 9% 88%, 0 92%, 3% 62%, 8% 29%);
+  background:
+    linear-gradient(146deg, #3a5940 12%, #6b8361 24%, #304d37 36%, #66815a 41%, #456348 54%, #254430 59%, #a8884c 60% 62%, #314d37 63%);
+  filter: drop-shadow(0 1px 1px #161c15);
 }
 
 .camp-avatar--dragon .camp-avatar-clasp {
   display: grid;
   place-items: center;
+  z-index: 3;
   left: var(--clasp-x);
   top: var(--clasp-y);
-  width: 8%;
-  aspect-ratio: 1;
+  width: 6%;
+  aspect-ratio: 0.86;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   border: 1px solid #ffde88;
   box-shadow: 0 1px 4px #1a1009;
-  background: radial-gradient(circle at 40% 35%, #e7c16a, #754115 80%);
+  background: radial-gradient(ellipse at 38% 33%, #92e6fc, #1d84b8 46%, #122b52 72%, #b08644 74%);
   container-type: inline-size;
 }
 
 .camp-avatar-clasp::before {
-  content: "♞";
-  color: #331e11;
-  font-size: 84cqi;
+  content: "ᛟ";
+  color: #f1fbff;
+  font-size: 72cqi;
   line-height: 1;
 }
 

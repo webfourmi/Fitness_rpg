@@ -89,7 +89,7 @@ test('achat, équipement par emplacement et retrait survivent à la sauvegarde',
   app = boot(app.records);
   assert.equal(app.state.profile.camp.gold, 15);
   assert.equal(app.state.profile.camp.equipped.aura, 'sun-aura');
-  assert.match(app.camp.avatar('assets/joueuse/joueuse_niveau_01.webp', 'Aventurière'), /camp-avatar--solaire camp-avatar--heroine/);
+  assert.match(app.camp.avatar('Aventurière'), /camp-avatar--solaire camp-avatar--heroine/);
   app.camp.mutate('remove', 'sun-aura');
   assert.equal(app.state.profile.camp.equipped.aura, undefined);
   assert.equal(app.state.profile.camp.owned.length, 2);

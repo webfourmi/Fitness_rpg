@@ -1,6 +1,8 @@
 # Campement et apparence · V7.0.0
 
-Le campement est accessible depuis le tableau du héros, le menu Héros et le menu mobile « Plus ». La boutique débite des pièces d’or (PO). Un objet acheté apparaît dans l’inventaire, où il peut être équipé ou retiré. Un seul objet peut être équipé par emplacement. Les auras, la cape et la broche se superposent aux séries de portraits du héros et de l’héroïne, y compris lors de l’agrandissement du portrait.
+Le campement est accessible depuis le tableau du héros, le menu Héros et le menu mobile « Plus ». La boutique débite des pièces d’or (PO). Un objet acheté apparaît dans l’inventaire, où il peut être équipé ou retiré. Un seul objet peut être équipé par emplacement. Les auras, la cape et le médaillon se superposent aux portraits du héros et de l’héroïne, y compris lors de leur agrandissement. Les deux personnages portent une tenue médiévale simple et stable, quel que soit le niveau. Les visuels historiques du niveau restent disponibles dans la galerie de progression et les écrans de montée en niveau.
+
+Les modèles de la [planche du héros](references-apparence/visuelnew1.png) et de la [planche de l’héroïne](references-apparence/visuelnew2.png) servent de référence pour les deux portraits de base et leurs équipements.
 
 ## Économie
 

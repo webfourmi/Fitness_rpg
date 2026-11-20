@@ -495,7 +495,7 @@ const heroName = window.FitnessRpgRender.escapeHtml
 
 if (heroFrame) {
   heroFrame.innerHTML = `
-    ${window.FitnessRpgCamp?.avatar(heroPath, heroName, 'id="heroImage"', `hero-image${levelUpClass}`)
+    ${window.FitnessRpgCamp?.avatar(heroName, 'id="heroImage"', `hero-image${levelUpClass}`)
       || `<img id="heroImage" class="hero-image${levelUpClass}" src="${heroPath}" alt="${heroName}">`}
 
     <span class="hero-level-badge">Niv. ${info.level}</span>
