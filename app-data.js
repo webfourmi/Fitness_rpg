@@ -15840,8 +15840,8 @@ window.FitnessRpgData.checkIntegrity = async function checkIntegrity(options = {
   "categoryId": "strength",
   "title": "Rowing unilatéral avec bouteille",
   "images": {
-    "male": "assets/exercices/homme_default.png",
-    "female": "assets/exercices/femme_default.png"
+    "male": "assets/exercices/homme_default.webp",
+    "female": "assets/exercices/femme_default.webp"
   },
   "description": "Tirage du dos avec une bouteille d’eau légère, buste soutenu et dos neutre. Répartis le total entre les deux bras.",
   "unit": "répétitions",
@@ -18110,5 +18110,133 @@ window.FitnessRpgData.checkIntegrity = async function checkIntegrity(options = {
       "Les exercices de stabilité visent le confort et la capacité physique, pas le traitement garanti d'une lombalgie.",
       safeAdvice
     ]
+  };
+})();
+
+;(() => {
+  const id = "bras-heros";
+  const legacy = window.FitnessRpgData.programDetails[id];
+  if (legacy.workoutRevision) return;
+
+  const move = (phase, exerciseId, amount, unit = "répétitions", cue) =>
+    ({ phase, exerciseId, amount, unit, cue });
+  const warmup = [
+    move("Échauffement", "march_on_spot", 1, "min"),
+    move("Échauffement", "arm_circles", 30, "sec"),
+    move("Échauffement", "arm_open_close", 30, "sec")
+  ];
+  const cooldown = move("Retour au calme", "shoulder_arm_stretch", 1, "min", "Répartis le temps entre les deux côtés.");
+  const push = (exerciseId, amount) => move("Poussée", exerciseId, amount, "répétitions",
+    "Choisis un appui stable. Le mur est la variante la plus facile.");
+  const taps = (amount) => move("Stabilité", "incline_shoulder_taps", amount, "répétitions",
+    "Alterne les bras. Le nombre indiqué est le total pour les deux côtés.");
+  const row = (amount) => move("Tirage", "supported_row_water_bottle", amount, "répétitions",
+    "Avec un appui stable, tire vers la hanche. Fais la moitié des répétitions de chaque côté.");
+  const accessible = "Prends 45 à 90 secondes de repos entre les exercices si besoin. Garde quelques répétitions en réserve et arrête le mouvement en cas de douleur.";
+  const progression = [
+    "Semaine 1 · Découvrir les appuis au mur et apprendre les gestes sans haltères.",
+    "Semaine 2 · Ajouter quelques répétitions ou secondes. Essaie un appui incliné si les pompes au mur sont faciles.",
+    "Semaine 3 · Découvrir le tirage et les mouvements avec une petite bouteille ou des haltères jusqu’à 1 kg.",
+    "Semaine 4 · Consolider la poussée et le tirage avec une descente lente et la même charge."
+  ];
+
+  const weeks = progression.map((note, index) => {
+    const hasWeights = index >= 2;
+    const secondWeek = index === 1;
+    const pushups = index === 0 ? "wall_pushups" : "incline_pushups";
+    const essentials = [
+      {
+        title: "Poussée et triceps",
+        exercises: [
+          push(pushups, secondWeek ? 10 : 8),
+          move("Triceps", "wall_triceps_extension", secondWeek ? 10 : 8),
+          taps(secondWeek ? 12 : 10),
+          ...(!hasWeights ? [] : index === 2
+            ? [move("Épaules", "front_raises_1kg", 8, "répétitions", "Garde les épaules basses et limite l’amplitude si besoin.")]
+            : [move("Épaules", "shoulder_press_1kg", 8, "répétitions", "Monte dans une amplitude confortable sans cambrer le dos.")])
+        ]
+      },
+      {
+        title: hasWeights ? "Tirage et biceps" : "Épaules et stabilité",
+        exercises: hasWeights ? [
+          row(16),
+          move("Biceps", "biceps_curl_1kg", 8),
+          move("Biceps et avant-bras", "hammer_curl_1kg", 8),
+          move("Épaules", "lateral_raises_1kg", 8, "répétitions", "Monte seulement aussi haut que tu peux sans hausser les épaules.")
+        ] : [
+          taps(secondWeek ? 12 : 10),
+          move("Gainage", "knee_plank", secondWeek ? 20 : 15, "sec"),
+          move("Épaules", "arm_open_close", secondWeek ? 40 : 30, "sec")
+        ]
+      },
+      {
+        title: "Les gestes enchaînés",
+        exercises: [
+          push(pushups, secondWeek ? 10 : 8),
+          hasWeights ? row(16) : taps(secondWeek ? 12 : 10),
+          hasWeights
+            ? move("Triceps", "triceps_kickback_1kg", 8)
+            : move("Triceps", "wall_triceps_extension", secondWeek ? 10 : 8),
+          move("Gainage", "knee_plank", index === 0 ? 15 : 20, "sec")
+        ]
+      }
+    ];
+
+    return {
+      week: index + 1,
+      progression: note,
+      days: [
+        ...essentials.map((day, dayIndex) => ({
+          ...day,
+          day: dayIndex + 1,
+          xp: legacy.days[dayIndex].xp,
+          difficultyLabel: "≈ 6 à 12 min",
+          instructions: (index === 3 ? "Ralentis la descente sans augmenter la charge. " : "")
+            + (hasWeights ? "Pour les exercices lestés, commence à vide ou utilise une petite bouteille ou des haltères jusqu’à 1 kg. " : "")
+            + accessible,
+          exercises: [...warmup, ...day.exercises, cooldown]
+        })),
+        {
+          day: 4,
+          title: "Mobilité des épaules",
+          optional: true,
+          xp: 0,
+          difficultyLabel: "≈ 4 min",
+          instructions: "Délie les épaules en gardant une amplitude confortable.",
+          exercises: [...warmup, move("Mobilité", "thoracic_rotation", 1, "min"), cooldown]
+        },
+        {
+          day: 5,
+          title: "Posture et récupération",
+          optional: true,
+          xp: 0,
+          difficultyLabel: "≈ 5 min",
+          instructions: "Marche à une allure facile, puis relâche les épaules pendant la respiration.",
+          exercises: [
+            move("Marche facile", "walk", 2, "min"),
+            move("Mobilité", "thoracic_rotation", 1, "min"),
+            cooldown,
+            move("Respiration", "slow_breathing", 1, "min")
+          ]
+        }
+      ]
+    };
+  });
+
+  window.FitnessRpgData.programDetails[id] = {
+    ...legacy,
+    subtitle: "Renforce progressivement les bras et les épaules avec des appuis stables et des charges légères.",
+    material: "Mur et appui solide. En semaines 3 et 4 : petite bouteille ou haltères légers jusqu’à 1 kg.",
+    progression,
+    notes: [
+      "Espace les séances essentielles d’au moins un jour. Les deux compléments sont facultatifs et sans XP.",
+      "Les mouvements avec charge peuvent être réalisés à vide. Pour les pompes inclinées, reviens au mur si nécessaire."
+    ],
+    weeks,
+    legacyWorkouts: {
+      weeks: weeks.map(({ week }) => ({ week, days: legacy.days })),
+      bosses: []
+    },
+    workoutRevision: "bras-heros-v1"
   };
 })();

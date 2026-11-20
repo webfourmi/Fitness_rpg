@@ -979,7 +979,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
         </button>
       </header>
 
-      ${(program.id === "tour-mage" || program.id === "coeur-dragon") && workout.instructions
+      ${(program.id === "tour-mage" || program.id === "coeur-dragon" || program.id === "bras-heros") && workout.instructions
         ? `<details><summary>Consignes de la séance</summary>
             <p>${window.FitnessRpgRender.escapeHtml(workout.instructions)}</p></details>` : ""}
 
@@ -1803,7 +1803,7 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
   });
   const repeat = window.FitnessRpgPrograms.getRepeatWeek(programId);
   const isRepeatDay = repeat?.weekNumber === selection.weekNumber && repeat.nextDay === Number(day?.day);
-  const hasSpecificInstructions = programId === "tour-mage" || programId === "coeur-dragon";
+  const hasSpecificInstructions = programId === "tour-mage" || programId === "coeur-dragon" || programId === "bras-heros";
   const isComplement = day?.optional && day.xp === 0;
   const selectedDayButtonLabel = selectedDayProgress?.active
     ? "Reprendre cette séance"
@@ -1871,7 +1871,7 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
         <div class="program-detail-hero-meta">
           <span>🎚️ ${program.level}</span>
           <span>🧙 ${program.coachAdvice || "Coach libre"}</span>
-          <span>🏆 ${program.xp || 0} XP par séance</span>
+          <span>🏆 ${programId === "bras-heros" ? "20 à 40 XP par séance essentielle" : `${program.xp || 0} XP par séance`}</span>
         </div>
       </div>
     </header>
@@ -1937,7 +1937,7 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
               <span>⏱️ ${hasSpecificInstructions ? day.difficultyLabel : program.duration}</span>
               <span>${isComplement ? "Sans XP"
                 : isRepeatDay || (programId === "coeur-dragon" && selectedDayProgress?.completed)
-                  ? "Sans récompense supplémentaire" : `✨ ${day.optional ? day.xp : program.xp || 0} XP`}</span>
+                  ? "Sans récompense supplémentaire" : `✨ ${programId === "bras-heros" || day.optional ? day.xp : program.xp || 0} XP`}</span>
             </div>
 
             ${hasSpecificInstructions && day.instructions

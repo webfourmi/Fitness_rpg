@@ -1790,11 +1790,14 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
   const objectiveProgram2 = window.FitnessRpgConfig?.getProgramById?.(objectiveProgram2Id);
   const completedMainSessions = window.FitnessRpgPrograms.getCompletedMainSessionsThisWeek();
   const bossWeekNumber = window.FitnessRpgPrograms.getPlanningBossWeekNumber(activeProgramId);
-  // Les compléments propres au programme sont facultatifs et ne déverrouillent pas le boss.
-  const programComplements = window.FitnessRpgPrograms.getProgramDaysForWeek(activeProgramId, bossWeekNumber)
+  // Bras du héros suit sa semaine d'entraînement, indépendamment du défi boss générique.
+  const complementWeekNumber = activeProgramId === "bras-heros"
+    ? window.FitnessRpgPrograms.getSuggestedProgramPosition(activeProgramId).weekNumber
+    : bossWeekNumber;
+  const programComplements = window.FitnessRpgPrograms.getProgramDaysForWeek(activeProgramId, complementWeekNumber)
     .filter((day) => day.optional).slice(0, 2);
   const optionalSlot = (dayLabel, day) => [
-    dayLabel, day.title + " · facultatif", activeProgramId, "program-optional", bossWeekNumber, day.day
+    dayLabel, day.title + " · facultatif", activeProgramId, "program-optional", complementWeekNumber, day.day
   ];
   const programBoss = window.FitnessRpgPrograms.getProgramBoss(
     activeProgramId,
