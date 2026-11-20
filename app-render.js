@@ -697,10 +697,12 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
     : isRest
       ? (quest.subtitle || "Récupération")
       : `Semaine ${Number(quest.weekNumber || 1)} · Jour ${Number(quest.dayNumber || 1)}`;
+  const isComplement = quest.day?.optional && quest.day.xp === 0;
   const duration = isRest
     ? "Récupération"
-    : program?.duration || quest.day?.duration || "Séance guidée";
-  const xp = !isRest && quest.programId
+    : (quest.programId === "coeur-dragon" && quest.day?.difficultyLabel)
+      || program?.duration || quest.day?.duration || "Séance guidée";
+  const xp = !isRest && !isComplement && quest.programId
     ? Number(
         window.FitnessRpgProgress.calculateProgramSessionXp?.(
           quest.programId,
@@ -852,6 +854,14 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
   const isBoss = session.type === "program-boss";
   const complete = window.FitnessRpgState.isProgramSessionComplete();
   const isRepeat = !isBoss && Boolean(window.FitnessRpgPrograms.getRepeatWeek(session.programId));
+  const isComplement = workout.optional && workout.xp === 0;
+  const isDragonReplay = session.programId === "coeur-dragon"
+    && window.FitnessRpgState.getAllEntries().some((entry) =>
+      entry.programId === session.programId
+      && Number(entry.weekNumber || 1) === Number(session.weekNumber || 1)
+      && (isBoss ? entry.type === "program-boss"
+        : entry.type === "program" && Number(entry.dayNumber) === Number(session.dayNumber))
+    );
 
   const xp = isBoss
     ? Number(workout.xp || workout.boss?.xp || 50)
@@ -907,7 +917,8 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
   const actionsHtml = complete
     ? `
       <button id="finishProgramSessionButton" class="primary-btn guided-finish-btn" type="button">
-        ${isRepeat ? "Terminer la séance de révision" : `Terminer · +${xp} XP`}
+        ${isRepeat ? "Terminer la séance de révision"
+          : isComplement || isDragonReplay ? "Terminer" : `Terminer · +${xp} XP`}
       </button>
     `
     : `
@@ -968,7 +979,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
         </button>
       </header>
 
-      ${program.id === "tour-mage" && workout.instructions
+      ${(program.id === "tour-mage" || program.id === "coeur-dragon") && workout.instructions
         ? `<details><summary>Consignes de la séance</summary>
             <p>${window.FitnessRpgRender.escapeHtml(workout.instructions)}</p></details>` : ""}
 
@@ -993,7 +1004,6 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
       </section>
 
       <main class="guided-exercise-stage">
-        ${activeItem.cue ? `<p>${window.FitnessRpgRender.escapeHtml(activeItem.cue)}</p>` : ""}
         <div class="program-session-list session-focus-card-wrap">
           ${exerciseCardHtml}
         </div>
@@ -1085,7 +1095,8 @@ summary.innerHTML = `
     <div class="today-planning-line">
       <strong>Aujourd’hui · ${todayItem.dayLabel}</strong>
       <span>${todayItem.title}</span>
-      <span>${todayProgram ? todayProgram.duration : "Repos"}</span>
+      <span>${todayQuest?.day?.difficultyLabel && todayItem.programId === "coeur-dragon"
+        ? todayQuest.day.difficultyLabel : todayProgram?.duration || "Repos"}</span>
     </div>
 
  ${
@@ -1125,13 +1136,15 @@ summary.innerHTML = `
 
   grid.innerHTML = "";
 
-plan.forEach(([dayLabel, title, programId, source, bossWeekNumber], index) => {
+plan.forEach(([dayLabel, title, programId, source, bossWeekNumber, dayNumber], index) => {
     const dateKey = weekKeys[index];
     const entries = window.FitnessRpgState.getEntriesForDate(dateKey);
     const program = programId ? window.FitnessRpgConfig.getProgramById(programId) : null;
 
     const isToday = dateKey === todayKey;
-    const done = source === "program-boss"
+    const done = source === "program-optional" && dayNumber
+  ? Boolean(window.FitnessRpgState.getProgramComplementCompletion(programId, bossWeekNumber, dayNumber))
+  : source === "program-boss"
   ? entries.some((entry) => {
       return entry.type === "program-boss"
         && entry.programId === programId
@@ -1186,6 +1199,7 @@ plan.forEach(([dayLabel, title, programId, source, bossWeekNumber], index) => {
               data-program-id="${program.id}"
               data-source="${source || "planning"}"
               data-week-number="${bossWeekNumber || 1}"
+              data-day-number="${dayNumber || ""}"
               data-date-key="${dateKey}"
             >
               ${
@@ -1547,6 +1561,8 @@ window.FitnessRpgRender.renderProgramBossChoiceHtml = function renderProgramBoss
         <h4>${variant.label || variant.title || "Boss"}</h4>
         <p>${variant.mission || ""}</p>
         <p><strong>${variant.difficultyLabel || boss.difficultyLabel || ""}</strong></p>
+        ${programId === "coeur-dragon" && variant.instructions
+          ? `<p>${window.FitnessRpgRender.escapeHtml(variant.instructions)}</p>` : ""}
         <ul>${exercisesPreview}</ul>
 
         <button
@@ -1787,6 +1803,8 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
   });
   const repeat = window.FitnessRpgPrograms.getRepeatWeek(programId);
   const isRepeatDay = repeat?.weekNumber === selection.weekNumber && repeat.nextDay === Number(day?.day);
+  const hasSpecificInstructions = programId === "tour-mage" || programId === "coeur-dragon";
+  const isComplement = day?.optional && day.xp === 0;
   const selectedDayButtonLabel = selectedDayProgress?.active
     ? "Reprendre cette séance"
     : isRepeatDay
@@ -1916,11 +1934,13 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
 
             <div class="selected-program-day-meta">
               <span>🧩 ${exerciseCount} exercice${exerciseCount > 1 ? "s" : ""}</span>
-              <span>⏱️ ${programId === "tour-mage" ? day.difficultyLabel : program.duration}</span>
-              <span>${isRepeatDay ? "Sans récompense supplémentaire" : `✨ ${day.optional ? day.xp : program.xp || 0} XP`}</span>
+              <span>⏱️ ${hasSpecificInstructions ? day.difficultyLabel : program.duration}</span>
+              <span>${isComplement ? "Sans XP"
+                : isRepeatDay || (programId === "coeur-dragon" && selectedDayProgress?.completed)
+                  ? "Sans récompense supplémentaire" : `✨ ${day.optional ? day.xp : program.xp || 0} XP`}</span>
             </div>
 
-            ${programId === "tour-mage" && day.instructions
+            ${hasSpecificInstructions && day.instructions
               ? `<p>${window.FitnessRpgRender.escapeHtml(day.instructions)}</p>` : ""}
             <div class="program-phase-block-list">${exercisesHtml}</div>
 

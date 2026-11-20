@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "0.6.6.9",
+  version: "0.6.6.10",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V6.6.9",
+  displayVersion: "V6.6.10",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "6.6.9",
+  assetVersion: "6.6.10",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
@@ -190,12 +190,12 @@ window.FitnessRpgConfig = {
       id: "coeur-dragon",
       icon: "❤️‍🔥",
       title: "Cœur de dragon",
-      objective: "Cardio progressif sans impact violent",
+      objective: "Cardio progressif sans saut",
       level: "Après Éveil du héros",
       tier: "intermediate",
       unlockLevel: 2,
-      duration: "20-35 min",
-      frequency: "3 séances par semaine · boss le samedi",
+      duration: "12 à 25 min par séance essentielle",
+      frequency: "3 séances essentielles, 2 compléments facultatifs et 1 boss",
       coachAdvice: "Korvan ou Xara",
       weeklySlots: [0, 2, 4],
       xp: 60,
