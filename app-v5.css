@@ -10013,3 +10013,34 @@ body[data-page="hero-setup"] .app-page {
     margin-top: 8px;
   }
 }
+
+/* MAJ V6.6.12 : action visible dès qu'une version plus récente est détectée. */
+.pwa-update-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 7px 12px;
+  border: 1px solid rgba(124, 200, 255, 0.65);
+  border-radius: 12px;
+  background: rgba(31, 100, 149, 0.95);
+  color: #fff;
+  font-size: 0.79rem;
+  font-weight: 850;
+  line-height: 1.15;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.pwa-update-button.hidden { display: none !important; }
+.pwa-update-button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.pwa-update-button:disabled { opacity: 0.65; cursor: not-allowed; }
+@media (max-width: 699px) {
+  .pwa-update-button { min-height: 36px; padding: 6px 9px; font-size: 0.7rem; }
+}
+@media (max-width: 380px) {
+  .pwa-update-button { padding: 6px; font-size: 0.64rem; }
+}
