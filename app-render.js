@@ -495,12 +495,8 @@ const heroName = window.FitnessRpgRender.escapeHtml
 
 if (heroFrame) {
   heroFrame.innerHTML = `
-    <img
-      id="heroImage"
-      class="hero-image${levelUpClass}"
-      src="${heroPath}"
-      alt="${heroName}"
-    />
+    ${window.FitnessRpgCamp?.avatar(heroPath, heroName, 'id="heroImage"', `hero-image${levelUpClass}`)
+      || `<img id="heroImage" class="hero-image${levelUpClass}" src="${heroPath}" alt="${heroName}">`}
 
     <span class="hero-level-badge">Niv. ${info.level}</span>
 
@@ -3772,6 +3768,7 @@ window.FitnessRpgRender.closeFamiliarModal = function closeFamiliarModal() {
 window.FitnessRpgRender.renderCurrentPage = function renderCurrentPage() {
   const page = window.FitnessRpgState.getPage();
 
+  window.FitnessRpgCamp?.resolveOvernight();
   window.FitnessRpgRender.renderPages();
   window.FitnessRpgRender.renderVersion();
 
@@ -3788,6 +3785,10 @@ window.FitnessRpgRender.renderCurrentPage = function renderCurrentPage() {
       window.FitnessRpgRender.renderHeroMenu();
       break;
       
+    case "camp":
+      window.FitnessRpgCamp.render();
+      break;
+
     case "training":
       window.FitnessRpgRender.renderTraining();
       break;

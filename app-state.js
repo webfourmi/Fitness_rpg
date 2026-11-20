@@ -158,6 +158,10 @@ window.FitnessRpgState.loadProfile = function loadProfile() {
       levelFamiliarRewards: loaded.levelFamiliarRewards || {}
     };
 
+    if (window.FitnessRpgCamp && !window.FitnessRpgCamp.hasValidSave(loaded.camp)) {
+      delete window.FitnessRpgState.profile.camp;
+    }
+
     window.FitnessRpgState.selectedCoachId = window.FitnessRpgState.profile.coachId || "korvan";
     window.FitnessRpgState.selectedGoalId = window.FitnessRpgState.profile.goalId || "reprise-douce";
     window.FitnessRpgState.selectedProgramId = window.FitnessRpgState.profile.activeProgramId || null;
@@ -478,7 +482,7 @@ window.FitnessRpgState.setEntriesForDate = function setEntriesForDate(dateKey, e
   window.FitnessRpgState.saveProfile();
 };
 
-window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}, { familiarPassive = null } = {}) {
+window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}, { familiarPassive = null, campGold = 0 } = {}) {
   if (!window.FitnessRpgState.profile) return null;
 
   const dateKey = entry.date || window.FitnessRpgState.todayKey();
@@ -515,8 +519,9 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}, 
     at: entry.at || window.FitnessRpgState.nowIso()
   };
 
+  const profile = window.FitnessRpgState.profile;
+  const camp = window.FitnessRpgCamp?.migrate(profile);
   if (familiarPassive) {
-    const profile = window.FitnessRpgState.profile;
     profile.familiarPassiveClaims = {
       lastDate: familiarPassive.date,
       days: { ...profile.familiarPassiveClaims?.days, [familiarPassive.dayKey]: true }
@@ -525,14 +530,14 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}, 
     cleanEntry.familiarId = familiarPassive.familiar.id;
     cleanEntry.xp += familiarPassive.xp;
 
-    // Le premier enregistrement du profil contient ensemble la séance, le bonus et son plafond.
-    profile.completedByDate[dateKey] = [...entries, cleanEntry];
-    window.FitnessRpgState.updateStreak(dateKey, { save: false });
-  } else {
-    entries.push(cleanEntry);
-    window.FitnessRpgState.setEntriesForDate(dateKey, entries);
-    window.FitnessRpgState.updateStreak(dateKey);
   }
+
+  // La séance et son droit aux PO sont enregistrés dans la même sauvegarde.
+  profile.completedByDate[dateKey] = [...entries, cleanEntry];
+  if (camp && campGold > 0) {
+    cleanEntry.gold = window.FitnessRpgCamp.reward(camp, cleanEntry, campGold);
+  }
+  window.FitnessRpgState.updateStreak(dateKey, { save: false });
 
   if (cleanEntry.xp > 0) {
     window.FitnessRpgState.addXp(cleanEntry.xp, cleanEntry.title);
@@ -573,6 +578,8 @@ window.FitnessRpgState.completeProgramComplement = function completeProgramCompl
   const profile = state.getProfile();
   if (!profile || state.getProgramComplementCompletion(programId, weekNumber, dayNumber)) return;
   const previous = profile.programComplements;
+  const camp = window.FitnessRpgCamp?.migrate(profile);
+  const previousCamp = camp ? structuredClone(camp) : null;
   profile.programComplements = {
     ...previous,
     [programId]: {
@@ -581,9 +588,12 @@ window.FitnessRpgState.completeProgramComplement = function completeProgramCompl
     }
   };
   try {
+    const earned = camp ? window.FitnessRpgCamp.reward(camp, { programId, weekNumber, dayNumber }, 5) : 0;
     state.saveProfile();
+    return earned;
   } catch (error) {
     profile.programComplements = previous;
+    if (camp) profile.camp = previousCamp;
     throw error;
   }
 };
@@ -656,19 +666,22 @@ window.FitnessRpgState.updateStreak = function updateStreak(activeDateKey = null
 
   const dateKey = activeDateKey || window.FitnessRpgState.todayKey();
 
-  if (window.FitnessRpgState.profile.lastActiveDate === dateKey) {
-    return;
+  const profile = window.FitnessRpgState.profile;
+  if (profile.lastActiveDate >= dateKey) return;
+
+  const camp = profile.camp;
+  const campApi = window.FitnessRpgCamp;
+  let consecutive = profile.lastActiveDate === window.FitnessRpgState.yesterdayKey();
+  if (camp && campApi?.isDate(profile.lastActiveDate)) {
+    campApi.settle(profile, dateKey);
+    const through = camp.protectedThrough > profile.lastActiveDate ? camp.protectedThrough : profile.lastActiveDate;
+    consecutive = through >= dateKey || campApi.nextDay(through) === dateKey;
+    camp.protectedThrough = null;
+    camp.restedSinceWorkout = false;
   }
 
-  const yesterday = window.FitnessRpgState.yesterdayKey();
-
-  if (window.FitnessRpgState.profile.lastActiveDate === yesterday) {
-    window.FitnessRpgState.profile.streak = Number(window.FitnessRpgState.profile.streak || 0) + 1;
-  } else {
-    window.FitnessRpgState.profile.streak = 1;
-  }
-
-  window.FitnessRpgState.profile.lastActiveDate = dateKey;
+  profile.streak = consecutive ? Number(profile.streak || 0) + 1 : 1;
+  profile.lastActiveDate = dateKey;
   if (save) window.FitnessRpgState.saveProfile();
 };
 

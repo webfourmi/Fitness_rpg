@@ -2548,8 +2548,9 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
 
   const state = window.FitnessRpgState;
   if (day.optional && day.xp === 0) {
+    let earned = 0;
     try {
-      state.completeProgramComplement(program.id, Number(session.weekNumber || 1), Number(day.day));
+      earned = state.completeProgramComplement(program.id, Number(session.weekNumber || 1), Number(day.day));
     } catch (error) {
       console.error("Fitness RPG - complément impossible à sauvegarder :", error);
       window.FitnessRpgPrograms.showMessage({
@@ -2566,7 +2567,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     window.FitnessRpgPrograms.showMessage({
       icon: "✅",
       title: "Complément terminé",
-      message: "Cette séance facultative reste disponible quand tu en as envie.",
+      message: earned ? `+${earned} PO · Ce complément reste disponible.` : "Cette séance facultative reste disponible quand tu en as envie.",
       okText: "Continuer"
     });
     return;
@@ -2631,8 +2632,9 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   const familiarBonusXp = familiarPassive?.xp || 0;
   const xp = baseXp + familiarBonusXp;
 
+  let completion;
   try {
-    state.addTrainingEntry({
+    completion = state.addTrainingEntry({
       id: familiarPassive ? session.id : null,
       date: entryDate,
       type: "program",
@@ -2651,7 +2653,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
       amount: 1,
       unit: "séance",
       xp: baseXp
-    }, { familiarPassive });
+    }, { familiarPassive, campGold: day.optional ? 5 : 10 });
   } catch (error) {
     console.error("Fitness RPG - séance impossible à sauvegarder :", error);
     state.loadProfile();
@@ -2699,6 +2701,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     icon: badge.icon || "🏅",
     text: `Badge débloqué : ${badge.title}`
   }));
+  if (completion?.gold) rewards.push({ icon: "🪙", text: `+${completion.gold} PO` });
   if (familiarPassive) {
     rewards.push({
       icon: "🐾",
@@ -2834,22 +2837,36 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
   const weekNumber = Number(session.weekNumber || 1);
   const title = `${program.title} · Semaine ${weekNumber} · ${boss.title} · ${safeVariant.label || safeVariant.title}`;
 
-  window.FitnessRpgState.addTrainingEntry?.({
-    type: "program-boss",
-    sportId: "program-boss",
-    sportTitle: "Boss de programme",
-    programId: program.id,
-    programTitle: program.title,
-    weekNumber,
-    dayNumber: 0,
-    bossTitle: boss.title,
-    bossVariant: safeVariant.id || session.bossVariant || "indoor",
-    badgeId: boss.badgeId || null,
-    title,
-    amount: 1,
-    unit: "boss",
-    xp
-  });
+  let completion;
+  try {
+    completion = window.FitnessRpgState.addTrainingEntry?.({
+      type: "program-boss",
+      sportId: "program-boss",
+      sportTitle: "Boss de programme",
+      programId: program.id,
+      programTitle: program.title,
+      weekNumber,
+      dayNumber: 0,
+      bossTitle: boss.title,
+      bossVariant: safeVariant.id || session.bossVariant || "indoor",
+      badgeId: boss.badgeId || null,
+      title,
+      amount: 1,
+      unit: "boss",
+      xp
+    }, { campGold: 20 });
+  } catch (error) {
+    console.error("Fitness RPG - victoire impossible à sauvegarder :", error);
+    window.FitnessRpgState.loadProfile();
+    window.FitnessRpgPrograms.showMessage({
+      icon: "⚠️",
+      title: "Sauvegarde interrompue",
+      message: "Le combat reste ouvert. Vérifie le stockage disponible puis réessaie.",
+      okText: "Compris"
+    });
+    return;
+  }
+
 
   window.FitnessRpgState.addJournalEntry?.({
     type: "program-boss",
@@ -2893,6 +2910,7 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
     text: `Badge débloqué : ${badge.title}`
   }));
 
+  if (completion?.gold) rewards.push({ icon: "🪙", text: `+${completion.gold} PO` });
   if (chestReward?.success) {
     rewards.push({
       icon: "🎁",
