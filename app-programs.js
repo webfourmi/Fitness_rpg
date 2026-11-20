@@ -1790,9 +1790,9 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
   const objectiveProgram2 = window.FitnessRpgConfig?.getProgramById?.(objectiveProgram2Id);
   const completedMainSessions = window.FitnessRpgPrograms.getCompletedMainSessionsThisWeek();
   const bossWeekNumber = window.FitnessRpgPrograms.getPlanningBossWeekNumber(activeProgramId);
-  const dragonComplements = activeProgramId === "coeur-dragon"
-    ? window.FitnessRpgPrograms.getProgramDaysForWeek(activeProgramId, bossWeekNumber).filter((day) => day.optional)
-    : [];
+  // Les compléments propres au programme sont facultatifs et ne déverrouillent pas le boss.
+  const programComplements = window.FitnessRpgPrograms.getProgramDaysForWeek(activeProgramId, bossWeekNumber)
+    .filter((day) => day.optional).slice(0, 2);
   const optionalSlot = (dayLabel, day) => [
     dayLabel, day.title + " · facultatif", activeProgramId, "program-optional", bossWeekNumber, day.day
   ];
@@ -1822,11 +1822,11 @@ window.FitnessRpgPrograms.getCombinedWeeklyPlan = function getCombinedWeeklyPlan
 
   return [
     ["Lun", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
-    dragonComplements[0] ? optionalSlot("Mar", dragonComplements[0]) : mage
+    programComplements[0] ? optionalSlot("Mar", programComplements[0]) : mage
       ? ["Mar", "Mobilité douce · facultatif", activeProgramId, "program-optional"]
       : ["Mar", (objectiveProgram1?.title || "Séance objectif") + (isCavalier || isForgeGuerrier ? " · facultatif" : ""), objectiveProgram1Id, "goal"],
     ["Mer", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
-    dragonComplements[1] ? optionalSlot("Jeu", dragonComplements[1]) : mage
+    programComplements[1] ? optionalSlot("Jeu", programComplements[1]) : mage
       ? ["Jeu", "Repos", null, "rest"]
       : ["Jeu", (objectiveProgram2?.title || "Séance objectif") + (isCavalier || isForgeGuerrier ? " · facultatif" : ""), objectiveProgram2Id, "goal"],
     ["Ven", activeProgram?.title || "Programme choisi", activeProgramId, "active-program"],
