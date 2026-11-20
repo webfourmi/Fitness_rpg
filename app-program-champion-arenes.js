@@ -18,6 +18,8 @@
   data.badges = Array.isArray(data.badges) ? data.badges : [];
   data.programDetails = data.programDetails || {};
   config.programs = Array.isArray(config.programs) ? config.programs : [];
+  // Idempotent : aucun complément ajouté en double au rechargement.
+  if (data.programDetails["champion-arenes"]?.workoutRevision === 1) return;
 
   function upsertById(list, item) {
     const index = list.findIndex((existing) => existing.id === item.id);
@@ -34,7 +36,11 @@
   }
 
   function addExercise(item) {
-    upsertById(data.exercises, item);
+    // Préserver les illustrations dédiées déjà définies dans app-data.js.
+    const previous = data.exercises.find((exercise) => exercise.id === item.id);
+    upsertById(data.exercises, previous?.images
+      ? { ...item, images: previous.images }
+      : item);
   }
 
   function addBadge(item) {
@@ -675,6 +681,182 @@
     ]
   };
 
+
+  // ------------------------------------------------------------
+  // Révision des séances : préserver les anciens parcours en cours.
+  // ------------------------------------------------------------
+  const championLegacy = data.programDetails["champion-arenes"];
+  const strengthLimits = {
+    1: { cycles: 2, reps: 10, hold: 30, pullups: 4, assisted: 5, getup: 4, bag: 4 },
+    2: { cycles: 2, reps: 12, hold: 35, pullups: 5, assisted: 6, getup: 4, bag: 5 },
+    3: { cycles: 3, reps: 12, hold: 40, pullups: 6, assisted: 6, getup: 4, bag: 6 },
+    4: { cycles: 2, reps: 10, hold: 35, pullups: 5, assisted: 5, getup: 4, bag: 5 }
+  };
+
+  function adaptExercise(item, week) {
+    const limits = strengthLimits[week];
+    if (!limits) return { ...item };
+    const adapted = { ...item };
+    if (item.unit === "répétitions") {
+      const special = {
+        turkish_get_up: limits.getup, // 2 par côté au maximum et par série
+        pullups_clean_max: limits.pullups,
+        assisted_pullups: limits.assisted,
+        kettlebell_swing: Math.min(limits.reps, 12)
+      };
+      adapted.amount = Math.min(Number(item.amount), special[item.exerciseId] || limits.reps);
+    } else if (item.unit === "sec" && ["core", "side_plank"].includes(item.exerciseId)) {
+      adapted.amount = Math.min(Number(item.amount), limits.hold);
+    } else if (item.exerciseId === "heavy_bag_rounds") {
+      adapted.amount = Math.min(Number(item.amount), limits.bag);
+    }
+    return adapted;
+  }
+
+  function adaptWorkout(exercises, week) {
+    const limits = strengthLimits[week];
+    return exercises
+      .filter((item) => !/Cycle [3-9]$/.test(item.phase || "") || limits.cycles >= 3)
+      .map((item) => adaptExercise(item, week));
+  }
+
+  function optionalDay(dayNumber, title, description, exercises) {
+    return {
+      day: dayNumber,
+      title,
+      optional: true,
+      xp: 0,
+      difficultyLabel: dayNumber === 4 ? "≈ 10 à 15 min" : "≈ 15 à 20 min",
+      instructions: description + " Complément facultatif sans XP, sans incidence sur le boss.",
+      exercises
+    };
+  }
+
+  function optionalDays() {
+    return [
+      optionalDay(4, "Récupération du Gladiateur", "Mobilité douce et respiration entre les entraînements exigeants.", [
+        { phase: "Échauffement", exerciseId: "march_on_spot", amount: 2, unit: "min" },
+        { phase: "Mobilité", exerciseId: "cat_cow", amount: 10, unit: "répétitions" },
+        { phase: "Mobilité", exerciseId: "thoracic_rotation", amount: 10, unit: "répétitions" },
+        { phase: "Mobilité", exerciseId: "hip_quad_stretch", amount: 2, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 2, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 2, unit: "min" }
+      ]),
+      optionalDay(5, "Souffle de l’Arène", "Marche active facile. Garde un rythme qui permet de parler.", [
+        { phase: "Échauffement", exerciseId: "slow_walk", amount: 2, unit: "min" },
+        { phase: "Cardio doux", exerciseId: "walk", amount: 15, unit: "min" },
+        { phase: "Retour au calme", exerciseId: "slow_walk", amount: 1, unit: "min" },
+        { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
+      ])
+    ];
+  }
+
+  const bikePlan = {
+    1: { ride: 30, accelerations: 3 },
+    2: { ride: 40, accelerations: 4 },
+    3: { ride: 45, accelerations: 5 },
+    4: { ride: 55, accelerations: 5 }
+  };
+
+  function adaptBoss(boss) {
+    const week = Number(boss.week);
+    const { ride, accelerations } = bikePlan[week];
+    const indoor = boss.variants.indoor;
+    const outdoor = boss.variants.outdoor;
+    const outdoorExercises = outdoor.exercises.map((item) => ({ ...item }));
+    const rideIndex = outdoorExercises.findIndex((item) => item.exerciseId === "bike");
+    const accelerationIndex = outdoorExercises.findIndex((item) => item.exerciseId === "bike_acceleration");
+    outdoorExercises[rideIndex].amount = ride;
+    outdoorExercises[accelerationIndex].amount = accelerations;
+    const minutes = outdoorExercises.filter((item) => item.unit === "min")
+      .reduce((sum, item) => sum + Number(item.amount), 0);
+    return {
+      ...boss,
+      instructions: boss.instructions + " Choisis le défi intérieur ou extérieur. "
+        + "La récupération et la technique passent avant la vitesse.",
+      variants: {
+        ...boss.variants,
+        indoor: {
+          ...indoor,
+          difficultyLabel: week === 4 ? "≈ 40 à 55 min" : "≈ 35 à 55 min",
+          mission: indoor.mission + " Deux défis avec récupération entre les séries et un finisher mesuré. "
+            + "Arrête la série avant toute dégradation du mouvement.",
+          exercises: adaptWorkout(indoor.exercises, week)
+        },
+        outdoor: {
+          ...outdoor,
+          mission: "Vélo " + ride + " min, puis " + accelerations + " min d’accélérations modulées, "
+            + "5 min de vélo facile, échauffement et retour au calme inclus dans la durée affichée.",
+          difficultyLabel: "≈ " + minutes + " min (total)",
+          exercises: outdoorExercises
+        }
+      }
+    };
+  }
+
+  // Les séances déjà lancées restent accessibles avec leurs anciens exercices.
+  data.programDetails["champion-arenes"] = {
+    ...championLegacy,
+    legacyWorkouts: { weeks: championLegacy.weeks, bosses: championLegacy.bosses },
+    workoutRevision: 1,
+    subtitle: "Force et conditionnement avancés : musculation, kettlebell et endurance contrôlée.",
+    duration: "35 à 60 min (essentielles) ; boss extérieur jusqu’à 75 min",
+    frequency: "3 séances essentielles et 2 compléments facultatifs par semaine + boss",
+    weeks: championLegacy.weeks.map((week) => ({
+      ...week,
+      progression: ({
+        1: "Deux cycles : maîtrise des charges et des mouvements de base, 8 à 10 répétitions par série.",
+        2: "Deux cycles : progression modérée jusqu’à 12 répétitions, technique toujours prioritaire.",
+        3: "Trois cycles : endurance musculaire contrôlée, sans chercher l’échec.",
+        4: "Deux cycles : volume réduit pour préparer le boss final avec une bonne récupération."
+      })[Number(week.week)],
+      days: [
+        ...week.days.map((item) => ({
+          ...item,
+          difficultyLabel: Number(week.week) === 4 ? "≈ 35 à 50 min" : "≈ 35 à 55 min",
+          instructions: item.instructions + " Repos entre les séries : 60 à 120 secondes, "
+            + "jusqu’à retrouver une respiration confortable. Ne va pas à l’échec.",
+          exercises: adaptWorkout(item.exercises, Number(week.week))
+        })),
+        ...optionalDays()
+      ]
+    })),
+    bosses: championLegacy.bosses.map(adaptBoss),
+    progression: [
+      "Semaine 1 : 2 cycles, apprentissage et force maîtrisée (8 à 10 répétitions).",
+      "Semaine 2 : 2 cycles, progression modérée (jusqu’à 12 répétitions).",
+      "Semaine 3 : 3 cycles, endurance de force sans aller à l’échec (jusqu’à 12 répétitions).",
+      "Semaine 4 : 2 cycles pour consolider la technique et limiter la fatigue avant le boss.",
+      "Les tractions sont limitées par la technique ; Turkish Get-Up : 2 répétitions par côté et par série au maximum.",
+      "Mardi : récupération ; jeudi : marche active facultative, sans XP ni condition de déblocage.",
+      "Boss au choix : intérieur ou extérieur, avec durées de vélo totales explicites.",
+      "Récompense finale conservée : Champion des Arènes, coffre et +250 XP."
+    ],
+    notes: [
+      ...championLegacy.notes.filter((line) => !line.startsWith("Progression des répétitions")
+        && !line.startsWith("Tractions et Turkish Get-Up restent")),
+      "Objectifs : renforcement musculaire et cardio, avec technique et récupération prioritaires.",
+      "Privilégie une charge maîtrisable et garde 1 à 3 répétitions en réserve.",
+      "Échauffement et retour au calme sont organisés en cinq blocs d’une minute.",
+      "Les séances facultatives ne rapportent aucun XP et ne conditionnent aucun boss.",
+      "En cas de douleur, de vertige ou de perte de contrôle, arrête la séance."
+    ]
+  };
+
+  // Chaque routine annoncée comme 5 minutes comporte effectivement 5 minutes.
+  const standardWarmup = data.exercises.find((item) => item.id === "advanced_standard_warmup");
+  const standardCooldown = data.exercises.find((item) => item.id === "advanced_standard_cooldown");
+  if (standardWarmup) {
+    standardWarmup.description = "5 min : 1 min marche active ; 1 min mobilité épaules et hanches ; "
+      + "1 min squats sans charge ; 1 min Bird Dog lent ; 1 min activation douce "
+      + "avec pompes au mur ou marche sur place.";
+  }
+  if (standardCooldown) {
+    standardCooldown.description = "5 min : 1 min de marche lente ; 1 min pour les mollets ; "
+      + "1 min pour les quadriceps ; 1 min pour la poitrine et les épaules ; "
+      + "1 min de respiration lente.";
+  }
+
   // ------------------------------------------------------------
   // Entrée du catalogue programmes
   // ------------------------------------------------------------
@@ -683,12 +865,12 @@
     id: "champion-arenes",
     icon: "🏟️",
     title: "Champion des Arènes",
-    objective: "Musculation avancée + combat",
+    objective: "Renforcement avancé · force fonctionnelle et cardio",
     level: "Avancé",
     tier: "advanced",
     unlockLevel: 8,
-    duration: "45-75 min",
-    frequency: "3 séances par semaine + boss hebdomadaire",
+    duration: "35-60 min",
+    frequency: "3 séances essentielles + 2 compléments facultatifs par semaine + boss",
     coachAdvice: "Korvan, Xara ou Bazul",
     xp: 90,
     reward: {
