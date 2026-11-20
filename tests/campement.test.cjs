@@ -28,7 +28,7 @@ function boot(records = new Map(), date = '2026-11-20') {
 const firstDay = { type: 'program', programId: 'epreuves-forge', weekNumber: 1, dayNumber: 1 };
 const firstBoss = { type: 'program-boss', programId: firstDay.programId, weekNumber: 1 };
 
-test('migration de la sauvegarde sans paiement rétroactif et sans perte du profil', () => {
+test('migration avec sacs de niveau, sans recrédit des anciennes séances ni perte du profil', () => {
   const app = boot();
   const legacy = JSON.parse(app.records.get(app.profileKey));
   legacy.totalXp = 420;
@@ -40,7 +40,7 @@ test('migration de la sauvegarde sans paiement rétroactif et sans perte du prof
 
   const { camp, state, backup } = boot(app.records);
   camp.resolveOvernight();
-  assert.equal(state.profile.camp.gold, 0);
+  assert.equal(state.profile.camp.gold, 40);
   assert.equal(state.profile.totalXp, 420);
   assert.deepEqual(JSON.parse(JSON.stringify(state.profile.badges)), legacy.badges);
   assert.equal(state.profile.familiarAffinity.familier, 12);
@@ -69,7 +69,9 @@ test('PO et progression sont distinctes, monétisation unique même après réin
   state.resetProgramProgress(firstDay.programId);
   assert.equal(state.addTrainingEntry(firstDay, { campGold: 10 }).gold, 0);
   assert.equal(state.addTrainingEntry({ ...firstBoss, bossVariant: 'outdoor' }, { campGold: 20 }).gold, 0);
-  assert.equal(state.completeProgramComplement(firstDay.programId, 1, 4), 5);
+  const complement = state.completeProgramComplement(firstDay.programId, 1, 4);
+  assert.equal(complement.gold, 5);
+  assert.equal(complement.xp, 10);
   assert.equal(state.completeProgramComplement(firstDay.programId, 1, 4), undefined);
   assert.equal(state.profile.camp.gold, 85);
 });

@@ -117,15 +117,15 @@ test('planning et navigation distinguent les deux compléments de la semaine du 
   }
 });
 
-test('deux compléments ne donnent aucune récompense et seules les trois essentielles ouvrent le boss', () => {
+test('deux compléments donnent 20 XP et seules les trois essentielles ouvrent le boss', () => {
   const records = new Map();
   let app = boot(records);
-  const before = rewards(app.state);
+  const before = JSON.parse(rewards(app.state));
   for (const day of [4, 5, 4]) {
     app.programs.validateProgramDay(id, day, 1);
     finish(app);
   }
-  assert.equal(rewards(app.state), before);
+  assert.deepEqual(JSON.parse(rewards(app.state)), { ...before, totalXp: before.totalXp + 20 });
   app = boot(records);
   for (const day of [4, 5]) assert.ok(app.state.getProgramComplementCompletion(id, 1, day));
   assert.equal(app.programs.getProgramCompletionProgress(id).completed, 0);
@@ -188,7 +188,7 @@ test('une sauvegarde ouverte avant la mise à jour retrouve ses coches et les an
   }
 });
 
-test('la séance guidée affiche la consigne adaptée et termine le complément sans promesse d’XP', () => {
+test('la séance guidée affiche la consigne adaptée et annonce la récompense du complément', () => {
   const app = boot();
   app.programs.validateProgramDay(id, 4, 1);
   app.render.renderActiveProgramSession();
@@ -197,5 +197,5 @@ test('la séance guidée affiche la consigne adaptée et termine le complément 
     app.state.completeProgramSessionExercise(index + '-' + exerciseId);
   });
   app.render.renderActiveProgramSession();
-  assert.match(app.detail.html, /finishProgramSessionButton[^>]*>\s*Terminer\s*<\/button>/);
+  assert.match(app.detail.html, /finishProgramSessionButton[^>]*>\s*Terminer · \+10 XP et 5 PO\s*<\/button>/);
 });

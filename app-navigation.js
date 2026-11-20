@@ -249,6 +249,7 @@ window.FitnessRpgNavigation.openPlanning = function openPlanning() {
 };
 
 window.FitnessRpgNavigation.openProgression = function openProgression() {
+  window.FitnessRpgRender.heroEvolutionLevel = null;
   window.FitnessRpgNavigation.setPage("progression");
 };
 
@@ -1236,10 +1237,17 @@ if (
 
   if (heroLevelCarouselButton) {
     window.FitnessRpgNavigation.stopEvent(event);
-  
+
+    const hadFocus = document.activeElement === heroLevelCarouselButton;
     const delta = Number(heroLevelCarouselButton.dataset.delta || 0);
     window.FitnessRpgRender?.changeHeroEvolutionLevel?.(delta);
-  
+    if (hadFocus) {
+      const selector = "#heroEvolutionCarousel .hero-level-carousel-btn";
+      const next = document.querySelector(`${selector}[data-delta="${delta}"]:enabled`)
+        || document.querySelector(`${selector}:enabled`);
+      next?.focus({ preventScroll: true });
+    }
+
     return;
   }
 

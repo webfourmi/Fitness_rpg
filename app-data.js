@@ -18248,7 +18248,7 @@ window.FitnessRpgData.checkIntegrity = async function checkIntegrity(options = {
     notes: [
       ...legacy.notes,
       "Alterner les trois séances essentielles avec au moins un jour plus léger si possible.",
-      "Les compléments ne donnent pas d'XP et ne conditionnent pas le boss.",
+      "Les compléments sont récompensés à la première validation et ne conditionnent pas le boss.",
       "Les temps de gainage latéral sont des temps totaux à répartir entre gauche et droite.",
       "Les exercices de stabilité visent le confort et la capacité physique, pas le traitement garanti d'une lombalgie.",
       safeAdvice
@@ -18372,7 +18372,7 @@ window.FitnessRpgData.checkIntegrity = async function checkIntegrity(options = {
     material: "Mur et appui solide. En semaines 3 et 4 : petite bouteille ou haltères légers jusqu’à 1 kg.",
     progression,
     notes: [
-      "Espace les séances essentielles d’au moins un jour. Les deux compléments sont facultatifs et sans XP.",
+      "Espace les séances essentielles d’au moins un jour. Les deux compléments sont facultatifs et récompensés à la première validation.",
       "Les mouvements avec charge peuvent être réalisés à vide. Pour les pompes inclinées, reviens au mur si nécessaire."
     ],
     weeks,

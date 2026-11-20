@@ -42,7 +42,7 @@ function snapshot(state) {
   return JSON.stringify({ totalXp, badges, streak, entries: state.getAllEntries() });
 }
 
-test("4 semaines, 3 essentielles + 2 compléments sans XP, boss final et références", () => {
+test("4 semaines, 3 essentielles + 2 compléments, boss final et références", () => {
   const { detail, data, programs } = boot();
   assert.equal(detail.workoutRevision, 1);
   assert.equal(detail.weeks.length, 4);
@@ -67,11 +67,11 @@ test("4 semaines, 3 essentielles + 2 compléments sans XP, boss final et référ
   assert.equal(programs.getCombinedWeeklyPlan("mobilite")[3][3], "program-optional");
 });
 
-test("Les compléments n'ouvrent pas le boss et ne donnent pas de récompense", () => {
+test("Les compléments donnent des XP une fois et le boss exige trois essentielles", () => {
   const records = new Map(); const app = boot(records);
-  const before = snapshot(app.state);
+  const before = JSON.parse(snapshot(app.state));
   for (const day of [4, 5, 4]) { app.programs.validateProgramDay(id, day, 1); finish(app); }
-  assert.equal(snapshot(app.state), before);
+  assert.deepEqual(JSON.parse(snapshot(app.state)), { ...before, totalXp: before.totalXp + 20 });
   assert.equal(app.programs.isProgramBossUnlocked(id, 1), false);
   for (const day of [1, 2]) { app.programs.validateProgramDay(id, day, 1); finish(app); }
   assert.equal(app.programs.isProgramBossUnlocked(id, 1), false);

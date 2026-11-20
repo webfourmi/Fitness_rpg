@@ -51,7 +51,7 @@ function rewards(state) {
 }
 
 
-test('la progression porte sur les exercices, avec trois séances à XP et deux compléments', () => {
+test('la progression porte sur les exercices, avec trois séances essentielles et deux compléments', () => {
   const { data, programs } = boot();
   const detail = data.getProgramDetail(id);
   assert.equal(detail.weeks.length, 4);
@@ -75,7 +75,7 @@ test('la progression porte sur les exercices, avec trois séances à XP et deux 
   assert.match(detail.weeks[3].days[0].instructions, /Ralentis la descente/);
 });
 
-test('planning et validation des compléments sans récompense ni progression essentielle', () => {
+test('le planning récompense chaque complément une fois et garde les séances essentielles séparées', () => {
   const records = new Map();
   let app = boot(records);
   const plan = app.programs.getCombinedWeeklyPlan('reprise-douce');
@@ -83,12 +83,12 @@ test('planning et validation des compléments sans récompense ni progression es
   assert.equal(plan[1].slice(2).join(','), 'bras-heros,program-optional,1,4');
   assert.equal(plan[3].slice(2).join(','), 'bras-heros,program-optional,1,5');
 
-  const before = rewards(app.state);
+  const before = JSON.parse(rewards(app.state));
   for (const day of [4, 5, 4]) {
     app.programs.validateProgramDay(id, day, 1);
     finish(app);
   }
-  assert.equal(rewards(app.state), before);
+  assert.deepEqual(JSON.parse(rewards(app.state)), { ...before, totalXp: before.totalXp + 20 });
   app = boot(records);
   for (const day of [4, 5]) assert.ok(app.state.getProgramComplementCompletion(id, 1, day));
   assert.equal(app.programs.getProgramCompletionProgress(id).completed, 0);

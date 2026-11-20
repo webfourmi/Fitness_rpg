@@ -1,12 +1,22 @@
 /* Campement, portefeuille et équipement du héros. */
 window.FitnessRpgCamp = (() => {
+  const slots = {
+    head: "Tête",
+    outfit: "Tenue",
+    cape: "Cape",
+    broche: "Accessoire",
+    aura: "Aura"
+  };
   const catalog = [
+    { id: "garnet-headband", slot: "head", name: "Bandeau grenat", price: 40, style: "grenat" },
+    { id: "indigo-tunic", slot: "outfit", name: "Tunique indigo", price: 65, style: "indigo" },
     { id: "moon-aura", slot: "aura", name: "Aura lunaire", price: 35, style: "lunaire" },
     { id: "sun-aura", slot: "aura", name: "Aura solaire", price: 50, style: "solaire" },
     { id: "emerald-cloak", slot: "cape", name: "Cape de l’aventurier", price: 100, style: "aventurier" },
     { id: "dragon-clasp", slot: "broche", name: "Médaillon runique", price: 150, style: "dragon" }
   ];
   const freezePrice = 60;
+  const goldPerLevel = 20;
   const freePerMonth = 2;
   const maxPurchases = 2;
   const datePattern = /^\d{4}-\d{2}-\d{2}$/;
@@ -35,6 +45,8 @@ window.FitnessRpgCamp = (() => {
     const isCount = (value, max = Number.MAX_SAFE_INTEGER) =>
       Number.isSafeInteger(value) && value >= 0 && value <= max;
     return Boolean(isRecord(camp) && isDate(camp.startedOn) && isCount(camp.gold)
+      && (camp.levelRewardedThrough === undefined || isCount(camp.levelRewardedThrough))
+      && (camp.levelCatchUpGold === undefined || isCount(camp.levelCatchUpGold))
       && isRecord(camp.claims) && Object.values(camp.claims).every((value) => value === true)
       && Array.isArray(camp.owned) && camp.owned.every((id) => catalog.some((item) => item.id === id))
       && isRecord(camp.equipped) && Object.entries(camp.equipped).every(([slot, id]) =>
@@ -84,6 +96,42 @@ window.FitnessRpgCamp = (() => {
     if (isCampaignComplete(entry.programId)) {
       earned += credit(camp, JSON.stringify(["campaign", entry.programId]), 50);
     }
+    return earned;
+  }
+
+  function rewardFreeSession(camp) {
+    return credit(camp, JSON.stringify(["free-session", state().todayKey()]), 5);
+  }
+
+  function rewardComplement(camp, programId, weekNumber, dayNumber) {
+    return credit(camp, rewardKey({ programId, weekNumber, dayNumber }), 5);
+  }
+
+  function hasComplementReward(camp, programId, weekNumber, dayNumber) {
+    return Boolean(camp?.claims[rewardKey({ programId, weekNumber, dayNumber })]);
+  }
+
+  function catchUpLevels(profile, level) {
+    const camp = migrate(profile);
+    if (camp.levelRewardedThrough) return camp;
+
+    const reachedLevel = level ?? window.FitnessRpgConfig.levelInfo(profile.totalXp || 0).level;
+    const levelCatchUpGold = (reachedLevel - 1) * goldPerLevel;
+    return {
+      ...camp,
+      gold: camp.gold + levelCatchUpGold,
+      levelRewardedThrough: reachedLevel,
+      levelCatchUpGold
+    };
+  }
+
+  function rewardLevels(profile, oldLevel, newLevel) {
+    const camp = catchUpLevels(profile, oldLevel);
+    const rewardedThrough = Math.max(oldLevel, camp.levelRewardedThrough);
+    if (newLevel <= rewardedThrough) return 0;
+
+    const earned = (newLevel - rewardedThrough) * goldPerLevel;
+    profile.camp = { ...camp, gold: camp.gold + earned, levelRewardedThrough: newLevel };
     return earned;
   }
 
@@ -140,9 +188,9 @@ window.FitnessRpgCamp = (() => {
     const previousUpdatedAt = profile.updatedAt;
     const today = state().todayKey();
     try {
-      migrate(profile);
-      profile.camp = structuredClone(profile.camp);
-      if (settle(profile, today) || !previousCamp) {
+      const migratedCamp = catchUpLevels(profile);
+      profile.camp = structuredClone(migratedCamp);
+      if (settle(profile, today) || migratedCamp !== previousCamp) {
         state().saveProfile();
       } else {
         profile.camp = previousCamp;
@@ -151,7 +199,7 @@ window.FitnessRpgCamp = (() => {
       profile.camp = previousCamp;
       profile.streak = previousStreak;
       profile.updatedAt = previousUpdatedAt;
-      console.error("Fitness RPG - protection de série impossible à sauvegarder", error);
+      console.error("Fitness RPG - mise à jour du campement impossible à sauvegarder", error);
     }
   }
 
@@ -216,7 +264,7 @@ window.FitnessRpgCamp = (() => {
     }
   }
 
-  function avatar(alt, imageAttributes = "", imageClass = "") {
+  function avatar(alt, imageAttributes = "", imageClass = "", level = null) {
     const profile = state().getProfile();
     const camp = profile?.camp;
     const heroine = profile?.gender === "femme";
@@ -224,12 +272,16 @@ window.FitnessRpgCamp = (() => {
     const styles = catalog.filter((item) => camp?.equipped[item.slot] === item.id)
       .map((item) => `camp-avatar--${item.style}`).join(" ");
     const pose = heroine ? " camp-avatar--heroine" : "";
-    return `<div class="camp-avatar ${styles}${pose}">
+    const config = window.FitnessRpgConfig;
+    const rank = config.getRank(level ?? config.levelInfo(profile?.totalXp || 0).level);
+    return `<div class="camp-avatar camp-avatar--ranked camp-avatar--rank-${rank.appearance} ${styles}${pose}">
       <img src="${heroPath}" alt="${alt}" class="${imageClass}" ${imageAttributes}>
       <span class="camp-avatar-aura" aria-hidden="true"></span>
       <span class="camp-avatar-cloak" aria-hidden="true"></span>
+      <span class="camp-avatar-tunic" aria-hidden="true"></span>
       <span class="camp-avatar-mantle" aria-hidden="true"></span>
       <span class="camp-avatar-clasp" aria-hidden="true"></span>
+      <span class="camp-avatar-headband" aria-hidden="true"></span>
     </div>`;
   }
 
@@ -247,11 +299,18 @@ window.FitnessRpgCamp = (() => {
       const action = owned ? (equipped ? "remove" : "equip") : "buy";
       const label = owned ? (equipped ? "Retirer" : "Équiper") : `Acheter · ${item.price} PO`;
       return `<li class="camp-item">
-        <div><strong>${item.name}</strong><small>${item.slot}${equipped ? " · Équipé" : ""}</small></div>
+        <div><strong>${item.name}</strong><small>${slots[item.slot]}${equipped ? " · Équipé" : ""}</small></div>
         <button class="secondary-btn" data-camp-action="${action}" data-camp-item="${item.id}"
           type="button" aria-label="${label} · ${item.name}" ${!owned && camp.gold < item.price ? "disabled" : ""}>${label}</button>
       </li>`;
     };
+    const equipment = Object.entries(slots).map(([slot, label]) => {
+      const item = catalog.find((candidate) => candidate.id === camp.equipped[slot]);
+      return `<div class="camp-equipment-slot">
+        <dt>${label}</dt>
+        <dd>${item?.name || "Vide"}</dd>
+      </div>`;
+    }).join("");
     const inventory = catalog.filter((item) => camp.owned.includes(item.id));
     const store = catalog.filter((item) => !camp.owned.includes(item.id));
     const canRest = profile.streak > 0 && profile.lastActiveDate < today
@@ -259,9 +318,16 @@ window.FitnessRpgCamp = (() => {
     root.innerHTML = `
       <div class="camp-summary">
         ${avatar(renderer.escapeHtml(profile.name))}
-        <div><strong class="camp-balance">${camp.gold} PO</strong><p>10 PO par nouvelle séance essentielle, 5 par complément, 20 par boss et 50 par campagne terminée.</p></div>
+        <div>
+          <strong class="camp-balance">${camp.gold} PO</strong>
+          ${camp.levelCatchUpGold ? `<p class="camp-catch-up">Rattrapage de tes niveaux précédents · <strong>+${camp.levelCatchUpGold} PO</strong></p>` : ""}
+          <p>10 PO par nouvelle séance essentielle, 5 par complément, 20 par boss, 50 par campagne terminée et ${goldPerLevel} par nouveau niveau.</p>
+          <p>Le premier exercice libre ou programme perso validé de la journée rapporte aussi 5 PO.</p>
+        </div>
       </div>
       <p class="camp-status" role="status" tabindex="-1">${message}</p>
+      <h2>Équipement</h2>
+      <dl class="camp-equipment">${equipment}</dl>
       <h2>Repos et gels de série</h2>
       <p>Série de ${profile.streak || 0} jour(s) actif(s)${camp.protectedThrough === today ? " · Protégée aujourd’hui" : ""}.</p>
       <p>${freePerMonth - quota.freeUsed}/2 gels gratuits ce mois-ci · ${paid}/2 fioles en réserve · ${quota.bought}/2 achats ce mois-ci.</p>
@@ -279,5 +345,6 @@ window.FitnessRpgCamp = (() => {
     `;
   }
 
-  return { migrate, reward, settle, nextDay, isDate, hasValidSave, resolveOvernight, mutate, avatar, render };
+  return { migrate, reward, rewardFreeSession, rewardComplement, hasComplementReward, rewardLevels,
+    settle, nextDay, isDate, hasValidSave, resolveOvernight, mutate, avatar, render };
 })();

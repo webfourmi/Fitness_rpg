@@ -727,7 +727,7 @@
       optional: true,
       xp: 0,
       difficultyLabel: dayNumber === 4 ? "≈ 10 à 15 min" : "≈ 15 à 20 min",
-      instructions: description + " Complément facultatif sans XP, sans incidence sur le boss.",
+      instructions: description + " Complément récompensé à la première validation, sans incidence sur le boss.",
       exercises
     };
   }
@@ -828,7 +828,7 @@
       "Semaine 3 : 3 cycles, endurance de force sans aller à l’échec (jusqu’à 12 répétitions).",
       "Semaine 4 : 2 cycles pour consolider la technique et limiter la fatigue avant le boss.",
       "Les tractions sont limitées par la technique ; Turkish Get-Up : 2 répétitions par côté et par série au maximum.",
-      "Mardi : récupération ; jeudi : marche active facultative, sans XP ni condition de déblocage.",
+      "Mardi : récupération ; jeudi : marche active facultative, hors des conditions de déblocage du boss.",
       "Boss au choix : intérieur ou extérieur, avec durées de vélo totales explicites.",
       "Récompense finale conservée : Champion des Arènes, coffre et +250 XP."
     ],
@@ -838,7 +838,7 @@
       "Objectifs : renforcement musculaire et cardio, avec technique et récupération prioritaires.",
       "Privilégie une charge maîtrisable et garde 1 à 3 répétitions en réserve.",
       "Échauffement et retour au calme sont organisés en cinq blocs d’une minute.",
-      "Les séances facultatives ne rapportent aucun XP et ne conditionnent aucun boss.",
+      "Les séances facultatives sont récompensées à leur première validation et ne conditionnent aucun boss.",
       "En cas de douleur, de vertige ou de perte de contrôle, arrête la séance."
     ]
   };

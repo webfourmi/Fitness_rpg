@@ -698,7 +698,10 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
     ? "Récupération"
     : (quest.programId === "coeur-dragon" && quest.day?.difficultyLabel)
       || program?.duration || quest.day?.duration || "Séance guidée";
-  const xp = !isRest && !isComplement && quest.programId
+  const xp = isComplement && !isRest
+    ? (window.FitnessRpgState.canRewardProgramComplement(quest.programId, quest.weekNumber || 1, quest.dayNumber)
+        ? window.FitnessRpgConfig.xpRules.optionalProgramComplement : 0)
+    : !isRest && quest.programId
     ? Number(
         window.FitnessRpgProgress.calculateProgramSessionXp?.(
           quest.programId,
@@ -851,6 +854,9 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
   const complete = window.FitnessRpgState.isProgramSessionComplete();
   const isRepeat = !isBoss && Boolean(window.FitnessRpgPrograms.getRepeatWeek(session.programId));
   const isComplement = workout.optional && workout.xp === 0;
+  const complementReward = isComplement && window.FitnessRpgState.canRewardProgramComplement(
+    session.programId, session.weekNumber || 1, session.dayNumber
+  );
   const isDragonReplay = session.programId === "coeur-dragon"
     && window.FitnessRpgState.getAllEntries().some((entry) =>
       entry.programId === session.programId
@@ -914,7 +920,9 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
     ? `
       <button id="finishProgramSessionButton" class="primary-btn guided-finish-btn" type="button">
         ${isRepeat ? "Terminer la séance de révision"
-          : isComplement || isDragonReplay ? "Terminer" : `Terminer · +${xp} XP`}
+          : isComplement
+            ? (complementReward ? `Terminer · +${window.FitnessRpgConfig.xpRules.optionalProgramComplement} XP et 5 PO` : "Terminer")
+            : isDragonReplay ? "Terminer" : `Terminer · +${xp} XP`}
       </button>
     `
     : `
@@ -1931,7 +1939,9 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
             <div class="selected-program-day-meta">
               <span>🧩 ${exerciseCount} exercice${exerciseCount > 1 ? "s" : ""}</span>
               <span>⏱️ ${hasSpecificInstructions ? day.difficultyLabel : program.duration}</span>
-              <span>${isComplement ? "Sans XP"
+              <span>${isComplement
+                ? (window.FitnessRpgState.canRewardProgramComplement(program.id, selection.weekNumber, day.day) && !isRepeatDay
+                    ? `✨ ${window.FitnessRpgConfig.xpRules.optionalProgramComplement} XP et 5 PO` : "Sans récompense supplémentaire")
                 : isRepeatDay || (programId === "coeur-dragon" && selectedDayProgress?.completed)
                   ? "Sans récompense supplémentaire" : `✨ ${programId === "bras-heros" || day.optional ? day.xp : program.xp || 0} XP`}</span>
             </div>
@@ -2964,18 +2974,6 @@ window.FitnessRpgRender.closeWorkoutSummaryOverlay = function closeWorkoutSummar
 // Niveau supérieur
 // ============================================================
 
-window.FitnessRpgRender.getHeroImagePathForLevel = function getHeroImagePathForLevel(level) {
-  const profile = window.FitnessRpgState.getProfile?.();
-  const safeLevel = Math.max(1, Math.min(20, Number(level) || 1));
-  const padded = String(safeLevel).padStart(2, "0");
-
-  if (profile?.gender === "femme") {
-    return `assets/joueuse/joueuse_niveau_${padded}.webp`;
-  }
-
-  return `assets/joueur/joueur_niveau_${padded}.webp`;
-};
-
 window.FitnessRpgRender.renderLevelUpChestHtml = function renderLevelUpChestHtml(levelReward, familiar) {
  if (levelReward?.allCollected) {
   return `
@@ -3074,8 +3072,8 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
     ? (profile.familiars || []).find((item) => item.id === levelReward.familiarId)
     : null;
 
-  const oldHeroImage = window.FitnessRpgRender.getHeroImagePathForLevel(oldLevel);
-  const newHeroImage = window.FitnessRpgRender.getHeroImagePathForLevel(newLevel);
+  const heroName = window.FitnessRpgRender.escapeHtml(profile?.name || "Ton personnage");
+  const avatar = window.FitnessRpgCamp.avatar(heroName, "", "", newLevel);
 
   const icon = document.querySelector("#levelUpIcon");
   const title = document.querySelector("#levelUpTitle");
@@ -3088,52 +3086,26 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
   }
   if (title) title.textContent = `Niveau ${newLevel} atteint !`;
 
- if (text) {
-  text.innerHTML = `
-    <div class="level-up-transform">
-      <div class="level-up-hero-stage" id="levelUpHeroStage">
-        <img
-          src="${oldHeroImage}"
-          alt="Héros niveau ${oldLevel}"
-          class="level-up-hero-img level-up-hero-img-old"
-        />
-
-        <img
-          src="${newHeroImage}"
-          alt="Héros niveau ${newLevel}"
-          class="level-up-hero-img level-up-hero-img-new"
-        />
-
+  if (text) {
+    text.innerHTML = `
+      <div class="level-up-hero-stage">
+        ${avatar}
         <span class="level-up-stage-label">
           Niv. ${oldLevel} → Niv. ${newLevel}
         </span>
       </div>
-    </div>
 
-    <p>
-      Ton héros devient <strong>${rank}</strong>.
-    </p>
-
-    ${
-      narrative
-        ? `<p class="level-up-narrative">${narrative}</p>`
-        : ""
-    }
-
-   ${
-      hasChest
-        ? window.FitnessRpgRender.renderLevelUpChestHtml(levelReward, familiar)
-        : `<p>Nouvelle apparence héroïque débloquée.</p>`
-    }
-
-    <button
-      class="secondary-btn open-progression-from-levelup-btn"
-      type="button"
-    >
-      Voir l’évolution du héros
-    </button>
-  `;
-}
+      <p>Rang <strong>${rank}</strong></p>
+      ${pending.gold > 0
+        ? `<p class="level-up-gold-reward">💰 Sac de pièces <strong>+${Number(pending.gold)} PO</strong></p>`
+        : ""}
+      ${narrative ? `<p class="level-up-narrative">${narrative}</p>` : ""}
+      ${hasChest ? window.FitnessRpgRender.renderLevelUpChestHtml(levelReward, familiar) : ""}
+      <button class="secondary-btn open-progression-from-levelup-btn" type="button">
+        Voir ma progression
+      </button>
+    `;
+  }
 
   if (reward) {
     reward.textContent = window.FitnessRpgProgress.getLevelRewardText(newLevel);
@@ -3143,15 +3115,6 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
   overlay.classList.remove("hidden");
   overlay.setAttribute("aria-hidden", "false");
   document.body.classList.add("level-up-active");
-  const levelUpHeroStage = document.querySelector("#levelUpHeroStage");
-
-  if (levelUpHeroStage) {
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        levelUpHeroStage.classList.add("is-transitioning");
-      }, 850);
-    });
-  }
 };
 
 window.FitnessRpgRender.closeLevelUpOverlay = function closeLevelUpOverlay() {
@@ -3242,8 +3205,6 @@ window.FitnessRpgRender.closeBadgeRewardOverlay = function closeBadgeRewardOverl
 
 window.FitnessRpgRender.heroEvolutionLevel = null;
 
-
-
 window.FitnessRpgRender.renderHeroEvolutionCarousel = function renderHeroEvolutionCarousel() {
   const container = document.querySelector("#heroEvolutionCarousel");
 
@@ -3256,55 +3217,40 @@ window.FitnessRpgRender.renderHeroEvolutionCarousel = function renderHeroEvoluti
     return;
   }
 
-  const info = window.FitnessRpgConfig.levelInfo(profile.totalXp || 0);
-  const currentLevel = Math.max(1, Math.min(20, Number(info.level) || 1));
-
-  if (!window.FitnessRpgRender.heroEvolutionLevel) {
-    window.FitnessRpgRender.heroEvolutionLevel = currentLevel;
-  }
-
-  const selectedLevel = Math.max(
-    1,
-    Math.min(currentLevel, Number(window.FitnessRpgRender.heroEvolutionLevel) || currentLevel)
-  );
-
-  window.FitnessRpgRender.heroEvolutionLevel = selectedLevel;
-
-  const image = window.FitnessRpgRender.getHeroImagePathForLevel(selectedLevel);
+  const currentLevel = window.FitnessRpgProgress.getProfileLevelInfo().level;
+  const selectedLevel = Math.min(currentLevel, window.FitnessRpgRender.heroEvolutionLevel ?? currentLevel);
+  const isCurrentLevel = selectedLevel === currentLevel;
+  if (isCurrentLevel) window.FitnessRpgRender.heroEvolutionLevel = null;
   const rank = window.FitnessRpgConfig.getRankTitle(selectedLevel);
+  const heroName = window.FitnessRpgRender.escapeHtml(profile.name || "Ton personnage");
 
   container.innerHTML = `
-    <p class="eyebrow">🧬 Évolution du héros</p>
+    <p class="eyebrow">Évolution du personnage</p>
 
     <div class="hero-level-carousel-row">
       <button
         class="ghost-btn hero-level-carousel-btn"
         type="button"
         data-delta="-1"
+        aria-label="Palier précédent"
         ${selectedLevel <= 1 ? "disabled" : ""}
       >
         ←
       </button>
 
       <div class="hero-level-carousel-main">
-        <img
-          src="${image}"
-          alt="Héros niveau ${selectedLevel}"
-          class="hero-level-carousel-image"
-        />
-
-        <h2>Niveau ${selectedLevel}</h2>
+        ${window.FitnessRpgCamp.avatar(heroName, "", "", selectedLevel)}
+        <h2 aria-live="polite">Niveau ${selectedLevel}</h2>
         <p>${rank}</p>
-        <span>
-          ${selectedLevel === currentLevel ? "Apparence actuelle" : "Ancienne apparence débloquée"}
-        </span>
+        <span>${isCurrentLevel ? "Niveau actuel" : "Palier atteint · équipement actuel"}</span>
       </div>
 
       <button
         class="ghost-btn hero-level-carousel-btn"
         type="button"
         data-delta="1"
-        ${selectedLevel >= currentLevel ? "disabled" : ""}
+        aria-label="Palier suivant"
+        ${isCurrentLevel ? "disabled" : ""}
       >
         →
       </button>
@@ -3317,9 +3263,8 @@ window.FitnessRpgRender.changeHeroEvolutionLevel = function changeHeroEvolutionL
 
   if (!profile) return;
 
-  const info = window.FitnessRpgConfig.levelInfo(profile.totalXp || 0);
-  const currentLevel = Math.max(1, Math.min(20, Number(info.level) || 1));
-  const nextLevel = Number(window.FitnessRpgRender.heroEvolutionLevel || currentLevel) + Number(delta || 0);
+  const currentLevel = window.FitnessRpgProgress.getProfileLevelInfo().level;
+  const nextLevel = (window.FitnessRpgRender.heroEvolutionLevel ?? currentLevel) + delta;
 
   window.FitnessRpgRender.heroEvolutionLevel = Math.max(1, Math.min(currentLevel, nextLevel));
   window.FitnessRpgRender.renderHeroEvolutionCarousel();
@@ -3362,7 +3307,7 @@ window.FitnessRpgRender.renderProgressionPage = function renderProgressionPage()
 
     <div class="progression-hero-line">
       <div>
-        <h2>${profile.name || "Héros"}</h2>
+        <h2>${window.FitnessRpgRender.escapeHtml(profile.name || "Héros")}</h2>
         <p>${stats.currentRank} · Niveau ${stats.currentLevel}</p>
       </div>
       <strong>${stats.totalXp} XP</strong>

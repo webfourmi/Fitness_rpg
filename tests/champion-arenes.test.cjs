@@ -102,11 +102,11 @@ test("les quatre boss conservent badge et XP ; temps extérieur exact", () => {
   }
 });
 
-test("compléments sans XP, boss verrouillé puis débloqué après trois essentielles", () => {
+test("les compléments donnent des XP une fois, la troisième essentielle ouvre le boss", () => {
   const app=boot();
-  const before=rewards(app.state);
+  const before = JSON.parse(rewards(app.state));
   for (const day of [4,5,4]) { app.programs.validateProgramDay(id,day,1); finish(app); }
-  assert.equal(rewards(app.state),before);
+  assert.deepEqual(JSON.parse(rewards(app.state)), { ...before, totalXp: before.totalXp + 20 });
   assert.equal(app.programs.isProgramBossUnlocked(id,1),false);
   for (const day of [1,2]) { app.programs.validateProgramDay(id,day,1);finish(app); }
   assert.equal(app.programs.isProgramBossUnlocked(id,1),false);
