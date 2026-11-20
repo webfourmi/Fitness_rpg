@@ -1,8 +1,8 @@
-/* Fitness RPG — service worker V6.6.10 */
+/* Fitness RPG — service worker V6.6.11 */
 
 "use strict";
 
-const APP_VERSION = "6.6.10";
+const APP_VERSION = "6.6.11";
 const CACHE_PREFIX = "fitness-rpg-";
 const STATIC_CACHE = `${CACHE_PREFIX}static-v${APP_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-v1`;
@@ -10,27 +10,27 @@ const IMAGE_CACHE = `${CACHE_PREFIX}images-v1`;
 const CORE_ASSETS = [
   "./",
   "./index.html",
-  "./manifest.webmanifest?v=6.6.10",
-  "./app-v5.css?v=6.6.10",
-  "./app-sport.css?v=6.6.10",
-  "./app-config.js?v=6.6.10",
-  "./app-data.js?v=6.6.10",
-  "./app-program-forge-exercises.js?v=6.6.10",
-  "./app-program-forge.js?v=6.6.10",
-  "./app-program-champion-arenes.js?v=6.6.10",
-  "./app-rewards.js?v=6.6.10",
-  "./app-state.js?v=6.6.10",
-  "./app-progress.js?v=6.6.10",
-  "./app-render.js?v=6.6.10",
-  "./app-navigation.js?v=6.6.10",
-  "./app-exercises.js?v=6.6.10",
-  "./app-programs.js?v=6.6.10",
-  "./app-media.js?v=6.6.10",
-  "./app-backup.js?v=6.6.10",
-  "./app-stats.js?v=6.6.10",
-  "./app-sport.js?v=6.6.10",
-  "./app.js?v=6.6.10",
-  "./app-pwa.js?v=6.6.10",
+  "./manifest.webmanifest?v=6.6.11",
+  "./app-v5.css?v=6.6.11",
+  "./app-sport.css?v=6.6.11",
+  "./app-config.js?v=6.6.11",
+  "./app-data.js?v=6.6.11",
+  "./app-program-forge-exercises.js?v=6.6.11",
+  "./app-program-forge.js?v=6.6.11",
+  "./app-program-champion-arenes.js?v=6.6.11",
+  "./app-rewards.js?v=6.6.11",
+  "./app-state.js?v=6.6.11",
+  "./app-progress.js?v=6.6.11",
+  "./app-render.js?v=6.6.11",
+  "./app-navigation.js?v=6.6.11",
+  "./app-exercises.js?v=6.6.11",
+  "./app-programs.js?v=6.6.11",
+  "./app-media.js?v=6.6.11",
+  "./app-backup.js?v=6.6.11",
+  "./app-stats.js?v=6.6.11",
+  "./app-sport.js?v=6.6.11",
+  "./app.js?v=6.6.11",
+  "./app-pwa.js?v=6.6.11",
   "./assets/pwa/icon.svg",
   "./assets/pwa/icon-192.png",
   "./assets/pwa/icon-512.png",
@@ -50,18 +50,22 @@ function isCacheableResponse(response) {
   return Boolean(response && response.ok && response.type !== "opaque");
 }
 
-async function cacheFirst(request) {
-  const cached = await caches.match(request);
-  if (cached) return cached;
+// Les scripts et styles privilégient le réseau : une fusion sur main reste
+// visible même si un développeur oublie d'incrémenter le numéro de version.
+// En l'absence de réseau, la dernière copie locale assure le mode hors ligne.
+async function networkFirstAsset(request) {
+  try {
+    const response = await fetch(request, { cache: "no-cache" });
 
-  const response = await fetch(request);
+    if (isCacheableResponse(response)) {
+      const cache = await caches.open(STATIC_CACHE);
+      await cache.put(request, response.clone());
+    }
 
-  if (isCacheableResponse(response)) {
-    const cache = await caches.open(STATIC_CACHE);
-    await cache.put(request, response.clone());
+    return response;
+  } catch {
+    return (await caches.match(request)) || Response.error();
   }
-
-  return response;
 }
 
 async function staleWhileRevalidateImage(request, event) {
@@ -158,6 +162,6 @@ self.addEventListener("fetch", (event) => {
     || request.destination === "font"
     || url.pathname.endsWith(".webmanifest")
   ) {
-    event.respondWith(cacheFirst(request));
+    event.respondWith(networkFirstAsset(request));
   }
 });

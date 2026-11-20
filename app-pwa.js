@@ -8,12 +8,30 @@
 (function initializePwaModule() {
   "use strict";
 
+  const INSTALL_GUIDE_DISMISSED_KEY = "fitnessRpgPwaInstallGuideDismissed";
+
+  function readInstallDismissed() {
+    try {
+      return window.localStorage.getItem(INSTALL_GUIDE_DISMISSED_KEY) === "1";
+    } catch {
+      return false;
+    }
+  }
+
+  function rememberInstallDismissed() {
+    try {
+      window.localStorage.setItem(INSTALL_GUIDE_DISMISSED_KEY, "1");
+    } catch {
+      // La navigation privée ne doit pas bloquer le fonctionnement PWA.
+    }
+  }
+
   const pwa = {
     registration: null,
     deferredInstallPrompt: null,
     waitingWorker: null,
     activePrompt: null,
-    installDismissed: false,
+    installDismissed: readInstallDismissed(),
     updateDismissed: false,
     newControllerReady: false,
     reloadPending: false,
@@ -108,6 +126,55 @@
     });
   };
 
+  pwa.getManualInstallMessage = function getManualInstallMessage() {
+    const userAgent = window.navigator.userAgent || "";
+
+    if (/iPhone|iPad|iPod/i.test(userAgent)) {
+      return "Sur iPhone ou iPad, ouvre le menu Partager du navigateur puis « Sur l’écran d’accueil ».";
+    }
+
+    if (/Android/i.test(userAgent)) {
+      return "Sur Android, ouvre le menu ⋮ ou ≡ du navigateur puis « Installer l’application » ou « Ajouter à l’écran d’accueil ».";
+    }
+
+    return "Sur ordinateur, ouvre le menu du navigateur (⋮ dans Chrome ou Edge) et cherche « Installer Fitness RPG » ou « Installer cette page en tant qu’application ».";
+  };
+
+  // Certains navigateurs ne déclenchent jamais beforeinstallprompt,
+  // même si l'installation depuis leur menu reste possible.
+  pwa.showManualInstallPrompt = function showManualInstallPrompt() {
+    if (pwa.isStandalone() || pwa.waitingWorker || pwa.newControllerReady) return;
+
+    pwa.showPrompt({
+      mode: "manual",
+      icon: "📲",
+      title: "Installer Fitness RPG",
+      message: pwa.getManualInstallMessage(),
+      primaryLabel: "Compris",
+      primaryAction: "ack-install",
+      dismissLabel: "Plus tard"
+    });
+  };
+
+  pwa.openInstallHelp = function openInstallHelp() {
+    if (pwa.isStandalone()) {
+      pwa.showConnectionStatus("Fitness RPG est déjà ouverte comme application.", "online");
+      return;
+    }
+
+    if (pwa.waitingWorker || pwa.newControllerReady) {
+      pwa.showUpdatePrompt();
+      return;
+    }
+
+    pwa.installDismissed = false;
+    if (pwa.deferredInstallPrompt) {
+      pwa.showInstallPrompt();
+    } else {
+      pwa.showManualInstallPrompt();
+    }
+  };
+
   pwa.showUpdatePrompt = function showUpdatePrompt() {
     if (
       (!pwa.waitingWorker && !pwa.newControllerReady)
@@ -144,6 +211,7 @@
       return;
     }
 
+    if (pwa.activePrompt === "manual" && !pwa.isStandalone()) return;
     pwa.hidePrompt();
   };
 
@@ -165,17 +233,25 @@
 
   pwa.promptInstall = async function promptInstall() {
     const installPrompt = pwa.deferredInstallPrompt;
-    if (!installPrompt) return;
-
-    pwa.deferredInstallPrompt = null;
-    await installPrompt.prompt();
-    const choice = await installPrompt.userChoice;
-
-    if (choice?.outcome !== "accepted") {
-      pwa.installDismissed = true;
+    if (!installPrompt) {
+      pwa.openInstallHelp();
+      return;
     }
 
-    pwa.hidePrompt();
+    pwa.deferredInstallPrompt = null;
+    try {
+      await installPrompt.prompt();
+      const choice = await installPrompt.userChoice;
+
+      if (choice?.outcome !== "accepted") {
+        pwa.installDismissed = true;
+        rememberInstallDismissed();
+      }
+      pwa.hidePrompt();
+    } catch (error) {
+      console.warn("Fitness RPG : installation directe indisponible.", error);
+      pwa.showManualInstallPrompt();
+    }
   };
 
   pwa.applyUpdate = function applyUpdate() {
@@ -212,11 +288,25 @@
       return;
     }
 
+    if (action === "show-install") {
+      window.FitnessRpgNavigation?.closeMobileMorePanel?.({ restoreFocus: false });
+      pwa.openInstallHelp();
+      return;
+    }
+
+    if (action === "ack-install") {
+      pwa.installDismissed = true;
+      rememberInstallDismissed();
+      pwa.hidePrompt();
+      return;
+    }
+
     if (action === "dismiss") {
       if (pwa.activePrompt === "update") {
         pwa.updateDismissed = true;
-      } else if (pwa.activePrompt === "install") {
+      } else if (pwa.activePrompt === "install" || pwa.activePrompt === "manual") {
         pwa.installDismissed = true;
+        rememberInstallDismissed();
       }
 
       pwa.hidePrompt();
@@ -283,13 +373,14 @@
     window.addEventListener("beforeinstallprompt", (event) => {
       event.preventDefault();
       pwa.deferredInstallPrompt = event;
-      pwa.installDismissed = false;
+      pwa.installDismissed = readInstallDismissed();
       pwa.refreshPrompt();
     });
 
     window.addEventListener("appinstalled", () => {
       pwa.deferredInstallPrompt = null;
       pwa.installDismissed = true;
+      rememberInstallDismissed();
       pwa.hidePrompt();
       pwa.showConnectionStatus("Fitness RPG est installée.", "online");
     });
@@ -348,6 +439,23 @@
     }
 
     void pwa.registerServiceWorker();
+
+    // Invitation de secours pour les navigateurs sans fenêtre d'installation.
+    // Affichée au plus une fois, puis accessible via « Plus > Installer l'appli ».
+    window.setTimeout(() => {
+      if (
+        pwa.installDismissed
+        || pwa.deferredInstallPrompt
+        || pwa.waitingWorker
+        || pwa.newControllerReady
+        || pwa.isStandalone()
+        || pwa.hasActiveWorkout()
+        || navigator.onLine === false
+      ) {
+        return;
+      }
+      pwa.showManualInstallPrompt();
+    }, 2500);
   };
 
   if (document.readyState === "loading") {
