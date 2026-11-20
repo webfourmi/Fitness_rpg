@@ -11537,7 +11537,7 @@ window.FitnessRpgData = {
   subtitle: "Pilates avancé confirmé : jambes tendues, équilibre, gainage dynamique et maîtrise globale.",
   unlockLevel: 4,
   duration: "30 à 35 min",
-  frequency: "3 séances par semaine + boss le samedi",
+  frequency: "3 séances essentielles + 2 complémentaires facultatives par semaine, puis boss",
   material: "Aucun matériel. Tapis conseillé.",
   reward: {
     badgeId: "grand-maitre-arcanes-vaincu",
@@ -11621,6 +11621,23 @@ window.FitnessRpgData = {
             { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
           ]
         }
+      ,
+        { day: 4, title: "Mobilité des arcanes", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Récupération active sans douleur, un jour distinct des séances essentielles. Ne conditionne pas le boss.", exercises: [
+          { phase: "Respiration", exerciseId: "abdominal_breathing", amount: 3, unit: "min" },
+          { phase: "Mobilité", exerciseId: "cat_cow", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "thoracic_rotation", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "hip_circles", amount: 2, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 3, unit: "min" }
+        ] },
+        { day: 5, title: "Souffle du grand maître", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Contrôle respiratoire et stabilité douce. Réduire l’amplitude si le dos se creuse. Ne conditionne pas le boss.", exercises: [
+          { phase: "Respiration", exerciseId: "abdominal_breathing", amount: 3, unit: "min" },
+          { phase: "Mobilité", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+          { phase: "Stabilité", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+          { phase: "Mobilité", exerciseId: "cat_cow", amount: 2, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 3, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 3, unit: "min" }
+        ] }
       ]
     },
     {
@@ -11698,6 +11715,23 @@ window.FitnessRpgData = {
             { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
           ]
         }
+      ,
+        { day: 4, title: "Mobilité des arcanes", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Récupération active sans douleur, un jour distinct des séances essentielles. Ne conditionne pas le boss.", exercises: [
+          { phase: "Respiration", exerciseId: "abdominal_breathing", amount: 3, unit: "min" },
+          { phase: "Mobilité", exerciseId: "cat_cow", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "thoracic_rotation", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "hip_circles", amount: 2, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 3, unit: "min" }
+        ] },
+        { day: 5, title: "Souffle du grand maître", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Contrôle respiratoire et stabilité douce. Réduire l’amplitude si le dos se creuse. Ne conditionne pas le boss.", exercises: [
+          { phase: "Respiration", exerciseId: "abdominal_breathing", amount: 3, unit: "min" },
+          { phase: "Mobilité", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+          { phase: "Stabilité", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+          { phase: "Mobilité", exerciseId: "cat_cow", amount: 2, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 3, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 3, unit: "min" }
+        ] }
       ]
     },
     {
@@ -11775,6 +11809,23 @@ window.FitnessRpgData = {
             { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
           ]
         }
+      ,
+        { day: 4, title: "Mobilité des arcanes", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Récupération active sans douleur, un jour distinct des séances essentielles. Ne conditionne pas le boss.", exercises: [
+          { phase: "Respiration", exerciseId: "abdominal_breathing", amount: 3, unit: "min" },
+          { phase: "Mobilité", exerciseId: "cat_cow", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "thoracic_rotation", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "hip_circles", amount: 2, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 3, unit: "min" }
+        ] },
+        { day: 5, title: "Souffle du grand maître", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Contrôle respiratoire et stabilité douce. Réduire l’amplitude si le dos se creuse. Ne conditionne pas le boss.", exercises: [
+          { phase: "Respiration", exerciseId: "abdominal_breathing", amount: 3, unit: "min" },
+          { phase: "Mobilité", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+          { phase: "Stabilité", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+          { phase: "Mobilité", exerciseId: "cat_cow", amount: 2, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 3, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 3, unit: "min" }
+        ] }
       ]
     },
     {
@@ -11852,6 +11903,23 @@ window.FitnessRpgData = {
             { phase: "Respiration", exerciseId: "slow_breathing", amount: 1, unit: "min" }
           ]
         }
+      ,
+        { day: 4, title: "Mobilité des arcanes", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Récupération active sans douleur, un jour distinct des séances essentielles. Ne conditionne pas le boss.", exercises: [
+          { phase: "Respiration", exerciseId: "abdominal_breathing", amount: 3, unit: "min" },
+          { phase: "Mobilité", exerciseId: "cat_cow", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "thoracic_rotation", amount: 2, unit: "min" },
+          { phase: "Mobilité", exerciseId: "hip_circles", amount: 2, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "gentle_back_stretch", amount: 3, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 3, unit: "min" }
+        ] },
+        { day: 5, title: "Souffle du grand maître", optional: true, xp: 0, difficultyLabel: "≈ 15 min · facultatif", instructions: "Contrôle respiratoire et stabilité douce. Réduire l’amplitude si le dos se creuse. Ne conditionne pas le boss.", exercises: [
+          { phase: "Respiration", exerciseId: "abdominal_breathing", amount: 3, unit: "min" },
+          { phase: "Mobilité", exerciseId: "pelvic_tilt", amount: 12, unit: "répétitions" },
+          { phase: "Stabilité", exerciseId: "bird_dog", amount: 12, unit: "répétitions" },
+          { phase: "Mobilité", exerciseId: "cat_cow", amount: 2, unit: "min" },
+          { phase: "Retour au calme", exerciseId: "hip_quad_stretch", amount: 3, unit: "min" },
+          { phase: "Respiration", exerciseId: "slow_breathing", amount: 3, unit: "min" }
+        ] }
       ]
     }
   ],
@@ -11985,7 +12053,11 @@ window.FitnessRpgData = {
     "Double Straight Leg Lower & Lift : descendre et remonter les deux jambes ensemble.",
     "Leg Pull Front : planche haute avec levée de jambe.",
     "Teaser I : équilibre assis et redescente contrôlée.",
-    "Si le contrôle lombaire se perd, réduire l’amplitude ou revenir ponctuellement à une variante plus simple."
+    "Si le contrôle lombaire se perd, réduire l’amplitude ou revenir ponctuellement à une variante plus simple.",
+    "Scissors et Double Straight Leg Lower & Lift : réduire les leviers si le bassin bouge.",
+    "Leg Pull Front : éviter la rotation du bassin, poser les genoux au besoin.",
+    "Teaser I : variante jambes fléchies si la montée exige de l’élan.",
+    "Boss : récupérer entre les cycles ; les séances facultatives ne conditionnent pas son déblocage."
   ]
 
 },
