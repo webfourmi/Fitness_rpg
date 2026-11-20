@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "6.6.14",
+  version: "6.6.15",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V6.6.14",
+  displayVersion: "V6.6.15",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "6.6.14",
+  assetVersion: "6.6.15",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
@@ -133,7 +133,8 @@ window.FitnessRpgConfig = {
       programProgression: [
         "forge-guerrier",
         "bras-heros",
-        "rempart-heros"
+        "rempart-heros",
+        "maitre-flux"
       ]
         
     },
@@ -158,6 +159,7 @@ window.FitnessRpgConfig = {
        programProgression: [
         "sanctuaire-voyageur",
         "tour-mage",
+        "maitre-flux",
         "marche-aventurier"
       ]
     }
