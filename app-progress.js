@@ -155,44 +155,24 @@ window.FitnessRpgProgress.applyXp = function applyXp(amount, sourceLabel = "Prog
   const result = state.addXp(amount, sourceLabel);
   const newInfo = window.FitnessRpgProgress.getProfileLevelInfo();
 
-  const leveledUp = newInfo.level > oldInfo.level;
-
-  if (leveledUp) {
-    window.FitnessRpgProgress.handleLevelUp(oldInfo.level, newInfo.level);
-  }
-
   return {
     ...result,
-    leveledUp,
+    leveledUp: newInfo.level > oldInfo.level,
     oldInfo,
     newInfo
   };
-};
-
-window.FitnessRpgProgress.handleLevelUp = function handleLevelUp(oldLevel, newLevel) {
-  const state = window.FitnessRpgState;
-
-  state.setPose?.("levelup");
-
-  state.addJournalEntry?.({
-    type: "levelup",
-    title: "Niveau supérieur",
-    text: `Niveau ${newLevel} atteint !`,
-    xp: 0
-  });
-
-  window.FitnessRpgProgress.awardFamiliarsForLevelRange?.(oldLevel, newLevel);
-  window.FitnessRpgProgress.queueLevelUpModal(oldLevel, newLevel);
 };
 
 // ============================================================
 // Modal niveau supérieur
 // ============================================================
 
-window.FitnessRpgProgress.queueLevelUpModal = function queueLevelUpModal(oldLevel, newLevel) {
+window.FitnessRpgProgress.queueLevelUpModal = function queueLevelUpModal(oldLevel, newLevel, gold = 0) {
+  const pending = window.FitnessRpgProgress.pendingLevelUp;
   window.FitnessRpgProgress.pendingLevelUp = {
-    oldLevel,
+    oldLevel: pending?.oldLevel ?? oldLevel,
     newLevel,
+    gold: (pending?.gold || 0) + gold,
     at: new Date().toISOString()
   };
 };
@@ -266,7 +246,7 @@ window.FitnessRpgProgress.getLevelRewardText = function getLevelRewardText(level
     return "🎁 Coffre de familier débloqué !";
   }
 
-  return "✨ Nouvelle apparence et progression héroïque.";
+  return "✨ Un nouveau palier franchi.";
 };
 
 window.FitnessRpgProgress.awardFamiliarForLevel = function awardFamiliarForLevel(level) {
@@ -404,7 +384,7 @@ window.FitnessRpgProgress.getLevelUpNarrative = function getLevelUpNarrative(lev
     2: "Le héros quitte l’échauffement du destin. Les premières cicatrices sont encore invisibles.",
     3: "La routine devient une arme. Chaque séance ajoute une maille à l’armure.",
     4: "Le souffle tient mieux. Le corps commence à croire à la légende.",
-    5: "Transformation majeure. Le novice devient aventurier, et le coffre s’ouvre dans un bruit de tonnerre.",
+    5: "Le blason d’aventurier marque tes premiers pas dans la légende.",
     10: "Le héros entre dans les chroniques. Les anciennes excuses reculent dans l’ombre.",
     15: "Le champion devient une figure de saga. Même les boss prennent une seconde pour réfléchir.",
     20: "Héros mythique. Le corps, le souffle et la volonté avancent sous la même bannière."

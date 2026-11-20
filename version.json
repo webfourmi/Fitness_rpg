@@ -1,5 +1,5 @@
 {
-  "version": "7.0.0",
+  "version": "7.0.1",
   "date": "2026-11-20",
-  "notes": "Campement : pièces d’or, boutique, inventaire, apparences et protections de série."
+  "notes": "Le portrait équipé suit la progression avec un blason par rang et un sac de 20 PO à chaque nouveau niveau."
 }

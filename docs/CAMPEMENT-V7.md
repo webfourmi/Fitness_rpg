@@ -1,6 +1,6 @@
-# Campement et apparence · V7.0.0
+# Campement et apparence · V7
 
-Le campement est accessible depuis le tableau du héros, le menu Héros et le menu mobile « Plus ». La boutique débite des pièces d’or (PO). Un objet acheté apparaît dans l’inventaire, où il peut être équipé ou retiré. Un seul objet peut être équipé par emplacement. Les auras, la cape et le médaillon se superposent aux portraits du héros et de l’héroïne, y compris lors de leur agrandissement. Les deux personnages portent une tenue médiévale simple et stable, quel que soit le niveau. Les visuels historiques du niveau restent disponibles dans la galerie de progression et les écrans de montée en niveau.
+Le campement est accessible depuis le tableau du héros, le menu Héros et le menu mobile « Plus ». La boutique débite des pièces d’or (PO). Un objet acheté apparaît dans l’inventaire, où il peut être équipé ou retiré. Un seul objet peut être équipé par emplacement. Les auras, la cape et le médaillon se superposent aux portraits du héros et de l’héroïne, y compris lors de leur agrandissement. Les deux personnages portent une tenue médiévale simple et stable, quel que soit le niveau. Depuis la V7.0.1, la progression et la montée en niveau affichent aussi le personnage équipé. Le blason évolue avec le rang. En parcourant les paliers atteints, l’équipement actuel reste visible.
 
 Les modèles de la [planche du héros](references-apparence/visuelnew1.png) et de la [planche de l’héroïne](references-apparence/visuelnew2.png) servent de référence pour les deux portraits de base et leurs équipements.
 
@@ -12,8 +12,9 @@ Les modèles de la [planche du héros](references-apparence/visuelnew1.png) et d
 | Complément guidé facultatif | 5 PO |
 | Boss hebdomadaire | 20 PO |
 | Campagne terminée selon la progression du jeu | 50 PO |
+| Nouveau niveau atteint à partir de la V7.0.1 | 20 PO |
 
-Les droits sont enregistrés par programme, semaine et jour, ou par boss et campagne. Rejouer une séance, changer de variante de boss ou réinitialiser la progression d’un programme ne réactive pas un droit. Les XP, niveaux, badges et récompenses de familiers suivent leurs règles existantes. Les PO sont entièrement virtuelles.
+Les droits sont enregistrés par programme, semaine et jour, ou par boss et campagne. Rejouer une séance, changer de variante de boss ou réinitialiser la progression d’un programme ne réactive pas un droit. Les XP, niveaux, badges et récompenses de familiers suivent leurs règles existantes. Les PO sont entièrement virtuelles. Chaque niveau franchi rapporte un sac, même si un gain d’XP franchit plusieurs niveaux à la fois. Les sacs déjà crédités ne sont pas versés deux fois et les niveaux atteints avant la mise à jour ne donnent pas de versement rétroactif.
 
 ## Série
 

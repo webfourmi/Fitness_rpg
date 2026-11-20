@@ -7,6 +7,7 @@ window.FitnessRpgCamp = (() => {
     { id: "dragon-clasp", slot: "broche", name: "Médaillon runique", price: 150, style: "dragon" }
   ];
   const freezePrice = 60;
+  const goldPerLevel = 20;
   const freePerMonth = 2;
   const maxPurchases = 2;
   const datePattern = /^\d{4}-\d{2}-\d{2}$/;
@@ -35,6 +36,7 @@ window.FitnessRpgCamp = (() => {
     const isCount = (value, max = Number.MAX_SAFE_INTEGER) =>
       Number.isSafeInteger(value) && value >= 0 && value <= max;
     return Boolean(isRecord(camp) && isDate(camp.startedOn) && isCount(camp.gold)
+      && (camp.levelRewardedThrough === undefined || isCount(camp.levelRewardedThrough))
       && isRecord(camp.claims) && Object.values(camp.claims).every((value) => value === true)
       && Array.isArray(camp.owned) && camp.owned.every((id) => catalog.some((item) => item.id === id))
       && isRecord(camp.equipped) && Object.entries(camp.equipped).every(([slot, id]) =>
@@ -84,6 +86,16 @@ window.FitnessRpgCamp = (() => {
     if (isCampaignComplete(entry.programId)) {
       earned += credit(camp, JSON.stringify(["campaign", entry.programId]), 50);
     }
+    return earned;
+  }
+
+  function rewardLevels(profile, oldLevel, newLevel) {
+    const camp = migrate(profile);
+    const rewardedThrough = Math.max(oldLevel, camp.levelRewardedThrough || 0);
+    if (newLevel <= rewardedThrough) return 0;
+
+    const earned = (newLevel - rewardedThrough) * goldPerLevel;
+    profile.camp = { ...camp, gold: camp.gold + earned, levelRewardedThrough: newLevel };
     return earned;
   }
 
@@ -216,7 +228,7 @@ window.FitnessRpgCamp = (() => {
     }
   }
 
-  function avatar(alt, imageAttributes = "", imageClass = "") {
+  function avatar(alt, imageAttributes = "", imageClass = "", level = null) {
     const profile = state().getProfile();
     const camp = profile?.camp;
     const heroine = profile?.gender === "femme";
@@ -224,7 +236,9 @@ window.FitnessRpgCamp = (() => {
     const styles = catalog.filter((item) => camp?.equipped[item.slot] === item.id)
       .map((item) => `camp-avatar--${item.style}`).join(" ");
     const pose = heroine ? " camp-avatar--heroine" : "";
-    return `<div class="camp-avatar ${styles}${pose}">
+    const config = window.FitnessRpgConfig;
+    const rank = config.getRank(level ?? config.levelInfo(profile?.totalXp || 0).level);
+    return `<div class="camp-avatar camp-avatar--ranked camp-avatar--rank-${rank.appearance} ${styles}${pose}">
       <img src="${heroPath}" alt="${alt}" class="${imageClass}" ${imageAttributes}>
       <span class="camp-avatar-aura" aria-hidden="true"></span>
       <span class="camp-avatar-cloak" aria-hidden="true"></span>
@@ -259,7 +273,7 @@ window.FitnessRpgCamp = (() => {
     root.innerHTML = `
       <div class="camp-summary">
         ${avatar(renderer.escapeHtml(profile.name))}
-        <div><strong class="camp-balance">${camp.gold} PO</strong><p>10 PO par nouvelle séance essentielle, 5 par complément, 20 par boss et 50 par campagne terminée.</p></div>
+        <div><strong class="camp-balance">${camp.gold} PO</strong><p>10 PO par nouvelle séance essentielle, 5 par complément, 20 par boss, 50 par campagne terminée et ${goldPerLevel} par nouveau niveau.</p></div>
       </div>
       <p class="camp-status" role="status" tabindex="-1">${message}</p>
       <h2>Repos et gels de série</h2>
@@ -279,5 +293,5 @@ window.FitnessRpgCamp = (() => {
     `;
   }
 
-  return { migrate, reward, settle, nextDay, isDate, hasValidSave, resolveOvernight, mutate, avatar, render };
+  return { migrate, reward, rewardLevels, settle, nextDay, isDate, hasValidSave, resolveOvernight, mutate, avatar, render };
 })();

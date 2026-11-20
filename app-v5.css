@@ -1527,6 +1527,27 @@ small {
   --mantle-width: 38%;
 }
 
+.camp-avatar--ranked {
+  --rank-light: 220, 191, 143;
+  --camp-avatar-image-background: transparent;
+}
+
+.camp-avatar--ranked::before {
+  content: "";
+  position: absolute;
+  inset: 6% 4% 3%;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(var(--rank-light), 0.36), rgba(var(--rank-light), 0.10) 72%),
+    repeating-linear-gradient(135deg, rgba(var(--rank-light), 0.09) 0 1px, transparent 1px 14px);
+  clip-path: polygon(50% 0, 96% 12%, 96% 65%, 84% 84%, 50% 100%, 16% 84%, 4% 65%, 4% 12%);
+  pointer-events: none;
+}
+
+.camp-avatar--rank-aventurier { --rank-light: 123, 213, 147; }
+.camp-avatar--rank-champion { --rank-light: 255, 122, 102; }
+.camp-avatar--rank-legende { --rank-light: 188, 148, 255; }
+.camp-avatar--rank-mythique { --rank-light: 255, 205, 97; }
+
 .camp-avatar > img {
   display: block;
   width: auto;
@@ -6732,7 +6753,7 @@ audio {
   object-fit: contain;
   border-radius: var(--radius);
   border: 1px solid var(--border-strong);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--camp-avatar-image-background, rgba(255, 255, 255, 0.05));
 }
 
 #closeImageOverlayButton {
@@ -7286,85 +7307,19 @@ body.workout-summary-active {
 body.level-up-active .hero-image-frame {
   border-color: var(--accent);
 }
-.level-up-transform {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  margin: 0 auto 4px;
-}
-
 .level-up-hero-stage {
-  position: relative;
-
-  width: min(220px, 64vw);
-  aspect-ratio: 1 / 1;
-
+  width: min(178px, 56vw);
   display: grid;
-  place-items: center;
-
+  justify-items: center;
+  gap: 4px;
   margin: 0 auto;
-
-  border-radius: 20px;
-  border: 1px solid rgba(240, 184, 79, 0.42);
-
-  background: #f4f0df;
-  overflow: hidden;
-
-  box-shadow:
-    0 14px 34px rgba(0, 0, 0, 0.38),
-    0 0 24px rgba(240, 184, 79, 0.18);
 }
 
-.level-up-hero-img {
-  position: absolute;
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: contain;
-  object-position: center center;
-
-  transition:
-    opacity 2.4s ease-in-out,
-    transform 2.4s ease-in-out,
-    filter 2.4s ease-in-out;
-
-  will-change: opacity, transform, filter;
-}
-
-.level-up-hero-img-old {
-  opacity: 1;
-  transform: scale(1);
-  filter: blur(0);
-}
-
-.level-up-hero-img-new {
-  opacity: 0;
-  transform: scale(0.94);
-  filter: blur(12px) brightness(1.18);
-}
-
-.level-up-hero-stage.is-transitioning .level-up-hero-img-old {
-  opacity: 0;
-  transform: scale(1.06);
-  filter: blur(14px) brightness(1.45);
-}
-
-.level-up-hero-stage.is-transitioning .level-up-hero-img-new {
-  opacity: 1;
-  transform: scale(1);
-  filter: blur(0) brightness(1);
+.level-up-hero-stage .camp-avatar {
+  animation: heroLevelPulse 1.1s ease-in-out;
 }
 
 .level-up-stage-label {
-  position: absolute;
-  left: 50%;
-  bottom: 6px;
-  z-index: 3;
-
-  transform: translateX(-50%);
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -7384,6 +7339,16 @@ body.level-up-active .hero-image-frame {
   white-space: nowrap;
 
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.34);
+}
+
+.level-up-gold-reward {
+  width: fit-content;
+  margin: 3px auto;
+  padding: 6px 12px;
+  border: 1px solid rgba(240, 184, 79, 0.42);
+  border-radius: 12px;
+  background: rgba(240, 184, 79, 0.12);
+  color: var(--accent-strong);
 }
 
 .level-up-narrative {
@@ -7707,12 +7672,8 @@ body.level-up-active .hero-image-frame {
   gap: 6px;
 }
 
-.hero-level-carousel-image {
-  width: 190px;
-  max-width: 58vw;
-  border-radius: 20px;
-  object-fit: contain;
-  box-shadow: 0 0 28px rgba(240, 184, 79, 0.28);
+.hero-level-carousel-main .camp-avatar {
+  width: min(182px, 100%);
 }
 
 .hero-level-carousel-main h2,
@@ -8088,8 +8049,7 @@ body.modal-open {
   }
 
   .level-up-hero-stage {
-    width: min(210px, 72vw);
-    aspect-ratio: 1 / 1;
+    width: min(155px, 56vw);
   }
 
   .level-up-card h1 {

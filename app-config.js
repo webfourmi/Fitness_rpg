@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "7.0.0",
+  version: "7.0.1",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V7.0.0",
+  displayVersion: "V7.0.1",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "7.0.0",
+  assetVersion: "7.0.1",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
@@ -43,11 +43,11 @@ window.FitnessRpgConfig = {
   // Rangs RPG
   // ------------------------------------------------------------
   ranks: [
-    { min: 1, max: 4, title: "Novice" },
-    { min: 5, max: 9, title: "Aventurier" },
-    { min: 10, max: 14, title: "Champion" },
-    { min: 15, max: 19, title: "Légende" },
-    { min: 20, max: 999, title: "Héros mythique" }
+    { min: 1, max: 4, title: "Novice", appearance: "novice" },
+    { min: 5, max: 9, title: "Aventurier", appearance: "aventurier" },
+    { min: 10, max: 14, title: "Champion", appearance: "champion" },
+    { min: 15, max: 19, title: "Légende", appearance: "legende" },
+    { min: 20, max: 999, title: "Héros mythique", appearance: "mythique" }
   ],
 
   // ------------------------------------------------------------
@@ -426,14 +426,13 @@ window.FitnessRpgConfig = {
 // Fonctions utilitaires globales de configuration
 // ============================================================
 
-window.FitnessRpgConfig.getRankTitle = function getRankTitle(level) {
+window.FitnessRpgConfig.getRank = function getRank(level) {
   const safeLevel = Math.max(1, Number(level) || 1);
+  return window.FitnessRpgConfig.ranks.findLast((rank) => safeLevel >= rank.min);
+};
 
-  const rank = window.FitnessRpgConfig.ranks.find((item) => {
-    return safeLevel >= item.min && safeLevel <= item.max;
-  });
-
-  return rank ? rank.title : "Novice";
+window.FitnessRpgConfig.getRankTitle = function getRankTitle(level) {
+  return window.FitnessRpgConfig.getRank(level).title;
 };
 
 window.FitnessRpgConfig.xpNeededForLevel = function xpNeededForLevel(level) {

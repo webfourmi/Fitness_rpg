@@ -1,10 +1,15 @@
-# Fitness RPG — V7.0.0
+# Fitness RPG — V7.0.1
 
 Fitness RPG est une application web mobile-first qui transforme l'entraînement sportif en aventure RPG.
 
 La série V6.1 a principalement consolidé l'expérience mobile, les séances guidées, les écrans secondaires, les images d'exercices et la stabilité générale de l'application.
 
 ## Version actuelle
+
+**V7.0.1 — Progression et sacs de pièces**
+
+- Le même portrait équipé apparaît au tableau du héros, au campement, dans la progression et à la montée en niveau. La couleur du blason évolue avec le rang.
+- Chaque niveau atteint pour la première fois rapporte un sac de 20 PO, en plus des récompenses existantes.
 
 **V7.0.0 — Apparence, boutique et pièces d’or**
 
