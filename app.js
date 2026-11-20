@@ -303,7 +303,7 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       badgeTitle: "Dragon Astral",
       chest: true,
       xp: 150,
-      nextPrograms: ["archimage-centre", "seigneur-ether", "forge-guerrier", "champion-arenes"]
+      nextPrograms: ["archimage-corps", "forge-guerrier", "champion-arenes"]
     },
     weeks: [
       {
@@ -502,7 +502,7 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
         xp: 150,
         badgeId: "flux-dragon-astral",
         chest: true,
-        nextPrograms: ["archimage-centre", "seigneur-ether", "forge-guerrier", "champion-arenes"],
+        nextPrograms: ["archimage-corps", "forge-guerrier", "champion-arenes"],
         difficultyLabel: "Boss final · 30 à 40 min",
         instructions: "Débloqué après les 3 séances de la semaine 4. Coffre mystique final.",
         lockedMessage: "Le Dragon Astral ne descend que devant un Maître du Flux prêt.",
@@ -541,6 +541,108 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       "Toe Taps : touche le sol avec une pointe de pied en gardant le bassin stable.",
       "Side Leg Lift : élève la jambe latéralement avec contrôle.",
       "Roll Up simplifié : déroule le buste lentement, sans élan brusque."
+    ]
+  };
+
+
+  // Les parcours déjà commencés restent identiques (coches, XP, badge).
+  const fluxLegacy = data.programDetails["maitre-flux"];
+  const fluxSafety = "Respire librement pendant l'effort. Prends 30 à 60 secondes entre les séries. "
+    + "Réduis l'amplitude si le bassin ou les lombaires perdent leur stabilité ; arrête en cas de douleur.";
+  const fluxMove = (phase, exerciseId, amount, unit, cue) =>
+    ex(phase, exerciseId, amount, unit, { cue });
+
+  const fluxComplement = (dayNumber, title, focus, items) => ({
+    day: dayNumber,
+    title,
+    optional: true,
+    xp: 0,
+    difficultyLabel: dayNumber === 4 ? "≈ 10 à 12 min" : "≈ 12 à 15 min",
+    instructions: focus + " Séance facultative, sans XP et sans effet sur le déblocage du boss. " + fluxSafety,
+    exercises: [
+      fluxMove("Échauffement", "abdominal_breathing", 1, "min", "Respire calmement, sans retenir le souffle."),
+      fluxMove("Échauffement", "march_on_spot", 1, "min", "Marche tranquillement pour délier les articulations."),
+      ...[1, 2].flatMap((cycle) => items.map(([id, amount, unit, cue]) =>
+        fluxMove("Complément · Cycle " + cycle, id, amount, unit, cue)
+      )),
+      fluxMove("Retour au calme", "gentle_back_stretch", 1, "min", "Détends doucement le dos."),
+      fluxMove("Respiration", "slow_breathing", 1, "min", "Ralentis progressivement le rythme respiratoire.")
+    ]
+  });
+  const fluxWeeks = fluxLegacy.weeks.map((week) => ({
+    ...week,
+    days: [
+      ...week.days.map((day) => ({
+        ...day,
+        exercises: day.exercises.map((item) => item.exerciseId === "roll_up_simplified"
+          ? { ...item, amount: day.day === 2 ? 6 : 8,
+            cue: "Déroule lentement, genoux pliés si besoin ; aucun élan." }
+          : item)
+      })),
+      fluxComplement(4, "Le Souffle du Courant",
+        "Mobilité du dos et récupération active, idéalement un jour sans séance essentielle.", [
+          ["cat_cow", 8, "répétitions", "Enroule et redresse doucement la colonne, sans forcer."],
+          ["thoracic_rotation", 10, "répétitions", "Cinq rotations par côté, bassin stable."],
+          ["pelvic_tilt", 10, "répétitions", "Bascule le bassin dans une amplitude confortable."],
+          ["gentle_back_stretch", 60, "sec", "Respire profondément sans tirer sur le dos."]
+        ]),
+      fluxComplement(5, "L'Équilibre du Courant",
+        "Coordination et stabilité avec un appui à proximité.", [
+          ["single_leg_balance", 40, "sec", "Vingt secondes par jambe. Garde un appui si nécessaire."],
+          ["bird_dog", 12, "répétitions", "Six répétitions par côté, sans cambrer."],
+          ["bridge", 12, "répétitions", "Monte et redescends lentement, bassin stable."],
+          ["side_leg_lift", 16, "répétitions", "Huit par côté, sans basculer le bassin."]
+        ])
+    ]
+  }));
+
+  const fluxBosses = fluxLegacy.bosses.map((boss) => boss.week !== 4 ? boss : {
+    ...boss,
+    difficultyLabel: "Boss final · environ 20 à 30 min",
+    instructions: "Débloqué après les trois séances essentielles de la semaine 4. "
+      + "Deux cycles maîtrisés plutôt que trois, avec pauses libres. Coffre mystique final. " + fluxSafety,
+    exercises: [
+      ...warmup(),
+      fluxMove("Activation Pilates · Version 2", "the_hundred", 10,
+        "cycles respiratoires", "Fléchis les genoux si le dos se cambre ; évite de forcer sur la nuque."),
+      ...repeatCycles("Cycle", 2, [
+        ["roll_up_simplified", 6, "répétitions", { cue: "Monter sans élan, genoux pliés si nécessaire." }],
+        ["toe_taps", 20, "répétitions", { cue: "Dix par côté, bassin stable." }],
+        ["side_leg_lift", 20, "répétitions", { cue: "Dix par côté, sans déplacer le bassin." }],
+        ["bird_dog", 20, "répétitions", { cue: "Dix par côté, gardez le dos neutre." }],
+        ["swimming", 20, "sec", { cue: "Petite amplitude, relâche si le bas du dos tire." }],
+        ["side_plank_knees", 40, "sec", { cue: "Vingt secondes par côté, genoux au sol." }],
+        ["pelvic_lift_floor", 12, "répétitions", { cue: "Déroule progressivement sans cambrer." }]
+      ]),
+      ...cooldown()
+    ]
+  });
+  data.programDetails["maitre-flux"] = {
+    ...fluxLegacy,
+    legacyWorkouts: { weeks: fluxLegacy.weeks, bosses: fluxLegacy.bosses },
+    workoutRevision: 1,
+    subtitle: "Pilates intermédiaire : stabilité du centre, mobilité, coordination et fluidité.",
+    duration: "20 à 30 min pour les séances essentielles",
+    frequency: "3 séances essentielles et 2 compléments facultatifs par semaine + boss",
+    reward: {
+      ...fluxLegacy.reward,
+      nextPrograms: ["archimage-corps", "forge-guerrier", "champion-arenes"]
+    },
+    weeks: fluxWeeks,
+    bosses: fluxBosses,
+    progression: [
+      ...fluxLegacy.progression.map((line) => line.startsWith("Chaque Boss commence")
+        ? "Les boss des semaines 1 à 3 utilisent trois cycles ; le Dragon Astral en utilise deux."
+        : line),
+      "Les séances du mardi et du jeudi sont facultatives, sans XP et sans influence sur les boss.",
+      "Les trois séances essentielles débloquent le boss de la semaine.",
+      "Le Dragon Astral demande désormais deux cycles au lieu de trois, pour privilégier le contrôle."
+    ],
+    notes: [
+      ...fluxLegacy.notes,
+      "Objectifs principaux : mobilité et coordination ; objectif secondaire : renforcement du tronc.",
+      "Pour The Hundred V2, fléchis les genoux si tu ne peux pas conserver le dos stable.",
+      fluxSafety
     ]
   };
 
@@ -599,19 +701,19 @@ window.FitnessRpgApp.applyDataUpdates = function applyDataUpdates() {
       id: "maitre-flux",
       icon: "✨",
       title: "Maître du Flux",
-      objective: "Pilates intermédiaire · stabilité, contrôle et équilibre",
+      objective: "Pilates intermédiaire · stabilité du centre, mobilité et coordination",
       level: "Niveau 2 · Intermédiaire",
       tier: "intermediate",
       unlockLevel: 2,
-      duration: "25-30 min",
-      frequency: "3 séances par semaine · 4 semaines + boss le samedi",
+      duration: "20-30 min",
+      frequency: "3 séances essentielles + 2 compléments facultatifs · 4 semaines + boss",
       coachAdvice: "Elmin ou Satyne",
       xp: 150,
       reward: {
         badgeId: "flux-dragon-astral",
         title: "Dragon Astral",
         chest: true,
-        nextPrograms: ["archimage-centre", "seigneur-ether", "forge-guerrier", "champion-arenes"]
+        nextPrograms: ["archimage-corps", "forge-guerrier", "champion-arenes"]
       }
     });
   }
