@@ -51,7 +51,7 @@ test("tous les fichiers publiés partagent la même version", () => {
   assert.equal(property(config, "version"), version);
   assert.equal(property(config, "displayVersion"), "V" + version);
   assert.equal(property(config, "assetVersion"), version);
-  assert.equal(property(worker, "APP_VERSION"), version);
+  assert.match(worker, new RegExp('const APP_VERSION = "' + version.replace(/\\./g, "\\\\.") + '";'));
 
   const indexVersions = [...html.matchAll(/\?v=(\d+(?:\.\d+)+)/g)].map((match) => match[1]);
   const workerVersions = [...worker.matchAll(/\?v=(\d+(?:\.\d+)+)/g)].map((match) => match[1]);
