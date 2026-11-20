@@ -17974,3 +17974,140 @@ window.FitnessRpgData.checkIntegrity = async function checkIntegrity(options = {
     };
   }
 }
+// Rempart du Héros : progression de stabilité du tronc, avec deux compléments facultatifs.
+// Conserver les séances historiques pour les sessions commencées avant cette révision.
+(() => {
+  const id = "rempart-heros";
+  const legacy = window.FitnessRpgData.programDetails[id];
+  if (!legacy || legacy.legacyWorkouts) return;
+
+  const e = (phase, exerciseId, amount, unit = "répétitions") => ({ phase, exerciseId, amount, unit });
+  const r = (exerciseId, amount, unit = "répétitions") => ({ exerciseId, amount, unit });
+  const warmup = [
+    e("Échauffement", "walk", 2, "min"),
+    e("Échauffement", "hip_circles", 30, "sec"),
+    e("Échauffement", "cat_cow", 1, "min"),
+    e("Échauffement", "abdominal_breathing", 1, "min")
+  ];
+  const cooldown = [
+    e("Retour au calme", "gentle_back_stretch", 1, "min"),
+    e("Retour au calme", "thoracic_rotation", 1, "min"),
+    e("Respiration", "slow_breathing", 1, "min")
+  ];
+  const makeSession = (moves) => [
+    ...warmup,
+    ...moves.map((move, index) => e(index < 3 ? "Défi 1" : "Défi 2", move.exerciseId, move.amount, move.unit)),
+    ...cooldown
+  ];
+  const makeBoss = (moves) => [
+    ...warmup,
+    ...[1, 2].flatMap((cycle) => moves.map((move) => e("Cycle " + cycle, move.exerciseId, move.amount, move.unit))),
+    ...cooldown
+  ];
+
+  // Trois séances essentielles par semaine : contrôle, anti-rotation, puis endurance contrôlée.
+  const workouts = [
+    [
+      [r("pelvic_tilt", 10), r("dead_bug", 12), r("bridge", 12), r("bird_dog", 10), r("knee_plank", 20, "sec"), r("side_plank_knees", 20, "sec")],
+      [r("dead_bug", 14), r("core", 20, "sec"), r("bird_dog", 12), r("bridge", 14), r("side_plank_knees", 30, "sec"), r("thoracic_rotation", 1, "min")],
+      [r("pelvic_tilt", 12), r("dead_bug", 16), r("core", 25, "sec"), r("bird_dog", 12), r("side_plank_knees", 30, "sec"), r("bridge", 15)]
+    ],
+    [
+      [r("dead_bug", 16), r("plank_shoulder_taps", 8), r("core", 25, "sec"), r("bridge", 16), r("bird_dog", 12), r("side_plank_knees", 35, "sec")],
+      [r("plank_shoulder_taps", 10), r("bird_dog", 14), r("dead_bug", 16), r("side_plank", 30, "sec"), r("bridge", 16), r("thoracic_rotation", 1, "min")],
+      [r("dead_bug", 18), r("core", 30, "sec"), r("plank_shoulder_taps", 10), r("bridge", 18), r("bird_dog", 14), r("side_plank", 30, "sec")]
+    ],
+    [
+      [r("hollow_hold_simplified", 15, "sec"), r("dead_bug", 18), r("bridge", 18), r("bird_dog", 14), r("side_plank", 35, "sec"), r("core", 30, "sec")],
+      [r("hollow_hold_simplified", 20, "sec"), r("plank_shoulder_taps", 12), r("dead_bug", 18), r("bridge", 18), r("bird_dog", 14), r("core", 35, "sec")],
+      [r("hollow_hold_simplified", 20, "sec"), r("dead_bug", 20), r("core", 35, "sec"), r("side_plank", 40, "sec"), r("bridge", 20), r("bird_dog", 16)]
+    ],
+    [
+      [r("dynamic_plank", 6), r("hollow_hold_simplified", 20, "sec"), r("dead_bug", 20), r("bridge", 20), r("side_plank", 40, "sec"), r("bird_dog", 16)],
+      [r("dynamic_plank", 8), r("plank_shoulder_taps", 12), r("dead_bug", 20), r("core", 40, "sec"), r("bridge", 20), r("bird_dog", 16)],
+      [r("dynamic_plank", 8), r("hollow_hold_simplified", 25, "sec"), r("dead_bug", 20), r("side_plank", 40, "sec"), r("core", 40, "sec"), r("bird_dog", 16)]
+    ]
+  ];
+  const bossMoves = [
+    [r("dead_bug", 16), r("bridge", 14), r("side_plank_knees", 30, "sec"), r("bird_dog", 12), r("core", 20, "sec")],
+    [r("dead_bug", 18), r("plank_shoulder_taps", 10), r("bridge", 16), r("side_plank", 30, "sec"), r("core", 25, "sec")],
+    [r("hollow_hold_simplified", 20, "sec"), r("dead_bug", 20), r("side_plank", 40, "sec"), r("bird_dog", 16), r("core", 35, "sec")],
+    [r("dynamic_plank", 8), r("hollow_hold_simplified", 25, "sec"), r("dead_bug", 20), r("side_plank", 40, "sec"), r("plank_shoulder_taps", 12), r("bridge", 20)]
+  ];
+  const weekNotes = [
+    "Semaine 1 : installer le contrôle du bassin et la respiration sans rechercher la fatigue.",
+    "Semaine 2 : introduire doucement l'anti-rotation avec les touchers d'épaule.",
+    "Semaine 3 : ajouter une tenue courte en Hollow Hold simplifié, sans perte de contrôle.",
+    "Semaine 4 : découvrir la planche dynamique en petite série, avec une récupération suffisante."
+  ];
+  const safeAdvice = "Garde une respiration fluide et une amplitude confortable. Réduis la durée ou passe aux appuis sur les genoux si le maintien se dégrade. Stoppe si une douleur apparaît ou augmente.";
+
+  const weeks = legacy.weeks.map((week, wi) => ({
+    ...week,
+    progression: weekNotes[wi],
+    days: [
+      ...week.days.map((day, di) => ({
+        ...day,
+        difficultyLabel: "≈ 15 à 22 min",
+        instructions: (day.instructions || "Séance de stabilité du tronc.") + " Alterne les deux côtés, et récupère 30 à 60 secondes selon ton souffle. " + safeAdvice,
+        exercises: makeSession(workouts[wi][di])
+      })),
+      {
+        day: 4,
+        title: "Ronde du Rempart",
+        optional: true,
+        xp: 0,
+        difficultyLabel: "8 à 13 min · facultatif",
+        instructions: "Marche facile et mobilité un jour sans séance essentielle. Tu dois pouvoir parler sans effort.",
+        exercises: [
+          e("Marche facile", "walk", [5, 7, 8, 10][wi], "min"),
+          e("Mobilité", "hip_circles", 30, "sec"),
+          e("Mobilité", "thoracic_rotation", 1, "min"),
+          e("Respiration", "slow_breathing", 1, "min")
+        ]
+      },
+      {
+        day: 5,
+        title: "Veille du Guetteur",
+        optional: true,
+        xp: 0,
+        difficultyLabel: "6 à 9 min · facultatif",
+        instructions: "Récupération et contrôle doux. Réduis l'amplitude ou saute tout mouvement inconfortable.",
+        exercises: [
+          e("Mobilité", "cat_cow", 1, "min"),
+          e("Mobilité", "pelvic_tilt", 8),
+          e("Mobilité", "thoracic_rotation", 1, "min"),
+          e("Mobilité", "gentle_back_stretch", 1, "min"),
+          e("Respiration", "abdominal_breathing", 1, "min"),
+          e("Respiration", "slow_breathing", 1, "min")
+        ]
+      }
+    ]
+  }));
+
+  const bosses = legacy.bosses.map((boss, wi) => ({
+    ...boss,
+    difficultyLabel: wi === 3 ? "Boss final · 20 à 25 min · 2 cycles" : "Boss hebdomadaire · 18 à 23 min · 2 cycles",
+    instructions: boss.instructions + " Deux cycles avec 45 à 60 secondes de récupération entre les cycles. " + safeAdvice,
+    exercises: makeBoss(bossMoves[wi])
+  }));
+
+  window.FitnessRpgData.programDetails[id] = {
+    ...legacy,
+    legacyWorkouts: { weeks: legacy.weeks, bosses: legacy.bosses },
+    subtitle: "Stabilité du tronc, gainage et contrôle du bassin pour une posture plus confortable.",
+    duration: "15 à 25 min",
+    frequency: "3 séances essentielles et 2 compléments facultatifs par semaine, puis boss",
+    weeks,
+    bosses,
+    progression: [...weekNotes, "Trois séances essentielles suffisent à débloquer chaque boss. Les compléments ne sont jamais obligatoires."],
+    notes: [
+      ...legacy.notes,
+      "Alterner les trois séances essentielles avec au moins un jour plus léger si possible.",
+      "Les compléments ne donnent pas d'XP et ne conditionnent pas le boss.",
+      "Les temps de gainage latéral sont des temps totaux à répartir entre gauche et droite.",
+      "Les exercices de stabilité visent le confort et la capacité physique, pas le traitement garanti d'une lombalgie.",
+      safeAdvice
+    ]
+  };
+})();
