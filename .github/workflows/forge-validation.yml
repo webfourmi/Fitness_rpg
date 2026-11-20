@@ -15,11 +15,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - name: Vérifier les fichiers JavaScript
         run: |
-          for file in app-data.js app-program-forge.js app-programs.js app-config.js app-render.js; do node --check "$file"; done
+          for file in app-*.js app.js service-worker.js; do node --check "$file"; done
+          node --check scripts/check-version-bump.cjs
       - name: Exécuter les tests Node.js
         run: node --test tests/*.test.cjs
+
+      - name: Contrôler l'incrément de version des livraisons
+        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PUSH_BASE_SHA: ${{ github.event.before }}
+        run: |
+          BASE_SHA="${PR_BASE_SHA:-$PUSH_BASE_SHA}"
+          node scripts/check-version-bump.cjs "$BASE_SHA"
