@@ -9,6 +9,21 @@
   "use strict";
 
   const INSTALL_GUIDE_DISMISSED_KEY = "fitnessRpgPwaInstallGuideDismissed";
+  const UPDATE_CHECK_INTERVAL_MS = 15 * 60 * 1000;
+  function compareVersions(a, b) {
+    const parse = (value) => {
+      const raw = String(value || "").replace(/^v/i, "");
+      if (!/^\d+(?:\.\d+)*$/.test(raw)) return null;
+      return raw.split(".").map(Number);
+    };
+    const left = parse(a), right = parse(b);
+    if (!left || !right) return 0;
+    for (let i = 0; i < Math.max(left.length, right.length); i++) {
+      const diff = (left[i] || 0) - (right[i] || 0);
+      if (diff) return Math.sign(diff);
+    }
+    return 0;
+  }
 
   function readInstallDismissed() {
     try {
@@ -33,6 +48,9 @@
     activePrompt: null,
     installDismissed: readInstallDismissed(),
     updateDismissed: false,
+    availableVersion: null,
+    releaseNotes: null,
+    updateCheckInProgress: false,
     newControllerReady: false,
     reloadPending: false,
     hadControllerAtStart: Boolean(navigator.serviceWorker?.controller),
@@ -42,6 +60,12 @@
   };
 
   window.FitnessRpgPwa = pwa;
+  pwa.compareVersions = compareVersions;
+  pwa.getCurrentVersion = () => String(window.FitnessRpgConfig?.assetVersion || "").trim();
+  pwa.isUpdateAvailable = () => Boolean(
+    pwa.waitingWorker || pwa.newControllerReady ||
+    (pwa.availableVersion && compareVersions(pwa.availableVersion, pwa.getCurrentVersion()) > 0)
+  );
 
   pwa.getElements = function getElements() {
     return {
@@ -51,7 +75,8 @@
       message: document.querySelector("#pwaPromptMessage"),
       primary: document.querySelector("#pwaPromptPrimaryButton"),
       dismiss: document.querySelector("#pwaPromptDismissButton"),
-      status: document.querySelector("#pwaConnectionStatus")
+      status: document.querySelector("#pwaConnectionStatus"),
+      updateButton: document.querySelector("#pwaUpdateButton")
     };
   };
 
@@ -77,6 +102,19 @@
     prompt?.classList.add("hidden");
     prompt?.setAttribute("aria-hidden", "true");
     pwa.activePrompt = null;
+  };
+
+  pwa.refreshUpdateButton = function refreshUpdateButton() {
+    const { updateButton } = pwa.getElements();
+    if (!updateButton) return;
+    const hasUpdate = pwa.isUpdateAvailable();
+    const workout = pwa.hasActiveWorkout();
+    updateButton.classList.toggle("hidden", !hasUpdate);
+    updateButton.disabled = Boolean(hasUpdate && workout);
+    updateButton.title = workout
+      ? "Mise à jour possible après la séance"
+      : "Installer la nouvelle version de Fitness RPG";
+    updateButton.setAttribute("aria-label", updateButton.title);
   };
 
   pwa.showPrompt = function showPrompt(options) {
@@ -112,6 +150,7 @@
       || pwa.isStandalone()
       || pwa.waitingWorker
       || pwa.newControllerReady
+      || pwa.isUpdateAvailable()
     ) {
       return;
     }
@@ -143,7 +182,7 @@
   // Certains navigateurs ne déclenchent jamais beforeinstallprompt,
   // même si l'installation depuis leur menu reste possible.
   pwa.showManualInstallPrompt = function showManualInstallPrompt() {
-    if (pwa.isStandalone() || pwa.waitingWorker || pwa.newControllerReady) return;
+    if (pwa.isStandalone() || pwa.isUpdateAvailable()) return;
 
     pwa.showPrompt({
       mode: "manual",
@@ -162,7 +201,7 @@
       return;
     }
 
-    if (pwa.waitingWorker || pwa.newControllerReady) {
+    if (pwa.isUpdateAvailable()) {
       pwa.showUpdatePrompt();
       return;
     }
@@ -176,32 +215,30 @@
   };
 
   pwa.showUpdatePrompt = function showUpdatePrompt() {
-    if (
-      (!pwa.waitingWorker && !pwa.newControllerReady)
-      || pwa.updateDismissed
-    ) {
-      return;
-    }
-
+    pwa.refreshUpdateButton();
+    if (!pwa.isUpdateAvailable() || pwa.updateDismissed) return;
     const activeWorkout = pwa.hasActiveWorkout();
-
+    const current = pwa.getCurrentVersion();
+    const target = pwa.availableVersion;
+    const versionText = target && compareVersions(target, current) > 0
+      ? `Version ${current} → ${target}.`
+      : `Version installée : ${current}.`;
     pwa.showPrompt({
       mode: "update",
       icon: "✨",
-      title: "Mise à jour prête",
+      title: "Nouvelle mise à jour disponible",
       message: activeWorkout
-        ? "Ta séance reste ouverte. La nouvelle version pourra être appliquée dès qu’elle sera terminée."
-        : "Une nouvelle version de Fitness RPG est disponible. Tes sauvegardes seront conservées.",
-      primaryLabel: activeWorkout
-        ? "Après la séance"
-        : (pwa.newControllerReady ? "Recharger" : "Mettre à jour"),
+        ? `${versionText} Termine ta séance avant de l’installer. Ta progression reste sauvegardée.`
+        : `${versionText} ${pwa.releaseNotes ? pwa.releaseNotes + " " : ""}Tes sauvegardes seront conservées.`,
+      primaryLabel: activeWorkout ? "Après la séance" : "Installer MAJ",
       primaryAction: "update",
       primaryDisabled: activeWorkout
     });
   };
 
   pwa.refreshPrompt = function refreshPrompt() {
-    if (pwa.waitingWorker || pwa.newControllerReady) {
+    pwa.refreshUpdateButton();
+    if (pwa.isUpdateAvailable()) {
       pwa.showUpdatePrompt();
       return;
     }
@@ -265,6 +302,15 @@
       return;
     }
 
+    // Secours si le navigateur n'a pas encore de nouveau worker en attente.
+    if (!pwa.waitingWorker && pwa.availableVersion &&
+        compareVersions(pwa.availableVersion, pwa.getCurrentVersion()) > 0) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("maj", pwa.availableVersion);
+      window.location.replace(url.toString());
+      return;
+    }
+
     if (!pwa.waitingWorker) return;
 
     const { primary } = pwa.getElements();
@@ -285,6 +331,12 @@
 
     if (action === "update") {
       pwa.applyUpdate();
+      return;
+    }
+
+    if (action === "check-update") {
+      window.FitnessRpgNavigation?.closeMobileMorePanel?.({ restoreFocus: false });
+      void pwa.checkForUpdate(true);
       return;
     }
 
@@ -343,9 +395,53 @@
     });
   };
 
-  pwa.checkForUpdate = function checkForUpdate() {
-    if (!pwa.registration || !navigator.onLine) return;
-    void pwa.registration.update().catch(() => undefined);
+  pwa.checkForUpdate = async function checkForUpdate(manual = false) {
+    if (!navigator.onLine) {
+      if (manual) pwa.showConnectionStatus("Connexion nécessaire pour vérifier les MAJ.", "offline");
+      return false;
+    }
+    if (pwa.updateCheckInProgress) return false;
+    pwa.updateCheckInProgress = true;
+    // Même si version.json est momentanément indisponible, la vérification
+    // native du service worker doit toujours être exécutée.
+    const workerCheck = pwa.registration?.update?.().catch(() => undefined);
+    try {
+      // Comparaison avec le manifeste réseau, sans utiliser un cache éventuellement périmé.
+      const url = new URL("./version.json", window.location.href);
+      url.searchParams.set("_", String(Date.now()));
+      const response = await fetch(url.toString(), { cache: "no-store" });
+      if (!response.ok) throw new Error("Version distante indisponible");
+      const release = await response.json();
+      const nextVersion = String(release?.version || "");
+      if (!/^\d+(?:\.\d+)*$/.test(nextVersion)) {
+        throw new Error("Format de version distante invalide");
+      }
+
+      // Signaler rapidement la MAJ ; la vérification du worker suit en parallèle.
+      if (compareVersions(nextVersion, pwa.getCurrentVersion()) > 0) {
+        if (pwa.availableVersion !== nextVersion) pwa.updateDismissed = false;
+        pwa.availableVersion = nextVersion;
+        pwa.releaseNotes = String(release?.notes || "").slice(0, 180);
+      } else {
+        pwa.availableVersion = null;
+        pwa.releaseNotes = null;
+      }
+      pwa.refreshPrompt();
+      await workerCheck;
+      if (manual && !pwa.isUpdateAvailable()) {
+        pwa.showConnectionStatus(`Fitness RPG ${pwa.getCurrentVersion()} : déjà à jour.`, "online");
+      }
+      return pwa.isUpdateAvailable();
+    } catch (error) {
+      await workerCheck;
+      console.warn("Fitness RPG : contrôle de version indisponible.", error);
+      if (manual) pwa.showConnectionStatus("Impossible de vérifier les MAJ pour le moment.", "offline");
+      // Une MAJ du worker reste exploitable même sans réponse du manifeste.
+      pwa.refreshPrompt();
+      return pwa.isUpdateAvailable();
+    } finally {
+      pwa.updateCheckInProgress = false;
+    }
   };
 
   pwa.registerServiceWorker = async function registerServiceWorker() {
@@ -363,7 +459,7 @@
       });
 
       pwa.observeRegistration(registration);
-      pwa.checkForUpdate();
+      void pwa.checkForUpdate();
     } catch (error) {
       console.warn("Fitness RPG : service worker indisponible.", error);
     }
@@ -387,7 +483,7 @@
 
     window.addEventListener("online", () => {
       pwa.showConnectionStatus("Connexion rétablie.", "online");
-      pwa.checkForUpdate();
+      void pwa.checkForUpdate();
     });
 
     window.addEventListener("offline", () => {
@@ -400,10 +496,11 @@
         return;
       }
 
-      if (pwa.reloadPending || !pwa.hasActiveWorkout()) {
+      if (!pwa.hasActiveWorkout()) {
         window.location.reload();
         return;
       }
+      pwa.reloadPending = false;
 
       pwa.waitingWorker = null;
       pwa.newControllerReady = true;
@@ -413,7 +510,7 @@
 
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "visible") {
-        pwa.checkForUpdate();
+        void pwa.checkForUpdate();
         pwa.refreshPrompt();
       }
     });
@@ -425,14 +522,15 @@
     });
 
     pwa.sessionWatchId = window.setInterval(() => {
+      pwa.refreshUpdateButton();
       if (pwa.activePrompt === "update") {
         pwa.showUpdatePrompt();
       }
     }, 15000);
 
     pwa.updateCheckId = window.setInterval(() => {
-      pwa.checkForUpdate();
-    }, 60 * 60 * 1000);
+      void pwa.checkForUpdate();
+    }, UPDATE_CHECK_INTERVAL_MS);
 
     if (!navigator.onLine) {
       pwa.showConnectionStatus("Mode hors connexion.", "offline", true);
@@ -448,6 +546,7 @@
         || pwa.deferredInstallPrompt
         || pwa.waitingWorker
         || pwa.newControllerReady
+        || pwa.isUpdateAvailable()
         || pwa.isStandalone()
         || pwa.hasActiveWorkout()
         || navigator.onLine === false

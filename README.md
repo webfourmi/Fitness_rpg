@@ -1,10 +1,21 @@
-# Fitness RPG — V6.6.2
+# Fitness RPG — V6.6.12
 
 Fitness RPG est une application web mobile-first qui transforme l'entraînement sportif en aventure RPG.
 
 La série V6.1 a principalement consolidé l'expérience mobile, les séances guidées, les écrans secondaires, les images d'exercices et la stabilité générale de l'application.
 
 ## Version actuelle
+
+**V6.6.12 — détection des MAJ et contrôle des versions**
+
+- nouveau bouton « Installer MAJ » dès qu'une version plus récente est détectée ;
+- comparaison avec `version.json` récupéré sans cache et contrôle du service worker ;
+- vérification au lancement, au retour dans l'application, à la reconnexion et toutes les 15 minutes ;
+- rechargement différé pendant les séances, sauvegardes préservées ;
+- « Vérifier les MAJ » dans le menu mobile ;
+- contrôle CI obligatoire de l'incrément et de la cohérence des versions.
+
+Les prochaines publications doivent mettre à jour `app-config.js`, `index.html`, `service-worker.js` et `version.json` ensemble.
 
 **V6.6.2 — pesées et exercices favoris**
 
