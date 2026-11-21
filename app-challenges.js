@@ -117,7 +117,8 @@
       return {xp:0,gold:0,paid:false};
     }
   }
-\n  function record(){
+
+  function record(){
     if(phase!=="score"||!selected)return;
     const field=document.getElementById("heroChallengeScore"),score=Number(field?.value);
     if(!field?.value.trim()||!Number.isSafeInteger(score)||score<0||score>9999||(selected.hold&&score>elapsed)){alert("Saisis un résultat entier valide.");return;}
