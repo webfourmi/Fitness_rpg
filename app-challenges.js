@@ -127,7 +127,8 @@
     e.best=Math.max(previous??0,score);e.history=Array.isArray(e.history)?e.history:[];e.history.push({date:today(),score,status:"completed",seconds:elapsed});
     delete e.pending;if(!save(data)){alert("Sauvegarde impossible. Réessaie.");return;}
     committed=false;phase="result";
-    draw('<h2>'+(newRecord?"🏆 Nouveau record !":"Épreuve validée !")+'</h2><p class="hero-challenge-record">'+score+' '+escapeHtml(selected.unit)+'</p><p>Meilleur score : '+e.best+' '+escapeHtml(selected.unit)+'</p><p class="hero-challenge-note">${reward.paid?"Récompenses : +"+reward.xp+" XP · +"+reward.gold+" PO.":"Récompenses en attente de sauvegarde. Elles seront créditées à la prochaine ouverture."}</p><button class="hero-challenge-primary" data-action="back">Retour aux épreuves</button>');
+    const reward=payRewards();
+    draw('<h2>'+(newRecord?"🏆 Nouveau record !":"Épreuve validée !")+'</h2><p class="hero-challenge-record">'+score+' '+escapeHtml(selected.unit)+'</p><p>Meilleur score : '+e.best+' '+escapeHtml(selected.unit)+'</p><p class="hero-challenge-note">'+(reward.paid?"Récompenses : +"+reward.xp+" XP · +"+reward.gold+" PO.":"Récompenses en attente de sauvegarde. Elles seront créditées à la prochaine ouverture.")+'</p><button class="hero-challenge-primary" data-action="back">Retour aux épreuves</button>');
   }
   document.addEventListener("click",event=>{
     const button=event.target.closest("[data-action],[data-challenge],#openHeroChallengesButton");if(!button)return;
@@ -136,10 +137,6 @@
     switch(button.dataset.action){case"close":close();break;case"back":showList();break;case"prepare":prepare();break;case"cancel":clearTimer();open(selected.id);break;case"finish":finish();break;case"abandon":abandon();break;case"save":record();break;}
   });
   function mount(){
-    if(document.getElementById("openHeroChallengesButton"))return;
-    const target=document.querySelector(".training-tool-grid")||document.querySelector("#todayCard");
-    if(!target)return;
-    const b=document.createElement("button");b.id="openHeroChallengesButton";b.type="button";b.innerHTML="🏆 <span>Épreuves</span>";target.appendChild(b);
     const data=read();Object.keys(data).forEach(id=>{const e=data[id];if(e?.pending){e.history=Array.isArray(e.history)?e.history:[];e.history.push({date:e.pending.date,status:"interrupted"});delete e.pending;save(data);}});
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",mount);else mount();

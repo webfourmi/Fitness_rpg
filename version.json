@@ -1,5 +1,5 @@
 {
-  "version": "7.0.4",
+  "version": "7.0.5",
   "date": "2026-11-21",
-  "notes": "Ajout initial des Épreuves du Héros : six défis chronométrés, scores et records personnels."
+  "notes": "Bouton Épreuves visible dans la progression et affichage des récompenses corrigé."
 }
