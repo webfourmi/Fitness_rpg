@@ -20,7 +20,7 @@
   function close(){if(phase==="running"){if(!confirm("Abandonner cette tentative officielle ?"))return;abandon();}clearTimer();phase="idle";root()?.remove();}
   function entry(id){return read()[id]||{history:[]};}
   function showList(){
-    clearTimer();phase="idle";selected=null;
+    clearTimer();phase="idle";selected=null;payRewards();
     const rows=CHALLENGES.map(c=>{const e=entry(c.id),done=e.lastDay===today();
       return '<button class="hero-challenge-item" data-challenge="'+c.id+'"><span>'+c.icon+'</span><span><strong>'+escapeHtml(c.name)+'</strong><small>'+escapeHtml(c.exercise)+' · Record : '+(e.best??"—")+' '+escapeHtml(c.unit)+'</small></span><span>'+(done?"✓":"›")+'</span></button>';
     }).join("");
@@ -36,7 +36,7 @@
     draw('<button data-action="back" class="hero-challenge-secondary">← Épreuves</button><h2>'+c.icon+' '+escapeHtml(c.name)+'</h2><p>'+escapeHtml(c.exercise)+' · '+(c.hold?"Maintenir la position, jusqu’à 3 minutes.":"Maximum de répétitions correctes en 60 secondes.")+'</p><p class="hero-challenge-record">🏆 Record personnel : <strong>'+(e.best??"—")+'</strong> '+escapeHtml(c.unit)+'</p>'+(done?'<p class="hero-challenge-notice">Tentative officielle déjà effectuée aujourd’hui. Reviens demain !</p>':'<button class="hero-challenge-primary" data-action="prepare">Commencer l’épreuve</button>')+'<p class="hero-challenge-note">Arrête en cas de douleur ou de malaise. Échauffe-toi avant de commencer.</p>');
   }
   function prepare(){
-    if(!selected||entry(selected.id).lastDay===today())return open(selected?.id);
+    if(!window.FitnessRpgState?.getProfile?.()){alert("Crée d’abord ton héros pour participer aux épreuves.");return;}\n    if(!selected||entry(selected.id).lastDay===today())return open(selected?.id);
     phase="preparing";let remaining=10;
     draw('<h2>Prépare-toi</h2><p>Positionne-toi et vérifie ta technique.</p><div class="hero-challenge-clock" id="heroChallengeClock">10</div><button data-action="cancel" class="hero-challenge-secondary">Annuler</button>');
     clearTimer();timer=setInterval(()=>{if(phase!=="preparing")return clearTimer();remaining--;const el=document.getElementById("heroChallengeClock");if(el)el.textContent=remaining;if(remaining<=0)start();},1000);
@@ -59,7 +59,64 @@
     clearTimer();if(selected){const d=read(),e=d[selected.id];if(e?.pending){e.history=Array.isArray(e.history)?e.history:[];e.history.push({date:today(),status:"abandoned"});delete e.pending;save(d);}}
     committed=false;phase="idle";if(selected)open(selected.id);else showList();
   }
-  function record(){
+
+  // Les récompenses sont créditées dans le profil officiel, avec un journal de
+  // créances idempotent. Un score sauvegardé mais non payé est régularisé au retour.
+  function rewardFor(id, item, previousCompleted, previousBest, previousWeeklyRecord) {
+    const first = !previousCompleted;
+    const record = previousBest === null || item.score > previousBest;
+    const week = item.date.slice(0,7) + "-W" + isoWeek(item.date);
+    const recordBonus = record && previousWeeklyRecord !== week;
+    return { xp:(first?30:5)+(recordBonus?40:0), gold:(first?15:2)+(recordBonus?20:0), recordBonus, week };
+  }
+  function isoWeek(day) {
+    const d=new Date(day+"T12:00:00");d.setDate(d.getDate()+4-(d.getDay()||7));
+    const year=new Date(d.getFullYear(),0,1);
+    return Math.ceil((((d-year)/86400000)+1)/7);
+  }
+  function payRewards() {
+    const state=window.FitnessRpgState, config=window.FitnessRpgConfig;
+    const profile=state?.getProfile?.();
+    if(!profile||!config?.levelInfo||!window.FitnessRpgCamp?.migrate)return {xp:0,gold:0,paid:false};
+    const records=read();let xp=0,gold=0,changed=false;
+    const oldProfile=structuredClone(profile);
+    const ledger=profile.heroChallengeClaims&&typeof profile.heroChallengeClaims==="object"
+      ?profile.heroChallengeClaims:{};
+    try {
+      for(const c of CHALLENGES) {
+        const history=Array.isArray(records[c.id]?.history)?records[c.id].history:[];
+        let best=null,completed=false,weeklyRecord=null;
+        for(const item of history) {
+          if(item.status!=="completed"||!Number.isSafeInteger(item.score)||item.score<0)continue;
+          const key=c.id+":"+item.date;
+          const earned=rewardFor(c.id,item,completed,best,weeklyRecord);
+          if(!ledger[key]) {
+            xp+=earned.xp;gold+=earned.gold;changed=true;
+            ledger[key]={xp:earned.xp,gold:earned.gold};
+          }
+          if(earned.recordBonus)weeklyRecord=earned.week;
+          best=Math.max(best??0,item.score);completed=true;
+        }
+      }
+      if(!changed)return {xp:0,gold:0,paid:true};
+      profile.heroChallengeClaims=ledger;
+      const before=config.levelInfo(profile.totalXp||0).level;
+      profile.totalXp=Number(profile.totalXp||0)+xp;
+      const after=config.levelInfo(profile.totalXp).level;
+      const camp=window.FitnessRpgCamp.migrate(profile);
+      camp.gold+=gold;
+      if(after>before)window.FitnessRpgCamp.rewardLevels(profile,before,after);
+      state.saveProfile();
+      if(after>before)window.FitnessRpgProgress?.queueLevelUpModal?.(before,after,(after-before)*20);
+      window.FitnessRpgRender?.renderAll?.();
+      return {xp,gold,paid:true};
+    }catch(error) {
+      Object.keys(profile).forEach(k=>delete profile[k]);Object.assign(profile,oldProfile);
+      console.warn("Récompenses des épreuves non sauvegardées :",error);
+      return {xp:0,gold:0,paid:false};
+    }
+  }
+\n  function record(){
     if(phase!=="score"||!selected)return;
     const field=document.getElementById("heroChallengeScore"),score=Number(field?.value);
     if(!field?.value.trim()||!Number.isSafeInteger(score)||score<0||score>9999||(selected.hold&&score>elapsed)){alert("Saisis un résultat entier valide.");return;}
@@ -68,7 +125,7 @@
     e.best=Math.max(previous??0,score);e.history=Array.isArray(e.history)?e.history:[];e.history.push({date:today(),score,status:"completed",seconds:elapsed});
     delete e.pending;if(!save(data)){alert("Sauvegarde impossible. Réessaie.");return;}
     committed=false;phase="result";
-    draw('<h2>'+(newRecord?"🏆 Nouveau record !":"Épreuve validée !")+'</h2><p class="hero-challenge-record">'+score+' '+escapeHtml(selected.unit)+'</p><p>Meilleur score : '+e.best+' '+escapeHtml(selected.unit)+'</p><p class="hero-challenge-note">Les récompenses XP et pièces seront reliées à l’économie centrale lors de l’intégration complète.</p><button class="hero-challenge-primary" data-action="back">Retour aux épreuves</button>');
+    draw('<h2>'+(newRecord?"🏆 Nouveau record !":"Épreuve validée !")+'</h2><p class="hero-challenge-record">'+score+' '+escapeHtml(selected.unit)+'</p><p>Meilleur score : '+e.best+' '+escapeHtml(selected.unit)+'</p><p class="hero-challenge-note">${reward.paid?"Récompenses : +"+reward.xp+" XP · +"+reward.gold+" PO.":"Récompenses en attente de sauvegarde. Elles seront créditées à la prochaine ouverture."}</p><button class="hero-challenge-primary" data-action="back">Retour aux épreuves</button>');
   }
   document.addEventListener("click",event=>{
     const button=event.target.closest("[data-action],[data-challenge],#openHeroChallengesButton");if(!button)return;
