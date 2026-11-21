@@ -120,3 +120,12 @@ test("un bouton MAJ reste accessible même après avoir fermé le bandeau", asyn
   assert.equal(button.hidden, false);
   assert.equal(button.disabled, false);
 });
+
+test("la mise à jour attend la validation du résultat d’une épreuve", () => {
+  const { pwa, win } = createPwa(nextVersion);
+  let active = true;
+  win.FitnessRpgChallenges = { hasActiveAttempt: () => active };
+  assert.equal(pwa.hasActiveWorkout(), true);
+  active = false;
+  assert.equal(pwa.hasActiveWorkout(), false);
+});

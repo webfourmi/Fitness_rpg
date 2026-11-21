@@ -1,1 +1,65 @@
-.hero-challenge-overlay{position:fixed;inset:0;z-index:100000;background:rgba(5,9,18,.88);display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}.hero-challenge-dialog{position:relative;width:min(100%,520px);max-height:92dvh;overflow:auto;background:#192333;color:#f4ebd6;border:2px solid #b69352;border-radius:18px;padding:26px;box-shadow:0 18px 65px #0009}.hero-challenge-dialog h2{font-size:1.55rem;margin:8px 35px 14px 0;color:#f7d891}.hero-challenge-dialog p{line-height:1.55}.hero-challenge-close{position:absolute;right:15px;top:13px;background:transparent;color:#fff;border:0;font-size:24px;cursor:pointer}.hero-challenge-item{width:100%;display:flex;gap:12px;align-items:center;text-align:left;background:#27354a;border:1px solid #63718b;border-radius:10px;color:#fff;margin:9px 0;padding:12px;cursor:pointer}.hero-challenge-item span:nth-child(2){flex:1}.hero-challenge-item small{display:block;color:#d1d8e4;margin-top:5px}.hero-challenge-primary,.hero-challenge-secondary{display:block;width:100%;padding:13px;margin-top:12px;border-radius:9px;font-weight:700;cursor:pointer}.hero-challenge-primary{background:#dfb65d;color:#172130;border:0}.hero-challenge-secondary{background:transparent;color:#f1dfb7;border:1px solid #b69352}.hero-challenge-clock{font-size:clamp(5rem,18vw,8rem);font-variant-numeric:tabular-nums;text-align:center;color:#ffda83;font-weight:800;padding:22px}.hero-challenge-record{padding:16px;border:1px solid #b69352;border-radius:10px;text-align:center}.hero-challenge-dialog input{display:block;width:100%;font-size:2rem;padding:12px;margin:12px 0;background:#f8f5ef;color:#192333;border-radius:8px}.hero-challenge-notice{color:#ffda83}.hero-challenge-note{font-size:.86rem;color:#cad2dd}
+.hero-challenge-overlay{position:fixed;inset:0;z-index:100000;background:rgba(5,9,18,.88);display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}.hero-challenge-dialog{position:relative;width:min(100%,520px);max-height:92dvh;overflow:auto;background:#192333;color:#f4ebd6;border:2px solid #b69352;border-radius:18px;padding:44px 26px 26px;box-shadow:0 18px 65px #0009}.hero-challenge-dialog h2{font-size:1.55rem;margin:8px 35px 14px 0;color:#f7d891}.hero-challenge-dialog p{line-height:1.55}.hero-challenge-close{position:absolute;right:15px;top:13px;background:transparent;color:#fff;border:0;font-size:24px;cursor:pointer}.hero-challenge-item{width:100%;display:flex;gap:12px;align-items:center;text-align:left;background:#27354a;border:1px solid #63718b;border-radius:10px;color:#fff;margin:9px 0;padding:12px;cursor:pointer}.hero-challenge-item span:nth-child(2){flex:1}.hero-challenge-item small{display:block;color:#d1d8e4;margin-top:5px}.hero-challenge-primary,.hero-challenge-secondary{display:block;width:100%;padding:13px;margin-top:12px;border-radius:9px;font-weight:700;cursor:pointer}.hero-challenge-primary{background:#dfb65d;color:#172130;border:0}.hero-challenge-secondary{background:transparent;color:#f1dfb7;border:1px solid #b69352}.hero-challenge-clock{font-size:clamp(5rem,18vw,8rem);font-variant-numeric:tabular-nums;text-align:center;color:#ffda83;font-weight:800;padding:22px}.hero-challenge-record{padding:16px;border:1px solid #b69352;border-radius:10px;text-align:center}.hero-challenge-dialog input{display:block;width:100%;font-size:2rem;padding:12px;margin:12px 0;background:#f8f5ef;color:#192333;border-radius:8px}.hero-challenge-notice{color:#ffda83}.hero-challenge-note{font-size:.86rem;color:#cad2dd}
+.hero-challenge-lesson {
+  margin-block: 16px;
+}
+
+.hero-challenge-diagram {
+  display: block;
+  width: 100%;
+  max-height: 210px;
+  border: 1px solid #776748;
+  border-radius: 12px;
+  background: radial-gradient(ellipse at center, #334459, #101926 77%);
+}
+
+.hero-challenge-diagram polyline {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hero-challenge-diagram circle {
+  fill: #ffd990;
+  stroke: #172130;
+  stroke-width: 2;
+}
+
+.hero-challenge-ground { fill: none; stroke: #a49272; stroke-width: 3; }
+.hero-challenge-far { stroke: #889eb4; stroke-width: 7; }
+.hero-challenge-body { stroke: #ffd990; stroke-width: 10; }
+.hero-challenge-arm { stroke: #efaa77; stroke-width: 7; }
+
+.hero-challenge-demo-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block: 10px;
+}
+
+.hero-challenge-demo-controls button {
+  flex: 1 1 155px;
+  margin: 0;
+}
+
+.hero-challenge-coach {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 12px;
+  margin-block: 14px;
+  border-radius: 10px;
+  background: #27354a;
+}
+
+.hero-challenge-coach img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border: 1px solid #b69352;
+  border-radius: 8px;
+}
+
+.hero-challenge-coach strong { color: #ffda83; }
+.hero-challenge-coach p { margin: 4px 0 0; }
+.hero-challenge-dialog button:focus-visible { outline: 2px solid #ffda83; outline-offset: 3px; }
