@@ -92,6 +92,7 @@
 
     return Boolean(
       activeProgramSession
+      || window.FitnessRpgChallenges?.hasActiveAttempt?.()
       || activeTimerPhases.includes(activeTimerSession?.phase)
     );
   };

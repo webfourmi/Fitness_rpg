@@ -1280,6 +1280,8 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
 
   if (!target) return;
 
+  if (window.FitnessRpgChallenges?.handleClick(target)) return;
+
   const campButton = target.closest("[data-camp-action]");
   if (campButton) {
     window.FitnessRpgNavigation.stopEvent(event);
@@ -1861,6 +1863,8 @@ window.FitnessRpgNavigation.handleDocumentKeydown = function handleDocumentKeydo
   const target = event.target instanceof Element
     ? event.target
     : event.target?.parentElement;
+
+  if (window.FitnessRpgChallenges?.handleKey(event)) return;
 
   if (event.key === "Escape") {
   window.FitnessRpgNavigation.closeMobileMorePanel({
