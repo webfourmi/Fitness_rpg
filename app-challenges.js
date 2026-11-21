@@ -36,7 +36,8 @@
     draw('<button data-action="back" class="hero-challenge-secondary">← Épreuves</button><h2>'+c.icon+' '+escapeHtml(c.name)+'</h2><p>'+escapeHtml(c.exercise)+' · '+(c.hold?"Maintenir la position, jusqu’à 3 minutes.":"Maximum de répétitions correctes en 60 secondes.")+'</p><p class="hero-challenge-record">🏆 Record personnel : <strong>'+(e.best??"—")+'</strong> '+escapeHtml(c.unit)+'</p>'+(done?'<p class="hero-challenge-notice">Tentative officielle déjà effectuée aujourd’hui. Reviens demain !</p>':'<button class="hero-challenge-primary" data-action="prepare">Commencer l’épreuve</button>')+'<p class="hero-challenge-note">Arrête en cas de douleur ou de malaise. Échauffe-toi avant de commencer.</p>');
   }
   function prepare(){
-    if(!window.FitnessRpgState?.getProfile?.()){alert("Crée d’abord ton héros pour participer aux épreuves.");return;}\n    if(!selected||entry(selected.id).lastDay===today())return open(selected?.id);
+    if(!window.FitnessRpgState?.getProfile?.()){alert("Crée d’abord ton héros pour participer aux épreuves.");return;}
+    if(!selected||entry(selected.id).lastDay===today())return open(selected?.id);
     phase="preparing";let remaining=10;
     draw('<h2>Prépare-toi</h2><p>Positionne-toi et vérifie ta technique.</p><div class="hero-challenge-clock" id="heroChallengeClock">10</div><button data-action="cancel" class="hero-challenge-secondary">Annuler</button>');
     clearTimer();timer=setInterval(()=>{if(phase!=="preparing")return clearTimer();remaining--;const el=document.getElementById("heroChallengeClock");if(el)el.textContent=remaining;if(remaining<=0)start();},1000);
