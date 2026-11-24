@@ -213,3 +213,71 @@ test('un achat échoué conserve la bourse et l’inventaire', () => {
   assert.equal(state.profile.camp.gold, 35);
   assert.equal(state.profile.camp.owned.length, 0);
 });
+
+const finalTrophies = [
+  ['ballet-sylphes', 'trophy-sylph-ribbon', 'ballet-reine-sylphes'],
+  ['marche-aventurier', 'trophy-trail-compass', 'marcheur-royaumes-vaincu'],
+  ['forge-guerrier', 'trophy-forge-cape', 'seigneur-forge-vaincu']
+];
+
+for (const [programId, trophyId, badgeId] of finalTrophies) {
+  test(programId + ' : trophée au boss final, essayage et rejeu sans double gain', () => {
+    const { camp, state, programs, window } = boot();
+    let summary;
+    window.FitnessRpgRender = { queueWorkoutSummary(value) { summary = value; }, escapeHtml: String };
+    window.setTimeout = () => {};
+    programs.showMessage = () => {};
+    camp.resolveOvernight();
+    assert.match(camp.programTrophyHtml(programId), /Remporte le boss de la semaine 4/);
+    assert.equal(camp.rewardTrophy(state.profile.camp, { type: 'program-boss', programId, weekNumber: 3 }), null);
+    const finish = () => {
+      state.startProgramBossSession(programId, 4);
+      programs.getActiveProgramWorkout().exercises.forEach(({ exerciseId }, index) =>
+        state.completeProgramSessionExercise(index + '-' + exerciseId));
+      programs.finishProgramBossSession();
+    };
+    finish();
+    assert.equal(state.getAllEntries()[0].badgeId, badgeId);
+    assert.equal(state.getAllEntries()[0].trophyId, trophyId);
+    assert.ok(summary.rewards.some(reward => reward.trophyId === trophyId));
+    assert.match(camp.programTrophyHtml(programId), /Dans ton vestiaire/);
+    assert.ok(camp.fittingHtml(trophyId).includes(camp.getTrophy(trophyId).variant));
+    const balances = () => [state.profile.totalXp, state.profile.camp.gold];
+    const earned = balances();
+    finish();
+    assert.deepEqual(balances(), earned);
+    state.resetProgramProgress(programId);
+    finish();
+    assert.deepEqual(balances(), earned);
+    assert.equal(state.getAllEntries()[0].xp, 0);
+    assert.equal(state.profile.camp.owned.filter(id => id === trophyId).length, 1);
+  });
+}
+
+test('mise à jour 7.0.8 : récupère les trois trophées à partir des preuves de victoire conservées', () => {
+  const app = boot();
+  app.camp.resolveOvernight();
+  const legacy = JSON.parse(app.records.get(app.profileKey));
+  delete legacy.camp.trophyCatalogVersion;
+  legacy.completedByDate = { '2026-11-19': [
+    { type: 'program-boss', programId: 'ballet-sylphes', title: 'Ballet des Sylphes · Semaine 4' }
+  ] };
+  legacy.camp.claims[JSON.stringify(['boss', 'marche-aventurier', 4])] = true;
+  legacy.badges = ['seigneur-forge-vaincu'];
+  legacy.camp.gold = 58;
+  legacy.totalXp = 27;
+  legacy.camp.owned = ['emerald-cloak'];
+  legacy.camp.equipped = { cape: 'emerald-cloak' };
+  app.records.set(app.profileKey, JSON.stringify(legacy));
+  const { camp, state } = boot(app.records);
+  for (let i = 0; i < 2; i++) {
+    state.loadProfile();
+    camp.resolveOvernight();
+    assert.deepEqual([...state.profile.camp.owned].sort(), ['emerald-cloak', ...finalTrophies.map(t => t[1])].sort());
+    assert.equal(state.profile.camp.gold, 58);
+    assert.equal(state.profile.totalXp, 27);
+    assert.equal(state.profile.camp.equipped.cape, 'emerald-cloak');
+    assert.equal(JSON.stringify(state.profile.journal), JSON.stringify(legacy.journal));
+    assert.deepEqual([...state.profile.badges], legacy.badges);
+  }
+});
