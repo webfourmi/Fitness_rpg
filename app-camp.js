@@ -385,12 +385,15 @@ window.FitnessRpgCamp = (() => {
     return item?.price !== undefined ? { name: item.name, price: item.price } : null;
   }
 
-  function avatar(alt, imageAttributes = "", imageClass = "", level = null) {
+  function avatar(alt, imageAttributes = "", imageClass = "", level = null, previewItem = null) {
     const profile = state().getProfile();
     const camp = profile?.camp;
     const heroine = profile?.gender === "femme";
     const heroPath = heroine ? "assets/heros-campement/heroine.webp" : "assets/heros-campement/heros.webp";
-    const equipped = Object.values(camp?.equipped || {}).map(getItem).filter(Boolean);
+    const outfit = previewItem
+      ? { ...camp.equipped, [previewItem.slot]: previewItem.id }
+      : camp?.equipped || {};
+    const equipped = Object.values(outfit).map(getItem).filter(Boolean);
     const styles = equipped.flatMap((item) => item.variant ? [item.style, item.variant] : [item.style])
       .map((style) => `camp-avatar--${style}`).join(" ");
     const hues = equipped.filter((item) => item.hue)
@@ -415,6 +418,31 @@ window.FitnessRpgCamp = (() => {
     </div>`;
   }
 
+  function itemOrigin(item) {
+    if (item.programId) {
+      const title = window.FitnessRpgPrograms?.getProgram?.(item.programId)?.title || item.programId;
+      return `Trophée · ${title} · Boss de la semaine ${item.week}`;
+    }
+    return item.minLevel ? `Boutique · Débloqué au niveau ${item.minLevel}` : "Boutique du campement";
+  }
+
+  function fittingHtml(id) {
+    const profile = state().getProfile();
+    const item = getItem(id);
+    if (!item || !profile?.camp?.owned.includes(id)) return "";
+    const escape = window.FitnessRpgRender.escapeHtml;
+    return `<div class="camp-fitting">
+      ${avatar(escape(profile.name + " avec " + item.name), "", "", null, item)}
+      <div><strong>Essayage · ${escape(item.name)}</strong>
+        <div class="camp-actions">
+          <button type="button" class="primary-btn" data-fitting-action="confirm">Équiper</button>
+          <button type="button" class="secondary-btn" data-fitting-action="cancel">Revenir à ma tenue</button>
+        </div>
+        <p role="status"></p>
+      </div>
+    </div>`;
+  }
+
   function render(message = "") {
     const root = document.querySelector("#campContent");
     const profile = state().getProfile();
@@ -426,28 +454,32 @@ window.FitnessRpgCamp = (() => {
     const renderer = window.FitnessRpgRender;
     const level = getLevel(profile);
     const goldDetailsOpen = Boolean(root.querySelector?.(".camp-gold-details[open]"));
-    const itemCard = (item, owned, showSlot = true) => {
+    const itemCard = (item, owned) => {
       const equipped = camp.equipped[item.slot] === item.id;
       const locked = !owned && item.minLevel > level;
-      const action = owned ? (equipped ? "remove" : "equip") : "buy";
-      const label = owned ? (equipped ? "Retirer" : "Équiper")
+      const action = owned ? (equipped ? "remove" : "preview") : "buy";
+      const label = owned ? (equipped ? "Retirer" : "Essayer")
         : locked ? `Niveau ${item.minLevel} requis` : `Acheter · ${item.price} PO`;
       return `<li class="camp-item">
-        <div><strong>${item.name}</strong>${showSlot ? `<small>${slots[item.slot]}${equipped ? " · Équipé" : ""}</small>` : ""}</div>
-        <button class="secondary-btn" data-camp-action="${action}" data-camp-item="${item.id}"
+        <div><strong>${item.name}</strong>${owned ? `<small>${renderer.escapeHtml(itemOrigin(item))}${equipped ? " · Équipé" : ""}</small>` : ""}</div>
+        <button class="secondary-btn" ${action === "preview" ? 'data-fitting-action="preview"' : `data-camp-action="${action}"`} data-camp-item="${item.id}"
           type="button" aria-label="${label} · ${item.name}" ${locked || (!owned && camp.gold < item.price) ? "disabled" : ""}>${label}</button>
+        ${action === "preview" ? '<div class="camp-fitting-host"></div>' : ""}
       </li>`;
     };
-    const inventory = camp.owned.map(getItem).filter(Boolean);
+    const inventory = camp.owned.map(getItem).filter(Boolean).reverse();
     const openSlots = new Set([...root.querySelectorAll(".camp-equipment-slot[open]")]
       .map((details) => details.dataset.campSlot));
-    const equipment = Object.entries(slots).map(([slot, label]) => {
+    if (inventory.length && !root.querySelector?.(".camp-equipment")) openSlots.add(inventory[0].slot);
+    const slotOrder = new Set([...inventory.map(item => item.slot), ...Object.keys(slots)]);
+    const equipment = [...slotOrder].map(slot => {
+      const label = slots[slot];
       const choices = inventory.filter((item) => item.slot === slot);
       const equipped = choices.find((item) => item.id === camp.equipped[slot]);
       return `<details class="camp-equipment-slot" data-camp-slot="${slot}" ${openSlots.has(slot) ? "open" : ""}>
         <summary><strong>${label}</strong><small>${equipped?.name || "Vide"}</small></summary>
         ${choices.length
-          ? `<ul class="camp-items">${choices.map((item) => itemCard(item, true, false)).join("")}</ul>`
+          ? `<ul class="camp-items">${choices.map((item) => itemCard(item, true)).join("")}</ul>`
           : "<p>Aucun objet compatible dans ton inventaire.</p>"}
       </details>`;
     }).join("");
@@ -469,7 +501,7 @@ window.FitnessRpgCamp = (() => {
         <h3>${label}</h3>
         <div class="camp-shop-carousel">
           ${arrows ? `<button type="button" class="secondary-btn" data-camp-shop-step="-1" aria-label="${label} · Objet précédent">←</button>` : ""}
-          <ul class="camp-items" aria-live="polite">${itemCard(item, false, false)}</ul>
+          <ul class="camp-items" aria-live="polite">${itemCard(item, false)}</ul>
           ${arrows ? `<button type="button" class="secondary-btn" data-camp-shop-step="1" aria-label="${label} · Objet suivant">→</button>` : ""}
         </div>
         ${arrows ? `<small class="camp-shop-count">${index + 1} / ${items.length}</small>` : ""}
@@ -497,7 +529,8 @@ window.FitnessRpgCamp = (() => {
         </div>
       </div>
       <p class="camp-status" role="status" tabindex="-1">${message}</p>
-      <h2>Équipement</h2>
+      <h2>Mon vestiaire</h2>
+      ${inventory.length ? "" : "<p>Tes achats et tes trophées apparaîtront ici.</p>"}
       <div class="camp-equipment">${equipment}${familiarSlot}</div>
       <h2>Repos et gels de série</h2>
       <p>Série de ${profile.streak || 0} jour(s) actif(s)${camp.protectedThrough === today ? " · Protégée aujourd’hui" : ""}.</p>
@@ -509,8 +542,6 @@ window.FitnessRpgCamp = (() => {
         <button class="secondary-btn" data-camp-action="freeze" type="button"
           ${camp.gold < freezePrice || quota.bought >= maxPurchases || paid >= maxPurchases ? "disabled" : ""}>Acheter une fiole · ${freezePrice} PO</button>
       </div>
-      <h2>Inventaire</h2>
-      ${inventory.length ? `<ul class="camp-items">${inventory.map((item) => itemCard(item, true)).join("")}</ul>` : "<p>Aucun objet dans ton inventaire.</p>"}
       <h2>Boutique</h2>
       ${store}
     `;
@@ -518,5 +549,5 @@ window.FitnessRpgCamp = (() => {
 
   return { migrate, reward, rewardFreeSession, rewardComplement, hasComplementReward, rewardLevels, rewardTrophy,
     settle, nextDay, isDate, hasValidSave, resolveOvernight, mutate, getPurchaseDetails, getLevelItem, getTrophy,
-    isEquipped, stepShop, avatar, render };
+    isEquipped, stepShop, avatar, fittingHtml, render };
 })();
