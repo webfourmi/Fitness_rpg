@@ -406,7 +406,7 @@ window.FitnessRpgState.getRecommendedProgram = function getRecommendedProgram() 
 // XP et progression
 // ============================================================
 
-window.FitnessRpgState.addXp = function addXp(amount, source = "Progression") {
+window.FitnessRpgState.addXp = function addXp(amount, source = "Progression", journalEntry = null) {
   const state = window.FitnessRpgState;
   const profile = state.profile;
   if (!profile) {
@@ -436,7 +436,7 @@ window.FitnessRpgState.addXp = function addXp(amount, source = "Progression") {
       gold = window.FitnessRpgCamp?.rewardLevels(profile, oldInfo.level, newInfo.level) || 0;
     }
     // La première sauvegarde contient ensemble les XP, la bourse et le dernier niveau récompensé.
-    state.addJournalEntry({
+    state.addJournalEntry(journalEntry || {
       type: "xp",
       title: source,
       text: `+${xp} XP · ${source}`,
@@ -497,8 +497,10 @@ window.FitnessRpgState.setEntriesForDate = function setEntriesForDate(dateKey, e
   window.FitnessRpgState.saveProfile();
 };
 
-window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}, { familiarPassive = null, campGold = 0 } = {}) {
+window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}, { familiarPassive = null, campGold = 0, journalTitle, journalText } = {}) {
   if (!window.FitnessRpgState.profile) return null;
+
+  if (entry.id && window.FitnessRpgState.getAllEntries().some((saved) => saved.id === entry.id)) return null;
 
   const dateKey = entry.date || window.FitnessRpgState.todayKey();
   const entries = window.FitnessRpgState.getEntriesForDate(dateKey);
@@ -569,11 +571,20 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}, 
   }
   window.FitnessRpgState.updateStreak(dateKey, { save: false });
 
+  const journalEntry = {
+    sessionId: cleanEntry.id,
+    type: cleanEntry.type,
+    title: journalTitle || cleanEntry.title,
+    text: journalText || "",
+    at: cleanEntry.at,
+    xp: cleanEntry.xp,
+    gold: cleanEntry.gold || 0
+  };
   try {
     if (cleanEntry.xp > 0) {
-      window.FitnessRpgState.addXp(cleanEntry.xp, cleanEntry.title);
+      window.FitnessRpgState.addXp(cleanEntry.xp, cleanEntry.title, journalEntry);
     } else {
-      window.FitnessRpgState.saveProfile();
+      window.FitnessRpgState.addJournalEntry(journalEntry);
     }
   } catch (error) {
     if (profile.totalXp === previousXp) {
@@ -636,7 +647,14 @@ window.FitnessRpgState.completeProgramComplement = function completeProgramCompl
   try {
     const gold = camp ? window.FitnessRpgCamp.rewardComplement(camp, programId, weekNumber, dayNumber) : 0;
     const xp = gold || !camp ? window.FitnessRpgConfig.xpRules.optionalProgramComplement : 0;
-    if (xp > 0) state.addXp(xp, title);
+    if (xp > 0) state.addXp(xp, title, {
+      sessionId: `complement-${programId}-${weekNumber}-${dayNumber}`,
+      type: "program",
+      title,
+      text: "Complément facultatif terminé.",
+      xp,
+      gold
+    });
     else state.saveProfile();
     return { gold, xp };
   } catch (error) {
@@ -744,6 +762,7 @@ window.FitnessRpgState.addJournalEntry = function addJournalEntry(entry = {}) {
 
   const cleanEntry = {
     id: entry.id || window.FitnessRpgState.createId("journal"),
+    ...(entry.sessionId ? { sessionId: entry.sessionId, gold: Number(entry.gold || 0) } : {}),
     type: entry.type || "note",
     title: entry.title || "Journal",
     text: entry.text || "",
@@ -755,18 +774,49 @@ window.FitnessRpgState.addJournalEntry = function addJournalEntry(entry = {}) {
     window.FitnessRpgState.profile.journal = [];
   }
 
-  window.FitnessRpgState.profile.journal.unshift(cleanEntry);
-  window.FitnessRpgState.profile.journal = window.FitnessRpgState.profile.journal.slice(0, 50);
-
-  window.FitnessRpgState.saveProfile();
+  const previous = window.FitnessRpgState.profile.journal;
+  window.FitnessRpgState.profile.journal = [cleanEntry, ...previous].slice(0, 50);
+  try {
+    window.FitnessRpgState.saveProfile();
+  } catch (error) {
+    window.FitnessRpgState.profile.journal = previous;
+    throw error;
+  }
 
   return cleanEntry;
 };
 
 window.FitnessRpgState.getJournal = function getJournal() {
-  return Array.isArray(window.FitnessRpgState.profile?.journal)
-    ? window.FitnessRpgState.profile.journal
-    : [];
+  const state = window.FitnessRpgState;
+  const journal = state.profile?.journal;
+  if (!Array.isArray(journal)) return [];
+
+  // Avant la 7.0.7, le crédit XP précédait le compte rendu. Le passage
+  // de niveau pouvait intercaler un niveau et des familiers entre les deux.
+  const hidden = new Set();
+  let completions;
+  const rows = journal.map((row, index) => {
+    if (row?.sessionId || !["exercise", "program", "program-boss", "custom-program"].includes(row?.type)) return row;
+    let next = index + 1;
+    while (["levelup", "familiar"].includes(journal[next]?.type)) next++;
+    const credit = journal[next];
+    const source = row.type === "custom-program" ? `${row.title} · Programme perso` : row.title;
+    const delay = Date.parse(row.at) - Date.parse(credit?.at);
+    if (credit?.type !== "xp" || credit.title !== source || credit.xp !== row.xp
+      || credit.text !== `+${credit.xp} XP · ${source}` || !(delay >= 0 && delay <= 60000)) return row;
+
+    hidden.add(next);
+    completions ??= state.getAllEntries();
+    const matches = completions.filter((entry) => {
+      const elapsed = Date.parse(credit.at) - Date.parse(entry.at);
+      return entry.type === row.type && entry.title === source && entry.xp === row.xp
+        && elapsed >= 0 && elapsed <= 60000;
+    });
+    return matches.length === 1 && Number.isFinite(matches[0].gold)
+      ? { ...row, gold: matches[0].gold }
+      : row;
+  });
+  return rows.filter((row, index) => row && !hidden.has(index));
 };
 
 window.FitnessRpgState.clearJournal = function clearJournal() {

@@ -2685,7 +2685,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   let completion;
   try {
     completion = state.addTrainingEntry({
-      id: familiarPassive ? session.id : null,
+      id: session.id,
       date: entryDate,
       type: "program",
       sportId: "program",
@@ -2703,7 +2703,11 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
       amount: 1,
       unit: "séance",
       xp: baseXp
-    }, { familiarPassive, campGold: day.optional ? 5 : 10 });
+    }, {
+      familiarPassive,
+      campGold: day.optional ? 5 : 10,
+      journalText: `${difficulty.label} terminée : ${(day.exercises || []).length} exercices validés.`
+    });
   } catch (error) {
     console.error("Fitness RPG - séance impossible à sauvegarder :", error);
     state.loadProfile();
@@ -2716,12 +2720,11 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     return;
   }
 
-  window.FitnessRpgState.addJournalEntry?.({
-    type: "program",
-    title,
-    text: `${difficulty.label} terminée : ${(day.exercises || []).length} exercices validés.`,
-    xp
-  });
+  if (!completion) {
+    window.FitnessRpgState.clearActiveProgramSession();
+    window.FitnessRpgRender?.renderAll?.();
+    return;
+  }
 
   window.FitnessRpgState.setPose?.("victory");
 
@@ -2890,6 +2893,7 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
   let completion;
   try {
     completion = window.FitnessRpgState.addTrainingEntry?.({
+      id: session.id,
       type: "program-boss",
       sportId: "program-boss",
       sportTitle: "Boss de programme",
@@ -2904,7 +2908,10 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
       amount: 1,
       unit: "boss",
       xp
-    }, { campGold: 20 });
+    }, {
+      campGold: 20,
+      journalText: `${boss.title} vaincu en version ${safeVariant.label || safeVariant.id || "boss"}.`
+    });
   } catch (error) {
     console.error("Fitness RPG - victoire impossible à sauvegarder :", error);
     window.FitnessRpgState.loadProfile();
@@ -2918,12 +2925,11 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
   }
 
 
-  window.FitnessRpgState.addJournalEntry?.({
-    type: "program-boss",
-    title,
-    text: `${boss.title} vaincu en version ${safeVariant.label || safeVariant.id || "boss"}.`,
-    xp
-  });
+  if (!completion) {
+    window.FitnessRpgState.clearActiveProgramSession();
+    window.FitnessRpgRender?.renderAll?.();
+    return;
+  }
 
   const badgeMessage = window.FitnessRpgPrograms.resolveBadgeRewardMessage(boss.badgeId);
   const chestReward = boss.chest
