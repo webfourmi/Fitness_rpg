@@ -27,6 +27,9 @@ jobs:
       - name: Exécuter les tests Node.js
         run: node --test tests/*.test.cjs
 
+      - name: Vérifier le vestiaire et le bilan de victoire dans Chrome
+        run: node tests/wardrobe-browser.cjs
+
       - name: Contrôler l'incrément de version des livraisons
         if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
         env:

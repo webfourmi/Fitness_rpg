@@ -721,24 +721,6 @@ window.FitnessRpgNavigation.deleteWeight = function deleteWeight(button) {
 // ============================================================
 
 window.FitnessRpgNavigation.handleOverlayClick = function handleOverlayClick(event, target) {
-  const trophyButton = target.closest("[data-workout-trophy]");
-  if (trophyButton) {
-    window.FitnessRpgNavigation.stopEvent(event);
-    const camp = window.FitnessRpgCamp;
-    const id = trophyButton.dataset.workoutTrophy;
-    if (trophyButton.disabled || !camp?.getTrophy(id)) return true;
-    const result = camp.mutate("equip", id);
-    const status = trophyButton.parentElement.querySelector("[role='status']");
-    if (status) status.textContent = result;
-    if (camp.isEquipped(id)) {
-      trophyButton.textContent = "Équipé";
-      trophyButton.setAttribute("aria-label", result);
-      trophyButton.disabled = true;
-      status?.focus();
-    }
-    return true;
-  }
-
   if (target.closest("#sessionSummaryContinueButton")) {
     window.FitnessRpgNavigation.stopEvent(event);
     window.FitnessRpgRender?.closeWorkoutSummaryOverlay?.();
@@ -1281,6 +1263,44 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
   if (!target) return;
 
   if (window.FitnessRpgChallenges?.handleClick(target)) return;
+
+  const fittingButton = target.closest("[data-fitting-action]");
+  if (fittingButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    const scope = fittingButton.closest("#campContent, #workoutSummaryCard");
+    const card = fittingButton.closest(".camp-item, .workout-summary-trophy-actions");
+    const host = card?.querySelector(".camp-fitting-host");
+    if (!scope || !host) return true;
+    const trigger = card.querySelector('[data-fitting-action="preview"]');
+    const camp = window.FitnessRpgCamp;
+    const id = trigger.dataset.campItem;
+    const action = fittingButton.dataset.fittingAction;
+    if (action === "preview") {
+      for (const other of scope.querySelectorAll(".camp-fitting-host")) other.replaceChildren();
+      host.innerHTML = camp.fittingHtml(id);
+      host.querySelector("button")?.focus();
+    } else if (action === "cancel") {
+      host.replaceChildren();
+      trigger.focus();
+    } else if (action === "confirm") {
+      const result = camp.mutate("equip", id);
+      if (!camp.isEquipped(id)) {
+        host.querySelector("[role=status]").textContent = result;
+      } else if (scope.id === "campContent") {
+        camp.render(result);
+        scope.querySelector(".camp-status")?.focus();
+      } else {
+        host.replaceChildren();
+        trigger.textContent = "Équipé";
+        trigger.setAttribute("aria-label", result);
+        trigger.disabled = true;
+        const status = card.querySelector(".workout-summary-trophy-status");
+        status.textContent = result;
+        status.focus();
+      }
+    }
+    return true;
+  }
 
   const campButton = target.closest("[data-camp-action]");
   if (campButton) {

@@ -2941,8 +2941,9 @@ window.FitnessRpgRender.renderWorkoutSummaryOverlay = function renderWorkoutSumm
             const equipped = trophy && window.FitnessRpgCamp.isEquipped(trophy.id);
             const action = trophy ? `
               <div class="workout-summary-trophy-actions">
-                <button class="secondary-btn" type="button" data-workout-trophy="${escape(trophy.id)}"
-                  aria-label="${equipped ? "Équipé" : "Équiper"} · ${escape(trophy.name)}" ${equipped ? "disabled" : ""}>${equipped ? "Équipé" : "Équiper"}</button>
+                <button class="secondary-btn" type="button" data-fitting-action="preview" data-camp-item="${escape(trophy.id)}"
+                  aria-label="${equipped ? "Équipé" : "Essayer le trophée"} · ${escape(trophy.name)}" ${equipped ? "disabled" : ""}>${equipped ? "Équipé" : "Essayer le trophée"}</button>
+                <div class="camp-fitting-host"></div>
                 <p class="workout-summary-trophy-status" role="status" tabindex="-1"></p>
               </div>` : "";
             return `<li${trophy ? ' class="workout-summary-trophy"' : ""}><span>${escape(icon)}</span><strong>${escape(text)}</strong>${action}</li>`;
@@ -3229,7 +3230,7 @@ window.FitnessRpgRender.renderLevelUpOverlay = function renderLevelUpOverlay() {
       ${pending.gold > 0
         ? `<p class="level-up-gold-reward">💰 Sac de pièces <strong>+${Number(pending.gold)} PO</strong></p>`
         : ""}
-      ${unlockedItem ? `<p>Débloqué en boutique · <strong>${unlockedItem.name}</strong>${otherUnlocks ? ` + ${otherUnlocks} autre${otherUnlocks > 1 ? "s" : ""}` : ""}</p>` : ""}
+      ${unlockedItem ? `<p>Débloqué en boutique · <strong>${unlockedItem.name}</strong> · ${unlockedItem.price} PO${otherUnlocks ? ` + ${otherUnlocks} autre${otherUnlocks > 1 ? "s" : ""}` : ""}</p>` : ""}
       ${narrative ? `<p class="level-up-narrative">${narrative}</p>` : ""}
       ${hasChest ? window.FitnessRpgRender.renderLevelUpChestHtml(levelReward, familiar) : ""}
       <button class="secondary-btn open-progression-from-levelup-btn" type="button">

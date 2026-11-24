@@ -1,8 +1,8 @@
-/* Fitness RPG — service worker V7.0.7 */
+/* Fitness RPG — service worker V7.0.8 */
 
 "use strict";
 
-const APP_VERSION = "7.0.7";
+const APP_VERSION = "7.0.8";
 const CACHE_PREFIX = "fitness-rpg-";
 const STATIC_CACHE = `${CACHE_PREFIX}static-v${APP_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-v1`;
@@ -10,32 +10,32 @@ const IMAGE_CACHE = `${CACHE_PREFIX}images-v1`;
 const CORE_ASSETS = [
   "./",
   "./index.html",
-  "./manifest.webmanifest?v=7.0.7",
+  "./manifest.webmanifest?v=7.0.8",
   "./version.json",
-  "./app-v5.css?v=7.0.7",
-  "./app-sport.css?v=7.0.7",
-  "./app-challenges.css?v=7.0.7",
-  "./app-config.js?v=7.0.7",
-  "./app-data.js?v=7.0.7",
-  "./app-program-forge-exercises.js?v=7.0.7",
-  "./app-program-forge.js?v=7.0.7",
-  "./app-program-champion-arenes.js?v=7.0.7",
-  "./app-rewards.js?v=7.0.7",
-  "./app-state.js?v=7.0.7",
-  "./app-camp.js?v=7.0.7",
-  "./app-progress.js?v=7.0.7",
-  "./app-render.js?v=7.0.7",
-  "./app-navigation.js?v=7.0.7",
-  "./app-exercises.js?v=7.0.7",
-  "./app-programs.js?v=7.0.7",
-  "./app-media.js?v=7.0.7",
-  "./app-backup.js?v=7.0.7",
-  "./app-stats.js?v=7.0.7",
-  "./app-sport.js?v=7.0.7",
-  "./app.js?v=7.0.7",
-  "./app-pwa.js?v=7.0.7",
-  "./app-challenge-lessons.js?v=7.0.7",
-  "./app-challenges.js?v=7.0.7",
+  "./app-v5.css?v=7.0.8",
+  "./app-sport.css?v=7.0.8",
+  "./app-challenges.css?v=7.0.8",
+  "./app-config.js?v=7.0.8",
+  "./app-data.js?v=7.0.8",
+  "./app-program-forge-exercises.js?v=7.0.8",
+  "./app-program-forge.js?v=7.0.8",
+  "./app-program-champion-arenes.js?v=7.0.8",
+  "./app-rewards.js?v=7.0.8",
+  "./app-state.js?v=7.0.8",
+  "./app-camp.js?v=7.0.8",
+  "./app-progress.js?v=7.0.8",
+  "./app-render.js?v=7.0.8",
+  "./app-navigation.js?v=7.0.8",
+  "./app-exercises.js?v=7.0.8",
+  "./app-programs.js?v=7.0.8",
+  "./app-media.js?v=7.0.8",
+  "./app-backup.js?v=7.0.8",
+  "./app-stats.js?v=7.0.8",
+  "./app-sport.js?v=7.0.8",
+  "./app.js?v=7.0.8",
+  "./app-pwa.js?v=7.0.8",
+  "./app-challenge-lessons.js?v=7.0.8",
+  "./app-challenges.js?v=7.0.8",
   "./assets/pwa/icon.svg",
   "./assets/pwa/icon-192.png",
   "./assets/pwa/icon-512.png",

@@ -1,5 +1,5 @@
 {
-  "version": "7.0.7",
-  "date": "2026-11-24",
-  "notes": "Une seule entrée par séance dans le journal, avec les XP et les pièces gagnés. Affichage corrigé pour les anciennes séances."
+  "version": "7.0.8",
+  "date": "2026-11-25",
+  "notes": "Le vestiaire permet d’essayer ses objets et ses trophées sur le héros avant de les équiper, y compris depuis le bilan de victoire."
 }

@@ -1868,7 +1868,7 @@ small {
 }
 .camp-equipment-slot summary { cursor: pointer; min-height: 44px; }
 .camp-equipment-slot summary small { display: block; margin: .2rem 0 0; color: var(--text-muted); }
-.camp-equipment-slot[open] { border-color: var(--accent); }
+.camp-equipment-slot[open] { grid-column: 1 / -1; border-color: var(--accent); }
 .camp-equipment-slot > p { margin: .55rem 0 0; }
 .camp-equipment-slot .camp-item { padding: 0; border: 0; }
 .camp-items { display: grid; gap: .55rem; padding: 0; list-style: none; }
@@ -1882,7 +1882,22 @@ small {
   border: 1px solid var(--border);
   border-radius: 12px;
 }
-.camp-item small { display: block; margin-top: .2rem; text-transform: capitalize; }
+.camp-item small { display: block; margin-top: .2rem; }
+.camp-fitting-host:empty { display: none; }
+.camp-fitting-host { width: 100%; min-width: 0; }
+.camp-fitting {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+  align-items: center;
+  gap: .75rem;
+  padding: .75rem;
+  background: var(--bg-card-soft);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+}
+.camp-fitting .camp-avatar { max-width: min(100%, 180px); border-radius: 10px; }
+.camp-fitting .camp-actions { margin-top: .55rem; }
+.camp-fitting p:empty { display: none; }
 .camp-shop-category { margin: 0 0 .85rem; }
 .camp-shop-category h3 { margin: 0 0 .3rem; }
 .camp-shop-carousel { display: flex; align-items: center; gap: .4rem; }

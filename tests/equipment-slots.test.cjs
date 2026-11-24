@@ -57,7 +57,7 @@ test('les emplacements cliquables préservent le médaillon et enregistrent la t
   camp.mutate('remove', 'indigo-tunic');
   camp.render();
   assert.match(root.innerHTML, /<strong>Tenue<\/strong><small>Vide<\/small>/);
-  assert.match(root.innerHTML, /data-camp-slot="outfit"[\s\S]*?data-camp-action="equip" data-camp-item="indigo-tunic"/);
+  assert.match(root.innerHTML, /data-camp-slot="outfit"[\s\S]*?data-fitting-action="preview" data-camp-item="indigo-tunic"/);
   assert.doesNotMatch(root.innerHTML, /camp-avatar--indigo/);
   assert.equal(state.getProfile().camp.equipped.head, 'garnet-headband');
   assert.ok(state.getProfile().camp.owned.includes('indigo-tunic'));
@@ -115,4 +115,38 @@ test('le familier sélectionné peut rejoindre ou quitter le portrait sans chang
   camp.mutate('familiar-hide');
   assert.doesNotMatch(camp.avatar('Aventurière'), /class="camp-avatar-familiar"/);
   assert.equal(state.profile.activeFamiliarId, 'familiar');
+});
+
+test('le vestiaire expose chaque acquisition une fois et présente la plus récente en premier', () => {
+  const { root, camp, profile } = boot();
+  profile.camp.owned = ['emerald-cloak', 'dragon-clasp', 'trophy-astral-dragon'];
+  camp.render();
+  const wardrobe = root.innerHTML.split('<h2>Repos')[0];
+  assert.equal(wardrobe.match(/data-camp-item="trophy-astral-dragon"/g)?.length, 1);
+  assert.match(wardrobe, /data-camp-slot="cape" open>/);
+  assert.ok(wardrobe.indexOf('Cape étoilée') < wardrobe.indexOf('Cape de l’aventurier'));
+  assert.match(wardrobe, /Boss de la semaine 4/);
+});
+
+test('essayer un ancien trophée conserve la tenue, la bourse et les récompenses enregistrées', () => {
+  const { state, camp, profile } = boot();
+  profile.camp.owned = ['emerald-cloak', 'trophy-astral-dragon', 'dragon-clasp'];
+  profile.camp.equipped = { cape: 'emerald-cloak', broche: 'dragon-clasp' };
+  state.saveProfile();
+  const saved = JSON.stringify(profile);
+  const preview = camp.fittingHtml('trophy-astral-dragon');
+  assert.match(preview, /camp-avatar--trophee-astral/);
+  assert.match(preview, /camp-avatar--dragon/);
+  assert.match(preview, /heroine.webp/);
+  assert.equal(camp.fittingHtml('trophy-rampart-knight'), '');
+  assert.equal(JSON.stringify(profile), saved);
+  state.loadProfile();
+  assert.equal(state.profile.camp.equipped.cape, 'emerald-cloak');
+  assert.doesNotMatch(camp.avatar('Héros'), /camp-avatar--trophee-astral/);
+  camp.mutate('equip', 'trophy-astral-dragon');
+  state.loadProfile();
+  assert.match(camp.avatar('Héros'), /camp-avatar--trophee-astral/);
+  assert.equal(state.profile.camp.equipped.broche, 'dragon-clasp');
+  assert.equal(state.profile.camp.gold, profile.camp.gold);
+  assert.equal(state.profile.totalXp, profile.totalXp);
 });
