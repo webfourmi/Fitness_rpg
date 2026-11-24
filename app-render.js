@@ -2454,7 +2454,7 @@ window.FitnessRpgRender.renderJournal = function renderJournal() {
           <time>${window.FitnessRpgRender.escapeHtml(dateLabel)}</time>
         </div>
         <p>${window.FitnessRpgRender.escapeHtml(entry.text || "")}</p>
-        <span class="journal-entry-type">${window.FitnessRpgRender.escapeHtml(meta.label)}${Number(entry.xp || 0) > 0 ? ` · +${Number(entry.xp)} XP` : ""}</span>
+        <span class="journal-entry-type">${window.FitnessRpgRender.escapeHtml(meta.label)}${Number(entry.xp || 0) > 0 ? ` · +${Number(entry.xp)} XP` : ""}${Number.isFinite(entry.gold) ? ` · +${entry.gold} PO` : ""}</span>
       </div>
     `;
 

@@ -61,7 +61,7 @@ test("tous les fichiers publiés partagent la même version", () => {
   assert.ok(indexVersions.every((value) => value === version));
   assert.ok(workerVersions.every((value) => value === version));
   assert.match(worker, /"\.\/version\.json"/);
-  assert.match(html, /id="pwaUpdateButton"/);
+  assert.match(html, /id="pwaUpdateButton"[^>]*>[^<]*Installer la mise à jour<\/button>/);
   assert.match(html, /data-pwa-action="check-update"/);
 });
 
@@ -73,14 +73,14 @@ test("comparaison sémantique des versions", () => {
   assert.equal(pwa.compareVersions("6.6.11", "6.6.12"), -1);
 });
 
-test("une version distante plus récente déclenche Installer MAJ", async () => {
+test("une version distante plus récente déclenche Installer la mise à jour", async () => {
   const { pwa } = createPwa(nextVersion);
   await pwa.checkForUpdate();
   assert.equal(pwa.availableVersion, nextVersion);
   assert.equal(pwa.isUpdateAvailable(), true);
   pwa.showPrompt = (options) => { pwa.lastPrompt = options; };
   pwa.showUpdatePrompt();
-  assert.equal(pwa.lastPrompt.primaryLabel, "Installer MAJ");
+  assert.equal(pwa.lastPrompt.primaryLabel, "Installer la mise à jour");
   assert.ok(pwa.lastPrompt.message.includes(`Version ${manifest.version} → ${nextVersion}.`));
 });
 

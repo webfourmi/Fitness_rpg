@@ -1,5 +1,5 @@
 {
-  "version": "7.0.6",
-  "date": "2026-11-21",
-  "notes": "Six démonstrations animées avec variantes et accompagnement du coach dans les Épreuves du Héros."
+  "version": "7.0.7",
+  "date": "2026-11-24",
+  "notes": "Une seule entrée par séance dans le journal, avec les XP et les pièces gagnés. Affichage corrigé pour les anciennes séances."
 }

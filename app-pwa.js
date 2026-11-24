@@ -231,7 +231,7 @@
       message: activeWorkout
         ? `${versionText} Termine ta séance avant de l’installer. Ta progression reste sauvegardée.`
         : `${versionText} ${pwa.releaseNotes ? pwa.releaseNotes + " " : ""}Tes sauvegardes seront conservées.`,
-      primaryLabel: activeWorkout ? "Après la séance" : "Installer MAJ",
+      primaryLabel: activeWorkout ? "Après la séance" : "Installer la mise à jour",
       primaryAction: "update",
       primaryDisabled: activeWorkout
     });
