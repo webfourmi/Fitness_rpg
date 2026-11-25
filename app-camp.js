@@ -86,12 +86,18 @@ window.FitnessRpgCamp = (() => {
     return trophies.find(item => item.id === id) || campaignTrophies.find(item => item.id === id);
   }
 
+  function itemArtwork(item) {
+    const marks = { head: "♢", broche: "✦", outfit: "◆", cape: "❖", aura: "◉", arm: "◆" };
+    return `<span class="trophy-display" aria-hidden="true"><span class="trophy-art trophy-art--${item.art || "emblem"}"
+      style="color:${item.color || "#e4c08a"}">${item.art ? "" : item.mark || marks[item.slot]}</span></span>`;
+  }
+
   function programTrophyHtml(programId) {
     const item = campaignTrophies.find(trophy => trophy.programId === programId);
     if (!item) return "";
     const owned = state().getProfile()?.camp?.owned.includes(item.id);
     return `<aside class="program-trophy" aria-label="Trophée du programme">
-      <span class="trophy-display" aria-hidden="true"><span class="trophy-art trophy-art--${item.art || "emblem"}" ${item.color ? `style="color:${item.color}"` : ""}>${item.mark || ""}</span></span>
+      ${itemArtwork(item)}
       <div><strong>${item.name}</strong>
         <p>${owned ? "Dans ton vestiaire" : "Termine les séances et les boss obligatoires du programme."}</p>
       </div>
@@ -555,7 +561,7 @@ window.FitnessRpgCamp = (() => {
       const label = owned ? (equipped ? "Retirer" : "Essayer")
         : locked ? `Niveau ${item.minLevel} requis` : `Acheter · ${item.price} PO`;
       return `<li class="camp-item">
-        <div><strong>${item.name}</strong>${owned ? `<small>${renderer.escapeHtml(itemOrigin(item))}${equipped ? " · Équipé" : ""}</small>` : ""}</div>
+        <div class="camp-item-label">${itemArtwork(item)}<div><strong>${item.name}</strong>${owned ? `<small>${renderer.escapeHtml(itemOrigin(item))}${equipped ? " · Équipé" : ""}</small>` : ""}</div></div>
         <button class="secondary-btn" ${action === "preview" ? 'data-fitting-action="preview"' : `data-camp-action="${action}"`} data-camp-item="${item.id}"
           type="button" aria-label="${label} · ${item.name}" ${locked || (!owned && camp.gold < item.price) ? "disabled" : ""}>${label}</button>
         ${action === "preview" ? '<div class="camp-fitting-host"></div>' : ""}
