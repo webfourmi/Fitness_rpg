@@ -51,6 +51,9 @@
     ["barbell", "Barre", "assets/equipements/barre.webp"],
     ["pull-up-bar", "Barre de traction", "assets/equipements/barre_traction.webp"],
     ["bench", "Banc", "assets/equipements/banc.webp"],
+    ["chair", "Chaise stable"],
+    ["wall", "Mur dégagé"],
+    ["stable-support", "Support surélevé stable"],
     ["punching-bag", "Sac de frappe", "assets/equipements/sac_frappe.webp"],
     ["bicycle", "Vélo", "assets/equipements/velo.webp"],
     ["treadmill", "Tapis de marche/course", "assets/equipements/tapis_marche_course.webp"]
@@ -3077,17 +3080,17 @@
         <summary>Matériel disponible <span>${equipment.size || "Aucun"}</span></summary>
         <div class="sport-equipment-grid">
           ${Sport.equipmentOptions.map(([id, label, image]) => `
-            <label class="sport-equipment-card ${equipment.has(id) ? "selected" : ""}">
+            <label class="sport-equipment-card ${equipment.has(id) ? "selected" : ""} ${image ? "" : "sport-equipment-card-text"}">
               <input
                 type="checkbox"
                 name="sportEquipment"
                 value="${id}"
                 ${equipment.has(id) ? "checked" : ""}
               >
-              <span class="sport-equipment-visual">
-                <img src="${image}" alt="${label}" loading="lazy">
+              ${image ? `<span class="sport-equipment-visual">
+                <img src="${image}" alt="" loading="lazy">
                 <span class="sport-equipment-check" aria-hidden="true">✓</span>
-              </span>
+              </span>` : ""}
               <span class="sport-equipment-name">${label}</span>
             </label>
           `).join("")}

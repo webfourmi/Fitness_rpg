@@ -107,6 +107,17 @@ function exerciseWardrobe() {
     check(sport.trainingProfile.weightKg === 82.5 && recommendation.level === "advanced", "Profil sportif persistant");
     check(recommendation.initialMinutes === 7 && recommendation.includeBalance, "Reprise fractionnée et équilibre");
     check(panel.querySelector('[role="status"]').textContent.includes("enregistré"), "Confirmation d’enregistrement");
+    panel.querySelector("#sportLevelSelect").value = "beginner";
+    const equipment = panel.querySelector('input[name="sportEquipment"][value="wall"]');
+    equipment.closest("details").open = true;
+    equipment.click();
+    panel.querySelector("#saveSportProfileButton").click();
+    state.loadProfile();
+    check(state.getSportProfile().equipment.includes("wall"), "Mur enregistré dans le matériel");
+    window.FitnessRpgExercises.openExerciseDetails("pushups");
+    check(document.querySelector("#rpgModalMessage").textContent.includes("Option selon ton profil · Pompes murales"),
+      "Variante issue du profil affichée dans le grimoire");
+    document.querySelector("#rpgModalOkButton").click();
     window.confirm = () => false;
     panel.querySelector("#clearTrainingProfileButton").click();
     check(state.getSportProfile().trainingProfile !== null, "Annulation de l’effacement");
@@ -146,7 +157,7 @@ async function main() {
           "--virtual-time-budget=2500", "--dump-dom", `http://127.0.0.1:${server.address().port}/`
         ], { timeout: 35000, maxBuffer: 8 * 1024 * 1024 });
         assert.equal(stdout.match(/<body\b[^>]*data-wardrobe-test="([^"]+)"/)?.[1], "passed");
-        console.log(`Vestiaire, trophées et profil sportif validés dans Chrome (fenêtre ${width} px).`);
+        console.log(`Vestiaire, trophées, profil sportif et variante du grimoire validés dans Chrome (fenêtre ${width} px).`);
       } finally {
         fs.rmSync(profile, { recursive: true, force: true, maxRetries: 3, retryDelay: 200 });
       }

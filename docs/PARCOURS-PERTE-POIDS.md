@@ -19,3 +19,13 @@ Références vérifiées
 - [OMS · Lignes directrices sur l’activité physique et la sédentarité](https://www.who.int/europe/publications/i/item/9789240014886)
 - [HAS · Prescription d’activité physique, surpoids et obésité de l’adulte](https://www.has-sante.fr/jcms/p_3360220/fr/synthese-prescription-d-activite-physique-surpoids-obesite-de-l-adulte)
 - [Assurance Maladie · Reconnaître une douleur thoracique urgente](https://www.ameli.fr/assure/sante/themes/douleur-thoracique/reconnaitre-agit-urgence)
+
+## Phase 2 · Grimoire et variantes
+
+Périmètre audité : Éveil du héros, Marche de l’aventurier et Cœur du dragon, y compris leurs boss et compléments. Le catalogue couvre les 20 exercices distincts de ces programmes et les variantes associées. Les identifiants et les illustrations sont ceux du grimoire existant.
+
+Dans le grimoire, le bouton de détails affiche les variantes de la même famille et, si le profil complémentaire est renseigné, une suggestion adaptée aux données déclarées. La chaise, le mur et le support surélevé sont sélectionnables dans le profil. Les recommandations sont à considérer selon la tolérance au mouvement.
+
+Le moteur conserve la dose, l’unité et la phase lors d’une substitution, avec conservation de la séance source et de ses récompenses. Il demande au futur planning de passer le mouvement lorsque les filtres excluent toutes les options, et réserve une réponse distincte aux exercices non audités et aux demandes d’avis professionnel. Aucun remplacement automatique n’est appliqué aux séances historiques dans cette phase.
+
+- [Assurance Maladie · Activité physique progressive selon les capacités](https://www.ameli.fr/assure/sante/themes/surpoids-obesite-adulte/modifier-quotidien)

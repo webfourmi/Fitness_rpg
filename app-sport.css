@@ -168,6 +168,18 @@
   pointer-events: none;
 }
 
+.sport-equipment-card-text {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+}
+
+.sport-equipment-card-text input {
+  position: static;
+  opacity: 1;
+  pointer-events: auto;
+  accent-color: var(--accent-strong);
+}
+
 .sport-equipment-visual {
   position: relative;
   display: grid;
