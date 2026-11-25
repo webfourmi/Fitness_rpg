@@ -148,6 +148,15 @@ function exerciseWardrobe() {
     const originalToday = state.todayKey();
     state.todayKey = () => state.getWeekKeys()[originalToday === state.getWeekKeys()[6] ? 3 : 6];
     window.FitnessRpgNavigation.openMobileDestination("planning");
+    const planningInfo = document.querySelector("#weightPlanningInfo");
+    check(planningInfo.open, "La suspension reste visible au retour dans le planning");
+    planningInfo.querySelector("summary").click();
+    const measures = planningInfo.nextElementSibling.querySelector('[data-weight-plan="dashboard-measures"]');
+    check(measures?.textContent.includes("Afficher mes mesures"), "Mesures juste sous les informations");
+    measures.click();
+    check(document.querySelector('[aria-label="Mesures facultatives"]'), "Affichage des mesures");
+    document.querySelector('[data-weight-plan="dashboard-measures"]').click();
+    check(!document.querySelector('[aria-label="Mesures facultatives"]'), "Masquage des mesures");
     const dashboard = document.querySelector('[aria-label="Suivi du parcours"]');
     check(dashboard && !dashboard.querySelector('[aria-label="Mesures facultatives"]'), "Suivi visible, mesures masquées par défaut");
     dashboard.querySelector('[data-weight-plan="dashboard-rest"]').click();

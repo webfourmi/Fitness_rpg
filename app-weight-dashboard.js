@@ -105,7 +105,6 @@
   function html() {
     const profile = State.getProfile();
     const summary = stats();
-    const showMeasures = profile.weightDashboardMeasures === true;
     const camp = window.FitnessRpgCamp;
     const restRecorded = profile.weightRest?.[State.todayKey()];
     return `<section aria-label="Suivi du parcours">
@@ -127,6 +126,14 @@
           ${owned ? "<span>Dans ton vestiaire</span>" : eligible(id, summary)
             ? `<button class="primary-btn" type="button" data-weight-plan="dashboard-claim" data-milestone="${id}">Recevoir · ${reward.xp} XP et ${reward.gold} PO</button>` : ""}</li>`;
       }).join("")}</ul></details>
+      <p id="weightDashboardStatus" role="status"></p>
+    </section>`;
+  }
+
+  function measuresHtml() {
+    const profile = State.getProfile();
+    const showMeasures = profile.weightDashboardMeasures === true;
+    return `<div>
       <button class="ghost-btn" type="button" data-weight-plan="dashboard-measures">${showMeasures ? "Masquer" : "Afficher"} mes mesures</button>
       ${showMeasures ? `<section aria-label="Mesures facultatives">
         <p>Poids · ${trend(State.getWeights(), "kg")}</p>
@@ -135,8 +142,7 @@
         <label>Tour de taille aujourd’hui (cm) <input id="weightWaist" type="number" inputmode="decimal" step="any" min="1" max="500" required></label>
         <button class="secondary-btn" type="button" data-weight-plan="dashboard-waist">Enregistrer le tour de taille</button>
       </section>` : ""}
-      <p id="weightDashboardStatus" role="status"></p>
-    </section>`;
+    </div>`;
   }
 
   function handle(button) {
@@ -156,7 +162,10 @@
     }
     Render.renderPlanningPage();
     document.querySelector("#weightDashboardStatus").textContent = message;
+    if (action === "dashboard-measures") {
+      document.querySelector('[data-weight-plan="dashboard-measures"]')?.focus();
+    }
   }
 
-  window.FitnessRpgWeightDashboard = { stats, claim, html, handle };
+  window.FitnessRpgWeightDashboard = { stats, claim, html, measuresHtml, handle };
 })();
