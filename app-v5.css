@@ -5607,6 +5607,12 @@ button .btn-icon {
     linear-gradient(180deg, var(--accent-soft), rgba(18, 22, 40, 0.92));
 }
 
+.goal-route { min-width: 0; }
+.goal-route summary { cursor: pointer; padding-block: .6rem; }
+.goal-route li { margin-block: .65rem; }
+.goal-route li small { display: block; margin-top: .2rem; }
+.goal-route button { text-align: left; min-height: 44px; }
+
 .goal-icon {
   width: 44px;
   height: 44px;

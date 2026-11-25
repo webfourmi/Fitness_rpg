@@ -397,9 +397,32 @@ window.FitnessRpgState.getGoalId = function getGoalId() {
   return window.FitnessRpgState.profile?.goalId || window.FitnessRpgState.selectedGoalId || "reprise-douce";
 };
 
-window.FitnessRpgState.getRecommendedProgram = function getRecommendedProgram() {
-  const goalId = window.FitnessRpgState.getGoalId();
-  return window.FitnessRpgConfig?.getRecommendedProgramForGoal?.(goalId) || null;
+window.FitnessRpgState.isGoalProgramComplete = function isGoalProgramComplete(programId) {
+  const claims = window.FitnessRpgState.getProfile()?.camp?.claims;
+  return claims?.[JSON.stringify(["campaign", programId])] === true
+    || Boolean(window.FitnessRpgPrograms?.getProgramProgressDetails?.(programId)?.campaignComplete);
+};
+
+window.FitnessRpgState.getGoalPaths = function getGoalPaths(goalId = window.FitnessRpgState.getGoalId()) {
+  const config = window.FitnessRpgConfig;
+  const completed = new Map();
+  return (config.goalPaths[goalId] || []).map(([name, ...ids]) => {
+    const programs = ids.map(id => config.getProgramById(id)).filter(Boolean).map(program => {
+      if (!completed.has(program.id)) completed.set(program.id, window.FitnessRpgState.isGoalProgramComplete(program.id));
+      return { ...program, completed: completed.get(program.id) };
+    });
+    const nextIndex = programs.findLastIndex(program => program.completed) + 1;
+    return { name, programs, nextIndex, next: programs[nextIndex] || null };
+  });
+};
+
+window.FitnessRpgState.getRecommendedProgram = function getRecommendedProgram(goalId = window.FitnessRpgState.getGoalId()) {
+  const paths = window.FitnessRpgState.getGoalPaths(goalId);
+  const active = window.FitnessRpgState.getActiveProgramId();
+  const pending = paths.filter(path => path.next);
+  return pending.find(path => path.next.id === active)?.next
+    || pending.sort((a, b) => b.nextIndex - a.nextIndex)[0]?.next
+    || (paths.length ? null : window.FitnessRpgConfig.getRecommendedProgramForGoal(goalId));
 };
 
 // ============================================================
