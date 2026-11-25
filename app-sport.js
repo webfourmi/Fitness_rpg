@@ -964,6 +964,7 @@
         const planner = heroPlan ? window.FitnessRpgHeroPlanning : window.FitnessRpgWeightPlanning;
         planned.exercises = planner.adaptWorkout(session.programId, sourceWorkout, { ...options, allowIncrease: false }).exercises;
         planned.coachNote = "";
+        planned.increased = false;
       }
       session.adaptedExercises = planned.exercises;
       session.weightPlanningWorkout = !heroPlan;
@@ -971,6 +972,7 @@
       if (heroPlan) {
         session.heroPlanningFocus = heroPlan.focus;
         session.heroProgressionAllowed = heroPlan.progressionAllowed;
+        session.heroProgressed = planned.increased === true;
       }
       session.weightVariant = planned.substitutions > 0;
       session.adaptation = {

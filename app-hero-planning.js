@@ -44,15 +44,54 @@
     const profile = State.getProfile();
     if (!profile || !Object.hasOwn(recoveryChoices, choice)) return false;
     const previous = profile.heroPlanningRecovery;
+    const previousRest = profile.heroPlanningRest;
+    profile.heroPlanningRest = { ...previousRest, [State.todayKey()]: choice === "rest" };
     profile.heroPlanningRecovery = { date: State.todayKey(), choice };
     try {
       State.saveProfile();
       return true;
     } catch (error) {
       profile.heroPlanningRecovery = previous;
+      profile.heroPlanningRest = previousRest;
       console.error("Fitness RPG · récupération non enregistrée", error);
       return false;
     }
+  }
+
+  function rewardEligibility() {
+    const available = new Set();
+    if (!selection()) return available;
+    const keys = State.getWeekKeys();
+    const week = new Set(keys);
+    const profile = State.getProfile();
+    const all = State.getAllEntries();
+    const entries = all.filter((entry) => Rules.goalIds.includes(entry.heroPlanningFocus)
+      && ["program", "program-boss"].includes(entry.type));
+    const weekly = entries.filter((entry) => week.has(State.getEntryDateKey(entry)));
+    const adapted = (entry) => entry.weightVariant || entry.heroProgressed;
+    if (new Set(weekly.map(State.getEntryDateKey)).size >= 3) available.add("weight-traveler");
+    const strength = weekly.filter((entry) => entry.weightStrength);
+    if (new Set(strength.map(State.getEntryDateKey)).size >= 2 && strength.some(adapted)) available.add("weight-strength");
+    const endurance = planning().recordedDays(keys);
+    if (keys.some((key) => (profile.heroPlanningRest?.[key] || profile.camp?.lastPlannedRest === key)
+      && !endurance.get(key) && !all.some((entry) => State.getEntryDateKey(entry) === key))) {
+      available.add("weight-rest");
+    }
+
+    const passed = entries.some((entry) => {
+      if (!adapted(entry) || entry.type !== "program") return false;
+      const program = entry.programId;
+      const weekNumber = Number(entry.weekNumber || 1);
+      const essential = Programs.getProgramDaysForWeek(program, weekNumber).filter((day) => !day.optional);
+      const completed = new Set(entries.filter((item) => item.type === "program"
+        && item.programId === program && Number(item.weekNumber || 1) === weekNumber).map((item) => Number(item.dayNumber)));
+      const boss = Programs.getProgramBoss(program, weekNumber);
+      return essential.length > 0 && essential.every((day) => completed.has(Number(day.day)))
+        && (!boss || boss.optional || all.some((item) => item.type === "program-boss" && item.programId === program
+          && Number(item.weekNumber || 1) === weekNumber));
+    });
+    if (passed) available.add("weight-phoenix");
+    return available;
   }
 
   function recoveryHtml() {
@@ -226,6 +265,7 @@
         <button type="button" class="secondary-btn" data-hero-plan="complements">Enregistrer les compléments</button></details>`
         : "<p>Compléments facultatifs · aucune suggestion compatible pour le moment.</p>"}
       ${window.FitnessRpgHeroDashboard?.html(checked.rule) || ""}
+      ${window.FitnessRpgWeightDashboard?.heroRewardsHtml(rewardEligibility()) || ""}
       ${planning().activityFormHtml("data-hero-plan")}
       <p>${planning().recordedMinutes()} min d’endurance cette semaine</p>`;
 
@@ -271,6 +311,15 @@
     } else if (action.startsWith("coach-")) {
       if (selection()) window.FitnessRpgAdaptiveCoach?.handlePlanning(action);
       return;
+    } else if (action === "claim-reward") {
+      const claimed = window.FitnessRpgWeightDashboard?.claim(button.dataset.milestone, "hero");
+      Render.renderPlanningPage();
+      const panel = document.querySelector("#heroPlanningRewards");
+      if (panel) {
+        panel.open = true;
+        panel.querySelector("#heroPlanningRewardStatus").textContent = claimed ? "Trophée, XP et pièces ajoutés." : "Récompense indisponible.";
+      }
+      return;
     } else if (action === "dashboard-save") {
       if (selection()) window.FitnessRpgHeroDashboard?.handle(assess()?.rule, button);
       return;
@@ -304,5 +353,5 @@
     Render.renderPlanningPage();
   }
 
-  window.FitnessRpgHeroPlanning = { controlsHtml, render, handle, adaptWorkout, allowWorkout, saveRecovery, sessionSlots, compatibleComplements };
+  window.FitnessRpgHeroPlanning = { controlsHtml, render, handle, adaptWorkout, allowWorkout, saveRecovery, rewardEligibility, sessionSlots, compatibleComplements };
 })();

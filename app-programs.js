@@ -2714,8 +2714,10 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
       amount: 1,
       unit: "séance",
       xp: baseXp,
-      weightStrength: session.weightPlanningWorkout && window.FitnessRpgWeightPlanning?.hasStrength(completedWorkout?.exercises),
-      weightVariant: session.weightPlanningWorkout && session.weightVariant,
+      weightStrength: (session.weightPlanningWorkout || session.heroPlanningWorkout) && window.FitnessRpgWeightPlanning?.hasStrength(completedWorkout?.exercises),
+      weightVariant: (session.weightPlanningWorkout || session.heroPlanningWorkout) && session.weightVariant,
+      heroPlanningFocus: session.heroPlanningFocus,
+      heroProgressed: session.heroProgressed,
       enduranceByActivity: (session.weightPlanningWorkout || session.heroPlanningWorkout) ? window.FitnessRpgWeightPlanning?.enduranceByActivity(completedWorkout?.exercises) : undefined
     }, {
       familiarPassive,
@@ -2926,8 +2928,10 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
       title,
       amount: 1,
       unit: "boss",
-      weightStrength: session.weightPlanningWorkout && window.FitnessRpgWeightPlanning?.hasStrength(safeVariant.exercises),
-      weightVariant: session.weightPlanningWorkout && session.weightVariant,
+      weightStrength: (session.weightPlanningWorkout || session.heroPlanningWorkout) && window.FitnessRpgWeightPlanning?.hasStrength(safeVariant.exercises),
+      weightVariant: (session.weightPlanningWorkout || session.heroPlanningWorkout) && session.weightVariant,
+      heroPlanningFocus: session.heroPlanningFocus,
+      heroProgressed: session.heroProgressed,
       enduranceByActivity: (session.weightPlanningWorkout || session.heroPlanningWorkout) ? window.FitnessRpgWeightPlanning?.enduranceByActivity(safeVariant.exercises) : undefined,
       xp
     }, {

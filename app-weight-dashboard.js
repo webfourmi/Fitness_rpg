@@ -64,8 +64,12 @@
     }
   }
 
-  function claim(id) {
-    if (!Planning.enabled() || !Object.hasOwn(milestones, id) || !eligible(id, stats())) return false;
+  function claim(id, mode = "weight") {
+    if (!Object.hasOwn(milestones, id)) return false;
+    const qualified = mode === "hero"
+      ? window.FitnessRpgHeroPlanning?.rewardEligibility().has(id)
+      : Planning.enabled() && eligible(id, stats());
+    if (!qualified) return false;
     const campApi = window.FitnessRpgCamp;
     const item = campApi.getTrophy(id);
     const profile = State.getProfile();
@@ -88,6 +92,24 @@
       console.error("Fitness RPG · récompense du parcours", error);
       return profile.totalXp !== previousXp;
     }
+  }
+
+  function heroRewardsHtml(available) {
+    const instructions = {
+      "weight-traveler": "Valider des séances de La Voie du Héros trois jours distincts dans une semaine.",
+      "weight-strength": "Valider deux jours de renforcement dans la même semaine, dont une séance avec variante ou progression adaptée.",
+      "weight-rest": "Enregistrer un jour sans entraînement comme jour de repos dans le planning ou au campement.",
+      "weight-phoenix": "Terminer les séances essentielles d’une semaine dans La Voie du Héros, dont une avec variante ou progression adaptée, et vaincre le boss s’il est obligatoire."
+    };
+    const camp = State.getProfile()?.camp;
+    return `<details id="heroPlanningRewards"><summary>Récompenses de La Voie du Héros</summary><ul>
+      ${Object.entries(milestones).map(([id, reward]) => {
+        const item = window.FitnessRpgCamp.getTrophy(id);
+        const claimed = camp?.owned.includes(id) || camp?.claims[JSON.stringify(["weight-milestone", id])];
+        return `<li><strong>${item.name}</strong><p>${instructions[id]}</p>
+          ${claimed ? "<span>Récompense déjà obtenue</span>" : available.has(id)
+            ? `<button type="button" class="primary-btn" data-hero-plan="claim-reward" data-milestone="${id}">Recevoir · ${reward.xp} XP et ${reward.gold} PO</button>` : ""}</li>`;
+      }).join("")}</ul><p id="heroPlanningRewardStatus" role="status"></p></details>`;
   }
 
   function trend(entries, unit) {
@@ -190,5 +212,5 @@
     }
   }
 
-  window.FitnessRpgWeightDashboard = { stats, claim, html, measuresHtml, campMeasuresHtml, handleCampMeasure, handle };
+  window.FitnessRpgWeightDashboard = { stats, claim, html, heroRewardsHtml, measuresHtml, campMeasuresHtml, handleCampMeasure, handle };
 })();

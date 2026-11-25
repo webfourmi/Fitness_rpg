@@ -418,6 +418,7 @@ window.FitnessRpgCamp = (() => {
         }
         camp.protectedThrough = today;
         camp.restedSinceWorkout = true;
+        camp.lastPlannedRest = today;
         message = "Repos enregistré. Ta série est protégée aujourd’hui.";
         break;
       case "freeze":
@@ -526,7 +527,7 @@ window.FitnessRpgCamp = (() => {
   }
 
   function itemOrigin(item) {
-    if (weightTrophies.includes(item)) return "Trophée · Parcours Perte de poids";
+    if (weightTrophies.includes(item)) return "Trophée · Parcours du héros";
     if (item.programId) {
       const title = window.FitnessRpgPrograms?.getProgram?.(item.programId)?.title || item.programId;
       if (campaignTrophies.includes(item)) return `Trophée · ${title} · Programme terminé`;

@@ -258,3 +258,44 @@ test("la progression de La Voie du Héros exige deux bilans du même objectif et
   assert.equal(coach.record({ ...draft, sourceSessionId: "d" }, { ...easy, alert: true }).result, "urgent");
   assert.equal(hero.adaptWorkout("marche-aventurier", workout).restricted, true);
 });
+
+test("La Voie du Héros partage le crédit unique des trophées avec Perte de poids", () => {
+  const { state, hero, dashboard, plan } = boot();
+  const dates = state.getWeekKeys();
+  state.todayKey = () => dates[6];
+  state.getProfile().heroPlanning = { goalId: state.getGoalId(), focus: "endurance" };
+  assert.equal(hero.saveRecovery("rest"), true);
+  assert.ok(hero.rewardEligibility().has("weight-rest"));
+  assert.equal(dashboard.claim("weight-rest", "hero"), true);
+  state.getProfile().weightRest = { [dates[6]]: true };
+  state.saveProfile();
+  state.loadProfile();
+  assert.equal(dashboard.claim("weight-rest", "hero"), false);
+  assert.equal(dashboard.claim("weight-rest"), false);
+  assert.equal(state.getProfile().camp.owned.filter((id) => id === "weight-rest").length, 1);
+  assert.equal(state.getProfile().totalXp, 15);
+  assert.equal(state.getProfile().camp.gold, 5);
+  assert.equal(plan.saveActivity(dates[6], "walk", 5), true);
+  assert.equal(hero.rewardEligibility().has("weight-rest"), false);
+});
+
+test("régularité, progression et maîtrise reposent sur des séances validées", () => {
+  const { state, hero, dashboard } = boot();
+  const dates = state.getWeekKeys();
+  state.getProfile().heroPlanning = { goalId: state.getGoalId(), focus: "force" };
+  const complete = (dayNumber, date) => state.addTrainingEntry({
+    id: "phase8-day-" + dayNumber, date, type: "program", dayNumber, weekNumber: 1,
+    programId: "eveil-heros", heroPlanningFocus: "force", weightStrength: true, weightVariant: dayNumber === 1
+  });
+  complete(1, dates[0]);
+  complete(2, dates[2]);
+  assert.ok(hero.rewardEligibility().has("weight-strength"));
+  assert.equal(hero.rewardEligibility().has("weight-traveler"), false);
+  complete(3, dates[4]);
+  assert.ok(hero.rewardEligibility().has("weight-traveler"));
+  assert.equal(hero.rewardEligibility().has("weight-phoenix"), false);
+  state.addTrainingEntry({ id: "phase8-boss", date: dates[5], type: "program-boss", weekNumber: 1, programId: "eveil-heros" });
+  assert.ok(hero.rewardEligibility().has("weight-phoenix"));
+  assert.equal(dashboard.claim("weight-phoenix", "hero"), true);
+  assert.equal(dashboard.claim("weight-phoenix", "hero"), false);
+});
