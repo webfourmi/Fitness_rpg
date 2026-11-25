@@ -130,6 +130,29 @@
     </section>`;
   }
 
+  function campMeasuresHtml(open) {
+    const profile = State.getProfile();
+    return `<details id="campGoalMeasures" class="camp-equipment-slot" ${open ? "open" : ""}>
+      <summary><strong>Mes mesures facultatives</strong></summary>
+      <p>Poids · ${trend(State.getWeights(), "kg")}</p>
+      <p>Tour de taille · ${trend(Object.entries(profile.weightWaist || {}).map(([date, value]) => ({ date, value })), "cm")}</p>
+      <button type="button" class="secondary-btn" data-mobile-destination="statistics">Ouvrir les statistiques de poids</button>
+      <label>Tour de taille aujourd’hui (cm) <input id="campGoalWaist" type="number" min="1" max="500" step="any" inputmode="decimal" required></label>
+      <button type="button" class="secondary-btn" data-camp-measure-save>Enregistrer le tour de taille</button>
+      <p id="campGoalMeasureStatus" role="status"></p>
+    </details>`;
+  }
+
+  function handleCampMeasure(button) {
+    const root = button.closest("#campGoalMeasures");
+    const field = root.querySelector("#campGoalWaist");
+    if (!field.reportValidity()) return;
+    const profile = State.getProfile();
+    const saved = saveField("weightWaist", { ...profile.weightWaist, [State.todayKey()]: field.valueAsNumber });
+    if (saved) window.FitnessRpgCamp.render();
+    document.querySelector("#campGoalMeasureStatus").textContent = saved ? "Tour de taille enregistré." : "Enregistrement impossible.";
+  }
+
   function measuresHtml() {
     const profile = State.getProfile();
     const showMeasures = profile.weightDashboardMeasures === true;
@@ -167,5 +190,5 @@
     }
   }
 
-  window.FitnessRpgWeightDashboard = { stats, claim, html, measuresHtml, handle };
+  window.FitnessRpgWeightDashboard = { stats, claim, html, measuresHtml, campMeasuresHtml, handleCampMeasure, handle };
 })();

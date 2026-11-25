@@ -225,6 +225,7 @@
           ${complements.map((item) => `<option value="${item.id}" ${item.id === selected.id ? "selected" : ""}>${escape(item.title)}</option>`).join("")}</select></label>`).join("")}
         <button type="button" class="secondary-btn" data-hero-plan="complements">Enregistrer les compléments</button></details>`
         : "<p>Compléments facultatifs · aucune suggestion compatible pour le moment.</p>"}
+      ${window.FitnessRpgHeroDashboard?.html(checked.rule) || ""}
       ${planning().activityFormHtml("data-hero-plan")}
       <p>${planning().recordedMinutes()} min d’endurance cette semaine</p>`;
 
@@ -269,6 +270,9 @@
       return;
     } else if (action.startsWith("coach-")) {
       if (selection()) window.FitnessRpgAdaptiveCoach?.handlePlanning(action);
+      return;
+    } else if (action === "dashboard-save") {
+      if (selection()) window.FitnessRpgHeroDashboard?.handle(assess()?.rule, button);
       return;
     } else if (action === "log") {
       planning().handleActivityForm();

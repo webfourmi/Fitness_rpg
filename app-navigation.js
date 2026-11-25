@@ -1316,6 +1316,13 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
     return true;
   }
 
+  const campMeasureButton = target.closest("[data-camp-measure-save]");
+  if (campMeasureButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgWeightDashboard?.handleCampMeasure(campMeasureButton);
+    return true;
+  }
+
   const campButton = target.closest("[data-camp-action]");
   if (campButton) {
     window.FitnessRpgNavigation.stopEvent(event);

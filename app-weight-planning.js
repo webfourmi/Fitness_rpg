@@ -124,10 +124,12 @@
     return totals;
   }
 
-  function recordedDays() {
+  function recordedDays(keys = State.getWeekKeys()) {
     const days = new Map();
     const unique = new Set();
-    for (const entry of State.getWeekEntries()) {
+    const weekDays = new Set(keys);
+    for (const entry of State.getAllEntries()) {
+      if (!weekDays.has(State.getEntryDateKey(entry))) continue;
       if (!entry.id || unique.has(entry.id)) continue;
       unique.add(entry.id);
       const key = State.getEntryDateKey(entry);
@@ -138,7 +140,7 @@
     }
 
     const log = State.getProfile()?.weightActivity || {};
-    return new Map(State.getWeekKeys().map((key) => {
+    return new Map(keys.map((key) => {
       const manual = log[key] || {};
       const day = days.get(key) || {};
       // Une valeur manuelle représente le total de cette activité sur la journée.

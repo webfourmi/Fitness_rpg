@@ -673,6 +673,7 @@ window.FitnessRpgCamp = (() => {
       ${inventory.length ? "" : "<p>Tes achats et tes trophées apparaîtront ici.</p>"}
       <div class="camp-equipment">${equipment}${familiarSlot}</div>
       ${titlesHtml}
+      ${window.FitnessRpgWeightDashboard?.campMeasuresHtml(Boolean(root.querySelector?.("#campGoalMeasures[open]"))) || ""}
       <h2>Repos et gels de série</h2>
       <p>Série de ${profile.streak || 0} jour(s) actif(s)${camp.protectedThrough === today ? " · Protégée aujourd’hui" : ""}.</p>
       <p>${freePerMonth - quota.freeUsed}/2 gels gratuits ce mois-ci · ${paid}/2 fioles en réserve · ${quota.bought}/2 achats ce mois-ci.</p>
