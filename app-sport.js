@@ -956,9 +956,9 @@
       return session;
     }
 
-    const planned = window.FitnessRpgWeightPlanning?.adaptWorkout(session.programId, sourceWorkout, {
-      boss: session.type === "program-boss", dayNumber: Number(session.dayNumber)
-    });
+    const options = { boss: session.type === "program-boss", dayNumber: Number(session.dayNumber) };
+    const heroPlan = window.FitnessRpgHeroPlanning?.adaptWorkout(session.programId, sourceWorkout, options);
+    const planned = heroPlan || window.FitnessRpgWeightPlanning?.adaptWorkout(session.programId, sourceWorkout, options);
     if (planned) {
       if (planned.increased && !window.FitnessRpgAdaptiveCoach.consume()) {
         planned.exercises = window.FitnessRpgWeightPlanning.adaptWorkout(session.programId, sourceWorkout, {
@@ -967,7 +967,8 @@
         planned.coachNote = "";
       }
       session.adaptedExercises = planned.exercises;
-      session.weightPlanningWorkout = true;
+      session.weightPlanningWorkout = !heroPlan;
+      session.heroPlanningWorkout = Boolean(heroPlan);
       session.weightVariant = planned.substitutions > 0;
       session.adaptation = {
         version: Sport.adaptationVersion,

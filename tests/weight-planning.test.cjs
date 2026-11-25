@@ -16,7 +16,7 @@ function boot() {
   const window = { setTimeout() {} };
   const document = { readyState: "loading", addEventListener() {}, querySelector: () => null };
   const context = vm.createContext({ window, document, localStorage, console, structuredClone, Blob });
-  for (const file of ["app-config.js", "app-data.js", "app-camp.js", "app-state.js", "app-render.js", "app-programs.js", "app-exercise-adaptation.js", "app-sport.js", "app-weight-planning.js", "app-adaptive-coach.js", "app-weight-dashboard.js", "app-backup.js"]) {
+  for (const file of ["app-config.js", "app-data.js", "app-camp.js", "app-state.js", "app-render.js", "app-programs.js", "app-exercise-adaptation.js", "app-goal-rules.js", "app-sport.js", "app-weight-planning.js", "app-adaptive-coach.js", "app-hero-planning.js", "app-weight-dashboard.js", "app-backup.js"]) {
     vm.runInContext(readFileSync(join(__dirname, "..", file), "utf8"), context, { filename: file });
   }
   const state = window.FitnessRpgState;
@@ -24,7 +24,7 @@ function boot() {
   state.setGoal("perte-poids");
   state.getProfile().weightPlanningEnabled = true;
   state.updateSportProfile({ level: "beginner", preferredDuration: 5, equipment: ["chair", "wall"], trainingProfile: { activity: "inactive", ageGroup: "65+" } });
-  return { state, plan: window.FitnessRpgWeightPlanning, programs: window.FitnessRpgPrograms, coach: window.FitnessRpgAdaptiveCoach, dashboard: window.FitnessRpgWeightDashboard, backup: window.FitnessRpgBackup };
+  return { state, plan: window.FitnessRpgWeightPlanning, programs: window.FitnessRpgPrograms, coach: window.FitnessRpgAdaptiveCoach, dashboard: window.FitnessRpgWeightDashboard, backup: window.FitnessRpgBackup, hero: window.FitnessRpgHeroPlanning, rules: window.FitnessRpgGoalRules };
 }
 
 test("le planning propose trois séances essentielles, deux compléments et un jour de repos", () => {
@@ -168,4 +168,55 @@ test("le renforcement compte des jours distincts et le repos déclaré ne se cum
   assert.equal(dashboard.claim("weight-rest"), true);
   assert.equal(dashboard.claim("weight-phoenix"), false);
   assert.equal(dashboard.stats().usedVariant, true);
+});
+
+test("les neuf priorités et trois niveaux laissent le programme principal intact", () => {
+  const { state, hero, rules } = boot();
+  state.setActiveProgramId("marche-aventurier");
+  state.updateSportProfile({ preferredDuration: 10, sessionsPerWeek: 5, trainingProfile: { activity: "regular" } });
+  for (const focus of rules.goalIds) {
+    state.getProfile().heroPlanning = { goalId: state.getGoalId(), focus };
+    for (const level of ["beginner", "intermediate", "advanced"]) {
+      state.updateSportProfile({ level });
+      const summary = {};
+      const grid = {};
+      assert.equal(hero.render(summary, grid), true);
+      assert.match(summary.innerHTML, /Marche de l’aventurier/);
+      assert.equal((grid.innerHTML.match(/Essentielle ·/g) || []).length, 3);
+      assert.match(summary.innerHTML, /Après les séances essentielles/);
+      assert.equal(state.getActiveProgramId(), "marche-aventurier");
+    }
+  }
+});
+
+test("les jours indisponibles sont évités et le changement d’objectif conserve la séance adaptée", () => {
+  const { state, hero } = boot();
+  state.setActiveProgramId("marche-aventurier");
+  state.getProfile().heroPlanning = { goalId: state.getGoalId(), focus: "endurance" };
+  state.updateSportProfile({ preferredDuration: 7, trainingProfile: { activity: "regular", availableDays: ["wed", "fri"] } });
+  const slots = hero.sessionSlots(state.getSportProfile(), 2);
+  assert.equal(slots.essentials.join(","), "2,4");
+  const grid = {};
+  assert.equal(hero.render({}, grid), true);
+  assert.equal((grid.innerHTML.match(/Essentielle ·/g) || []).length, 2);
+  const session = state.startProgramSession("marche-aventurier", 1, 1);
+  assert.equal(session.heroPlanningWorkout, true);
+  assert.ok(session.adaptedExercises.length);
+  const originalDose = JSON.stringify(session.adaptedExercises);
+  state.setGoal("cardio");
+  assert.equal(hero.render({}, {}), false);
+  state.loadProfile();
+  assert.equal(JSON.stringify(state.loadActiveProgramSession().adaptedExercises), originalDose);
+});
+
+test("les restrictions et le matériel filtrent les compléments", () => {
+  const { state, hero, rules } = boot();
+  const sport = { level: "beginner", equipment: ["chair"], trainingProfile: { limitations: [] } };
+  const rule = rules.getRule("force", "beginner");
+  assert.ok(hero.compatibleComplements(rule, sport).some((item) => item.id === "chair_squat"));
+  assert.equal(hero.compatibleComplements(rule, { ...sport, equipment: [] }).some((item) => item.id === "chair_squat"), false);
+  state.setActiveProgramId("eveil-heros");
+  state.getProfile().heroPlanning = { goalId: state.getGoalId(), focus: "force" };
+  state.updateSportProfile({ trainingProfile: { medicalRestriction: true } });
+  assert.equal(hero.adaptWorkout("eveil-heros", { exercises: [] }).restricted, true);
 });

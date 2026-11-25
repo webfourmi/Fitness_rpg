@@ -200,6 +200,17 @@ function exerciseWardrobe() {
     check(state.getAllEntries().filter(item => item.id === guided.id).length === 1, "Une seule entrée après double validation");
     check(state.getJournal().filter(item => item.sessionId === guided.id).length === 1, "Une seule ligne de journal");
     check(state.getProfile().totalXp === earnedXp && state.getProfile().camp.gold === earnedGold, "Récompenses de séance uniques");
+    state.setActiveProgramId("marche-aventurier");
+    state.updateSportProfile({ preferredDuration: 7, sessionsPerWeek: 3, trainingProfile: { activity: "regular" } });
+    window.FitnessRpgNavigation.openMobileDestination("planning");
+    document.querySelector("#heroPlanningFocus").value = "endurance";
+    document.querySelector('[data-hero-plan="apply"]').click();
+    check(document.querySelector("#planningSummary").textContent.includes("Marche de l’aventurier"), "Programme principal préservé");
+    check(document.querySelectorAll('#planningWeekGrid [data-hero-plan="day"]').length === 3, "Trois séances essentielles du programme actif");
+    document.querySelector('#planningWeekGrid [data-hero-plan="day"]').click();
+    const heroSession = state.getActiveProgramSession();
+    check(heroSession?.heroPlanningWorkout && heroSession.adaptedExercises.length, "Séance lancée depuis La Voie du Héros");
+    check(state.loadActiveProgramSession().heroPlanningWorkout, "Séance personnalisée conservée après rechargement");
     document.body.dataset.wardrobeTest = "passed";
   } catch (error) {
     document.body.dataset.wardrobeTest = String(error);

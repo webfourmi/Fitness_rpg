@@ -1108,6 +1108,7 @@ window.FitnessRpgRender.renderPlanningPage = function renderPlanningPage() {
   if (!summary || !grid) return;
 
  const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
+  if (window.FitnessRpgHeroPlanning?.render(summary, grid)) return;
   if (window.FitnessRpgWeightPlanning?.render(summary, grid)) return;
 const goal = window.FitnessRpgConfig.getGoalById(goalId);
 
@@ -1167,6 +1168,7 @@ summary.innerHTML = `
     <span><strong>Objectif :</strong> ${goal?.title || "Reprise douce"}</span>
   </div>
 
+  ${window.FitnessRpgHeroPlanning?.controlsHtml() || ""}
   ${goalId === "perte-poids" ? `
     <section class="today-planning-card compact" aria-label="Préparer le parcours perte de poids">
       <strong>Repères pour ton entraînement</strong>

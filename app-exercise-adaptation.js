@@ -161,7 +161,7 @@
     return unit;
   }
 
-  function resolveMovement(item, sport) {
+  function resolveMovement(item, sport, options = {}) {
     const profile = sport?.trainingProfile;
     if (profile?.medicalRestriction) return { status: "professional-review" };
 
@@ -169,7 +169,7 @@
     if (!source || !source.automatic) return { status: "unreviewed" };
 
     const level = difficulty[sport?.level] ?? difficulty.beginner;
-    const maxIntensity = profile?.activity === "inactive" ? intensity.light : intensity.moderate;
+    const maxIntensity = profile?.activity === "inactive" || options.maxIntensity === "light" ? intensity.light : intensity.moderate;
     const equipment = new Set(sport?.equipment || []);
     const limitations = new Set(profile?.limitations || []);
     if (sport?.kneeFriendly) limitations.add("knees");

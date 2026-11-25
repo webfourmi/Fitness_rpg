@@ -1168,6 +1168,7 @@ window.FitnessRpgPrograms.startProgramBossSession = function startProgramBossSes
   const existing = window.FitnessRpgState.getActiveProgramSession?.();
   const resuming = window.FitnessRpgPrograms.isSameActiveProgramSession(existing, { type: "program-boss", programId, weekNumber, bossVariant: variant.id || variantId });
   if (!resuming && window.FitnessRpgWeightPlanning?.allowWorkout(programId, variant, { boss: true }) === false) return;
+  if (!resuming && window.FitnessRpgHeroPlanning?.allowWorkout(programId, variant, { boss: true }) === false) return;
 
   const startDecision = window.FitnessRpgPrograms.prepareProgramSessionStart({
     type: "program-boss",
@@ -2367,6 +2368,7 @@ window.FitnessRpgPrograms.validateProgramDay = function validateProgramDay(
   const existing = window.FitnessRpgState.getActiveProgramSession?.();
   const resuming = window.FitnessRpgPrograms.isSameActiveProgramSession(existing, { type: "program", programId, weekNumber, dayNumber });
   if (!resuming && window.FitnessRpgWeightPlanning?.allowWorkout(programId, day, { dayNumber: Number(dayNumber) }) === false) return;
+  if (!resuming && window.FitnessRpgHeroPlanning?.allowWorkout(programId, day, { dayNumber: Number(dayNumber) }) === false) return;
 
   const startDecision = window.FitnessRpgPrograms.prepareProgramSessionStart({
     type: "program",
@@ -2714,7 +2716,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
       xp: baseXp,
       weightStrength: session.weightPlanningWorkout && window.FitnessRpgWeightPlanning?.hasStrength(completedWorkout?.exercises),
       weightVariant: session.weightPlanningWorkout && session.weightVariant,
-      enduranceByActivity: session.weightPlanningWorkout ? window.FitnessRpgWeightPlanning?.enduranceByActivity(completedWorkout?.exercises) : undefined
+      enduranceByActivity: (session.weightPlanningWorkout || session.heroPlanningWorkout) ? window.FitnessRpgWeightPlanning?.enduranceByActivity(completedWorkout?.exercises) : undefined
     }, {
       familiarPassive,
       campGold: day.optional ? 5 : 10,
@@ -2926,7 +2928,7 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
       unit: "boss",
       weightStrength: session.weightPlanningWorkout && window.FitnessRpgWeightPlanning?.hasStrength(safeVariant.exercises),
       weightVariant: session.weightPlanningWorkout && session.weightVariant,
-      enduranceByActivity: session.weightPlanningWorkout ? window.FitnessRpgWeightPlanning?.enduranceByActivity(safeVariant.exercises) : undefined,
+      enduranceByActivity: (session.weightPlanningWorkout || session.heroPlanningWorkout) ? window.FitnessRpgWeightPlanning?.enduranceByActivity(safeVariant.exercises) : undefined,
       xp
     }, {
       campGold: replay ? 0 : 20,
