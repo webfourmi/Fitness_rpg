@@ -1042,6 +1042,13 @@ if (resetProgramButton) {
 // ============================================================
 
 window.FitnessRpgNavigation.handlePlanningClick = function handlePlanningClick(event, target) {
+  const heroPlan = target.closest("[data-hero-plan]");
+  if (heroPlan) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgHeroPlanning?.handle(heroPlan);
+    return true;
+  }
+
   const weightPlan = target.closest("[data-weight-plan]");
   if (weightPlan) {
     window.FitnessRpgNavigation.stopEvent(event);
@@ -1306,6 +1313,13 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
         status.focus();
       }
     }
+    return true;
+  }
+
+  const campMeasureButton = target.closest("[data-camp-measure-save]");
+  if (campMeasureButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgWeightDashboard?.handleCampMeasure(campMeasureButton);
     return true;
   }
 

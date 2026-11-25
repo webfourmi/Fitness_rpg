@@ -98,12 +98,17 @@ function exerciseWardrobe() {
     panel.querySelector("#sportLevelSelect").value = "advanced";
     panel.querySelector("#sportAgeGroup").value = "65+";
     panel.querySelector("#sportHabitualActivity").value = "inactive";
+    panel.querySelector("#sportUsualRecovery").value = "variable";
+    panel.querySelector('[name="sportAvailableDay"][value="fri"]').checked = true;
+    check(panel.querySelector('[data-mobile-destination="goal"]'), "Lien vers l’objectif commun du héros");
     panel.querySelector("#sportDurationInput").value = "7";
     panel.querySelector("#sportMeasure-weightKg").value = "82.5";
     panel.querySelector("#saveSportProfileButton").click();
     state.loadProfile();
     const sport = state.getSportProfile();
     const recommendation = window.FitnessRpgSport.getTrainingRecommendation(sport);
+    check(sport.trainingProfile.recovery === "variable" && sport.trainingProfile.availableDays.includes("fri"),
+      "Récupération et disponibilités conservées après rechargement");
     check(sport.trainingProfile.weightKg === 82.5 && recommendation.level === "advanced", "Profil sportif persistant");
     check(recommendation.initialMinutes === 7 && recommendation.includeBalance, "Reprise fractionnée et équilibre");
     check(panel.querySelector('[role="status"]').textContent.includes("enregistré"), "Confirmation d’enregistrement");
@@ -195,6 +200,21 @@ function exerciseWardrobe() {
     check(state.getAllEntries().filter(item => item.id === guided.id).length === 1, "Une seule entrée après double validation");
     check(state.getJournal().filter(item => item.sessionId === guided.id).length === 1, "Une seule ligne de journal");
     check(state.getProfile().totalXp === earnedXp && state.getProfile().camp.gold === earnedGold, "Récompenses de séance uniques");
+    state.setActiveProgramId("marche-aventurier");
+    state.updateSportProfile({ preferredDuration: 7, sessionsPerWeek: 3, trainingProfile: { activity: "regular" } });
+    window.FitnessRpgNavigation.openMobileDestination("planning");
+    document.querySelector("#heroPlanningFocus").value = "endurance";
+    document.querySelector('[data-hero-plan="apply"]').click();
+    check(document.querySelector("#planningSummary").textContent.includes("Marche de l’aventurier"), "Programme principal préservé");
+    check(document.querySelectorAll('#planningWeekGrid [data-hero-plan="day"]').length === 3, "Trois séances essentielles du programme actif");
+    document.querySelector("#heroRecovery").value = "ready";
+    document.querySelector('[data-hero-plan="recovery"]').click();
+    check(document.querySelector("#heroRecoveryStatus").textContent.includes("enregistrée"), "Récupération confirmée");
+    document.querySelector('#planningWeekGrid [data-hero-plan="day"]').click();
+    const heroSession = state.getActiveProgramSession();
+    check(heroSession?.heroPlanningWorkout && heroSession.adaptedExercises.length, "Séance lancée depuis La Voie du Héros");
+    check(state.loadActiveProgramSession().heroPlanningWorkout, "Séance personnalisée conservée après rechargement");
+    check(document.querySelector('[data-coach-stop="pain"]'), "Arrêt de sécurité disponible dans La Voie du Héros");
     document.body.dataset.wardrobeTest = "passed";
   } catch (error) {
     document.body.dataset.wardrobeTest = String(error);

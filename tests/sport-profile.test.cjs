@@ -59,7 +59,7 @@ test("le niveau est indépendant de l’âge et des mesures, les limitations pri
 
 test("les données complémentaires survivent à un export et un import puis peuvent être effacées", () => {
   const { state, backup } = boot();
-  state.updateSportProfile({ level: "intermediate", trainingProfile: { ageGroup: "40-64", waistCm: 84.5, weightKg: -2 } });
+  state.updateSportProfile({ level: "intermediate", trainingProfile: { ageGroup: "40-64", waistCm: 84.5, weightKg: -2, availableDays: ["fri", "mon", "fri", "invalid"], recovery: "variable" } });
   const validation = backup.validateBackupObject(JSON.parse(JSON.stringify(backup.buildBackup())));
   assert.equal(validation.valid, true, validation.errors.join(", "));
   state.updateSportProfile({ trainingProfile: null });
@@ -67,9 +67,32 @@ test("les données complémentaires survivent à un export et un import puis peu
   state.loadProfile();
   assert.equal(state.getSportProfile().trainingProfile.waistCm, 84.5);
   assert.equal(state.getSportProfile().trainingProfile.weightKg, null);
-  assert.equal(state.getSportProfile().trainingProfile.version, 1);
+  assert.equal(state.getSportProfile().trainingProfile.version, 2);
+  assert.equal(state.getSportProfile().trainingProfile.availableDays.join(","), "mon,fri");
+  assert.equal(state.getSportProfile().trainingProfile.recovery, "variable");
   state.updateSportProfile({ trainingProfile: null });
   state.loadProfile();
   assert.equal(state.getSportProfile().trainingProfile, null);
   assert.equal(state.getSportProfile().level, "intermediate");
+});
+
+test("le profil complémentaire v1 migre sans inventer de disponibilité ni de récupération", () => {
+  const { state, localStorage } = boot();
+  const previous = { ...state.getProfile(), goalId: "cardio", activeProgramId: "eveil-heros", totalXp: 420,
+    sportProfile: { level: "advanced", mainGoal: "strength", equipment: ["chair"],
+      trainingProfile: { version: 1, ageGroup: "65+", medicalRestriction: true, limitations: ["knees"], waistCm: 91 } }
+  };
+  localStorage.setItem(state.getKeys().profile, JSON.stringify(previous));
+  state.loadProfile();
+  const profile = state.getSportProfile();
+  assert.equal(profile.trainingProfile.availableDays.length, 0);
+  assert.equal(profile.trainingProfile.recovery, "");
+  assert.equal(profile.trainingProfile.ageGroup, "65+");
+  assert.equal(profile.trainingProfile.medicalRestriction, true);
+  assert.equal(profile.trainingProfile.waistCm, 91);
+  assert.equal(profile.level, "advanced");
+  assert.equal(profile.mainGoal, "strength");
+  assert.equal(state.getGoalId(), "cardio");
+  assert.equal(state.getProfile().activeProgramId, "eveil-heros");
+  assert.equal(state.getProfile().totalXp, 420);
 });

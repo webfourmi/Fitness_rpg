@@ -83,3 +83,27 @@ test("les détails du grimoire affichent une option issue du moteur", () => {
   window.FitnessRpgExercises.openExerciseDetails("pushups");
   assert.ok(shownModal.message.some((line) => line.includes("Option selon ton profil · Pompes murales")));
 });
+
+test("le grimoire entier est classé et les substitutions conservent les familles", () => {
+  for (const exercise of data.exercises) {
+    const metadata = adaptation.getMetadata(exercise.id);
+    assert.ok(metadata?.muscles.length, exercise.id);
+    assert.ok(Array.isArray(metadata.supports), exercise.id);
+    for (const path of Object.values(exercise.images || {})) assert.ok(existsSync(join(root, path)), path);
+    for (const id of metadata.variants) {
+      assert.equal(adaptation.getMetadata(id)?.family, metadata.family, exercise.id);
+      assert.ok(data.getExerciseById(id), id);
+    }
+  }
+  assert.equal(adaptation.resolveMovement({ exerciseId: "ballet_sequence" }, sport).status, "unreviewed");
+});
+
+test("une fente marchée devient une fente assistée si l’espace ou le niveau l’exige", () => {
+  const item = { exerciseId: "walking_lunges", unit: "répétitions", amount: 8 };
+  const profile = { ...sport, smallSpace: true, equipment: ["stable-support"] };
+  const result = adaptation.resolveMovement(item, profile);
+  assert.equal(result.status, "replace");
+  assert.equal(result.item.exerciseId, "assisted_reverse_lunges");
+  assert.equal(result.item.amount, 8);
+  assert.equal(adaptation.resolveMovement(item, { ...profile, equipment: [] }).status, "skip");
+});

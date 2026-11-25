@@ -64,8 +64,12 @@
     }
   }
 
-  function claim(id) {
-    if (!Planning.enabled() || !Object.hasOwn(milestones, id) || !eligible(id, stats())) return false;
+  function claim(id, mode = "weight") {
+    if (!Object.hasOwn(milestones, id)) return false;
+    const qualified = mode === "hero"
+      ? window.FitnessRpgHeroPlanning?.rewardEligibility().has(id)
+      : Planning.enabled() && eligible(id, stats());
+    if (!qualified) return false;
     const campApi = window.FitnessRpgCamp;
     const item = campApi.getTrophy(id);
     const profile = State.getProfile();
@@ -88,6 +92,24 @@
       console.error("Fitness RPG · récompense du parcours", error);
       return profile.totalXp !== previousXp;
     }
+  }
+
+  function heroRewardsHtml(available) {
+    const instructions = {
+      "weight-traveler": "Valider des séances de La Voie du Héros trois jours distincts dans une semaine.",
+      "weight-strength": "Valider deux jours de renforcement dans la même semaine, dont une séance avec variante ou progression adaptée.",
+      "weight-rest": "Enregistrer un jour sans entraînement comme jour de repos dans le planning ou au campement.",
+      "weight-phoenix": "Terminer les séances essentielles d’une semaine dans La Voie du Héros, dont une avec variante ou progression adaptée, et vaincre le boss s’il est obligatoire."
+    };
+    const camp = State.getProfile()?.camp;
+    return `<details id="heroPlanningRewards"><summary>Récompenses de La Voie du Héros</summary><ul>
+      ${Object.entries(milestones).map(([id, reward]) => {
+        const item = window.FitnessRpgCamp.getTrophy(id);
+        const claimed = camp?.owned.includes(id) || camp?.claims[JSON.stringify(["weight-milestone", id])];
+        return `<li><strong>${item.name}</strong><p>${instructions[id]}</p>
+          ${claimed ? "<span>Récompense déjà obtenue</span>" : available.has(id)
+            ? `<button type="button" class="primary-btn" data-hero-plan="claim-reward" data-milestone="${id}">Recevoir · ${reward.xp} XP et ${reward.gold} PO</button>` : ""}</li>`;
+      }).join("")}</ul><p id="heroPlanningRewardStatus" role="status"></p></details>`;
   }
 
   function trend(entries, unit) {
@@ -130,6 +152,29 @@
     </section>`;
   }
 
+  function campMeasuresHtml(open) {
+    const profile = State.getProfile();
+    return `<details id="campGoalMeasures" class="camp-equipment-slot" ${open ? "open" : ""}>
+      <summary><strong>Mes mesures facultatives</strong></summary>
+      <p>Poids · ${trend(State.getWeights(), "kg")}</p>
+      <p>Tour de taille · ${trend(Object.entries(profile.weightWaist || {}).map(([date, value]) => ({ date, value })), "cm")}</p>
+      <button type="button" class="secondary-btn" data-mobile-destination="statistics">Ouvrir les statistiques de poids</button>
+      <label>Tour de taille aujourd’hui (cm) <input id="campGoalWaist" type="number" min="1" max="500" step="any" inputmode="decimal" required></label>
+      <button type="button" class="secondary-btn" data-camp-measure-save>Enregistrer le tour de taille</button>
+      <p id="campGoalMeasureStatus" role="status"></p>
+    </details>`;
+  }
+
+  function handleCampMeasure(button) {
+    const root = button.closest("#campGoalMeasures");
+    const field = root.querySelector("#campGoalWaist");
+    if (!field.reportValidity()) return;
+    const profile = State.getProfile();
+    const saved = saveField("weightWaist", { ...profile.weightWaist, [State.todayKey()]: field.valueAsNumber });
+    if (saved) window.FitnessRpgCamp.render();
+    document.querySelector("#campGoalMeasureStatus").textContent = saved ? "Tour de taille enregistré." : "Enregistrement impossible.";
+  }
+
   function measuresHtml() {
     const profile = State.getProfile();
     const showMeasures = profile.weightDashboardMeasures === true;
@@ -167,5 +212,5 @@
     }
   }
 
-  window.FitnessRpgWeightDashboard = { stats, claim, html, measuresHtml, handle };
+  window.FitnessRpgWeightDashboard = { stats, claim, html, heroRewardsHtml, measuresHtml, campMeasuresHtml, handleCampMeasure, handle };
 })();

@@ -418,6 +418,7 @@ window.FitnessRpgCamp = (() => {
         }
         camp.protectedThrough = today;
         camp.restedSinceWorkout = true;
+        camp.lastPlannedRest = today;
         message = "Repos enregistré. Ta série est protégée aujourd’hui.";
         break;
       case "freeze":
@@ -526,7 +527,7 @@ window.FitnessRpgCamp = (() => {
   }
 
   function itemOrigin(item) {
-    if (weightTrophies.includes(item)) return "Trophée · Parcours Perte de poids";
+    if (weightTrophies.includes(item)) return "Trophée · Parcours du héros";
     if (item.programId) {
       const title = window.FitnessRpgPrograms?.getProgram?.(item.programId)?.title || item.programId;
       if (campaignTrophies.includes(item)) return `Trophée · ${title} · Programme terminé`;
@@ -673,6 +674,7 @@ window.FitnessRpgCamp = (() => {
       ${inventory.length ? "" : "<p>Tes achats et tes trophées apparaîtront ici.</p>"}
       <div class="camp-equipment">${equipment}${familiarSlot}</div>
       ${titlesHtml}
+      ${window.FitnessRpgWeightDashboard?.campMeasuresHtml(Boolean(root.querySelector?.("#campGoalMeasures[open]"))) || ""}
       <h2>Repos et gels de série</h2>
       <p>Série de ${profile.streak || 0} jour(s) actif(s)${camp.protectedThrough === today ? " · Protégée aujourd’hui" : ""}.</p>
       <p>${freePerMonth - quota.freeUsed}/2 gels gratuits ce mois-ci · ${paid}/2 fioles en réserve · ${quota.bought}/2 achats ce mois-ci.</p>

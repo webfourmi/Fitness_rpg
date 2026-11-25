@@ -33,11 +33,10 @@
     return 0;
   }
 
-  function fitWorkout(exercises, minutes) {
+  function fitWorkout(exercises, minutes, overhead = 10) {
     const prepared = exercises.map((item) => ({
       item, rate: secondsPerUnit(item.unit), seconds: Number(item.amount) * secondsPerUnit(item.unit)
     })).filter(({ seconds }) => Number.isFinite(seconds) && seconds > 0);
-    const overhead = 10;
     const budget = Math.floor(minutes * 60) - overhead * prepared.length;
     if (budget <= 0) return [];
     const ratio = Math.min(1, budget / prepared.reduce((sum, item) => sum + item.seconds, 0));
@@ -125,10 +124,12 @@
     return totals;
   }
 
-  function recordedDays() {
+  function recordedDays(keys = State.getWeekKeys()) {
     const days = new Map();
     const unique = new Set();
-    for (const entry of State.getWeekEntries()) {
+    const weekDays = new Set(keys);
+    for (const entry of State.getAllEntries()) {
+      if (!weekDays.has(State.getEntryDateKey(entry))) continue;
       if (!entry.id || unique.has(entry.id)) continue;
       unique.add(entry.id);
       const key = State.getEntryDateKey(entry);
@@ -139,7 +140,7 @@
     }
 
     const log = State.getProfile()?.weightActivity || {};
-    return new Map(State.getWeekKeys().map((key) => {
+    return new Map(keys.map((key) => {
       const manual = log[key] || {};
       const day = days.get(key) || {};
       // Une valeur manuelle représente le total de cette activité sur la journée.
@@ -171,6 +172,22 @@
       console.error("Fitness RPG - activité non sauvegardée", error);
       return false;
     }
+  }
+
+  function activityFormHtml(actionAttribute = "data-weight-plan") {
+    const keys = State.getWeekKeys();
+    return `
+      <details>
+        <summary>Renseigner l’endurance du jour ou de la semaine</summary>
+        <p>Indique le total quotidien par activité, journal compris. Ressaisir une valeur la remplace. Le planning retient le plus grand des deux totaux pour chaque activité.</p>
+        <label>Date <select id="weightActivityDate">${keys.filter((key) => key <= State.todayKey()).reverse()
+          .map((key) => `<option value="${key}">${key.split("-").reverse().join("/")}</option>`).join("")}</select></label>
+        <label>Activité <select id="weightActivityKind">${Object.entries(activityTypes)
+          .map(([id, name]) => `<option value="${id}">${name}</option>`).join("")}</select></label>
+        <label>Minutes <input id="weightActivityMinutes" type="number" min="0" max="600" step="1" required></label>
+        <button class="secondary-btn" type="button" ${actionAttribute}="log">Enregistrer le total</button>
+      </details>
+      <p id="weightActivityFeedback" role="status"></p>`;
   }
 
   function render(summary, grid) {
@@ -215,17 +232,8 @@
       <button class="ghost-btn" type="button" data-weight-plan="toggle">Revenir au planning habituel</button>
       ${!blocked && !repeat && days.every((day) => completed.has(Number(day.day)))
         ? '<button class="secondary-btn" type="button" data-weight-plan="repeat">Recommencer cette semaine</button>' : ""}
-      <details>
-        <summary>Renseigner l’endurance du jour ou de la semaine</summary>
-        <p>Indique le total quotidien par activité, journal compris. Ressaisir une valeur la remplace. Le planning retient le plus grand des deux totaux pour chaque activité.</p>
-        <label>Date <select id="weightActivityDate">${keys.filter((key) => key <= State.todayKey()).reverse()
-          .map((key) => `<option value="${key}">${key.split("-").reverse().join("/")}</option>`).join("")}</select></label>
-        <label>Activité <select id="weightActivityKind">${Object.entries(activityTypes)
-          .map(([id, name]) => `<option value="${id}">${name}</option>`).join("")}</select></label>
-        <label>Minutes <input id="weightActivityMinutes" type="number" min="0" max="600" step="1" required></label>
-        <button class="secondary-btn" type="button" data-weight-plan="log">Enregistrer le total</button>
-      </details>
-      <p id="weightActivityFeedback" role="status"></p>
+      ${window.FitnessRpgHeroPlanning?.controlsHtml() || ""}
+      ${activityFormHtml()}
     `;
 
     grid.innerHTML = labels.map((label, index) => {
@@ -255,6 +263,20 @@
     return true;
   }
 
+  function handleActivityForm() {
+    const amount = document.querySelector("#weightActivityMinutes");
+    if (!amount?.reportValidity()) return;
+    const date = document.querySelector("#weightActivityDate").value;
+    const kind = document.querySelector("#weightActivityKind").value;
+    const saved = saveActivity(date, kind, amount.valueAsNumber);
+    if (saved) {
+      Render.renderPlanningPage();
+      document.querySelector("#weightActivityFeedback").textContent = "Total enregistré.";
+    } else {
+      document.querySelector("#weightActivityFeedback").textContent = "Total impossible à enregistrer.";
+    }
+  }
+
   function handleClick(button) {
     const profile = State.getProfile();
     if (!profile || State.getGoalId() !== "perte-poids") return;
@@ -275,17 +297,7 @@
       return;
     }
     if (action === "log") {
-      const amount = document.querySelector("#weightActivityMinutes");
-      if (!amount?.reportValidity()) return;
-      const date = document.querySelector("#weightActivityDate").value;
-      const kind = document.querySelector("#weightActivityKind").value;
-      const saved = saveActivity(date, kind, amount.valueAsNumber);
-      if (saved) {
-        Render.renderPlanningPage();
-        document.querySelector("#weightActivityFeedback").textContent = "Total enregistré.";
-      } else {
-        document.querySelector("#weightActivityFeedback").textContent = "Total impossible à enregistrer.";
-      }
+      handleActivityForm();
       return;
     }
     const stage = currentStage();
@@ -301,5 +313,5 @@
     }
   }
 
-  window.FitnessRpgWeightPlanning = { enabled, currentStage, adaptWorkout, allowWorkout, enduranceByActivity, recordedDays, recordedMinutes, hasStrength, saveActivity, render, handleClick };
+  window.FitnessRpgWeightPlanning = { enabled, currentStage, adaptWorkout, allowWorkout, fitWorkout, secondsPerUnit, activityFormHtml, handleActivityForm, enduranceByActivity, recordedDays, recordedMinutes, hasStrength, saveActivity, render, handleClick };
 })();
