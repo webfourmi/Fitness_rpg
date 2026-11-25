@@ -281,3 +281,21 @@ test('mise à jour 7.0.8 : récupère les trois trophées à partir des preuves 
     assert.deepEqual([...state.profile.badges], legacy.badges);
   }
 });
+
+test('Inébranlable compte les journées officielles distinctes et se conserve au rechargement', () => {
+  const app = boot();
+  const { camp, state, window } = app;
+  const history = [1, 3, 5, 8].map(day => ({
+    date: '2026-11-0' + day, status: 'completed', score: 12
+  }));
+  history.push(history[0], { date: '2026-11-09', status: 'interrupted' });
+  window.FitnessRpgChallenges = { read: () => ({ squats: { history } }) };
+  assert.match(camp.mutate('title-equip'), /cinq journées/);
+  history.push({ date: '2026-11-10', status: 'completed', score: 10 });
+  assert.match(camp.mutate('title-equip'), /Titre équipé/);
+  state.loadProfile();
+  assert.equal(camp.getHeroTitle(), 'Inébranlable');
+  assert.match(camp.mutate('title-remove'), /Titre retiré/);
+  state.loadProfile();
+  assert.equal(camp.getHeroTitle(), '');
+});
