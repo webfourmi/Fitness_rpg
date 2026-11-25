@@ -640,7 +640,9 @@
 
     const context = {
       level: sportProfile.level,
-      goal: sportProfile.mainGoal,
+      goal: State.getGoalId?.() || null,
+      availableDays: sportProfile.trainingProfile?.availableDays || [],
+      recovery: sportProfile.trainingProfile?.recovery || null,
       preferredDuration: sportProfile.preferredDuration,
       sessionsPerWeek: sportProfile.sessionsPerWeek,
       equipment: [...(sportProfile.equipment || [])],
@@ -1015,6 +1017,8 @@
 
   const ageGroups = { "18-39": "18–39 ans", "40-64": "40–64 ans", "65+": "65 ans et plus" };
   const activityLevels = { inactive: "Peu ou pas d’activité", occasional: "Activité occasionnelle", regular: "Activité régulière" };
+  const recoveryLevels = { good: "Bonne", variable: "Variable", difficult: "Difficile" };
+  const availabilityDays = { mon: "Lundi", tue: "Mardi", wed: "Mercredi", thu: "Jeudi", fri: "Vendredi", sat: "Samedi", sun: "Dimanche" };
   const limitations = { knees: "Genoux", hips: "Hanches", back: "Dos", shoulders: "Épaules", balance: "Équilibre" };
   const measurements = [
     ["weightKg", "Poids (kg)"],
@@ -1025,8 +1029,11 @@
   function normalizeTrainingProfile(value) {
     if (!value || typeof value !== "object") return null;
     const selectedLimitations = Array.isArray(value.limitations) ? value.limitations : [];
+    const selectedDays = Array.isArray(value.availableDays) ? value.availableDays : [];
     const result = {
-      version: 1,
+      version: 2,
+      availableDays: Object.keys(availabilityDays).filter((day) => selectedDays.includes(day)),
+      recovery: Object.hasOwn(recoveryLevels, value.recovery) ? value.recovery : "",
       ageGroup: Object.hasOwn(ageGroups, value.ageGroup) ? value.ageGroup : "",
       activity: Object.hasOwn(activityLevels, value.activity) ? value.activity : "",
       noImpact: value.noImpact === true,
@@ -2912,7 +2919,7 @@
     }
 
     if (target.closest("#clearTrainingProfileButton")) {
-      if (window.confirm("Effacer la tranche d’âge, les habitudes, les limitations et les mesures de ce formulaire sur cet appareil ?")) {
+      if (window.confirm("Effacer les renseignements complémentaires de ce formulaire sur cet appareil, y compris les disponibilités et la récupération ?")) {
         State.updateSportProfile({ trainingProfile: null });
         Sport.renderSportProfilePanel("Données complémentaires effacées.");
         document.querySelector("#sportTrainingFields summary")?.focus();
@@ -2938,6 +2945,8 @@
       const trainingProfile = {
         ageGroup: trainingFields.querySelector("#sportAgeGroup").value,
         activity: trainingFields.querySelector("#sportHabitualActivity").value,
+        recovery: trainingFields.querySelector("#sportUsualRecovery").value,
+        availableDays: [...trainingFields.querySelectorAll('[name="sportAvailableDay"]:checked')].map((input) => input.value),
         noImpact: trainingFields.querySelector("#sportNoImpact").checked,
         medicalRestriction: trainingFields.querySelector("#sportMedicalRestriction").checked,
         limitations: [...trainingFields.querySelectorAll('[name="sportLimitation"]:checked')].map((input) => input.value),
@@ -2948,7 +2957,6 @@
       State.updateSportProfile?.({
         trainingProfile: hasTrainingData ? trainingProfile : null,
         level: panel.querySelector("#sportLevelSelect")?.value,
-        mainGoal: panel.querySelector("#sportGoalSelect")?.value,
         sessionsPerWeek: Number(panel.querySelector("#sportSessionsInput")?.value || 3),
         preferredDuration: Number(panel.querySelector("#sportDurationInput")?.value || 20),
         equipment,
@@ -3073,14 +3081,11 @@
           </select>
         </label>
 
-        <label>
-          Objectif principal
-          <select id="sportGoalSelect">
-            ${Object.entries(Sport.goals).map(([id, label]) => `
-              <option value="${id}" ${sport.mainGoal === id ? "selected" : ""}>${label}</option>
-            `).join("")}
-          </select>
-        </label>
+        <div>
+          <span>Objectif du héros</span>
+          <p>${Render.escapeHtml(window.FitnessRpgConfig?.getGoalById?.(State.getGoalId?.())?.title || "À choisir")}</p>
+          <button class="secondary-btn" type="button" data-mobile-destination="goal">Modifier l’objectif</button>
+        </div>
 
         <label>
           Séances / semaine
@@ -3134,12 +3139,19 @@
       </details>
 
       <details id="sportTrainingFields" class="sport-equipment-details" ${training ? "open" : ""}>
-        <summary>Âge, activité et limitations <span>Facultatif</span></summary>
+        <summary>Habitudes, disponibilités et limitations <span>Facultatif</span></summary>
         <p class="muted">Ces données sont conservées sur cet appareil et incluses dans tes sauvegardes.</p>
         <div class="sport-profile-grid">
           <label>Tranche d’âge adulte <select id="sportAgeGroup">${options(ageGroups, training?.ageGroup)}</select></label>
           <label>Activité habituelle <select id="sportHabitualActivity">${options(activityLevels, training?.activity)}</select></label>
+          <label>Récupération habituelle <select id="sportUsualRecovery">${options(recoveryLevels, training?.recovery)}</select></label>
         </div>
+        <fieldset>
+          <legend>Jours habituellement disponibles</legend>
+          ${Object.entries(availabilityDays).map(([id, label]) =>
+            `<label><input name="sportAvailableDay" value="${id}" type="checkbox" ${training?.availableDays.includes(id) ? "checked" : ""}> ${label}</label>`
+          ).join(" ")}
+        </fieldset>
         <fieldset>
           <legend>Préférences et limitations</legend>
           <label><input id="sportNoImpact" type="checkbox" ${training?.noImpact ? "checked" : ""}> Activités sans sauts</label><br>

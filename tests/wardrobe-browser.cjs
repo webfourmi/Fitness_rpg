@@ -98,12 +98,17 @@ function exerciseWardrobe() {
     panel.querySelector("#sportLevelSelect").value = "advanced";
     panel.querySelector("#sportAgeGroup").value = "65+";
     panel.querySelector("#sportHabitualActivity").value = "inactive";
+    panel.querySelector("#sportUsualRecovery").value = "variable";
+    panel.querySelector('[name="sportAvailableDay"][value="fri"]').checked = true;
+    check(panel.querySelector('[data-mobile-destination="goal"]'), "Lien vers l’objectif commun du héros");
     panel.querySelector("#sportDurationInput").value = "7";
     panel.querySelector("#sportMeasure-weightKg").value = "82.5";
     panel.querySelector("#saveSportProfileButton").click();
     state.loadProfile();
     const sport = state.getSportProfile();
     const recommendation = window.FitnessRpgSport.getTrainingRecommendation(sport);
+    check(sport.trainingProfile.recovery === "variable" && sport.trainingProfile.availableDays.includes("fri"),
+      "Récupération et disponibilités conservées après rechargement");
     check(sport.trainingProfile.weightKg === 82.5 && recommendation.level === "advanced", "Profil sportif persistant");
     check(recommendation.initialMinutes === 7 && recommendation.includeBalance, "Reprise fractionnée et équilibre");
     check(panel.querySelector('[role="status"]').textContent.includes("enregistré"), "Confirmation d’enregistrement");
