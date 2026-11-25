@@ -1042,6 +1042,13 @@ if (resetProgramButton) {
 // ============================================================
 
 window.FitnessRpgNavigation.handlePlanningClick = function handlePlanningClick(event, target) {
+  const weightPlan = target.closest("[data-weight-plan]");
+  if (weightPlan) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    window.FitnessRpgWeightPlanning?.handleClick(weightPlan);
+    return true;
+  }
+
   const startTodayPlanningButton = target.closest("#startTodayPlanningButton");
 
   if (startTodayPlanningButton) {

@@ -29,3 +29,13 @@ Dans le grimoire, le bouton de détails affiche les variantes de la même famill
 Le moteur conserve la dose, l’unité et la phase lors d’une substitution, avec conservation de la séance source et de ses récompenses. Il demande au futur planning de passer le mouvement lorsque les filtres excluent toutes les options, et réserve une réponse distincte aux exercices non audités et aux demandes d’avis professionnel. Aucun remplacement automatique n’est appliqué aux séances historiques dans cette phase.
 
 - [Assurance Maladie · Activité physique progressive selon les capacités](https://www.ameli.fr/assure/sante/themes/surpoids-obesite-adulte/modifier-quotidien)
+
+## Phase 3 · Planning hebdomadaire
+
+Dans Planning, l’objectif Perte de poids donne accès à un planning personnalisé. Les campagnes réutilisées suivent l’ordre Éveil du héros, Marche de l’aventurier et Cœur du dragon. Les intitulés débutant, intermédiaire et avancé décrivent les étapes de ce parcours. Chaque passage s’appuie sur les séances essentielles et les boss requis de la campagne précédente.
+
+Les jours proposés réunissent trois séances essentielles, deux compléments facultatifs, le boss et un jour de repos. Les séances peuvent être étalées sur plusieurs semaines, avec variantes, mobilité et équilibre selon le profil. Les blocs de renforcement sont proposés les jours 1 et 3 selon les mouvements et le matériel disponibles. Les durées guidées sont ajustées au budget saisi, sur la base d’une estimation qui laisse une marge de transition. Les longues pauses peuvent nécessiter de fractionner la séance. Recommencer une semaine réutilise le mécanisme de révision existant et conserve les acquis.
+
+Les totaux d’endurance quotidiens saisis sont inclus dans les futures sauvegardes. Chaque total couvre une journée et une activité, journal compris. Le rapprochement par date et activité retient la valeur la plus élevée entre journal et saisie plutôt que de les additionner. Le repère hebdomadaire est progressif, limité par les disponibilités déclarées et sans conséquence sur les récompenses ou les boss.
+
+- [OMS · Activité physique et repères hebdomadaires](https://www.who.int/europe/news-room/fact-sheets/item/physical-activity)

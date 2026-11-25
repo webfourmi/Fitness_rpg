@@ -125,6 +125,16 @@ function exerciseWardrobe() {
     panel.querySelector("#clearTrainingProfileButton").click();
     state.loadProfile();
     check(state.getSportProfile().trainingProfile === null && state.profile.camp.gold === 100, "Effacement ciblé et acquis conservés");
+    window.FitnessRpgNavigation.openMobileDestination("planning");
+    document.querySelector('[data-weight-plan="toggle"]').click();
+    const planning = document.querySelector("#planningWeekGrid");
+    check(planning.querySelectorAll('[data-weight-plan="day"]').length === 3, "Trois séances essentielles ouvertes");
+    document.querySelector("#weightActivityMinutes").value = "12";
+    document.querySelector('[data-weight-plan="log"]').click();
+    check(document.querySelector("#planningSummary").textContent.includes("12 min d’endurance"), "Minutes externes reportées");
+    planning.querySelector('[data-weight-plan="day"]').click();
+    check(state.getActiveProgramSession()?.weightPlanningWorkout, "Ouverture d’une séance adaptée du planning");
+    check(state.loadActiveProgramSession()?.adaptedExercises.length, "Séance adaptée conservée à la reprise");
     document.body.dataset.wardrobeTest = "passed";
   } catch (error) {
     document.body.dataset.wardrobeTest = String(error);

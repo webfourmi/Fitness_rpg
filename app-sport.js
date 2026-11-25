@@ -952,6 +952,24 @@
       return session;
     }
 
+    const planned = window.FitnessRpgWeightPlanning?.adaptWorkout(session.programId, sourceWorkout, {
+      boss: session.type === "program-boss", dayNumber: Number(session.dayNumber)
+    });
+    if (planned) {
+      session.adaptedExercises = planned.exercises;
+      session.weightPlanningWorkout = true;
+      session.adaptation = {
+        version: Sport.adaptationVersion,
+        estimatedDurationMinutes: planned.minutes,
+        summary: [
+          "Séance ajustée au temps disponible. Fractionne-la avec des pauses si nécessaire.",
+          `${planned.substitutions} variante(s) proposée(s) · ${planned.omitted} mouvement(s) écarté(s).`
+        ]
+      };
+      State.saveActiveProgramSession?.();
+      return session;
+    }
+
     const context = Sport.getHeroTrainingContext(session, sourceWorkout);
     const adapted = Sport.adaptWorkoutForHero(sourceWorkout, context);
     const summary = Sport.getAdaptationSummary(context, adapted);

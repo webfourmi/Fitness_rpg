@@ -555,6 +555,7 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}, 
     amount: Number(entry.amount || 0),
     unit: entry.unit || "",
     distanceKm: entry.distanceKm ? Number(entry.distanceKm) : null,
+    ...(entry.enduranceByActivity && { enduranceByActivity: entry.enduranceByActivity }),
     xp: Number(entry.xp || 0),
     at: entry.at || window.FitnessRpgState.nowIso()
   };

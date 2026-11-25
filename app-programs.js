@@ -1165,6 +1165,10 @@ window.FitnessRpgPrograms.startProgramBossSession = function startProgramBossSes
     return;
   }
 
+  const existing = window.FitnessRpgState.getActiveProgramSession?.();
+  const resuming = window.FitnessRpgPrograms.isSameActiveProgramSession(existing, { type: "program-boss", programId, weekNumber, bossVariant: variant.id || variantId });
+  if (!resuming && window.FitnessRpgWeightPlanning?.allowWorkout(programId, variant, { boss: true }) === false) return;
+
   const startDecision = window.FitnessRpgPrograms.prepareProgramSessionStart({
     type: "program-boss",
     programId,
@@ -2360,6 +2364,10 @@ window.FitnessRpgPrograms.validateProgramDay = function validateProgramDay(
     planningSource: options.planningSource || (browserMatches ? browser.planningSource : null)
   };
 
+  const existing = window.FitnessRpgState.getActiveProgramSession?.();
+  const resuming = window.FitnessRpgPrograms.isSameActiveProgramSession(existing, { type: "program", programId, weekNumber, dayNumber });
+  if (!resuming && window.FitnessRpgWeightPlanning?.allowWorkout(programId, day, { dayNumber: Number(dayNumber) }) === false) return;
+
   const startDecision = window.FitnessRpgPrograms.prepareProgramSessionStart({
     type: "program",
     programId,
@@ -2655,6 +2663,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
   );
   const durationSeconds = window.FitnessRpgRender?.getElapsedSeconds?.(session.startedAt);
 
+  const completedWorkout = window.FitnessRpgPrograms.getActiveProgramWorkout(session);
   const baseXp = window.FitnessRpgProgress?.calculateProgramSessionXp
     ? window.FitnessRpgProgress.calculateProgramSessionXp(
         session.programId,
@@ -2702,11 +2711,12 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
       title,
       amount: 1,
       unit: "séance",
-      xp: baseXp
+      xp: baseXp,
+      enduranceByActivity: session.weightPlanningWorkout ? window.FitnessRpgWeightPlanning?.enduranceByActivity(completedWorkout?.exercises) : undefined
     }, {
       familiarPassive,
       campGold: day.optional ? 5 : 10,
-      journalText: `${difficulty.label} terminée : ${(day.exercises || []).length} exercices validés.`
+      journalText: `${difficulty.label} terminée : ${(completedWorkout?.exercises || day.exercises || []).length} exercices validés.`
     });
   } catch (error) {
     console.error("Fitness RPG - séance impossible à sauvegarder :", error);
@@ -2798,7 +2808,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     xp: xp + bonusXp,
     baseXp,
     bonusXp: bonusXp + familiarBonusXp,
-    items: window.FitnessRpgPrograms.buildWorkoutSummaryItems(day.exercises),
+    items: window.FitnessRpgPrograms.buildWorkoutSummaryItems(completedWorkout?.exercises || day.exercises),
     progress: {
       label: program.title,
       value: programProgress.completed,
@@ -2912,6 +2922,7 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
       title,
       amount: 1,
       unit: "boss",
+      enduranceByActivity: session.weightPlanningWorkout ? window.FitnessRpgWeightPlanning?.enduranceByActivity(safeVariant.exercises) : undefined,
       xp
     }, {
       campGold: replay ? 0 : 20,

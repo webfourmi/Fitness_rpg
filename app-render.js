@@ -1104,6 +1104,7 @@ window.FitnessRpgRender.renderPlanningPage = function renderPlanningPage() {
   if (!summary || !grid) return;
 
  const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
+  if (window.FitnessRpgWeightPlanning?.render(summary, grid)) return;
 const goal = window.FitnessRpgConfig.getGoalById(goalId);
 
 const todayQuest = window.FitnessRpgPrograms.getTodayPlanningQuest?.();
@@ -1167,6 +1168,7 @@ summary.innerHTML = `
       <strong>Repères pour ton entraînement</strong>
       ${window.FitnessRpgSport?.trainingRecommendationHtml(window.FitnessRpgState.getSportProfile()) || ""}
       <button type="button" class="secondary-btn" data-mobile-destination="hero-menu">Ouvrir le profil sportif</button>
+      <button type="button" class="primary-btn" data-weight-plan="toggle">Activer le planning personnalisé</button>
     </section>` : ""}
 
   <section class="today-planning-card compact">
