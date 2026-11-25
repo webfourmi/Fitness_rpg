@@ -964,6 +964,7 @@
       }
       session.adaptedExercises = planned.exercises;
       session.weightPlanningWorkout = true;
+      session.weightVariant = planned.substitutions > 0;
       session.adaptation = {
         version: Sport.adaptationVersion,
         estimatedDurationMinutes: planned.minutes,

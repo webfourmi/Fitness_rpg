@@ -49,3 +49,16 @@ Un effort d’au moins 8 sur 10, une fatigue importante, une récupération diff
 L’arrêt en séance retire la séance active et son minuteur avant toute validation et conserve les acquis. Une douleur importante ou persistante écarte le mouvement concerné des séances adaptées. Si le mouvement est inconnu ou si un signe d’alerte est signalé, le parcours personnalisé est suspendu. La reprise demande une confirmation après avis professionnel. Le bilan et les décisions de sécurité ne donnent aucune récompense.
 
 - [Assurance Maladie · Reconnaître les douleurs thoraciques nécessitant des soins urgents](https://www.ameli.fr/assure/sante/themes/douleur-thoracique/reconnaitre-agit-urgence)
+
+## Phase 5 · Suivi et trophées
+
+Le suivi dans le planning affiche l’endurance, les jours de renforcement adaptés, les jours actifs, les campagnes terminées, le repos prévu et la dernière récupération renseignée. Le poids et le tour de taille sont masqués par défaut et n’interviennent dans aucun calcul de progression, d’XP ou de pièces. L’affichage reprend les pesées déjà saisies dans Statistiques. Pour le tour de taille, une nouvelle valeur remplace la mesure de la journée.
+
+Les quatre noms proposés par le PDF ont été retenus. Chaque trophée se récupère une seule fois et rejoint le vestiaire. Les Bottes du voyageur sont un emblème équipable en accessoire, sur les emplacements existants du héros. Répartition des récompenses :
+
+- Bottes du voyageur · 30 minutes d’endurance sur deux jours de la même semaine, 20 XP et 10 PO.
+- Gardien de la force · deux jours de renforcement du parcours dans la même semaine, 25 XP et 10 PO.
+- Sage du campement · un jour de repos prévu enregistré, 15 XP et 5 PO.
+- Phénix de la renaissance · les trois campagnes terminées et une variante utilisée dans une séance validée, 50 XP et 25 PO.
+
+Les gains des trophées sont indépendants des gains de séance. Les durées et mesures corporelles sont facultatives, et les mouvements suspendus par le coach restent soumis aux règles de sécurité de la phase 4.

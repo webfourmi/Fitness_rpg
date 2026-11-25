@@ -96,7 +96,8 @@
       coachNote: extra > 0 ? "Progression acceptée : un bloc d’endurance a été légèrement allongé."
         : coach?.factor < 1 ? "Durée réduite après un bilan difficile." : "",
       omitted: source.length - exercises.length,
-      substitutions: rated.filter((movement) => movement.status === "replace").length
+      substitutions: rated.filter((movement) => movement.status === "replace" && exercises.some((item) =>
+        item.exerciseId === movement.item.exerciseId && item.phase === movement.item.phase)).length
     };
   }
 
@@ -124,7 +125,7 @@
     return totals;
   }
 
-  function recordedMinutes() {
+  function recordedDays() {
     const days = new Map();
     const unique = new Set();
     for (const entry of State.getWeekEntries()) {
@@ -138,13 +139,21 @@
     }
 
     const log = State.getProfile()?.weightActivity || {};
-    return Math.floor(State.getWeekKeys().reduce((sum, key) => {
+    return new Map(State.getWeekKeys().map((key) => {
       const manual = log[key] || {};
       const day = days.get(key) || {};
       // Une valeur manuelle représente le total de cette activité sur la journée.
-      return sum + Object.keys(activityTypes).reduce((total, id) =>
-        total + Math.max(day[id] || 0, Number(manual[id]) || 0), 0);
-    }, 0));
+      return [key, Object.keys(activityTypes).reduce((total, id) =>
+        total + Math.max(day[id] || 0, Number(manual[id]) || 0), 0)];
+    }));
+  }
+
+  function recordedMinutes() {
+    return Math.floor([...recordedDays().values()].reduce((sum, minutes) => sum + minutes, 0));
+  }
+
+  function hasStrength(exercises) {
+    return (exercises || []).some((item) => ["squat", "push", "trunk"].includes(Adaptation.getMetadata(item.exerciseId)?.family));
   }
 
   function saveActivity(date, kind, minutes) {
@@ -194,6 +203,7 @@
       </div>
       ${window.FitnessRpgSport.trainingRecommendationHtml(sport)}
       ${window.FitnessRpgAdaptiveCoach?.planningHtml() || ""}
+      ${window.FitnessRpgWeightDashboard?.html() || ""}
       <p>${recordedMinutes()} min d’endurance cette semaine${blocked ? "" : ` · repère souple ${goalMinutes} min`}. Le repère à long terme est de 150 à 300 min d’endurance modérée par semaine, selon ta tolérance. Les minutes des séances guidées sont estimées.</p>
       <p>Les trois séances essentielles peuvent s’étaler sur plusieurs semaines. Les compléments et le total de minutes restent facultatifs.</p>
       <button class="secondary-btn" type="button" data-mobile-destination="hero-menu">Ouvrir le profil sportif</button>
@@ -251,6 +261,10 @@
       return;
     }
     if (!enabled()) return;
+    if (action.startsWith("dashboard-")) {
+      window.FitnessRpgWeightDashboard?.handle(button);
+      return;
+    }
     if (action.startsWith("coach-")) {
       window.FitnessRpgAdaptiveCoach?.handlePlanning(action);
       return;
@@ -282,5 +296,5 @@
     }
   }
 
-  window.FitnessRpgWeightPlanning = { enabled, currentStage, adaptWorkout, allowWorkout, enduranceByActivity, recordedMinutes, saveActivity, render, handleClick };
+  window.FitnessRpgWeightPlanning = { enabled, currentStage, adaptWorkout, allowWorkout, enduranceByActivity, recordedDays, recordedMinutes, hasStrength, saveActivity, render, handleClick };
 })();

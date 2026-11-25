@@ -51,6 +51,12 @@ window.FitnessRpgCamp = (() => {
     { programId: "grand-maitre-arcanes", name: "Diadème des Arcanes", slot: "head", style: "grenat", mark: "✦", color: "#be91ef" }
   ].map(item => ({ ...item, id: "trophy-campaign-" + item.programId }))
     .concat(trophies.filter(item => item.week === 4));
+  const weightTrophies = [
+    { id: "weight-traveler", name: "Bottes du voyageur", slot: "broche", style: "dragon", mark: "◈", color: "#d5a86b" },
+    { id: "weight-strength", name: "Gardien de la force", slot: "arm", style: "brassard", mark: "◆", color: "#a7b5c7" },
+    { id: "weight-rest", name: "Sage du campement", slot: "cape", style: "aventurier", mark: "❧", color: "#82b292" },
+    { id: "weight-phoenix", name: "Phénix de la renaissance", slot: "aura", style: "solaire", mark: "✦", color: "#f98f55" }
+  ];
   const trophyCatalogVersion = 3;
   const shopSelection = Object.create(null);
   const freezePrice = 60;
@@ -83,7 +89,8 @@ window.FitnessRpgCamp = (() => {
   }
 
   function getTrophy(id) {
-    return trophies.find(item => item.id === id) || campaignTrophies.find(item => item.id === id);
+    return trophies.find(item => item.id === id) || campaignTrophies.find(item => item.id === id)
+      || weightTrophies.find(item => item.id === id);
   }
 
   function itemArtwork(item) {
@@ -518,6 +525,7 @@ window.FitnessRpgCamp = (() => {
   }
 
   function itemOrigin(item) {
+    if (weightTrophies.includes(item)) return "Trophée · Parcours Perte de poids";
     if (item.programId) {
       const title = window.FitnessRpgPrograms?.getProgram?.(item.programId)?.title || item.programId;
       if (campaignTrophies.includes(item)) return `Trophée · ${title} · Programme terminé`;

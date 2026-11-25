@@ -7,14 +7,16 @@ const vm = require("node:vm");
 function boot() {
   const storage = new Map();
   const localStorage = {
+    get length() { return storage.size; },
+    key: (index) => [...storage.keys()][index],
     getItem: (key) => storage.get(key) ?? null,
     setItem: (key, value) => storage.set(key, String(value)),
     removeItem: (key) => storage.delete(key)
   };
   const window = { setTimeout() {} };
   const document = { readyState: "loading", addEventListener() {}, querySelector: () => null };
-  const context = vm.createContext({ window, document, localStorage, console, structuredClone });
-  for (const file of ["app-config.js", "app-data.js", "app-state.js", "app-render.js", "app-programs.js", "app-exercise-adaptation.js", "app-sport.js", "app-weight-planning.js", "app-adaptive-coach.js"]) {
+  const context = vm.createContext({ window, document, localStorage, console, structuredClone, Blob });
+  for (const file of ["app-config.js", "app-data.js", "app-camp.js", "app-state.js", "app-render.js", "app-programs.js", "app-exercise-adaptation.js", "app-sport.js", "app-weight-planning.js", "app-adaptive-coach.js", "app-weight-dashboard.js", "app-backup.js"]) {
     vm.runInContext(readFileSync(join(__dirname, "..", file), "utf8"), context, { filename: file });
   }
   const state = window.FitnessRpgState;
@@ -22,7 +24,7 @@ function boot() {
   state.setGoal("perte-poids");
   state.getProfile().weightPlanningEnabled = true;
   state.updateSportProfile({ level: "beginner", preferredDuration: 5, equipment: ["chair", "wall"], trainingProfile: { activity: "inactive", ageGroup: "65+" } });
-  return { state, plan: window.FitnessRpgWeightPlanning, programs: window.FitnessRpgPrograms, coach: window.FitnessRpgAdaptiveCoach };
+  return { state, plan: window.FitnessRpgWeightPlanning, programs: window.FitnessRpgPrograms, coach: window.FitnessRpgAdaptiveCoach, dashboard: window.FitnessRpgWeightDashboard, backup: window.FitnessRpgBackup };
 }
 
 test("le planning propose trois séances essentielles, deux compléments et un jour de repos", () => {
@@ -124,4 +126,46 @@ test("fatigue réduit la dose, douleur suspend le mouvement, le signal d’alert
   assert.equal(plan.adaptWorkout(draft.programId, workout).restricted, true);
   assert.match(coach.planningHtml(), /15 ou le 112/);
   assert.equal(state.getProfile().totalXp, 0);
+});
+
+test("le suivi fonctionne sans mesures et le crédit endurance survit à un aller-retour de sauvegarde", () => {
+  const { state, plan, dashboard, backup } = boot();
+  const dates = state.getWeekKeys();
+  state.todayKey = () => dates[6];
+  assert.doesNotMatch(dashboard.html(), /Mesures facultatives/);
+  assert.equal(plan.saveActivity(dates[0], "walk", 18), true);
+  assert.equal(plan.saveActivity(dates[1], "bike", 12), true);
+  assert.equal(dashboard.stats().endurance, 30);
+  assert.equal(dashboard.stats().active, 2);
+  assert.equal(dashboard.claim("weight-traveler"), true);
+  const balance = state.getProfile().camp.gold;
+  assert.equal(dashboard.claim("weight-traveler"), false);
+  assert.equal(state.getProfile().totalXp, 20);
+  assert.equal(balance, 10);
+  assert.equal(state.getAllEntries().length, 0);
+  const persisted = backup.validateBackupObject(JSON.parse(JSON.stringify(backup.buildBackup())));
+  assert.equal(persisted.valid, true, persisted.errors.join(", "));
+  backup.applyRecordsTransaction(persisted.records);
+  state.loadProfile();
+  assert.equal(dashboard.claim("weight-traveler"), false);
+  assert.equal(state.getProfile().camp.owned.filter((id) => id === "weight-traveler").length, 1);
+  assert.equal(state.getJournal().filter((item) => item.type === "weight-milestone").length, 1);
+});
+
+test("le renforcement compte des jours distincts et le repos déclaré ne se cumule pas avec un entraînement", () => {
+  const { state, dashboard } = boot();
+  const dates = state.getWeekKeys();
+  const log = (id, date) => state.addTrainingEntry({ id, date, type: "program", weightStrength: true, weightVariant: true });
+  log("a", dates[0]);
+  log("b", dates[0]);
+  assert.equal(dashboard.stats().strength, 1);
+  assert.equal(dashboard.claim("weight-strength"), false);
+  log("c", dates[2]);
+  assert.equal(dashboard.stats().strength, 2);
+  assert.equal(dashboard.claim("weight-strength"), true);
+  state.getProfile().weightRest = { [dates[0]]: true, [dates[1]]: true };
+  assert.equal(dashboard.stats().rest, 1);
+  assert.equal(dashboard.claim("weight-rest"), true);
+  assert.equal(dashboard.claim("weight-phoenix"), false);
+  assert.equal(dashboard.stats().usedVariant, true);
 });
