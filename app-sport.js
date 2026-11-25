@@ -52,6 +52,8 @@
     ["pull-up-bar", "Barre de traction", "assets/equipements/barre_traction.webp"],
     ["bench", "Banc", "assets/equipements/banc.webp"],
     ["chair", "Chaise stable"],
+    ["water-bottle", "Bouteille lestée"],
+    ["assist-machine", "Station de traction assistée"],
     ["wall", "Mur dégagé"],
     ["stable-support", "Support surélevé stable"],
     ["punching-bag", "Sac de frappe", "assets/equipements/sac_frappe.webp"],
