@@ -2870,7 +2870,7 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
   const bossAlreadyRewarded = (window.FitnessRpgState?.getAllEntries?.() || []).some((entry) =>
     entry.type === "program-boss"
     && entry.programId === session.programId
-    && Number(entry.weekNumber || 1) === Number(session.weekNumber || 1)
+    && window.FitnessRpgPrograms.getProgramEntryPosition(entry).weekNumber === Number(session.weekNumber || 1)
   );
   if (bossAlreadyRewarded) {
     window.FitnessRpgState.clearActiveProgramSession?.();
@@ -2886,7 +2886,10 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
   const badgeIdsBefore = window.FitnessRpgRender?.captureBadgeIds?.() || [];
   const levelBefore = window.FitnessRpgRender?.getLevelSnapshot?.();
   const durationSeconds = window.FitnessRpgRender?.getElapsedSeconds?.(session.startedAt);
-  const xp = Number(boss.xp || 50);
+  // Après une remise à zéro du programme, le trophée atteste encore de la victoire.
+  const pastTrophy = window.FitnessRpgCamp?.getTrophyForVictory?.({ ...session, badgeId: boss.badgeId });
+  const replay = pastTrophy && window.FitnessRpgState.getProfile()?.camp?.owned.includes(pastTrophy.id);
+  const xp = replay ? 0 : Number(boss.xp || 50);
   const weekNumber = Number(session.weekNumber || 1);
   const title = `${program.title} · Semaine ${weekNumber} · ${boss.title} · ${safeVariant.label || safeVariant.title}`;
 
@@ -2909,7 +2912,7 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
       unit: "boss",
       xp
     }, {
-      campGold: 20,
+      campGold: replay ? 0 : 20,
       journalText: `${boss.title} vaincu en version ${safeVariant.label || safeVariant.id || "boss"}.`
     });
   } catch (error) {
@@ -2925,8 +2928,13 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
   }
 
 
-  if (!completion) {
+  if (!completion || replay) {
     window.FitnessRpgState.clearActiveProgramSession();
+    if (replay) window.FitnessRpgPrograms.showMessage({
+      icon: "🏅", title: "Mission rejouée",
+      message: "Ta victoire est enregistrée. Tu conserves le trophée et les récompenses déjà obtenus.",
+      okText: "Compris"
+    });
     window.FitnessRpgRender?.renderAll?.();
     return;
   }

@@ -28,8 +28,15 @@ window.FitnessRpgCamp = (() => {
     { id: "trophy-rampart-knight", programId: "rempart-heros", week: 2, badgeId: "rempart-chevalier",
       name: "Bandeau du Rempart", slot: "head", style: "grenat", variant: "trophee-rempart" },
     { id: "trophy-astral-dragon", programId: "tour-mage", week: 4, badgeId: "tour-mage-vaincu",
-      name: "Cape étoilée", slot: "cape", style: "aventurier", variant: "trophee-astral" }
+      name: "Cape étoilée", slot: "cape", style: "aventurier", variant: "trophee-astral" },
+    { id: "trophy-sylph-ribbon", programId: "ballet-sylphes", week: 4, badgeId: "ballet-reine-sylphes",
+      name: "Ruban des Sylphes", slot: "head", style: "grenat", variant: "trophee-sylphes", art: "ribbon" },
+    { id: "trophy-trail-compass", programId: "marche-aventurier", week: 4, badgeId: "marcheur-royaumes-vaincu",
+      name: "Boussole des sentiers", slot: "broche", style: "dragon", variant: "trophee-sentiers", art: "compass" },
+    { id: "trophy-forge-cape", programId: "forge-guerrier", week: 4, badgeId: "seigneur-forge-vaincu",
+      name: "Cape de la Forge", slot: "cape", style: "aventurier", variant: "trophee-braise", art: "ember" }
   ];
+  const trophyCatalogVersion = 2;
   const shopSelection = Object.create(null);
   const freezePrice = 60;
   const goldPerLevel = 20;
@@ -62,6 +69,18 @@ window.FitnessRpgCamp = (() => {
 
   function getTrophy(id) {
     return trophies.find((item) => item.id === id);
+  }
+
+  function programTrophyHtml(programId) {
+    const item = trophies.find(trophy => trophy.programId === programId && trophy.art);
+    if (!item) return "";
+    const owned = state().getProfile()?.camp?.owned.includes(item.id);
+    return `<aside class="program-trophy" aria-label="Trophée du programme">
+      <span class="trophy-display" aria-hidden="true"><span class="trophy-art trophy-art--${item.art}"></span></span>
+      <div><strong>${item.name}</strong>
+        <p>${owned ? "Dans ton vestiaire" : `Remporte le boss de la semaine ${item.week} pour gagner ce trophée.`}</p>
+      </div>
+    </aside>`;
   }
 
   function isEquipped(id) {
@@ -189,7 +208,7 @@ window.FitnessRpgCamp = (() => {
   }
 
   function restoreBossTrophies(camp) {
-    if (camp.trophiesMigrated) return camp;
+    if (camp.trophiesMigrated && camp.trophyCatalogVersion >= trophyCatalogVersion) return camp;
     const pastTrophies = new Set(camp.owned);
     const preservedVictories = new Set();
     for (const entry of state().getAllEntries()) {
@@ -199,9 +218,11 @@ window.FitnessRpgCamp = (() => {
     }
     for (const trophy of trophies) {
       const key = JSON.stringify(["boss", trophy.programId, trophy.week]);
-      if (camp.claims[key] && !preservedVictories.has(key)) pastTrophies.add(trophy.id);
+      if ((camp.claims[key] && !preservedVictories.has(key)) || state().hasBadge(trophy.badgeId)) {
+        pastTrophies.add(trophy.id);
+      }
     }
-    return { ...camp, owned: [...pastTrophies], trophiesMigrated: true };
+    return { ...camp, owned: [...pastTrophies], trophiesMigrated: true, trophyCatalogVersion };
   }
 
   function rewardFreeSession(camp) {
@@ -548,6 +569,6 @@ window.FitnessRpgCamp = (() => {
   }
 
   return { migrate, reward, rewardFreeSession, rewardComplement, hasComplementReward, rewardLevels, rewardTrophy,
-    settle, nextDay, isDate, hasValidSave, resolveOvernight, mutate, getPurchaseDetails, getLevelItem, getTrophy,
-    isEquipped, stepShop, avatar, fittingHtml, render };
+    settle, nextDay, isDate, hasValidSave, resolveOvernight, mutate, getPurchaseDetails, getLevelItem, getTrophy, getTrophyForVictory,
+    isEquipped, stepShop, avatar, fittingHtml, programTrophyHtml, render };
 })();

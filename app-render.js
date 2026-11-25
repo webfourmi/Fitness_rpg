@@ -1921,6 +1921,7 @@ window.FitnessRpgRender.renderProgramDetail = function renderProgramDetail(progr
     </header>
 
     ${getProgramSafetyNoticeHtml(program)}
+    ${window.FitnessRpgCamp?.programTrophyHtml?.(programId) || ""}
 
     <div class="program-detail-layout">
       <main class="program-detail-main">

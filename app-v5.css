@@ -1847,6 +1847,72 @@ small {
   background: linear-gradient(146deg, #252c63, #535c9a 24%, #252c69 37%, #8798ce 42%, #444686 53%, #242b64 59%, #cad7ed 60% 62%, #454b80 63%);
 }
 
+/* Trophées de fin de programme : mêmes motifs au vestiaire et dans la fiche. */
+.program-trophy {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  padding: .8rem 1rem;
+  margin: .8rem 0;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-card);
+  background: var(--bg-card);
+}
+.program-trophy p { margin: .2rem 0 0; color: var(--text-muted); }
+.trophy-display {
+  flex: 0 0 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle, var(--bg-card-soft), var(--bg-deep));
+  border-radius: 12px;
+}
+.trophy-art { display: block; position: relative; width: 45px; height: 45px; }
+.trophy-art--ribbon,
+.camp-avatar--trophee-sylphes .camp-avatar-headband {
+  background: linear-gradient(135deg, #ead7ff, #a26ac8 28%, #614179 44%, #ded4ec 51%, #9f67c8 67%, #e0cef5);
+  clip-path: polygon(0 9%, 17% 4%, 48% 28%, 82% 5%, 98% 12%, 92% 46%, 66% 43%, 91% 88%, 73% 80%, 68% 100%, 50% 48%, 26% 96%, 23% 80%, 5% 88%, 36% 43%, 9% 48%);
+}
+.camp-avatar--trophee-sylphes .camp-avatar-headband {
+  left: calc(var(--headband-x) - 2%);
+  width: 8%;
+  height: 5.2%;
+  transform: rotate(-18deg);
+  border-radius: 0;
+}
+.camp-avatar--trophee-sylphes .camp-avatar-headband::before { display: none; }
+.trophy-art--compass,
+.camp-avatar--trophee-sentiers .camp-avatar-clasp {
+  border: 2px solid #d4ae69;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, #26395b 49%, transparent 51%),
+    repeating-conic-gradient(#e4d3a5 0deg 3deg, #16243c 3deg 45deg);
+  box-shadow: 0 0 0 1px #795532, inset 0 0 0 1px #795532;
+}
+.trophy-art--compass::before,
+.camp-avatar--trophee-sentiers .camp-avatar-clasp::before {
+  content: "";
+  position: absolute;
+  inset: 10% 36%;
+  width: auto;
+  height: auto;
+  transform: rotate(28deg);
+  clip-path: polygon(50% 0, 100% 52%, 50% 100%, 0 48%);
+  background: linear-gradient(#ff6057 50%, #e9dbbe 50%);
+}
+.camp-avatar--trophee-sentiers .camp-avatar-clasp { width: 7.5%; }
+.trophy-art--ember,
+.camp-avatar--trophee-braise .camp-avatar-cloak {
+  background: linear-gradient(0deg, #48262a 4%, #ff8853 5% 7%, #632b29 8% 10%, transparent 11%),
+    linear-gradient(104deg, #25242c 12%, #49434a 23%, #211f26 35%, #514146 51%, #29262c 72%, #514148 83%, #27242a);
+  clip-path: polygon(25% 3%, 38% 0, 50% 8%, 64% 0, 75% 3%, 100% 89%, 80% 96%, 52% 91%, 22% 100%, 0 90%);
+}
+.camp-avatar--trophee-braise .camp-avatar-cloak { height: 38%; box-shadow: none; }
+.camp-avatar--trophee-braise .camp-avatar-mantle {
+  background: linear-gradient(146deg, #24212a 12%, #67525a 24%, #322d36 37%, #aa5544 41%, #41363e 44%, #241f28 58%, #ff8050 60% 62%, #392e35 63%);
+}
+
 .camp-card { max-width: 740px; margin-inline: auto; }
 .camp-card h2 { margin-top: 1.45rem; }
 .camp-summary { display: grid; grid-template-columns: minmax(90px, 160px) 1fr; gap: 1rem; align-items: center; }

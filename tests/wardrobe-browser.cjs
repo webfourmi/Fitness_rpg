@@ -16,31 +16,43 @@ function exerciseWardrobe() {
     const render = window.FitnessRpgRender;
     state.createProfile({ name: "Test", gender: "femme" });
     camp.resolveOvernight();
-    Object.assign(state.profile.camp, { gold: 100, owned: ["emerald-cloak", "trophy-astral-dragon"],
+    window.FitnessRpgNavigation.openMobileDestination("programs");
+    for (const [program, name, art] of [
+      ["ballet-sylphes", "Ruban des Sylphes", "ribbon"],
+      ["marche-aventurier", "Boussole des sentiers", "compass"],
+      ["forge-guerrier", "Cape de la Forge", "ember"]
+    ]) {
+      render.renderProgramDetail(program);
+      const preview = document.querySelector("#programDetail .program-trophy");
+      check(preview?.textContent.includes(name) && preview.textContent.includes("semaine 4"), name);
+      const bounds = preview.querySelector(".trophy-art--" + art).getBoundingClientRect();
+      check(bounds.width > 0 && bounds.right <= innerWidth, "Illustration visible");
+    }
+    Object.assign(state.profile.camp, { gold: 100, owned: ["emerald-cloak", "trophy-trail-compass"],
       equipped: { cape: "emerald-cloak" } });
     state.saveProfile();
     window.FitnessRpgNavigation.openMobileDestination("camp");
     const wardrobe = document.querySelector("#campContent");
-    const preview = wardrobe.querySelector('[data-fitting-action="preview"][data-camp-item="trophy-astral-dragon"]');
+    const preview = wardrobe.querySelector('[data-fitting-action="preview"][data-camp-item="trophy-trail-compass"]');
     const slot = preview.closest("details");
     if (!slot.open) slot.querySelector("summary").click();
     check(preview.getClientRects().length, "Le bouton Essayer du vestiaire est visible");
     preview.click();
-    check(wardrobe.querySelector(".camp-fitting .camp-avatar--trophee-astral"), "Aperçu au camp");
+    check(wardrobe.querySelector(".camp-fitting .camp-avatar--trophee-sentiers"), "Aperçu au camp");
     wardrobe.querySelector('[data-fitting-action="cancel"]').click();
     check(!wardrobe.querySelector(".camp-fitting") && state.profile.camp.equipped.cape === "emerald-cloak", "Annulation");
     render.queueWorkoutSummary({ type: "program-boss", title: "Victoire", rewards: [
-      { text: "Trophée obtenu · Cape étoilée", trophyId: "trophy-astral-dragon" }] });
+      { text: "Trophée obtenu · Boussole des sentiers", trophyId: "trophy-trail-compass" }] });
     render.renderWorkoutSummaryOverlay();
     const card = document.querySelector("#workoutSummaryCard");
     card.querySelector('[data-fitting-action="preview"]').click();
     const fitting = card.querySelector(".camp-fitting");
-    check(fitting.querySelector(".camp-avatar--trophee-astral"), "Aperçu dans le bilan");
+    check(fitting.querySelector(".camp-avatar--trophee-sentiers"), "Aperçu dans le bilan");
     const bounds = fitting.getBoundingClientRect();
     check(bounds.width > 0 && bounds.right <= innerWidth && bounds.left >= 0, "Largeur de l’essayage");
     fitting.querySelector('[data-fitting-action="confirm"]').click();
     state.loadProfile();
-    check(state.profile.camp.equipped.cape === "trophy-astral-dragon", "Équipement persistant");
+    check(state.profile.camp.equipped.broche === "trophy-trail-compass", "Équipement persistant");
     check(state.profile.camp.gold === 100 && state.profile.totalXp === 0, "Soldes conservés");
     check(!card.querySelector(".camp-fitting") && card.querySelector('[data-fitting-action="preview"]').disabled, "Bilan confirmé");
     document.body.dataset.wardrobeTest = "passed";
