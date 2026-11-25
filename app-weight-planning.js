@@ -186,7 +186,8 @@
     const boss = Programs.getProgramBoss(stage.id, week);
     const bossDone = Programs.getProgramProgressDetails(stage.id).weeks
       .find((item) => item.weekNumber === week)?.boss?.defeated;
-    const blocked = advice?.mode === "professional-review" || window.FitnessRpgAdaptiveCoach?.adjustment().blocked;
+    const coachAdjustment = window.FitnessRpgAdaptiveCoach?.adjustment();
+    const blocked = advice?.mode === "professional-review" || coachAdjustment?.blocked;
     const minutes = advice?.initialMinutes ?? sport.preferredDuration;
     const remainingDays = Math.max(0, Math.min(2, sport.sessionsPerWeek - 3));
     const weeklyCapacity = minutes * Math.min(6, Math.max(1, sport.sessionsPerWeek));
@@ -201,12 +202,16 @@
         <span class="eyebrow">Objectif Perte de poids</span>
         <strong>${stage.label} · ${program.title} · Semaine ${week}</strong>
       </div>
-      ${window.FitnessRpgSport.trainingRecommendationHtml(sport)}
-      ${window.FitnessRpgAdaptiveCoach?.planningHtml() || ""}
+      <details id="weightPlanningInfo" ${blocked || coachAdjustment?.paused.length || summary.querySelector?.("#weightPlanningInfo")?.open ? "open" : ""}>
+        <summary>Informations et conseils</summary>
+        ${window.FitnessRpgSport.trainingRecommendationHtml(sport)}
+        ${window.FitnessRpgAdaptiveCoach?.planningHtml() || ""}
+        <p>${recordedMinutes()} min d’endurance cette semaine${blocked ? "" : ` · repère souple ${goalMinutes} min`}. Le repère à long terme est de 150 à 300 min d’endurance modérée par semaine, selon ta tolérance. Les minutes des séances guidées sont estimées.</p>
+        <p>Les trois séances essentielles peuvent s’étaler sur plusieurs semaines. Les compléments et le total de minutes restent facultatifs.</p>
+        <button class="secondary-btn" type="button" data-mobile-destination="hero-menu">Ouvrir le profil sportif</button>
+      </details>
+      ${window.FitnessRpgWeightDashboard?.measuresHtml() || ""}
       ${window.FitnessRpgWeightDashboard?.html() || ""}
-      <p>${recordedMinutes()} min d’endurance cette semaine${blocked ? "" : ` · repère souple ${goalMinutes} min`}. Le repère à long terme est de 150 à 300 min d’endurance modérée par semaine, selon ta tolérance. Les minutes des séances guidées sont estimées.</p>
-      <p>Les trois séances essentielles peuvent s’étaler sur plusieurs semaines. Les compléments et le total de minutes restent facultatifs.</p>
-      <button class="secondary-btn" type="button" data-mobile-destination="hero-menu">Ouvrir le profil sportif</button>
       <button class="ghost-btn" type="button" data-weight-plan="toggle">Revenir au planning habituel</button>
       ${!blocked && !repeat && days.every((day) => completed.has(Number(day.day)))
         ? '<button class="secondary-btn" type="button" data-weight-plan="repeat">Recommencer cette semaine</button>' : ""}
