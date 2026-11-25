@@ -3441,6 +3441,7 @@ window.FitnessRpgRender.renderProgressionPage = function renderProgressionPage()
     <div class="progression-hero-line">
       <div>
         <h2>${window.FitnessRpgRender.escapeHtml(profile.name || "Héros")}</h2>
+        ${window.FitnessRpgCamp?.getHeroTitle?.() ? `<p><strong>${window.FitnessRpgCamp.getHeroTitle()}</strong></p>` : ""}
         <p>${stats.currentRank} · Niveau ${stats.currentLevel}</p>
       </div>
       <strong>${stats.totalXp} XP</strong>

@@ -329,6 +329,22 @@ window.FitnessRpgCamp = (() => {
     }
   }
 
+  const ironThroneTitle = "Inébranlable";
+
+  function ironThroneProgress() {
+    const history = window.FitnessRpgChallenges?.read()?.squats?.history;
+    const days = new Set((Array.isArray(history) ? history : [])
+      .filter(entry => entry?.status === "completed" && isDate(entry.date)
+        && Number.isSafeInteger(entry.score) && entry.score >= 0)
+      .map(entry => entry.date));
+    return Math.min(days.size, 5);
+  }
+
+  function getHeroTitle() {
+    return state().getProfile()?.camp?.heroTitle === "iron-throne" && ironThroneProgress() === 5
+      ? ironThroneTitle : "";
+  }
+
   function mutate(action, id) {
     const profile = state().getProfile();
     if (!profile) return "Crée un héros pour accéder au campement.";
@@ -366,6 +382,15 @@ window.FitnessRpgCamp = (() => {
         camp.gold -= item.price;
         camp.owned.push(id);
         message = item.name + " rejoint ton inventaire.";
+        break;
+      case "title-equip":
+        if (ironThroneProgress() < 5) return "Valide Le Trône de Fer lors de cinq journées distinctes.";
+        camp.heroTitle = "iron-throne";
+        message = "Inébranlable · Titre équipé";
+        break;
+      case "title-remove":
+        delete camp.heroTitle;
+        message = "Titre retiré";
         break;
       case "equip":
         if (!item || !camp.owned.includes(id)) return "Cet objet est indisponible.";
@@ -528,6 +553,8 @@ window.FitnessRpgCamp = (() => {
         ${arrows ? `<small class="camp-shop-count">${index + 1} / ${items.length}</small>` : ""}
       </section>`;
     }).join("");
+    const titleDays = ironThroneProgress();
+    const titleEquipped = Boolean(getHeroTitle());
     const canRest = profile.streak > 0 && profile.lastActiveDate < today
       && camp.protectedThrough !== today && !camp.restedSinceWorkout;
     root.innerHTML = `
@@ -553,6 +580,17 @@ window.FitnessRpgCamp = (() => {
       <h2>Mon vestiaire</h2>
       ${inventory.length ? "" : "<p>Tes achats et tes trophées apparaîtront ici.</p>"}
       <div class="camp-equipment">${equipment}${familiarSlot}</div>
+      <h3>Titres</h3>
+      <ul class="camp-items">
+        <li class="camp-item">
+          <div><strong>${ironThroneTitle}</strong>
+            <small>Valide Le Trône de Fer lors de cinq journées distinctes.</small>
+            <small>${titleDays} / 5 jours validés${titleEquipped ? " · Équipé" : ""}</small>
+          </div>
+          <button class="secondary-btn" type="button" data-camp-action="${titleEquipped ? "title-remove" : "title-equip"}"
+            ${titleDays < 5 ? "disabled" : ""}>${titleEquipped ? "Retirer le titre" : "Équiper le titre"}</button>
+        </li>
+      </ul>
       <h2>Repos et gels de série</h2>
       <p>Série de ${profile.streak || 0} jour(s) actif(s)${camp.protectedThrough === today ? " · Protégée aujourd’hui" : ""}.</p>
       <p>${freePerMonth - quota.freeUsed}/2 gels gratuits ce mois-ci · ${paid}/2 fioles en réserve · ${quota.bought}/2 achats ce mois-ci.</p>
@@ -570,5 +608,5 @@ window.FitnessRpgCamp = (() => {
 
   return { migrate, reward, rewardFreeSession, rewardComplement, hasComplementReward, rewardLevels, rewardTrophy,
     settle, nextDay, isDate, hasValidSave, resolveOvernight, mutate, getPurchaseDetails, getLevelItem, getTrophy, getTrophyForVictory,
-    isEquipped, stepShop, avatar, fittingHtml, programTrophyHtml, render };
+    isEquipped, stepShop, avatar, fittingHtml, programTrophyHtml, getHeroTitle, render };
 })();
