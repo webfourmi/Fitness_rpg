@@ -8,7 +8,7 @@ const { promisify } = require("node:util");
 const exec = promisify(require("node:child_process").execFile);
 const root = path.resolve(__dirname, "..");
 
-function exerciseWardrobe() {
+async function exerciseWardrobe() {
   const check = (ok, label) => { if (!ok) throw Error(label); };
   try {
     const state = window.FitnessRpgState;
@@ -25,6 +25,7 @@ function exerciseWardrobe() {
         state.profile.camp.equipped.head = id;
         portraits.innerHTML = camp.avatar("Portrait de test");
         const portrait = portraits.firstElementChild;
+        await portrait.querySelector("img").decode();
         const image = portrait.querySelector("img").getBoundingClientRect();
         const accessory = portrait.querySelector(".camp-avatar-headband").getBoundingClientRect();
         check(image.height > 0 && accessory.height > 0, "Portrait et coiffe visibles");
