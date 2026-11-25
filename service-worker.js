@@ -1,8 +1,8 @@
-/* Fitness RPG — service worker V7.0.13 */
+/* Fitness RPG — service worker V7.0.14 */
 
 "use strict";
 
-const APP_VERSION = "7.0.13";
+const APP_VERSION = "7.0.14";
 const CACHE_PREFIX = "fitness-rpg-";
 const STATIC_CACHE = `${CACHE_PREFIX}static-v${APP_VERSION}`;
 const IMAGE_CACHE = `${CACHE_PREFIX}images-v1`;
@@ -10,32 +10,32 @@ const IMAGE_CACHE = `${CACHE_PREFIX}images-v1`;
 const CORE_ASSETS = [
   "./",
   "./index.html",
-  "./manifest.webmanifest?v=7.0.13",
+  "./manifest.webmanifest?v=7.0.14",
   "./version.json",
-  "./app-v5.css?v=7.0.13",
-  "./app-sport.css?v=7.0.13",
-  "./app-challenges.css?v=7.0.13",
-  "./app-config.js?v=7.0.13",
-  "./app-data.js?v=7.0.13",
-  "./app-program-forge-exercises.js?v=7.0.13",
-  "./app-program-forge.js?v=7.0.13",
-  "./app-program-champion-arenes.js?v=7.0.13",
-  "./app-rewards.js?v=7.0.13",
-  "./app-state.js?v=7.0.13",
-  "./app-camp.js?v=7.0.13",
-  "./app-progress.js?v=7.0.13",
-  "./app-render.js?v=7.0.13",
-  "./app-navigation.js?v=7.0.13",
-  "./app-exercises.js?v=7.0.13",
-  "./app-programs.js?v=7.0.13",
-  "./app-media.js?v=7.0.13",
-  "./app-backup.js?v=7.0.13",
-  "./app-stats.js?v=7.0.13",
-  "./app-sport.js?v=7.0.13",
-  "./app.js?v=7.0.13",
-  "./app-pwa.js?v=7.0.13",
-  "./app-challenge-lessons.js?v=7.0.13",
-  "./app-challenges.js?v=7.0.13",
+  "./app-v5.css?v=7.0.14",
+  "./app-sport.css?v=7.0.14",
+  "./app-challenges.css?v=7.0.14",
+  "./app-config.js?v=7.0.14",
+  "./app-data.js?v=7.0.14",
+  "./app-program-forge-exercises.js?v=7.0.14",
+  "./app-program-forge.js?v=7.0.14",
+  "./app-program-champion-arenes.js?v=7.0.14",
+  "./app-rewards.js?v=7.0.14",
+  "./app-state.js?v=7.0.14",
+  "./app-camp.js?v=7.0.14",
+  "./app-progress.js?v=7.0.14",
+  "./app-render.js?v=7.0.14",
+  "./app-navigation.js?v=7.0.14",
+  "./app-exercises.js?v=7.0.14",
+  "./app-programs.js?v=7.0.14",
+  "./app-media.js?v=7.0.14",
+  "./app-backup.js?v=7.0.14",
+  "./app-stats.js?v=7.0.14",
+  "./app-sport.js?v=7.0.14",
+  "./app.js?v=7.0.14",
+  "./app-pwa.js?v=7.0.14",
+  "./app-challenge-lessons.js?v=7.0.14",
+  "./app-challenges.js?v=7.0.14",
   "./assets/pwa/icon.svg",
   "./assets/pwa/icon-192.png",
   "./assets/pwa/icon-512.png",

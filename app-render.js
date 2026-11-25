@@ -1162,6 +1162,13 @@ summary.innerHTML = `
     <span><strong>Objectif :</strong> ${goal?.title || "Reprise douce"}</span>
   </div>
 
+  ${goalId === "perte-poids" ? `
+    <section class="today-planning-card compact" aria-label="Préparer le parcours perte de poids">
+      <strong>Repères pour ton entraînement</strong>
+      ${window.FitnessRpgSport?.trainingRecommendationHtml(window.FitnessRpgState.getSportProfile()) || ""}
+      <button type="button" class="secondary-btn" data-mobile-destination="hero-menu">Ouvrir le profil sportif</button>
+    </section>` : ""}
+
   <section class="today-planning-card compact">
     <div class="today-planning-line">
       <strong>Aujourd’hui · ${todayItem.dayLabel}</strong>
