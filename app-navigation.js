@@ -1813,7 +1813,7 @@ if (target.closest("#openBackupFromHeroMenuButton")) {
         window.FitnessRpgState.addJournalEntry({
           type: "goal",
           title: "Objectif mis à jour",
-          text: `Objectif choisi : ${goal?.title || goalId}. Programme recommandé : ${program?.title || "Éveil du héros"}.`,
+          text: `Objectif choisi : ${goal?.title || goalId}. Programme recommandé : ${program?.title || "Parcours terminés"}.`,
           xp: 0
         });
       }

@@ -15,13 +15,13 @@
 
 window.FitnessRpgConfig = {
   // Version technique utilisée dans les petits labels.
-  version: "7.0.11",
+  version: "7.0.12",
 
   // Version lisible affichée dans le header et l’onglet.
-  displayVersion: "V7.0.11",
+  displayVersion: "V7.0.12",
 
   // Version utilisée pour le cache des fichiers CSS/JS dans index.html.
-  assetVersion: "7.0.11",
+  assetVersion: "7.0.12",
 
   // ------------------------------------------------------------
   // Clés de sauvegarde locale
@@ -88,6 +88,10 @@ window.FitnessRpgConfig = {
   // Objectifs personnels
   // ------------------------------------------------------------
   goals: [
+    { id: "gainage", icon: "🛡️", title: "Gainage et posture", rhythm: "Stabilité du tronc et contrôle du bassin",
+      recommendedProgramId: "tour-mage", programProgression: ["tour-mage", "sanctuaire-voyageur"] },
+    { id: "pilates", icon: "✨", title: "Pilates et équilibre", rhythm: "Mobilité, coordination et contrôle",
+      recommendedProgramId: "tour-mage", programProgression: ["tour-mage", "sanctuaire-voyageur"] },
     {
       id: "perte-poids",
       icon: "⚖️",
@@ -501,6 +505,37 @@ window.FitnessRpgConfig.getRecommendedProgramForGoal = function getRecommendedPr
   }
 
   return window.FitnessRpgConfig.getProgramById(goal.recommendedProgramId);
+};
+
+window.FitnessRpgConfig.goalPaths = {
+  "reprise-douce": [
+    ["Reprise puis cardio", "eveil-heros", "coeur-dragon"],
+    ["Reprise puis renforcement", "eveil-heros", "forge-guerrier", "epreuves-forge", "champion-arenes"],
+    ["Reprise par la marche", "marche-aventurier", "coeur-dragon"]
+  ],
+  cardio: [
+    ["Cardio sans saut", "eveil-heros", "coeur-dragon"],
+    ["Endurance à vélo", "marche-aventurier", "cavalier-route"]
+  ],
+  renforcement: [
+    ["Force et renforcement complet", "eveil-heros", "forge-guerrier", "epreuves-forge", "champion-arenes"],
+    ["Bras et épaules", "eveil-heros", "bras-heros"]
+  ],
+  gainage: [["Gainage et posture", "tour-mage", "rempart-heros"]],
+  pilates: [["Pilates", "tour-mage", "maitre-flux", "archimage-corps", "grand-maitre-arcanes"]],
+  mobilite: [
+    ["Mobilité douce", "sanctuaire-voyageur"],
+    ["Posture et équilibre", "ballet-sylphes"],
+    ["Progression en Pilates", "tour-mage", "maitre-flux", "archimage-corps", "grand-maitre-arcanes"]
+  ],
+  regularite: [
+    ["Régularité par le cardio", "marche-aventurier", "coeur-dragon"],
+    ["Régularité par le renforcement", "eveil-heros", "forge-guerrier", "epreuves-forge", "champion-arenes"]
+  ],
+  "perte-poids": [
+    ["Marche puis cardio", "marche-aventurier", "coeur-dragon"],
+    ["Renforcement progressif", "eveil-heros", "forge-guerrier", "epreuves-forge", "champion-arenes"]
+  ]
 };
 
 window.FitnessRpgConfig.setVersionLabels = function setVersionLabels() {

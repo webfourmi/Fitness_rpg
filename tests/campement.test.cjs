@@ -345,3 +345,29 @@ test('les six défis ont des titres distincts et un seul titre reste équipé', 
   state.profile.camp.heroTitle = 'iron-throne';
   assert.equal(camp.getHeroTitle(), 'Inébranlable');
 });
+
+test('les parcours d’objectifs couvrent le catalogue et avancent après chaque fin de programme', () => {
+  const { state, camp, window } = boot();
+  camp.resolveOvernight();
+  const config = window.FitnessRpgConfig;
+  const ids = new Set(Object.values(config.goalPaths).flatMap(paths => paths.flatMap(path => path.slice(1))));
+  assert.deepEqual([...ids].sort(), [...config.programs].map(program => program.id).sort());
+  const finish = id => { state.profile.camp.claims[JSON.stringify(['campaign', id])] = true; };
+  const recommended = id => state.getRecommendedProgram(id)?.id;
+  assert.equal(recommended('cardio'), 'eveil-heros');
+  assert.equal(recommended('renforcement'), 'eveil-heros');
+  finish('eveil-heros');
+  assert.equal(recommended('cardio'), 'coeur-dragon');
+  assert.equal(recommended('renforcement'), 'forge-guerrier');
+  finish('forge-guerrier');
+  assert.equal(recommended('renforcement'), 'epreuves-forge');
+  finish('epreuves-forge');
+  assert.equal(recommended('renforcement'), 'champion-arenes');
+  for (const id of ['tour-mage', 'maitre-flux', 'archimage-corps', 'grand-maitre-arcanes']) {
+    assert.equal(recommended('pilates'), id);
+    finish(id);
+  }
+  assert.equal(state.getRecommendedProgram('pilates'), null);
+  for (const id of ['coeur-dragon', 'marche-aventurier', 'cavalier-route']) finish(id);
+  assert.equal(state.getRecommendedProgram('cardio'), null);
+});

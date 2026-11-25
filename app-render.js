@@ -801,7 +801,7 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
     list.innerHTML = "";
   
     goals.forEach((goal) => {
-      const program = window.FitnessRpgConfig.getProgramById(goal.recommendedProgramId);
+      const program = window.FitnessRpgState.getRecommendedProgram(goal.id);
   
       const card = document.createElement("article");
       card.className = `goal-choice-card card${goal.id === selectedGoalId ? " selected" : ""}`;
@@ -813,7 +813,7 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
           <h2>${goal.title}</h2>
           <p>${goal.rhythm}</p>
           <p class="goal-program">
-            Programme conseillé : <strong>${program?.title || "Éveil du héros"}</strong>
+            ${program ? `Programme conseillé · <strong>${program.title}</strong>` : "Parcours terminés"}
           </p>
          <button class="primary-btn choose-goal-btn" type="button" data-goal-id="${goal.id}">
             ${goal.id === selectedGoalId ? "Objectif actuel" : "Choisir cet objectif"}
@@ -823,6 +823,33 @@ window.FitnessRpgRender.renderTodayCard = function renderTodayCard() {
   
       list.appendChild(card);
     });
+    const config = window.FitnessRpgConfig;
+    const state = window.FitnessRpgState;
+    const escape = window.FitnessRpgRender.escapeHtml;
+    const paths = state.getGoalPaths(selectedGoalId);
+    const programButton = (program, label) => `<button type="button" class="secondary-btn open-program-detail-btn"
+      data-program-id="${escape(program.id)}">${escape(label)}</button>`;
+    const routes = paths.map(path => `<section class="card goal-route">
+      <h3>${escape(path.name)}</h3>
+      <ol>${path.programs.map(program => `<li>
+        ${programButton(program, program.title)}
+        <small>${escape(program.level)}${program.completed ? " · Terminé" : program.id === path.next?.id ? " · Prochaine étape" : ""}</small>
+      </li>`).join("")}</ol>
+      ${path.next ? "" : "<p>Parcours terminé</p>"}
+    </section>`).join("");
+    const catalog = ["beginner", "intermediate", "advanced"].map((tier, index) => `<section class="goal-route">
+      <h3>${["Débutant", "Intermédiaire", "Avancé"][index]}</h3>
+      <ul>${config.programs.filter(program => config.getProgramTier(program) === tier).map(program => `<li>
+        ${programButton(program, program.title)}
+        <small>${escape(program.objective)}${program.unlockLevel > 1 ? ` · Niveau de héros requis ${program.unlockLevel}` : ""}</small>
+      </li>`).join("")}</ul>
+    </section>`).join("");
+    const panel = document.createElement("section");
+    panel.className = "goal-choice-list";
+    panel.innerHTML = `<h2>Parcours pour ${escape(config.getGoalById(selectedGoalId)?.title || "ton objectif")}</h2>
+      ${routes}
+      <details class="card goal-route"><summary>Tous les programmes (${config.programs.length})</summary>${catalog}</details>`;
+    list.appendChild(panel);
   };
 
 // ============================================================

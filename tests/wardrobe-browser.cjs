@@ -16,6 +16,18 @@ function exerciseWardrobe() {
     const render = window.FitnessRpgRender;
     state.createProfile({ name: "Test", gender: "femme" });
     camp.resolveOvernight();
+    state.setGoal("pilates");
+    window.FitnessRpgNavigation.openMobileDestination("goal");
+    const goalList = document.querySelector("#goalChoiceList");
+    check(goalList.textContent.includes("Tour du Mage") && goalList.textContent.includes("Prochaine étape"), "Parcours Pilates");
+    state.profile.camp.claims[JSON.stringify(["campaign", "tour-mage"])] = true;
+    render.renderGoalPage();
+    check(state.getRecommendedProgram().id === "maitre-flux", "Recommandation après Tour du Mage");
+    const catalog = goalList.querySelector("details");
+    catalog.querySelector("summary").click();
+    check(catalog.open && catalog.querySelectorAll("[data-program-id]").length === 15, "Catalogue des quinze programmes");
+    catalog.querySelector('[data-program-id="cavalier-route"]').click();
+    check(document.querySelector("#programDetail").dataset.programId === "cavalier-route", "Ouvrir un programme depuis le catalogue");
     window.FitnessRpgNavigation.openMobileDestination("programs");
     for (const [program, name, art] of [
       ["ballet-sylphes", "Ruban des Sylphes", "ribbon"],
