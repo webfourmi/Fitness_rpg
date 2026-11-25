@@ -1500,7 +1500,13 @@ if (
   // ============================================================
   // Modales / overlays
   // ============================================================
- if (window.FitnessRpgNavigation.handleOverlayClick(event, target)) return;
+ const stopForCoach = target.closest("[data-coach-stop]");
+if (stopForCoach) {
+  window.FitnessRpgNavigation.stopEvent(event);
+  window.FitnessRpgAdaptiveCoach?.stopSession(stopForCoach.dataset.coachStop, stopForCoach.dataset.exerciseId);
+  return;
+}
+if (window.FitnessRpgNavigation.handleOverlayClick(event, target)) return;
 if (window.FitnessRpgNavigation.handleExerciseClick(event, target)) return;
 if (window.FitnessRpgNavigation.handleProgramClick(event, target)) return;
 if (window.FitnessRpgNavigation.handlePlanningClick(event, target)) return;

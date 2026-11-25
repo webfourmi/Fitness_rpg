@@ -170,7 +170,7 @@
     const history = State.getPerformanceHistory?.() || [];
     const comparable = history
       .filter((item) => {
-        if (!Number.isFinite(Number(item?.rpe))) return false;
+        if (item?.rpe == null || !Number.isFinite(Number(item.rpe))) return false;
         if (programId && item.programId !== programId) return false;
         return (item.type || "program") === type;
       })
@@ -956,6 +956,12 @@
       boss: session.type === "program-boss", dayNumber: Number(session.dayNumber)
     });
     if (planned) {
+      if (planned.increased && !window.FitnessRpgAdaptiveCoach.consume()) {
+        planned.exercises = window.FitnessRpgWeightPlanning.adaptWorkout(session.programId, sourceWorkout, {
+          boss: session.type === "program-boss", dayNumber: Number(session.dayNumber), allowIncrease: false
+        }).exercises;
+        planned.coachNote = "";
+      }
       session.adaptedExercises = planned.exercises;
       session.weightPlanningWorkout = true;
       session.adaptation = {
@@ -963,6 +969,7 @@
         estimatedDurationMinutes: planned.minutes,
         summary: [
           "Séance ajustée au temps disponible. Fractionne-la avec des pauses si nécessaire.",
+          planned.coachNote,
           `${planned.substitutions} variante(s) proposée(s) · ${planned.omitted} mouvement(s) écarté(s).`
         ]
       };
@@ -1205,7 +1212,7 @@
         : null,
       durationPredictionSource: record.durationPredictionSource || null,
       durationPredictionSampleCount: Math.max(0, Number(record.durationPredictionSampleCount) || 0),
-      rpe: Number.isFinite(Number(record.rpe)) ? Math.min(10, Math.max(1, Number(record.rpe))) : null,
+      rpe: record.rpe != null && Number.isFinite(Number(record.rpe)) ? Math.min(10, Math.max(1, Number(record.rpe))) : null,
       rpeLabel: record.rpeLabel || null,
       exercises: Array.isArray(record.exercises) ? record.exercises : []
     };
@@ -2668,6 +2675,7 @@
 
     return {
       sourceSessionId: session.id || null,
+      weightPlanningWorkout: Boolean(session.weightPlanningWorkout),
       date: session.planningDateKey || State.todayKey?.(),
       type: session.type || "program",
       programId: session.programId || null,
@@ -2774,6 +2782,9 @@
       </button>
     `;
 
+    if (Sport.pendingPerformanceDraft.weightPlanningWorkout && window.FitnessRpgAdaptiveCoach) {
+      panel.innerHTML = window.FitnessRpgAdaptiveCoach.feedbackHtml(Sport.pendingPerformanceDraft);
+    }
     card.appendChild(panel);
   };
 
@@ -2830,6 +2841,12 @@
 
     if (target.id === "sportExercisePerformanceOverlay") {
       Sport.closeExercisePerformancePanel();
+      return;
+    }
+
+    const coachFeedback = target.closest("[data-coach-feedback]");
+    if (coachFeedback) {
+      window.FitnessRpgAdaptiveCoach?.submit(coachFeedback);
       return;
     }
 
@@ -3210,7 +3227,7 @@
       page.appendChild(card);
     }
 
-    const rated = profile.performanceHistory.filter((item) => Number.isFinite(Number(item.rpe)));
+    const rated = profile.performanceHistory.filter((item) => item.rpe != null && Number.isFinite(Number(item.rpe)));
     const avgRpe = rated.length
       ? (rated.reduce((sum, item) => sum + Number(item.rpe), 0) / rated.length).toFixed(1)
       : "—";

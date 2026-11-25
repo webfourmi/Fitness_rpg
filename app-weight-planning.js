@@ -49,11 +49,14 @@
     });
   }
 
-  function adaptWorkout(programId, workout, { boss = false, dayNumber = 0, sport = State.getSportProfile() } = {}) {
+  function adaptWorkout(programId, workout, { boss = false, dayNumber = 0, sport = State.getSportProfile(), allowIncrease = true } = {}) {
     if (!enabled() || !stages.some((stage) => stage.id === programId)) return null;
     const advice = window.FitnessRpgSport.getTrainingRecommendation(sport);
     if (advice?.mode === "professional-review") return { exercises: [], restricted: true };
-    const minutes = advice?.initialMinutes ?? sport.preferredDuration;
+    const coach = window.FitnessRpgAdaptiveCoach?.adjustment(programId, boss ? "program-boss" : "program");
+    if (coach?.blocked) return { exercises: [], restricted: true };
+    const minutes = (advice?.initialMinutes ?? sport.preferredDuration) * (coach?.factor ?? 1);
+
     const source = [...(workout?.exercises || [])];
     const trainingDay = !boss && !workout?.optional;
     if (trainingDay && [1, 3].includes(dayNumber)) {
@@ -74,13 +77,24 @@
       });
     }
     const rated = Adaptation.assessWorkout({ exercises: source }, sport).movements;
-    const selected = rated.flatMap((movement) => movement.item ? [movement.item] : []);
-    const exercises = fitWorkout(selected, minutes);
+    const selected = rated.flatMap((movement) => movement.item && !coach?.paused.includes(movement.item.exerciseId)
+      ? [movement.item] : []);
+    const base = fitWorkout(selected, minutes);
+    const usedSeconds = base.reduce((sum, item) => sum + 10 + item.amount * secondsPerUnit(item.unit), 0);
+    const index = allowIncrease && coach?.increase
+      ? base.findIndex((item) => Adaptation.getMetadata(item.exerciseId)?.family === "cardio" && item.unit === "min")
+      : -1;
+    const extra = index >= 0 ? Math.min(1, Math.floor(base[index].amount) / 10, Math.floor((minutes * 60 - usedSeconds) / 6) / 10) : 0;
+    if (extra > 0) base[index].amount = Math.round((base[index].amount + extra) * 10) / 10;
+    const exercises = base;
     const scored = exercises.some((item) => ["cardio", "squat", "push", "trunk"]
       .includes(Adaptation.getMetadata(item.exerciseId)?.family));
     return {
       exercises: scored ? exercises : [],
       minutes,
+      increased: extra > 0,
+      coachNote: extra > 0 ? "Progression acceptée : un bloc d’endurance a été légèrement allongé."
+        : coach?.factor < 1 ? "Durée réduite après un bilan difficile." : "",
       omitted: source.length - exercises.length,
       substitutions: rated.filter((movement) => movement.status === "replace").length
     };
@@ -163,7 +177,7 @@
     const boss = Programs.getProgramBoss(stage.id, week);
     const bossDone = Programs.getProgramProgressDetails(stage.id).weeks
       .find((item) => item.weekNumber === week)?.boss?.defeated;
-    const blocked = advice?.mode === "professional-review";
+    const blocked = advice?.mode === "professional-review" || window.FitnessRpgAdaptiveCoach?.adjustment().blocked;
     const minutes = advice?.initialMinutes ?? sport.preferredDuration;
     const remainingDays = Math.max(0, Math.min(2, sport.sessionsPerWeek - 3));
     const weeklyCapacity = minutes * Math.min(6, Math.max(1, sport.sessionsPerWeek));
@@ -179,6 +193,7 @@
         <strong>${stage.label} · ${program.title} · Semaine ${week}</strong>
       </div>
       ${window.FitnessRpgSport.trainingRecommendationHtml(sport)}
+      ${window.FitnessRpgAdaptiveCoach?.planningHtml() || ""}
       <p>${recordedMinutes()} min d’endurance cette semaine${blocked ? "" : ` · repère souple ${goalMinutes} min`}. Le repère à long terme est de 150 à 300 min d’endurance modérée par semaine, selon ta tolérance. Les minutes des séances guidées sont estimées.</p>
       <p>Les trois séances essentielles peuvent s’étaler sur plusieurs semaines. Les compléments et le total de minutes restent facultatifs.</p>
       <button class="secondary-btn" type="button" data-mobile-destination="hero-menu">Ouvrir le profil sportif</button>
@@ -206,7 +221,7 @@
         const strength = dose.exercises.some((item) => ["squat", "push"].includes(Adaptation.getMetadata(item.exerciseId)?.family));
         const canStart = dose.exercises.length && (repeat ? Number(day.day) === repeat.nextDay : !completed.has(Number(day.day)));
         content = `<h2>${day.title}</h2><p>Essentielle · ${dose.exercises.length
-          ? `jusqu’à ${minutes} min, fractionnables${strength ? " · renforcement" : ""}` : "à adapter"}.</p>
+          ? `jusqu’à ${Math.round(dose.minutes * 10) / 10} min, fractionnables${strength ? " · renforcement" : ""}` : "à adapter"}.</p>
           ${canStart ? `<button class="secondary-btn" type="button" data-weight-plan="day" data-day="${day.day}">Ouvrir la séance</button>`
           : completed.has(Number(day.day)) ? "<span>Séance validée</span>" : ""}`;
       } else if (index === 5 && boss) {
@@ -236,6 +251,10 @@
       return;
     }
     if (!enabled()) return;
+    if (action.startsWith("coach-")) {
+      window.FitnessRpgAdaptiveCoach?.handlePlanning(action);
+      return;
+    }
     if (action === "log") {
       const amount = document.querySelector("#weightActivityMinutes");
       if (!amount?.reportValidity()) return;

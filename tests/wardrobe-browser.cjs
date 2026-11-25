@@ -135,6 +135,16 @@ function exerciseWardrobe() {
     planning.querySelector('[data-weight-plan="day"]').click();
     check(state.getActiveProgramSession()?.weightPlanningWorkout, "Ouverture d’une séance adaptée du planning");
     check(state.loadActiveProgramSession()?.adaptedExercises.length, "Séance adaptée conservée à la reprise");
+    const xpBeforeStop = state.getProfile().totalXp;
+    const goldBeforeStop = state.getProfile().camp.gold;
+    const stopButton = document.querySelector('[data-coach-stop="pain"]');
+    check(stopButton, "Arrêt pour douleur accessible en séance");
+    stopButton.click();
+    check(!state.getActiveProgramSession(), "La séance s’arrête immédiatement");
+    check(state.getProfile().totalXp === xpBeforeStop && state.getProfile().camp.gold === goldBeforeStop,
+      "L’arrêt de sécurité conserve les acquis");
+    state.loadProfile();
+    check(state.getProfile().adaptiveCoach.safety.paused.length === 1, "Mouvement suspendu après rechargement");
     document.body.dataset.wardrobeTest = "passed";
   } catch (error) {
     document.body.dataset.wardrobeTest = String(error);

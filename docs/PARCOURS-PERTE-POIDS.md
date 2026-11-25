@@ -39,3 +39,13 @@ Les jours proposés réunissent trois séances essentielles, deux compléments f
 Les totaux d’endurance quotidiens saisis sont inclus dans les futures sauvegardes. Chaque total couvre une journée et une activité, journal compris. Le rapprochement par date et activité retient la valeur la plus élevée entre journal et saisie plutôt que de les additionner. Le repère hebdomadaire est progressif, limité par les disponibilités déclarées et sans conséquence sur les récompenses ou les boss.
 
 - [OMS · Activité physique et repères hebdomadaires](https://www.who.int/europe/news-room/fact-sheets/item/physical-activity)
+
+## Phase 4 · Coach adaptatif
+
+Les séances personnalisées proposent un bilan facultatif après la séance. L’effort de 1 à 10, la douleur inhabituelle, la fatigue et la récupération ressentie guident le conseil affiché par le coach choisi. Les bilans et décisions sont enregistrés dans le profil et inclus dans les futures sauvegardes.
+
+Un effort d’au moins 8 sur 10, une fatigue importante, une récupération difficile ou une douleur légère réduisent la prochaine durée cible de 25 %. Deux bilans faciles et bien tolérés pour le même programme et le même type de séance peuvent proposer une évolution. Après accord, un seul bloc d’endurance augmente de 10 % au maximum, dans la limite d’une minute et du temps disponible. Les seuils sont des choix de conception.
+
+L’arrêt en séance retire la séance active et son minuteur avant toute validation et conserve les acquis. Une douleur importante ou persistante écarte le mouvement concerné des séances adaptées. Si le mouvement est inconnu ou si un signe d’alerte est signalé, le parcours personnalisé est suspendu. La reprise demande une confirmation après avis professionnel. Le bilan et les décisions de sécurité ne donnent aucune récompense.
+
+- [Assurance Maladie · Reconnaître les douleurs thoraciques nécessitant des soins urgents](https://www.ameli.fr/assure/sante/themes/douleur-thoracique/reconnaitre-agit-urgence)
