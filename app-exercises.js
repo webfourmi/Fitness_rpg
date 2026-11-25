@@ -1559,6 +1559,10 @@ window.FitnessRpgExercises.openExerciseDetails = function openExerciseDetails(ex
     ? ["", "Variantes de difficulté :", ...exercise.difficultyVariants.map((variant) => `${variant.label || `Version ${variant.version}`} : ${variant.description}`)]
     : [];
 
+  const adaptation = window.FitnessRpgExerciseAdaptation?.describeExercise(
+    exercise, window.FitnessRpgState?.getSportProfile?.()
+  ) || [];
+
   const message = [
     exercise.description || exercise.shortDescription || "Aucune description détaillée pour cet exercice.",
     "",
@@ -1568,7 +1572,8 @@ window.FitnessRpgExercises.openExerciseDetails = function openExerciseDetails(ex
       : "",
     exercise.hasTimer ? "Tu peux lancer le timer pour suivre la durée." : "",
     exercise.hasDistance ? "Tu peux aussi noter la distance en kilomètres." : "",
-    ...variants
+    ...variants,
+    ...adaptation
   ].filter(Boolean);
 
   window.FitnessRpgRender?.showModal?.({

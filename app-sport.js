@@ -51,6 +51,9 @@
     ["barbell", "Barre", "assets/equipements/barre.webp"],
     ["pull-up-bar", "Barre de traction", "assets/equipements/barre_traction.webp"],
     ["bench", "Banc", "assets/equipements/banc.webp"],
+    ["chair", "Chaise stable"],
+    ["wall", "Mur dégagé"],
+    ["stable-support", "Support surélevé stable"],
     ["punching-bag", "Sac de frappe", "assets/equipements/sac_frappe.webp"],
     ["bicycle", "Vélo", "assets/equipements/velo.webp"],
     ["treadmill", "Tapis de marche/course", "assets/equipements/tapis_marche_course.webp"]
@@ -167,7 +170,7 @@
     const history = State.getPerformanceHistory?.() || [];
     const comparable = history
       .filter((item) => {
-        if (!Number.isFinite(Number(item?.rpe))) return false;
+        if (item?.rpe == null || !Number.isFinite(Number(item.rpe))) return false;
         if (programId && item.programId !== programId) return false;
         return (item.type || "program") === type;
       })
@@ -949,6 +952,32 @@
       return session;
     }
 
+    const planned = window.FitnessRpgWeightPlanning?.adaptWorkout(session.programId, sourceWorkout, {
+      boss: session.type === "program-boss", dayNumber: Number(session.dayNumber)
+    });
+    if (planned) {
+      if (planned.increased && !window.FitnessRpgAdaptiveCoach.consume()) {
+        planned.exercises = window.FitnessRpgWeightPlanning.adaptWorkout(session.programId, sourceWorkout, {
+          boss: session.type === "program-boss", dayNumber: Number(session.dayNumber), allowIncrease: false
+        }).exercises;
+        planned.coachNote = "";
+      }
+      session.adaptedExercises = planned.exercises;
+      session.weightPlanningWorkout = true;
+      session.weightVariant = planned.substitutions > 0;
+      session.adaptation = {
+        version: Sport.adaptationVersion,
+        estimatedDurationMinutes: planned.minutes,
+        summary: [
+          "Séance ajustée au temps disponible. Fractionne-la avec des pauses si nécessaire.",
+          planned.coachNote,
+          `${planned.substitutions} variante(s) proposée(s) · ${planned.omitted} mouvement(s) écarté(s).`
+        ]
+      };
+      State.saveActiveProgramSession?.();
+      return session;
+    }
+
     const context = Sport.getHeroTrainingContext(session, sourceWorkout);
     const adapted = Sport.adaptWorkoutForHero(sourceWorkout, context);
     const summary = Sport.getAdaptationSummary(context, adapted);
@@ -984,6 +1013,67 @@
     return session;
   };
 
+  const ageGroups = { "18-39": "18–39 ans", "40-64": "40–64 ans", "65+": "65 ans et plus" };
+  const activityLevels = { inactive: "Peu ou pas d’activité", occasional: "Activité occasionnelle", regular: "Activité régulière" };
+  const limitations = { knees: "Genoux", hips: "Hanches", back: "Dos", shoulders: "Épaules", balance: "Équilibre" };
+  const measurements = [
+    ["weightKg", "Poids (kg)"],
+    ["heightCm", "Taille (cm)"],
+    ["waistCm", "Tour de taille (cm)"]
+  ];
+
+  function normalizeTrainingProfile(value) {
+    if (!value || typeof value !== "object") return null;
+    const selectedLimitations = Array.isArray(value.limitations) ? value.limitations : [];
+    const result = {
+      version: 1,
+      ageGroup: Object.hasOwn(ageGroups, value.ageGroup) ? value.ageGroup : "",
+      activity: Object.hasOwn(activityLevels, value.activity) ? value.activity : "",
+      noImpact: value.noImpact === true,
+      medicalRestriction: value.medicalRestriction === true,
+      limitations: Object.keys(limitations).filter((id) => selectedLimitations.includes(id))
+    };
+    for (const [id] of measurements) {
+      const amount = Number(value[id]);
+      result[id] = Number.isFinite(amount) && amount >= 1 && amount <= 500 ? amount : null;
+    }
+    return result;
+  }
+
+  Sport.getTrainingRecommendation = function getTrainingRecommendation(sport) {
+    const training = sport?.trainingProfile;
+    if (!training) return null;
+
+    const restricted = training.medicalRestriction;
+    const gradualStart = training.activity === "inactive" || training.limitations.length > 0 || sport.kneeFriendly;
+    return {
+      level: sport.level,
+      mode: restricted ? "professional-review" : gradualStart ? "gradual-start" : "usual",
+      initialMinutes: restricted ? null : Math.min(sport.preferredDuration, gradualStart ? 10 : sport.preferredDuration),
+      includeBalance: training.ageGroup === "65+" || training.limitations.includes("balance"),
+      avoidImpact: training.noImpact || training.limitations.includes("knees") || sport.kneeFriendly,
+      limitations: training.limitations,
+      equipment: sport.equipment
+    };
+  };
+
+  Sport.trainingRecommendationHtml = function trainingRecommendationHtml(sport) {
+    const advice = Sport.getTrainingRecommendation(sport);
+    if (!advice) return "";
+    if (advice.mode === "professional-review") {
+      return '<p role="status">Demande un avis professionnel avant de commencer un nouveau programme ou d’augmenter l’effort. Suis les consignes qui te concernent.</p>';
+    }
+
+    return `<ul aria-label="Repères pour ton entraînement">
+      <li>${advice.mode === "gradual-start"
+        ? `Commence progressivement, par des blocs faciles de ${advice.initialMinutes} min maximum selon ta tolérance.`
+        : `Temps disponible retenu pour la planification · ${advice.initialMinutes} min par séance.`}</li>
+      ${advice.avoidImpact ? "<li>Privilégie les activités sans sauts.</li>" : ""}
+      ${advice.includeBalance ? "<li>Prévois du travail d’équilibre adapté, avec un appui stable si nécessaire.</li>" : ""}
+      ${advice.limitations.length ? "<li>Adapte les mouvements concernés et passe ceux qui déclenchent une douleur.</li>" : ""}
+    </ul>`;
+  };
+
   Sport.defaultSportProfile = function defaultSportProfile() {
     return {
       level: "beginner",
@@ -993,14 +1083,15 @@
       equipment: [],
       kneeFriendly: false,
       smallSpace: false,
+      trainingProfile: null,
       lastUpdatedAt: null
     };
   };
 
   Sport.normalizeSportProfile = function normalizeSportProfile(value = {}) {
     const defaults = Sport.defaultSportProfile();
-    const level = Sport.levels[value?.level] ? value.level : defaults.level;
-    const mainGoal = Sport.goals[value?.mainGoal] ? value.mainGoal : defaults.mainGoal;
+    const level = Object.hasOwn(Sport.levels, value?.level) ? value.level : defaults.level;
+    const mainGoal = Object.hasOwn(Sport.goals, value?.mainGoal) ? value.mainGoal : defaults.mainGoal;
     const sessionsPerWeek = Math.min(7, Math.max(1, Number(value?.sessionsPerWeek) || defaults.sessionsPerWeek));
     const preferredDuration = Math.min(180, Math.max(5, Number(value?.preferredDuration) || defaults.preferredDuration));
     const validEquipment = new Set(Sport.equipmentOptions.map(([id]) => id));
@@ -1018,6 +1109,7 @@
       equipment,
       kneeFriendly: Boolean(value?.kneeFriendly),
       smallSpace: Boolean(value?.smallSpace),
+      trainingProfile: normalizeTrainingProfile(value?.trainingProfile),
       lastUpdatedAt: value?.lastUpdatedAt || null
     };
   };
@@ -1121,7 +1213,7 @@
         : null,
       durationPredictionSource: record.durationPredictionSource || null,
       durationPredictionSampleCount: Math.max(0, Number(record.durationPredictionSampleCount) || 0),
-      rpe: Number.isFinite(Number(record.rpe)) ? Math.min(10, Math.max(1, Number(record.rpe))) : null,
+      rpe: record.rpe != null && Number.isFinite(Number(record.rpe)) ? Math.min(10, Math.max(1, Number(record.rpe))) : null,
       rpeLabel: record.rpeLabel || null,
       exercises: Array.isArray(record.exercises) ? record.exercises : []
     };
@@ -2584,6 +2676,7 @@
 
     return {
       sourceSessionId: session.id || null,
+      weightPlanningWorkout: Boolean(session.weightPlanningWorkout),
       date: session.planningDateKey || State.todayKey?.(),
       type: session.type || "program",
       programId: session.programId || null,
@@ -2690,6 +2783,9 @@
       </button>
     `;
 
+    if (Sport.pendingPerformanceDraft.weightPlanningWorkout && window.FitnessRpgAdaptiveCoach) {
+      panel.innerHTML = window.FitnessRpgAdaptiveCoach.feedbackHtml(Sport.pendingPerformanceDraft);
+    }
     card.appendChild(panel);
   };
 
@@ -2746,6 +2842,12 @@
 
     if (target.id === "sportExercisePerformanceOverlay") {
       Sport.closeExercisePerformancePanel();
+      return;
+    }
+
+    const coachFeedback = target.closest("[data-coach-feedback]");
+    if (coachFeedback) {
+      window.FitnessRpgAdaptiveCoach?.submit(coachFeedback);
       return;
     }
 
@@ -2809,6 +2911,15 @@
       return;
     }
 
+    if (target.closest("#clearTrainingProfileButton")) {
+      if (window.confirm("Effacer la tranche d’âge, les habitudes, les limitations et les mesures de ce formulaire sur cet appareil ?")) {
+        State.updateSportProfile({ trainingProfile: null });
+        Sport.renderSportProfilePanel("Données complémentaires effacées.");
+        document.querySelector("#sportTrainingFields summary")?.focus();
+      }
+      return;
+    }
+
     if (target.closest("#saveSportProfileButton")) {
       const panel = document.querySelector("#sportProfilePanel");
       if (!panel) return;
@@ -2817,7 +2928,25 @@
         panel.querySelectorAll('input[name="sportEquipment"]:checked')
       ).map((input) => input.value);
 
+      const trainingFields = panel.querySelector("#sportTrainingFields");
+      const invalid = [...panel.querySelectorAll("input[type=number]")].find((input) => !input.checkValidity());
+      if (invalid) {
+        if (trainingFields.contains(invalid)) trainingFields.open = true;
+        invalid.reportValidity();
+        return;
+      }
+      const trainingProfile = {
+        ageGroup: trainingFields.querySelector("#sportAgeGroup").value,
+        activity: trainingFields.querySelector("#sportHabitualActivity").value,
+        noImpact: trainingFields.querySelector("#sportNoImpact").checked,
+        medicalRestriction: trainingFields.querySelector("#sportMedicalRestriction").checked,
+        limitations: [...trainingFields.querySelectorAll('[name="sportLimitation"]:checked')].map((input) => input.value),
+        ...Object.fromEntries(measurements.map(([id]) => [id, trainingFields.querySelector(`#sportMeasure-${id}`).value]))
+      };
+      const hasTrainingData = Object.values(trainingProfile).some((value) => Array.isArray(value) ? value.length > 0 : Boolean(value));
+
       State.updateSportProfile?.({
+        trainingProfile: hasTrainingData ? trainingProfile : null,
         level: panel.querySelector("#sportLevelSelect")?.value,
         mainGoal: panel.querySelector("#sportGoalSelect")?.value,
         sessionsPerWeek: Number(panel.querySelector("#sportSessionsInput")?.value || 3),
@@ -2827,7 +2956,8 @@
         smallSpace: Boolean(panel.querySelector("#sportSmallSpaceInput")?.checked)
       });
 
-      Sport.renderSportProfilePanel();
+      Sport.renderSportProfilePanel("Profil sportif enregistré.");
+      document.querySelector("#saveSportProfileButton")?.focus();
     }
   });
 
@@ -2901,7 +3031,7 @@
   // Profil sportif dans le menu Héros
   // ------------------------------------------------------------
 
-  Sport.renderSportProfilePanel = function renderSportProfilePanel() {
+  Sport.renderSportProfilePanel = function renderSportProfilePanel(feedback = "") {
     const page = document.querySelector("#pageHeroMenu");
     const profile = State.getProfile?.();
 
@@ -2920,6 +3050,9 @@
     }
 
     const equipment = new Set(sport.equipment || []);
+    const training = sport.trainingProfile;
+    const options = (choices, selected) => `<option value="">Non renseigné</option>
+      ${Object.entries(choices).map(([id, label]) => `<option value="${id}" ${id === selected ? "selected" : ""}>${label}</option>`).join("")}`;
 
     panel.innerHTML = `
       <div class="sport-profile-heading">
@@ -2957,7 +3090,7 @@
         <label>
           Durée préférée
           <div class="sport-duration-input">
-            <input id="sportDurationInput" type="number" min="5" max="180" step="5" value="${sport.preferredDuration}">
+            <input id="sportDurationInput" type="number" min="5" max="180" step="1" value="${sport.preferredDuration}">
             <span>min</span>
           </div>
         </label>
@@ -2983,23 +3116,49 @@
         <summary>Matériel disponible <span>${equipment.size || "Aucun"}</span></summary>
         <div class="sport-equipment-grid">
           ${Sport.equipmentOptions.map(([id, label, image]) => `
-            <label class="sport-equipment-card ${equipment.has(id) ? "selected" : ""}">
+            <label class="sport-equipment-card ${equipment.has(id) ? "selected" : ""} ${image ? "" : "sport-equipment-card-text"}">
               <input
                 type="checkbox"
                 name="sportEquipment"
                 value="${id}"
                 ${equipment.has(id) ? "checked" : ""}
               >
-              <span class="sport-equipment-visual">
-                <img src="${image}" alt="${label}" loading="lazy">
+              ${image ? `<span class="sport-equipment-visual">
+                <img src="${image}" alt="" loading="lazy">
                 <span class="sport-equipment-check" aria-hidden="true">✓</span>
-              </span>
+              </span>` : ""}
               <span class="sport-equipment-name">${label}</span>
             </label>
           `).join("")}
         </div>
       </details>
 
+      <details id="sportTrainingFields" class="sport-equipment-details" ${training ? "open" : ""}>
+        <summary>Âge, activité et limitations <span>Facultatif</span></summary>
+        <p class="muted">Ces données sont conservées sur cet appareil et incluses dans tes sauvegardes.</p>
+        <div class="sport-profile-grid">
+          <label>Tranche d’âge adulte <select id="sportAgeGroup">${options(ageGroups, training?.ageGroup)}</select></label>
+          <label>Activité habituelle <select id="sportHabitualActivity">${options(activityLevels, training?.activity)}</select></label>
+        </div>
+        <fieldset>
+          <legend>Préférences et limitations</legend>
+          <label><input id="sportNoImpact" type="checkbox" ${training?.noImpact ? "checked" : ""}> Activités sans sauts</label><br>
+          <label><input id="sportMedicalRestriction" type="checkbox" ${training?.medicalRestriction ? "checked" : ""}> Restriction médicale ou fragilité nécessitant un avis</label><br>
+          ${Object.entries(limitations).map(([id, label]) =>
+            `<label><input name="sportLimitation" value="${id}" type="checkbox" ${training?.limitations.includes(id) ? "checked" : ""}> ${label}</label>`
+          ).join(" ")}
+        </fieldset>
+        <div class="sport-profile-grid">
+          ${measurements.map(([id, label]) =>
+            `<label>${label}<input id="sportMeasure-${id}" type="number" inputmode="decimal" min="1" max="500" step="any" value="${training?.[id] ?? ""}"></label>`
+          ).join("")}
+        </div>
+        ${training ? '<button id="clearTrainingProfileButton" class="secondary-btn" type="button">Effacer ces données</button>' : ""}
+      </details>
+
+      ${Sport.trainingRecommendationHtml(sport)}
+      <p class="muted">Arrête immédiatement l’effort en cas de douleur thoracique, de malaise ou d’essoufflement inhabituel. Si les signes sont intenses, associés ou persistent, appelle le 15 ou le 112 en France.</p>
+      <p role="status">${feedback}</p>
       <button id="saveSportProfileButton" class="primary-btn" type="button">
         Enregistrer le profil sportif
       </button>
@@ -3069,7 +3228,7 @@
       page.appendChild(card);
     }
 
-    const rated = profile.performanceHistory.filter((item) => Number.isFinite(Number(item.rpe)));
+    const rated = profile.performanceHistory.filter((item) => item.rpe != null && Number.isFinite(Number(item.rpe)));
     const avgRpe = rated.length
       ? (rated.reduce((sum, item) => sum + Number(item.rpe), 0) / rated.length).toFixed(1)
       : "—";

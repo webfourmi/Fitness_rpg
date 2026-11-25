@@ -1083,6 +1083,10 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
 
       <footer class="guided-action-dock" aria-label="Actions de la séance">
         ${actionsHtml}
+        ${session.weightPlanningWorkout ? `<details><summary>Arrêter en cas de douleur ou de malaise</summary>
+          <button type="button" class="ghost-btn" data-coach-stop="pain" data-exercise-id="${activeItem.exerciseId}">Arrêter · douleur liée au mouvement</button>
+          <button type="button" class="ghost-btn" data-coach-stop="urgent">Arrêter · douleur thoracique, malaise ou essoufflement marqué</button>
+        </details>` : ""}
       </footer>
     </section>
   `;
@@ -1104,6 +1108,7 @@ window.FitnessRpgRender.renderPlanningPage = function renderPlanningPage() {
   if (!summary || !grid) return;
 
  const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
+  if (window.FitnessRpgWeightPlanning?.render(summary, grid)) return;
 const goal = window.FitnessRpgConfig.getGoalById(goalId);
 
 const todayQuest = window.FitnessRpgPrograms.getTodayPlanningQuest?.();
@@ -1161,6 +1166,14 @@ summary.innerHTML = `
     <span><strong>Programme :</strong> ${activeProgram?.title || "Aucun programme choisi"}</span>
     <span><strong>Objectif :</strong> ${goal?.title || "Reprise douce"}</span>
   </div>
+
+  ${goalId === "perte-poids" ? `
+    <section class="today-planning-card compact" aria-label="Préparer le parcours perte de poids">
+      <strong>Repères pour ton entraînement</strong>
+      ${window.FitnessRpgSport?.trainingRecommendationHtml(window.FitnessRpgState.getSportProfile()) || ""}
+      <button type="button" class="secondary-btn" data-mobile-destination="hero-menu">Ouvrir le profil sportif</button>
+      <button type="button" class="primary-btn" data-weight-plan="toggle">Activer le planning personnalisé</button>
+    </section>` : ""}
 
   <section class="today-planning-card compact">
     <div class="today-planning-line">
