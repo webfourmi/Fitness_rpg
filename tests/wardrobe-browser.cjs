@@ -170,6 +170,18 @@ function exerciseWardrobe() {
     check(state.getProfile().camp.gold === balance, "Bourse inchangée au second clic");
     window.FitnessRpgNavigation.openMobileDestination("camp");
     check(document.querySelector("#campContent").textContent.includes("Sage du campement"), "Récompense visible dans le vestiaire");
+    const titles = () => document.querySelector("#campTitles");
+    check(!titles().open, "Titres repliés par défaut");
+    titles().querySelector("summary").click();
+    const titleCard = () => titles().querySelector(".camp-item strong").textContent;
+    const firstTitle = titleCard();
+    titles().querySelector('[data-camp-title-step="1"]').click();
+    check(titles().open && titleCard() !== firstTitle, "Le titre suivant est affiché sans replier la section");
+    check(document.activeElement.dataset.campTitleStep === "1", "Focus conservé sur la flèche");
+    titles().querySelector('[data-camp-title-step="-1"]').click();
+    check(titleCard() === firstTitle, "Retour au titre précédent");
+    titles().querySelector("summary").click();
+    check(!titles().open, "La section Titres peut être repliée");
     window.FitnessRpgNavigation.openMobileDestination("planning");
     document.querySelector('[data-weight-plan="day"]').click();
     const guided = state.getActiveProgramSession();

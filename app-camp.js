@@ -59,6 +59,7 @@ window.FitnessRpgCamp = (() => {
   ];
   const trophyCatalogVersion = 3;
   const shopSelection = Object.create(null);
+  let titleIndex = 0;
   const freezePrice = 60;
   const goldPerLevel = 20;
   const freePerMonth = 2;
@@ -551,6 +552,12 @@ window.FitnessRpgCamp = (() => {
     </div>`;
   }
 
+  function stepTitle(delta, count) {
+    if ((delta !== -1 && delta !== 1) || !Number.isInteger(count) || count < 2) return;
+    titleIndex = (titleIndex + delta + count) % count;
+    render();
+  }
+
   function render(message = "") {
     const root = document.querySelector("#campContent");
     const profile = state().getProfile();
@@ -616,6 +623,30 @@ window.FitnessRpgCamp = (() => {
       </section>`;
     }).join("");
     const equippedTitle = getHeroTitle();
+    const titlesOpen = Boolean(root.querySelector?.("#campTitles[open]"));
+    const titles = (window.FitnessRpgChallenges?.CHALLENGES || []).flatMap((challenge) => {
+      const title = getChallengeTitle(challenge.id);
+      if (!title) return [];
+      const equipped = equippedTitle === title.name;
+      return [`<li class="camp-item">
+            <div><strong>${title.name}</strong><small>${renderer.escapeHtml(challenge.name)}</small>
+              <small>${title.days} / 5 jours validés${equipped ? " · Équipé" : ""}</small>
+            </div>
+            <button class="secondary-btn" type="button" data-camp-item="${challenge.id}"
+              data-camp-action="${equipped ? "title-remove" : "title-equip"}"
+              ${title.days < 5 ? "disabled" : ""}>${equipped ? "Retirer le titre" : "Équiper le titre"}</button>
+          </li>`];
+    });
+    titleIndex = Math.min(titleIndex, Math.max(0, titles.length - 1));
+    const titlesHtml = `<details id="campTitles" class="camp-equipment-slot" ${titlesOpen ? "open" : ""}>
+      <summary><strong>Titres</strong>${equippedTitle ? `<small>${renderer.escapeHtml(equippedTitle)} · Équipé</small>` : ""}</summary>
+      ${titles.length ? `<div class="camp-shop-carousel" role="group" aria-label="Parcourir les titres" data-title-count="${titles.length}">
+        ${titles.length > 1 ? '<button type="button" class="secondary-btn" data-camp-title-step="-1" aria-label="Titre précédent">←</button>' : ""}
+        <ul class="camp-items" aria-live="polite">${titles[titleIndex]}</ul>
+        ${titles.length > 1 ? '<button type="button" class="secondary-btn" data-camp-title-step="1" aria-label="Titre suivant">→</button>' : ""}
+      </div>${titles.length > 1 ? `<small class="camp-shop-count">${titleIndex + 1} / ${titles.length}</small>` : ""}`
+      : "<p>Les titres des défis apparaîtront ici.</p>"}
+    </details>`;
     const canRest = profile.streak > 0 && profile.lastActiveDate < today
       && camp.protectedThrough !== today && !camp.restedSinceWorkout;
     root.innerHTML = `
@@ -641,22 +672,7 @@ window.FitnessRpgCamp = (() => {
       <h2>Mon vestiaire</h2>
       ${inventory.length ? "" : "<p>Tes achats et tes trophées apparaîtront ici.</p>"}
       <div class="camp-equipment">${equipment}${familiarSlot}</div>
-      <h3>Titres</h3>
-      <ul class="camp-items">
-        ${(window.FitnessRpgChallenges?.CHALLENGES || []).map(challenge => {
-          const title = getChallengeTitle(challenge.id);
-          if (!title) return "";
-          const equipped = equippedTitle === title.name;
-          return `<li class="camp-item">
-            <div><strong>${title.name}</strong><small>${renderer.escapeHtml(challenge.name)}</small>
-              <small>${title.days} / 5 jours validés${equipped ? " · Équipé" : ""}</small>
-            </div>
-            <button class="secondary-btn" type="button" data-camp-item="${challenge.id}"
-              data-camp-action="${equipped ? "title-remove" : "title-equip"}"
-              ${title.days < 5 ? "disabled" : ""}>${equipped ? "Retirer le titre" : "Équiper le titre"}</button>
-          </li>`;
-        }).join("")}
-      </ul>
+      ${titlesHtml}
       <h2>Repos et gels de série</h2>
       <p>Série de ${profile.streak || 0} jour(s) actif(s)${camp.protectedThrough === today ? " · Protégée aujourd’hui" : ""}.</p>
       <p>${freePerMonth - quota.freeUsed}/2 gels gratuits ce mois-ci · ${paid}/2 fioles en réserve · ${quota.bought}/2 achats ce mois-ci.</p>
@@ -674,5 +690,5 @@ window.FitnessRpgCamp = (() => {
 
   return { migrate, reward, rewardFreeSession, rewardComplement, hasComplementReward, rewardLevels, rewardTrophy, rewardCampaignTrophy,
     settle, nextDay, isDate, hasValidSave, resolveOvernight, mutate, getPurchaseDetails, getLevelItem, getTrophy, getTrophyForVictory,
-    isEquipped, stepShop, avatar, fittingHtml, programTrophyHtml, getHeroTitle, getChallengeTitle, render };
+    isEquipped, stepShop, stepTitle, avatar, fittingHtml, programTrophyHtml, getHeroTitle, getChallengeTitle, render };
 })();
