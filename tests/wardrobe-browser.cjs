@@ -86,6 +86,32 @@ function exerciseWardrobe() {
     check(state.profile.camp.equipped.broche === "trophy-trail-compass", "Équipement persistant");
     check(state.profile.camp.gold === 100 && state.profile.totalXp === 0, "Soldes conservés");
     check(!card.querySelector(".camp-fitting") && card.querySelector('[data-fitting-action="preview"]').disabled, "Bilan confirmé");
+    state.setGoal("perte-poids");
+    window.FitnessRpgNavigation.openMobileDestination("planning");
+    document.querySelector('#planningSummary [data-mobile-destination="hero-menu"]').click();
+    const panel = document.querySelector("#sportProfilePanel");
+    panel.querySelector("#sportTrainingFields summary").click();
+    check(panel.querySelector("#sportAgeGroup").getClientRects().length, "Formulaire sportif visible");
+    panel.querySelector("#sportLevelSelect").value = "advanced";
+    panel.querySelector("#sportAgeGroup").value = "65+";
+    panel.querySelector("#sportHabitualActivity").value = "inactive";
+    panel.querySelector("#sportDurationInput").value = "7";
+    panel.querySelector("#sportMeasure-weightKg").value = "82.5";
+    panel.querySelector("#saveSportProfileButton").click();
+    state.loadProfile();
+    const sport = state.getSportProfile();
+    const recommendation = window.FitnessRpgSport.getTrainingRecommendation(sport);
+    check(sport.trainingProfile.weightKg === 82.5 && recommendation.level === "advanced", "Profil sportif persistant");
+    check(recommendation.initialMinutes === 7 && recommendation.includeBalance, "Reprise fractionnée et équilibre");
+    check(panel.querySelector('[role="status"]').textContent.includes("enregistré"), "Confirmation d’enregistrement");
+    window.confirm = () => false;
+    panel.querySelector("#clearTrainingProfileButton").click();
+    check(state.getSportProfile().trainingProfile !== null, "Annulation de l’effacement");
+    window.confirm = () => true;
+    panel.querySelector("#clearTrainingProfileButton").click();
+    state.loadProfile();
+    check(state.getSportProfile().trainingProfile === null && state.profile.camp.gold === 100, "Effacement ciblé et acquis conservés");
+    check(document.documentElement.scrollWidth <= innerWidth, "Formulaire sans défilement horizontal");
     document.body.dataset.wardrobeTest = "passed";
   } catch (error) {
     document.body.dataset.wardrobeTest = String(error);
@@ -118,7 +144,7 @@ async function main() {
           "--virtual-time-budget=2500", "--dump-dom", `http://127.0.0.1:${server.address().port}/`
         ], { timeout: 35000, maxBuffer: 8 * 1024 * 1024 });
         assert.equal(stdout.match(/<body\b[^>]*data-wardrobe-test="([^"]+)"/)?.[1], "passed");
-        console.log(`Vestiaire et trophée validés dans Chrome (fenêtre ${width} px).`);
+        console.log(`Vestiaire, trophées et profil sportif validés dans Chrome (fenêtre ${width} px).`);
       } finally {
         fs.rmSync(profile, { recursive: true, force: true, maxRetries: 3, retryDelay: 200 });
       }
