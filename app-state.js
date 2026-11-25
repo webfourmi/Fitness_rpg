@@ -569,6 +569,10 @@ window.FitnessRpgState.addTrainingEntry = function addTrainingEntry(entry = {}, 
     const trophyId = window.FitnessRpgCamp.rewardTrophy(camp, cleanEntry);
     if (trophyId) cleanEntry.trophyId = trophyId;
   }
+  if (camp && ["program", "program-boss"].includes(cleanEntry.type)) {
+    const trophyId = window.FitnessRpgCamp.rewardCampaignTrophy?.(camp, cleanEntry.programId);
+    if (trophyId) cleanEntry.campaignTrophyId = trophyId;
+  }
   window.FitnessRpgState.updateStreak(dateKey, { save: false });
 
   const journalEntry = {

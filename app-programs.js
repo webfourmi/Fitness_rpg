@@ -2755,6 +2755,8 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
     text: `Badge débloqué : ${badge.title}`
   }));
   if (completion?.gold) rewards.push({ icon: "🪙", text: `+${completion.gold} PO` });
+  const campaignTrophy = window.FitnessRpgCamp?.getTrophy(completion?.campaignTrophyId);
+  if (campaignTrophy) rewards.push({ icon: "🏆", text: `Trophée obtenu · ${campaignTrophy.name}`, trophyId: campaignTrophy.id });
   if (familiarPassive) {
     rewards.push({
       icon: "🐾",
@@ -2975,6 +2977,8 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
   }));
 
   if (completion?.gold) rewards.push({ icon: "🪙", text: `+${completion.gold} PO` });
+  const campaignTrophy = window.FitnessRpgCamp?.getTrophy(completion?.campaignTrophyId);
+  if (campaignTrophy) rewards.push({ icon: "🏆", text: `Trophée obtenu · ${campaignTrophy.name}`, trophyId: campaignTrophy.id });
   if (chestReward?.success) {
     rewards.push({
       icon: "🎁",
