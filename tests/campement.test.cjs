@@ -70,6 +70,7 @@ test('les victoires antérieures donnent leurs trophées sans versement supplém
   const legacy = JSON.parse(app.records.get(app.profileKey));
   delete legacy.camp.trophiesMigrated;
   legacy.camp.gold = 73;
+  legacy.camp.owned.push('trophy-astral-dragon');
   legacy.camp.claims[JSON.stringify(['boss', 'rempart-heros', 2])] = true;
   legacy.completedByDate = {
     '2026-11-19': [
@@ -228,8 +229,11 @@ for (const [programId, trophyId, badgeId] of finalTrophies) {
     window.setTimeout = () => {};
     programs.showMessage = () => {};
     camp.resolveOvernight();
-    assert.match(camp.programTrophyHtml(programId), /Remporte le boss de la semaine 4/);
+    assert.match(camp.programTrophyHtml(programId), /Termine les séances et les boss obligatoires/);
     assert.equal(camp.rewardTrophy(state.profile.camp, { type: 'program-boss', programId, weekNumber: 3 }), null);
+    programs.getProgramProgressDetails = () => ({
+      campaignComplete: state.getAllEntries().some(entry => entry.programId === programId && entry.weekNumber === 4)
+    });
     const finish = () => {
       state.startProgramBossSession(programId, 4);
       programs.getActiveProgramWorkout().exercises.forEach(({ exerciseId }, index) =>
@@ -238,7 +242,7 @@ for (const [programId, trophyId, badgeId] of finalTrophies) {
     };
     finish();
     assert.equal(state.getAllEntries()[0].badgeId, badgeId);
-    assert.equal(state.getAllEntries()[0].trophyId, trophyId);
+    assert.equal(state.getAllEntries()[0].campaignTrophyId, trophyId);
     assert.ok(summary.rewards.some(reward => reward.trophyId === trophyId));
     assert.match(camp.programTrophyHtml(programId), /Dans ton vestiaire/);
     assert.ok(camp.fittingHtml(trophyId).includes(camp.getTrophy(trophyId).variant));
@@ -262,7 +266,10 @@ test('mise à jour 7.0.8 : récupère les trois trophées à partir des preuves 
   legacy.completedByDate = { '2026-11-19': [
     { type: 'program-boss', programId: 'ballet-sylphes', title: 'Ballet des Sylphes · Semaine 4' }
   ] };
-  legacy.camp.claims[JSON.stringify(['boss', 'marche-aventurier', 4])] = true;
+  for (const id of ['ballet-sylphes', 'marche-aventurier', 'forge-guerrier']) {
+    legacy.camp.claims[JSON.stringify(['campaign', id])] = true;
+  }
+  legacy.camp.claims[JSON.stringify(['boss', 'tour-mage', 4])] = true;
   legacy.badges = ['seigneur-forge-vaincu'];
   legacy.camp.gold = 58;
   legacy.totalXp = 27;
@@ -280,4 +287,61 @@ test('mise à jour 7.0.8 : récupère les trois trophées à partir des preuves 
     assert.equal(JSON.stringify(state.profile.journal), JSON.stringify(legacy.journal));
     assert.deepEqual([...state.profile.badges], legacy.badges);
   }
+});
+
+test('Inébranlable compte les journées officielles distinctes et se conserve au rechargement', () => {
+  const app = boot();
+  const { camp, state, window } = app;
+  const history = [1, 3, 5, 8].map(day => ({
+    date: '2026-11-0' + day, status: 'completed', score: 12
+  }));
+  history.push(history[0], { date: '2026-11-09', status: 'interrupted' });
+  window.FitnessRpgChallenges = { read: () => ({ squats: { history } }) };
+  assert.match(camp.mutate('title-equip'), /cinq journées/);
+  history.push({ date: '2026-11-10', status: 'completed', score: 10 });
+  assert.match(camp.mutate('title-equip'), /Titre équipé/);
+  state.loadProfile();
+  assert.equal(camp.getHeroTitle(), 'Inébranlable');
+  assert.match(camp.mutate('title-remove'), /Titre retiré/);
+  state.loadProfile();
+  assert.equal(camp.getHeroTitle(), '');
+});
+
+test('chaque programme a un trophée unique, attribué aussi si une séance clôt le programme', () => {
+  const { camp, state, programs, window } = boot();
+  camp.resolveOvernight();
+  let complete = false;
+  programs.getProgramProgressDetails = () => ({ campaignComplete: complete });
+  const catalogue = window.FitnessRpgConfig.programs;
+  assert.equal(catalogue.length, 15);
+  for (const { id } of catalogue) {
+    complete = false;
+    assert.match(camp.programTrophyHtml(id), /Termine les séances/);
+    assert.equal(camp.rewardCampaignTrophy(state.profile.camp, id), null);
+    complete = true;
+    const entry = state.addTrainingEntry({ type: 'program', programId: id, dayNumber: 1, weekNumber: 1 });
+    assert.ok(entry.campaignTrophyId);
+    assert.equal(camp.rewardCampaignTrophy(state.profile.camp, id), null);
+    assert.match(camp.programTrophyHtml(id), /Dans ton vestiaire/);
+  }
+  assert.equal(new Set(state.profile.camp.owned).size, 15);
+});
+
+test('les six défis ont des titres distincts et un seul titre reste équipé', () => {
+  const { camp, state, window } = boot();
+  const ids = ['squats', 'pushups', 'crunches', 'plank', 'wall', 'jacks'];
+  const history = [1, 3, 5, 7, 9].map(day => ({
+    date: '2026-11-0' + day, status: 'completed', score: 12
+  }));
+  window.FitnessRpgChallenges = { read: () => Object.fromEntries(ids.map(id => [id, { history }])) };
+  const names = new Set();
+  for (const id of ids) {
+    assert.match(camp.mutate('title-equip', id), /Titre équipé/);
+    state.loadProfile();
+    assert.equal(state.profile.camp.heroTitle, id);
+    names.add(camp.getHeroTitle());
+  }
+  assert.equal(names.size, 6);
+  state.profile.camp.heroTitle = 'iron-throne';
+  assert.equal(camp.getHeroTitle(), 'Inébranlable');
 });

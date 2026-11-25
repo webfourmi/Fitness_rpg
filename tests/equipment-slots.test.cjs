@@ -125,7 +125,7 @@ test('le vestiaire expose chaque acquisition une fois et présente la plus réce
   assert.equal(wardrobe.match(/data-camp-item="trophy-astral-dragon"/g)?.length, 1);
   assert.match(wardrobe, /data-camp-slot="cape" open>/);
   assert.ok(wardrobe.indexOf('Cape étoilée') < wardrobe.indexOf('Cape de l’aventurier'));
-  assert.match(wardrobe, /Boss de la semaine 4/);
+  assert.match(wardrobe, /Programme terminé/);
 });
 
 test('essayer un ancien trophée conserve la tenue, la bourse et les récompenses enregistrées', () => {

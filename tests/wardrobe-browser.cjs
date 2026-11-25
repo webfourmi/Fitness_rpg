@@ -24,7 +24,7 @@ function exerciseWardrobe() {
     ]) {
       render.renderProgramDetail(program);
       const preview = document.querySelector("#programDetail .program-trophy");
-      check(preview?.textContent.includes(name) && preview.textContent.includes("semaine 4"), name);
+      check(preview?.textContent.includes(name) && preview.textContent.includes("boss obligatoires"), name);
       const bounds = preview.querySelector(".trophy-art--" + art).getBoundingClientRect();
       check(bounds.width > 0 && bounds.right <= innerWidth, "Illustration visible");
     }

@@ -1913,6 +1913,38 @@ small {
   background: linear-gradient(146deg, #24212a 12%, #67525a 24%, #322d36 37%, #aa5544 41%, #41363e 44%, #241f28 58%, #ff8050 60% 62%, #392e35 63%);
 }
 
+.trophy-art--emblem { display: grid; place-items: center; font-size: 2rem; }
+.camp-avatar [data-camp-ornament]::before {
+  content: attr(data-camp-ornament);
+  color: var(--ornament-color);
+  font-size: clamp(7px, 3vw, 24px);
+  line-height: 1;
+}
+.camp-avatar-clasp[data-camp-ornament] { background: #25252b; border-color: var(--ornament-color); }
+.camp-avatar-headband[data-camp-ornament] { background: var(--ornament-color); height: 3%; }
+.camp-avatar-headband[data-camp-ornament]::before { background: none; clip-path: none; color: #39283b; width: auto; height: auto; }
+.camp-avatar-cloak[data-camp-ornament] { background: linear-gradient(105deg, #212235, var(--ornament-color), #242437); }
+.camp-avatar-cloak[data-camp-ornament]::before { position: absolute; top: 28%; left: 21%; }
+.camp-avatar-aura[data-camp-ornament] {
+  background: radial-gradient(ellipse, transparent 40%, color-mix(in srgb, var(--ornament-color) 45%, transparent) 62%, transparent 74%);
+}
+.camp-avatar-aura[data-camp-ornament]::before { content: none; }
+.camp-avatar-arm { display: none; }
+.camp-avatar-arm[data-camp-ornament] {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  z-index: 3;
+  left: 31%;
+  top: 39%;
+  width: 8%;
+  height: 4%;
+  border-radius: 20%;
+  background: linear-gradient(#392821, #815b43, #34241e);
+  transform: rotate(-15deg);
+}
+.camp-avatar--heroine .camp-avatar-arm { left: 34%; top: 41%; }
+
 .camp-card { max-width: 740px; margin-inline: auto; }
 .camp-card h2 { margin-top: 1.45rem; }
 .camp-summary { display: grid; grid-template-columns: minmax(90px, 160px) 1fr; gap: 1rem; align-items: center; }

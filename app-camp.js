@@ -5,7 +5,8 @@ window.FitnessRpgCamp = (() => {
     outfit: "Tenue",
     cape: "Cape",
     broche: "Accessoire",
-    aura: "Aura"
+    aura: "Aura",
+    arm: "Brassard"
   };
   const catalog = [
     { id: "garnet-headband", slot: "head", name: "Bandeau grenat", price: 40, style: "grenat" },
@@ -36,7 +37,21 @@ window.FitnessRpgCamp = (() => {
     { id: "trophy-forge-cape", programId: "forge-guerrier", week: 4, badgeId: "seigneur-forge-vaincu",
       name: "Cape de la Forge", slot: "cape", style: "aventurier", variant: "trophee-braise", art: "ember" }
   ];
-  const trophyCatalogVersion = 2;
+  const campaignTrophies = [
+    { programId: "epreuves-forge", name: "Sceau de la Forge", slot: "broche", style: "dragon", mark: "⚒", color: "#e59a66" },
+    { programId: "eveil-heros", name: "Broche de l’Aube", slot: "broche", style: "dragon", mark: "☀", color: "#e4a954" },
+    { programId: "coeur-dragon", name: "Aura du Cœur-dragon", slot: "aura", style: "solaire", mark: "◉", color: "#e26749" },
+    { programId: "cavalier-route", name: "Cape du Grand Chemin", slot: "cape", style: "aventurier", mark: "◇", color: "#6f8ca9" },
+    { programId: "champion-arenes", name: "Couronne des Arènes", slot: "head", style: "grenat", mark: "♛", color: "#c79551" },
+    { programId: "rempart-heros", name: "Cape du Bastion", slot: "cape", style: "aventurier", mark: "▥", color: "#9e3d56" },
+    { programId: "bras-heros", name: "Brassard du Héros", slot: "arm", style: "brassard", mark: "◆", color: "#bdc7d0" },
+    { programId: "sanctuaire-voyageur", name: "Broche du Refuge", slot: "broche", style: "dragon", mark: "❧", color: "#72ca9d" },
+    { programId: "maitre-flux", name: "Aura du Courant", slot: "aura", style: "lunaire", mark: "≈", color: "#5ce2d9" },
+    { programId: "archimage-corps", name: "Étole de l’Archimage", slot: "cape", style: "aventurier", mark: "✧", color: "#ebdcef" },
+    { programId: "grand-maitre-arcanes", name: "Diadème des Arcanes", slot: "head", style: "grenat", mark: "✦", color: "#be91ef" }
+  ].map(item => ({ ...item, id: "trophy-campaign-" + item.programId }))
+    .concat(trophies.filter(item => item.week === 4));
+  const trophyCatalogVersion = 3;
   const shopSelection = Object.create(null);
   const freezePrice = 60;
   const goldPerLevel = 20;
@@ -68,17 +83,17 @@ window.FitnessRpgCamp = (() => {
   }
 
   function getTrophy(id) {
-    return trophies.find((item) => item.id === id);
+    return trophies.find(item => item.id === id) || campaignTrophies.find(item => item.id === id);
   }
 
   function programTrophyHtml(programId) {
-    const item = trophies.find(trophy => trophy.programId === programId && trophy.art);
+    const item = campaignTrophies.find(trophy => trophy.programId === programId);
     if (!item) return "";
     const owned = state().getProfile()?.camp?.owned.includes(item.id);
     return `<aside class="program-trophy" aria-label="Trophée du programme">
-      <span class="trophy-display" aria-hidden="true"><span class="trophy-art trophy-art--${item.art}"></span></span>
+      <span class="trophy-display" aria-hidden="true"><span class="trophy-art trophy-art--${item.art || "emblem"}" ${item.color ? `style="color:${item.color}"` : ""}>${item.mark || ""}</span></span>
       <div><strong>${item.name}</strong>
-        <p>${owned ? "Dans ton vestiaire" : `Remporte le boss de la semaine ${item.week} pour gagner ce trophée.`}</p>
+        <p>${owned ? "Dans ton vestiaire" : "Termine les séances et les boss obligatoires du programme."}</p>
       </div>
     </aside>`;
   }
@@ -95,7 +110,9 @@ window.FitnessRpgCamp = (() => {
   function getShopItems(slot, camp, level) {
     const items = catalog.filter((item) => item.slot === slot && !camp.owned.includes(item.id));
     const owned = new Set(camp.owned);
-    const firstLevel = 2 + bossGear.findIndex((item) => item.slot === slot);
+    const designIndex = bossGear.findIndex(item => item.slot === slot);
+    if (designIndex < 0) return items;
+    const firstLevel = 2 + designIndex;
     for (let nextLevel = firstLevel; nextLevel <= level + bossGear.length; nextLevel += bossGear.length) {
       const item = getLevelItem(nextLevel);
       if (!owned.has(item.id)) items.push(item);
@@ -202,7 +219,14 @@ window.FitnessRpgCamp = (() => {
 
   function rewardTrophy(camp, entry) {
     const trophy = getTrophyForVictory(entry);
-    if (!trophy || camp.owned.includes(trophy.id)) return null;
+    if (!trophy || campaignTrophies.includes(trophy) || camp.owned.includes(trophy.id)) return null;
+    camp.owned.push(trophy.id);
+    return trophy.id;
+  }
+
+  function rewardCampaignTrophy(camp, programId) {
+    const trophy = campaignTrophies.find(item => item.programId === programId);
+    if (!trophy || camp.owned.includes(trophy.id) || !isCampaignComplete(programId)) return null;
     camp.owned.push(trophy.id);
     return trophy.id;
   }
@@ -214,12 +238,20 @@ window.FitnessRpgCamp = (() => {
     for (const entry of state().getAllEntries()) {
       if (entry.type === "program-boss") preservedVictories.add(rewardKey(entry));
       const trophy = getTrophyForVictory(entry);
-      if (trophy) pastTrophies.add(trophy.id);
+      if (trophy && !campaignTrophies.includes(trophy)) {
+        pastTrophies.add(trophy.id);
+      }
     }
     for (const trophy of trophies) {
+      if (campaignTrophies.includes(trophy)) continue;
       const key = JSON.stringify(["boss", trophy.programId, trophy.week]);
       if ((camp.claims[key] && !preservedVictories.has(key)) || state().hasBadge(trophy.badgeId)) {
         pastTrophies.add(trophy.id);
+      }
+    }
+    for (const item of campaignTrophies) {
+      if (camp.claims[JSON.stringify(["campaign", item.programId])] || isCampaignComplete(item.programId)) {
+        pastTrophies.add(item.id);
       }
     }
     return { ...camp, owned: [...pastTrophies], trophiesMigrated: true, trophyCatalogVersion };
@@ -329,6 +361,30 @@ window.FitnessRpgCamp = (() => {
     }
   }
 
+  const challengeTitles = {
+    squats: "Inébranlable",
+    pushups: "Cœur de Rempart",
+    crunches: "Sceau du Centre",
+    plank: "Sentinelle",
+    wall: "Pilier de la Forteresse",
+    jacks: "Lame vive"
+  };
+
+  function getChallengeTitle(challengeId, history = window.FitnessRpgChallenges?.read()?.[challengeId]?.history) {
+    if (!Object.hasOwn(challengeTitles, challengeId)) return null;
+    const days = new Set((Array.isArray(history) ? history : [])
+      .filter(entry => entry?.status === "completed" && isDate(entry.date)
+        && Number.isSafeInteger(entry.score) && entry.score >= 0)
+      .map(entry => entry.date));
+    return { name: challengeTitles[challengeId], days: Math.min(days.size, 5) };
+  }
+
+  function getHeroTitle() {
+    const equipped = state().getProfile()?.camp?.heroTitle;
+    const title = getChallengeTitle(equipped === "iron-throne" ? "squats" : equipped);
+    return title?.days === 5 ? title.name : "";
+  }
+
   function mutate(action, id) {
     const profile = state().getProfile();
     if (!profile) return "Crée un héros pour accéder au campement.";
@@ -366,6 +422,18 @@ window.FitnessRpgCamp = (() => {
         camp.gold -= item.price;
         camp.owned.push(id);
         message = item.name + " rejoint ton inventaire.";
+        break;
+      case "title-equip": {
+        const challengeId = id || "squats";
+        const title = getChallengeTitle(challengeId);
+        if (title?.days !== 5) return "Valide cette épreuve lors de cinq journées distinctes.";
+        camp.heroTitle = challengeId;
+        message = title.name + " · Titre équipé";
+        break;
+      }
+      case "title-remove":
+        delete camp.heroTitle;
+        message = "Titre retiré";
         break;
       case "equip":
         if (!item || !camp.owned.includes(id)) return "Cet objet est indisponible.";
@@ -417,6 +485,9 @@ window.FitnessRpgCamp = (() => {
     const equipped = Object.values(outfit).map(getItem).filter(Boolean);
     const styles = equipped.flatMap((item) => item.variant ? [item.style, item.variant] : [item.style])
       .map((style) => `camp-avatar--${style}`).join(" ");
+    const ornaments = Object.fromEntries(equipped.filter(item => item.mark).map(item => [item.slot, item]));
+    const decoration = slot => ornaments[slot]
+      ? ` data-camp-ornament="${ornaments[slot].mark}" style="--ornament-color:${ornaments[slot].color}"` : "";
     const hues = equipped.filter((item) => item.hue)
       .map((item) => `--camp-${item.slot}-hue:${item.hue}deg`).join(";");
     const pose = heroine ? " camp-avatar--heroine" : "";
@@ -429,12 +500,13 @@ window.FitnessRpgCamp = (() => {
     return `<div class="camp-avatar camp-avatar--ranked camp-avatar--rank-${rank.appearance} camp-avatar--rank-step-${rankStep} ${styles}${pose}" ${hues ? `style="${hues}"` : ""}>
       <img src="${heroPath}" alt="${alt}" class="${imageClass}" ${imageAttributes}>
       <span class="camp-avatar-rank-marks" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
-      <span class="camp-avatar-aura" aria-hidden="true"></span>
-      <span class="camp-avatar-cloak" aria-hidden="true"></span>
+      <span class="camp-avatar-aura"${decoration("aura")} aria-hidden="true"></span>
+      <span class="camp-avatar-cloak"${decoration("cape")} aria-hidden="true"></span>
       <span class="camp-avatar-tunic" aria-hidden="true"></span>
       <span class="camp-avatar-mantle" aria-hidden="true"></span>
-      <span class="camp-avatar-clasp" aria-hidden="true"></span>
-      <span class="camp-avatar-headband" aria-hidden="true"></span>
+      <span class="camp-avatar-clasp"${decoration("broche")} aria-hidden="true"></span>
+      <span class="camp-avatar-headband"${decoration("head")} aria-hidden="true"></span>
+      <span class="camp-avatar-arm"${decoration("arm")} aria-hidden="true"></span>
       ${familiar?.image ? `<img class="camp-avatar-familiar" src="${escape(familiar.image)}" alt="${escape(familiar.name)}">` : ""}
     </div>`;
   }
@@ -442,6 +514,7 @@ window.FitnessRpgCamp = (() => {
   function itemOrigin(item) {
     if (item.programId) {
       const title = window.FitnessRpgPrograms?.getProgram?.(item.programId)?.title || item.programId;
+      if (campaignTrophies.includes(item)) return `Trophée · ${title} · Programme terminé`;
       return `Trophée · ${title} · Boss de la semaine ${item.week}`;
     }
     return item.minLevel ? `Boutique · Débloqué au niveau ${item.minLevel}` : "Boutique du campement";
@@ -528,6 +601,7 @@ window.FitnessRpgCamp = (() => {
         ${arrows ? `<small class="camp-shop-count">${index + 1} / ${items.length}</small>` : ""}
       </section>`;
     }).join("");
+    const equippedTitle = getHeroTitle();
     const canRest = profile.streak > 0 && profile.lastActiveDate < today
       && camp.protectedThrough !== today && !camp.restedSinceWorkout;
     root.innerHTML = `
@@ -553,6 +627,22 @@ window.FitnessRpgCamp = (() => {
       <h2>Mon vestiaire</h2>
       ${inventory.length ? "" : "<p>Tes achats et tes trophées apparaîtront ici.</p>"}
       <div class="camp-equipment">${equipment}${familiarSlot}</div>
+      <h3>Titres</h3>
+      <ul class="camp-items">
+        ${(window.FitnessRpgChallenges?.CHALLENGES || []).map(challenge => {
+          const title = getChallengeTitle(challenge.id);
+          if (!title) return "";
+          const equipped = equippedTitle === title.name;
+          return `<li class="camp-item">
+            <div><strong>${title.name}</strong><small>${renderer.escapeHtml(challenge.name)}</small>
+              <small>${title.days} / 5 jours validés${equipped ? " · Équipé" : ""}</small>
+            </div>
+            <button class="secondary-btn" type="button" data-camp-item="${challenge.id}"
+              data-camp-action="${equipped ? "title-remove" : "title-equip"}"
+              ${title.days < 5 ? "disabled" : ""}>${equipped ? "Retirer le titre" : "Équiper le titre"}</button>
+          </li>`;
+        }).join("")}
+      </ul>
       <h2>Repos et gels de série</h2>
       <p>Série de ${profile.streak || 0} jour(s) actif(s)${camp.protectedThrough === today ? " · Protégée aujourd’hui" : ""}.</p>
       <p>${freePerMonth - quota.freeUsed}/2 gels gratuits ce mois-ci · ${paid}/2 fioles en réserve · ${quota.bought}/2 achats ce mois-ci.</p>
@@ -568,7 +658,7 @@ window.FitnessRpgCamp = (() => {
     `;
   }
 
-  return { migrate, reward, rewardFreeSession, rewardComplement, hasComplementReward, rewardLevels, rewardTrophy,
+  return { migrate, reward, rewardFreeSession, rewardComplement, hasComplementReward, rewardLevels, rewardTrophy, rewardCampaignTrophy,
     settle, nextDay, isDate, hasValidSave, resolveOvernight, mutate, getPurchaseDetails, getLevelItem, getTrophy, getTrophyForVictory,
-    isEquipped, stepShop, avatar, fittingHtml, programTrophyHtml, render };
+    isEquipped, stepShop, avatar, fittingHtml, programTrophyHtml, getHeroTitle, getChallengeTitle, render };
 })();

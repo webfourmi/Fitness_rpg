@@ -106,7 +106,9 @@
     selected=c;phase="idle";variant=false;
     playing=!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     const e=entry(c.id),done=e.lastDay===today();
-    draw('<button data-action="back" class="hero-challenge-secondary">← Épreuves</button><h2>'+c.icon+' '+escapeHtml(c.name)+'</h2><p>'+escapeHtml(c.exercise)+' · '+(c.hold?"Maintenir la position, jusqu’à 3 minutes.":"Maximum de répétitions correctes en 60 secondes.")+'</p><div class="hero-challenge-lesson"></div><p class="hero-challenge-record">🏆 Record personnel : <strong>'+(e.best??"—")+'</strong> '+escapeHtml(c.unit)+'</p>'+(done?'<p class="hero-challenge-notice">Tentative officielle déjà effectuée aujourd’hui. Reviens demain !</p>':'<button class="hero-challenge-primary" data-action="prepare">Commencer l’épreuve</button>')+'<p class="hero-challenge-note">Arrête en cas de douleur ou de malaise. Échauffe-toi avant de commencer.</p>');
+    const title = window.FitnessRpgCamp?.getChallengeTitle?.(c.id, e.history);
+    const titleHtml = title ? '<p class="hero-challenge-note"><strong>'+escapeHtml(title.name)+'</strong> · '+title.days+' / 5 jours validés'+(title.days === 5 ? ' · Titre débloqué' : '')+'</p>' : '';
+    draw('<button data-action="back" class="hero-challenge-secondary">← Épreuves</button><h2>'+c.icon+' '+escapeHtml(c.name)+'</h2><p>'+escapeHtml(c.exercise)+' · '+(c.hold?"Maintenir la position, jusqu’à 3 minutes.":"Maximum de répétitions correctes en 60 secondes.")+'</p><div class="hero-challenge-lesson"></div><p class="hero-challenge-record">🏆 Record personnel : <strong>'+(e.best??"—")+'</strong> '+escapeHtml(c.unit)+'</p>'+titleHtml+(done?'<p class="hero-challenge-notice">Tentative officielle déjà effectuée aujourd’hui. Reviens demain !</p>':'<button class="hero-challenge-primary" data-action="prepare">Commencer l’épreuve</button>')+'<p class="hero-challenge-note">Arrête en cas de douleur ou de malaise. Échauffe-toi avant de commencer.</p>');
     renderLesson();
   }
   function prepare(){
