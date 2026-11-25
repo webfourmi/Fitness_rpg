@@ -91,7 +91,10 @@ function exerciseWardrobe() {
     document.querySelector('#planningSummary [data-mobile-destination="hero-menu"]').click();
     const panel = document.querySelector("#sportProfilePanel");
     panel.querySelector("#sportTrainingFields summary").click();
-    check(panel.querySelector("#sportAgeGroup").getClientRects().length, "Formulaire sportif visible");
+    const fields = panel.querySelector("#sportTrainingFields");
+    check(fields.querySelector("#sportAgeGroup").getClientRects().length, "Formulaire sportif visible");
+    check(fields.getBoundingClientRect().right <= innerWidth && fields.scrollWidth <= fields.clientWidth + 1,
+      "Formulaire dans la largeur disponible");
     panel.querySelector("#sportLevelSelect").value = "advanced";
     panel.querySelector("#sportAgeGroup").value = "65+";
     panel.querySelector("#sportHabitualActivity").value = "inactive";
@@ -111,7 +114,6 @@ function exerciseWardrobe() {
     panel.querySelector("#clearTrainingProfileButton").click();
     state.loadProfile();
     check(state.getSportProfile().trainingProfile === null && state.profile.camp.gold === 100, "Effacement ciblé et acquis conservés");
-    check(document.documentElement.scrollWidth <= innerWidth, "Formulaire sans défilement horizontal");
     document.body.dataset.wardrobeTest = "passed";
   } catch (error) {
     document.body.dataset.wardrobeTest = String(error);

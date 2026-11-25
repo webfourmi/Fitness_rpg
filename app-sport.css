@@ -112,6 +112,15 @@
   background: rgba(255, 255, 255, .035);
 }
 
+#sportTrainingFields > :not(summary) {
+  margin: 0 12px 12px;
+}
+
+#sportTrainingFields fieldset {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
 .sport-equipment-details summary {
   display: flex;
   align-items: center;
