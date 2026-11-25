@@ -1,0 +1,5 @@
+# La Voie du Héros · Phase 6 · Coach adaptatif
+
+Le planning montre le bilan du coach déjà utilisé par Perte de poids. Avant un nouveau départ, la personne renseigne sa récupération pour la journée. La fatigue raccourcit la durée cible et privilégie les mouvements légers. Le report suspend les départs et la réponse facultative conserve une marge de prudence. Une séance déjà lancée garde son adaptation. Les seuils réutilisent les règles de conception du parcours existant.
+
+Le bilan facultatif de la séance porte sur l’effort, la douleur, la fatigue et la récupération. Les signaux de sécurité priment sur la progression. Une progression de durée ou de répétitions nécessite deux bilans faciles comparables, un accord et une récupération confirmée. Elle concerne un seul mouvement dans le temps disponible. La progression de séries ou de charge et le changement de niveau restent manuels. Une révision ou un boss ne déclenche pas cette augmentation. L’arrêt de sécurité réutilise la suspension et l’enregistrement déjà présents.

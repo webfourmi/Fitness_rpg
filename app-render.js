@@ -1083,7 +1083,7 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
 
       <footer class="guided-action-dock" aria-label="Actions de la séance">
         ${actionsHtml}
-        ${session.weightPlanningWorkout ? `<details><summary>Arrêter en cas de douleur ou de malaise</summary>
+        ${(session.weightPlanningWorkout || session.heroPlanningWorkout) ? `<details><summary>Arrêter en cas de douleur ou de malaise</summary>
           <button type="button" class="ghost-btn" data-coach-stop="pain" data-exercise-id="${activeItem.exerciseId}">Arrêter · douleur liée au mouvement</button>
           <button type="button" class="ghost-btn" data-coach-stop="urgent">Arrêter · douleur thoracique, malaise ou essoufflement marqué</button>
         </details>` : ""}

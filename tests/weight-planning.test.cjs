@@ -220,3 +220,41 @@ test("les restrictions et le matériel filtrent les compléments", () => {
   state.updateSportProfile({ trainingProfile: { medicalRestriction: true } });
   assert.equal(hero.adaptWorkout("eveil-heros", { exercises: [] }).restricted, true);
 });
+
+test("la récupération est confirmée avant le départ, peut reporter et allège la séance", () => {
+  const { state, hero, programs } = boot();
+  programs.showMessage = () => {};
+  state.setActiveProgramId("marche-aventurier");
+  state.getProfile().heroPlanning = { goalId: state.getGoalId(), focus: "endurance" };
+  const workout = { exercises: [{ exerciseId: "slow_walk", amount: 5, unit: "min" }] };
+  assert.equal(hero.allowWorkout("marche-aventurier", workout), false);
+  assert.equal(hero.saveRecovery("rest"), true);
+  assert.equal(hero.allowWorkout("marche-aventurier", workout), false);
+  assert.equal(hero.saveRecovery("tired"), true);
+  state.loadProfile();
+  assert.equal(hero.allowWorkout("marche-aventurier", workout), true);
+  assert.equal(hero.adaptWorkout("marche-aventurier", workout).minutes, 3.75);
+  state.todayKey = () => "2099-01-01";
+  assert.equal(hero.allowWorkout("marche-aventurier", workout), false);
+});
+
+test("la progression de La Voie du Héros exige deux bilans du même objectif et un accord", () => {
+  const { state, hero, coach } = boot();
+  state.setActiveProgramId("marche-aventurier");
+  state.getProfile().heroPlanning = { goalId: state.getGoalId(), focus: "endurance" };
+  state.updateSportProfile({ preferredDuration: 15, trainingProfile: { activity: "regular" } });
+  hero.saveRecovery("ready");
+  const draft = { programId: "marche-aventurier", type: "program", heroPlanningFocus: "endurance", heroProgressionAllowed: true };
+  const easy = { effort: 3, pain: "none", fatigue: "low", recovery: "good" };
+  const workout = { exercises: [{ exerciseId: "walk", amount: 5, unit: "min" }] };
+  assert.equal(coach.record({ ...draft, sourceSessionId: "a", heroPlanningFocus: "force" }, easy).result, "hold");
+  assert.equal(coach.record({ ...draft, sourceSessionId: "b" }, easy).result, "hold");
+  assert.equal(coach.record({ ...draft, sourceSessionId: "c" }, easy).result, "offer");
+  assert.equal(hero.adaptWorkout("marche-aventurier", workout).increased, false);
+  assert.equal(coach.choose("accepted"), true);
+  assert.equal(hero.adaptWorkout("marche-aventurier", workout).exercises[0].amount, 5.5);
+  state.startProgramSession("marche-aventurier", 1, 1);
+  assert.equal(hero.adaptWorkout("marche-aventurier", workout).increased, false);
+  assert.equal(coach.record({ ...draft, sourceSessionId: "d" }, { ...easy, alert: true }).result, "urgent");
+  assert.equal(hero.adaptWorkout("marche-aventurier", workout).restricted, true);
+});

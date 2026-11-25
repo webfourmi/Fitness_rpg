@@ -22,7 +22,8 @@
     if (report.pain === "significant") return "pause";
     if (report.effort >= 8 || report.fatigue === "high" || report.recovery === "poor" || report.pain === "unusual") return "reduce";
     const previous = prior[0];
-    if (easy(report) && previous?.programId === report.programId && previous.type === report.type
+    if (easy(report) && (!report.focus || report.progressionAllowed) && previous?.programId === report.programId
+      && previous.type === report.type && previous.focus === report.focus
       && previous.result === "hold" && easy(previous)) return "offer";
     return "hold";
   }
@@ -47,6 +48,7 @@
     const allowed = (value, values) => values.includes(value) ? value : null;
     const report = {
       sessionId: draft.sourceSessionId, programId: draft.programId, type: draft.type, date: State.todayKey(),
+      ...(draft.heroPlanningFocus && { focus: draft.heroPlanningFocus, progressionAllowed: draft.heroProgressionAllowed }),
       effort: Number.isInteger(input.effort) && input.effort >= 1 && input.effort <= 10 ? input.effort : null,
       pain: allowed(input.pain, ["none", "unusual", "significant"]),
       fatigue: allowed(input.fatigue, ["low", "medium", "high"]),
@@ -66,14 +68,14 @@
     return save({ safety: next, history: [report, ...history()].slice(0, 150) }) ? report : null;
   }
 
-  function adjustment(programId, type) {
+  function adjustment(programId, type, focus) {
     const lock = safety();
     const latest = history()[0];
     return {
       blocked: Boolean(lock.urgent || lock.review), paused: lock.paused,
       factor: latest?.result === "reduce" ? 0.75 : 1,
       increase: Boolean(!lock.urgent && !lock.review && !lock.paused.length
-        && latest?.choice === "accepted" && latest.programId === programId && latest.type === type)
+        && latest?.choice === "accepted" && latest.programId === programId && latest.type === type && latest.focus === focus)
     };
   }
 
@@ -94,16 +96,18 @@
   const escape = (value) => Render.escapeHtml(value);
   const coach = () => escape(window.FitnessRpgData.getCoach(State.getCoachId?.())?.name || "Coach");
 
-  function planningHtml() {
+  function planningHtml(attribute = "data-weight-plan", focus = undefined) {
     const [latest] = history();
     if (!latest) return "";
     const lock = safety();
     const paused = lock.urgent || lock.review || lock.paused.length;
-    const message = lock.urgent ? messages.urgent : paused ? messages.pause : messages[latest.result];
+    const message = lock.urgent ? messages.urgent : paused ? messages.pause
+      : latest.focus && latest.result === "offer" ? "Deux bilans comparables étaient faciles. Tu peux essayer une petite progression pour ton objectif."
+      : messages[latest.result];
     return `<section aria-label="Coach adaptatif"><strong>${coach()}</strong><p>${message}</p>
-      ${latest.choice === "pending" && !paused
-        ? '<button type="button" class="secondary-btn" data-weight-plan="coach-accept">Essayer la progression</button> <button type="button" class="ghost-btn" data-weight-plan="coach-decline">Garder mon rythme</button>' : ""}
-      ${paused ? '<button type="button" class="ghost-btn" data-weight-plan="coach-resume">Reprendre après avis professionnel</button>' : ""}
+      ${latest.choice === "pending" && latest.focus === focus && !paused
+        ? `<button type="button" class="secondary-btn" ${attribute}="coach-accept">Essayer la progression</button> <button type="button" class="ghost-btn" ${attribute}="coach-decline">Garder mon rythme</button>` : ""}
+      ${paused ? `<button type="button" class="ghost-btn" ${attribute}="coach-resume">Reprendre après avis professionnel</button>` : ""}
       <details><summary>Historique des ajustements</summary><ul>${history().slice(0, 8).map((item) =>
         `<li>${escape(item.date)} · ${messages[item.result] || ""}
         ${({ accepted: "Progression acceptée.", declined: "Rythme conservé.", applied: "Progression appliquée." })[item.choice] || ""}</li>`).join("")}</ul></details></section>`;
@@ -150,13 +154,16 @@
       return;
     }
     Sport.savePendingPerformance(report.effort);
-    panel.innerHTML = `<strong>${coach()}</strong><p role="status">${messages[report.result]}</p>
+    const message = report.focus && report.result === "offer"
+      ? "Deux bilans comparables étaient faciles. Tu peux essayer une petite progression pour ton objectif."
+      : messages[report.result];
+    panel.innerHTML = `<strong>${coach()}</strong><p role="status">${message}</p>
       ${report.result === "offer" ? "<p>Choisis dans le planning si tu souhaites essayer cette progression.</p>" : ""}`;
   }
 
   function stopSession(kind, exerciseId) {
     const session = State.getActiveProgramSession();
-    if (!session?.weightPlanningWorkout) return;
+    if (!session?.weightPlanningWorkout && !session?.heroPlanningWorkout) return;
     const alert = kind === "urgent";
     const report = record(Sport.captureSessionDraft(session), { alert, pain: "significant", exerciseId });
     State.clearActiveProgramSession();

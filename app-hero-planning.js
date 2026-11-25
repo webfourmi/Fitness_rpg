@@ -31,6 +31,42 @@
     return saved && Rules.assess(saved.focus, sport);
   }
 
+  const recoveryChoices = {
+    ready: "Bien récupéré", tired: "Encore fatigué", rest: "Reporter la séance", unknown: "Je préfère ne pas répondre"
+  };
+
+  function recovery() {
+    const current = State.getProfile()?.heroPlanningRecovery;
+    return current?.date === State.todayKey() && Object.hasOwn(recoveryChoices, current.choice) ? current.choice : null;
+  }
+
+  function saveRecovery(choice) {
+    const profile = State.getProfile();
+    if (!profile || !Object.hasOwn(recoveryChoices, choice)) return false;
+    const previous = profile.heroPlanningRecovery;
+    profile.heroPlanningRecovery = { date: State.todayKey(), choice };
+    try {
+      State.saveProfile();
+      return true;
+    } catch (error) {
+      profile.heroPlanningRecovery = previous;
+      console.error("Fitness RPG · récupération non enregistrée", error);
+      return false;
+    }
+  }
+
+  function recoveryHtml() {
+    return `<section aria-label="Récupération avant la séance">
+      <label>Comment as-tu récupéré aujourd’hui ?
+        <select id="heroRecovery"><option value="">Choisir une réponse</option>
+          ${Object.entries(recoveryChoices).map(([id, label]) => `<option value="${id}" ${recovery() === id ? "selected" : ""}>${label}</option>`).join("")}
+        </select>
+      </label>
+      <button type="button" class="secondary-btn" data-hero-plan="recovery">Confirmer ma récupération</button>
+      <p id="heroRecoveryStatus" role="status">${recovery() === "rest" ? "Séances reportées pour aujourd’hui. Tu peux modifier ce choix." : ""}</p>
+    </section>`;
+  }
+
   function sessionSlots(sport, frequency) {
     const available = sport.trainingProfile?.availableDays || [];
     const candidates = (available.length ? days.filter((day) => available.includes(day)) : days).map((day) => days.indexOf(day));
@@ -59,17 +95,19 @@
     });
   }
 
-  function adaptWorkout(id, workout, { boss = false, sport = State.getSportProfile() } = {}) {
+  function adaptWorkout(id, workout, { boss = false, sport = State.getSportProfile(), allowIncrease = true } = {}) {
     if (!selection() || primaryProgramId() !== id || !workout) return null;
     const checked = assess(sport);
-    const coach = window.FitnessRpgAdaptiveCoach?.adjustment(id, boss ? "program-boss" : "program");
+    const focus = selection().focus;
+    const coach = window.FitnessRpgAdaptiveCoach?.adjustment(id, boss ? "program-boss" : "program", focus);
+    const readiness = recovery();
     if (!checked?.rule || coach?.blocked) return { exercises: [], restricted: true };
     const { rule } = checked;
     const profileCap = window.FitnessRpgSport.getTrainingRecommendation(sport)?.initialMinutes ?? sport.preferredDuration;
     const minutes = Math.min(profileCap, rule.volume.kind.endsWith("Minutes") ? rule.volume.range[1] : profileCap)
-      * (coach?.factor ?? 1);
+      * Math.min(coach?.factor ?? 1, readiness === "tired" ? 0.75 : readiness === "unknown" ? 0.85 : 1);
     const moves = workout.exercises || [];
-    const options = { maxIntensity: rule.effortMax <= 4 ? "light" : "moderate" };
+    const options = { maxIntensity: rule.effortMax <= 4 || readiness === "tired" ? "light" : "moderate" };
     const results = moves.map((item) => Catalogue.resolveMovement(item, sport, options));
     const sets = new Map();
     const pieces = results.flatMap((result) => {
@@ -83,22 +121,46 @@
       }
       return [item];
     });
-    const exercises = planning().fitWorkout(pieces, minutes, rule.recovery === "sameMuscles" ? 30 : 15);
+    const overhead = rule.recovery === "sameMuscles" ? 30 : 15;
+    const exercises = planning().fitWorkout(pieces, minutes, overhead);
+    const step = rule.advance;
+    const progressionAllowed = !boss && ["duration", "repetitions"].includes(step?.parameter);
+    let increased = false;
+    if (allowIncrease && progressionAllowed && coach?.increase && coach.factor === 1 && readiness === "ready"
+      && !Programs.getRepeatWeek(id)) {
+      const isTimed = step.parameter === "duration";
+      const item = exercises.find((move) => rule.families.includes(Catalogue.getMetadata(move.exerciseId)?.family)
+        && (isTimed ? move.unit === "min" && move.amount >= 1 : move.unit === "répétitions" && move.amount >= 5));
+      if (item) {
+        const total = exercises.reduce((sum, move) => sum + overhead + move.amount * planning().secondsPerUnit(move.unit), 0);
+        const extra = isTimed ? Math.min(step.step, Math.floor(item.amount) / 10) : 1;
+        if (total + extra * planning().secondsPerUnit(item.unit) <= minutes * 60) {
+          item.amount = Math.round((item.amount + extra) * 10) / 10;
+          increased = true;
+        }
+      }
+    }
     const usable = exercises.some((item) => Catalogue.getMetadata(item.exerciseId)?.family !== "breathing");
     return {
       exercises: usable ? exercises : [],
-      minutes, substitutions: results.filter((result) => result.status === "replace").length,
+      minutes, focus, progressionAllowed, increased, substitutions: results.filter((result) => result.status === "replace").length,
       omitted: moves.length - exercises.length,
-      coachNote: "Séance ajustée aux mouvements compatibles et au temps disponible."
+      coachNote: increased ? "Progression acceptée sur un seul mouvement."
+        : readiness === "tired" || readiness === "unknown" || coach?.factor < 1 ? "Séance raccourcie par prudence."
+        : "Séance ajustée aux mouvements compatibles et au temps disponible."
     };
   }
 
   function allowWorkout(id, workout, options) {
     const result = adaptWorkout(id, workout, options);
-    if (!result || result.exercises.length) return true;
+    if (!result) return true;
+    const readiness = recovery();
+    if (!result.restricted && result.exercises.length && readiness && readiness !== "rest") return true;
     Programs.showMessage({
       title: "Séance à adapter",
       message: result.restricted ? "Demande un avis professionnel avant de reprendre le parcours personnalisé."
+        : readiness === "rest" ? "Tu as choisi de reporter la séance. Tu peux revoir ce choix dans Planning."
+        : !readiness ? "Confirme ta récupération dans Planning avant de démarrer."
         : "Aucun mouvement principal compatible avec ton profil et le temps disponible pour cette séance.",
       okText: "Compris"
     });
@@ -146,6 +208,8 @@
     summary.innerHTML = `<div class="planning-compact-header"><strong>${escape(program?.title || "Aucun programme actif")}</strong>
       <span>Semaine ${weekNumber} · ${essential.filter((day) => done.has(Number(day.day))).length}/${essential.length} séances essentielles validées</span></div>
       ${controlsHtml()}
+      ${recoveryHtml()}
+      ${window.FitnessRpgAdaptiveCoach?.planningHtml("data-hero-plan", saved.focus) || ""}
       ${window.FitnessRpgSport.trainingRecommendationHtml(sport)}
       <p>${checked.rule ? `Temps disponible · ${sport.preferredDuration} min par séance. Les compléments sont facultatifs.`
         : "Le planning personnalisé attend un profil compatible ou un avis professionnel."}</p>
@@ -194,6 +258,18 @@
     } else if (action === "disable") {
       profile.heroPlanning = null;
       profile.weightPlanningEnabled = false;
+    } else if (action === "recovery") {
+      if (!selection()) return;
+      if (saveRecovery(document.querySelector("#heroRecovery").value)) {
+        Render.renderPlanningPage();
+        document.querySelector("#heroRecoveryStatus").textContent = "Récupération enregistrée pour aujourd’hui.";
+      } else {
+        document.querySelector("#heroRecoveryStatus").textContent = "Choisis une réponse pour continuer.";
+      }
+      return;
+    } else if (action.startsWith("coach-")) {
+      if (selection()) window.FitnessRpgAdaptiveCoach?.handlePlanning(action);
+      return;
     } else if (action === "log") {
       planning().handleActivityForm();
       return;
@@ -224,5 +300,5 @@
     Render.renderPlanningPage();
   }
 
-  window.FitnessRpgHeroPlanning = { controlsHtml, render, handle, adaptWorkout, allowWorkout, sessionSlots, compatibleComplements };
+  window.FitnessRpgHeroPlanning = { controlsHtml, render, handle, adaptWorkout, allowWorkout, saveRecovery, sessionSlots, compatibleComplements };
 })();

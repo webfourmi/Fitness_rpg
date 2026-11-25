@@ -961,14 +961,17 @@
     const planned = heroPlan || window.FitnessRpgWeightPlanning?.adaptWorkout(session.programId, sourceWorkout, options);
     if (planned) {
       if (planned.increased && !window.FitnessRpgAdaptiveCoach.consume()) {
-        planned.exercises = window.FitnessRpgWeightPlanning.adaptWorkout(session.programId, sourceWorkout, {
-          boss: session.type === "program-boss", dayNumber: Number(session.dayNumber), allowIncrease: false
-        }).exercises;
+        const planner = heroPlan ? window.FitnessRpgHeroPlanning : window.FitnessRpgWeightPlanning;
+        planned.exercises = planner.adaptWorkout(session.programId, sourceWorkout, { ...options, allowIncrease: false }).exercises;
         planned.coachNote = "";
       }
       session.adaptedExercises = planned.exercises;
       session.weightPlanningWorkout = !heroPlan;
       session.heroPlanningWorkout = Boolean(heroPlan);
+      if (heroPlan) {
+        session.heroPlanningFocus = heroPlan.focus;
+        session.heroProgressionAllowed = heroPlan.progressionAllowed;
+      }
       session.weightVariant = planned.substitutions > 0;
       session.adaptation = {
         version: Sport.adaptationVersion,
@@ -2686,7 +2689,9 @@
 
     return {
       sourceSessionId: session.id || null,
-      weightPlanningWorkout: Boolean(session.weightPlanningWorkout),
+      weightPlanningWorkout: Boolean(session.weightPlanningWorkout || session.heroPlanningWorkout),
+      heroPlanningFocus: session.heroPlanningFocus,
+      heroProgressionAllowed: session.heroProgressionAllowed,
       date: session.planningDateKey || State.todayKey?.(),
       type: session.type || "program",
       programId: session.programId || null,

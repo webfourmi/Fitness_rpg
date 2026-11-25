@@ -311,5 +311,5 @@
     }
   }
 
-  window.FitnessRpgWeightPlanning = { enabled, currentStage, adaptWorkout, allowWorkout, fitWorkout, activityFormHtml, handleActivityForm, enduranceByActivity, recordedDays, recordedMinutes, hasStrength, saveActivity, render, handleClick };
+  window.FitnessRpgWeightPlanning = { enabled, currentStage, adaptWorkout, allowWorkout, fitWorkout, secondsPerUnit, activityFormHtml, handleActivityForm, enduranceByActivity, recordedDays, recordedMinutes, hasStrength, saveActivity, render, handleClick };
 })();
