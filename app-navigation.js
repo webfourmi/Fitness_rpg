@@ -1332,6 +1332,16 @@ window.FitnessRpgNavigation.handleDocumentClick = function handleDocumentClick(e
     return true;
   }
 
+  const titleStepButton = target.closest("[data-camp-title-step]");
+  if (titleStepButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    const step = Number(titleStepButton.dataset.campTitleStep);
+    const count = Number(titleStepButton.closest("[data-title-count]")?.dataset.titleCount);
+    window.FitnessRpgCamp.stepTitle(step, count);
+    document.querySelector(`#campTitles [data-camp-title-step="${step}"]`)?.focus();
+    return true;
+  }
+
   const shopStepButton = target.closest("[data-camp-shop-step]");
   if (shopStepButton) {
     window.FitnessRpgNavigation.stopEvent(event);
