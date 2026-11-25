@@ -8,7 +8,7 @@ const { promisify } = require("node:util");
 const exec = promisify(require("node:child_process").execFile);
 const root = path.resolve(__dirname, "..");
 
-async function exerciseWardrobe() {
+function exerciseWardrobe() {
   const check = (ok, label) => { if (!ok) throw Error(label); };
   try {
     const state = window.FitnessRpgState;
@@ -23,9 +23,8 @@ async function exerciseWardrobe() {
       state.profile.gender = gender;
       for (const id of ["garnet-headband", "boss-gear-2", "trophy-sylph-ribbon", "trophy-campaign-grand-maitre-arcanes"]) {
         state.profile.camp.equipped.head = id;
-        portraits.innerHTML = camp.avatar("Portrait de test");
+        portraits.innerHTML = camp.avatar("Portrait de test", 'style="width:180px;height:279.27px"');
         const portrait = portraits.firstElementChild;
-        await portrait.querySelector("img").decode();
         const image = portrait.querySelector("img").getBoundingClientRect();
         const accessory = portrait.querySelector(".camp-avatar-headband").getBoundingClientRect();
         check(image.height > 0 && accessory.height > 0, "Portrait et coiffe visibles");
