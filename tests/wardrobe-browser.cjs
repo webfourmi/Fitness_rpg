@@ -16,6 +16,25 @@ function exerciseWardrobe() {
     const render = window.FitnessRpgRender;
     state.createProfile({ name: "Test", gender: "femme" });
     camp.resolveOvernight();
+    const portraits = document.createElement("div");
+    portraits.style.cssText = "position:absolute;left:0;top:0;width:180px";
+    document.body.appendChild(portraits);
+    for (const [gender, eyeLine] of [["homme", .087], ["femme", .119]]) {
+      state.profile.gender = gender;
+      for (const id of ["garnet-headband", "boss-gear-2", "trophy-sylph-ribbon", "trophy-campaign-grand-maitre-arcanes"]) {
+        state.profile.camp.equipped.head = id;
+        portraits.innerHTML = camp.avatar("Portrait de test", 'style="width:180px;height:279.27px"');
+        const portrait = portraits.firstElementChild;
+        const image = portrait.querySelector("img").getBoundingClientRect();
+        const accessory = portrait.querySelector(".camp-avatar-headband").getBoundingClientRect();
+        check(image.height > 0 && accessory.height > 0, "Portrait et coiffe visibles");
+        check(accessory.bottom <= image.top + image.height * eyeLine, "Front dégagé au-dessus des yeux : " + gender + " / " + id);
+        check(getComputedStyle(portrait, "::after").clipPath.startsWith("polygon"), "Blason à deux couches");
+      }
+    }
+    delete state.profile.camp.equipped.head;
+    state.profile.gender = "femme";
+    portraits.remove();
     state.setGoal("pilates");
     window.FitnessRpgNavigation.openMobileDestination("goal");
     const goalList = document.querySelector("#goalChoiceList");

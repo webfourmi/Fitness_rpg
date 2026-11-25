@@ -1511,10 +1511,10 @@ small {
   --cape-y: 16.4%;
   --mantle-x: 29%;
   --mantle-width: 43%;
-  --headband-x: 45%;
-  --headband-y: 6.2%;
-  --headband-width: 12.7%;
-  --headband-angle: -9deg;
+  --headband-x: 52%;
+  --headband-y: 7%;
+  --headband-width: 10%;
+  --headband-angle: -5deg;
   position: relative;
   width: fit-content;
   max-width: 100%;
@@ -1529,10 +1529,10 @@ small {
   --cape-y: 20%;
   --mantle-x: 31%;
   --mantle-width: 38%;
-  --headband-x: 46%;
-  --headband-y: 9.7%;
-  --headband-width: 11%;
-  --headband-angle: -12deg;
+  --headband-x: 52%;
+  --headband-y: 10.15%;
+  --headband-width: 9.5%;
+  --headband-angle: -8deg;
 }
 
 .camp-avatar--ranked {
@@ -1541,15 +1541,29 @@ small {
   --camp-avatar-image-background: transparent;
 }
 
-.camp-avatar--ranked::before {
+.camp-avatar--ranked::before,
+.camp-avatar--ranked::after {
   content: "";
   position: absolute;
-  inset: 6% 4% 3%;
-  background:
-    radial-gradient(ellipse at 50% 40%, rgba(var(--rank-light), 0.36), rgba(var(--rank-light), 0.10) 72%),
-    repeating-linear-gradient(135deg, rgba(var(--rank-light), 0.09) 0 1px, transparent 1px 14px);
-  clip-path: polygon(50% 0, 96% 12%, 96% 65%, 84% 84%, 50% 100%, 16% 84%, 4% 65%, 4% 12%);
+  clip-path: polygon(50% 0, 92% 8%, 97% 15%, 97% 61%, 91% 77%, 76% 90%, 50% 100%, 24% 90%, 9% 77%, 3% 61%, 3% 15%, 8% 8%);
   pointer-events: none;
+}
+
+.camp-avatar--ranked::before {
+  inset: 6% 4% 3%;
+  z-index: -2;
+  background: linear-gradient(127deg, #392c23 6%, #fff0c3 18%, #a57843 31%,
+    rgb(var(--rank-light)) 46%, #705038 60%, #e0bf83 76%, #432e23 91%);
+}
+
+.camp-avatar--ranked::after {
+  inset: 6.7% 5.3% 3.9%;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 50% 28%, rgba(var(--rank-light), .27), transparent 70%),
+    repeating-linear-gradient(45deg, #ffffff0e 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(-45deg, #00000035 0 1px, transparent 1px 7px),
+    linear-gradient(#2d2e40, #151420 65%, #211d2e);
 }
 
 .camp-avatar--rank-aventurier { --rank-light: 123, 213, 147; }
@@ -1730,9 +1744,9 @@ small {
   width: var(--headband-width);
   height: 1.7%;
   border-radius: 30% 12% 19% 22%;
-  transform: rotate(var(--headband-angle));
+  transform: translate(-50%, -50%) rotate(var(--headband-angle));
   background: linear-gradient(#551925 6%, #d09567 12%, #ad4658 21%, #832a42 74%, #e3af6d 81%, #421922 96%);
-  box-shadow: 0 1px 2px #291417;
+  box-shadow: inset 0 1px 0 #ffe6ae88, inset 0 -1px #451d2c, 0 1px 2px #291417;
 }
 
 .camp-avatar-headband::before {
@@ -1874,10 +1888,11 @@ small {
   clip-path: polygon(0 9%, 17% 4%, 48% 28%, 82% 5%, 98% 12%, 92% 46%, 66% 43%, 91% 88%, 73% 80%, 68% 100%, 50% 48%, 26% 96%, 23% 80%, 5% 88%, 36% 43%, 9% 48%);
 }
 .camp-avatar--trophee-sylphes .camp-avatar-headband {
-  left: calc(var(--headband-x) - 2%);
-  width: 8%;
-  height: 5.2%;
-  transform: rotate(-18deg);
+  left: calc(var(--headband-x) - 4%);
+  top: calc(var(--headband-y) - .65%);
+  width: 7%;
+  height: 3.1%;
+  transform: translate(-50%, -50%) rotate(-14deg);
   border-radius: 0;
 }
 .camp-avatar--trophee-sylphes .camp-avatar-headband::before { display: none; }
@@ -1920,10 +1935,22 @@ small {
   font-size: clamp(7px, 3vw, 24px);
   line-height: 1;
 }
-.camp-avatar-clasp[data-camp-ornament] { background: #25252b; border-color: var(--ornament-color); }
-.camp-avatar-headband[data-camp-ornament] { background: var(--ornament-color); height: 3%; }
+.camp-avatar-clasp[data-camp-ornament] {
+  background: radial-gradient(circle at 36% 28%, #514450, #25252b 55%, #0d0a10);
+  border-color: var(--ornament-color);
+  box-shadow: inset 0 0 0 1px #ffe4ba55, 0 1px 4px #1a1009;
+}
+.camp-avatar-headband[data-camp-ornament] {
+  background: linear-gradient(150deg, #fff0cc, var(--ornament-color) 32%, #5a3749 68%, var(--ornament-color));
+  height: 2.45%;
+  clip-path: polygon(0 55%, 24% 44%, 39% 45%, 50% 0, 61% 45%, 80% 43%, 100% 50%, 94% 93%, 6% 95%);
+}
 .camp-avatar-headband[data-camp-ornament]::before { background: none; clip-path: none; color: #39283b; width: auto; height: auto; }
-.camp-avatar-cloak[data-camp-ornament] { background: linear-gradient(105deg, #212235, var(--ornament-color), #242437); }
+.camp-avatar-cloak[data-camp-ornament] {
+  background: repeating-linear-gradient(106deg, transparent 0 9%, #09071760 10% 14%, transparent 16%),
+    linear-gradient(105deg, #212235, var(--ornament-color), #242437);
+  box-shadow: inset 0 -4px #bc985c, inset 0 -7px #281a26;
+}
 .camp-avatar-cloak[data-camp-ornament]::before { position: absolute; top: 28%; left: 21%; }
 .camp-avatar-aura[data-camp-ornament] {
   background: radial-gradient(ellipse, transparent 40%, color-mix(in srgb, var(--ornament-color) 45%, transparent) 62%, transparent 74%);
@@ -1944,6 +1971,19 @@ small {
   transform: rotate(-15deg);
 }
 .camp-avatar--heroine .camp-avatar-arm { left: 34%; top: 41%; }
+
+.camp-item-label { display: flex; gap: .65rem; align-items: center; min-width: 0; }
+.camp-item-label .trophy-display { flex-basis: 38px; height: 38px; }
+.camp-item-label .trophy-art { width: 26px; height: 26px; font-size: 1.1rem; }
+.trophy-display {
+  box-shadow: inset 0 0 0 1px #d9b47670, inset 0 0 0 3px #100d19;
+}
+.trophy-art--emblem {
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 23%, #66544b, #262033 57%, #100e18);
+  box-shadow: inset 0 0 0 1px #d9b47688, inset 0 0 0 3px #201825, 0 2px 4px #08060c;
+  text-shadow: 0 1px 1px #08060c, 0 0 7px currentColor;
+}
 
 .camp-card { max-width: 740px; margin-inline: auto; }
 .camp-card h2 { margin-top: 1.45rem; }
