@@ -947,6 +947,7 @@ window.FitnessRpgExercises.validateCustomProgram = function validateCustomProgra
     title: `${program.title} · Programme perso`,
     amount: 1,
     unit: "séance",
+    enduranceByActivity: window.FitnessRpgWeightPlanning?.enduranceByActivity(program.exercises),
     xp
   }, {
     journalTitle: program.title,

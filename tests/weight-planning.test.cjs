@@ -319,3 +319,23 @@ test("le planning replace les séances restantes à partir d’aujourd’hui san
   assert.match(summary.innerHTML, /1 séance\(s\) essentielle\(s\) programmée\(s\) sur 3 restante\(s\)/);
   assert.match(summary.innerHTML, /data-hero-plan="edit-profile"/);
 });
+
+test("le planning personnalisé calcule l’endurance du jour et de la semaine depuis les séances validées", () => {
+  const { state, hero, plan } = boot();
+  const keys = state.getWeekKeys();
+  state.todayKey = () => keys[3];
+  state.setActiveProgramId("marche-aventurier");
+  state.getProfile().heroPlanning = { goalId: state.getGoalId(), focus: "endurance" };
+  state.updateSportProfile({ preferredDuration: 10, trainingProfile: { activity: "regular" } });
+  const walk = { id: "walk-now", date: keys[3], type: "exercise", exerciseId: "walk", amount: 8, unit: "min" };
+  state.addTrainingEntry(walk);
+  state.addTrainingEntry(walk);
+  state.addTrainingEntry({ id: "bike-before", date: keys[1], type: "exercise", exerciseId: "bike", amount: 12, unit: "min" });
+  assert.equal(plan.saveActivity(keys[3], "walk", 50), true);
+  const summary = {};
+  assert.equal(hero.render(summary, {}), true);
+  assert.match(summary.innerHTML, /Endurance aujourd’hui · 8 min/);
+  assert.match(summary.innerHTML, /Endurance cette semaine · 20 min/);
+  assert.match(summary.innerHTML, /data-hero-plan="start-complement"/);
+  assert.doesNotMatch(summary.innerHTML, /weightActivityMinutes/);
+});

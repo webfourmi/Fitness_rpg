@@ -115,16 +115,18 @@
   function enduranceByActivity(items) {
     const totals = { walk: 0, bike: 0, other: 0 };
     for (const item of items || []) {
-      if (Adaptation.getMetadata(item.exerciseId)?.family !== "cardio") continue;
+      const family = Adaptation.getMetadata(item.exerciseId)?.family;
+      const category = window.FitnessRpgData.getExerciseById(item.exerciseId)?.categoryId;
+      if (family ? family !== "cardio" : category !== "cardio") continue;
       const rate = secondsPerUnit(item.unit);
       const kind = ["walk", "slow_walk", "dynamic_walk", "walk_acceleration", "march_on_spot"].includes(item.exerciseId)
-        ? "walk" : item.exerciseId === "bike" ? "bike" : "other";
+        ? "walk" : ["bike", "bike_acceleration"].includes(item.exerciseId) ? "bike" : "other";
       if (rate !== 4) totals[kind] += Math.max(0, Number(item.amount) * rate / 60 || 0);
     }
     return totals;
   }
 
-  function recordedDays(keys = State.getWeekKeys()) {
+  function recordedDays(keys = State.getWeekKeys(), { includeManual = true } = {}) {
     const days = new Map();
     const unique = new Set();
     const weekDays = new Set(keys);
@@ -134,12 +136,14 @@
       unique.add(entry.id);
       const key = State.getEntryDateKey(entry);
       const day = days.get(key) || { walk: 0, bike: 0, other: 0 };
-      const totals = entry.enduranceByActivity || enduranceByActivity([entry]);
+      const legacyWorkout = !entry.enduranceByActivity && entry.type === "program"
+        && Programs.getProgramDay(entry.programId, entry.dayNumber, entry.weekNumber);
+      const totals = entry.enduranceByActivity || enduranceByActivity(legacyWorkout?.exercises || [entry]);
       for (const kind of Object.keys(activityTypes)) day[kind] += Math.max(0, Number(totals[kind]) || 0);
       days.set(key, day);
     }
 
-    const log = State.getProfile()?.weightActivity || {};
+    const log = includeManual ? State.getProfile()?.weightActivity || {} : {};
     return new Map(keys.map((key) => {
       const manual = log[key] || {};
       const day = days.get(key) || {};

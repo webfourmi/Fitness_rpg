@@ -2718,7 +2718,7 @@ window.FitnessRpgPrograms.finishProgramSession = function finishProgramSession()
       weightVariant: (session.weightPlanningWorkout || session.heroPlanningWorkout) && session.weightVariant,
       heroPlanningFocus: session.heroPlanningFocus,
       heroProgressed: session.heroProgressed,
-      enduranceByActivity: (session.weightPlanningWorkout || session.heroPlanningWorkout) ? window.FitnessRpgWeightPlanning?.enduranceByActivity(completedWorkout?.exercises) : undefined
+      enduranceByActivity: window.FitnessRpgWeightPlanning?.enduranceByActivity(completedWorkout?.exercises || day.exercises)
     }, {
       familiarPassive,
       campGold: day.optional ? 5 : 10,
@@ -2932,7 +2932,7 @@ window.FitnessRpgPrograms.finishProgramBossSession = function finishProgramBossS
       weightVariant: (session.weightPlanningWorkout || session.heroPlanningWorkout) && session.weightVariant,
       heroPlanningFocus: session.heroPlanningFocus,
       heroProgressed: session.heroProgressed,
-      enduranceByActivity: (session.weightPlanningWorkout || session.heroPlanningWorkout) ? window.FitnessRpgWeightPlanning?.enduranceByActivity(safeVariant.exercises) : undefined,
+      enduranceByActivity: window.FitnessRpgWeightPlanning?.enduranceByActivity(safeVariant.exercises),
       xp
     }, {
       campGold: replay ? 0 : 20,
