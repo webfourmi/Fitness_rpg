@@ -8657,6 +8657,14 @@ body.modal-open {
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
+#sportProfilePrompt:not([open]) {
+  display: none;
+}
+
+#sportProfilePrompt::backdrop {
+  background: rgba(4, 8, 16, 0.78);
+}
+
 .rpg-modal-icon {
   width: 46px;
   height: 46px;

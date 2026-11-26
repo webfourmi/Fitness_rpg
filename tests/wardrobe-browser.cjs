@@ -8,13 +8,27 @@ const { promisify } = require("node:util");
 const exec = promisify(require("node:child_process").execFile);
 const root = path.resolve(__dirname, "..");
 
-function exerciseWardrobe() {
+async function exerciseWardrobe() {
   const check = (ok, label) => { if (!ok) throw Error(label); };
   try {
     const state = window.FitnessRpgState;
     const camp = window.FitnessRpgCamp;
     const render = window.FitnessRpgRender;
+    const profilePrompt = document.querySelector("#sportProfilePrompt");
+    window.FitnessRpgSport.promptForSportProfile();
+    check(!profilePrompt.open, "Créer le héros avant de demander le profil sportif");
     state.createProfile({ name: "Test", gender: "femme" });
+    window.FitnessRpgSport.promptForSportProfile();
+    check(profilePrompt.open, "Invitation affichée quand le profil sportif est vierge");
+    profilePrompt.querySelector('[value="later"]').click();
+    check(!profilePrompt.open && !state.getSportProfile().lastUpdatedAt, "Plus tard laisse le profil sportif vierge");
+    await new Promise(resolve => profilePrompt.addEventListener("close", resolve, { once: true }));
+    window.FitnessRpgSport.promptForSportProfile();
+    const openProfile = new Promise(resolve => profilePrompt.addEventListener("close", resolve, { once: true }));
+    profilePrompt.querySelector('[value="edit"]').click();
+    await openProfile;
+    check(state.getPage() === "hero-menu" && document.querySelector("#sportTrainingFields").open,
+      "Accès direct au formulaire et aux disponibilités");
     const nav = document.querySelector("#mobilePrimaryNav");
     const mobile = matchMedia("(max-width: 699px)").matches;
     const checkNavigation = (label) => {
@@ -113,6 +127,8 @@ function exerciseWardrobe() {
     panel.querySelector("#sportMeasure-weightKg").value = "82.5";
     panel.querySelector("#saveSportProfileButton").click();
     state.loadProfile();
+    window.FitnessRpgSport.promptForSportProfile();
+    check(!profilePrompt.open, "Aucune invitation après enregistrement et rechargement");
     const sport = state.getSportProfile();
     const recommendation = window.FitnessRpgSport.getTrainingRecommendation(sport);
     check(sport.trainingProfile.recovery === "variable" && sport.trainingProfile.availableDays.includes("fri"),

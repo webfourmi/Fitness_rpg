@@ -792,6 +792,7 @@ window.FitnessRpgApp.init = function init() {
   window.FitnessRpgApp.render();
 
   window.FitnessRpgApp.ready = true;
+  window.FitnessRpgSport?.promptForSportProfile?.();
 
   console.info(`Fitness RPG chargé : ${window.FitnessRpgConfig.displayVersion}`);
 };
