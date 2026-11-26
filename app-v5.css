@@ -8657,6 +8657,14 @@ body.modal-open {
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
+#sportProfilePrompt:not([open]) {
+  display: none;
+}
+
+#sportProfilePrompt::backdrop {
+  background: rgba(4, 8, 16, 0.78);
+}
+
 .rpg-modal-icon {
   width: 46px;
   height: 46px;
@@ -8886,7 +8894,7 @@ body.modal-open {
   padding-bottom: calc(94px + env(safe-area-inset-bottom, 0px));
 }
 
-body[data-page="home"] .app-page,
+body[data-page="home"]:has(#mobilePrimaryNav.hidden) .app-page,
 body[data-page="hero-setup"] .app-page {
   padding-bottom: 18px;
 }
@@ -10272,12 +10280,8 @@ body[data-page="hero-setup"] .app-page {
     backdrop-filter: blur(12px);
   }
 
-  .guided-session-active .mobile-primary-nav {
-    display: none !important;
-  }
-
-  .guided-session-active .app-page {
-    padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+  .guided-session-active #pagePrograms {
+    padding-bottom: calc(184px + env(safe-area-inset-bottom, 0px));
   }
 
   .guided-session-active #programDetail {
@@ -10298,8 +10302,11 @@ body[data-page="hero-setup"] .app-page {
     position: fixed;
     left: max(8px, env(safe-area-inset-left, 0px));
     right: max(8px, env(safe-area-inset-right, 0px));
-    bottom: max(8px, env(safe-area-inset-bottom, 0px));
-    z-index: 96;
+    bottom: calc(76px + max(8px, env(safe-area-inset-bottom, 0px)));
+    z-index: 93;
+    width: auto;
+    max-height: 50dvh;
+    overflow-y: auto;
     padding: 8px;
     border: 1px solid rgba(241, 201, 104, 0.26);
     border-radius: 18px;

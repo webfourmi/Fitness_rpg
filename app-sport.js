@@ -3049,6 +3049,24 @@
   // Profil sportif dans le menu Héros
   // ------------------------------------------------------------
 
+  Sport.promptForSportProfile = function promptForSportProfile() {
+    if (!State.hasProfile() || State.getSportProfile().lastUpdatedAt) return;
+
+    const dialog = document.querySelector("#sportProfilePrompt");
+    if (!dialog || dialog.open) return;
+
+    dialog.returnValue = "";
+    dialog.addEventListener("close", () => {
+      if (dialog.returnValue !== "edit") return;
+
+      window.FitnessRpgNavigation.openHeroMenu();
+      const trainingFields = document.querySelector("#sportTrainingFields");
+      if (trainingFields) trainingFields.open = true;
+      document.querySelector("#sportLevelSelect")?.focus();
+    }, { once: true });
+    dialog.showModal();
+  };
+
   Sport.renderSportProfilePanel = function renderSportProfilePanel(feedback = "") {
     const page = document.querySelector("#pageHeroMenu");
     const profile = State.getProfile?.();

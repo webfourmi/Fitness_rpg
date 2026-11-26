@@ -195,7 +195,7 @@ window.FitnessRpgRender.renderPages = function renderPages() {
   });
 
   const mobileNav = document.querySelector("#mobilePrimaryNav");
-  const showMobileNav = hasProfile && !["home", "hero-setup"].includes(currentPage);
+  const showMobileNav = hasProfile && currentPage !== "hero-setup";
   mobileNav?.classList.toggle("hidden", !showMobileNav);
 
   const activeDestination = {
@@ -216,7 +216,7 @@ window.FitnessRpgRender.renderPages = function renderPages() {
   Object.entries(mobileButtons).forEach(([destination, button]) => {
     if (!button) return;
 
-    const isActive = showMobileNav && destination === activeDestination;
+    const isActive = showMobileNav && currentPage !== "home" && destination === activeDestination;
     button.classList.toggle("active", isActive);
 
     if (isActive) {

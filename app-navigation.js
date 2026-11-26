@@ -535,6 +535,7 @@ window.FitnessRpgNavigation.saveHeroFromForm = function saveHeroFromForm() {
 
   window.FitnessRpgState.setPose("welcome");
   window.FitnessRpgNavigation.setPage("training");
+  if (!hasProfile) window.FitnessRpgSport?.promptForSportProfile?.();
 };
 
 window.FitnessRpgNavigation.startNewHero = function startNewHero() {
