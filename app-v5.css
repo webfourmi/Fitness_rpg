@@ -5672,6 +5672,22 @@ button .btn-icon {
   margin-top: var(--space-sm);
 }
 
+.page-planning,
+.planning-week-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.planning-summary,
+.planning-day-card {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.planning-summary :is(section, details, select, input, fieldset, button) {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .planning-summary h2 {
   color: var(--accent);
 }
@@ -8901,7 +8917,7 @@ body[data-page="hero-setup"] .app-page {
 
 .app-header {
   min-height: 54px;
-  margin-bottom: 10px;
+  margin: 0 -8px 10px;
   padding: 7px 8px;
   border-radius: 0 0 16px 16px;
 }

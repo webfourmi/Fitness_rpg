@@ -1,5 +1,5 @@
 {
-  "version": "7.0.29",
+  "version": "7.0.30",
   "date": "2026-11-26",
-  "notes": "Invitation à renseigner le profil sportif pour personnaliser le planning et barre de navigation mobile visible pendant les séances."
+  "notes": "Planning personnalisé recalculé sur les créneaux restants et affichage mobile ajusté."
 }

@@ -231,6 +231,7 @@ async function exerciseWardrobe() {
     check(state.getAllEntries().filter(item => item.id === guided.id).length === 1, "Une seule entrée après double validation");
     check(state.getJournal().filter(item => item.sessionId === guided.id).length === 1, "Une seule ligne de journal");
     check(state.getProfile().totalXp === earnedXp && state.getProfile().camp.gold === earnedGold, "Récompenses de séance uniques");
+    state.todayKey = () => state.getWeekKeys()[0];
     state.setActiveProgramId("marche-aventurier");
     state.updateSportProfile({ preferredDuration: 7, sessionsPerWeek: 3, trainingProfile: { activity: "regular" } });
     window.FitnessRpgNavigation.openMobileDestination("planning");
@@ -238,6 +239,15 @@ async function exerciseWardrobe() {
     document.querySelector('[data-hero-plan="apply"]').click();
     check(document.querySelector("#planningSummary").textContent.includes("Marche de l’aventurier"), "Programme principal préservé");
     check(document.querySelectorAll('#planningWeekGrid [data-hero-plan="day"]').length === 3, "Trois séances essentielles du programme actif");
+    if (mobile) {
+      const rightEdge = document.documentElement.clientWidth;
+      const overflowing = [...document.querySelectorAll("#pagePlanning *, #appHeader, #mobilePrimaryNav")]
+        .filter(node => node.getBoundingClientRect().right > rightEdge + 1)
+        .slice(0, 8)
+        .map(node => node.id || node.getAttribute("class") || node.tagName);
+      check(document.documentElement.scrollWidth <= rightEdge + 1,
+        "Planning personnalisé sans débordement horizontal (" + overflowing.join(", ") + ")");
+    }
     document.querySelector("#heroRecovery").value = "ready";
     document.querySelector('[data-hero-plan="recovery"]').click();
     check(document.querySelector("#heroRecoveryStatus").textContent.includes("enregistrée"), "Récupération confirmée");

@@ -172,6 +172,7 @@ test("le renforcement compte des jours distincts et le repos déclaré ne se cum
 
 test("les neuf priorités et trois niveaux laissent le programme principal intact", () => {
   const { state, hero, rules } = boot();
+  state.todayKey = () => state.getWeekKeys()[0];
   state.setActiveProgramId("marche-aventurier");
   state.updateSportProfile({ preferredDuration: 10, sessionsPerWeek: 5, trainingProfile: { activity: "regular" } });
   for (const focus of rules.goalIds) {
@@ -191,6 +192,7 @@ test("les neuf priorités et trois niveaux laissent le programme principal intac
 
 test("les jours indisponibles sont évités et le changement d’objectif conserve la séance adaptée", () => {
   const { state, hero } = boot();
+  state.todayKey = () => state.getWeekKeys()[0];
   state.setActiveProgramId("marche-aventurier");
   state.getProfile().heroPlanning = { goalId: state.getGoalId(), focus: "endurance" };
   state.updateSportProfile({ preferredDuration: 7, trainingProfile: { activity: "regular", availableDays: ["wed", "fri"] } });
@@ -298,4 +300,22 @@ test("régularité, progression et maîtrise reposent sur des séances validées
   assert.ok(hero.rewardEligibility().has("weight-phoenix"));
   assert.equal(dashboard.claim("weight-phoenix", "hero"), true);
   assert.equal(dashboard.claim("weight-phoenix", "hero"), false);
+});
+
+test("le planning replace les séances restantes à partir d’aujourd’hui sans dépasser les disponibilités", () => {
+  const { state, hero } = boot();
+  state.setActiveProgramId("marche-aventurier");
+  state.getProfile().heroPlanning = { goalId: state.getGoalId(), focus: "endurance" };
+  state.todayKey = () => state.getWeekKeys()[3];
+  state.updateSportProfile({ sessionsPerWeek: 3, trainingProfile: { activity: "regular" } });
+  const summary = {};
+  const grid = {};
+  assert.equal(hero.render(summary, grid), true);
+  assert.doesNotMatch(grid.innerHTML.split("Jeudi")[0], /Essentielle/);
+  assert.equal((grid.innerHTML.match(/Essentielle ·/g) || []).length, 3);
+  state.updateSportProfile({ trainingProfile: { activity: "regular", availableDays: ["mon", "sat"] } });
+  hero.render(summary, grid);
+  assert.equal((grid.innerHTML.match(/Essentielle ·/g) || []).length, 1);
+  assert.match(summary.innerHTML, /1 séance\(s\) essentielle\(s\) programmée\(s\) sur 3 restante\(s\)/);
+  assert.match(summary.innerHTML, /data-hero-plan="edit-profile"/);
 });
