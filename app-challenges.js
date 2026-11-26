@@ -207,7 +207,7 @@
     draw('<h2>'+(newRecord?"🏆 Nouveau record !":"Épreuve validée !")+'</h2><p class="hero-challenge-record">'+score+' '+escapeHtml(selected.unit)+'</p><p>Meilleur score : '+e.best+' '+escapeHtml(selected.unit)+'</p><p class="hero-challenge-note">'+(reward.paid?"Récompenses : +"+reward.xp+" XP · +"+reward.gold+" PO.":"Récompenses en attente de sauvegarde. Elles seront créditées à la prochaine ouverture.")+'</p>'+coachPanel(newRecord?"record":"complete")+'<button class="hero-challenge-primary" data-action="back">Retour aux épreuves</button>');
   }
   function handleClick(target) {
-    const trigger=target.closest("#openHeroChallengesButton");
+    const trigger=target.closest("#openHeroChallengesButton, [data-open-hero-challenges]");
     if (trigger) {
       opener=trigger;
       showList();

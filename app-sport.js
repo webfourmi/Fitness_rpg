@@ -2964,7 +2964,13 @@
       };
       const hasTrainingData = Object.values(trainingProfile).some((value) => Array.isArray(value) ? value.length > 0 : Boolean(value));
 
-      State.updateSportProfile?.({
+      const focus = panel.querySelector("#heroPlanningFocus");
+      if (focus && !focus.value) {
+        panel.querySelector("#heroPlanningStatus").textContent = "Choisis un objectif sportif.";
+        focus.focus();
+        return;
+      }
+      const savedSport = State.updateSportProfile?.({
         trainingProfile: hasTrainingData ? trainingProfile : null,
         level: panel.querySelector("#sportLevelSelect")?.value,
         sessionsPerWeek: Number(panel.querySelector("#sportSessionsInput")?.value || 3),
@@ -2974,6 +2980,10 @@
         smallSpace: Boolean(panel.querySelector("#sportSmallSpaceInput")?.checked)
       });
 
+      if (focus && window.FitnessRpgHeroPlanning.saveSettings(focus.value, savedSport)) {
+        window.FitnessRpgNavigation.openPlanning();
+        return;
+      }
       Sport.renderSportProfilePanel("Profil sportif enregistré.");
       document.querySelector("#saveSportProfileButton")?.focus();
     }
@@ -3068,7 +3078,8 @@
   };
 
   Sport.renderSportProfilePanel = function renderSportProfilePanel(feedback = "") {
-    const page = document.querySelector("#pageHeroMenu");
+    const settings = State.getPage?.() === "sport-settings";
+    const page = document.querySelector(settings ? "#pageSportSettings" : "#pageHeroMenu");
     const profile = State.getProfile?.();
 
     if (!page || !profile) return;
@@ -3082,8 +3093,8 @@
       panel = document.createElement("section");
       panel.id = "sportProfilePanel";
       panel.className = "sport-profile-card card";
-      page.appendChild(panel);
     }
+    page.appendChild(panel);
 
     const equipment = new Set(sport.equipment || []);
     const training = sport.trainingProfile;
@@ -3099,6 +3110,7 @@
         <span class="status-chip">${Sport.levels[sport.level]}</span>
       </div>
 
+      ${settings ? window.FitnessRpgHeroPlanning.controlsHtml() : ""}
       <div class="sport-profile-grid">
         <label>
           Niveau
@@ -3200,7 +3212,7 @@
       <p class="muted">Arrête immédiatement l’effort en cas de douleur thoracique, de malaise ou d’essoufflement inhabituel. Si les signes sont intenses, associés ou persistent, appelle le 15 ou le 112 en France.</p>
       <p role="status">${feedback}</p>
       <button id="saveSportProfileButton" class="primary-btn" type="button">
-        Enregistrer le profil sportif
+        ${settings ? "Enregistrer et revenir au planning" : "Enregistrer le profil sportif"}
       </button>
 
       <div class="sport-recent-performance">

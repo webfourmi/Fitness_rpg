@@ -109,8 +109,7 @@ async function exerciseWardrobe() {
     check(state.profile.camp.gold === 100 && state.profile.totalXp === 0, "Soldes conservés");
     check(!card.querySelector(".camp-fitting") && card.querySelector('[data-fitting-action="preview"]').disabled, "Bilan confirmé");
     state.setGoal("perte-poids");
-    window.FitnessRpgNavigation.openMobileDestination("planning");
-    document.querySelector('#planningSummary [data-mobile-destination="hero-menu"]').click();
+    window.FitnessRpgNavigation.openMobileDestination("hero-menu");
     const panel = document.querySelector("#sportProfilePanel");
     panel.querySelector("#sportTrainingFields summary").click();
     const fields = panel.querySelector("#sportTrainingFields");
@@ -154,13 +153,16 @@ async function exerciseWardrobe() {
     panel.querySelector("#clearTrainingProfileButton").click();
     state.loadProfile();
     check(state.getSportProfile().trainingProfile === null && state.profile.camp.gold === 100, "Effacement ciblé et acquis conservés");
+    state.getProfile().weightPlanningEnabled = true;
+    state.saveProfile();
     window.FitnessRpgNavigation.openMobileDestination("planning");
-    document.querySelector('[data-weight-plan="toggle"]').click();
+    check(document.querySelector('[data-hero-plan="mode-personalized"]').getAttribute("aria-pressed") === "true",
+      "Le parcours Perte de poids existant reste accessible");
     const planning = document.querySelector("#planningWeekGrid");
     check(planning.querySelectorAll('[data-weight-plan="day"]').length === 3, "Trois séances essentielles ouvertes");
     document.querySelector("#weightActivityMinutes").value = "12";
     document.querySelector('[data-weight-plan="log"]').click();
-    check(document.querySelector("#planningSummary").textContent.includes("12 min d’endurance"), "Minutes externes reportées");
+    check(document.querySelector("#planningFollowup").textContent.includes("12 min d’endurance"), "Minutes externes reportées");
     planning.querySelector('[data-weight-plan="day"]').click();
     check(state.getActiveProgramSession()?.weightPlanningWorkout, "Ouverture d’une séance adaptée du planning");
     check(state.loadActiveProgramSession()?.adaptedExercises.length, "Séance adaptée conservée à la reprise");
@@ -235,9 +237,11 @@ async function exerciseWardrobe() {
     state.setActiveProgramId("marche-aventurier");
     state.updateSportProfile({ preferredDuration: 7, sessionsPerWeek: 3, trainingProfile: { activity: "regular" } });
     window.FitnessRpgNavigation.openMobileDestination("planning");
+    document.querySelector('[data-hero-plan="edit-profile"]').click();
+    check(state.getPage() === "sport-settings", "Les paramètres s’ouvrent sur une page dédiée");
     document.querySelector("#heroPlanningFocus").value = "endurance";
-    document.querySelector('[data-hero-plan="apply"]').click();
-    check(document.querySelector("#planningSummary").textContent.includes("Marche de l’aventurier"), "Programme principal préservé");
+    document.querySelector("#saveSportProfileButton").click();
+    check(document.querySelector("#planningFollowup").textContent.includes("Marche de l’aventurier"), "Programme principal préservé");
     check(document.querySelectorAll('#planningWeekGrid [data-hero-plan="day"]').length === 3, "Trois séances essentielles du programme actif");
     if (mobile) {
       const rightEdge = document.documentElement.clientWidth;
@@ -248,16 +252,14 @@ async function exerciseWardrobe() {
       check(document.documentElement.scrollWidth <= rightEdge + 1,
         "Planning personnalisé sans débordement horizontal (" + overflowing.join(", ") + ")");
     }
-    document.querySelector("#heroRecovery").value = "ready";
-    document.querySelector('[data-hero-plan="recovery"]').click();
-    check(document.querySelector("#heroRecoveryStatus").textContent.includes("enregistrée"), "Récupération confirmée");
+    check(window.FitnessRpgHeroPlanning.saveRecovery("ready"), "Récupération confirmée");
     state.addTrainingEntry({ id: "endurance-browser", type: "exercise", title: "Marche", exerciseId: "walk",
       date: state.todayKey(), amount: 8, unit: "min" });
     render.renderPlanningPage();
-    const totals = document.querySelector("#heroEnduranceTotals");
+    const totals = document.querySelector("#planningEnduranceTotals");
     check(totals.textContent.includes("Endurance aujourd’hui · 8 min") &&
       totals.textContent.includes("Endurance cette semaine · 8 min"), "Le planning reprend automatiquement les minutes du journal");
-    const complement = document.querySelector('[aria-label="Exercices facultatifs"] [data-hero-plan="start-complement"]');
+    const complement = document.querySelector('[aria-label="Activités facultatives"] [data-hero-plan="start-complement"]');
     check(complement?.textContent.includes(" min"), "Le planning indique la durée du complément en haut de page");
     complement.click();
     const timer = state.getActiveTimerSession();

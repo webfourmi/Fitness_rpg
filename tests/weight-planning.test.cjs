@@ -339,3 +339,38 @@ test("le planning personnalisé calcule l’endurance du jour et de la semaine d
   assert.match(summary.innerHTML, /data-hero-plan="start-complement"/);
   assert.doesNotMatch(summary.innerHTML, /weightActivityMinutes/);
 });
+
+test("le passage en mode standard conserve les préférences personnalisées et les acquis", () => {
+  const { state, hero, plan } = boot();
+  const profile = state.getProfile();
+  state.updateSportProfile({ level: "intermediate" });
+  assert.equal(hero.saveSettings("force", state.getSportProfile()), true);
+  const settings = JSON.stringify(profile.heroPlanning);
+  const workout = { exercises: [{ exerciseId: "chair_squat", unit: "répétitions", amount: 12 }] };
+  const programId = profile.heroPlanning.programId;
+  assert.ok(hero.adaptWorkout(programId, workout));
+  profile.planningMode = "standard";
+  state.saveProfile();
+  assert.equal(hero.adaptWorkout(programId, workout), null);
+  assert.equal(plan.enabled(), false);
+  state.loadProfile();
+  assert.equal(hero.isPersonalized(), false);
+  assert.equal(JSON.stringify(state.getProfile().heroPlanning), settings);
+  state.getProfile().planningMode = "personalized";
+  assert.ok(hero.adaptWorkout(programId, workout));
+});
+
+test("deux écritures historiques pour la même séance ne doublent pas l’endurance", () => {
+  const { state, plan } = boot();
+  const date = state.todayKey();
+  state.getProfile().completedByDate[date] = [
+    { id: "original", date, type: "program", programId: "marche-aventurier", weekNumber: 1,
+      dayNumber: 1, enduranceByActivity: { walk: 8 } },
+    { id: "doublon", date, type: "program", programId: "marche-aventurier", weekNumber: 1,
+      dayNumber: 1, enduranceByActivity: { walk: 8 } },
+    { id: "autre-séance", date, type: "program", programId: "marche-aventurier", weekNumber: 1,
+      dayNumber: 2, enduranceByActivity: { walk: 10 } }
+  ];
+  assert.equal(plan.recordedDays([date], { includeManual: false }).get(date), 18);
+  assert.equal(state.getAllEntries().length, 3);
+});

@@ -2097,8 +2097,10 @@ window.FitnessRpgPrograms.openPlanningProgram = function openPlanningProgram(opt
     dateKey: options.planningDateKey || ""
   };
 
-  const weekNumber = window.FitnessRpgPrograms.getSuggestedWeekNumberForPlanItem(item);
-  const dayNumber = window.FitnessRpgPrograms.getSuggestedDayNumberForPlanItem(item);
+  const weekNumber = options.scheduled ? options.weekNumber
+    : window.FitnessRpgPrograms.getSuggestedWeekNumberForPlanItem(item);
+  const dayNumber = options.scheduled ? options.dayNumber
+    : window.FitnessRpgPrograms.getSuggestedDayNumberForPlanItem(item);
 
   window.FitnessRpgPrograms.openProgramDetail(programId, {
     weekNumber,
@@ -2109,6 +2111,7 @@ window.FitnessRpgPrograms.openPlanningProgram = function openPlanningProgram(opt
     planningTitle: item.title,
     planningSource: item.source
   });
+  if (options.start) window.FitnessRpgPrograms.validateProgramDay(programId, dayNumber, weekNumber);
 };
 
 window.FitnessRpgPrograms.startTodayPlanningSession = function startTodayPlanningSession() {

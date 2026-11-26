@@ -1043,6 +1043,18 @@ if (resetProgramButton) {
 // ============================================================
 
 window.FitnessRpgNavigation.handlePlanningClick = function handlePlanningClick(event, target) {
+  const sessionButton = target.closest("[data-planning-action]");
+  if (sessionButton) {
+    window.FitnessRpgNavigation.stopEvent(event);
+    const { programId, source, weekNumber, dayNumber, dateKey, index, planningAction, scheduled } = sessionButton.dataset;
+    window.FitnessRpgPrograms.openPlanningProgram({
+      programId, weekNumber: Number(weekNumber), dayNumber: Number(dayNumber),
+      planningDateKey: dateKey, planningSource: source, planningIndex: Number(index),
+      start: planningAction === "start", scheduled: scheduled === "true"
+    });
+    return true;
+  }
+
   const heroPlan = target.closest("[data-hero-plan]");
   if (heroPlan) {
     window.FitnessRpgNavigation.stopEvent(event);

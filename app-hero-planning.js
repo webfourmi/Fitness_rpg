@@ -17,13 +17,46 @@
   const planning = () => window.FitnessRpgWeightPlanning;
 
   function primaryProgramId() {
-    return State.getActiveProgramId() || State.getRecommendedProgram()?.id || null;
+    return selection()?.programId || State.getActiveProgramId() || State.getRecommendedProgram()?.id || null;
   }
 
   function selection() {
     const profile = State.getProfile();
     const saved = profile?.heroPlanning;
-    return saved?.goalId === State.getGoalId() && Rules.goalIds.includes(saved.focus) ? saved : null;
+    return profile?.planningMode !== "standard" && saved && (saved.programId || saved.goalId === State.getGoalId())
+      && Rules.goalIds.includes(saved.focus) ? saved : null;
+  }
+
+  function isPersonalized() {
+    const profile = State.getProfile();
+    return Boolean(profile && (profile.planningMode === "personalized" || selection() || planning().enabled()));
+  }
+
+  function saveSettings(focus, sport) {
+    const profile = State.getProfile();
+    if (!profile || !Rules.goalIds.includes(focus)) return false;
+    const groups = {
+      "perte-poids": "perte-poids", "remise-en-forme": "reprise-douce", endurance: "cardio",
+      force: "renforcement", "prise-muscle": "renforcement", entretien: "regularite",
+      "posture-stabilite": "gainage", souplesse: "mobilite", "equilibre-autonomie": "pilates"
+    };
+    const config = window.FitnessRpgConfig;
+    const goal = config.getGoalById(groups[focus]);
+    const candidates = (goal?.programProgression || [])
+      .map((id) => config.getProgramById(id)).filter(Boolean);
+    const available = candidates.filter((program) => config.getProgramTier(program) === sport.level
+      && (program.id !== "epreuves-forge" || Programs.isForgeAccessible()));
+    const previous = profile.heroPlanning;
+    const programId = available.find((program) => !Programs.getProgramProgressDetails(program.id).campaignComplete)?.id
+      || available.at(-1)?.id || goal?.recommendedProgramId;
+    profile.heroPlanning = {
+      goalId: State.getGoalId(), focus, programId,
+      ...(previous?.focus === focus && previous.complements && { complements: previous.complements })
+    };
+    profile.planningMode = "personalized";
+    profile.weightPlanningEnabled = false;
+    State.saveProfile();
+    return true;
   }
 
   function assess(sport = State.getSportProfile()) {
@@ -101,7 +134,7 @@
           ${Object.entries(recoveryChoices).map(([id, label]) => `<option value="${id}" ${recovery() === id ? "selected" : ""}>${label}</option>`).join("")}
         </select>
       </label>
-      <button type="button" class="secondary-btn" data-hero-plan="recovery">Confirmer ma récupération</button>
+      <button type="button" class="secondary-btn">Confirmer ma récupération</button>
       <p id="heroRecoveryStatus" role="status">${recovery() === "rest" ? "Séances reportées pour aujourd’hui. Tu peux modifier ce choix." : ""}</p>
     </section>`;
   }
@@ -205,6 +238,31 @@
     };
   }
 
+  function requestRecovery(retry) {
+    if (recovery() && recovery() !== "rest") return true;
+    Render.showModal({
+      title: "Avant de démarrer",
+      okText: "Fermer"
+    });
+    const modalBody = document.querySelector("#rpgModalMessage");
+    if (!modalBody) return false;
+    modalBody.innerHTML = recoveryHtml();
+    const confirm = modalBody.querySelector("button");
+    confirm.removeAttribute("data-hero-plan");
+    modalBody.querySelector("select").focus();
+    confirm.addEventListener("click", () => {
+      const choice = modalBody.querySelector("select").value;
+      if (!saveRecovery(choice)) {
+        modalBody.querySelector("[role=status]").textContent = "Choisis une réponse pour continuer.";
+        return;
+      }
+      Render.closeModal();
+      if (choice !== "rest") retry();
+      else Render.renderPlanningPage();
+    });
+    return false;
+  }
+
   function allowWorkout(id, workout, options) {
     const result = adaptWorkout(id, workout, options);
     if (!result) return true;
@@ -223,21 +281,17 @@
 
   function controlsHtml() {
     if (!State.getProfile()) return "";
-    const saved = selection();
     const options = Rules.goalOptions(State.getGoalId());
-    const preferred = saved?.focus || (options.length === 1 ? options[0] : "");
-    return `<details ${saved ? "open" : ""}><summary>La Voie du Héros · Planning personnalisé</summary>
+    const preferred = State.getProfile()?.heroPlanning?.focus || (options.length === 1 ? options[0] : "");
+    return `
       <label>Priorité sportive <select id="heroPlanningFocus">
       <option value="">Choisir une priorité</option>
       ${Rules.goalIds.map((id) => `<option value="${id}" ${id === preferred ? "selected" : ""}>${escape(Rules.getRule(id, "beginner").title)}</option>`).join("")}
       </select></label>
-      <button type="button" class="primary-btn" data-hero-plan="apply">${saved ? "Appliquer la priorité" : "Personnaliser le planning"}</button>
-      ${saved || planning().enabled() ? '<button type="button" class="ghost-btn" data-hero-plan="disable">Revenir au planning habituel</button>' : ""}
-      <p id="heroPlanningStatus" role="status"></p>
-    </details>`;
+      <p id="heroPlanningStatus" role="status"></p>`;
   }
 
-  function render(summary, grid) {
+  function render(summary, grid, optionalSection) {
     const saved = selection();
     if (!saved) return false;
     const sport = State.getSportProfile();
@@ -274,22 +328,24 @@
     const two = [0, 1].map((index) => complements.find((item) => item.id === saved.complements?.[index]) || complements[index % complements.length]);
     const plannedDays = pending.slice(0, slots.essentials.length);
     const optional = two.map((exercise) => plannedComplement(id, exercise));
+    const bossIndex = [5, 6, 4, 3, 2, 1, 0].find((index) => !slots.essentials.includes(index)
+      && !slots.extras.includes(index) && !completedThisWeek.has(index) && weekKeys[index] >= today);
     const usableOptional = [...new Map(optional.filter(Boolean).map((item) => [item.exercise.id, item])).values()];
     const endurance = planning().recordedDays(weekKeys, { includeManual: false });
     const minutes = (value) => (Math.round(value * 10) / 10).toLocaleString("fr-FR");
     const complementButton = ({ exercise, seconds }) =>
       `<button type="button" class="secondary-btn" data-hero-plan="start-complement" data-exercise="${exercise.id}">Démarrer ${escape(exercise.title)} · ${minutes(seconds / 60)} min</button>`;
 
+    if (optionalSection && usableOptional.length) optionalSection.innerHTML = usableOptional.map(complementButton).join("");
     summary.innerHTML = `<div class="planning-compact-header"><strong>${escape(program?.title || "Aucun programme actif")}</strong>
       <span>Semaine ${weekNumber} · ${essential.filter((day) => done.has(Number(day.day))).length}/${essential.length} séances essentielles validées</span></div>
-      <p id="heroEnduranceTotals">Endurance aujourd’hui · ${minutes(endurance.get(today) || 0)} min<br>
-        Endurance cette semaine · ${minutes([...endurance.values()].reduce((total, value) => total + value, 0))} min</p>
-      ${usableOptional.length ? `<section aria-label="Exercices facultatifs"><h2>Exercices facultatifs</h2>
+      ${optionalSection ? "" : `<p id="heroEnduranceTotals">Endurance aujourd’hui · ${minutes(endurance.get(today) || 0)} min<br>
+        Endurance cette semaine · ${minutes([...endurance.values()].reduce((total, value) => total + value, 0))} min</p>`}
+      ${!optionalSection && usableOptional.length ? `<section aria-label="Exercices facultatifs"><h2>Exercices facultatifs</h2>
         ${usableOptional.map(complementButton).join("")}</section>` : ""}
-      ${controlsHtml()}
-      ${recoveryHtml()}
+      ${optionalSection ? "" : recoveryHtml()}
       ${window.FitnessRpgAdaptiveCoach?.planningHtml("data-hero-plan", saved.focus) || ""}
-      ${window.FitnessRpgSport.trainingRecommendationHtml(sport)}
+      <details><summary>Repères d’entraînement</summary>${window.FitnessRpgSport.trainingRecommendationHtml(sport)}</details>
       <p>${checked.rule ? `Temps disponible · ${sport.preferredDuration} min par séance. Les compléments sont facultatifs.`
         : "Le planning personnalisé attend un profil compatible ou un avis professionnel."}</p>
       ${checked.rule && pending.length ? `<p>${plannedDays.length} séance(s) essentielle(s) programmée(s) sur ${pending.length} restante(s).
@@ -297,8 +353,8 @@
           ? ` et ${sport.trainingProfile.availableDays.length} jour(s) disponible(s)` : ""}.</p>
         ${pending.length > plannedDays.length ? "<p>Les séances sans créneau restent à faire. Elles pourront être replanifiées la semaine prochaine.</p>" : ""}
         <button type="button" class="secondary-btn" data-hero-plan="edit-profile">Modifier ma fréquence et mes disponibilités</button>` : ""}
-      ${boss ? `<p>${escape(boss.title)} · ${bossDefeated ? "Vaincu" : bossUnlocked ? "Débloqué" : "Après les séances essentielles"}</p>` : ""}
-      ${bossUnlocked && !bossDefeated && checked.rule ? '<button type="button" class="secondary-btn" data-hero-plan="boss">Voir la mission du boss</button>' : ""}
+      ${boss && (!optionalSection || bossIndex == null) ? `<p>${escape(boss.title)} · ${bossDefeated ? "Vaincu" : bossUnlocked ? "Débloqué" : "Après les séances essentielles"}</p>` : ""}
+      ${bossUnlocked && !bossDefeated && checked.rule && (!optionalSection || bossIndex == null) ? '<button type="button" class="secondary-btn" data-hero-plan="boss">Voir la mission du boss</button>' : ""}
       ${essential.length && pending.length === 0 && checked.rule ? '<button type="button" class="secondary-btn" data-hero-plan="repeat">Recommencer cette semaine</button>' : ""}
       ${complements.length ? `<details><summary>Changer les exercices facultatifs</summary>
         ${two.map((selected, index) => `<label>Complément ${index + 1} <select id="heroComplement${index}">
@@ -313,52 +369,47 @@
       const complement = optional[slots.extras.indexOf(index)];
       const adapted = day && adaptWorkout(id, day);
       const completed = completedThisWeek.get(index);
+      const bossCard = index === bossIndex && boss && optionalSection
+        ? `<h2>${escape(boss.title)}</h2><p>${bossDefeated ? "Boss vaincu" : bossUnlocked ? "Boss débloqué" : "Après les séances essentielles"}</p>
+          ${bossUnlocked && !bossDefeated && checked.rule ? '<button type="button" class="secondary-btn" data-hero-plan="boss">Choisir la mission</button>' : ""}`
+        : "";
       const content = completed ? `<h2>${escape(completed.title)}</h2><p>Séance validée</p>` : day ? `<h2>${escape(day.title)}</h2><p>Essentielle · ${adapted.exercises.length
         ? `${Math.round(adapted.minutes * 10) / 10} min max estimées · ${adapted.substitutions} variante(s) · ${adapted.omitted} mouvement(s) écarté(s)` : "à adapter"}</p>
-        <div class="planning-session-actions">
-          <button type="button" class="secondary-btn" data-hero-plan="preview" data-day="${day.day}">Voir la séance</button>
-          <button type="button" class="primary-btn" data-hero-plan="day" data-day="${day.day}"
-            ${adapted.exercises.length && (!repeat || Number(day.day) === repeat.nextDay) ? "" : "disabled"}>Démarrer la séance</button>
-        </div>`
+        ${Render.planningActionsHtml((action) => `data-hero-plan="${action === "start" ? "day" : action}" data-day="${day.day}"`, {
+          canStart: adapted.exercises.length > 0 && (!repeat || Number(day.day) === repeat.nextDay)
+        })}`
         : complement ? `<h2>${escape(complement.exercise.title)}</h2><p>Complément facultatif</p>
-          ${complementButton(complement)}` : "<h2>Repos</h2>";
-      return `<article class="planning-day-card card"><div class="planning-day-top"><strong>${label}</strong></div>${content}</article>`;
+          ${complementButton(complement)}` : bossCard || "<h2>Repos</h2>";
+      return `<article class="planning-day-card card${weekKeys[index] === today ? " today" : ""}"><div class="planning-day-top"><strong>${label}</strong>${weekKeys[index] === today ? "<span>Aujourd’hui</span>" : ""}</div>${content}</article>`;
     }).join("");
     return true;
   }
 
   function handle(button) {
     const profile = State.getProfile();
-    if (!profile) return;
     const action = button.dataset.heroPlan;
-    if (action === "edit-profile") {
-      window.FitnessRpgNavigation.openHeroMenu();
-      const fields = document.querySelector("#sportTrainingFields");
-      if (fields) fields.open = true;
-      document.querySelector("#sportSessionsInput")?.focus();
-      return;
-    }
-    if (action === "apply") {
-      const focus = document.querySelector("#heroPlanningFocus").value;
-      if (!Rules.goalIds.includes(focus)) {
-        document.querySelector("#heroPlanningStatus").textContent = "Choisis une priorité sportive.";
+    if (action === "mode-standard" || action === "mode-personalized" || action === "edit-profile") {
+      const navigation = window.FitnessRpgNavigation;
+      if (!profile) {
+        if (action !== "mode-standard") navigation.openHeroSetup();
         return;
       }
-      if (selection()?.focus !== focus) profile.heroPlanning = { goalId: State.getGoalId(), focus };
-      profile.weightPlanningEnabled = false;
-    } else if (action === "disable") {
-      profile.heroPlanning = null;
-      profile.weightPlanningEnabled = false;
-    } else if (action === "recovery") {
-      if (!selection()) return;
-      if (saveRecovery(document.querySelector("#heroRecovery").value)) {
-        Render.renderPlanningPage();
-        document.querySelector("#heroRecoveryStatus").textContent = "Récupération enregistrée pour aujourd’hui.";
+      if (action === "edit-profile") {
+        navigation.setPage("sport-settings");
+        return;
+      }
+      profile.planningMode = action === "mode-standard" ? "standard" : "personalized";
+      State.saveProfile();
+      if (action === "mode-personalized" && (!State.getSportProfile().lastUpdatedAt || (!selection() && !planning().enabled()))) {
+        navigation.setPage("sport-settings");
       } else {
-        document.querySelector("#heroRecoveryStatus").textContent = "Choisis une réponse pour continuer.";
+        Render.renderPlanningPage();
+        document.querySelector(`[data-hero-plan="${action}"]`)?.focus();
       }
       return;
-    } else if (action.startsWith("coach-")) {
+    }
+    if (!profile) return;
+    if (action.startsWith("coach-")) {
       if (selection()) window.FitnessRpgAdaptiveCoach?.handlePlanning(action);
       return;
     } else if (action === "claim-reward") {
@@ -377,6 +428,7 @@
       const candidates = compatibleComplements(assess()?.rule, State.getSportProfile());
       const exercise = candidates.find((item) => item.id === button.dataset.exercise);
       const id = primaryProgramId();
+      if (exercise && !requestRecovery(() => handle(button))) return;
       if (!exercise || !allowWorkout(id, complementWorkout(exercise), { allowIncrease: false })) return;
       const planned = plannedComplement(id, exercise);
       if (!planned) return;
@@ -419,6 +471,7 @@
           });
           return;
         }
+        if (["day", "boss", "repeat"].includes(action) && !requestRecovery(() => handle(button))) return;
         Programs.openProgramDetail(id, { weekNumber: week, dayNumber: day });
         if (action === "day") Programs.validateProgramDay(id, day, week);
         if (action === "repeat") Programs.startRepeatWeek(id, week);
@@ -430,5 +483,5 @@
     Render.renderPlanningPage();
   }
 
-  window.FitnessRpgHeroPlanning = { controlsHtml, render, handle, adaptWorkout, allowWorkout, saveRecovery, rewardEligibility, sessionSlots, compatibleComplements };
+  window.FitnessRpgHeroPlanning = { controlsHtml, isPersonalized, saveSettings, render, handle, adaptWorkout, allowWorkout, saveRecovery, rewardEligibility, sessionSlots, compatibleComplements };
 })();
