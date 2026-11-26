@@ -135,6 +135,20 @@
     });
   }
 
+  function complementWorkout(exercise) {
+    return { exercises: [{ exerciseId: exercise.id, amount: exercise.defaultValue || exercise.min, unit: exercise.unit }] };
+  }
+
+  function plannedComplement(programId, exercise) {
+    if (!exercise) return null;
+    const item = adaptWorkout(programId, complementWorkout(exercise), { allowIncrease: false })?.exercises[0];
+    if (!item || item.exerciseId !== exercise.id || item.amount < (exercise.min || 1)) return null;
+    const rate = planning().secondsPerUnit(item.unit);
+    return rate
+      ? { exercise, amount: item.amount, seconds: Math.round(item.amount * rate) }
+      : null;
+  }
+
   function adaptWorkout(id, workout, { boss = false, sport = State.getSportProfile(), allowIncrease = true } = {}) {
     if (!selection() || primaryProgramId() !== id || !workout) return null;
     const checked = assess(sport);
@@ -259,9 +273,19 @@
       ? compatibleComplements(checked.rule, sport) : [];
     const two = [0, 1].map((index) => complements.find((item) => item.id === saved.complements?.[index]) || complements[index % complements.length]);
     const plannedDays = pending.slice(0, slots.essentials.length);
+    const optional = two.map((exercise) => plannedComplement(id, exercise));
+    const usableOptional = [...new Map(optional.filter(Boolean).map((item) => [item.exercise.id, item])).values()];
+    const endurance = planning().recordedDays(weekKeys, { includeManual: false });
+    const minutes = (value) => (Math.round(value * 10) / 10).toLocaleString("fr-FR");
+    const complementButton = ({ exercise, seconds }) =>
+      `<button type="button" class="secondary-btn" data-hero-plan="start-complement" data-exercise="${exercise.id}">Démarrer ${escape(exercise.title)} · ${minutes(seconds / 60)} min</button>`;
 
     summary.innerHTML = `<div class="planning-compact-header"><strong>${escape(program?.title || "Aucun programme actif")}</strong>
       <span>Semaine ${weekNumber} · ${essential.filter((day) => done.has(Number(day.day))).length}/${essential.length} séances essentielles validées</span></div>
+      <p id="heroEnduranceTotals">Endurance aujourd’hui · ${minutes(endurance.get(today) || 0)} min<br>
+        Endurance cette semaine · ${minutes([...endurance.values()].reduce((total, value) => total + value, 0))} min</p>
+      ${usableOptional.length ? `<section aria-label="Exercices facultatifs"><h2>Exercices facultatifs</h2>
+        ${usableOptional.map(complementButton).join("")}</section>` : ""}
       ${controlsHtml()}
       ${recoveryHtml()}
       ${window.FitnessRpgAdaptiveCoach?.planningHtml("data-hero-plan", saved.focus) || ""}
@@ -276,30 +300,28 @@
       ${boss ? `<p>${escape(boss.title)} · ${bossDefeated ? "Vaincu" : bossUnlocked ? "Débloqué" : "Après les séances essentielles"}</p>` : ""}
       ${bossUnlocked && !bossDefeated && checked.rule ? '<button type="button" class="secondary-btn" data-hero-plan="boss">Voir la mission du boss</button>' : ""}
       ${essential.length && pending.length === 0 && checked.rule ? '<button type="button" class="secondary-btn" data-hero-plan="repeat">Recommencer cette semaine</button>' : ""}
-      ${complements.length ? `<details><summary>Deux compléments facultatifs</summary>
-        <p>Tu peux les faire séparément, selon tes disponibilités.</p>
-        ${two.map((item) => `<button type="button" class="secondary-btn" data-hero-plan="exercise" data-exercise="${item.id}">${escape(item.title)}</button>`).join("")}
-        <p>Changer les compléments</p>
+      ${complements.length ? `<details><summary>Changer les exercices facultatifs</summary>
         ${two.map((selected, index) => `<label>Complément ${index + 1} <select id="heroComplement${index}">
           ${complements.map((item) => `<option value="${item.id}" ${item.id === selected.id ? "selected" : ""}>${escape(item.title)}</option>`).join("")}</select></label>`).join("")}
         <button type="button" class="secondary-btn" data-hero-plan="complements">Enregistrer les compléments</button></details>`
         : "<p>Compléments facultatifs · aucune suggestion compatible pour le moment.</p>"}
       ${window.FitnessRpgHeroDashboard?.html(checked.rule) || ""}
-      ${window.FitnessRpgWeightDashboard?.heroRewardsHtml(rewardEligibility()) || ""}
-      ${planning().activityFormHtml("data-hero-plan")}
-      <p>${planning().recordedMinutes()} min d’endurance cette semaine</p>`;
+      ${window.FitnessRpgWeightDashboard?.heroRewardsHtml(rewardEligibility()) || ""}`;
 
     grid.innerHTML = labels.map((label, index) => {
       const day = plannedDays[slots.essentials.indexOf(index)];
-      const complement = two[slots.extras.indexOf(index)];
+      const complement = optional[slots.extras.indexOf(index)];
       const adapted = day && adaptWorkout(id, day);
       const completed = completedThisWeek.get(index);
       const content = completed ? `<h2>${escape(completed.title)}</h2><p>Séance validée</p>` : day ? `<h2>${escape(day.title)}</h2><p>Essentielle · ${adapted.exercises.length
         ? `${Math.round(adapted.minutes * 10) / 10} min max estimées · ${adapted.substitutions} variante(s) · ${adapted.omitted} mouvement(s) écarté(s)` : "à adapter"}</p>
-        ${adapted.exercises.length && (!repeat || Number(day.day) === repeat.nextDay)
-          ? `<button type="button" class="secondary-btn" data-hero-plan="day" data-day="${day.day}">Démarrer la séance</button>` : ""}`
-        : complement ? `<h2>${escape(complement.title)}</h2><p>Complément facultatif</p>
-          <button type="button" class="secondary-btn" data-hero-plan="exercise" data-exercise="${complement.id}">Voir le mouvement</button>` : "<h2>Repos</h2>";
+        <div class="planning-session-actions">
+          <button type="button" class="secondary-btn" data-hero-plan="preview" data-day="${day.day}">Voir la séance</button>
+          <button type="button" class="primary-btn" data-hero-plan="day" data-day="${day.day}"
+            ${adapted.exercises.length && (!repeat || Number(day.day) === repeat.nextDay) ? "" : "disabled"}>Démarrer la séance</button>
+        </div>`
+        : complement ? `<h2>${escape(complement.exercise.title)}</h2><p>Complément facultatif</p>
+          ${complementButton(complement)}` : "<h2>Repos</h2>";
       return `<article class="planning-day-card card"><div class="planning-day-top"><strong>${label}</strong></div>${content}</article>`;
     }).join("");
     return true;
@@ -351,8 +373,18 @@
     } else if (action === "dashboard-save") {
       if (selection()) window.FitnessRpgHeroDashboard?.handle(assess()?.rule, button);
       return;
-    } else if (action === "log") {
-      planning().handleActivityForm();
+    } else if (action === "start-complement") {
+      const candidates = compatibleComplements(assess()?.rule, State.getSportProfile());
+      const exercise = candidates.find((item) => item.id === button.dataset.exercise);
+      const id = primaryProgramId();
+      if (!exercise || !allowWorkout(id, complementWorkout(exercise), { allowIncrease: false })) return;
+      const planned = plannedComplement(id, exercise);
+      if (!planned) return;
+      window.FitnessRpgExercises.runTimer({
+        exercise,
+        seconds: planned.seconds,
+        context: { kind: "free", amount: planned.amount }
+      });
       return;
     } else {
       const saved = selection();
@@ -370,6 +402,23 @@
         const id = primaryProgramId();
         const week = Programs.getRepeatWeek(id)?.weekNumber || Programs.getPlanningBossWeekNumber(id);
         const day = Number(button.dataset.day || 1);
+        if (action === "preview") {
+          const workout = Programs.getProgramDaysForWeek(id, week).find((item) => Number(item.day) === day);
+          if (!workout) return;
+          const adapted = adaptWorkout(id, workout);
+          const exercises = adapted.exercises.map((item) => {
+            const title = Data.getExerciseById(item.exerciseId)?.title || item.exerciseId;
+            return `${title} · ${Programs.formatExerciseAmount(item)}`;
+          });
+          Render.showModal({
+            icon: "📋",
+            title: workout.title,
+            message: exercises.length ? exercises : "Aucun exercice compatible pour cette séance.",
+            okText: "Fermer",
+            onOk: () => button.focus()
+          });
+          return;
+        }
         Programs.openProgramDetail(id, { weekNumber: week, dayNumber: day });
         if (action === "day") Programs.validateProgramDay(id, day, week);
         if (action === "repeat") Programs.startRepeatWeek(id, week);

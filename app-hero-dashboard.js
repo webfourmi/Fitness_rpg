@@ -42,7 +42,7 @@
       if (item.exerciseId) movements.push({ ...item, actualAmount: item.amount, day: State.getEntryDateKey(item) });
     }
     const families = movements.map((move) => Catalogue.getMetadata(move.exerciseId)?.family).filter(Boolean);
-    const endurance = window.FitnessRpgWeightPlanning.recordedDays(keys);
+    const endurance = window.FitnessRpgWeightPlanning.recordedDays(keys, { includeManual: false });
     const active = new Set([...endurance].filter(([, minutes]) => minutes > 0).map(([date]) => date));
     for (const item of completions) {
       if (["program", "program-boss", "exercise", "custom-program", "challenge"].includes(item.type)) active.add(State.getEntryDateKey(item));

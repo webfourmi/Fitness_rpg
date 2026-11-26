@@ -1,5 +1,5 @@
 {
-  "version": "7.0.30",
+  "version": "7.0.32",
   "date": "2026-11-26",
-  "notes": "Planning personnalisé recalculé sur les créneaux restants et affichage mobile ajusté."
+  "notes": "Endurance calculée depuis le journal et exercices facultatifs chronométrés en haut du planning."
 }

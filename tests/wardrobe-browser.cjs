@@ -251,7 +251,28 @@ async function exerciseWardrobe() {
     document.querySelector("#heroRecovery").value = "ready";
     document.querySelector('[data-hero-plan="recovery"]').click();
     check(document.querySelector("#heroRecoveryStatus").textContent.includes("enregistrée"), "Récupération confirmée");
-    document.querySelector('#planningWeekGrid [data-hero-plan="day"]').click();
+    state.addTrainingEntry({ id: "endurance-browser", type: "exercise", title: "Marche", exerciseId: "walk",
+      date: state.todayKey(), amount: 8, unit: "min" });
+    render.renderPlanningPage();
+    const totals = document.querySelector("#heroEnduranceTotals");
+    check(totals.textContent.includes("Endurance aujourd’hui · 8 min") &&
+      totals.textContent.includes("Endurance cette semaine · 8 min"), "Le planning reprend automatiquement les minutes du journal");
+    const complement = document.querySelector('[aria-label="Exercices facultatifs"] [data-hero-plan="start-complement"]');
+    check(complement?.textContent.includes(" min"), "Le planning indique la durée du complément en haut de page");
+    complement.click();
+    const timer = state.getActiveTimerSession();
+    check(timer?.exerciseId === complement.dataset.exercise && timer.durationSeconds > 0 && timer.durationSeconds <= 7 * 60,
+      "Le complément lance le minuteur avec une durée adaptée au planning");
+    window.FitnessRpgExercises.stopTimer();
+    const sessionPreview = document.querySelector('#planningWeekGrid [data-hero-plan="preview"]');
+    const sessionStart = document.querySelector('#planningWeekGrid [data-hero-plan="day"]');
+    check(sessionPreview.getBoundingClientRect().top === sessionStart.getBoundingClientRect().top, "Les deux boutons sont sur la même ligne");
+    sessionPreview.click();
+    check(document.querySelector("#rpgModalMessage p")?.textContent.includes(" · "), "L’aperçu affiche les exercices et leurs quantités");
+    check(!state.getActiveProgramSession(), "Voir la séance ne démarre pas de séance");
+    document.querySelector("#rpgModalOkButton").click();
+    check(document.activeElement === sessionPreview, "Retour au bouton d’aperçu");
+    sessionStart.click();
     const heroSession = state.getActiveProgramSession();
     check(heroSession?.heroPlanningWorkout && heroSession.adaptedExercises.length, "Séance lancée depuis La Voie du Héros");
     check(state.loadActiveProgramSession().heroPlanningWorkout, "Séance personnalisée conservée après rechargement");
