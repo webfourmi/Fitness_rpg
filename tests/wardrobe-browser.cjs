@@ -240,7 +240,13 @@ async function exerciseWardrobe() {
     check(document.querySelector("#planningSummary").textContent.includes("Marche de l’aventurier"), "Programme principal préservé");
     check(document.querySelectorAll('#planningWeekGrid [data-hero-plan="day"]').length === 3, "Trois séances essentielles du programme actif");
     if (mobile) {
-      check(document.documentElement.scrollWidth <= innerWidth, "Planning personnalisé sans débordement horizontal");
+      const rightEdge = document.documentElement.clientWidth;
+      const overflowing = [...document.querySelectorAll("#pagePlanning *, #appHeader, #mobilePrimaryNav")]
+        .filter(node => node.getBoundingClientRect().right > rightEdge + 1)
+        .slice(0, 8)
+        .map(node => node.id || node.getAttribute("class") || node.tagName);
+      check(document.documentElement.scrollWidth <= rightEdge + 1,
+        "Planning personnalisé sans débordement horizontal (" + overflowing.join(", ") + ")");
     }
     document.querySelector("#heroRecovery").value = "ready";
     document.querySelector('[data-hero-plan="recovery"]').click();
