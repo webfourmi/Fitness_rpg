@@ -251,7 +251,15 @@ async function exerciseWardrobe() {
     document.querySelector("#heroRecovery").value = "ready";
     document.querySelector('[data-hero-plan="recovery"]').click();
     check(document.querySelector("#heroRecoveryStatus").textContent.includes("enregistrée"), "Récupération confirmée");
-    document.querySelector('#planningWeekGrid [data-hero-plan="day"]').click();
+    const preview = document.querySelector('#planningWeekGrid [data-hero-plan="preview"]');
+    const start = document.querySelector('#planningWeekGrid [data-hero-plan="day"]');
+    check(preview.getBoundingClientRect().top === start.getBoundingClientRect().top, "Les deux boutons sont sur la même ligne");
+    preview.click();
+    check(document.querySelector("#rpgModalMessage p")?.textContent.includes(" · "), "L’aperçu affiche les exercices et leurs quantités");
+    check(!state.getActiveProgramSession(), "Voir la séance ne démarre pas de séance");
+    document.querySelector("#rpgModalOkButton").click();
+    check(document.activeElement === preview, "Retour au bouton d’aperçu");
+    start.click();
     const heroSession = state.getActiveProgramSession();
     check(heroSession?.heroPlanningWorkout && heroSession.adaptedExercises.length, "Séance lancée depuis La Voie du Héros");
     check(state.loadActiveProgramSession().heroPlanningWorkout, "Séance personnalisée conservée après rechargement");

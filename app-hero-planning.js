@@ -296,8 +296,11 @@
       const completed = completedThisWeek.get(index);
       const content = completed ? `<h2>${escape(completed.title)}</h2><p>Séance validée</p>` : day ? `<h2>${escape(day.title)}</h2><p>Essentielle · ${adapted.exercises.length
         ? `${Math.round(adapted.minutes * 10) / 10} min max estimées · ${adapted.substitutions} variante(s) · ${adapted.omitted} mouvement(s) écarté(s)` : "à adapter"}</p>
-        ${adapted.exercises.length && (!repeat || Number(day.day) === repeat.nextDay)
-          ? `<button type="button" class="secondary-btn" data-hero-plan="day" data-day="${day.day}">Démarrer la séance</button>` : ""}`
+        <div class="planning-session-actions">
+          <button type="button" class="secondary-btn" data-hero-plan="preview" data-day="${day.day}">Voir la séance</button>
+          <button type="button" class="primary-btn" data-hero-plan="day" data-day="${day.day}"
+            ${adapted.exercises.length && (!repeat || Number(day.day) === repeat.nextDay) ? "" : "disabled"}>Démarrer la séance</button>
+        </div>`
         : complement ? `<h2>${escape(complement.title)}</h2><p>Complément facultatif</p>
           <button type="button" class="secondary-btn" data-hero-plan="exercise" data-exercise="${complement.id}">Voir le mouvement</button>` : "<h2>Repos</h2>";
       return `<article class="planning-day-card card"><div class="planning-day-top"><strong>${label}</strong></div>${content}</article>`;
@@ -370,6 +373,23 @@
         const id = primaryProgramId();
         const week = Programs.getRepeatWeek(id)?.weekNumber || Programs.getPlanningBossWeekNumber(id);
         const day = Number(button.dataset.day || 1);
+        if (action === "preview") {
+          const workout = Programs.getProgramDaysForWeek(id, week).find((item) => Number(item.day) === day);
+          if (!workout) return;
+          const adapted = adaptWorkout(id, workout);
+          const exercises = adapted.exercises.map((item) => {
+            const title = Data.getExerciseById(item.exerciseId)?.title || item.exerciseId;
+            return `${title} · ${Programs.formatExerciseAmount(item)}`;
+          });
+          Render.showModal({
+            icon: "📋",
+            title: workout.title,
+            message: exercises.length ? exercises : "Aucun exercice compatible pour cette séance.",
+            okText: "Fermer",
+            onOk: () => button.focus()
+          });
+          return;
+        }
         Programs.openProgramDetail(id, { weekNumber: week, dayNumber: day });
         if (action === "day") Programs.validateProgramDay(id, day, week);
         if (action === "repeat") Programs.startRepeatWeek(id, week);
