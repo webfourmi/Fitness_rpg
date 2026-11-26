@@ -15,6 +15,14 @@ function exerciseWardrobe() {
     const camp = window.FitnessRpgCamp;
     const render = window.FitnessRpgRender;
     state.createProfile({ name: "Test", gender: "femme" });
+    const nav = document.querySelector("#mobilePrimaryNav");
+    const mobile = matchMedia("(max-width: 699px)").matches;
+    const checkNavigation = (label) => {
+      const bounds = nav.getBoundingClientRect();
+      check(mobile ? bounds.height > 0 && bounds.bottom <= innerHeight : bounds.height === 0, label);
+    };
+    window.FitnessRpgNavigation.goHome();
+    checkNavigation("Barre mobile visible à l’accueil avec un profil");
     camp.resolveOvernight();
     const portraits = document.createElement("div");
     portraits.style.cssText = "position:absolute;left:0;top:0;width:180px";
@@ -190,6 +198,13 @@ function exerciseWardrobe() {
     window.FitnessRpgNavigation.openMobileDestination("planning");
     document.querySelector('[data-weight-plan="day"]').click();
     const guided = state.getActiveProgramSession();
+    checkNavigation("Barre mobile visible pendant la séance guidée");
+    if (mobile) {
+      const dock = document.querySelector(".guided-action-dock").getBoundingClientRect();
+      const bar = nav.getBoundingClientRect();
+      check(dock.height > 0 && dock.bottom < bar.top && dock.right <= innerWidth,
+        "Commandes de séance visibles au-dessus de la barre mobile");
+    }
     const programs = window.FitnessRpgPrograms;
     const movements = programs.getActiveProgramWorkout(guided).exercises;
     movements.forEach((item, index) => state.completeProgramSessionExercise(`${index}-${item.exerciseId}`));
