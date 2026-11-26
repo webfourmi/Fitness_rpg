@@ -15,7 +15,8 @@
   const slots = [0, 2, 4];
 
   function enabled(goal = State.getGoalId()) {
-    return goal === "perte-poids" && State.getProfile()?.weightPlanningEnabled === true;
+    const profile = State.getProfile();
+    return goal === "perte-poids" && profile?.planningMode !== "standard" && profile?.weightPlanningEnabled === true;
   }
 
   function currentStage() {
@@ -132,8 +133,13 @@
     const weekDays = new Set(keys);
     for (const entry of State.getAllEntries()) {
       if (!weekDays.has(State.getEntryDateKey(entry))) continue;
-      if (!entry.id || unique.has(entry.id)) continue;
-      unique.add(entry.id);
+      const guided = entry.programId && (entry.type === "program-boss"
+        || (entry.type === "program" && Number(entry.dayNumber) > 0));
+      const identity = guided
+        ? JSON.stringify([entry.type, entry.programId, Number(entry.weekNumber || 1), Number(entry.dayNumber || 0)])
+        : entry.id || JSON.stringify([entry.type, entry.at, entry.exerciseId, entry.amount, entry.unit, State.getEntryDateKey(entry)]);
+      if (unique.has(identity)) continue;
+      unique.add(identity);
       const key = State.getEntryDateKey(entry);
       const day = days.get(key) || { walk: 0, bike: 0, other: 0 };
       const legacyWorkout = !entry.enduranceByActivity && entry.type === "program"
@@ -194,7 +200,21 @@
       <p id="weightActivityFeedback" role="status"></p>`;
   }
 
-  function render(summary, grid) {
+  function complement(exerciseId, sport) {
+    const exercise = window.FitnessRpgData.getExerciseById(exerciseId);
+    const coach = window.FitnessRpgAdaptiveCoach?.adjustment();
+    const advice = window.FitnessRpgSport.getTrainingRecommendation(sport);
+    if (!exercise || advice?.mode === "professional-review" || coach?.blocked || coach?.paused.includes(exerciseId)) return null;
+    const movement = Adaptation.resolveMovement({ exerciseId, unit: exercise.unit }, sport, { maxIntensity: "light" });
+    if (movement.status !== "keep") return null;
+    const rate = secondsPerUnit(exercise.unit);
+    if (!rate) return null;
+    const maxSeconds = (advice?.initialMinutes ?? sport.preferredDuration) * (coach?.factor ?? 1) * 60;
+    const amount = Math.min(exercise.defaultValue || exercise.min, Math.floor(maxSeconds / rate));
+    return amount >= (exercise.min || 1) ? { exercise, amount, seconds: Math.round(amount * rate) } : null;
+  }
+
+  function render(summary, grid, optionalSection) {
     if (!enabled()) return false;
     const sport = State.getSportProfile();
     const advice = window.FitnessRpgSport.getTrainingRecommendation(sport);
@@ -217,6 +237,12 @@
       : stage.minutes[Math.min(week - 1, 3)];
     const goalMinutes = Math.min(target, weeklyCapacity);
     const keys = State.getWeekKeys();
+    const optional = ["slow_walk", "hip_circles"].map((id) => complement(id, sport));
+    const visibleOptional = optional.slice(0, remainingDays);
+    const optionalButton = ({ exercise, seconds }) => `<button type="button" class="secondary-btn"
+      data-weight-plan="complement" data-exercise="${exercise.id}">Démarrer ${Render.escapeHtml(exercise.title)} ·
+      ${(seconds / 60).toLocaleString("fr-FR", { maximumFractionDigits: 1 })} min</button>`;
+    if (optionalSection && optional.some(Boolean)) optionalSection.innerHTML = optional.filter(Boolean).map(optionalButton).join("");
 
     summary.innerHTML = `
       <div class="planning-compact-header">
@@ -233,11 +259,10 @@
       </details>
       ${window.FitnessRpgWeightDashboard?.measuresHtml() || ""}
       ${window.FitnessRpgWeightDashboard?.html() || ""}
-      <button class="ghost-btn" type="button" data-weight-plan="toggle">Revenir au planning habituel</button>
+
       ${!blocked && !repeat && days.every((day) => completed.has(Number(day.day)))
         ? '<button class="secondary-btn" type="button" data-weight-plan="repeat">Recommencer cette semaine</button>' : ""}
-      ${window.FitnessRpgHeroPlanning?.controlsHtml() || ""}
-      ${activityFormHtml()}
+      <details><summary>Saisir une activité extérieure</summary>${activityFormHtml()}</details>
     `;
 
     grid.innerHTML = labels.map((label, index) => {
@@ -249,13 +274,15 @@
         const canStart = dose.exercises.length && (repeat ? Number(day.day) === repeat.nextDay : !completed.has(Number(day.day)));
         content = `<h2>${day.title}</h2><p>Essentielle · ${dose.exercises.length
           ? `jusqu’à ${Math.round(dose.minutes * 10) / 10} min, fractionnables${strength ? " · renforcement" : ""}` : "à adapter"}.</p>
-          ${canStart ? `<button class="secondary-btn" type="button" data-weight-plan="day" data-day="${day.day}">Ouvrir la séance</button>`
-          : completed.has(Number(day.day)) ? "<span>Séance validée</span>" : ""}`;
+          ${Render.planningActionsHtml((action) => `data-weight-plan="${action === "start" ? "day" : action}" data-day="${day.day}"`, { canStart })}
+          ${completed.has(Number(day.day)) && !repeat ? "<span>Séance validée</span>" : ""}`;
       } else if (index === 5 && boss) {
         const unlocked = !blocked && !repeat && Programs.isProgramBossUnlocked(stage.id, week);
         content = `<h2>${boss.title}</h2><p>${bossDone ? "Boss vaincu" : unlocked ? "Boss débloqué" : "Boss après les trois séances essentielles"}</p>
           ${unlocked && !bossDone ? '<button class="secondary-btn" type="button" data-weight-plan="boss">Choisir la mission</button>' : ""}`;
-      } else if (index === 1 || index === 3) {
+      } else if (optionalSection && visibleOptional[index === 1 ? 0 : index === 3 ? 1 : -1]) {
+        content = optionalButton(visibleOptional[index === 1 ? 0 : 1]);
+      } else if (!optionalSection && (index === 1 || index === 3)) {
         content = `<h2>${index === 1 ? "Endurance douce" : "Mobilité"}</h2><p>Facultatif · ${blocked || (index === 1 ? remainingDays < 1 : remainingDays < 2)
           ? "repos conseillé selon tes disponibilités" : index === 1 ? `marche ou vélo, jusqu’à ${minutes} min en plusieurs blocs si besoin`
           : `mobilité douce${advice?.includeBalance ? " et appui stable pour l’équilibre si adapté" : ""}, jusqu’à ${minutes} min`}.</p>`;
@@ -304,6 +331,11 @@
       handleActivityForm();
       return;
     }
+    if (action === "complement") {
+      const item = complement(button.dataset.exercise, State.getSportProfile());
+      if (item) window.FitnessRpgExercises.runTimer({ ...item, context: { kind: "free", amount: item.amount } });
+      return;
+    }
     const stage = currentStage();
     const weekNumber = campaignWeek(stage.id);
     const dayNumber = Number(button.dataset.day || 1);
@@ -312,7 +344,7 @@
       Programs.startRepeatWeek(stage.id, weekNumber);
     } else if (action === "boss") {
       document.querySelector(".program-boss-choice")?.scrollIntoView({ block: "start" });
-    } else {
+    } else if (action === "day") {
       Programs.validateProgramDay(stage.id, dayNumber, weekNumber);
     }
   }

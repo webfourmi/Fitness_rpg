@@ -202,7 +202,8 @@ window.FitnessRpgRender.renderPages = function renderPages() {
     training: "training",
     exercises: "exercises",
     programs: "programs",
-    planning: "planning"
+    planning: "planning",
+    "sport-settings": "planning"
   }[currentPage] || "more";
 
   const mobileButtons = {
@@ -1101,109 +1102,75 @@ window.FitnessRpgRender.renderActiveProgramSession = function renderActiveProgra
 
   
   
-window.FitnessRpgRender.renderPlanningPage = function renderPlanningPage() {
-  const summary = document.querySelector("#planningSummary");
-  const grid = document.querySelector("#planningWeekGrid");
-
-  if (!summary || !grid) return;
-
- const goalId = window.FitnessRpgState.getGoalId?.() || "reprise-douce";
-  if (window.FitnessRpgHeroPlanning?.render(summary, grid)) return;
-  if (window.FitnessRpgWeightPlanning?.render(summary, grid)) return;
-const goal = window.FitnessRpgConfig.getGoalById(goalId);
-
-const todayQuest = window.FitnessRpgPrograms.getTodayPlanningQuest?.();
-
-const plan = todayQuest?.plan || (
-  window.FitnessRpgPrograms.getCombinedWeeklyPlan
-    ? window.FitnessRpgPrograms.getCombinedWeeklyPlan(goalId)
-    : window.FitnessRpgPrograms.getWeeklyPlan(goalId)
-);
-
-const todayIndex = todayQuest?.index ?? window.FitnessRpgPrograms.getTodayPlanIndex();
-const todayItem = {
-  index: todayIndex,
-  dayLabel: todayQuest?.dayLabel || "Jour",
-  title: todayQuest?.title || "Séance",
-  programId: todayQuest?.programId || null,
-  source: todayQuest?.source || "goal",
-  plan
+window.FitnessRpgRender.planningActionsHtml = function planningActionsHtml(attributes, { canStart = true } = {}) {
+  return `<div class="planning-session-actions">
+    <button type="button" class="secondary-btn" ${attributes("preview")}>Voir la séance</button>
+    <button type="button" class="primary-btn" ${attributes("start")} ${canStart ? "" : "disabled"}>Démarrer</button>
+  </div>`;
 };
 
-  const todayProgram = todayItem.programId
-    ? window.FitnessRpgConfig.getProgramById(todayItem.programId)
-    : null;
+window.FitnessRpgRender.planningEnduranceHtml = function planningEnduranceHtml() {
+  const state = window.FitnessRpgState;
+  const totals = window.FitnessRpgWeightPlanning.recordedDays(state.getWeekKeys(), { includeManual: false });
+  const format = (value) => value.toLocaleString("fr-FR", { maximumFractionDigits: 1 });
+  return `<p id="planningEnduranceTotals">Endurance aujourd’hui · ${format(totals.get(state.todayKey()) || 0)} min<br>
+    Endurance cette semaine · ${format([...totals.values()].reduce((sum, value) => sum + value, 0))} min</p>`;
+};
 
-  const weekKeys = window.FitnessRpgState.getWeekKeys();
-  const todayKey = window.FitnessRpgState.todayKey();
-  const stats = window.FitnessRpgState.getWeeklyActivityStats();
-  const bonus = window.FitnessRpgProgress.getWeeklyPlanningBonusStatus();
+window.FitnessRpgRender.renderPlanningPage = function renderPlanningPage() {
+  const header = document.querySelector("#planningSummary");
+  const followup = document.querySelector("#planningFollowup");
+  const grid = document.querySelector("#planningWeekGrid");
 
-  const todayDone = todayProgram
-    ? window.FitnessRpgState.hasDoneProgramOnDate(todayProgram.id, todayKey)
-    : window.FitnessRpgState.hasTrainingToday();
+  if (!header || !grid || !followup) return;
 
-  const activeProgramId = window.FitnessRpgState.getActiveProgramId?.();
-  const activeProgram = activeProgramId
-    ? window.FitnessRpgConfig.getProgramById(activeProgramId)
-    : null;
-
-  const bossLockedToday = todayItem.source === "boss-locked";
-  const missingSessions = window.FitnessRpgPrograms.getMissingMainSessionsThisWeek?.() || [];
-  const firstMissing = missingSessions[0] || null;
-  
-  if (bossLockedToday) {
-    window.FitnessRpgState.setPose?.("motivate");
-  
-    const coachMessage = document.querySelector("#coachMessage");
-    if (coachMessage) {
-      coachMessage.textContent = "Tu n’as pas réussi à faire tout ton programme ! Rattrape une des séances de ta semaine maintenant !";
-    }
-}
-  
-summary.innerHTML = `
-  <div class="planning-compact-header">
-    <span class="eyebrow">${goal?.icon || "🎯"} Planning interactif</span>
-    <span><strong>Programme :</strong> ${activeProgram?.title || "Aucun programme choisi"}</span>
-    <span><strong>Objectif :</strong> ${goal?.title || "Reprise douce"}</span>
-  </div>
-
-  ${window.FitnessRpgHeroPlanning?.controlsHtml() || ""}
-  ${goalId === "perte-poids" ? `
-    <section class="today-planning-card compact" aria-label="Préparer le parcours perte de poids">
-      <strong>Repères pour ton entraînement</strong>
-      ${window.FitnessRpgSport?.trainingRecommendationHtml(window.FitnessRpgState.getSportProfile()) || ""}
-      <button type="button" class="secondary-btn" data-mobile-destination="hero-menu">Ouvrir le profil sportif</button>
-      <button type="button" class="primary-btn" data-weight-plan="toggle">Activer le planning personnalisé</button>
-    </section>` : ""}
-
-  <section class="today-planning-card compact">
-    <div class="today-planning-line">
-      <strong>Aujourd’hui · ${todayItem.dayLabel}</strong>
-      <span>${todayItem.title}</span>
-      <span>${todayQuest?.day?.difficultyLabel && todayItem.programId === "coeur-dragon"
-        ? todayQuest.day.difficultyLabel : todayProgram?.duration || "Repos"}</span>
+  const state = window.FitnessRpgState;
+  const render = window.FitnessRpgRender;
+  const hero = window.FitnessRpgHeroPlanning;
+  const weight = window.FitnessRpgWeightPlanning;
+  const personalized = hero.isPersonalized();
+  const action = (mode, label, pressed) =>
+    `<button type="button" class="${pressed ? "primary-btn" : "secondary-btn"}" data-hero-plan="mode-${mode}" aria-pressed="${pressed}">${label}</button>`;
+  header.innerHTML = `<h1>Planning</h1>
+    <div class="planning-session-actions" aria-label="Mode du planning">
+      ${action("standard", "Standard", !personalized)}
+      ${action("personalized", "Personnalisé", personalized)}
     </div>
+    ${personalized
+      ? '<button type="button" class="secondary-btn" data-hero-plan="edit-profile">Mes paramètres sportifs</button>'
+      : '<button type="button" class="secondary-btn" data-mobile-destination="programs">Mon programme</button>'}
+    <section aria-label="Activités facultatives">
+      <h2>Activités facultatives</h2>
+      <div data-planning-optional></div>
+    </section>
+    <button type="button" class="secondary-btn" data-open-hero-challenges>Épreuves du Héros</button>`;
+  const optional = header.querySelector("[data-planning-optional]");
+  optional.textContent = "Aucune activité facultative prévue.";
+  followup.innerHTML = render.planningEnduranceHtml();
+  const summary = document.createElement("div");
 
- ${
-  todayProgram
-    ? `<button id="startTodayPlanningButton" class="primary-btn" type="button">
-        Démarrer la séance du jour
-      </button>`
-    : bossLockedToday && firstMissing
-      ? `<button id="startWeeklyCatchupButton" class="primary-btn" type="button">
-          Rattraper : ${firstMissing.dayLabel} · ${firstMissing.title}
-        </button>`
-      : bossLockedToday
-        ? `<button class="ghost-btn" type="button" disabled>
-            Boss verrouillé · valide les 3 séances essentielles
-          </button>`
-        : `<button class="ghost-btn" type="button" disabled>
-            Jour de repos
-          </button>`
-}
-  </section>
+  if (personalized) {
+    if (!state.getSportProfile().lastUpdatedAt || (!hero.render(summary, grid, optional) && !weight.render(summary, grid, optional))) {
+      grid.innerHTML = "<p>Enregistre tes paramètres sportifs pour générer ton planning.</p>";
+    }
+    followup.appendChild(summary);
+    return;
+  }
 
+  const programs = window.FitnessRpgPrograms;
+  const goalId = state.getGoalId() || "reprise-douce";
+  const plan = programs.getCombinedWeeklyPlan(goalId);
+  const today = programs.getTodayPlanningItem();
+  const weekKeys = state.getWeekKeys();
+  const todayKey = state.todayKey();
+  const stats = state.getWeeklyActivityStats();
+  const bonus = window.FitnessRpgProgress.getWeeklyPlanningBonusStatus();
+  const firstMissing = today.source === "boss-locked" && programs.getMissingMainSessionsThisWeek()?.[0];
+
+  summary.innerHTML = `
+  ${firstMissing ? `<button id="startWeeklyCatchupButton" class="secondary-btn" type="button">
+    Rattraper · ${firstMissing.dayLabel} · ${firstMissing.title}
+  </button>` : ""}
   <section class="planning-week-progress">
     <div>
       <strong>${stats.activeDays}/7</strong>
@@ -1220,9 +1187,19 @@ summary.innerHTML = `
   </section>
 `;
 
+  followup.appendChild(summary);
   grid.innerHTML = "";
+  const activeId = plan.find(([, , , source]) => source === "active-program")?.[2];
+  const repeat = activeId && programs.getRepeatWeek(activeId);
+  const standardWeek = activeId && (repeat?.weekNumber || programs.getSuggestedWeekNumberForPlanItem({
+    programId: activeId, source: "active-program"
+  }));
+  const essential = activeId ? programs.getProgramDaysForWeek(activeId, standardWeek).filter((day) => !day.optional) : [];
+  const validated = activeId ? programs.getCompletedProgramWeekDays(activeId, standardWeek) : new Set();
+  const pending = essential.filter((day) => repeat ? Number(day.day) >= repeat.nextDay : !validated.has(Number(day.day)));
+  let pendingIndex = 0;
 
-plan.forEach(([dayLabel, title, programId, source, bossWeekNumber, dayNumber], index) => {
+  plan.forEach(([dayLabel, title, programId, source, bossWeekNumber, dayNumber], index) => {
     const dateKey = weekKeys[index];
     const entries = window.FitnessRpgState.getEntriesForDate(dateKey);
     const program = programId ? window.FitnessRpgConfig.getProgramById(programId) : null;
@@ -1258,13 +1235,38 @@ plan.forEach(([dayLabel, title, programId, source, bossWeekNumber, dayNumber], i
 
     card.dataset.programId = programId || "";
 
+    const scheduled = source === "active-program"
+      ? (done
+        ? entries.find((entry) => entry.type === "program" && entry.programId === programId)
+        : pending[pendingIndex++])
+      : null;
+    const scheduledTitle = scheduled?.type
+      ? programs.getProgramDay(programId, scheduled.dayNumber, scheduled.weekNumber || 1)?.title
+      : scheduled?.title;
+    const current = scheduled?.type
+      ? { week: scheduled.weekNumber || 1, day: scheduled.dayNumber }
+      : scheduled ? { week: standardWeek, day: scheduled.day } : null;
+    const session = render.planningActionsHtml((action) => `data-planning-action="${action}"
+      data-program-id="${programId || ""}" data-source="${source || "planning"}"
+      data-week-number="${current?.week || bossWeekNumber || 1}" data-day-number="${current?.day || dayNumber || ""}"
+      data-scheduled="${Boolean(current)}" data-date-key="${dateKey}" data-index="${index}"`, {
+      canStart: !done && (source !== "active-program" || !repeat || Number(current?.day) === repeat.nextDay)
+    });
+
+    if (program && (source === "program-optional" || source === "goal")) {
+      if (!optional.children.length) optional.textContent = "";
+      const complement = document.createElement("div");
+      complement.innerHTML = `<p><strong>${title}</strong> · ${program.duration}</p>${session}`;
+      optional.appendChild(complement);
+    }
+
     card.innerHTML = `
       <div class="planning-day-top">
         <strong>${dayLabel}</strong>
         <span>${isToday ? "Aujourd’hui" : done ? "Fait" : "À venir"}</span>
       </div>
 
-      <h2>${title}</h2>
+      <h2>${scheduledTitle || title}</h2>
 
       <p>
         ${
@@ -1278,7 +1280,8 @@ plan.forEach(([dayLabel, title, programId, source, bossWeekNumber, dayNumber], i
 
       ${
         
-          program
+          program && source !== "program-boss" && source !== "boss" ? session
+          : program
           ? `<button
               class="secondary-btn planning-program-btn"
               type="button"
@@ -3923,6 +3926,10 @@ window.FitnessRpgRender.renderCurrentPage = function renderCurrentPage() {
       window.FitnessRpgRender.renderGoalPage();
       break;
     
+    case "sport-settings":
+      window.FitnessRpgSport?.renderSportProfilePanel();
+      break;
+
     case "planning":
       window.FitnessRpgRender.renderPlanningPage();
       break;
