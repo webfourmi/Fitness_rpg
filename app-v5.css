@@ -5672,6 +5672,21 @@ button .btn-icon {
   margin-top: var(--space-sm);
 }
 
+.page-planning {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.planning-summary,
+.planning-day-card {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.planning-summary :is(select, input, fieldset, button) {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .planning-summary h2 {
   color: var(--accent);
 }

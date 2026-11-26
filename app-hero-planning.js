@@ -106,10 +106,11 @@
     </section>`;
   }
 
-  function sessionSlots(sport, frequency) {
+  function sessionSlots(sport, frequency, { from = 0, used = [] } = {}) {
     const available = sport.trainingProfile?.availableDays || [];
-    const candidates = (available.length ? days.filter((day) => available.includes(day)) : days).map((day) => days.indexOf(day));
-    const capacity = Math.min(candidates.length, Math.max(0, sport.sessionsPerWeek ?? frequency));
+    const candidates = days.map((_, index) => index).filter((index) =>
+      index >= from && !used.includes(index) && (!available.length || available.includes(days[index])));
+    const capacity = Math.min(candidates.length, Math.max(0, (sport.sessionsPerWeek ?? frequency) - used.length));
     const slots = [];
     const count = Math.min(3, capacity);
     for (let i = 0; i < count; i += 1) {
@@ -238,7 +239,22 @@
     const bossUnlocked = boss && !repeat && Programs.isProgramBossUnlocked(id, weekNumber);
     const bossDefeated = boss && State.getAllEntries().some((entry) => entry.type === "program-boss"
       && entry.programId === id && Programs.getProgramEntryPosition(entry).weekNumber === weekNumber);
-    const slots = sessionSlots(checked.rule ? sport : { ...sport, sessionsPerWeek: 0 }, checked.rule?.frequency[1] || 0);
+    const weekKeys = State.getWeekKeys();
+    const today = State.todayKey();
+    const completedThisWeek = new Map();
+    for (const entry of State.getAllEntries()) {
+      if (entry.type !== "program" || entry.programId !== id) continue;
+      const position = Programs.getProgramEntryPosition(entry);
+      const index = weekKeys.indexOf(State.getEntryDateKey(entry));
+      if (index >= 0 && position.weekNumber === weekNumber) {
+        const day = essential.find((item) => Number(item.day) === position.dayNumber);
+        if (day) completedThisWeek.set(index, day);
+      }
+    }
+    const slots = sessionSlots(checked.rule ? sport : { ...sport, sessionsPerWeek: 0 }, checked.rule?.frequency[1] || 0, {
+      from: weekKeys.filter((date) => date < today).length,
+      used: [...completedThisWeek.keys()]
+    });
     const complements = checked.rule && !window.FitnessRpgAdaptiveCoach?.adjustment().blocked
       ? compatibleComplements(checked.rule, sport) : [];
     const two = [0, 1].map((index) => complements.find((item) => item.id === saved.complements?.[index]) || complements[index % complements.length]);
@@ -252,7 +268,11 @@
       ${window.FitnessRpgSport.trainingRecommendationHtml(sport)}
       <p>${checked.rule ? `Temps disponible · ${sport.preferredDuration} min par séance. Les compléments sont facultatifs.`
         : "Le planning personnalisé attend un profil compatible ou un avis professionnel."}</p>
-      ${pending.length > plannedDays.length && checked.rule ? "<p>Les séances essentielles restantes peuvent être reportées à la semaine suivante.</p>" : ""}
+      ${checked.rule && pending.length ? `<p>${plannedDays.length} séance(s) essentielle(s) programmée(s) sur ${pending.length} restante(s).
+        Ton profil prévoit ${sport.sessionsPerWeek} séance(s) par semaine${sport.trainingProfile?.availableDays.length
+          ? ` et ${sport.trainingProfile.availableDays.length} jour(s) disponible(s)` : ""}.</p>
+        ${pending.length > plannedDays.length ? "<p>Les séances sans créneau restent à faire. Elles pourront être replanifiées la semaine prochaine.</p>" : ""}
+        <button type="button" class="secondary-btn" data-hero-plan="edit-profile">Modifier ma fréquence et mes disponibilités</button>` : ""}
       ${boss ? `<p>${escape(boss.title)} · ${bossDefeated ? "Vaincu" : bossUnlocked ? "Débloqué" : "Après les séances essentielles"}</p>` : ""}
       ${bossUnlocked && !bossDefeated && checked.rule ? '<button type="button" class="secondary-btn" data-hero-plan="boss">Voir la mission du boss</button>' : ""}
       ${essential.length && pending.length === 0 && checked.rule ? '<button type="button" class="secondary-btn" data-hero-plan="repeat">Recommencer cette semaine</button>' : ""}
@@ -273,7 +293,8 @@
       const day = plannedDays[slots.essentials.indexOf(index)];
       const complement = two[slots.extras.indexOf(index)];
       const adapted = day && adaptWorkout(id, day);
-      const content = day ? `<h2>${escape(day.title)}</h2><p>Essentielle · ${adapted.exercises.length
+      const completed = completedThisWeek.get(index);
+      const content = completed ? `<h2>${escape(completed.title)}</h2><p>Séance validée</p>` : day ? `<h2>${escape(day.title)}</h2><p>Essentielle · ${adapted.exercises.length
         ? `${Math.round(adapted.minutes * 10) / 10} min max estimées · ${adapted.substitutions} variante(s) · ${adapted.omitted} mouvement(s) écarté(s)` : "à adapter"}</p>
         ${adapted.exercises.length && (!repeat || Number(day.day) === repeat.nextDay)
           ? `<button type="button" class="secondary-btn" data-hero-plan="day" data-day="${day.day}">Démarrer la séance</button>` : ""}`
@@ -288,6 +309,13 @@
     const profile = State.getProfile();
     if (!profile) return;
     const action = button.dataset.heroPlan;
+    if (action === "edit-profile") {
+      window.FitnessRpgNavigation.openHeroMenu();
+      const fields = document.querySelector("#sportTrainingFields");
+      if (fields) fields.open = true;
+      document.querySelector("#sportSessionsInput")?.focus();
+      return;
+    }
     if (action === "apply") {
       const focus = document.querySelector("#heroPlanningFocus").value;
       if (!Rules.goalIds.includes(focus)) {
